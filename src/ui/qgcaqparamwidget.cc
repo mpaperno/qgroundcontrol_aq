@@ -414,11 +414,51 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
     if (map && map->contains(parameterName))
     {
         justWritten = true;
+        /*
         if (map->value(parameterName) != value)
         {
+            QVariant test = map->value(parameterName);
             writeMismatch = true;
         }
-        map->remove(parameterName);
+        */
+        switch (map->value(parameterName).type())
+        {
+        case QVariant::Int:
+            {
+                int val1 = value.toInt();
+                int val2 = map->value(parameterName).toInt();
+                if ( val1 != val2)
+                    writeMismatch = true;
+            }
+            break;
+        case QVariant::UInt:
+            {
+                uint val1 = value.toUInt();
+                uint val2 = map->value(parameterName).toUInt();
+                if ( val1 != val2)
+                    writeMismatch = true;
+            }
+            break;
+        case QMetaType::Float:
+            {
+                float val1 = value.toFloat();
+                float val2 = map->value(parameterName).toFloat();
+                if ( val1 != val2)
+                    writeMismatch = true;
+            }
+            break;
+        case QMetaType::Double:
+            {
+                double val1 = value.toDouble();
+                double val2 = map->value(parameterName).toDouble();
+                if ( val1 != val2)
+                    writeMismatch = true;
+            }
+            break;
+        default:
+                qCritical() << "ABORTED PARAM UPDATE, NO VALID QVARIANT TYPE";
+                return;
+        }
     }
 
     int missCount = 0;
@@ -880,8 +920,7 @@ void QGCAQParamWidget::loadParameters()
                     bool changed = false;
                     int component = 190;
                     QString parameterName = wpParams.at(1);
-                    //float parameterValue = wpParams.at(2).toFloat();
-                    double parameterValue = wpParams.at(2).toDouble();
+                    float parameterValue = wpParams.at(2).toFloat();
                     if ( parameterName.contains("IMU_ACC_ALN_" ))
                         parameterName = parameterName.replace("IMU_ACC_ALN_","IMU_ACC_ALGN_");
                     if (!parameters.contains(component) || parameters.value(component)->value(parameterName, wpParams.at(2).toDouble()-3.0f) != (float)wpParams.at(2).toDouble()) {
@@ -897,34 +936,10 @@ void QGCAQParamWidget::loadParameters()
                             changedValues.insert(190, new QMap<QString, QVariant>());
                         }
 
-                        // Add to changed values
-
                         if (changedValues.value(190)->contains(parameterName)) {
                             changedValues.value(190)->remove(parameterName);
                         }
-                        /*
-                        if ( parameterName == "IMU_MAG_INCL") {
-                        double db = wpParams.at(2).toDouble();
-                        float fl = wpParams.at(2).toFloat();
-                        if ( db != fl )
-                            db = db;
-                        }
-                        */
                         changedValues.value(190)->insert(parameterName, parameterValue);
-                        /*
-                        switch (wpParams.at(2).toUInt())
-                        {
-                            case MAVLINK_TYPE_FLOAT:
-                                changedValues.value(190)->insert(wpParams.at(1), wpParams.at(2).toFloat());
-                                break;
-                            case MAVLINK_TYPE_UINT32_T:
-                                changedValues.value(190)->insert(wpParams.at(1), wpParams.at(2).toUInt());
-                                break;
-                            case MAVLINK_TYPE_INT32_T:
-                                changedValues.value(190)->insert(wpParams.at(1), wpParams.at(2).toInt());
-                                break;
-                        }
-                        */
                         qDebug() << "MARKING COMP" << 190 << "PARAM" << wpParams.at(1) << "VALUE" << (float)wpParams.at(2).toDouble() << "AS CHANGED";
                     }
                 }
@@ -1111,9 +1126,6 @@ void QGCAQParamWidget::setParameter(int component, QString parameterName, QVaria
         break;
     case QMetaType::Float:
         {
-            if ( parameterName == "IMU_MAG_INCL")
-                parameterName == "IMU_MAG_INCL";
-
             QVariant fixedValue(value.toFloat());
             emit parameterChanged(component, parameterName, fixedValue);
             qDebug() << "PARAM WIDGET SENT:" << fixedValue;
@@ -1121,9 +1133,6 @@ void QGCAQParamWidget::setParameter(int component, QString parameterName, QVaria
         break;
     case QMetaType::Double:
         {
-            if ( parameterName == "IMU_MAG_INCL")
-                parameterName == "IMU_MAG_INCL";
-
             QVariant fixedValue(value.toDouble());
             emit parameterChanged(component, parameterName, fixedValue);
             qDebug() << "PARAM WIDGET SENT:" << fixedValue;
