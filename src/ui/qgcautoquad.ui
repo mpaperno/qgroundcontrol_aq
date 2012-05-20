@@ -1635,7 +1635,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_para_edit">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tabWidget_para_edit_1">
           <attribute name="title">

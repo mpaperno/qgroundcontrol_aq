@@ -2055,10 +2055,10 @@ bool changed;
     if ( !paramaq)
         return;
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( this );
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget_para_edit_1 );
     for ( int i = 0; i<edtList.count(); i++) {
         QString ParaName = edtList.at(i)->objectName();
-        // Hier alle NAV von PID Page 2
+        // Hier alle NAV von PID Page 1
         if ( ParaName.startsWith("CTRL_",Qt::CaseSensitive)) {
             if ( paramaq->getParameterValue(190,ParaName,val_uas) )
             {
@@ -2085,10 +2085,10 @@ void QGCAutoquad::save_PID_toAQ2()
         if ( !paramaq)
             return;
 
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( this );
+        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget_para_edit_2 );
         for ( int i = 0; i<edtList.count(); i++) {
             QString ParaName = edtList.at(i)->objectName();
-            // Hier alle CTRL von PID Page 1
+            // Hier alle CTRL von PID Page 2
             if ( ParaName.startsWith("NAV_",Qt::CaseSensitive)) {
                 if ( paramaq->getParameterValue(190,ParaName,val_uas) )
                 {
@@ -2114,30 +2114,20 @@ void QGCAutoquad::save_PID_toAQ3()
         if ( !paramaq)
             return;
 
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( this );
+        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget_para_edit_3 );
         for ( int i = 0; i<edtList.count(); i++) {
             QString ParaName = edtList.at(i)->objectName();
             // Hier alle CTRL von PID Page 3
-            if (ParaName.startsWith("GMBL",Qt::CaseSensitive) || ParaName.startsWith("SPVR",Qt::CaseSensitive)) {
-                if ( paramaq->getParameterValue(190,ParaName,val_uas) )
-                {
-                    val_local = edtList.at(i)->text().toFloat();
-                    if ( val_uas != val_local) {
-                        paramaq->setParameter(190,ParaName,val_local);
-                        changed = true;
-                    }
+            if ( paramaq->getParameterValue(190,ParaName,val_uas) )
+            {
+                val_local = edtList.at(i)->text().toFloat();
+                if ( val_uas != val_local) {
+                    paramaq->setParameter(190,ParaName,val_local);
+                    changed = true;
                 }
             }
         }
 
-        if ( paramaq->getParameterValue(190,"IMU_ROT",val_uas) )
-        {
-            val_local = ui->IMU_ROT->text().toFloat();
-            if ( val_uas != val_local) {
-                paramaq->setParameter(190,"IMU_ROT",val_local);
-                changed = true;
-            }
-        }
 
         if ( changed )
             QuestionForROM();
