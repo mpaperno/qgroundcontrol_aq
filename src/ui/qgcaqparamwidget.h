@@ -21,6 +21,7 @@ public:
 	QVariant getParaAQ(QString parameterName);
 	void setParaAQ(QString parameterName, QVariant value);
 	void loadParaAQ();
+    void setFilePath(QString fileName);
     bool isParamMinKnown(const QString& param) { return paramMin.contains(param); }
     bool isParamMaxKnown(const QString& param) { return paramMax.contains(param); }
     bool isParamDefaultKnown(const QString& param) { return paramDefault.contains(param); }
@@ -95,7 +96,7 @@ protected:
     void loadParameterInfoCSV(const QString& autopilot, const QString& airframe);
     int OverrideCheckValue;
     UASInterface* uas;
-
+    QString fileNameFromMaster;
 
 
 };

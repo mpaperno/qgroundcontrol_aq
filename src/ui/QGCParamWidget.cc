@@ -634,7 +634,7 @@ void QGCParamWidget::parameterItemChanged(QTreeWidgetItem* current, int column)
         if (map) {
             QString str = current->data(0, Qt::DisplayRole).toString();
             QVariant value = current->data(1, Qt::DisplayRole);
-            qDebug() << "CHANGED PARAM:" << value;
+            qDebug() << "CHANGED PARAM QG:" << value;
             // Set parameter on changed list to be transmitted to MAV
             statusLabel->setText(tr("Changed Param %1:%2: %3").arg(key).arg(str).arg(value.toDouble()));
             //qDebug() << "PARAM CHANGED: COMP:" << key << "KEY:" << str << "VALUE:" << value;

@@ -615,6 +615,7 @@ void QGCAutoquad::loadSettings()
     ui->lineEdit_stop_2->setText(settings.value("AUTOQUAD_STOP2").toString());
     ui->lineEdit_stop_3->setText(settings.value("AUTOQUAD_STOP3").toString());
 
+    LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
     settings.endGroup();
     settings.sync();
 }
@@ -648,6 +649,8 @@ void QGCAutoquad::writeSettings()
     settings.setValue("AUTOQUAD_STOP2", ui->lineEdit_stop_2->text());
     settings.setValue("AUTOQUAD_STOP3", ui->lineEdit_stop_3->text());
     settings.setValue("AUTOQUAD_STOP3", ui->lineEdit_stop_4->text());
+
+    settings.setValue("AUTOQUAD_LAST_PATH", LastFilePath);
 
     settings.sync();
     settings.endGroup();
@@ -1017,12 +1020,18 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     if (uas_ext)
     {
         uas = uas_ext;
+        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+        disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
         //if ( VisibleWidget == 1) {
-            if ( paramaq == NULL ) {
-                    paramaq = new QGCAQParamWidget(uas, this);
-                    ui->gridLayout_paramAQ->addWidget(paramaq);
+            if ( !paramaq ) {
+                paramaq = new QGCAQParamWidget(uas, this);
+                ui->gridLayout_paramAQ->addWidget(paramaq);
+                connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
+                if ( LastFilePath == "")
+                    paramaq->setFilePath(QCoreApplication::applicationDirPath());
+                else
+                    paramaq->setFilePath(LastFilePath);
             }
-            connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
             paramaq->loadParaAQ();
             //getGUIpara();
 

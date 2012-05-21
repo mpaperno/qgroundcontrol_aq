@@ -769,7 +769,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 // Emit change
                 emit parameterChanged(uasId, message.compid, parameterName, param);
                 emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
-                qDebug() << "RECEIVED PARAM:" << param;
+                qDebug() << "RECEIVED PARAM UAS:" << parameterName << param;
             }
                 break;
             case MAVLINK_TYPE_UINT32_T:
@@ -780,7 +780,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 // Emit change
                 emit parameterChanged(uasId, message.compid, parameterName, param);
                 emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
-                qDebug() << "RECEIVED PARAM:" << param;
+                qDebug() << "RECEIVED PARAM UAS:" << parameterName << param;
             }
                 break;
             case MAVLINK_TYPE_INT32_T:
@@ -791,7 +791,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 // Emit change
                 emit parameterChanged(uasId, message.compid, parameterName, param);
                 emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
-                qDebug() << "RECEIVED PARAM:" << param;
+                qDebug() << "RECEIVED PARAM UAS:" << parameterName << param;
             }
                 break;
             default:
@@ -1490,7 +1490,7 @@ void UAS::sendMessage(mavlink_message_t message)
     // Emit message on all links that are currently connected
     foreach (LinkInterface* link, *links)
     {
-        qDebug() << "ITERATING THROUGH LINKS";
+        //qDebug() << "ITERATING THROUGH LINKS";
         if (link)
         {
             sendMessage(link, message);
@@ -2064,7 +2064,7 @@ void UAS::setParameter(const int component, const QString& id, const QVariant& v
         p.target_system = (uint8_t)uasId;
         p.target_component = (uint8_t)component;
 
-        qDebug() << "SENT PARAM:" << value;
+        qDebug() << "SENT PARAM:" << id << value;
 
         // Copy string into buffer, ensuring not to exceed the buffer size
         for (unsigned int i = 0; i < sizeof(p.param_id); i++)

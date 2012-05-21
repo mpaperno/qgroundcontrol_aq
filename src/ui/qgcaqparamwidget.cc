@@ -40,6 +40,7 @@ QGCAQParamWidget::QGCAQParamWidget()
 #include <QSettings>
 #include <QMessageBox>
 #include <QApplication>
+#include <QTimer>
 
 #include "qgcaqparamwidget.h"
 #include "UASInterface.h"
@@ -414,48 +415,50 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
     if (map && map->contains(parameterName))
     {
         justWritten = true;
-        /*
-        if (map->value(parameterName) != value)
-        {
-            QVariant test = map->value(parameterName);
-            writeMismatch = true;
-        }
-        */
+        writeMismatch = false;
         switch (map->value(parameterName).type())
         {
-        case QVariant::Int:
-            {
-                int val1 = value.toInt();
-                int val2 = map->value(parameterName).toInt();
-                if ( val1 != val2)
-                    writeMismatch = true;
-            }
-            break;
-        case QVariant::UInt:
-            {
-                uint val1 = value.toUInt();
-                uint val2 = map->value(parameterName).toUInt();
-                if ( val1 != val2)
-                    writeMismatch = true;
-            }
-            break;
-        case QMetaType::Float:
-            {
-                float val1 = value.toFloat();
-                float val2 = map->value(parameterName).toFloat();
-                if ( val1 != val2)
-                    writeMismatch = true;
-            }
-            break;
-        case QMetaType::Double:
-            {
-                double val1 = value.toDouble();
-                double val2 = map->value(parameterName).toDouble();
-                if ( val1 != val2)
-                    writeMismatch = true;
-            }
-            break;
-        default:
+            case QVariant::Int:
+                {
+                    int val1 = value.toInt();
+                    int val2 = map->value(parameterName).toInt();
+                    if ( val1 != val2)
+                        writeMismatch = true;
+                    else
+                        map->remove(parameterName);
+                }
+                break;
+            case QVariant::UInt:
+                {
+                    uint val1 = value.toUInt();
+                    uint val2 = map->value(parameterName).toUInt();
+                    if ( val1 != val2)
+                        writeMismatch = true;
+                    else
+                        map->remove(parameterName);
+                }
+                break;
+            case QMetaType::Float:
+                {
+                    float val1 = value.toFloat();
+                    float val2 = map->value(parameterName).toFloat();
+                    if ( val1 != val2)
+                        writeMismatch = true;
+                    else
+                        map->remove(parameterName);
+                }
+                break;
+            case QMetaType::Double:
+                {
+                    double val1 = value.toDouble();
+                    double val2 = map->value(parameterName).toDouble();
+                    if ( val1 != val2)
+                        writeMismatch = true;
+                    else
+                        map->remove(parameterName);
+                }
+                break;
+            default:
                 qCritical() << "ABORTED PARAM UPDATE, NO VALID QVARIANT TYPE";
                 return;
         }
@@ -533,7 +536,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
  */
 void QGCAQParamWidget::addParameter(int uas, int component, QString parameterName, QVariant value)
 {
-    qDebug() << "PARAM WIDGET GOT PARAM:" << value;
+    qDebug() << "PARAM WIDGET GOT PARAM AQ:" << parameterName << value;
     Q_UNUSED(uas);
     // Reference to item in tree
     QTreeWidgetItem* parameterItem = NULL;
@@ -563,6 +566,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
     // FIXME
     if (parameters.value(component)->contains(parameterName))
         parameters.value(component)->remove(parameterName);
+
     parameters.value(component)->insert(parameterName, value);
 
 
@@ -644,8 +648,16 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
         //tree->expandAll();
     }
     // Reset background color
-    parameterItem->setBackground(0, QBrush(QColor(0, 0, 0)));
-    parameterItem->setBackground(1, Qt::NoBrush);
+    if ( OverrideCheckValue == 0 )
+    {
+        parameterItem->setBackground(0, QBrush(QColor(0, 0, 0)));
+        parameterItem->setBackground(1, Qt::NoBrush);
+    }
+    else if ( OverrideCheckValue == 1) {
+        parameterItem->setBackground(0, QBrush(QColor(QGC::colorOrange)));
+        parameterItem->setBackground(1, QBrush(QColor(QGC::colorOrange)));
+    }
+
     // Add tooltip
     QString tooltipFormat;
     if (paramDefault.contains(parameterName))
@@ -717,7 +729,7 @@ void QGCAQParamWidget::parameterItemChanged(QTreeWidgetItem* current, int column
         if (map) {
             QString str = current->data(0, Qt::DisplayRole).toString();
             QVariant value = current->data(1, Qt::DisplayRole);
-            qDebug() << "CHANGED PARAM:" << value;
+            qDebug() << "CHANGED PARAM AQ:" << value;
             // Set parameter on changed list to be transmitted to MAV
             statusLabel->setText(tr("Changed Param %1:%2: %3").arg(key).arg(str).arg(value.toDouble()));
             //qDebug() << "PARAM CHANGED: COMP:" << key << "KEY:" << str << "VALUE:" << value;
@@ -831,10 +843,29 @@ void QGCAQParamWidget::saveParameters()
 
 void QGCAQParamWidget::loadParameters()
 {
-    qSetRealNumberPrecision(10);
     if (!mav) return;
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Load File"), ".", tr("Parameter file (*.params)"));
+    QString fileName = "";
+    QString dirPath = QDir::toNativeSeparators(fileNameFromMaster);
+    QFileInfo dir(dirPath);
+    QFileDialog dialog;
+    dialog.setDirectory(dir.absoluteDir());
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("AQ Parameters (*.params);;Parameter file (*.txt)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+    }
+
+    if (fileNames.size() > 0)
+    {
+        fileName = QDir::toNativeSeparators(fileNames.at(0));
+        fileNameFromMaster = fileName;
+    }
+    else
+        return;
     if (fileName.endsWith(".txt")) {
         QFile file(fileName);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -921,14 +952,18 @@ void QGCAQParamWidget::loadParameters()
                     int component = 190;
                     QString parameterName = wpParams.at(1);
                     float parameterValue = wpParams.at(2).toFloat();
+
                     if ( parameterName.contains("IMU_ACC_ALN_" ))
                         parameterName = parameterName.replace("IMU_ACC_ALN_","IMU_ACC_ALGN_");
+                    /*
                     if (!parameters.contains(component) || parameters.value(component)->value(parameterName, wpParams.at(2).toDouble()-3.0f) != (float)wpParams.at(2).toDouble()) {
                         changed = true;
                     }
+                    */
 
                     addParameter(mav->getUASID(), 190, parameterName,parameterValue);
 
+                    changed = true;
                     if (changed) {
 
                         // Create changed values data structure if necessary
@@ -939,6 +974,7 @@ void QGCAQParamWidget::loadParameters()
                         if (changedValues.value(190)->contains(parameterName)) {
                             changedValues.value(190)->remove(parameterName);
                         }
+
                         changedValues.value(190)->insert(parameterName, parameterValue);
                         qDebug() << "MARKING COMP" << 190 << "PARAM" << wpParams.at(1) << "VALUE" << (float)wpParams.at(2).toDouble() << "AS CHANGED";
                     }
@@ -947,12 +983,13 @@ void QGCAQParamWidget::loadParameters()
                     ErrorLineWithDefine++;
                 }
             }
-
-
+            else {
+                ErrorLineWithDefine++;
+            }
         }
 
         file.close();
-        OverrideCheckValue = 2;
+        OverrideCheckValue = 0;
     }
 }
 
@@ -1110,37 +1147,37 @@ void QGCAQParamWidget::setParameter(int component, QString parameterName, QVaria
 
     switch (parameters.value(component)->value(parameterName).type())
     {
-    case QVariant::Int:
-        {
-            QVariant fixedValue(value.toInt());
-            emit parameterChanged(component, parameterName, fixedValue);
-            qDebug() << "PARAM WIDGET SENT:" << fixedValue;
-        }
-        break;
-    case QVariant::UInt:
-        {
-            QVariant fixedValue(value.toUInt());
-            emit parameterChanged(component, parameterName, fixedValue);
-            qDebug() << "PARAM WIDGET SENT:" <<  fixedValue;
-        }
-        break;
-    case QMetaType::Float:
-        {
-            QVariant fixedValue(value.toFloat());
-            emit parameterChanged(component, parameterName, fixedValue);
-            qDebug() << "PARAM WIDGET SENT:" << fixedValue;
-        }
-        break;
-    case QMetaType::Double:
-        {
-            QVariant fixedValue(value.toDouble());
-            emit parameterChanged(component, parameterName, fixedValue);
-            qDebug() << "PARAM WIDGET SENT:" << fixedValue;
-        }
-        break;
-    default:
-        qCritical() << "ABORTED PARAM SEND, NO VALID QVARIANT TYPE";
-        return;
+        case QVariant::Int:
+            {
+                QVariant fixedValue(value.toInt());
+                emit parameterChanged(component, parameterName, fixedValue);
+                qDebug() << "PARAM WIDGET SENT AQ:" << parameterName << fixedValue;
+            }
+            break;
+        case QVariant::UInt:
+            {
+                QVariant fixedValue(value.toUInt());
+                emit parameterChanged(component, parameterName, fixedValue);
+                qDebug() << "PARAM WIDGET SENT AQ:" << parameterName <<  fixedValue;
+            }
+            break;
+        case QMetaType::Float:
+            {
+                QVariant fixedValue(value.toFloat());
+                emit parameterChanged(component, parameterName, fixedValue);
+                qDebug() << "PARAM WIDGET SENT AQ:" << parameterName << fixedValue;
+            }
+            break;
+        case QMetaType::Double:
+            {
+                QVariant fixedValue(value.toDouble());
+                emit parameterChanged(component, parameterName, fixedValue);
+                qDebug() << "PARAM WIDGET SENT AQ:" << parameterName << fixedValue;
+            }
+            break;
+            default:
+            qCritical() << "ABORTED PARAM SEND, NO VALID QVARIANT TYPE";
+            return;
     }
 
     // Wait for parameter to be written back
@@ -1183,6 +1220,7 @@ void QGCAQParamWidget::setParameters()
             }
         }
     }
+    qDebug() << "Send Parameters out" << QString::number(parametersSent);
 
     // Change transmission status if necessary
     if (parametersSent == 0) {
@@ -1306,3 +1344,7 @@ void QGCAQParamWidget::wpToSD()
     }
 }
 
+void QGCAQParamWidget::setFilePath(QString fileName)
+{
+    fileNameFromMaster = fileName;
+}
