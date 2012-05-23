@@ -37,6 +37,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 	connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
 	connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
+
+    connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->pushButton_connect_to_esc32, SIGNAL(clicked()), this, SLOT(ConnectEsc32()));
+    connect(ui->pushButton_read_config, SIGNAL(clicked()),this, SLOT(read_config_esc32()));
+
 	connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->pushButton_Add_Static, SIGNAL(clicked()),this,SLOT(addStatic()));
     connect(ui->pushButton_Remov_Static, SIGNAL(clicked()),this,SLOT(delStatic()));
@@ -56,8 +62,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
     connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(save_PID_toAQ3()));
     connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
+    connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(saveToEsc32()));
 
-    //pushButton_Open_Log_file
+
+    //pushButton_send_to_esc32
     //Slots for Calibration
     connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
     connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
@@ -759,10 +767,60 @@ void QGCAutoquad::setPortName(QString port)
 	ui->ComPortLabel->setText(portName);
 }
 
+void QGCAutoquad::setPortNameEsc32(QString port)
+{
+#ifdef Q_OS_WIN
+    port = port.split("-").first();
+#endif
+    port = port.remove(" ");
+    portNameEsc32 = port;
+    ui->label_portName_esc32->setText(portNameEsc32);
+}
+
+void QGCAutoquad::ConnectEsc32()
+{
+    QString port = ui->label_portName_esc32->text();
+    if ( seriallinkEsc32 != NULL) {
+        if ( ui->pushButton_connect_to_esc32->text() == "connect") {
+            connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+            connect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+            connect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+            connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+            seriallinkEsc32->connect();
+            ui->pushButton_connect_to_esc32->setText("disconnect");
+        }
+        else {
+            seriallinkEsc32->disconnect();
+            disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+            disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+            disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+            disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+            ui->pushButton_connect_to_esc32->setText("connect");
+            seriallinkEsc32 = NULL;
+        }
+
+    }
+    else {
+        seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
+        seriallinkEsc32->setBaudRate(230400);
+        connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+        connect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+        connect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+        connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+        seriallinkEsc32->connect();
+        ui->pushButton_connect_to_esc32->setText("disconnect");
+    }
+
+
+}
+
 void QGCAutoquad::setupPortList()
 {
     ui->portName->clear();
     ui->portName->clearEditText();
+
+    ui->comboBox_port_esc32->clear();
+    ui->comboBox_port_esc32->clearEditText();
     // Get the ports available on this system
 	seriallink = new SerialLink();
     QVector<QString>* ports = seriallink->getCurrentPorts();
@@ -774,10 +832,14 @@ void QGCAutoquad::setupPortList()
         if (ui->portName->findText(ports->at(i)) == -1)
         {
             ui->portName->insertItem(0, ports->at(i));
-            //if (!userConfigured) ui->portName->setEditText(ports->at(i));
+        }
+        if (ui->comboBox_port_esc32->findText(ports->at(i)) == -1)
+        {
+            ui->comboBox_port_esc32->insertItem(0, ports->at(i));
         }
     }
     ui->portName->setEditText(seriallink->getPortName());
+    ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
 }
 
 void QGCAutoquad::selectFWToFlash()
@@ -2234,4 +2296,118 @@ void QGCAutoquad::exportSVG(QString fileName)
         plot->print(generator, filter);
         plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
     }
+}
+
+void QGCAutoquad::connectedEsc32(){
+    ui->comboBox_port_esc32->setEnabled(false);
+}
+
+void QGCAutoquad::disconnectedEsc32(){
+    ui->comboBox_port_esc32->setEnabled(true);
+}
+
+void QGCAutoquad::destroyedEsc32(){
+    ui->comboBox_port_esc32->setEnabled(true);
+}
+
+void QGCAutoquad::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
+    int len = bytes.size();
+    // Only add data from current link
+    if (link == seriallinkEsc32)
+    {
+        //unsigned char byte = bytes.at(j);
+        switch (StepMessageFromEsc32)
+        {
+            case 0:
+                // Parse all bytes
+                for (int j = 0; j < len; j++)
+                {
+                }
+            break;
+
+            case 1:
+                LIST_MessageFromEsc32 += QString(bytes);
+                if ( LIST_MessageFromEsc32.endsWith("> ")) {
+                    decodeParameterFromEsc32(LIST_MessageFromEsc32);
+                    LIST_MessageFromEsc32 = "";
+                }
+            break;
+
+            case 2:
+                ParaWriten_MessageFromEsc32 += QString(bytes);
+                if ( ParaWriten_MessageFromEsc32.endsWith("> ")) {
+                }
+            break;
+
+            default:
+            break;
+        }
+    }
+    qDebug() << LIST_MessageFromEsc32;
+}
+
+void QGCAutoquad::decodeParameterFromEsc32(QString Message)
+{
+    paramEsc32.clear();
+
+    Message = Message.remove("\n");
+    QStringList ParaList;
+    QStringList RowList = Message.split("\r");
+    for ( int j = 0; j< RowList.length(); j++) {
+        ParaList = RowList.at(j).split(" ", QString::SkipEmptyParts);
+        if ( ParaList.length() >= 2)
+            paramEsc32.insert(ParaList.at(0),ParaList.at(2));
+    }
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+    for ( int i = 0; i<edtList.count(); i++) {
+        QString ParaName = edtList.at(i)->objectName();
+        if ( paramEsc32.contains(ParaName) )
+        {
+            QString value = paramEsc32.value(ParaName);
+            edtList.at(i)->setText(value);
+        }
+    }
+
+}
+
+void QGCAutoquad::read_config_esc32() {
+    if ( !seriallinkEsc32)
+        return;
+    if ( !seriallinkEsc32->isConnected() )
+        return;
+
+    QByteArray transmit;
+    StepMessageFromEsc32 = 1;
+    transmit.append("set list\n");
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+}
+
+
+void QGCAutoquad::saveToEsc32() {
+    if ( !seriallinkEsc32)
+        return;
+    if ( !seriallinkEsc32->isConnected() )
+        return;
+
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+    for ( int i = 0; i<edtList.count(); i++) {
+        QString ParaName = edtList.at(i)->objectName();
+        if ( paramEsc32.contains(ParaName) )
+        {
+            QString valueEsc32 = paramEsc32.value(ParaName);
+            QString valueText = edtList.at(i)->text();
+            if ( valueEsc32 != valueText) {
+                StepMessageFromEsc32 = 2;
+                QByteArray transmit;
+                transmit.append(ParaName);
+                transmit.append(" ");
+                transmit.append(valueText);
+                transmit.append("\r\n");
+                qDebug() << "write paramter: " << ParaName << " " << valueText;
+                seriallinkEsc32->writeBytes(transmit, transmit.size());
+                paramEsc32Written.insert(paramEsc32.key(ParaName), paramEsc32.value(ParaName));
+            }
+        }
+    }
+
 }

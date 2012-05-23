@@ -933,3 +933,51 @@ void AQLogParser::loggerFree(loggerRecord_t *l)
     }
 }
 
+
+
+AQEsc32::AQEsc32()
+{
+}
+
+AQEsc32::~AQEsc32()
+{
+
+}
+
+int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2, int n) {
+    seqId++;
+    QByteArray transmit;
+    QByteArray TempByteArray;
+    transmit.append('A');
+    transmit.append('q');
+    transmit.append(1+2+n*sizeof(float));
+    transmit.append(command);
+    memcpy(&seqId,TempByteArray.data(),sizeof(ushort));
+    for ( int i = 0; i<TempByteArray.length(); i++)
+        transmit.append(TempByteArray.at(i));
+
+    TempByteArray.clear();
+    if ( n > 0) {
+        memcpy(&param1,TempByteArray.data(), sizeof(float));
+        for ( int i = 0; i<TempByteArray.length(); i++)
+            transmit.append(TempByteArray.at(i));
+    }
+
+    TempByteArray.clear();
+    if ( n > 1) {
+        memcpy(&param2,TempByteArray.data(), sizeof(float));
+        for ( int i = 0; i<TempByteArray.length(); i++)
+            transmit.append(TempByteArray.at(i));
+    }
+
+    short checkA = 0;
+    short checkB = 0;
+    for ( int i = 2; i<transmit.length(); i++) {
+        checkA += transmit.at(i);
+        checkB += checkA;
+    }
+    transmit.append(checkA);
+    transmit.append(checkB);
+    return 0;
+}
+

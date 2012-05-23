@@ -3408,10 +3408,10 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QComboBox" name="comboBox"/>
+           <widget class="QComboBox" name="comboBox_port_esc32"/>
           </item>
           <item>
-           <widget class="QLabel" name="label_114">
+           <widget class="QLabel" name="label_portName_esc32">
             <property name="text">
              <string>Port:</string>
             </property>
@@ -3454,7 +3454,7 @@
           <item>
            <widget class="QPushButton" name="pushButton_send_to_esc32">
             <property name="text">
-             <string>send config</string>
+             <string>write config</string>
             </property>
            </widget>
           </item>
@@ -3567,7 +3567,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_P_2"/>
+                   <widget class="QLineEdit" name="BAD_DETECTS_DISARM"/>
                   </item>
                  </layout>
                 </item>
@@ -3581,7 +3581,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_I_2"/>
+                   <widget class="QLineEdit" name="MAX_CURRENT"/>
                   </item>
                  </layout>
                 </item>
@@ -3595,7 +3595,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_D_2"/>
+                   <widget class="QLineEdit" name="SWITCH_FREQ"/>
                   </item>
                  </layout>
                 </item>
@@ -3609,7 +3609,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_F_2"/>
+                   <widget class="QLineEdit" name="MOTOR_POLES"/>
                   </item>
                  </layout>
                 </item>
@@ -3712,7 +3712,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_P_2"/>
+                   <widget class="QLineEdit" name="CL5TERM"/>
                   </item>
                  </layout>
                 </item>
@@ -3726,7 +3726,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_I_2"/>
+                   <widget class="QLineEdit" name="SHUNT_RESISTANCE"/>
                   </item>
                  </layout>
                 </item>
@@ -3740,7 +3740,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_D_2"/>
+                   <widget class="QLineEdit" name="MIN_PERIOD"/>
                   </item>
                  </layout>
                 </item>
@@ -3754,7 +3754,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_F_2"/>
+                   <widget class="QLineEdit" name="MAX_PERIOD"/>
                   </item>
                  </layout>
                 </item>
@@ -3772,7 +3772,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_PM_2"/>
+                   <widget class="QLineEdit" name="BLANKING_MICROS"/>
                   </item>
                  </layout>
                 </item>
@@ -3786,7 +3786,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_IM_2"/>
+                   <widget class="QLineEdit" name="ADVANCE"/>
                   </item>
                  </layout>
                 </item>
@@ -3800,7 +3800,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_DM_2"/>
+                   <widget class="QLineEdit" name="START_VOLTAGE"/>
                   </item>
                  </layout>
                 </item>
@@ -3814,7 +3814,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_ANG_OM_2"/>
+                   <widget class="QLineEdit" name="GOOD_DETECTS_START"/>
                   </item>
                  </layout>
                 </item>
@@ -3841,7 +3841,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_P_2"/>
+                   <widget class="QLineEdit" name="PWM_MIN_PERIOD"/>
                   </item>
                  </layout>
                 </item>
@@ -3855,7 +3855,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_I_2"/>
+                   <widget class="QLineEdit" name="PWM_MAX_PERIOD"/>
                   </item>
                  </layout>
                 </item>
@@ -3869,7 +3869,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_D_2"/>
+                   <widget class="QLineEdit" name="PWM_LO_VALUE"/>
                   </item>
                  </layout>
                 </item>
@@ -3883,7 +3883,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_F_2"/>
+                   <widget class="QLineEdit" name="PWM_HI_VALUE"/>
                   </item>
                  </layout>
                 </item>
@@ -3901,7 +3901,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_PM_2"/>
+                   <widget class="QLineEdit" name="PWM_MIN_VALUE"/>
                   </item>
                  </layout>
                 </item>
@@ -3915,7 +3915,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_IM_2"/>
+                   <widget class="QLineEdit" name="PWM_MAX_VALUE"/>
                   </item>
                  </layout>
                 </item>
@@ -3929,7 +3929,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_DM_2"/>
+                   <widget class="QLineEdit" name="PWM_RPM_SCALE"/>
                   </item>
                  </layout>
                 </item>
@@ -3943,7 +3943,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_ANG_OM_2"/>
+                   <widget class="QLineEdit" name="FET_BRAKING"/>
                   </item>
                  </layout>
                 </item>
@@ -3970,7 +3970,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_P_2"/>
+                   <widget class="QLineEdit" name="PTERM"/>
                   </item>
                  </layout>
                 </item>
@@ -3984,7 +3984,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_I_2"/>
+                   <widget class="QLineEdit" name="ITERM"/>
                   </item>
                  </layout>
                 </item>
@@ -3998,7 +3998,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_D_2"/>
+                   <widget class="QLineEdit" name="FF1TERM"/>
                   </item>
                  </layout>
                 </item>
@@ -4012,7 +4012,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_F_2"/>
+                   <widget class="QLineEdit" name="FF2TERM"/>
                   </item>
                  </layout>
                 </item>
@@ -4030,7 +4030,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_PM_2"/>
+                   <widget class="QLineEdit" name="CL1TERM"/>
                   </item>
                  </layout>
                 </item>
@@ -4044,7 +4044,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_IM_2"/>
+                   <widget class="QLineEdit" name="CL2TERM"/>
                   </item>
                  </layout>
                 </item>
@@ -4058,7 +4058,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_DM_2"/>
+                   <widget class="QLineEdit" name="CL3TERM"/>
                   </item>
                  </layout>
                 </item>
@@ -4072,7 +4072,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_TLT_RTE_OM_2"/>
+                   <widget class="QLineEdit" name="CL4TERM"/>
                   </item>
                  </layout>
                 </item>

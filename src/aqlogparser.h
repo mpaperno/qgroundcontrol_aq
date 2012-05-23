@@ -4,6 +4,11 @@
 #include <QFileDialog>
 #include <cmath>
 #include <QDebug>
+#include "Eigen/Eigen"
+#include "UASInterface.h"
+#include <SerialLinkInterface.h>
+#include <SerialLink.h>
+
 #ifdef Q_OS_WIN
 
 #pragma pack(push)
@@ -66,6 +71,7 @@ typedef struct {
     char ckA, ckB;
 } __attribute__((packed)) loggerRecord_t;
 #endif
+
 
 enum fields {
     MICROS = 0,
@@ -179,7 +185,6 @@ enum longOptions {
         O_EXTRAS //24
     };
 
-
 class AQLogParser
 {
 public:
@@ -208,10 +213,89 @@ private:
     QStringList CurveName;
     float scaleMin, scaleMax;
 
-
 signals:
     void finishedParse();
 
+};
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+enum binaryCommands {
+    BINARY_COMMAND_NOP = 0,
+    BINARY_COMMAND_ARM,
+    BINARY_COMMAND_CLI,
+    BINARY_COMMAND_CONFIG,
+    BINARY_COMMAND_DISARM,
+    BINARY_COMMAND_DUTY,
+    BINARY_COMMAND_PWM,
+    BINARY_COMMAND_RPM,
+    BINARY_COMMAND_SET,
+    BINARY_COMMAND_START,
+    BINARY_COMMAND_STATUS,
+    BINARY_COMMAND_STOP,
+    BINARY_COMMAND_TELEM_RATE,
+    BINARY_COMMAND_VERSION,
+    BINARY_COMMAND_TELEM_VALUE,
+    BINARY_COMMAND_ACK = 250,
+    BINARY_COMMAND_NACK
+};
+
+enum binaryValues {
+    BINARY_VALUE_NONE = 0,
+    BINARY_VALUE_AMPS,
+    BINARY_VALUE_VOLTS_BAT,
+    BINARY_VALUE_VOLTS_MOTOR,
+    BINARY_VALUE_RPM,
+    BINARY_VALUE_DUTY,
+    BINARY_VALUE_COMM_PERIOD,
+    BINARY_VALUE_BAD_DETECTS,
+    BINARY_VALUE_ADC_WINDOW,
+    BINARY_VALUE_IDLE_PERCENT,
+    BINARY_VALUE_STATE,
+    BINARY_VALUE_NUM
+};
+
+enum configParameters {
+    CONFIG_VERSION = 0,
+    STARTUP_MODE,
+    BAUD_RATE,
+    PTERM,
+    ITERM,
+    FF1TERM,
+    FF2TERM,
+    SHUNT_RESISTANCE,
+    MIN_PERIOD,
+    MAX_PERIOD,
+    BLANKING_MICROS,
+    ADVANCE,
+    START_VOLTAGE,
+    DUTY_INCREASE_FACTOR,
+    GOOD_DETECTS_START,
+    BAD_DETECTS_DISARM,
+    MAX_CURRENT,
+    SWITCH_FREQ,
+    MOTOR_POLES,
+    PWM_MIN_PERIOD,
+    PWM_MAX_PERIOD,
+    PWM_MIN_VALUE,
+    PWM_LO_VALUE,
+    PWM_HI_VALUE,
+    PWM_MAX_VALUE,
+    PWM_MIN_START,
+    PWM_RPM_SCALE,
+    FET_BRAKING,
+    CONFIG_NUM_PARAMS
+};
+
+#define EIGEN_DONT_PARALLELIZE;
+class AQEsc32 {
+public:
+    explicit AQEsc32();
+    ~AQEsc32();
+    int esc32SendCommand(unsigned char command, float param1, float param2, int n);
+private:
+    unsigned short seqId;
 };
 
 #endif // AQLOGPARSER_H
