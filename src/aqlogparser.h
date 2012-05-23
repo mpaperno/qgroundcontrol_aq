@@ -288,7 +288,7 @@ enum configParameters {
     CONFIG_NUM_PARAMS
 };
 
-#define EIGEN_DONT_PARALLELIZE;
+#define EIGEN_DONT_PARALLELIZE
 class AQEsc32 {
 public:
     explicit AQEsc32();
