@@ -3352,9 +3352,9 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_Reload">
+          <widget class="QPushButton" name="pushButtonshow_cahnnels">
            <property name="text">
-            <string>Reload</string>
+            <string>Show curves</string>
            </property>
           </widget>
          </item>
@@ -3366,7 +3366,10 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="pushButton_Reload">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -3374,6 +3377,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_3">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -3381,6 +3387,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_4">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string/>
            </property>

@@ -31,17 +31,18 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->plotFrame->setLayout(layout);
 
     //setup ListView curves
-    SetupListView();
+    //SetupListView();
 
 	//GUI slots
 	connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
 	connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
 
-    connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
-    connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->comboBox_port_esc32, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
     connect(ui->pushButton_connect_to_esc32, SIGNAL(clicked()), this, SLOT(ConnectEsc32()));
     connect(ui->pushButton_read_config, SIGNAL(clicked()),this, SLOT(read_config_esc32()));
+    connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(saveToEsc32()));
 
 	connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->pushButton_Add_Static, SIGNAL(clicked()),this,SLOT(addStatic()));
@@ -62,7 +63,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
     connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(save_PID_toAQ3()));
     connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
-    connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(saveToEsc32()));
+    connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
 
 
     //pushButton_send_to_esc32
@@ -116,6 +117,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     setupPortList();
     loadSettings();
+    esc32BinaryMode = 0;
+    esc32DoCommand = 0;
+    esc32 = NULL;
 }
 
 QGCAutoquad::~QGCAutoquad()
@@ -126,355 +130,15 @@ QGCAutoquad::~QGCAutoquad()
 
 void QGCAutoquad::SetupListView()
 {
-    QListWidgetItem *item;
-    QStandardItemModel *model;
-    QStringList HeaderLabels;
-    HeaderLabels.append("Analog In");
-    HeaderLabels.append("Next");
-
     model = new QStandardItemModel(this); //listView_curves
-    model->setHorizontalHeaderLabels(HeaderLabels);
-
-    QStandardItem *header = new QStandardItem("Analog In");
-    model->appendRow(header);
-    for ( int i=0; i< 14; i++) {
-        QStandardItem *item = new QStandardItem( "ADC" + QString::number(i));
+    for ( int i=0; i<parser.LogChannelsStruct.count(); i++ ) {
+        QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+        QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
         item->setCheckable(true);
-        item->setData("1," + QString::number(i+1));
         model->appendRow(item);
     }
-
-
-    QStandardItem *headerRate = new QStandardItem("IMU RATE");
-    model->appendRow(headerRate);
-    QStandardItem *itemRateX = new QStandardItem( "RATE X");
-    itemRateX->setCheckable(true);
-    itemRateX->setData("2,1");
-    model->appendRow(itemRateX);
-    QStandardItem *itemRateY = new QStandardItem( "RATE Y");
-    itemRateY->setCheckable(true);
-    itemRateY->setData("2,2");
-    model->appendRow(itemRateY);
-    QStandardItem *itemRateZ = new QStandardItem( "RATE Z");
-    itemRateZ->setCheckable(true);
-    itemRateZ->setData("2,3");
-    model->appendRow(itemRateZ);
-
-    QStandardItem *headerACC = new QStandardItem("IMU ACC");
-    model->appendRow(headerACC);
-    QStandardItem *itemACCX = new QStandardItem( "ACC X");
-    itemACCX->setCheckable(true);
-    itemACCX->setData("3,1");
-    model->appendRow(itemACCX);
-    QStandardItem *itemACCY = new QStandardItem( "ACC Y");
-    itemACCY->setCheckable(true);
-    itemACCY->setData("3,2");
-    model->appendRow(itemACCY);
-    QStandardItem *itemACCZ = new QStandardItem( "ACC Z");
-    itemACCZ->setCheckable(true);
-    itemACCZ->setData("3,3");
-    model->appendRow(itemACCZ);
-
-    QStandardItem *headerMAG = new QStandardItem("IMU MAG");
-    model->appendRow(headerMAG);
-    QStandardItem *itemMagX = new QStandardItem( "MAG X");
-    itemMagX->setCheckable(true);
-    itemMagX->setData("4,1");
-    model->appendRow(itemMagX);
-    QStandardItem *itemMagY = new QStandardItem( "MAG Y");
-    itemMagY->setCheckable(true);
-    itemMagY->setData("4,2");
-    model->appendRow(itemMagY);
-    QStandardItem *itemMagZ = new QStandardItem( "MAG Z");
-    itemMagZ->setCheckable(true);
-    itemMagZ->setData("4,3");
-    model->appendRow(itemMagZ);
-
-    // rate Aux
-    QStandardItem *headerGPS = new QStandardItem("GPS DOP");
-    model->appendRow(headerGPS);
-    QStandardItem *itempDOP = new QStandardItem( "pDOP");
-    itempDOP->setCheckable(true);
-    itempDOP->setData("7,1");
-    model->appendRow(itempDOP);
-    QStandardItem *itemhDOP = new QStandardItem( "hDOP");
-    itemhDOP->setCheckable(true);
-    itemhDOP->setData("7,2");
-    model->appendRow(itemhDOP);
-    QStandardItem *itemvDOP = new QStandardItem( "vDOP");
-    itemvDOP->setCheckable(true);
-    itemvDOP->setData("7,3");
-    model->appendRow(itemvDOP);
-
-    // mag Aux
-    QStandardItem *itemtDOP = new QStandardItem( "tDOP");
-    itemtDOP->setCheckable(true);
-    itemtDOP->setData("9,1");
-    model->appendRow(itemtDOP);
-    QStandardItem *itemnDOP = new QStandardItem( "nDOP");
-    itemnDOP->setCheckable(true);
-    itemnDOP->setData("9,2");
-    model->appendRow(itemnDOP);
-    QStandardItem *itemeDOP = new QStandardItem( "eDOP");
-    itemeDOP->setCheckable(true);
-    itemeDOP->setData("9,3");
-    model->appendRow(itemeDOP);
-
-    //Acc aux
-    QStandardItem *headerMotorsData = new QStandardItem("Motors Data");
-    model->appendRow(headerMotorsData);
-    QStandardItem *itempitch = new QStandardItem( "pitch");
-    itempitch->setCheckable(true);
-    itempitch->setData("8,1");
-    model->appendRow(itempitch);
-    QStandardItem *itemroll = new QStandardItem( "roll");
-    itemroll->setCheckable(true);
-    itemroll->setData("8,2");
-    model->appendRow(itemroll);
-    QStandardItem *itemyaw = new QStandardItem( "yaw");
-    itemyaw->setCheckable(true);
-    itemyaw->setData("8,3");
-    model->appendRow(itemyaw);
-
-
-    QStandardItem *headerPressure = new QStandardItem("Pressure");
-    model->appendRow(headerPressure);
-    QStandardItem *itemp1 = new QStandardItem( "pressure1");
-    itemp1->setCheckable(true);
-    itemp1->setData("5,1");
-    model->appendRow(itemp1);
-    QStandardItem *itemp2 = new QStandardItem( "pressure2");
-    itemp2->setCheckable(true);
-    itemp2->setData("5,2");
-    model->appendRow(itemp2);
-
-    QStandardItem *headerTemp = new QStandardItem("Temp");
-    model->appendRow(headerTemp);
-    QStandardItem *itemtemp1 = new QStandardItem( "Temp1");
-    itemtemp1->setCheckable(true);
-    itemtemp1->setData("6,1");
-    model->appendRow(itemtemp1);
-    QStandardItem *itemtemp2 = new QStandardItem( "Temp2");
-    itemtemp2->setCheckable(true);
-    itemtemp2->setData("6,2");
-    model->appendRow(itemtemp2);
-    QStandardItem *itemtemp3 = new QStandardItem( "Temp3");
-    itemtemp3->setCheckable(true);
-    itemtemp3->setData("6,3");
-    model->appendRow(itemtemp3);
-
-
-    //Temp 4
-    QStandardItem *headerGPSI = new QStandardItem("GPS iTOW");
-    model->appendRow(headerGPSI);
-    QStandardItem *itemitow = new QStandardItem( "iTOW");
-    itemitow->setCheckable(true);
-    itemitow->setData("6,4");
-    model->appendRow(itemitow);
-
-
-    QStandardItem *headerVIn = new QStandardItem("V In");
-    model->appendRow(headerVIn);
-    QStandardItem *itemV = new QStandardItem( "Vin");
-    itemV->setCheckable(true);
-    itemV->setData("10,1");
-    model->appendRow(itemV);
-
-    QStandardItem *headerUKF = new QStandardItem("UKF Q");
-    model->appendRow(headerUKF);
-    QStandardItem *itemUKFQ1 = new QStandardItem( "UKF Q1");
-    itemUKFQ1->setCheckable(true);
-    itemUKFQ1->setData("21,1");
-    model->appendRow(itemUKFQ1);
-    QStandardItem *itemUKFQ2 = new QStandardItem( "UKF Q2");
-    itemUKFQ2->setCheckable(true);
-    itemUKFQ2->setData("21,2");
-    model->appendRow(itemUKFQ2);
-    QStandardItem *itemUKFQ3 = new QStandardItem( "UKF Q3");
-    itemUKFQ3->setCheckable(true);
-    itemUKFQ3->setData("21,3");
-    model->appendRow(itemUKFQ3);
-    QStandardItem *itemUKFQ4 = new QStandardItem( "UKF Q4");
-    itemUKFQ4->setCheckable(true);
-    itemUKFQ4->setData("21,4");
-    model->appendRow(itemUKFQ4);
-
-    QStandardItem *headerGPSPU = new QStandardItem("GPS POS");
-    model->appendRow(headerGPSPU);
-    QStandardItem *itempPU = new QStandardItem( "last pos Update");
-    itempPU->setCheckable(true);
-    itempPU->setData("11,1");
-    model->appendRow(itempPU);
-
-    QStandardItem *itemGPSlat = new QStandardItem( "latitude");
-    itemGPSlat->setCheckable(true);
-    itemGPSlat->setData("12,1");
-    model->appendRow(itemGPSlat);
-
-    QStandardItem *itemGPSlon = new QStandardItem( "longitude");
-    itemGPSlon->setCheckable(true);
-    itemGPSlon->setData("13,1");
-    model->appendRow(itemGPSlon);
-
-    QStandardItem *itemGPSHeight = new QStandardItem( "heigth");
-    itemGPSHeight->setCheckable(true);
-    itemGPSHeight->setData("14,1");
-    model->appendRow(itemGPSHeight);
-
-    QStandardItem *itemGPSACC = new QStandardItem( "hACC");
-    itemGPSACC->setCheckable(true);
-    itemGPSACC->setData("15,1");
-    model->appendRow(itemGPSACC);
-
-    QStandardItem *itemGPSHLU = new QStandardItem( "last Update");
-    itemGPSHLU->setCheckable(true);
-    itemGPSHLU->setData("16,1");
-    model->appendRow(itemGPSHLU);
-
-    QStandardItem *itemGPSVelN = new QStandardItem( "VelN");
-    itemGPSVelN->setCheckable(true);
-    itemGPSVelN->setData("17,1");
-    model->appendRow(itemGPSVelN);
-    QStandardItem *itemGPSVelE = new QStandardItem( "VelE");
-    itemGPSVelE->setCheckable(true);
-    itemGPSVelE->setData("17,2");
-    model->appendRow(itemGPSVelE);
-    QStandardItem *itemGPSVelD = new QStandardItem( "VelD");
-    itemGPSVelD->setCheckable(true);
-    itemGPSVelD->setData("17,3");
-    model->appendRow(itemGPSVelD);
-
-    QStandardItem *itemGPSsACC = new QStandardItem( "sACC");
-    itemGPSsACC->setCheckable(true);
-    itemGPSsACC->setData("18,1");
-    model->appendRow(itemGPSsACC);
-
-    QStandardItem *headerUKFP = new QStandardItem("UKF Pos");
-    model->appendRow(headerUKFP);
-    QStandardItem *itemUKFPosN = new QStandardItem( "POS N");
-    itemUKFPosN->setCheckable(true);
-    itemUKFPosN->setData("19,1");
-    model->appendRow(itemUKFPosN);
-    QStandardItem *itemUKFPosE = new QStandardItem( "POS E");
-    itemUKFPosE->setCheckable(true);
-    itemUKFPosE->setData("19,2");
-    model->appendRow(itemUKFPosE);
-    QStandardItem *itemUKFAlti = new QStandardItem( "Altitude");
-    itemUKFAlti->setCheckable(true);
-    itemUKFAlti->setData("19,3");
-    model->appendRow(itemUKFAlti);
-
-    QStandardItem *itemUKFVelN = new QStandardItem( "VEL N");
-    itemUKFVelN->setCheckable(true);
-    itemUKFVelN->setData("20,1");
-    model->appendRow(itemUKFVelN);
-    QStandardItem *itemUKFVelE = new QStandardItem( "VEL E");
-    itemUKFVelE->setCheckable(true);
-    itemUKFVelE->setData("20,2");
-    model->appendRow(itemUKFVelE);
-    QStandardItem *itemUKFVelD = new QStandardItem( "VEL D");
-    itemUKFVelD->setCheckable(true);
-    itemUKFVelD->setData("20,3");
-    model->appendRow(itemUKFVelD);
-
-
-    QStandardItem *headerMot = new QStandardItem("Motors");
-    model->appendRow(headerMot);
-    QStandardItem *headerMot1 = new QStandardItem( "Motor 1");
-    headerMot1->setCheckable(true);
-    headerMot1->setData("22,1");
-    model->appendRow(headerMot1);
-    QStandardItem *headerMot2 = new QStandardItem( "Motor 2");
-    headerMot2->setCheckable(true);
-    headerMot2->setData("22,2");
-    model->appendRow(headerMot2);
-    QStandardItem *headerMot3 = new QStandardItem( "Motor 3");
-    headerMot3->setCheckable(true);
-    headerMot3->setData("22,3");
-    model->appendRow(headerMot3);
-    //---
-    QStandardItem *headerMot4 = new QStandardItem( "Motor 4");
-    headerMot4->setCheckable(true);
-    headerMot4->setData("22,4");
-    model->appendRow(headerMot4);
-    QStandardItem *headerMot5 = new QStandardItem( "Motor 5");
-    headerMot5->setCheckable(true);
-    headerMot5->setData("22,5");
-    model->appendRow(headerMot5);
-    QStandardItem *headerMot6 = new QStandardItem( "Motor 6");
-    headerMot6->setCheckable(true);
-    headerMot6->setData("22,6");
-    model->appendRow(headerMot6);
-    //---
-    QStandardItem *headerMot7 = new QStandardItem( "Motor 7");
-    headerMot7->setCheckable(true);
-    headerMot7->setData("22,7");
-    model->appendRow(headerMot7);
-    QStandardItem *headerMot8 = new QStandardItem( "Motor 8");
-    headerMot8->setCheckable(true);
-    headerMot8->setData("22,8");
-    model->appendRow(headerMot8);
-    QStandardItem *headerMot9 = new QStandardItem( "Motor 9");
-    headerMot9->setCheckable(true);
-    headerMot9->setData("22,9");
-    model->appendRow(headerMot9);
-    //---
-    QStandardItem *headerMot10 = new QStandardItem( "Motor 10");
-    headerMot10->setCheckable(true);
-    headerMot10->setData("22,10");
-    model->appendRow(headerMot10);
-    QStandardItem *headerMot11 = new QStandardItem( "Motor 11");
-    headerMot11->setCheckable(true);
-    headerMot11->setData("22,11");
-    model->appendRow(headerMot11);
-    QStandardItem *headerMot12 = new QStandardItem( "Motor 12");
-    headerMot12->setCheckable(true);
-    headerMot12->setData("22,12");
-    model->appendRow(headerMot12);
-    //---
-
-    QStandardItem *headerMot13 = new QStandardItem( "Motor 13");
-    headerMot13->setCheckable(true);
-    headerMot13->setData("22,13");
-    model->appendRow(headerMot13);
-    QStandardItem *headerMot14 = new QStandardItem( "Motor 14");
-    headerMot14->setCheckable(true);
-    headerMot14->setData("22,14");
-    model->appendRow(headerMot14);
-    //---
-
-
-    QStandardItem *headerMotTh = new QStandardItem("Motors Throttle");
-    model->appendRow(headerMotTh);
-    QStandardItem *headerMotTh1 = new QStandardItem( "Throttle");
-    headerMotTh1->setCheckable(true);
-    headerMotTh1->setData("23,1");
-    model->appendRow(headerMotTh1);
-
-    QStandardItem *headerEx = new QStandardItem("Extras");
-    model->appendRow(headerEx);
-    QStandardItem *headerEx1 = new QStandardItem( "mag Sign");
-    headerEx1->setCheckable(true);
-    headerEx1->setData("24,1");
-    model->appendRow(headerEx1);
-    QStandardItem *headerEx2 = new QStandardItem( "VAcc");
-    headerEx2->setCheckable(true);
-    headerEx2->setData("24,2");
-    model->appendRow(headerEx2);
-    QStandardItem *headerEx3 = new QStandardItem( "UKF Pos D");
-    headerEx3->setCheckable(true);
-    headerEx3->setData("24,3");
-    model->appendRow(headerEx3);
-    QStandardItem *headerEx4 = new QStandardItem( "UKF Press Alt");
-    headerEx4->setCheckable(true);
-    headerEx4->setData("24,4");
-    model->appendRow(headerEx4);
-
-
     ui->listView_Curves->setModel(model);
-
     connect(model, SIGNAL(itemChanged(QStandardItem*)), this,SLOT(CurveItemChanged(QStandardItem*)));
-
 }
 
 void QGCAutoquad::OpenLogFile()
@@ -513,45 +177,54 @@ void QGCAutoquad::OpenLogFile()
 
 void QGCAutoquad::CurveItemChanged(QStandardItem *item)
 {
+
     if ( item->checkState() )
     {
-        QStringList curve_section = item->data().toString().split(",");
-        int section = curve_section.at(0).toInt();
-        int sub_Section = curve_section.at(1).toInt();
-        parser.SetChannels(section,sub_Section);
-    }
-    else
-    {
-       parser.RemoveChannels();
-        QStandardItemModel *mod = dynamic_cast <QStandardItemModel*>(ui->listView_Curves->model());
-        for ( int i = 0; i<mod->rowCount(); i++) {
-            QStandardItem *ritem = mod->item(i,0);
-            if ( ritem->checkState()) {
-                QStringList curve_section = ritem->data().toString().split(",");
-                int section = curve_section.at(0).toInt();
-                int sub_Section = curve_section.at(1).toInt();
-                parser.SetChannels(section,sub_Section);
+        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
+            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+            if ( val_pair.first == item->text()) {
+                val_pair.second.fieldActive = 1;
+                parser.LogChannelsStruct.replace(i,val_pair);
+                break;
             }
         }
     }
+    else
+    {
+        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
+            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+            if ( val_pair.first == item->text()) {
+                val_pair.second.fieldActive = 0;
+                parser.LogChannelsStruct.replace(i,val_pair);
+                break;
+            }
+        }
+    }
+
 }
 
 void QGCAutoquad::DecodeLogFile(QString fileName)
 {
     plot->removeData();
     plot->setStyleText("lines");
-    parser.ParseLogFile(fileName);
+    disconnect(model, SIGNAL(itemChanged(QStandardItem*)), this,SLOT(CurveItemChanged(QStandardItem*)));
+    ui->listView_Curves->reset();
+    if ( parser.ParseLogHeader(fileName) == 0)
+        SetupListView();
+
+    /*
     if (parser.yValues.count() > 0 ) {
         for (int i = 0; i < parser.yValues.count(); i++) {
             plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
         }
         plot->setStyleText("lines");
     }
+    */
     //plot->updateScale();
 }
 
 void QGCAutoquad::ReloadLogFile(){
-
+    /*
     parser.ResetLog();
     parser.RemoveChannels();
      QStandardItemModel *mod = dynamic_cast <QStandardItemModel*>(ui->listView_Curves->model());
@@ -561,7 +234,7 @@ void QGCAutoquad::ReloadLogFile(){
              QStringList curve_section = ritem->data().toString().split(",");
              int section = curve_section.at(0).toInt();
              int sub_Section = curve_section.at(1).toInt();
-             parser.SetChannels(section,sub_Section);
+             //parser.SetChannels(section,sub_Section);
          }
      }
 
@@ -571,12 +244,26 @@ void QGCAutoquad::ReloadLogFile(){
         return;
 
     parser.ParseLogFile(LogFile);
+    plot->setStyleText("lines");
     for (int i = 0; i < parser.yValues.count(); i++) {
         plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
     }
     plot->setStyleText("lines");
-    //plot->updateScale();
+    plot->updateScale();
+    */
+}
 
+
+void QGCAutoquad::showChannels() {
+    parser.ShowCurves();
+    plot->removeData();
+    if (!QFile::exists(LogFile))
+        return;
+
+    for (int i = 0; i < parser.yValues.count(); i++) {
+        plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
+    }
+    plot->setStyleText("lines");
 }
 
 void QGCAutoquad::loadSettings()
@@ -795,6 +482,9 @@ void QGCAutoquad::ConnectEsc32()
             disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
             disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
             disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+            seriallinkEsc32 = new SerialLink(port,115200,false,false,8,1);
+            seriallinkEsc32->setBaudRate(115200);
+            seriallinkEsc32->setFlowType(1);
             ui->pushButton_connect_to_esc32->setText("connect");
             seriallinkEsc32 = NULL;
         }
@@ -803,6 +493,7 @@ void QGCAutoquad::ConnectEsc32()
     else {
         seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
         seriallinkEsc32->setBaudRate(230400);
+        seriallinkEsc32->setFlowType(0);
         connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
         connect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
         connect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
@@ -2146,7 +1837,6 @@ bool changed;
 
 }
 
-
 void QGCAutoquad::save_PID_toAQ2()
 {
     QVariant val_uas;
@@ -2298,6 +1988,8 @@ void QGCAutoquad::exportSVG(QString fileName)
     }
 }
 
+
+
 void QGCAutoquad::connectedEsc32(){
     ui->comboBox_port_esc32->setEnabled(false);
 }
@@ -2325,10 +2017,12 @@ void QGCAutoquad::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                 }
             break;
 
+            //get ascii values for parameter
             case 1:
                 LIST_MessageFromEsc32 += QString(bytes);
                 if ( LIST_MessageFromEsc32.endsWith("> ")) {
                     decodeParameterFromEsc32(LIST_MessageFromEsc32);
+                    qDebug() << LIST_MessageFromEsc32;
                     LIST_MessageFromEsc32 = "";
                 }
             break;
@@ -2339,11 +2033,39 @@ void QGCAutoquad::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                 }
             break;
 
+            //check change to binary mode
+            case 3:
+                ParaWriten_MessageFromEsc32 += QString(bytes);
+                switch (esc32DoCommand) {
+                    case 1:
+                        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+                        for ( int i = 0; i<edtList.count(); i++) {
+                            QString ParaName = edtList.at(i)->objectName();
+                            if ( paramEsc32.contains(ParaName) )
+                            {
+                                QString valueEsc32 = paramEsc32.value(ParaName);
+                                QString valueText = edtList.at(i)->text();
+                                if ( valueEsc32 != valueText) {
+
+                                    QByteArray transmit;
+                                    if ( esc32 == NULL)
+                                        esc32 = new AQEsc32();
+                                    transmit = esc32->esc32SendCommand(BINARY_COMMAND_NOP, 0.0, 0.0, 0);
+                                    StepMessageFromEsc32 = 2;
+                                    seriallinkEsc32->writeBytes(transmit, transmit.size());
+                                    paramEsc32Written.insert(paramEsc32.key(ParaName), paramEsc32.value(ParaName));
+                                }
+                            }
+                        }
+                    break;
+                }
+
+            break;
+
             default:
             break;
         }
     }
-    qDebug() << LIST_MessageFromEsc32;
 }
 
 void QGCAutoquad::decodeParameterFromEsc32(QString Message)
@@ -2376,12 +2098,16 @@ void QGCAutoquad::read_config_esc32() {
     if ( !seriallinkEsc32->isConnected() )
         return;
 
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+    for ( int i = 0; i<edtList.count(); i++) {
+        edtList.at(i)->setText("");
+    }
+
     QByteArray transmit;
     StepMessageFromEsc32 = 1;
     transmit.append("set list\n");
     seriallinkEsc32->writeBytes(transmit,transmit.size());
 }
-
 
 void QGCAutoquad::saveToEsc32() {
     if ( !seriallinkEsc32)
@@ -2389,25 +2115,22 @@ void QGCAutoquad::saveToEsc32() {
     if ( !seriallinkEsc32->isConnected() )
         return;
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
-    for ( int i = 0; i<edtList.count(); i++) {
-        QString ParaName = edtList.at(i)->objectName();
-        if ( paramEsc32.contains(ParaName) )
-        {
-            QString valueEsc32 = paramEsc32.value(ParaName);
-            QString valueText = edtList.at(i)->text();
-            if ( valueEsc32 != valueText) {
-                StepMessageFromEsc32 = 2;
-                QByteArray transmit;
-                transmit.append(ParaName);
-                transmit.append(" ");
-                transmit.append(valueText);
-                transmit.append("\r\n");
-                qDebug() << "write paramter: " << ParaName << " " << valueText;
-                seriallinkEsc32->writeBytes(transmit, transmit.size());
-                paramEsc32Written.insert(paramEsc32.key(ParaName), paramEsc32.value(ParaName));
-            }
-        }
-    }
+    SwitchFromAsciiToBinary();
 
+}
+
+void QGCAutoquad::SwitchFromAsciiToBinary()
+{
+    esc32BinaryMode = 1;
+    StepMessageFromEsc32 = 3;
+    esc32DoCommand = 1;
+    QByteArray transmit;
+    transmit.append("binary\n");
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+
+}
+
+void QGCAutoquad::SwitchFromBinaryToAscii()
+{
+    esc32BinaryMode = 0;
 }

@@ -2,7 +2,7 @@
 #define QGCAUTOQUAD_H
 
 #include "LinkManager.h"
-#include "aqlogparser.h"
+#include "aq_comm.h"
 #include <SerialLinkInterface.h>
 #include <SerialLink.h>
 #include "QGCUASParamManager.h"
@@ -85,6 +85,7 @@ private slots:
         void save_PID_toAQ2();
         void save_PID_toAQ3();
         void save_plot_image();
+        void showChannels();
 
         void connectedEsc32();
         void disconnectedEsc32();
@@ -131,8 +132,14 @@ private:
         QString LIST_MessageFromEsc32;
         QString ParaWriten_MessageFromEsc32;
         void decodeParameterFromEsc32(QString Message);
+        void SwitchFromBinaryToAscii();
+        void SwitchFromAsciiToBinary();
+        int esc32BinaryMode;
+        int esc32DoCommand;
         QMap<QString, QString> paramEsc32;
         QMap<QString, QString> paramEsc32Written;
+        AQEsc32 *esc32;
+        QStandardItemModel *model;
 
 protected:
         void showEvent(QShowEvent* event);
