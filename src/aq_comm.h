@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QQueue>
 #include <QPair>
+#include <QCoreApplication>
+#include <QLineEdit>
 #include "Eigen/Eigen"
 #include "UASInterface.h"
 #include <SerialLinkInterface.h>
@@ -321,15 +323,11 @@ public:
     int ParseLogHeader(QString fileName);
     QList<QPair<QString,loggerFieldsAndActive_t> > LogChannelsStruct;
     void ShowCurves();
-    bool getOldLog();
-
-    //Bullshit
-    void ParseLogFile(QString fileName);
-    void GetChannels(int section, int subsection);
-    void RemoveChannels();
     void ResetLog();
+    bool getOldLog();
     QMap<QString, QVector<double>*> xValues;
     QMap<QString, QVector<double>*> yValues;
+
 
 private:
     int loggerReadHeader(FILE *fp);
@@ -344,26 +342,10 @@ private:
     void createHeaderL();
     void SetChannelsStruct();
     bool oldLog;
-
-
-
-    //Bullshit
-    int count;
-    void logDumpPlotInit(int n);
+    loggerRecord_t logEntry;
     int loggerReadEntry(FILE *fp, loggerRecord_t *r);
     double logDumpGetValue(loggerRecord_t *l, int field);
-    int loggerReadLog(const char *fname, loggerRecord_t **l);
-    void loggerFree(loggerRecord_t *l);
-    loggerRecord_t logEntry;
-    int dumpOrder[LOG_NUM_IDS];
-    float dumpMin[LOG_NUM_IDS];
-    float dumpMax[LOG_NUM_IDS];
-    int dumpNum;
-    QStringList CurveName;
-    float scaleMin, scaleMax;
 
-signals:
-    void finishedParse();
 
 };
 
@@ -438,13 +420,81 @@ enum configParameters {
 };
 
 #define EIGEN_DONT_PARALLELIZE
-class AQEsc32 {
+
+class AQEsc32 : public QObject {
+    Q_OBJECT
+
 public:
-    explicit AQEsc32();
+    AQEsc32();
     ~AQEsc32();
-    QByteArray esc32SendCommand(unsigned char command, float param1, float param2, int n);
+    int esc32SendCommand(unsigned char command, float param1, float param2, int n);
+    void Connect(QString port);
+    void Disconnect();
+    void SavePara(QString ParaName, QVariant ParaValue);
+    void sendCommand(int command, float Value1, float Value2, int num);
+    void ReadConfigEsc32();
+    int GetEsc32State();
 private:
-    unsigned short seqId;
+    int esc32state;
+    int getEnumByName(QString Name);
+    unsigned short commandSeqId;
+    unsigned char commandSeqIdBack;
+    unsigned char commandBack;
+    unsigned char commandLengthBack;
+    unsigned char command_ACK_NACK;
+    int StepMessageFromEsc32;
+    QString LIST_MessageFromEsc32;
+    QString ParaNameLastSend;
+    int ParaLastSend;
+    QVariant LastParaValueSend1;
+    QVariant LastParaValueSend2;
+    QString ParaWriten_MessageFromEsc32;
+    QByteArray ResponseFromEsc32;
+    int TimeOutWaiting;
+    void SwitchFromBinaryToAscii();
+    void SwitchFromAsciiToBinary();
+    int esc32BinaryMode;
+    int esc32DoCommand;
+    void esc32SendChar(unsigned char c);
+    void esc32SendShort(unsigned short i);
+    void esc32SendFloat(float f);
+    void esc32OutChecksum(unsigned char c);
+    void esc32InChecksum(unsigned char c);
+    unsigned char checkOutA, checkOutB;
+    unsigned char checkInA, checkInB;
+    int indexOfAqC;
+
+private slots:
+    void connectedEsc32();
+    void disconnectedEsc32();
+    void destroyedEsc32();
+    void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
+
+protected:
+    SerialLink* seriallinkEsc32;
+
+signals:
+    void ShowConfig(QString Config);
+    void Esc32Connected();
+    void ESc32Disconnected();
+    void Esc32ParaWritten(QString ParaName);
+    void Esc32CommandWritten(int CommandName, QVariant V1, QVariant V2 );
 };
 
+
+#include <QThread>
+class AQEsc32Calibration : public QThread
+{
+    Q_OBJECT
+public:
+    AQEsc32Calibration();
+    ~AQEsc32Calibration();
+    bool isFinished();
+
+protected:
+    void run();
+
+signals:
+    void finishedCalibration();
+};
 #endif // AQ_COMM_H

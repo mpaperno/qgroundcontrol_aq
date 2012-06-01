@@ -48,7 +48,7 @@ private slots:
         void setPortName(QString port);
         void setPortNameEsc32(QString port);
         void flashFW();
-        void ConnectEsc32();
+        void btnConnectEsc32();
         void startcal1();
         void startcal2();
         void startcal3();
@@ -80,19 +80,25 @@ private slots:
 		void CalculatDeclination();
         void CurveItemChanged(QStandardItem *item);
         void OpenLogFile();
-        void ReloadLogFile();
         void save_PID_toAQ1();
         void save_PID_toAQ2();
         void save_PID_toAQ3();
         void save_plot_image();
         void showChannels();
 
-        void connectedEsc32();
-        void disconnectedEsc32();
-        void destroyedEsc32();
-        void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
-        void read_config_esc32();
-        void saveToEsc32();
+        void showConfigEsc32(QString Config);
+        void btnReadConfigEsc32();
+        void btnSaveToEsc32();
+        void btnArmEsc32();
+        void btnStartStopEsc32();
+        void btnSetRPM();
+
+        void ParaWrittenEsc32(QString ParaName);
+        void CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2 );
+        void ESc32Disconnected();
+        void Esc32Connected();
+        void Esc32RpmSlider(int rpm);
+
 
 private:
         Ui::QGCAutoquad *ui;
@@ -110,7 +116,6 @@ private:
         QProcess ps_master;
         LinkInterface* currLink;
         SerialLink* seriallink;
-        SerialLink* seriallinkEsc32;
         void setupPortList();
         UASInterface* uas;
         QGCAQParamWidget* paramaq;
@@ -128,18 +133,14 @@ private:
         void exportPDF(QString fileName);
         void exportSVG(QString fileName);
         QString LastFilePath;
-        int StepMessageFromEsc32;
-        QString LIST_MessageFromEsc32;
-        QString ParaWriten_MessageFromEsc32;
-        void decodeParameterFromEsc32(QString Message);
-        void SwitchFromBinaryToAscii();
-        void SwitchFromAsciiToBinary();
-        int esc32BinaryMode;
-        int esc32DoCommand;
-        QMap<QString, QString> paramEsc32;
-        QMap<QString, QString> paramEsc32Written;
         AQEsc32 *esc32;
         QStandardItemModel *model;
+        QMap<QString, QString> paramEsc32;
+        QMap<QString, QString> paramEsc32Written;
+        int WaitForParaWriten;
+        QString ParaNameWritten;
+        void saveEEpromEsc32();
+
 
 protected:
         void showEvent(QShowEvent* event);

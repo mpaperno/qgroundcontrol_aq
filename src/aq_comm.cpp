@@ -6,8 +6,6 @@
 
 AQLogParser::AQLogParser()
 {
-    dumpNum=0;
-    CurveName.clear();
     xValues.clear();
     yValues.clear();
     if ( !xValues.contains("xvalue"))
@@ -16,15 +14,10 @@ AQLogParser::AQLogParser()
 
 AQLogParser::~AQLogParser()
 {
-
 }
 
 void AQLogParser::ResetLog()
 {
-    for (int i = 0; i < LOG_NUM_IDS; i++) {
-        dumpMin[i] = +9999999.99;
-        dumpMax[i] = -9999999.99;
-    }
     xValues.clear();
     yValues.clear();
 }
@@ -1039,6 +1032,7 @@ void AQLogParser::GenerateChannelsCurve(bool isOld) {
 
 void AQLogParser::ShowCurves() {
     int n = 0;
+    int count = 0;
     FILE *lf;
     QString fileName = QDir::toNativeSeparators(FileName);
     xValues.clear();
@@ -2029,166 +2023,448 @@ double AQLogParser::logDumpGetValue(loggerRecord_t *l, int field)
 
 
 
-void AQLogParser::ParseLogFile(QString fileName)
-{
-FILE *lf;
-int i;
-int count;
-fileName = QDir::toNativeSeparators(fileName);
-#ifdef Q_OS_WIN
-    lf = fopen(fileName.toLocal8Bit().constData(),"rb");
-#else
-    lf = fopen(fileName.toLocal8Bit().constData(),"rb");
-#endif
-
-    if (lf) {
-        loggerReadHeader(lf);
-
-
-        for (i = 0; i < LOG_NUM_IDS; i++) {
-            dumpMin[i] = +9999999.99;
-            dumpMax[i] = -9999999.99;
-        }
-
-        if (1 == 1) {
-            count = 0;
-            while (loggerReadEntry(lf, &logEntry) != EOF) {
-                count++;
-            }
-
-            logDumpPlotInit(count);
-
-            for (i = 0; i < dumpNum; i++) {
-                rewind(lf);
-                count = 0;
-                while (loggerReadEntry(lf, &logEntry) != EOF) {
-                    //yVals[count++] = logDumpGetValue(&logEntry, dumpOrder[i]);
-                    double va = logDumpGetValue(&logEntry, dumpOrder[i]);
-                    yValues.value(CurveName.at(i))->append(va);
-                }
-
-                //plcol0(2+i);
-                //plline(count, xVals, yVals);
-            }
-
-            //plend();
-        }
-        else {
-            count = 0;
-        }
-
-        QString debugOut ;
-        debugOut = QString("logDump: %d records X %lu bytes = %4.1f MB\n").arg(count, sizeof(logEntry), (float)count*sizeof(logEntry)/1024/1000);
-        qDebug() << "PARAM WIDGET GOT PARAM:" << debugOut;
-        debugOut = QString("logDump: %d mins %d seconds @ 200Hz\n").arg(count/200/60, count/200 % 60);
-        qDebug() << "PARAM WIDGET GOT PARAM:" << debugOut;
-    }
-    else {
-        qDebug() << "logDump: cannot open logfile\n";
-    }
-}
-
-void AQLogParser::logDumpPlotInit(int n)
-{
-}
-
-
-
-void AQLogParser::RemoveChannels()
-{
-    for (int i = 0; i < LOG_NUM_IDS; i++) {
-        dumpMin[i] = +9999999.99;
-        dumpMax[i] = -9999999.99;
-        dumpOrder[i] = 0;
-    }
-    dumpNum =0;
-    CurveName.clear();
-}
-
-int AQLogParser::loggerReadLog(const char *fname, loggerRecord_t **l)
-{
-    loggerRecord_t buf;
-    FILE *fp;
-    int n = 0;
-    int i;
-
-    *l = NULL;
-
-    fp = fopen(fname, "rb");
-    if (fp == NULL) {
-        fprintf(stderr, "logger: cannot open log file '%s'\n", fname);
-    }
-    else {
-        while (loggerReadEntry(fp, &buf) != EOF)
-            n++;
-
-        *l = (loggerRecord_t *)calloc(n, sizeof(loggerRecord_t));
-
-        rewind(fp);
-
-        for (i = 0; i < n; i++)
-            loggerReadEntry(fp, &(*l)[i]);
-
-        fclose(fp);
-    }
-
-    return n;
-}
-
-void AQLogParser::loggerFree(loggerRecord_t *l)
-{
-    if (l) {
-        free(l);
-        l = NULL;
-    }
-}
-
 
 
 AQEsc32::AQEsc32()
 {
+    esc32BinaryMode = 0;
+    esc32DoCommand = 0;
+    StepMessageFromEsc32 = 0;
+    esc32state = 0;
+    seriallinkEsc32 = NULL;
 }
 
 AQEsc32::~AQEsc32()
 {
+    if ( seriallinkEsc32 ) {
+        if ( seriallinkEsc32->isConnected() )
+            seriallinkEsc32->disconnect();
+        seriallinkEsc32 = NULL;
+    }
 
 }
 
-QByteArray AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2, int n) {
-    seqId++;
+void AQEsc32::Connect(QString port)
+{
+    seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
+    seriallinkEsc32->setBaudRate(230400);
+    seriallinkEsc32->setFlowType(0);
+    connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+    connect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+    connect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+    connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+    seriallinkEsc32->connect();
+}
+
+void AQEsc32::Disconnect()
+{
+    SwitchFromBinaryToAscii();
+    seriallinkEsc32->disconnect();
+    disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+    disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+    disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+    disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+    seriallinkEsc32 = NULL;
+}
+
+void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
+    if ( esc32BinaryMode == 0)
+    {
+        SwitchFromAsciiToBinary();
+    }
+    StepMessageFromEsc32 = 4;
+    ParaNameLastSend = ParaName;
+    ParaLastSend = BINARY_COMMAND_SET;
+    int paraToWrite =  getEnumByName(ParaName);
+    float valueToWrite = ParaValue.toFloat();
+    esc32SendCommand(BINARY_COMMAND_SET,paraToWrite,valueToWrite,2);
+
+}
+
+void AQEsc32::sendCommand(int command, float Value1, float Value2, int num ){
+    if ( esc32BinaryMode == 0)
+    {
+        SwitchFromAsciiToBinary();
+    }
+    StepMessageFromEsc32 = 4;
+    ParaNameLastSend = "";
+    ParaLastSend = command;
+    LastParaValueSend1 = Value1;
+    LastParaValueSend2 = Value2;
+    esc32SendCommand(command,Value1,Value2,num);
+
+}
+
+int AQEsc32::GetEsc32State() {
+    return esc32state;
+}
+
+int AQEsc32::getEnumByName(QString Name)
+{
+    if ( Name == "CONFIG_VERSION")
+    {
+        return CONFIG_VERSION;
+    }
+    if ( Name == "STARTUP_MODE")
+    {
+        return STARTUP_MODE;
+    }
+    if ( Name == "BAUD_RATE")
+    {
+        return BAUD_RATE;
+    }
+    if ( Name == "PTERM")
+    {
+        return PTERM;
+    }
+    if ( Name == "ITERM")
+    {
+        return ITERM;
+    }
+
+    if ( Name == "FF1TERM")
+    {
+        return FF1TERM;
+    }
+    if ( Name == "FF2TERM")
+    {
+        return FF2TERM;
+    }
+    if ( Name == "SHUNT_RESISTANCE")
+    {
+        return SHUNT_RESISTANCE;
+    }
+    if ( Name == "MIN_PERIOD")
+    {
+        return MIN_PERIOD;
+    }
+    if ( Name == "MAX_PERIOD")
+    {
+        return MAX_PERIOD;
+    }
+
+    if ( Name == "BLANKING_MICROS")
+    {
+        return BLANKING_MICROS;
+    }
+    if ( Name == "ADVANCE")
+    {
+        return ADVANCE;
+    }
+    if ( Name == "START_VOLTAGE")
+    {
+        return START_VOLTAGE;
+    }
+    if ( Name == "DUTY_INCREASE_FACTOR")
+    {
+        return DUTY_INCREASE_FACTOR;
+    }
+    if ( Name == "GOOD_DETECTS_START")
+    {
+        return GOOD_DETECTS_START;
+    }
+    if ( Name == "BAD_DETECTS_DISARM")
+    {
+        return BAD_DETECTS_DISARM;
+    }
+
+    if ( Name == "MAX_CURRENT")
+    {
+        return MAX_CURRENT;
+    }
+    if ( Name == "SWITCH_FREQ")
+    {
+        return SWITCH_FREQ;
+    }
+    if ( Name == "MOTOR_POLES")
+    {
+        return MOTOR_POLES;
+    }
+    if ( Name == "PWM_MIN_PERIOD")
+    {
+        return PWM_MIN_PERIOD;
+    }
+
+    if ( Name == "PWM_MIN_VALUE")
+    {
+        return PWM_MIN_VALUE;
+    }
+    if ( Name == "PWM_LO_VALUE")
+    {
+        return PWM_LO_VALUE;
+    }
+    if ( Name == "PWM_HI_VALUE")
+    {
+        return PWM_HI_VALUE;
+    }
+    if ( Name == "PWM_MAX_VALUE")
+    {
+        return PWM_MAX_VALUE;
+    }
+    if ( Name == "PWM_MIN_START")
+    {
+        return PWM_MIN_START;
+    }
+
+    if ( Name == "PWM_RPM_SCALE")
+    {
+        return PWM_RPM_SCALE;
+    }
+    if ( Name == "FET_BRAKING")
+    {
+        return FET_BRAKING;
+    }
+    if ( Name == "CONFIG_NUM_PARAMS")
+    {
+        return CONFIG_NUM_PARAMS;
+    }
+    return 0;
+}
+
+void AQEsc32::connectedEsc32(){
+    emit Esc32Connected();
+    //read_config_esc32();
+}
+
+void AQEsc32::disconnectedEsc32(){
+    emit ESc32Disconnected();
+}
+
+void AQEsc32::destroyedEsc32(){
+}
+
+void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
+    // Only add data from current link
+    if (link == seriallinkEsc32)
+    {
+        //unsigned char byte = bytes.at(j);
+        switch (StepMessageFromEsc32)
+        {
+            case 0:
+                // Parse all bytes
+            break;
+
+            //get ascii values for parameter
+            case 1:
+                LIST_MessageFromEsc32 += QString(bytes);
+                if ( LIST_MessageFromEsc32.contains("Command not found")) {
+                    LIST_MessageFromEsc32 = "";
+                    qDebug() << LIST_MessageFromEsc32;
+                    return;
+                }
+
+                if ( LIST_MessageFromEsc32.endsWith("> ")) {
+                    //decodeParameterFromEsc32(LIST_MessageFromEsc32);
+                    emit ShowConfig(LIST_MessageFromEsc32);
+                    qDebug() << LIST_MessageFromEsc32;
+                    LIST_MessageFromEsc32 = "";
+                }
+            break;
+
+            // Waiting for a commit to ASCII mode
+            case 2:
+                ParaWriten_MessageFromEsc32 += QString(bytes);
+                ResponseFromEsc32.append(bytes);
+                indexOfAqC = ParaWriten_MessageFromEsc32.indexOf("AqC");
+                if (indexOfAqC > -1) {
+                    checkInA = checkInB = 0;
+                    int in = indexOfAqC+3;
+                    commandLengthBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandLengthBack);
+                    in++;
+                    command_ACK_NACK = ResponseFromEsc32[in];
+                    esc32InChecksum(command_ACK_NACK);
+                    in++;
+                    commandSeqIdBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandSeqIdBack);
+                    in++;
+                    commandBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandBack);
+                    in++;
+                    unsigned char tmp_A = ResponseFromEsc32[in];
+                    unsigned char tmp_B = ResponseFromEsc32[in+1];
+                    if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
+                        if ( command_ACK_NACK == 250) {
+                            esc32BinaryMode = 0;
+                            esc32state = 0;
+                        }
+                    }
+                }
+
+            break;
+
+            // Waiting for a commit to binary mode
+            case 3:
+                ParaWriten_MessageFromEsc32 += QString(bytes);
+                if ( ParaWriten_MessageFromEsc32.contains("command mode...\r\n")) {
+                    esc32BinaryMode = 1;
+                    ParaWriten_MessageFromEsc32 = "";
+                    esc32state = 1;
+                }
+            break;
+
+            //Waiting for commit of send Parameter
+            case 4:
+                ParaWriten_MessageFromEsc32 += QString(bytes);
+                ResponseFromEsc32.append(bytes);
+                indexOfAqC = ParaWriten_MessageFromEsc32.indexOf("AqC");
+                if (indexOfAqC > -1) {
+                    checkInA = checkInB = 0;
+                    int in = indexOfAqC+3;
+                    commandLengthBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandLengthBack);
+                    in++;
+                    command_ACK_NACK = ResponseFromEsc32[in];
+                    esc32InChecksum(command_ACK_NACK);
+                    in++;
+                    commandSeqIdBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandSeqIdBack);
+                    in++;
+                    commandBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandBack);
+                    in++;
+                    unsigned char tmp_A = ResponseFromEsc32[in];
+                    unsigned char tmp_B = ResponseFromEsc32[in+1];
+                    if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
+                        if ( ParaLastSend == BINARY_COMMAND_SET )
+                            emit Esc32ParaWritten(ParaNameLastSend);
+                        else
+                            emit Esc32CommandWritten(ParaLastSend,LastParaValueSend1,LastParaValueSend2);
+
+                        if ( ParaLastSend == BINARY_COMMAND_START)
+                            esc32state = 2;
+                        if ( ParaLastSend == BINARY_COMMAND_STOP )
+                            esc32state = 3;
+                        if ( ParaLastSend == BINARY_COMMAND_ARM )
+                            esc32state = 4;
+                        if ( ParaLastSend == BINARY_COMMAND_DISARM )
+                            esc32state = 5;
+
+
+                    }
+                }
+
+            break;
+
+            default:
+            break;
+        }
+    }
+}
+
+void AQEsc32::ReadConfigEsc32() {
+
     QByteArray transmit;
-    QByteArray TempByteArray;
-    transmit.append('A');
-    transmit.append('q');
-    transmit.append(1+2+n*sizeof(float));
-    transmit.append(command);
-    memcpy(&seqId,TempByteArray.data(),sizeof(ushort));
-    for ( int i = 0; i<TempByteArray.length(); i++)
-        transmit.append(TempByteArray.at(i));
+    StepMessageFromEsc32 = 1;
+    transmit.append("set list\n");
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+}
 
-    TempByteArray.clear();
-    if ( n > 0) {
-        memcpy(&param1,TempByteArray.data(), sizeof(float));
-        for ( int i = 0; i<TempByteArray.length(); i++)
-            transmit.append(TempByteArray.at(i));
+void AQEsc32::SwitchFromAsciiToBinary()
+{
+    StepMessageFromEsc32 = 3;
+    QByteArray transmit;
+    transmit.append("binary\n");
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+    TimeOutWaiting = 0;
+    while ( esc32BinaryMode == 0) {
+        QCoreApplication::processEvents();
+        TimeOutWaiting++;
+        if (TimeOutWaiting > 100000 )
+                break;
     }
+}
 
-    TempByteArray.clear();
-    if ( n > 1) {
-        memcpy(&param2,TempByteArray.data(), sizeof(float));
-        for ( int i = 0; i<TempByteArray.length(); i++)
-            transmit.append(TempByteArray.at(i));
+void AQEsc32::SwitchFromBinaryToAscii()
+{
+    StepMessageFromEsc32 = 2;
+    commandSeqIdBack = esc32SendCommand(BINARY_COMMAND_CLI, 0.0, 0.0, 0);
+    TimeOutWaiting = 0;
+    while ( esc32BinaryMode == 1) {
+        QCoreApplication::processEvents();
+        TimeOutWaiting++;
+        if (TimeOutWaiting > 100000 )
+                break;
     }
+}
 
-    short checkA = 0;
-    short checkB = 0;
-    for ( int i = 2; i<transmit.length(); i++) {
-        checkA += transmit.at(i);
-        checkB += checkA;
-    }
-    transmit.append(checkA);
-    transmit.append(checkB);
-    return transmit;
+int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2, int n) {
+    QByteArray transmit;
+    ResponseFromEsc32.clear();
+    ParaWriten_MessageFromEsc32 = "";
+    transmit.append("A");
+    transmit.append("q");
+    //################################
+    seriallinkEsc32->writeBytes(transmit,transmit.length());
+    checkOutA = checkOutB = 0;
+
+    esc32SendChar(1 + 2 + n*sizeof(float));
+    esc32SendChar(command);
+    esc32SendShort(commandSeqId++);
+    if (n > 0)
+        esc32SendFloat(param1);
+    if (n > 1)
+        esc32SendFloat(param2);
+    transmit.clear();
+    transmit.append(checkOutA);
+    transmit.append(checkOutB);
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+    return (commandSeqId - 1);
+}
+
+void AQEsc32::esc32SendChar(unsigned char c) {
+    QByteArray transmit;
+    transmit.append(c);
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+    esc32OutChecksum(c);
+}
+
+void AQEsc32::esc32SendShort(unsigned short i) {
+    unsigned char j;
+    unsigned char *c = (unsigned char *)&i;
+
+    for (j = 0; j < sizeof(short); j++)
+        esc32SendChar(*c++);
+}
+
+void AQEsc32::esc32SendFloat(float f) {
+    unsigned char j;
+    unsigned char *c = (unsigned char *)&f;
+
+    for (j = 0; j < sizeof(float); j++)
+        esc32SendChar(*c++);
+}
+
+void AQEsc32::esc32OutChecksum(unsigned char c) {
+    checkOutA += c;
+    checkOutB += checkOutA;
+}
+
+void AQEsc32::esc32InChecksum(unsigned char c) {
+    checkInA += c;
+    checkInB += checkInA;
 }
 
 
+
+AQEsc32Calibration::AQEsc32Calibration() {
+
+}
+
+AQEsc32Calibration::~AQEsc32Calibration() {
+
+}
+
+void AQEsc32Calibration::run() {
+
+    /*
+    esc32SendReliably(BINARY_COMMAND_ARM, 0.0, 0.0, 0);
+    esc32SendReliably(BINARY_COMMAND_STOP, 0.0, 0.0, 0);
+    esc32SendReliably(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1);
+    esc32SendReliably(BINARY_COMMAND_TELEM_VALUE, 0.0, BINARY_VALUE_RPM, 2);
+    esc32SendReliably(BINARY_COMMAND_TELEM_VALUE, 1.0, BINARY_VALUE_VOLTS_MOTOR, 2);
+    esc32SendReliably(BINARY_COMMAND_TELEM_VALUE, 2.0, BINARY_VALUE_AMPS, 2);
+    esc32SendReliably(BINARY_COMMAND_SET, MAX_CURRENT, 0.0, 2);
+    */
+
+}
