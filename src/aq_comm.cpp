@@ -2024,9 +2024,104 @@ int AQLogParser::GetFrameSize() {
     return LoggerFrameSize;
 }
 
-void AQLogParser::ReWriteFile(QString fileName, int start1, int end1, int start2, int end2) {
+void AQLogParser::ReWriteFile(QString SourceFileName,QString DestinationFileName, int start1, int end1, int start2, int end2) {
+FILE *sf;
+fileName = QDir::toNativeSeparators(SourceFileName);
+#ifdef Q_OS_WIN
+    sf = fopen(fileName.toLocal8Bit().constData(),"rb");
+#else
+    sf = fopen(fileName.toLocal8Bit().constData(),"rb");
+#endif
+
+FILE *df;
+fileName = QDir::toNativeSeparators(DestinationFileName);
+#ifdef Q_OS_WIN
+    df = fopen(fileName.toLocal8Bit().constData(),"rb");
+#else
+    df = fopen(fileName.toLocal8Bit().constData(),"rb");
+#endif
+
 
 }
+
+int AQLogParser::loggerWriteHeader(FILE *fs, FILE *fd)
+{
+    char ckA, ckB = 0;
+    char ckA_Calculate, ckB_Calculate = 0;
+    int i;
+    int c = 0;
+    uint8_t count_channels = 0;
+    loggerFieldsAndActive_t fieldsInfo;
+    loggerTop:
+
+    if (c != EOF) {
+        if ((c = fgetc(fs)) != 'A')
+            goto loggerTop;
+        if ((c = fgetc(fs)) != 'q')
+            goto loggerTop;
+        if ((c = fgetc(fs)) != 'H') {
+            if (c != 'L')
+                goto loggerTop;
+            else {
+                oldLog = true;
+                createHeaderL();
+                return 0;
+            }
+
+        }
+
+
+        count_channels = fgetc(fs);
+        logHeader = (loggerFields_t*) calloc(count_channels , sizeof(loggerFields_t));
+        fread(logHeader, sizeof(loggerFields_t), count_channels, fp);
+        ckA_Calculate = 0;
+        ckB_Calculate = 0;
+        LoggerFrameSize = 0;
+        ckA = fgetc(fp);
+        ckB = fgetc(fp);
+        ckA_Calculate += count_channels;
+        ckB_Calculate += ckA_Calculate;
+        for (i = 0; i<count_channels; i++) {
+            ckA_Calculate += logHeader[i].fieldId;
+            ckB_Calculate += ckA_Calculate;
+            ckA_Calculate += logHeader[i].fieldType;
+            ckB_Calculate += ckA_Calculate;
+            switch (logHeader[i].fieldType) {
+                case LOG_TYPE_DOUBLE:
+                    LoggerFrameSize += 8;
+                    break;
+                case LOG_TYPE_FLOAT:
+                case LOG_TYPE_U32:
+                case LOG_TYPE_S32:
+                    LoggerFrameSize += 4;
+                    break;
+                case LOG_TYPE_U16:
+                case LOG_TYPE_S16:
+                    LoggerFrameSize += 2;
+                    break;
+                case LOG_TYPE_U8:
+                case LOG_TYPE_S8:
+                    LoggerFrameSize += 1;
+                    break;
+            }
+        }
+
+        if (ckA_Calculate == ckA && ckB_Calculate == ckB) {
+            free(logHeader);
+            return 0;
+        }
+        else {
+            free(logHeader);
+            qDebug() << "logger: checksum error\n";
+            goto loggerTop;
+        }
+    }
+
+    if (logHeader)
+        free(logHeader);
+    return -1;
+}
+
 
 //#######################################################################################################
 

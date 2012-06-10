@@ -67,6 +67,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
     connect(ui->pushButton_Open_Log_file, SIGNAL(clicked()),this,SLOT(OpenLogFile()));
     connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
+    connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
 
     connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(save_PID_toAQ1()));
     connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
@@ -124,6 +125,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_Radio_Type->addItem("Futaba", 2);
     ui->comboBox_Radio_Type->addItem("PWM", 3);
 
+    ui->comboBox_marker->clear();
     ui->comboBox_marker->addItem("Start & End 1s", 0);
     ui->comboBox_marker->addItem("Start & End 2s", 1);
     ui->comboBox_marker->addItem("Start & End 3s", 2);
@@ -231,6 +233,7 @@ void QGCAutoquad::DecodeLogFile(QString fileName)
 }
 
 void QGCAutoquad::showChannels() {
+
     parser.ShowCurves();
     plot->removeData();
     if (!QFile::exists(LogFile))
@@ -1497,6 +1500,8 @@ void QGCAutoquad::getGUIpara() {
     ui->comboBox_Radio_Type->setCurrentIndex(radio_type);
     ui->IMU_ROT->setText(paramaq->getParaAQ("IMU_ROT").toString());
     ui->IMU_MAG_DECL->setText(paramaq->getParaAQ("IMU_MAG_DECL").toString());
+    ui->IMU_MAG_INCL->setText(paramaq->getParaAQ("IMU_MAG_INCL").toString());
+    ui->IMU_PRESS_SENSE->setText(paramaq->getParaAQ("IMU_PRESS_SENSE").toString());
 
  }
 
@@ -2102,8 +2107,14 @@ void QGCAutoquad::exportSVG(QString fileName)
     }
 }
 
-
 void QGCAutoquad::startSetMarker() {
+
+    if ( parser.xValues.count() <= 0)
+        return;
+    if ( parser.yValues.count() <= 0)
+        return;
+
+
     if ( picker == NULL ) {
         if ( ui->comboBox_marker->currentIndex() == 6) {
             if ( MarkerCut1 != NULL) {
@@ -2126,6 +2137,7 @@ void QGCAutoquad::startSetMarker() {
                 MarkerCut4->detach();
                 MarkerCut4 = NULL;
             }
+            ui->pushButton_cut->setEnabled(false);
             QMessageBox::information(this, "Information", "Please select the start point of the frame!",QMessageBox::Ok, 0 );
             picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,QwtPicker::PointSelection,
                          QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOff,
@@ -2155,6 +2167,7 @@ void QGCAutoquad::startSetMarker() {
                 MarkerCut4->detach();
                 MarkerCut4 = NULL;
             }
+            ui->pushButton_cut->setEnabled(false);
 
             double x1,x2,y1,y2 = 0;
             int time_count = 0;
@@ -2216,6 +2229,7 @@ void QGCAutoquad::startSetMarker() {
             MarkerCut4->setVisible(true);
             MarkerCut4->attach(plot);
             plot->replot();
+            ui->pushButton_cut->setEnabled(true);
         }
     }
     else {
@@ -2226,10 +2240,11 @@ void QGCAutoquad::startSetMarker() {
 
 }
 
-
 void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
 
     if ( StepCuttingPlot == 0) {
+        ui->pushButton_cut->setEnabled(false);
+
         MarkerCut1 = new QwtPlotMarker();
         MarkerCut1->setLabel(QString::fromLatin1("sp1"));
         MarkerCut1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
@@ -2253,7 +2268,7 @@ void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
         MarkerCut2->attach(plot);
         StepCuttingPlot = 2;
         plot->replot();
-
+        ui->pushButton_cut->setEnabled(true);
 
         QMessageBox msgBox;
         msgBox.setWindowTitle("Question");
@@ -2273,58 +2288,12 @@ void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
                 disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
                 picker->setEnabled(false);
                 picker = NULL;
-
-                QMessageBox msgBox;
-                msgBox.setWindowTitle("Question");
-                msgBox.setInformativeText("Delete the selected frames from the file?");
-                msgBox.setWindowModality(Qt::ApplicationModal);
-                msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-                int ret = msgBox.exec();
-                switch (ret) {
-                    case QMessageBox::Yes:
-                    {
-                        parser.ReWriteFile("",MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
-                    }
-                    break;
-                    case QMessageBox::No:
-                        if ( MarkerCut1 != NULL) {
-                            MarkerCut1->setVisible(false);
-                            MarkerCut1->detach();
-                            MarkerCut1 = NULL;
-                        }
-                        if ( MarkerCut2 != NULL) {
-                            MarkerCut2->setVisible(false);
-                            MarkerCut2->detach();
-                            MarkerCut2 = NULL;
-                        }
-                        if ( MarkerCut3 != NULL) {
-                            MarkerCut3->setVisible(false);
-                            MarkerCut3->detach();
-                            MarkerCut3 = NULL;
-                        }
-                        if ( MarkerCut4 != NULL) {
-                            MarkerCut4->setVisible(false);
-                            MarkerCut4->detach();
-                            MarkerCut4 = NULL;
-                        }
-                    break;
-
-                    default:
-                    break;
-                }
             }
             break;
 
             default:
             break;
         }
-
-        /*
-        disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-        picker->setEnabled(false);
-        picker = NULL;
-        plot->replot();
-        */
 
     }
     else if ( StepCuttingPlot == 3 ) {
@@ -2351,6 +2320,7 @@ void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
         MarkerCut4->attach(plot);
         StepCuttingPlot = 5;
         plot->replot();
+        ui->pushButton_cut->setEnabled(true);
 
         disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
         picker->setEnabled(false);
@@ -2365,7 +2335,7 @@ void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
         switch (ret) {
             case QMessageBox::Yes:
             {
-                parser.ReWriteFile("",MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
+                parser.ReWriteFile("","",MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
             }
             break;
             case QMessageBox::No:
@@ -2389,10 +2359,65 @@ void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
                     MarkerCut4->detach();
                     MarkerCut4 = NULL;
                 }
+                ui->pushButton_cut->setEnabled(false);
             break;
 
             default:
             break;
         }
+    }
+}
+
+void QGCAutoquad::startCutting() {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Question");
+    msgBox.setInformativeText("Delete the selected frames from the file?");
+    msgBox.setWindowModality(Qt::ApplicationModal);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    int ret = msgBox.exec();
+    switch (ret) {
+        case QMessageBox::Yes:
+        {
+            //LogFile
+            QString newFileName = LogFile+".orig";
+            if (!QFile::exists(newFileName)) {
+                QDir *folder = new QDir(LogFile);
+                folder->rename(LogFile,newFileName);
+            }
+
+            if (QFile::exists(LogFile))
+                QFile::remove(LogFile);
+
+            QFile file(LogFile);
+            file.write("");
+            file.close();
+            parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
+        }
+        break;
+        case QMessageBox::No:
+        break;
+
+        default:
+        break;
+    }
+    if ( MarkerCut1 != NULL) {
+        MarkerCut1->setVisible(false);
+        MarkerCut1->detach();
+        MarkerCut1 = NULL;
+    }
+    if ( MarkerCut2 != NULL) {
+        MarkerCut2->setVisible(false);
+        MarkerCut2->detach();
+        MarkerCut2 = NULL;
+    }
+    if ( MarkerCut3 != NULL) {
+        MarkerCut3->setVisible(false);
+        MarkerCut3->detach();
+        MarkerCut3 = NULL;
+    }
+    if ( MarkerCut4 != NULL) {
+        MarkerCut4->setVisible(false);
+        MarkerCut4->detach();
+        MarkerCut4 = NULL;
     }
 }

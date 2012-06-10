@@ -88,6 +88,7 @@ private slots:
         void showChannels();
         void startSetMarker();
         void setPoint1(const QwtDoublePoint &pos);
+        void startCutting();
 
 
 

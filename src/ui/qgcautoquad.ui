@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_aq_flash_fw">
       <attribute name="title">
@@ -1635,7 +1635,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_para_edit">
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="tabWidget_para_edit_1">
           <attribute name="title">
@@ -2932,14 +2932,14 @@
                   <item>
                    <widget class="QLabel" name="label_108">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Magnetic Inclination</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_13">
+                   <widget class="QLineEdit" name="IMU_MAG_INCL">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -2986,14 +2986,14 @@
                   <item>
                    <widget class="QLabel" name="label_110">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Pressure Sensor</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_15">
+                   <widget class="QLineEdit" name="IMU_PRESS_SENSE">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -3379,12 +3379,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_4">
+          <widget class="QPushButton" name="pushButton_cut">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="text">
-            <string/>
+            <string>cut</string>
            </property>
           </widget>
          </item>

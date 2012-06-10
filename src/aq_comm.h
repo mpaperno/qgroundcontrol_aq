@@ -328,10 +328,11 @@ public:
     QMap<QString, QVector<double>*> xValues;
     QMap<QString, QVector<double>*> yValues;
     int GetFrameSize();
-    void ReWriteFile(QString fileName, int start1, int end1, int start2, int end2);
+    void ReWriteFile(QString SourceFileName,QString DestinationFileName, int start1, int end1, int start2, int end2);
 
 private:
     int loggerReadHeader(FILE *fp);
+    int loggerWriteHeader(FILE *fs, FILE *fd);
     loggerFields_t *logHeader;
     QString GetChannelsName(uint8_t fieldId);
     int LoggerFrameSize;
