@@ -8,6 +8,7 @@ AQLogParser::AQLogParser()
 {
     xValues.clear();
     yValues.clear();
+    LoggerFrameSize = 0;
     if ( !xValues.contains("xvalue"))
         xValues.insert("xvalue", new QVector<double>());
 }
@@ -20,6 +21,7 @@ void AQLogParser::ResetLog()
 {
     xValues.clear();
     yValues.clear();
+    LoggerFrameSize = 0;
 }
 
 int AQLogParser::ParseLogHeader(QString fileName)
@@ -2018,11 +2020,15 @@ double AQLogParser::logDumpGetValue(loggerRecord_t *l, int field)
     return val;
 }
 
+int AQLogParser::GetFrameSize() {
+    return LoggerFrameSize;
+}
 
+void AQLogParser::ReWriteFile(QString fileName, int start1, int end1, int start2, int end2) {
 
+}
 
-
-
+//#######################################################################################################
 
 
 AQEsc32::AQEsc32()

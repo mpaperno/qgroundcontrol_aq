@@ -644,6 +644,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
 
             components->value(component)->addChild(parameterItem);
             parameterItem->setFlags(parameterItem->flags());
+
         }
         //tree->expandAll();
     }

@@ -10,6 +10,7 @@
 #include "qgcaqparamwidget.h"
 #include "Linecharts.h"
 #include "IncrementalPlot.h"
+#include "qwt_plot_marker.h"
 #include <QWidget>
 #include <QProcess>
 #include <QMap>
@@ -85,6 +86,10 @@ private slots:
         void save_PID_toAQ3();
         void save_plot_image();
         void showChannels();
+        void startSetMarker();
+        void setPoint1(const QwtDoublePoint &pos);
+
+
 
         void showConfigEsc32(QString Config);
         void btnReadConfigEsc32();
@@ -140,6 +145,12 @@ private:
         int WaitForParaWriten;
         QString ParaNameWritten;
         void saveEEpromEsc32();
+        int StepCuttingPlot;
+        QwtPlotPicker* picker;
+        QwtPlotMarker *MarkerCut1;
+        QwtPlotMarker *MarkerCut2;
+        QwtPlotMarker *MarkerCut3;
+        QwtPlotMarker *MarkerCut4;
 
 
 protected:

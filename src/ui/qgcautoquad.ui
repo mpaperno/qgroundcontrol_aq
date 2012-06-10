@@ -2950,14 +2950,14 @@
                   <item>
                    <widget class="QLabel" name="label_109">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Magnetic Declination</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_14">
+                   <widget class="QLineEdit" name="IMU_MAG_DECL">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -3366,22 +3366,15 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_Reload">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
+          <widget class="QComboBox" name="comboBox_marker"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_3">
+          <widget class="QPushButton" name="pushButton_set_marker">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="text">
-            <string/>
+            <string>set Marker</string>
            </property>
           </widget>
          </item>

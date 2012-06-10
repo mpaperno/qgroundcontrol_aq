@@ -66,6 +66,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_Save_farem_to_file, SIGNAL(clicked()),this,SLOT(SaveFrameToFile()));
     connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
     connect(ui->pushButton_Open_Log_file, SIGNAL(clicked()),this,SLOT(OpenLogFile()));
+    connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
 
     connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(save_PID_toAQ1()));
     connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
@@ -122,6 +123,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_Radio_Type->addItem("Spektrum 10Bit", 1);
     ui->comboBox_Radio_Type->addItem("Futaba", 2);
     ui->comboBox_Radio_Type->addItem("PWM", 3);
+
+    ui->comboBox_marker->addItem("Start & End 1s", 0);
+    ui->comboBox_marker->addItem("Start & End 2s", 1);
+    ui->comboBox_marker->addItem("Start & End 3s", 2);
+    ui->comboBox_marker->addItem("Start & End 5s", 3);
+    ui->comboBox_marker->addItem("Start & End 10s", 4);
+    ui->comboBox_marker->addItem("Start & End 15s", 5);
+    ui->comboBox_marker->addItem("manual", 6);
 
     setupPortList();
     loadSettings();
@@ -1487,6 +1496,7 @@ void QGCAutoquad::getGUIpara() {
     int radio_type = paramaq->getParaAQ("RADIO_TYPE").toInt();
     ui->comboBox_Radio_Type->setCurrentIndex(radio_type);
     ui->IMU_ROT->setText(paramaq->getParaAQ("IMU_ROT").toString());
+    ui->IMU_MAG_DECL->setText(paramaq->getParaAQ("IMU_MAG_DECL").toString());
 
  }
 
@@ -1878,9 +1888,9 @@ void QGCAutoquad::CalculatDeclination() {
 	// Set together
     QString recalculated;
     recalculated.append("#define");
-    recalculated.append('\t');
+    recalculated.append(' ');
     recalculated.append("IMU_MAG_INCL");
-    recalculated.append('\t');
+    recalculated.append(' ');
     recalculated.append("-");
     recalculated.append(HoursMinutes.at(0));
     recalculated.append(".");
@@ -2093,3 +2103,296 @@ void QGCAutoquad::exportSVG(QString fileName)
 }
 
 
+void QGCAutoquad::startSetMarker() {
+    if ( picker == NULL ) {
+        if ( ui->comboBox_marker->currentIndex() == 6) {
+            if ( MarkerCut1 != NULL) {
+                MarkerCut1->setVisible(false);
+                MarkerCut1->detach();
+                MarkerCut1 = NULL;
+            }
+            if ( MarkerCut2 != NULL) {
+                MarkerCut2->setVisible(false);
+                MarkerCut2->detach();
+                MarkerCut2 = NULL;
+            }
+            if ( MarkerCut3 != NULL) {
+                MarkerCut3->setVisible(false);
+                MarkerCut3->detach();
+                MarkerCut3 = NULL;
+            }
+            if ( MarkerCut4 != NULL) {
+                MarkerCut4->setVisible(false);
+                MarkerCut4->detach();
+                MarkerCut4 = NULL;
+            }
+            QMessageBox::information(this, "Information", "Please select the start point of the frame!",QMessageBox::Ok, 0 );
+            picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,QwtPicker::PointSelection,
+                         QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOff,
+                         plot->canvas());
+            picker->setRubberBand(QwtPicker::CrossRubberBand);
+            connect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
+            StepCuttingPlot = 0;
+        }
+        else {
+            if ( MarkerCut1 != NULL) {
+                MarkerCut1->setVisible(false);
+                MarkerCut1->detach();
+                MarkerCut1 = NULL;
+            }
+            if ( MarkerCut2 != NULL) {
+                MarkerCut2->setVisible(false);
+                MarkerCut2->detach();
+                MarkerCut2 = NULL;
+            }
+            if ( MarkerCut3 != NULL) {
+                MarkerCut3->setVisible(false);
+                MarkerCut3->detach();
+                MarkerCut3 = NULL;
+            }
+            if ( MarkerCut4 != NULL) {
+                MarkerCut4->setVisible(false);
+                MarkerCut4->detach();
+                MarkerCut4 = NULL;
+            }
+
+            double x1,x2,y1,y2 = 0;
+            int time_count = 0;
+            //200 Hz
+            if ( ui->comboBox_marker->currentIndex() == 0)
+                time_count = 200 * 1;
+            if ( ui->comboBox_marker->currentIndex() == 1)
+                time_count = 200 * 2;
+            if ( ui->comboBox_marker->currentIndex() == 2)
+                time_count = 200 * 3;
+            if ( ui->comboBox_marker->currentIndex() == 3)
+                time_count = 200 * 5;
+            if ( ui->comboBox_marker->currentIndex() == 4)
+                time_count = 200 * 10;
+            if ( ui->comboBox_marker->currentIndex() == 5)
+                time_count = 200 * 15;
+
+            MarkerCut1 = new QwtPlotMarker();
+            MarkerCut1->setLabel(QString::fromLatin1("sp1"));
+            MarkerCut1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
+            MarkerCut1->setLineStyle(QwtPlotMarker::VLine);
+            x1 = parser.xValues.value("XVALUES")->value(0);
+            y1 = parser.yValues.values().at(0)->value(0);;
+            MarkerCut1->setValue(x1,y1);
+            MarkerCut1->setLinePen(QPen(QColor(QString("red"))));
+            MarkerCut1->setVisible(true);
+            MarkerCut1->attach(plot);
+
+            MarkerCut2 = new QwtPlotMarker();
+            MarkerCut2->setLabel(QString::fromLatin1("ep1"));
+            MarkerCut2->setLabelAlignment(Qt::AlignRight|Qt::AlignBottom);
+            MarkerCut2->setLineStyle(QwtPlotMarker::VLine);
+            x2 = parser.xValues.value("XVALUES")->value(time_count);
+            y2 = parser.yValues.values().at(0)->value(time_count);;
+            MarkerCut2->setValue(x2,y2);
+            MarkerCut2->setLinePen(QPen(QColor(QString("red"))));
+            MarkerCut2->setVisible(true);
+            MarkerCut2->attach(plot);
+
+            MarkerCut3 = new QwtPlotMarker();
+            MarkerCut3->setLabel(QString::fromLatin1("sp2"));
+            MarkerCut3->setLabelAlignment(Qt::AlignLeft|Qt::AlignTop);
+            MarkerCut3->setLineStyle(QwtPlotMarker::VLine);
+            x1 = (parser.xValues.values().at(0)->count()-1);
+            y1 = parser.yValues.values().at(0)->value(parser.xValues.values().at(0)->count()-1);
+            MarkerCut3->setValue(x1,y1);
+            MarkerCut3->setLinePen(QPen(QColor(QString("blue"))));
+            MarkerCut3->setVisible(true);
+            MarkerCut3->attach(plot);
+
+            MarkerCut4 = new QwtPlotMarker();
+            MarkerCut4->setLabel(QString::fromLatin1("ep2"));
+            MarkerCut4->setLabelAlignment(Qt::AlignLeft|Qt::AlignBottom);
+            MarkerCut4->setLineStyle(QwtPlotMarker::VLine);
+            x2 = (parser.xValues.values().at(0)->count()-1) - time_count;
+            y2 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()-1) - time_count);
+            MarkerCut4->setValue(x2,y2);
+            MarkerCut4->setLinePen(QPen(QColor(QString("blue"))));
+            MarkerCut4->setVisible(true);
+            MarkerCut4->attach(plot);
+            plot->replot();
+        }
+    }
+    else {
+        disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
+        picker->setEnabled(false);
+        picker = NULL;
+    }
+
+}
+
+
+void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
+
+    if ( StepCuttingPlot == 0) {
+        MarkerCut1 = new QwtPlotMarker();
+        MarkerCut1->setLabel(QString::fromLatin1("sp1"));
+        MarkerCut1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
+        MarkerCut1->setLineStyle(QwtPlotMarker::VLine);
+        MarkerCut1->setValue((int)pos.x(),pos.y());
+        MarkerCut1->setLinePen(QPen(QColor(QString("red"))));
+        MarkerCut1->setVisible(true);
+        MarkerCut1->attach(plot);
+        StepCuttingPlot = 1;
+        plot->replot();
+        QMessageBox::information(this, "Information", "Please select the end point of the frame!",QMessageBox::Ok, 0 );
+    }
+    else if ( StepCuttingPlot == 1 ) {
+        MarkerCut2 = new QwtPlotMarker();
+        MarkerCut2->setLabel(QString::fromLatin1("ep1"));
+        MarkerCut2->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
+        MarkerCut2->setLineStyle(QwtPlotMarker::VLine);
+        MarkerCut2->setValue((int)pos.x(),pos.y());
+        MarkerCut2->setLinePen(QPen(QColor(QString("red"))));
+        MarkerCut2->setVisible(true);
+        MarkerCut2->attach(plot);
+        StepCuttingPlot = 2;
+        plot->replot();
+
+
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Question");
+        msgBox.setInformativeText("Select one more cutting area?");
+        msgBox.setWindowModality(Qt::ApplicationModal);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        int ret = msgBox.exec();
+        switch (ret) {
+            case QMessageBox::Yes:
+            {
+                StepCuttingPlot = 3;
+                QMessageBox::information(this, "Information", "Please select the start point of the frame!",QMessageBox::Ok, 0 );
+            }
+            break;
+            case QMessageBox::No:
+            {
+                disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
+                picker->setEnabled(false);
+                picker = NULL;
+
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Question");
+                msgBox.setInformativeText("Delete the selected frames from the file?");
+                msgBox.setWindowModality(Qt::ApplicationModal);
+                msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                int ret = msgBox.exec();
+                switch (ret) {
+                    case QMessageBox::Yes:
+                    {
+                        parser.ReWriteFile("",MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
+                    }
+                    break;
+                    case QMessageBox::No:
+                        if ( MarkerCut1 != NULL) {
+                            MarkerCut1->setVisible(false);
+                            MarkerCut1->detach();
+                            MarkerCut1 = NULL;
+                        }
+                        if ( MarkerCut2 != NULL) {
+                            MarkerCut2->setVisible(false);
+                            MarkerCut2->detach();
+                            MarkerCut2 = NULL;
+                        }
+                        if ( MarkerCut3 != NULL) {
+                            MarkerCut3->setVisible(false);
+                            MarkerCut3->detach();
+                            MarkerCut3 = NULL;
+                        }
+                        if ( MarkerCut4 != NULL) {
+                            MarkerCut4->setVisible(false);
+                            MarkerCut4->detach();
+                            MarkerCut4 = NULL;
+                        }
+                    break;
+
+                    default:
+                    break;
+                }
+            }
+            break;
+
+            default:
+            break;
+        }
+
+        /*
+        disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
+        picker->setEnabled(false);
+        picker = NULL;
+        plot->replot();
+        */
+
+    }
+    else if ( StepCuttingPlot == 3 ) {
+        MarkerCut3 = new QwtPlotMarker();
+        MarkerCut3->setLabel(QString::fromLatin1("sp2"));
+        MarkerCut3->setLabelAlignment(Qt::AlignLeft|Qt::AlignTop);
+        MarkerCut3->setLineStyle(QwtPlotMarker::VLine);
+        MarkerCut3->setValue((int)pos.x(),pos.y());
+        MarkerCut3->setLinePen(QPen(QColor(QString("blue"))));
+        MarkerCut3->setVisible(true);
+        MarkerCut3->attach(plot);
+        StepCuttingPlot = 4;
+        plot->replot();
+        QMessageBox::information(this, "Information", "Please select the end point of the frame!",QMessageBox::Ok, 0 );
+    }
+    else if ( StepCuttingPlot == 4 ) {
+        MarkerCut4 = new QwtPlotMarker();
+        MarkerCut4->setLabel(QString::fromLatin1("ep2"));
+        MarkerCut4->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
+        MarkerCut4->setLineStyle(QwtPlotMarker::VLine);
+        MarkerCut4->setValue((int)pos.x(),pos.y());
+        MarkerCut4->setLinePen(QPen(QColor(QString("blue"))));
+        MarkerCut4->setVisible(true);
+        MarkerCut4->attach(plot);
+        StepCuttingPlot = 5;
+        plot->replot();
+
+        disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
+        picker->setEnabled(false);
+        picker = NULL;
+
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Question");
+        msgBox.setInformativeText("Delete the selected frames from the file?");
+        msgBox.setWindowModality(Qt::ApplicationModal);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        int ret = msgBox.exec();
+        switch (ret) {
+            case QMessageBox::Yes:
+            {
+                parser.ReWriteFile("",MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
+            }
+            break;
+            case QMessageBox::No:
+                if ( MarkerCut1 != NULL) {
+                    MarkerCut1->setVisible(false);
+                    MarkerCut1->detach();
+                    MarkerCut1 = NULL;
+                }
+                if ( MarkerCut2 != NULL) {
+                    MarkerCut2->setVisible(false);
+                    MarkerCut2->detach();
+                    MarkerCut2 = NULL;
+                }
+                if ( MarkerCut3 != NULL) {
+                    MarkerCut3->setVisible(false);
+                    MarkerCut3->detach();
+                    MarkerCut3 = NULL;
+                }
+                if ( MarkerCut4 != NULL) {
+                    MarkerCut4->setVisible(false);
+                    MarkerCut4->detach();
+                    MarkerCut4 = NULL;
+                }
+            break;
+
+            default:
+            break;
+        }
+    }
+}
