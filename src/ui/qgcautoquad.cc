@@ -28,6 +28,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->setupUi(this);
     esc32 = NULL;
     model = NULL;
+    picker = NULL;
+    MarkerCut1  = NULL;
+    MarkerCut2  = NULL;
+    MarkerCut3  = NULL;
+    MarkerCut4  = NULL;
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
@@ -2116,7 +2121,7 @@ void QGCAutoquad::startSetMarker() {
         return;
     if ( parser.yValues.count() <= 0)
         return;
-
+    removeMarker();
 
     if ( picker == NULL ) {
         if ( ui->comboBox_marker->currentIndex() == 6) {
@@ -2254,9 +2259,11 @@ void QGCAutoquad::startSetMarker() {
         }
     }
     else {
-        disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-        picker->setEnabled(false);
-        picker = NULL;
+        if ( picker){
+            disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
+            picker->setEnabled(false);
+            picker = NULL;
+        }
     }
 
 }
