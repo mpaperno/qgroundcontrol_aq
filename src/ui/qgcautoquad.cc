@@ -68,7 +68,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_Open_Log_file, SIGNAL(clicked()),this,SLOT(OpenLogFile()));
     connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
     connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
-
+    connect(ui->pushButton_remove_marker, SIGNAL(clicked()),this,SLOT(removeMarker()));
+    //pushButton_remove_marker
     connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(save_PID_toAQ1()));
     connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
     connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(save_PID_toAQ3()));
@@ -223,6 +224,7 @@ void QGCAutoquad::CurveItemChanged(QStandardItem *item)
 void QGCAutoquad::DecodeLogFile(QString fileName)
 {
     plot->removeData();
+    plot->clear();
     plot->setStyleText("lines");
     if ( model)
         disconnect(model, SIGNAL(itemChanged(QStandardItem*)), this,SLOT(CurveItemChanged(QStandardItem*)));
@@ -236,6 +238,7 @@ void QGCAutoquad::showChannels() {
 
     parser.ShowCurves();
     plot->removeData();
+    plot->clear();
     if (!QFile::exists(LogFile))
         return;
 
@@ -2190,7 +2193,7 @@ void QGCAutoquad::startSetMarker() {
             MarkerCut1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
             MarkerCut1->setLineStyle(QwtPlotMarker::VLine);
             x1 = parser.xValues.value("XVALUES")->value(0);
-            y1 = parser.yValues.values().at(0)->value(0);;
+            y1 = parser.yValues.values().at(0)->value(0);
             MarkerCut1->setValue(x1,y1);
             MarkerCut1->setLinePen(QPen(QColor(QString("red"))));
             MarkerCut1->setVisible(true);
@@ -2200,8 +2203,14 @@ void QGCAutoquad::startSetMarker() {
             MarkerCut2->setLabel(QString::fromLatin1("ep1"));
             MarkerCut2->setLabelAlignment(Qt::AlignRight|Qt::AlignBottom);
             MarkerCut2->setLineStyle(QwtPlotMarker::VLine);
-            x2 = parser.xValues.value("XVALUES")->value(time_count);
-            y2 = parser.yValues.values().at(0)->value(time_count);;
+            if ( parser.getOldLog()) {
+                x2 = parser.xValues.value("XVALUES")->value(time_count-1);
+                y2 = parser.yValues.values().at(0)->value(time_count-1);
+            }
+            else {
+                x2 = parser.xValues.value("XVALUES")->value(time_count);
+                y2 = parser.yValues.values().at(0)->value(time_count);
+            }
             MarkerCut2->setValue(x2,y2);
             MarkerCut2->setLinePen(QPen(QColor(QString("red"))));
             MarkerCut2->setVisible(true);
@@ -2211,8 +2220,14 @@ void QGCAutoquad::startSetMarker() {
             MarkerCut3->setLabel(QString::fromLatin1("sp2"));
             MarkerCut3->setLabelAlignment(Qt::AlignLeft|Qt::AlignTop);
             MarkerCut3->setLineStyle(QwtPlotMarker::VLine);
-            x1 = (parser.xValues.values().at(0)->count()-1);
-            y1 = parser.yValues.values().at(0)->value(parser.xValues.values().at(0)->count()-1);
+            if ( parser.getOldLog()) {
+                x1 = (parser.xValues.values().at(0)->count()) - time_count;
+                y1 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count())- time_count);
+            }
+            else {
+                x1 = (parser.xValues.values().at(0)->count()-1) - time_count;
+                y1 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()-1)- time_count);
+            }
             MarkerCut3->setValue(x1,y1);
             MarkerCut3->setLinePen(QPen(QColor(QString("blue"))));
             MarkerCut3->setVisible(true);
@@ -2222,8 +2237,14 @@ void QGCAutoquad::startSetMarker() {
             MarkerCut4->setLabel(QString::fromLatin1("ep2"));
             MarkerCut4->setLabelAlignment(Qt::AlignLeft|Qt::AlignBottom);
             MarkerCut4->setLineStyle(QwtPlotMarker::VLine);
-            x2 = (parser.xValues.values().at(0)->count()-1) - time_count;
-            y2 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()-1) - time_count);
+            if ( parser.getOldLog()) {
+                x2 = (parser.xValues.values().at(0)->count());
+                y2 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()));
+            }
+            else {
+                x2 = (parser.xValues.values().at(0)->count()-1);
+                y2 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()-1));
+            }
             MarkerCut4->setValue(x2,y2);
             MarkerCut4->setLinePen(QPen(QColor(QString("blue"))));
             MarkerCut4->setVisible(true);
@@ -2285,6 +2306,16 @@ void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
             break;
             case QMessageBox::No:
             {
+                if ( MarkerCut3 != NULL) {
+                    MarkerCut3->setVisible(false);
+                    MarkerCut3->detach();
+                    MarkerCut3 = NULL;
+                }
+                if ( MarkerCut4 != NULL) {
+                    MarkerCut4->setVisible(false);
+                    MarkerCut4->detach();
+                    MarkerCut4 = NULL;
+                }
                 disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
                 picker->setEnabled(false);
                 picker = NULL;
@@ -2326,45 +2357,6 @@ void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
         picker->setEnabled(false);
         picker = NULL;
 
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Question");
-        msgBox.setInformativeText("Delete the selected frames from the file?");
-        msgBox.setWindowModality(Qt::ApplicationModal);
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int ret = msgBox.exec();
-        switch (ret) {
-            case QMessageBox::Yes:
-            {
-                parser.ReWriteFile("","",MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
-            }
-            break;
-            case QMessageBox::No:
-                if ( MarkerCut1 != NULL) {
-                    MarkerCut1->setVisible(false);
-                    MarkerCut1->detach();
-                    MarkerCut1 = NULL;
-                }
-                if ( MarkerCut2 != NULL) {
-                    MarkerCut2->setVisible(false);
-                    MarkerCut2->detach();
-                    MarkerCut2 = NULL;
-                }
-                if ( MarkerCut3 != NULL) {
-                    MarkerCut3->setVisible(false);
-                    MarkerCut3->detach();
-                    MarkerCut3 = NULL;
-                }
-                if ( MarkerCut4 != NULL) {
-                    MarkerCut4->setVisible(false);
-                    MarkerCut4->detach();
-                    MarkerCut4 = NULL;
-                }
-                ui->pushButton_cut->setEnabled(false);
-            break;
-
-            default:
-            break;
-        }
     }
 }
 
@@ -2380,7 +2372,15 @@ void QGCAutoquad::startCutting() {
         {
             //LogFile
             QString newFileName = LogFile+".orig";
+
             if (!QFile::exists(newFileName)) {
+                QDir *folder = new QDir(LogFile);
+                folder->rename(LogFile,newFileName);
+            }
+            else
+            {
+                if (QFile::exists(newFileName))
+                    QFile::remove(newFileName);
                 QDir *folder = new QDir(LogFile);
                 folder->rename(LogFile,newFileName);
             }
@@ -2391,7 +2391,23 @@ void QGCAutoquad::startCutting() {
             QFile file(LogFile);
             file.write("");
             file.close();
-            parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
+
+
+            if ( ui->comboBox_marker->currentIndex() == 6) {
+                if ( !MarkerCut3 )
+                    parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),-1,-1);
+                else
+                    parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
+            } else {
+                parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
+            }
+            removeMarker();
+            plot->removeData();
+            plot->clear();
+            plot->updateScale();
+            //ui->listView_Curves->reset();
+            //QMessageBox::information(this, "Information", "Reload the !",QMessageBox::Ok, 0 );
+            DecodeLogFile(LogFile);
         }
         break;
         case QMessageBox::No:
@@ -2400,24 +2416,34 @@ void QGCAutoquad::startCutting() {
         default:
         break;
     }
+}
+
+void QGCAutoquad::removeMarker() {
+    bool needRedraw = false;
     if ( MarkerCut1 != NULL) {
         MarkerCut1->setVisible(false);
         MarkerCut1->detach();
         MarkerCut1 = NULL;
+        needRedraw = true;
     }
     if ( MarkerCut2 != NULL) {
         MarkerCut2->setVisible(false);
         MarkerCut2->detach();
         MarkerCut2 = NULL;
+        needRedraw = true;
     }
     if ( MarkerCut3 != NULL) {
         MarkerCut3->setVisible(false);
         MarkerCut3->detach();
         MarkerCut3 = NULL;
+        needRedraw = true;
     }
     if ( MarkerCut4 != NULL) {
         MarkerCut4->setVisible(false);
         MarkerCut4->detach();
         MarkerCut4 = NULL;
+        needRedraw = true;
     }
+    if ( needRedraw)
+        plot->replot();
 }

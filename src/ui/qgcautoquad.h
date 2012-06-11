@@ -89,8 +89,7 @@ private slots:
         void startSetMarker();
         void setPoint1(const QwtDoublePoint &pos);
         void startCutting();
-
-
+        void removeMarker();
 
         void showConfigEsc32(QString Config);
         void btnReadConfigEsc32();

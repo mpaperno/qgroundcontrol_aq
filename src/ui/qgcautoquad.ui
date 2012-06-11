@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_aq_flash_fw">
       <attribute name="title">
@@ -1635,7 +1635,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_para_edit">
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tabWidget_para_edit_1">
           <attribute name="title">
@@ -3385,6 +3385,13 @@
            </property>
            <property name="text">
             <string>cut</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_remove_marker">
+           <property name="text">
+            <string>remove marker</string>
            </property>
           </widget>
          </item>

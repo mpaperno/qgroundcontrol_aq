@@ -333,6 +333,8 @@ public:
 private:
     int loggerReadHeader(FILE *fp);
     int loggerWriteHeader(FILE *fs, FILE *fd);
+    void loggerWriteDataM(FILE *fs, FILE *fd, int start1, int end1, int start2, int end2);
+    void loggerWriteDataL(FILE *fs, FILE *fd, int start1, int end1, int start2, int end2);
     loggerFields_t *logHeader;
     QString GetChannelsName(uint8_t fieldId);
     int LoggerFrameSize;

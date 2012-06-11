@@ -454,4 +454,5 @@ void IncrementalPlot::removeData()
     d_data.clear();
     resetScaling();
     replot();
+    nextColor = 0;
 }
