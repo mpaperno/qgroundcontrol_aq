@@ -425,6 +425,47 @@ enum configParameters {
 
 #define EIGEN_DONT_PARALLELIZE
 
+#include <QThread>
+class AQEsc32Calibration : public QThread
+{
+    Q_OBJECT
+public:
+    AQEsc32Calibration();
+    ~AQEsc32Calibration();
+    bool isFinished();
+    void startCali(SerialLink* seriallinkEsc);
+    void stopCali();
+
+protected:
+    SerialLink* seriallinkEsc32;
+    void run();
+
+private slots:
+    void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
+
+signals:
+    void finishedCalibration();
+    void getCommandBack(int Command);
+
+private:
+    QString ParaWriten_MessageFromEsc32;
+    QByteArray ResponseFromEsc32;
+    int StopCalibration;
+    int StepMessageFromEsc32;
+    unsigned char commandSeqIdBack;
+    unsigned char commandBack;
+    unsigned char commandLengthBack;
+    unsigned char command_ACK_NACK;
+    int indexOfAqC;
+    QString ParaNameLastSend;
+    int ParaLastSend;
+    void esc32InChecksum(unsigned char c);
+    unsigned char checkInA, checkInB;
+
+};
+
+
+
 class AQEsc32 : public QObject {
     Q_OBJECT
 
@@ -438,8 +479,12 @@ public:
     void sendCommand(int command, float Value1, float Value2, int num);
     void ReadConfigEsc32();
     int GetEsc32State();
+    SerialLink* getSerialLink();
+    void StartCalibration(AQEsc32Calibration* esc32cali);
+    void SetCommandBack(int Command);
 private:
     int esc32state;
+    int TimerState;
     int getEnumByName(QString Name);
     unsigned short commandSeqId;
     unsigned char commandSeqIdBack;
@@ -456,7 +501,7 @@ private:
     QByteArray ResponseFromEsc32;
     int TimeOutWaiting;
     void SwitchFromBinaryToAscii();
-    void SwitchFromAsciiToBinary();
+    int SwitchFromAsciiToBinary();
     int esc32BinaryMode;
     int esc32DoCommand;
     void esc32SendChar(unsigned char c);
@@ -467,15 +512,23 @@ private:
     unsigned char checkOutA, checkOutB;
     unsigned char checkInA, checkInB;
     int indexOfAqC;
+    void DisconnectRS232();
+    void ConnectRS232();
+    void RpmToVoltage();
+    int StopCalibration;
+    QTimer *checkEsc32State;
+    int CommandBack;
 
 private slots:
     void connectedEsc32();
     void disconnectedEsc32();
     void destroyedEsc32();
     void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
+    void checkEsc32StateTimeOut();
 
 protected:
     SerialLink* seriallinkEsc32;
+    AQEsc32Calibration* esc32calibration;
 
 signals:
     void ShowConfig(QString Config);
@@ -486,19 +539,4 @@ signals:
 };
 
 
-#include <QThread>
-class AQEsc32Calibration : public QThread
-{
-    Q_OBJECT
-public:
-    AQEsc32Calibration();
-    ~AQEsc32Calibration();
-    bool isFinished();
-
-protected:
-    void run();
-
-signals:
-    void finishedCalibration();
-};
 #endif // AQ_COMM_H

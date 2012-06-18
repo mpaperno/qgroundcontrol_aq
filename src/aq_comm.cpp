@@ -2286,6 +2286,7 @@ AQEsc32::~AQEsc32()
 
 void AQEsc32::Connect(QString port)
 {
+    TimerState = 0;
     seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
     seriallinkEsc32->setBaudRate(230400);
     seriallinkEsc32->setFlowType(0);
@@ -2294,6 +2295,10 @@ void AQEsc32::Connect(QString port)
     connect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
     connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
     seriallinkEsc32->connect();
+    checkEsc32State = new QTimer(this);
+    checkEsc32State->setInterval(10);
+    checkEsc32State->stop();
+    connect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
 }
 
 void AQEsc32::Disconnect()
@@ -2305,6 +2310,7 @@ void AQEsc32::Disconnect()
     disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
     disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
     seriallinkEsc32 = NULL;
+    checkEsc32State->stop();
 }
 
 void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
@@ -2324,7 +2330,10 @@ void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
 void AQEsc32::sendCommand(int command, float Value1, float Value2, int num ){
     if ( esc32BinaryMode == 0)
     {
-        SwitchFromAsciiToBinary();
+        if ( SwitchFromAsciiToBinary() == 0 ) {
+            qDebug() << "Error switch to binary mode!";
+            return;
+        }
     }
     StepMessageFromEsc32 = 4;
     ParaNameLastSend = "";
@@ -2475,6 +2484,7 @@ void AQEsc32::destroyedEsc32(){
 
 void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
     // Only add data from current link
+    qDebug() << bytes;
     if (link == seriallinkEsc32)
     {
         //unsigned char byte = bytes.at(j);
@@ -2498,6 +2508,11 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                     emit ShowConfig(LIST_MessageFromEsc32);
                     qDebug() << LIST_MessageFromEsc32;
                     LIST_MessageFromEsc32 = "";
+                    qDebug() << "Switch to binary mode!";
+                    if ( SwitchFromAsciiToBinary() == 0 ) {
+                        qDebug() << "Error switch to binary mode!";
+                        return;
+                    }
                 }
             break;
 
@@ -2579,8 +2594,6 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                             esc32state = 4;
                         if ( ParaLastSend == BINARY_COMMAND_DISARM )
                             esc32state = 5;
-
-
                     }
                 }
 
@@ -2600,7 +2613,7 @@ void AQEsc32::ReadConfigEsc32() {
     seriallinkEsc32->writeBytes(transmit,transmit.size());
 }
 
-void AQEsc32::SwitchFromAsciiToBinary()
+int AQEsc32::SwitchFromAsciiToBinary()
 {
     StepMessageFromEsc32 = 3;
     QByteArray transmit;
@@ -2611,8 +2624,9 @@ void AQEsc32::SwitchFromAsciiToBinary()
         QCoreApplication::processEvents();
         TimeOutWaiting++;
         if (TimeOutWaiting > 100000 )
-                break;
+                return 0;
     }
+    return 1;
 }
 
 void AQEsc32::SwitchFromBinaryToAscii()
@@ -2685,29 +2699,224 @@ void AQEsc32::esc32InChecksum(unsigned char c) {
     checkInB += checkInA;
 }
 
+void AQEsc32::ConnectRS232() {
+    connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+}
+
+void AQEsc32::DisconnectRS232() {
+    disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+}
+
+SerialLink *AQEsc32::getSerialLink(){
+    return seriallinkEsc32;
+}
+
+void AQEsc32::StartCalibration(AQEsc32Calibration *esc32cali) {
+    CommandBack = -1;
+    checkEsc32State->start();
+    sendCommand(BINARY_COMMAND_ARM, 0.0f, 0.0f, 0);
+    esc32calibration = esc32cali;
+}
+
+void AQEsc32::RpmToVoltage() {
+
+}
+
+void AQEsc32::checkEsc32StateTimeOut() {
+
+    //Wait for Arming
+    if ( TimerState == 0 ) {
+        if (CommandBack == 255){
+            CommandBack = 0;
+            TimerState = 1;
+            qDebug() << "get BINARY_COMMAND_ARM";
+        }
+    }
+    // Send Stop to eSC32
+    else if ( TimerState == 1 ) {
+        sendCommand(BINARY_COMMAND_STOP, 0.0f, 0.0f, 0);
+        TimerState = 2;
+        qDebug() << "send BINARY_COMMAND_STOP";
+    }
+
+    //Wait for Stop
+    else if ( TimerState == 2 ) {
+        if (CommandBack == BINARY_COMMAND_ARM){
+            TimerState = 3;
+            qDebug() << "get BINARY_COMMAND_ARM";
+        }
+    }
+    // Send Tele rate to eSC32
+    else if ( TimerState == 3 ) {
+        sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0f, 0.0f, 1);
+        qDebug() << "send BINARY_COMMAND_TELEM_RATE";
+        TimerState = 4;
+    }
+    //Wait for Tele rate
+    else if ( TimerState == 4 ) {
+        if (CommandBack == BINARY_COMMAND_TELEM_RATE){
+            qDebug() << "get BINARY_COMMAND_TELEM_RATE";
+            TimerState = 5;
+        }
+    }
+
+    // Send Tele values to eSC32
+    else if ( TimerState == 5 ) {
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 0.0f, BINARY_VALUE_RPM, 2);
+        qDebug() << "send BINARY_COMMAND_TELEM_VALUE";
+        TimerState = 6;
+    }
+    //Wait for Tele rate
+    else if ( TimerState == 6 ) {
+        if (CommandBack == BINARY_COMMAND_TELEM_VALUE){
+            qDebug() << "get BINARY_COMMAND_TELEM_VALUE";
+            TimerState = 7;
+        }
+    }
+
+    // Send Tele values to eSC32
+    else if ( TimerState == 7 ) {
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_MOTOR, 2);
+        qDebug() << "send BINARY_COMMAND_TELEM_VALUE";
+        TimerState = 8;
+    }
+    //Wait for Tele rate
+    else if ( TimerState == 8 ) {
+        if (CommandBack == BINARY_COMMAND_TELEM_VALUE){
+            qDebug() << "get BINARY_COMMAND_TELEM_VALUE";
+            TimerState = 9;
+        }
+    }
+
+
+    // Send Tele values to eSC32
+    else if ( TimerState == 9 ) {
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_AMPS, 2);
+        qDebug() << "send BINARY_COMMAND_TELEM_VALUE";
+        TimerState = 10;
+    }
+    //Wait for Tele rate
+    else if ( TimerState == 10 ) {
+        if (CommandBack == BINARY_COMMAND_TELEM_VALUE){
+            qDebug() << "get BINARY_COMMAND_TELEM_VALUE";
+            TimerState = 11;
+        }
+    }
+
+
+    // Send Tele values to eSC32
+    else if ( TimerState == 11 ) {
+        sendCommand(BINARY_COMMAND_SET, MAX_CURRENT, 0.0f, 2);
+        qDebug() << "send BINARY_COMMAND_SET";
+        TimerState = 12;
+    }
+    //Wait for Tele rate
+    else if ( TimerState == 12 ) {
+        if (CommandBack == BINARY_COMMAND_SET){
+            qDebug() << "get BINARY_COMMAND_SET";
+            TimerState = 13;
+            DisconnectRS232();
+            //start Thread
+            //esc32calibration->startCali(this->getSerialLink());
+        }
+    }
+
+
+    //esc32SendCommand(BINARY_COMMAND_SET, MAX_CURRENT, 0.0, 2);
+
+
+}
+
+void AQEsc32::SetCommandBack(int Command) {
+    CommandBack = Command;
+}
+
 
 //#######################################################################################################
 
 
 AQEsc32Calibration::AQEsc32Calibration() {
-
+    StopCalibration = 0;
+    StepMessageFromEsc32 = 0;
 }
 
 AQEsc32Calibration::~AQEsc32Calibration() {
-
+    StopCalibration = 0;
+    StepMessageFromEsc32 = 0;
 }
+
+void AQEsc32Calibration::startCali(SerialLink *seriallinkEsc) {
+    StopCalibration = 0;
+    StepMessageFromEsc32 = 0;
+    seriallinkEsc32 = seriallinkEsc;
+    connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+    start();
+}
+
+void AQEsc32Calibration::stopCali() {
+    StopCalibration = 1;
+    seriallinkEsc32 = NULL;
+}
+
 
 void AQEsc32Calibration::run() {
-
-    /*
-    esc32SendReliably(BINARY_COMMAND_ARM, 0.0, 0.0, 0);
-    esc32SendReliably(BINARY_COMMAND_STOP, 0.0, 0.0, 0);
-    esc32SendReliably(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1);
-    esc32SendReliably(BINARY_COMMAND_TELEM_VALUE, 0.0, BINARY_VALUE_RPM, 2);
-    esc32SendReliably(BINARY_COMMAND_TELEM_VALUE, 1.0, BINARY_VALUE_VOLTS_MOTOR, 2);
-    esc32SendReliably(BINARY_COMMAND_TELEM_VALUE, 2.0, BINARY_VALUE_AMPS, 2);
-    esc32SendReliably(BINARY_COMMAND_SET, MAX_CURRENT, 0.0, 2);
-    */
+    QEventLoop el;
+    ParaWriten_MessageFromEsc32 = "";
+    StepMessageFromEsc32 = 0;
+    while ( true) {
+        if ( StopCalibration == 1)
+            break;
+        el.processEvents();
+    }
+    emit finishedCalibration();
+    disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
 
 }
 
+void AQEsc32Calibration::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes) {
+    // Only add data from current link
+    if (link == seriallinkEsc32)
+    {
+        //unsigned char byte = bytes.at(j);
+        switch (StepMessageFromEsc32)
+        {
+            case 0:
+                ParaWriten_MessageFromEsc32 += QString(bytes);
+                qDebug() << ParaWriten_MessageFromEsc32;
+                ResponseFromEsc32.append(bytes);
+                indexOfAqC = ParaWriten_MessageFromEsc32.indexOf("AqC");
+
+                if (indexOfAqC > -1) {
+                    checkInA = checkInB = 0;
+                    int in = indexOfAqC+3;
+                    commandLengthBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandLengthBack);
+                    in++;
+                    command_ACK_NACK = ResponseFromEsc32[in];
+                    esc32InChecksum(command_ACK_NACK);
+                    in++;
+                    commandSeqIdBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandSeqIdBack);
+                    in++;
+                    commandBack = ResponseFromEsc32[in];
+                    esc32InChecksum(commandBack);
+                    in++;
+                    unsigned char tmp_A = ResponseFromEsc32[in];
+                    unsigned char tmp_B = ResponseFromEsc32[in+1];
+                    if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
+                        emit getCommandBack(commandBack);
+                    }
+                }
+            break;
+
+            default:
+            break;
+        }
+    }
+}
+
+
+void AQEsc32Calibration::esc32InChecksum(unsigned char c) {
+    checkInA += c;
+    checkInB += checkInA;
+}

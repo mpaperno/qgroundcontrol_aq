@@ -29,6 +29,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     esc32 = NULL;
     model = NULL;
     picker = NULL;
+    esc32cali = NULL;
     MarkerCut1  = NULL;
     MarkerCut2  = NULL;
     MarkerCut3  = NULL;
@@ -55,7 +56,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_send_rpm, SIGNAL(clicked()),this,SLOT(btnSetRPM()));
     connect(ui->horizontalSlider_rpm, SIGNAL(valueChanged(int)),this,SLOT(Esc32RpmSlider(int)));
 
-    //pushButton_send_rpm
+    connect(ui->pushButton_start_calibration, SIGNAL(clicked()),this,SLOT(Esc32StartCalibration()));
+    connect(ui->pushButton_read_load_def, SIGNAL(clicked()),this,SLOT(Esc32ReadConf()));
+    connect(ui->pushButton_reload_conf, SIGNAL(clicked()),this,SLOT(Esc32ReLoadConf()));
+
 
 	connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->pushButton_Add_Static, SIGNAL(clicked()),this,SLOT(addStatic()));
@@ -81,9 +85,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
     connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
 
+    connect(ui->comboBox_marker, SIGNAL(currentIndexChanged(int)),this,SLOT(CuttingItemChanged(int)));
 
-    //pushButton_send_to_esc32
-    //Slots for Calibration
     connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
     connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
     connect(ui->pushButton_start_cal3, SIGNAL(clicked()),this,SLOT(startcal3()));
@@ -456,8 +459,7 @@ void QGCAutoquad::btnConnectEsc32()
 {
     QString port = ui->label_portName_esc32->text();
     if ( ui->pushButton_connect_to_esc32->text() == "connect esc32") {
-        if (esc32 == NULL)
-            esc32 = new AQEsc32();
+        esc32 = new AQEsc32();
         connect(esc32,SIGNAL(ShowConfig(QString)),this,SLOT(showConfigEsc32(QString)));
         connect(esc32, SIGNAL(Esc32ParaWritten(QString)),this,SLOT(ParaWrittenEsc32(QString)));
         connect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)),this,SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
@@ -474,6 +476,8 @@ void QGCAutoquad::btnConnectEsc32()
         disconnect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
         disconnect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
         ui->pushButton_connect_to_esc32->setText("connect esc32");
+        if ( esc32cali != NULL)
+            esc32cali->stopCali();
         esc32->Disconnect();
         esc32 = NULL;
     }
@@ -629,6 +633,7 @@ void QGCAutoquad::Esc32Connected(){
 void QGCAutoquad::ESc32Disconnected() {
 }
 
+
 void QGCAutoquad::setupPortList()
 {
     ui->portName->clear();
@@ -655,6 +660,41 @@ void QGCAutoquad::setupPortList()
     }
     ui->portName->setEditText(seriallink->getPortName());
     ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
+}
+
+
+void QGCAutoquad::Esc32StartCalibration() {
+    ui->pushButton_start_calibration->setEnabled(false);
+
+    esc32cali = new AQEsc32Calibration();
+    connect(esc32cali , SIGNAL(finishedCalibration()),this,SLOT(Esc32finishedCali()));
+    connect(esc32cali , SIGNAL(terminated()),this,SLOT(Esc32CaliTerminated()));
+    connect(esc32cali , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
+    // start calibration thread for data logging
+
+    //esc32cali->startCali(esc32->getSerialLink());
+    esc32->StartCalibration(esc32cali);
+}
+
+void QGCAutoquad::Esc32finishedCali() {
+    qDebug() << "QGCAutoquad::Esc32finishedCali";
+}
+
+void QGCAutoquad::Esc32ReadConf() {
+    qDebug() << "QGCAutoquad::Esc32ReadConf";
+}
+
+void QGCAutoquad::Esc32ReLoadConf() {
+    qDebug() << "QGCAutoquad::Esc32ReLoadConf";
+}
+
+void QGCAutoquad::Esc32CaliTerminated() {
+    qDebug() << "QGCAutoquad::Esc32CaliTerminated";
+}
+
+
+void QGCAutoquad::Esc32CaliGetCommand(int Command){
+    esc32->SetCommandBack(Command);
 }
 
 void QGCAutoquad::selectFWToFlash()
@@ -2415,9 +2455,11 @@ void QGCAutoquad::startCutting() {
             //ui->listView_Curves->reset();
             //QMessageBox::information(this, "Information", "Reload the !",QMessageBox::Ok, 0 );
             DecodeLogFile(LogFile);
+            ui->pushButton_cut->setEnabled(false);
         }
         break;
         case QMessageBox::No:
+            removeMarker();
         break;
 
         default:
@@ -2453,4 +2495,10 @@ void QGCAutoquad::removeMarker() {
     }
     if ( needRedraw)
         plot->replot();
+
+    ui->pushButton_cut->setEnabled(false);
+}
+
+void QGCAutoquad::CuttingItemChanged(int itemIndex) {
+    removeMarker();
 }

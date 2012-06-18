@@ -90,6 +90,7 @@ private slots:
         void setPoint1(const QwtDoublePoint &pos);
         void startCutting();
         void removeMarker();
+        void CuttingItemChanged(int itemIndex);
 
         void showConfigEsc32(QString Config);
         void btnReadConfigEsc32();
@@ -103,7 +104,12 @@ private slots:
         void ESc32Disconnected();
         void Esc32Connected();
         void Esc32RpmSlider(int rpm);
-
+        void Esc32StartCalibration();
+        void Esc32ReadConf();
+        void Esc32ReLoadConf();
+        void Esc32finishedCali();
+        void Esc32CaliTerminated();
+        void Esc32CaliGetCommand(int Command);
 
 private:
         Ui::QGCAutoquad *ui;
@@ -151,7 +157,7 @@ private:
         QwtPlotMarker *MarkerCut2;
         QwtPlotMarker *MarkerCut3;
         QwtPlotMarker *MarkerCut4;
-
+        AQEsc32Calibration* esc32cali;
 
 protected:
         void showEvent(QShowEvent* event);
