@@ -2421,15 +2421,21 @@ void QGCAutoquad::startCutting() {
             QString newFileName = LogFile+".orig";
 
             if (!QFile::exists(newFileName)) {
+                /*
                 QDir *folder = new QDir(LogFile);
                 folder->rename(LogFile,newFileName);
+                */
+                QFile::copy(LogFile,newFileName);
             }
             else
             {
                 if (QFile::exists(newFileName))
                     QFile::remove(newFileName);
+                /*
                 QDir *folder = new QDir(LogFile);
                 folder->rename(LogFile,newFileName);
+                */
+                QFile::copy(LogFile,newFileName);
             }
 
             if (QFile::exists(LogFile))
