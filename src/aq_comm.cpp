@@ -2763,7 +2763,7 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
 
     for (f = 4; f <= 100.0; f += 2.0) {
         sendCommand(BINARY_COMMAND_DUTY, f, 0.0, 1);
-        usleep((100.0f - f) / 3.0f * 1e6 * 0.15);
+        SleepThread(((100.0f - f) / 3.0f * 1e6 * 0.15)/1000);
         data(j,0) = esc32calibration->telemValueAvgs[0];
         data(j,1) = esc32calibration->telemValueAvgs[1];
         data(j,2) = esc32calibration->telemValueAvgs[2];
@@ -2774,9 +2774,9 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
     }
 
     sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1);
-    sleep(1);
+    SleepThread(1000);
     sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0);
-    sleep(1);
+    SleepThread(1000);
 
     A.setZero();
     c.setZero();
@@ -2871,12 +2871,12 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
 
 void AQEsc32::stepUp(float start, float end) {
         sendCommand(BINARY_COMMAND_DUTY, start, 0.0, 1);
-        sleep(2);
+        sleepThread(2000);
         sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0, 0.0, 1);
         sendCommand(BINARY_COMMAND_DUTY, end, 0.0, 1);
-        usleep(200000);
+        sleepThread(200);
         sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1);
-        usleep(250000);
+        sleepThread(250);
 }
 
 void AQEsc32::checkEsc32StateTimeOut() {
@@ -3052,9 +3052,9 @@ void AQEsc32::checkEsc32StateTimeOut() {
     else if ( TimerState == 20 ) {
         TimerState = 21;
         sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1);
-        sleep(1);
+        SleepThread(1000);
         esc32calibration->stopCali();
-        sleep(1);
+        SleepThread(1000);
         esc32calibration = NULL;
     }
 }
@@ -3063,6 +3063,11 @@ void AQEsc32::SetCommandBack(int Command) {
     CommandBack = Command;
 }
 
+void AQEsc32::SleepThread(int msec) {
+    QTime dieTime = QTime::currentTime().addMSecs(msec);
+    while(QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents,10);
+}
 
 //#######################################################################################################
 

@@ -492,6 +492,7 @@ private:
     int esc32state;
     int TimerState;
     int getEnumByName(QString Name);
+    void SleepThread(int msec);
     unsigned short commandSeqId;
     unsigned char commandSeqIdBack;
     unsigned char commandBack;
