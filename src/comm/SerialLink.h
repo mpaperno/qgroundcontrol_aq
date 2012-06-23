@@ -92,6 +92,8 @@ public:
     int getParityType();
     int getDataBitsType();
     int getStopBitsType();
+    unsigned char getRows();
+    unsigned char getCols();
 
     /* Extensive statistics for scientific purposes */
     qint64 getNominalDataRate();
@@ -106,7 +108,6 @@ public:
 
     void loadSettings();
     void writeSettings();
-
     void run();
 
     int getLinkQuality();
@@ -130,6 +131,8 @@ public slots:
     bool setStopBitsType(int stopBits);
 
     void readBytes();
+    void readEsc32Bytes();
+    void setEsc32Mode(bool mode);
     /**
      * @brief Write a number of bytes to the interface.
      *
@@ -174,6 +177,9 @@ private:
 
     void setName(QString name);
     bool hardwareConnect();
+    bool mode_port;
+    unsigned char rows;
+    unsigned char cols;
 
 signals:
     void aboutToCloseFlag();

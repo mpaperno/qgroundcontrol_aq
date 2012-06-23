@@ -435,9 +435,11 @@ public:
     bool isFinished();
     void startCali(SerialLink* seriallinkEsc);
     void stopCali();
-
+    volatile float telemData[256][BINARY_VALUE_NUM];
+    volatile float telemValueAvgs[BINARY_VALUE_NUM];
+    volatile float telemValueMaxs[BINARY_VALUE_NUM];
+    float *telemStorage;
 protected:
-    SerialLink* seriallinkEsc32;
     void run();
 
 private slots:
@@ -445,7 +447,6 @@ private slots:
 
 signals:
     void finishedCalibration();
-    void getCommandBack(int Command);
 
 private:
     QString ParaWriten_MessageFromEsc32;
@@ -456,16 +457,21 @@ private:
     unsigned char commandBack;
     unsigned char commandLengthBack;
     unsigned char command_ACK_NACK;
-    int indexOfAqC;
+    unsigned char rows;
+    unsigned char cols;
+    int indexOfAqT;
     QString ParaNameLastSend;
     int ParaLastSend;
     void esc32InChecksum(unsigned char c);
     unsigned char checkInA, checkInB;
-
+    unsigned short esc32GetShort(QByteArray data, int startIndex);
+    float esc32GetFloat(QByteArray data, int startIndex);
+    QMutex dataMutex;
+    volatile int telemStorageNum;
+    SerialLink* seriallinkEsc32;
 };
 
-
-
+#define MAX_TELEM_STORAGE	200000
 class AQEsc32 : public QObject {
     Q_OBJECT
 
@@ -514,10 +520,17 @@ private:
     int indexOfAqC;
     void DisconnectRS232();
     void ConnectRS232();
-    void RpmToVoltage();
+    void RpmToVoltage(float maxAmps);
+    void CurrentLimiter(float maxAmps);
+    void stepUp(float start, float end);
     int StopCalibration;
     QTimer *checkEsc32State;
     int CommandBack;
+    float FF1Term;
+    float FF2Term;
+    float FF3Term;
+    SerialLink* seriallinkEsc32;
+
 
 private slots:
     void connectedEsc32();
@@ -527,7 +540,6 @@ private slots:
     void checkEsc32StateTimeOut();
 
 protected:
-    SerialLink* seriallinkEsc32;
     AQEsc32Calibration* esc32calibration;
 
 signals:
@@ -536,6 +548,8 @@ signals:
     void ESc32Disconnected();
     void Esc32ParaWritten(QString ParaName);
     void Esc32CommandWritten(int CommandName, QVariant V1, QVariant V2 );
+    void getCommandBack(int Command);
+
 };
 
 

@@ -389,6 +389,7 @@ void SerialLink::writeSettings()
  **/
 void SerialLink::run()
 {
+    mode_port = false;
     // Initialize the connection
     hardwareConnect();
 
@@ -431,7 +432,10 @@ void SerialLink::checkForBytes()
 
         if(available > 0)
         {
-            readBytes();
+            if ( !mode_port )
+                readBytes();
+            else
+                readEsc32Bytes();
         }
     }
     else
@@ -506,6 +510,73 @@ void SerialLink::readBytes()
     dataMutex.unlock();
 }
 
+/**
+ * @brief Read a number of bytes from the interface.
+ *
+ * @param data Pointer to the data byte array to write the bytes to
+ * @param maxLength The maximum number of bytes to write
+ **/
+void SerialLink::readEsc32Bytes()
+{
+    dataMutex.lock();
+    if(port && port->isOpen()) {
+        const qint64 maxLength = 2048;
+        char data[maxLength];
+        qint64 numBytes = port->bytesAvailable();
+        //qDebug() << "numBytes: " << numBytes;
+        retry:
+        if(numBytes > 0) {
+            /* Read as much data in buffer as possible without overflow */
+            if(maxLength < numBytes) numBytes = maxLength;
+
+            //port->read(data, numBytes);
+
+            port->read(data,1);
+            if ( data[0] != 'A')
+                goto retry;
+            port->read(data,1);
+            if ( data[0] != 'q')
+                goto retry;
+            port->read(data,1);
+            if ( data[0] != 'T')
+                goto retry;
+
+            rows = 0;
+            cols = 0;
+            port->read(data,2);
+            rows = data[0];
+            cols = data[1];
+
+            int length_array = (((cols*rows)*4)+2);
+
+            port->read(data, length_array);
+            QByteArray b(data, length_array);
+            emit bytesReceived(this, b);
+
+            //qDebug() << "SerialLink::readBytes()" << std::hex << data;
+            //            int i;
+            //            for (i=0; i<numBytes; i++){
+            //                unsigned int v=data[i];
+            //
+            //                fprintf(stderr,"%02x ", v);
+            //            }
+            //            fprintf(stderr,"\n");
+            bitsReceivedTotal += numBytes * 8;
+        }
+    }
+    dataMutex.unlock();
+}
+
+void SerialLink::setEsc32Mode(bool mode) {
+    mode_port = mode;
+}
+
+unsigned char SerialLink::getCols() {
+    return cols;
+}
+unsigned char SerialLink::getRows() {
+    return rows;
+}
 
 /**
  * @brief Get the number of bytes to read.

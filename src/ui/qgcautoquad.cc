@@ -463,9 +463,10 @@ void QGCAutoquad::btnConnectEsc32()
         connect(esc32,SIGNAL(ShowConfig(QString)),this,SLOT(showConfigEsc32(QString)));
         connect(esc32, SIGNAL(Esc32ParaWritten(QString)),this,SLOT(ParaWrittenEsc32(QString)));
         connect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)),this,SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
-        connect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)),this,SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
         connect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
         connect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
+        connect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
+
         ui->pushButton_connect_to_esc32->setText("disconnect");
         esc32->Connect(port);
     }
@@ -475,6 +476,7 @@ void QGCAutoquad::btnConnectEsc32()
         disconnect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)),this,SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
         disconnect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
         disconnect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
+        disconnect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
         ui->pushButton_connect_to_esc32->setText("connect esc32");
         if ( esc32cali != NULL)
             esc32cali->stopCali();
@@ -633,7 +635,6 @@ void QGCAutoquad::Esc32Connected(){
 void QGCAutoquad::ESc32Disconnected() {
 }
 
-
 void QGCAutoquad::setupPortList()
 {
     ui->portName->clear();
@@ -662,14 +663,12 @@ void QGCAutoquad::setupPortList()
     ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
 }
 
-
 void QGCAutoquad::Esc32StartCalibration() {
-    ui->pushButton_start_calibration->setEnabled(false);
+    //ui->pushButton_start_calibration->setEnabled(false);
 
     esc32cali = new AQEsc32Calibration();
     connect(esc32cali , SIGNAL(finishedCalibration()),this,SLOT(Esc32finishedCali()));
     connect(esc32cali , SIGNAL(terminated()),this,SLOT(Esc32CaliTerminated()));
-    connect(esc32cali , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
     // start calibration thread for data logging
 
     //esc32cali->startCali(esc32->getSerialLink());
@@ -691,7 +690,6 @@ void QGCAutoquad::Esc32ReLoadConf() {
 void QGCAutoquad::Esc32CaliTerminated() {
     qDebug() << "QGCAutoquad::Esc32CaliTerminated";
 }
-
 
 void QGCAutoquad::Esc32CaliGetCommand(int Command){
     esc32->SetCommandBack(Command);
