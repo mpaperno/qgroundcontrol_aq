@@ -2758,7 +2758,7 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
     // reset max current
     esc32calibration->telemValueMaxs[2] = 0.0;
 
-    for (f = 4; f <= 100.0; f += 2.0) {
+    for (f = 8; f <= 100.0; f += 2.0) {
         sendCommand(BINARY_COMMAND_DUTY, f, 0.0, 1);
         SleepThread(((100.0f - f) / 3.0f * 1e6 * 0.15)/1000);
         data(j,0) = esc32calibration->telemValueAvgs[0];
@@ -2809,7 +2809,7 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
 
     printf("Starting...\n");
     sendCommand(BINARY_COMMAND_START, 0.0, 0.0, 0);
-    sleep(1);
+    SleepThread(1);
 
     for (i = 10; i <= 90; i += 10) {
         // reset max current
@@ -2863,6 +2863,11 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
 
     for (i = 0; i < m; i++)
         printf("#define DEFAULT_CL%dTERM\t\t%+e\n", i+1, ab(i, 0));
+    CurrentLimiter1 = ab(0,0);
+    CurrentLimiter2 = ab(1,0);
+    CurrentLimiter3 = ab(2,0);
+    CurrentLimiter4 = ab(3,0);
+    CurrentLimiter5 = ab(4,0);
 
 }
 
@@ -3014,7 +3019,7 @@ void AQEsc32::checkEsc32StateTimeOut() {
     // Send Tele duty to eSC32
     else if ( TimerState == 15 ) {
         CommandBack = -1;
-        sendCommand(BINARY_COMMAND_DUTY, 4.0f, 0.0f, 1);
+        sendCommand(BINARY_COMMAND_DUTY, 8.0f, 0.0f, 1);
         qDebug() << "send BINARY_COMMAND_DUTY";
         TimerState = 16;
     }

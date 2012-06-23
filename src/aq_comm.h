@@ -530,6 +530,11 @@ private:
     float FF1Term;
     float FF2Term;
     float FF3Term;
+    float CurrentLimiter1;
+    float CurrentLimiter2;
+    float CurrentLimiter3;
+    float CurrentLimiter4;
+    float CurrentLimiter5;
     SerialLink* seriallinkEsc32;
 
 
