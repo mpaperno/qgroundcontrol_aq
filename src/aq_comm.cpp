@@ -2871,12 +2871,12 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
 
 void AQEsc32::stepUp(float start, float end) {
         sendCommand(BINARY_COMMAND_DUTY, start, 0.0, 1);
-        sleepThread(2000);
+        SleepThread(2000);
         sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0, 0.0, 1);
         sendCommand(BINARY_COMMAND_DUTY, end, 0.0, 1);
-        sleepThread(200);
+        SleepThread(200);
         sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1);
-        sleepThread(250);
+        SleepThread(250);
 }
 
 void AQEsc32::checkEsc32StateTimeOut() {
