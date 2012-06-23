@@ -1993,6 +1993,17 @@ void QGCAutoquad::CalculatDeclination() {
     CalculatInclination();
 }
 
+double QGCAutoquad::Round(double Zahl, unsigned int Stellen)
+{
+    Zahl *= pow(10, Stellen);
+    if (Zahl >= 0)
+        floor(Zahl + 0.5);
+    else
+        ceil(Zahl - 0.5);
+    Zahl /= pow(10, Stellen);
+    return Zahl;
+}
+
 void QGCAutoquad::CalculatInclination() {
 
     QString inc_source = ui->lineEdit_insert_inclination->text();
@@ -2008,7 +2019,7 @@ void QGCAutoquad::CalculatInclination() {
 
     qint32 secounds = HoursMinutes.at(1).toInt();
     float secounds_calc =  (100.0f/60.0f) * secounds;
-    secounds_calc = round(secounds_calc);
+    secounds_calc = Round(secounds_calc, 3);
     // Set together
     QString recalculated;
     recalculated.append(HoursMinutes.at(0));

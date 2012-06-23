@@ -28,6 +28,8 @@ public:
     explicit QGCAutoquad(QWidget *parent = 0);
     ~QGCAutoquad();
     UASInterface* getUAS();
+private:
+    double Round(double Zahl, unsigned int Stellen);
 
 signals:
     void visibilityChanged(bool visible);
