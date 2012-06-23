@@ -288,6 +288,9 @@ void QGCAutoquad::loadSettings()
 	ui->lineEdit_insert_declination->setText(settings.value("DECLINATION_SOURCE").toString());
 	ui->lineEdit_cal_declination->setText(settings.value("DECLINATION_CALC").toString());
 
+    ui->lineEdit_insert_inclination->setText(settings.value("INCLINATION_SOURCE").toString());
+    ui->lineEdit_cal_inclination->setText(settings.value("INCLINATION_CALC").toString());
+
     if (settings.contains("AUTOQUAD_FW_FILE"))
         ui->fileLabel->setText(settings.value("AUTOQUAD_FW_FILE").toString());
     if (settings.contains("USERS_PARAMS_FILE")) {
@@ -325,6 +328,9 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("DECLINATION_SOURCE", ui->lineEdit_insert_declination->text());
     settings.setValue("DECLINATION_CALC", ui->lineEdit_cal_declination->text());
+    settings.setValue("INCLINATION_SOURCE", ui->lineEdit_insert_inclination->text());
+    settings.setValue("INCLINATION_CALC", ui->lineEdit_cal_inclination->text());
+
     settings.setValue("USERS_PARAMS_FILE", UsersParamsFile);
 
     settings.setValue("AUTOQUAD_FW_FILE", ui->fileLabel->text());
@@ -667,15 +673,48 @@ void QGCAutoquad::setupPortList()
 }
 
 void QGCAutoquad::Esc32StartCalibration() {
-    //ui->pushButton_start_calibration->setEnabled(false);
 
-    esc32cali = new AQEsc32Calibration();
-    connect(esc32cali , SIGNAL(finishedCalibration()),this,SLOT(Esc32finishedCali()));
-    connect(esc32cali , SIGNAL(terminated()),this,SLOT(Esc32CaliTerminated()));
-    // start calibration thread for data logging
+    QMessageBox InfomsgBox;
+    InfomsgBox.setText("This is the calibration routine for esc32!\r\n Please be careful with the calibration function!\r\n The motor turn up to full throttle!\r\n Please fix the motor & prop!\r\n No guarantee about any damage or failures");
+    InfomsgBox.exec();
 
-    //esc32cali->startCali(esc32->getSerialLink());
-    esc32->StartCalibration(esc32cali);
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Information");
+    msgBox.setInformativeText("Again be carful, you can abort with stop calibration!\r\n But the fastest stop is to pull the batery!\r\n If you want start the calibration procedure, press yes");
+    msgBox.setWindowModality(Qt::ApplicationModal);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    int ret = msgBox.exec();
+    switch (ret) {
+        case QMessageBox::Yes:
+        break;
+        case QMessageBox::No:
+            return;
+        break;
+        default:
+            return;
+        break;
+    }
+
+
+
+
+    if ( ui->pushButton_start_calibration->text() == "start calibration") {
+        esc32cali = new AQEsc32Calibration();
+        connect(esc32cali , SIGNAL(finishedCalibration()),this,SLOT(Esc32finishedCali()));
+        connect(esc32cali , SIGNAL(terminated()),this,SLOT(Esc32CaliTerminated()));
+        // start calibration thread for data logging
+
+        //esc32cali->startCali(esc32->getSerialLink());
+        esc32->StartCalibration(esc32cali);
+        ui->pushButton_start_calibration->setText("stop calibration");
+    }
+    else
+    {
+        ui->pushButton_start_calibration->setText("start calibration");
+        esc32->StopCalibration();
+
+    }
 }
 
 void QGCAutoquad::Esc32finishedCali() {
@@ -1951,6 +1990,31 @@ void QGCAutoquad::CalculatDeclination() {
     recalculated.append( QString::number(secounds_calc,'f',0));
 
     ui->lineEdit_cal_declination->setText(recalculated);
+    CalculatInclination();
+}
+
+void QGCAutoquad::CalculatInclination() {
+
+    QString inc_source = ui->lineEdit_insert_inclination->text();
+    if ( !inc_source.contains(".")) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic inclination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    if ( inc_source.length() < 3 ) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic inclination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    QStringList HoursMinutes = inc_source.split('.');
+
+    qint32 secounds = HoursMinutes.at(1).toInt();
+    float secounds_calc =  (100.0f/60.0f) * secounds;
+    secounds_calc = round(secounds_calc);
+    // Set together
+    QString recalculated;
+    recalculated.append(HoursMinutes.at(0));
+    recalculated.append(".");
+    recalculated.append(QString::number(secounds_calc));
+    ui->lineEdit_cal_inclination->setText(recalculated);
 
 }
 

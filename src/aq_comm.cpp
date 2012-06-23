@@ -2397,6 +2397,26 @@ int AQEsc32::getEnumByName(QString Name)
     {
         return FF2TERM;
     }
+    if ( Name == "CL1TERM")
+    {
+        return CL1TERM;
+    }
+    if ( Name == "CL2TERM")
+    {
+        return CL2TERM;
+    }
+    if ( Name == "CL3TERM")
+    {
+        return CL3TERM;
+    }
+    if ( Name == "CL4TERM")
+    {
+        return CL4TERM;
+    }
+    if ( Name == "CL5TERM")
+    {
+        return CL5TERM;
+    }
     if ( Name == "SHUNT_RESISTANCE")
     {
         return SHUNT_RESISTANCE;
@@ -2422,10 +2442,6 @@ int AQEsc32::getEnumByName(QString Name)
     {
         return START_VOLTAGE;
     }
-    if ( Name == "DUTY_INCREASE_FACTOR")
-    {
-        return DUTY_INCREASE_FACTOR;
-    }
     if ( Name == "GOOD_DETECTS_START")
     {
         return GOOD_DETECTS_START;
@@ -2450,6 +2466,10 @@ int AQEsc32::getEnumByName(QString Name)
     if ( Name == "PWM_MIN_PERIOD")
     {
         return PWM_MIN_PERIOD;
+    }
+    if ( Name == "PWM_MAX_PERIOD")
+    {
+        return PWM_MAX_PERIOD;
     }
 
     if ( Name == "PWM_MIN_VALUE")
@@ -2514,7 +2534,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
 
             //get ascii values for parameter
             case 1:
-                LIST_MessageFromEsc32 += QString(bytes);
+                LIST_MessageFromEsc32.append(QString(bytes));
                 if ( LIST_MessageFromEsc32.contains("Command not found")) {
                     LIST_MessageFromEsc32 = "";
                     qDebug() << LIST_MessageFromEsc32;
@@ -2532,7 +2552,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
 
             // Waiting for a commit to ASCII mode
             case 2:
-                ParaWriten_MessageFromEsc32 += QString(bytes);
+                ParaWriten_MessageFromEsc32.append(QString(bytes));
                 ResponseFromEsc32.append(bytes);
                 indexOfAqC = ParaWriten_MessageFromEsc32.indexOf("AqC");
                 if (indexOfAqC > -1) {
@@ -2576,9 +2596,10 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
 
             //Waiting for commit of send Parameter
             case 4:
-                ParaWriten_MessageFromEsc32 += QString(bytes);
+                ParaWriten_MessageFromEsc32.append(QString(bytes));
                 ResponseFromEsc32.append(bytes);
                 indexOfAqC = ParaWriten_MessageFromEsc32.indexOf("AqC");
+                reCheck:
                 if (indexOfAqC > -1) {
                     checkInA = checkInB = 0;
                     int in = indexOfAqC+3;
@@ -2614,6 +2635,11 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                             esc32state = 4;
                         if ( ParaLastSend == BINARY_COMMAND_DISARM )
                             esc32state = 5;
+                    }
+                    if ( ( in + 5) < ResponseFromEsc32.count()) {
+                        indexOfAqC = ParaWriten_MessageFromEsc32.indexOf("AqC",in);
+                        if ( indexOfAqC > -1 )
+                            goto reCheck;
                     }
                     ResponseFromEsc32.clear();
                     ParaWriten_MessageFromEsc32="";
@@ -2744,6 +2770,17 @@ void AQEsc32::StartCalibration(AQEsc32Calibration *esc32cali) {
 
 }
 
+void AQEsc32::StopCalibration() {
+    checkEsc32State->stop();
+    CommandBack = -1;
+    TimerState = -1;
+    sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0);
+    if ( esc32calibration) {
+        esc32calibration->stopCali();
+        esc32calibration = NULL;
+    }
+}
+
 void AQEsc32::RpmToVoltage(float maxAmps) {
     Eigen::MatrixXd A(2,2);
     Eigen::MatrixXd c(2,1);
@@ -2757,10 +2794,11 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
     int i;
     // reset max current
     esc32calibration->telemValueMaxs[2] = 0.0;
-
-    for (f = 8; f <= 100.0; f += 2.0) {
+    qDebug() << "Doing Calibration Loop";
+    for (f = 4; f <= 100.0; f += 2.0) {
         sendCommand(BINARY_COMMAND_DUTY, f, 0.0, 1);
         SleepThread(((100.0f - f) / 3.0f * 1e6 * 0.15)/1000);
+
         data(j,0) = esc32calibration->telemValueAvgs[0];
         data(j,1) = esc32calibration->telemValueAvgs[1];
         data(j,2) = esc32calibration->telemValueAvgs[2];
@@ -2774,6 +2812,7 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
     SleepThread(1000);
     sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0);
     SleepThread(1000);
+    qDebug() << "Stopping";
 
     A.setZero();
     c.setZero();
@@ -2790,7 +2829,8 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
     ab = A.inverse() * c;
 
     for (i = 0; i < 2; i++)
-        printf("#define DEFAULT_FF%dTERM\t\t%+e\n", i+1, ab(i, 0));
+        qDebug() << "#define DEFAULT_FF" << i+1 << "TERM" << ab(i, 0);
+
     FF1Term = ab(0,0);
     FF2Term = ab(1,0);
     FF3Term = ab(2,0);
@@ -2884,7 +2924,7 @@ void AQEsc32::stepUp(float start, float end) {
 void AQEsc32::checkEsc32StateTimeOut() {
     //Wait for binary nop
     if ( TimerState == -1 ) {
-        if (CommandBack == 0){
+        if ((CommandBack == 0) || (CommandBack == 255)){
             CommandBack = -1;
             sendCommand(BINARY_COMMAND_ARM, 0.0f, 0.0f, 0);
             TimerState = 0;
@@ -3019,7 +3059,7 @@ void AQEsc32::checkEsc32StateTimeOut() {
     // Send Tele duty to eSC32
     else if ( TimerState == 15 ) {
         CommandBack = -1;
-        sendCommand(BINARY_COMMAND_DUTY, 8.0f, 0.0f, 1);
+        sendCommand(BINARY_COMMAND_DUTY, 4.0f, 0.0f, 1);
         qDebug() << "send BINARY_COMMAND_DUTY";
         TimerState = 16;
     }
@@ -3044,6 +3084,7 @@ void AQEsc32::checkEsc32StateTimeOut() {
     }
     //Wait for start
     else if ( TimerState == 18 ) {
+        qDebug() << "Start RPMToVoltag";
         RpmToVoltage(30);
         TimerState = 19;
     }
@@ -3075,17 +3116,17 @@ void AQEsc32::SleepThread(int msec) {
 
 
 AQEsc32Calibration::AQEsc32Calibration() {
-    StopCalibration = 0;
+    stopCalibration = 0;
     StepMessageFromEsc32 = 0;
 }
 
 AQEsc32Calibration::~AQEsc32Calibration() {
-    StopCalibration = 0;
+    stopCalibration = 0;
     StepMessageFromEsc32 = 0;
 }
 
 void AQEsc32Calibration::startCali(SerialLink *seriallinkEsc) {
-    StopCalibration = 0;
+    stopCalibration = 0;
     StepMessageFromEsc32 = 0;
     seriallinkEsc32 = seriallinkEsc;
     connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
@@ -3093,7 +3134,7 @@ void AQEsc32Calibration::startCali(SerialLink *seriallinkEsc) {
 }
 
 void AQEsc32Calibration::stopCali() {
-    StopCalibration = 1;
+    stopCalibration = 1;
     seriallinkEsc32 = NULL;
 }
 
@@ -3103,20 +3144,22 @@ void AQEsc32Calibration::run() {
     ParaWriten_MessageFromEsc32 = "";
     ResponseFromEsc32.clear();
     StepMessageFromEsc32 = 0;
+    qDebug() << "set serial into esc mode";
     seriallinkEsc32->setEsc32Mode(true);
-
     while ( true) {
-        if ( StopCalibration == 1)
+        if ( stopCalibration == 1)
             break;
         el.processEvents();
     }
     seriallinkEsc32->setEsc32Mode(false);
+    qDebug() << "set serial back to normal mode";
     emit finishedCalibration();
     disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
 
 }
 
 void AQEsc32Calibration::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes) {
+    dataMutex.lock();
     // Only add data from current link
     if (link == seriallinkEsc32)
     {
@@ -3135,15 +3178,10 @@ void AQEsc32Calibration::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes
                     in = in +4;
                 }
             }
-            if ( in > bytes.length())
-                return;
             unsigned char tmp_A = bytes[in];
             in++;
-            if ( in > bytes.length())
-                return;
             unsigned char tmp_B = bytes[in];
             if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
-                dataMutex.lock();
                 // update averages
                 for (i = 0; i < rows; i++)
                     for (j = 0; j < cols; j++){
@@ -3156,10 +3194,17 @@ void AQEsc32Calibration::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes
                         if (telemValueMaxs[j] < telemData[i][j])
                             telemValueMaxs[j] = telemData[i][j];
 
-                dataMutex.unlock();
+                // save to memory
+                for (i = 0; i < rows; i++) {
+                    for (j = 0; j < cols; j++)
+                        telemStorage[MAX_TELEM_STORAGE*j + telemStorageNum] = telemData[i][j];
+                    telemStorageNum++;
+                }
+
             }
         }
     }
+    dataMutex.unlock();
 }
 
 unsigned short AQEsc32Calibration::esc32GetShort(QByteArray data, int startIndex) {

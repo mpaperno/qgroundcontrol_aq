@@ -399,13 +399,17 @@ enum configParameters {
     ITERM,
     FF1TERM,
     FF2TERM,
+    CL1TERM,
+    CL2TERM,
+    CL3TERM,
+    CL4TERM,
+    CL5TERM,
     SHUNT_RESISTANCE,
     MIN_PERIOD,
     MAX_PERIOD,
     BLANKING_MICROS,
     ADVANCE,
     START_VOLTAGE,
-    DUTY_INCREASE_FACTOR,
     GOOD_DETECTS_START,
     BAD_DETECTS_DISARM,
     MAX_CURRENT,
@@ -451,7 +455,7 @@ signals:
 private:
     QString ParaWriten_MessageFromEsc32;
     QByteArray ResponseFromEsc32;
-    int StopCalibration;
+    int stopCalibration;
     int StepMessageFromEsc32;
     unsigned char commandSeqIdBack;
     unsigned char commandBack;
@@ -487,6 +491,7 @@ public:
     int GetEsc32State();
     SerialLink* getSerialLink();
     void StartCalibration(AQEsc32Calibration* esc32cali);
+    void StopCalibration();
     void SetCommandBack(int Command);
 private:
     int esc32state;
@@ -524,7 +529,6 @@ private:
     void RpmToVoltage(float maxAmps);
     void CurrentLimiter(float maxAmps);
     void stepUp(float start, float end);
-    int StopCalibration;
     QTimer *checkEsc32State;
     int CommandBack;
     float FF1Term;

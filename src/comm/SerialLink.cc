@@ -409,8 +409,7 @@ void SerialLink::run()
         /* Serial data isn't arriving that fast normally, this saves the thread
                  * from consuming too much processing time
                  */
-        if (!mode_port)
-            MG::SLEEP::msleep(SerialLink::poll_interval);
+        MG::SLEEP::msleep(SerialLink::poll_interval);
     }
     if (port) {
         port->flushInBuffer();
@@ -550,6 +549,11 @@ void SerialLink::readEsc32Bytes()
 
             int length_array = (((cols*rows)*4)+2);
 
+            if ( length_array > 1000){
+                dataMutex.unlock();
+                return;
+            }
+
             port->read(data, length_array);
             QByteArray b(data, length_array);
             emit bytesReceived(this, b);
@@ -562,7 +566,7 @@ void SerialLink::readEsc32Bytes()
             //                fprintf(stderr,"%02x ", v);
             //            }
             //            fprintf(stderr,"\n");
-            bitsReceivedTotal += numBytes * 8;
+            //bitsReceivedTotal += numBytes * 8;
         }
     }
     dataMutex.unlock();

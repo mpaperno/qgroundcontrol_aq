@@ -79,6 +79,7 @@ private slots:
 		void LoadFrameFromFile();
 		void SaveFrameToFile();
 		void CalculatDeclination();
+        void CalculatInclination();
         void CurveItemChanged(QStandardItem *item);
         void OpenLogFile();
         void save_PID_toAQ1();

@@ -984,6 +984,19 @@
        <string>Generate Parameter</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0,1">
+       <item row="1" column="0">
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_24">
          <property name="sizeConstraint">
@@ -991,16 +1004,6 @@
          </property>
          <item>
           <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pushButton_Add_Static">
-             <property name="text">
-              <string>Add Static</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1" rowspan="3">
-            <widget class="QListWidget" name="listWidgetStatic"/>
-           </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pushButton_Remov_Static">
              <property name="text">
@@ -1020,6 +1023,16 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="0" column="1" rowspan="3">
+            <widget class="QListWidget" name="listWidgetStatic"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pushButton_Add_Static">
+             <property name="text">
+              <string>Add Static</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -1062,7 +1075,7 @@
            <item>
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Magnetic Declination: format: -60.11</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Magnetic Declination: format: -60.11&lt;/p&gt;&lt;p&gt;Magnetic Inclination: format: 2.15&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -1070,6 +1083,9 @@
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
               <widget class="QLineEdit" name="lineEdit_insert_declination"/>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_insert_inclination"/>
              </item>
              <item>
               <widget class="QPushButton" name="pushButton_Calculate">
@@ -1086,6 +1102,9 @@
               <bool>true</bool>
              </property>
             </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_cal_inclination"/>
            </item>
            <item>
             <widget class="QLabel" name="label_2">
@@ -1119,26 +1138,13 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>10</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="2" column="0">
         <widget class="QTabWidget" name="tabWidget_Parameter">
          <property name="enabled">
           <bool>true</bool>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="para_cal_rate">
           <attribute name="title">
