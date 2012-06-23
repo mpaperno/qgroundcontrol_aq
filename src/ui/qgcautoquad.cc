@@ -149,6 +149,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
 QGCAutoquad::~QGCAutoquad()
 {
+    if ( esc32)
+        btnConnectEsc32();
+
     writeSettings();
 
     delete ui;

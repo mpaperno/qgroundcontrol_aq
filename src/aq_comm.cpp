@@ -2275,11 +2275,6 @@ AQEsc32::AQEsc32()
 
 AQEsc32::~AQEsc32()
 {
-    if ( seriallinkEsc32 ) {
-        if ( seriallinkEsc32->isConnected() )
-            seriallinkEsc32->disconnect();
-    }
-
 }
 
 void AQEsc32::Connect(QString port)
@@ -2288,6 +2283,7 @@ void AQEsc32::Connect(QString port)
     seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
     seriallinkEsc32->setBaudRate(230400);
     seriallinkEsc32->setFlowType(0);
+    seriallinkEsc32->setEsc32Mode(false);
     connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
     connect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
     connect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
@@ -2301,16 +2297,17 @@ void AQEsc32::Connect(QString port)
 
 void AQEsc32::Disconnect()
 {
-    if ( seriallinkEsc32) {
-        SwitchFromBinaryToAscii();
-        seriallinkEsc32->disconnect();
-        disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
-        seriallinkEsc32 = NULL;
-        checkEsc32State->stop();
-    }
+    seriallinkEsc32->setEsc32Mode(false);
+    SwitchFromBinaryToAscii();
+    SleepThread(2);
+    checkEsc32State->stop();
+    seriallinkEsc32->disconnect();
+    disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+    disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+    disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+    disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+    seriallinkEsc32 = NULL;
+    checkEsc32State = NULL;
 }
 
 void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
@@ -2800,7 +2797,7 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
 }
 
 void AQEsc32::CurrentLimiter(float maxAmps) {
-/*
+
     Eigen::MatrixXd A;
     Eigen::MatrixXd c;
     Eigen::MatrixXd ab;
@@ -2866,7 +2863,7 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
 
     for (i = 0; i < m; i++)
         printf("#define DEFAULT_CL%dTERM\t\t%+e\n", i+1, ab(i, 0));
-*/
+
 }
 
 void AQEsc32::stepUp(float start, float end) {

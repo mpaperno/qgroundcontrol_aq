@@ -409,7 +409,8 @@ void SerialLink::run()
         /* Serial data isn't arriving that fast normally, this saves the thread
                  * from consuming too much processing time
                  */
-        MG::SLEEP::msleep(SerialLink::poll_interval);
+        if (!mode_port)
+            MG::SLEEP::msleep(SerialLink::poll_interval);
     }
     if (port) {
         port->flushInBuffer();
