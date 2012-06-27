@@ -527,7 +527,7 @@ void SerialLink::readEsc32Bytes()
         retry:
         if(numBytes > 0) {
             /* Read as much data in buffer as possible without overflow */
-            if(maxLength < numBytes) numBytes = maxLength;
+            //if(maxLength < numBytes) numBytes = maxLength;
 
             //port->read(data, numBytes);
 
@@ -548,10 +548,13 @@ void SerialLink::readEsc32Bytes()
             cols = data[1];
 
             int length_array = (((cols*rows)*4)+2);
+            int timeout_waiting = 0;
 
-            if ( length_array > 1000){
-                dataMutex.unlock();
-                return;
+            while(port->bytesAvailable() < length_array) {
+                MG::SLEEP::msleep(1);
+                timeout_waiting++;
+                if ( timeout_waiting > 1500)
+                    return;
             }
 
             port->read(data, length_array);
@@ -574,6 +577,9 @@ void SerialLink::readEsc32Bytes()
 
 void SerialLink::setEsc32Mode(bool mode) {
     mode_port = mode;
+}
+bool SerialLink::getEsc32Mode() {
+    return mode_port;
 }
 
 unsigned char SerialLink::getCols() {

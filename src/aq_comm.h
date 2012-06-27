@@ -430,19 +430,21 @@ enum configParameters {
 #define EIGEN_DONT_PARALLELIZE
 
 #include <QThread>
-class AQEsc32Calibration : public QThread
+class AQEsc32Logger : public QThread
 {
     Q_OBJECT
 public:
-    AQEsc32Calibration();
-    ~AQEsc32Calibration();
+    AQEsc32Logger();
+    ~AQEsc32Logger();
     bool isFinished();
-    void startCali(SerialLink* seriallinkEsc);
-    void stopCali();
-    volatile float telemData[256][BINARY_VALUE_NUM];
-    volatile float telemValueAvgs[BINARY_VALUE_NUM];
-    volatile float telemValueMaxs[BINARY_VALUE_NUM];
-    float *telemStorage;
+    void startLogging(SerialLink* seriallinkEsc);
+    void stopLogging();
+    float getTelemValueAvgs(int index);
+    void setTelemValueMaxs(int index, float value);
+    float getTelemValueMaxs(int index);
+    float getTelemStorage(int index);
+
+
 protected:
     void run();
 
@@ -453,6 +455,12 @@ signals:
     void finishedCalibration();
 
 private:
+    volatile float telemData[256][BINARY_VALUE_NUM];
+    volatile float telemValueAvgs[BINARY_VALUE_NUM];
+    volatile float telemValueMaxs[BINARY_VALUE_NUM];
+    float *telemStorage;
+    volatile int telemStorageNum;
+
     QString ParaWriten_MessageFromEsc32;
     QByteArray ResponseFromEsc32;
     int stopCalibration;
@@ -471,7 +479,6 @@ private:
     unsigned short esc32GetShort(QByteArray data, int startIndex);
     float esc32GetFloat(QByteArray data, int startIndex);
     QMutex dataMutex;
-    volatile int telemStorageNum;
     SerialLink* seriallinkEsc32;
 };
 
@@ -486,13 +493,15 @@ public:
     void Connect(QString port);
     void Disconnect();
     void SavePara(QString ParaName, QVariant ParaValue);
-    void sendCommand(int command, float Value1, float Value2, int num);
+    void sendCommand(int command, float Value1, float Value2, int num, bool withOutCheck);
     void ReadConfigEsc32();
     int GetEsc32State();
     SerialLink* getSerialLink();
-    void StartCalibration(AQEsc32Calibration* esc32cali);
+    void StartCalibration();
     void StopCalibration();
+    void StartLogging();
     void SetCommandBack(int Command);
+    bool currentError;
 private:
     int esc32state;
     int TimerState;
@@ -524,8 +533,6 @@ private:
     unsigned char checkOutA, checkOutB;
     unsigned char checkInA, checkInB;
     int indexOfAqC;
-    void DisconnectRS232();
-    void ConnectRS232();
     void RpmToVoltage(float maxAmps);
     void CurrentLimiter(float maxAmps);
     void stepUp(float start, float end);
@@ -533,14 +540,12 @@ private:
     int CommandBack;
     float FF1Term;
     float FF2Term;
-    float FF3Term;
     float CurrentLimiter1;
     float CurrentLimiter2;
     float CurrentLimiter3;
     float CurrentLimiter4;
     float CurrentLimiter5;
     SerialLink* seriallinkEsc32;
-
 
 private slots:
     void connectedEsc32();
@@ -550,7 +555,8 @@ private slots:
     void checkEsc32StateTimeOut();
 
 protected:
-    AQEsc32Calibration* esc32calibration;
+    AQEsc32Logger* esc32dataLogger;
+
 
 signals:
     void ShowConfig(QString Config);

@@ -110,9 +110,9 @@ private slots:
         void Esc32StartCalibration();
         void Esc32ReadConf();
         void Esc32ReLoadConf();
-        void Esc32finishedCali();
-        void Esc32CaliTerminated();
         void Esc32CaliGetCommand(int Command);
+        void Esc32StartLogging();
+
 
 private:
         Ui::QGCAutoquad *ui;
@@ -160,7 +160,7 @@ private:
         QwtPlotMarker *MarkerCut2;
         QwtPlotMarker *MarkerCut3;
         QwtPlotMarker *MarkerCut4;
-        AQEsc32Calibration* esc32cali;
+        int Esc32CalibrationMode;
 
 protected:
         void showEvent(QShowEvent* event);

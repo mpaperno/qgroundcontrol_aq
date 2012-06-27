@@ -133,6 +133,7 @@ public slots:
     void readBytes();
     void readEsc32Bytes();
     void setEsc32Mode(bool mode);
+    bool getEsc32Mode();
     /**
      * @brief Write a number of bytes to the interface.
      *
