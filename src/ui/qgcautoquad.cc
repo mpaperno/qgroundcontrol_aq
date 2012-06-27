@@ -1994,12 +1994,12 @@ void QGCAutoquad::CalculatDeclination() {
 
 double QGCAutoquad::Round(double Zahl, unsigned int Stellen)
 {
-    Zahl *= pow(10, Stellen);
+    Zahl *= pow((double)10, (double)Stellen);
     if (Zahl >= 0)
         floor(Zahl + 0.5);
     else
         ceil(Zahl - 0.5);
-    Zahl /= pow(10, Stellen);
+    Zahl /= pow((double)10, (double)Stellen);
     return Zahl;
 }
 
