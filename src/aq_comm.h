@@ -451,9 +451,6 @@ protected:
 private slots:
     void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
 
-signals:
-    void finishedCalibration();
-
 private:
     volatile float telemData[256][BINARY_VALUE_NUM];
     volatile float telemValueAvgs[BINARY_VALUE_NUM];
@@ -502,6 +499,15 @@ public:
     void StartLogging();
     void SetCommandBack(int Command);
     bool currentError;
+    void SetCalibrationMode(int mode);
+    float getFF1Term();
+    float getFF2Term();
+    float getCL1();
+    float getCL2();
+    float getCL3();
+    float getCL4();
+    float getCL5();
+
 private:
     int esc32state;
     int TimerState;
@@ -533,8 +539,8 @@ private:
     unsigned char checkOutA, checkOutB;
     unsigned char checkInA, checkInB;
     int indexOfAqC;
-    void RpmToVoltage(float maxAmps);
-    void CurrentLimiter(float maxAmps);
+    bool RpmToVoltage(float maxAmps);
+    bool CurrentLimiter(float maxAmps);
     void stepUp(float start, float end);
     QTimer *checkEsc32State;
     int CommandBack;
@@ -546,6 +552,7 @@ private:
     float CurrentLimiter4;
     float CurrentLimiter5;
     SerialLink* seriallinkEsc32;
+    int calibrationMode;
 
 private slots:
     void connectedEsc32();
@@ -565,6 +572,7 @@ signals:
     void Esc32ParaWritten(QString ParaName);
     void Esc32CommandWritten(int CommandName, QVariant V1, QVariant V2 );
     void getCommandBack(int Command);
+    void finishedCalibration(int CalibrationMode);
 
 };
 

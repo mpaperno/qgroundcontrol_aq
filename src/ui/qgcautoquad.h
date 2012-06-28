@@ -112,6 +112,7 @@ private slots:
         void Esc32ReLoadConf();
         void Esc32CaliGetCommand(int Command);
         void Esc32StartLogging();
+        void Esc32CalibrationFinished(int mode);
 
 
 private:

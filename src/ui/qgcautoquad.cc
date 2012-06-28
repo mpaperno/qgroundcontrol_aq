@@ -677,50 +677,78 @@ void QGCAutoquad::Esc32StartLogging() {
 }
 
 void QGCAutoquad::Esc32StartCalibration() {
-    QMessageBox InfomsgBox;
-    InfomsgBox.setText("This is the calibration routine for esc32!\r\n Please be careful with the calibration function!\r\n The motor turn up to full throttle!\r\n Please fix the motor & prop!\r\n No guarantee about any damage or failures");
-    InfomsgBox.exec();
-
-    int ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
-    if ( ret == 0) {
-        Esc32CalibrationMode = 1;
-    }
-    else if ( ret == 1) {
-        Esc32CalibrationMode = 2;
-    }
-    else
-    {
-        QMessageBox InfomsgBox;
-        InfomsgBox.setText("Failure in calibration routine!");
-        InfomsgBox.exec();
-        return;
-    }
-
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("Information");
-    msgBox.setInformativeText("Again be carful, you can abort with stop calibration!\r\n But the fastest stop is to pull the batery!\r\n If you want start the calibration procedure, press yes");
-    msgBox.setWindowModality(Qt::ApplicationModal);
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    ret = msgBox.exec();
-    switch (ret) {
-        case QMessageBox::Yes:
-        break;
-        case QMessageBox::No:
-            return;
-        break;
-        default:
-            return;
-        break;
-    }
 
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
-        esc32->StartCalibration();
         ui->pushButton_start_calibration->setText("stop calibration");
+
+        QMessageBox InfomsgBox;
+        InfomsgBox.setText("This is the calibration routine for esc32!\r\n Please be careful with the calibration function!\r\n The motor turn up to full throttle!\r\n Please fix the motor & prop!\r\n No guarantee about any damage or failures");
+        InfomsgBox.exec();
+
+        int ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
+        if ( ret == 0) {
+            Esc32CalibrationMode = 1;
+        }
+        else if ( ret == 1) {
+            Esc32CalibrationMode = 2;
+        }
+        else
+        {
+            QMessageBox InfomsgBox;
+            InfomsgBox.setText("Failure in calibration routine!");
+            InfomsgBox.exec();
+            return;
+        }
+
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Information");
+        msgBox.setInformativeText("Again be carful, you can abort with stop calibration!\r\n But the fastest stop is to pull the batery!\r\n If you want start the calibration procedure, press yes");
+        msgBox.setWindowModality(Qt::ApplicationModal);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        ret = msgBox.exec();
+        switch (ret) {
+            case QMessageBox::Yes:
+            break;
+            case QMessageBox::No:
+                return;
+            break;
+            default:
+                return;
+            break;
+        }
+
+        esc32->StartCalibration();
+        connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
     }
     else
     {
         ui->pushButton_start_calibration->setText("start calibration");
         esc32->StopCalibration();
+        disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
+    }
+}
+
+void QGCAutoquad::Esc32CalibrationFinished(int mode) {
+    if ( mode == 1) {
+        ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
+        ui->FF2TERM->setText(QString::number(esc32->getFF1Term()));
+        esc32->StopCalibration();
+        ui->pushButton_start_calibration->setText("start calibration");
+        QMessageBox InfomsgBox;
+        InfomsgBox.setText("Updated the fields with FF1Term and FF2Term!");
+        InfomsgBox.exec();
+    }
+    if ( mode == 2) {
+        ui->CL1TERM->setText(QString::number(esc32->getCL1()));
+        ui->CL2TERM->setText(QString::number(esc32->getCL1()));
+        ui->CL3TERM->setText(QString::number(esc32->getCL1()));
+        ui->CL4TERM->setText(QString::number(esc32->getCL1()));
+        ui->CL5TERM->setText(QString::number(esc32->getCL1()));
+        esc32->StopCalibration();
+        ui->pushButton_start_calibration->setText("start calibration");
+        QMessageBox InfomsgBox;
+        InfomsgBox.setText("Updated the fields with Currentlimiter 1 to Currentlimiter 5!");
+        InfomsgBox.exec();
     }
 }
 

@@ -2759,6 +2759,7 @@ SerialLink *AQEsc32::getSerialLink(){
 void AQEsc32::StartCalibration() {
     CommandBack = -1;
     TimerState = -1;
+    calibrationMode = 0;
     //Timer starten
     checkEsc32State->start();
     qDebug() << "Send a Nop for testing com";
@@ -2766,10 +2767,16 @@ void AQEsc32::StartCalibration() {
 }
 
 void AQEsc32::StopCalibration() {
-    checkEsc32State->stop();
     CommandBack = -1;
     TimerState = -1;
+    checkEsc32State->stop();
     sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0, false);
+    sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, false);
+    sendCommand(BINARY_COMMAND_DISARM, 0.0, 0.0, 0, false);
+    if ( esc32dataLogger ) {
+        esc32dataLogger->stopLogging();
+        esc32dataLogger = NULL;
+    }
 }
 
 void AQEsc32::StartLogging(){
@@ -2798,7 +2805,40 @@ void AQEsc32::StartLogging(){
 
 }
 
-void AQEsc32::RpmToVoltage(float maxAmps) {
+float AQEsc32::getFF1Term() {
+    return FF1Term;
+}
+
+float AQEsc32::getFF2Term() {
+    return FF2Term;
+}
+
+float AQEsc32::getCL1() {
+    return CurrentLimiter1;
+}
+
+float AQEsc32::getCL2(){
+    return CurrentLimiter2;
+}
+
+float AQEsc32::getCL3() {
+    return CurrentLimiter3;
+}
+
+float AQEsc32::getCL4() {
+    return CurrentLimiter4;
+}
+
+float AQEsc32::getCL5() {
+    return CurrentLimiter5;
+}
+
+
+void AQEsc32::SetCalibrationMode(int mode) {
+    calibrationMode = mode;
+}
+
+bool AQEsc32::RpmToVoltage(float maxAmps) {
     Eigen::MatrixXd A(2,2);
     Eigen::MatrixXd c(2,1);
     Eigen::MatrixXd ab(2,1);
@@ -2840,7 +2880,7 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
     qDebug() << "Stopping";
 
     if ( currentError) {
-        return;
+        return true;
     }
     A.setZero();
     c.setZero();
@@ -2865,9 +2905,10 @@ void AQEsc32::RpmToVoltage(float maxAmps) {
     data.setZero();
     qDebug() << "FF1Term =" << FF1Term;
     qDebug() << "FF2Term =" << FF1Term;
+    return false;
 }
 
-void AQEsc32::CurrentLimiter(float maxAmps) {
+bool AQEsc32::CurrentLimiter(float maxAmps) {
 
     Eigen::Matrix3d A;
     Eigen::Matrix3d c;
@@ -2881,6 +2922,7 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
     qDebug() << "Starting...\n";
     sendCommand(BINARY_COMMAND_START, 0.0, 0.0, 0, false);
     SleepThread(1);
+    currentError = false;
 
     for (i = 10; i <= 90; i += 10) {
         // reset max current
@@ -2897,14 +2939,22 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
         }
 
         // break if the first try went overcurrent
-        if (esc32dataLogger->getTelemValueMaxs(2) > maxAmps && j == i+5)
+        if (esc32dataLogger->getTelemValueMaxs(2) > maxAmps && j == i+5) {
+            currentError = true;
             break;
+        }
     }
 
-    qDebug() << "Stopping...\n";
+    sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, true);
+    SleepThread(1000);
     sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0, false);
+    SleepThread(1000);
+    sendCommand(BINARY_COMMAND_DISARM, 0.0, 0.0, 0, false);
+    qDebug() << "Stopping";
 
-    qDebug() << "Calculating...\n";
+    if ( currentError) {
+        return true;
+    }
 
     n = telemStorageNum;
     m = 5;
@@ -2948,7 +2998,7 @@ void AQEsc32::CurrentLimiter(float maxAmps) {
     c.setZero();
     ab.setZero();
     X.setZero();
-
+    return false;
 }
 
 void AQEsc32::stepUp(float start, float end) {
@@ -3122,17 +3172,21 @@ void AQEsc32::checkEsc32StateTimeOut() {
         disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         esc32dataLogger->startLogging(this->seriallinkEsc32);
         seriallinkEsc32->setEsc32Mode(true);
-
-        TimerState = 18;
+        if ( calibrationMode == 1)
+            TimerState = 18;
+        else if ( calibrationMode == 2)
+            TimerState = 19;
+        else
+            TimerState = 20;
     }
     //Wait for start
     else if ( TimerState == 18 ) {
         qDebug() << "Start RPMToVoltag";
         RpmToVoltage(30);
-        TimerState = 19;
+        TimerState = 20;
     }
     else if ( TimerState == 19 ) {
-        //CurrentLimiter(30);
+        CurrentLimiter(30);
         TimerState = 20;
     }
     else if ( TimerState == 20 ) {
@@ -3144,6 +3198,7 @@ void AQEsc32::checkEsc32StateTimeOut() {
         esc32dataLogger->stopLogging();
         SleepThread(1000);
         esc32dataLogger = NULL;
+        emit finishedCalibration(calibrationMode);
     }
 }
 
@@ -3168,7 +3223,7 @@ AQEsc32Logger::AQEsc32Logger() {
 }
 
 AQEsc32Logger::~AQEsc32Logger() {
-    stopCalibration = 0;
+    stopCalibration = 1;
     StepMessageFromEsc32 = 0;
 }
 
@@ -3203,7 +3258,6 @@ void AQEsc32Logger::run() {
     }
     disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
     qDebug() << "set serial back to normal mode";
-    emit finishedCalibration();
 }
 
 void AQEsc32Logger::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes) {
