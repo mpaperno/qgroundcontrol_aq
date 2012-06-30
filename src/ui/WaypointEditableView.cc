@@ -48,6 +48,9 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     m_ui->comboBox_action->addItem(tr("NAV: Loiter Turns"),MAV_CMD_NAV_LOITER_TURNS);
     m_ui->comboBox_action->addItem(tr("NAV: Ret. to Launch"),MAV_CMD_NAV_RETURN_TO_LAUNCH);
     m_ui->comboBox_action->addItem(tr("NAV: Land"),MAV_CMD_NAV_LAND);
+    m_ui->comboBox_action->addItem(tr("NAV: Orbit"),1);
+    m_ui->comboBox_action->addItem(tr("NAV: Go To TakeOff"),2);
+
     //m_ui->comboBox_action->addItem(tr("NAV: Target"),MAV_CMD_NAV_TARGET);
     //m_ui->comboBox_action->addItem(tr("IF: Delay over"),MAV_CMD_CONDITION_DELAY);
     //m_ui->comboBox_action->addItem(tr("IF: Yaw angle is"),MAV_CMD_CONDITION_YAW);

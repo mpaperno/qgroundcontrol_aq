@@ -1368,9 +1368,9 @@ void AQLogParser::SetChannelsStruct()
     LogChannelsStruct.append(qMakePair(fieldsInfo.fieldName, fieldsInfo));
 
     fieldsInfo.fieldActive = false;
-    fieldsInfo.fieldId = MAGY;
+    fieldsInfo.fieldId = MAGZ;
     fieldsInfo.fieldType = LOG_TYPE_FLOAT;
-    fieldsInfo.fieldName = "MAGY";
+    fieldsInfo.fieldName = "MAGZ";
     LogChannelsStruct.append(qMakePair(fieldsInfo.fieldName, fieldsInfo));
 
 
