@@ -3674,16 +3674,12 @@
                   <item>
                    <widget class="QLabel" name="label_119">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Esc32 Mode</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_PM_2">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                   </widget>
+                   <widget class="QComboBox" name="comboBox_mode"/>
                   </item>
                  </layout>
                 </item>
@@ -3692,16 +3688,12 @@
                   <item>
                    <widget class="QLabel" name="label_120">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Esc32 Input Mode</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_IM_2">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                   </widget>
+                   <widget class="QComboBox" name="comboBox_in_mode"/>
                   </item>
                  </layout>
                 </item>

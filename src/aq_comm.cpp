@@ -2349,18 +2349,21 @@ void AQEsc32::sendCommand(int command, float Value1, float Value2, int num, bool
         else
             qDebug() << "Send command again";
 
-        if ( withOutCheck )
-            command_ACK_NACK = 250;
-
-        TimeOutWaiting = 0;
-        while ( command_ACK_NACK != 250) {
-            QCoreApplication::processEvents();
-            TimeOutWaiting++;
-            if (TimeOutWaiting > 100000 ) {
-                qDebug() << "Timeout " << i+1 << "of 5";
-                break;
+        if ( !withOutCheck ) {
+            TimeOutWaiting = 0;
+            while ( command_ACK_NACK != 250) {
+                QCoreApplication::processEvents();
+                TimeOutWaiting++;
+                if (TimeOutWaiting > 100000 ) {
+                    qDebug() << "Timeout " << i+1 << "of 5";
+                    break;
+                }
             }
         }
+        else {
+            command_ACK_NACK = 250;
+        }
+
         if (command_ACK_NACK == 250 ){
             qDebug() << "command ACK = 250";
             break;
@@ -2527,7 +2530,7 @@ void AQEsc32::destroyedEsc32(){
 
 void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
     // Only add data from current link
-    // qDebug() << bytes;
+    // qDebug() << "bytes";
     if ( link == seriallinkEsc32)
     {
         //unsigned char byte = bytes.at(j);
@@ -2758,17 +2761,14 @@ SerialLink *AQEsc32::getSerialLink(){
 
 void AQEsc32::StartCalibration() {
     CommandBack = -1;
-    TimerState = -1;
-    calibrationMode = 0;
+    TimerState = -2;
     //Timer starten
     checkEsc32State->start();
-    qDebug() << "Send a Nop for testing com";
-    sendCommand(BINARY_COMMAND_NOP, 0.0f, 0.0f, 0, false);
 }
 
 void AQEsc32::StopCalibration() {
     CommandBack = -1;
-    TimerState = -1;
+    TimerState = -2;
     checkEsc32State->stop();
     sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0, false);
     sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, false);
@@ -2833,7 +2833,6 @@ float AQEsc32::getCL5() {
     return CurrentLimiter5;
 }
 
-
 void AQEsc32::SetCalibrationMode(int mode) {
     calibrationMode = mode;
 }
@@ -2874,9 +2873,9 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
 
     sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, true);
     SleepThread(1000);
-    sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0, false);
+    sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0, true);
     SleepThread(1000);
-    sendCommand(BINARY_COMMAND_DISARM, 0.0, 0.0, 0, false);
+    sendCommand(BINARY_COMMAND_DISARM, 0.0, 0.0, 0, true);
     qDebug() << "Stopping";
 
     if ( currentError) {
@@ -3012,9 +3011,15 @@ void AQEsc32::stepUp(float start, float end) {
 }
 
 void AQEsc32::checkEsc32StateTimeOut() {
+    if ( TimerState == -2) {
+        qDebug() << "Send a Nop for testing com";
+        sendCommand(BINARY_COMMAND_NOP, 0.0f, 0.0f, 0, false);
+        TimerState = -1;
+    }
+
     //Wait for binary nop
     if ( TimerState == -1 ) {
-        if ((CommandBack == 0) || (CommandBack == 255)){
+        if ((CommandBack == 0) || (command_ACK_NACK == 250)){
             CommandBack = -1;
             sendCommand(BINARY_COMMAND_ARM, 0.0f, 0.0f, 0, false);
             TimerState = 0;
@@ -3165,7 +3170,7 @@ void AQEsc32::checkEsc32StateTimeOut() {
     // Send Tele start to eSC32
     else if ( TimerState == 17 ) {
         CommandBack = -1;
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, false);
+        sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, true);
         qDebug() << "send BINARY_COMMAND_TELEM_RATE";
 
         esc32dataLogger = new AQEsc32Logger();
@@ -3187,12 +3192,12 @@ void AQEsc32::checkEsc32StateTimeOut() {
     }
     else if ( TimerState == 19 ) {
         CurrentLimiter(30);
+        sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, true);
         TimerState = 20;
     }
     else if ( TimerState == 20 ) {
         TimerState = 21;
         seriallinkEsc32->setEsc32Mode(false);
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, false);
         SleepThread(1000);
         connect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         esc32dataLogger->stopLogging();

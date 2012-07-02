@@ -490,6 +490,8 @@ public:
     void Connect(QString port);
     void Disconnect();
     void SavePara(QString ParaName, QVariant ParaValue);
+    void SwitchFromBinaryToAscii();
+    int SwitchFromAsciiToBinary();
     void sendCommand(int command, float Value1, float Value2, int num, bool withOutCheck);
     void ReadConfigEsc32();
     int GetEsc32State();
@@ -527,8 +529,6 @@ private:
     QString ParaWriten_MessageFromEsc32;
     QByteArray ResponseFromEsc32;
     int TimeOutWaiting;
-    void SwitchFromBinaryToAscii();
-    int SwitchFromAsciiToBinary();
     int esc32BinaryMode;
     int esc32DoCommand;
     void esc32SendChar(unsigned char c);

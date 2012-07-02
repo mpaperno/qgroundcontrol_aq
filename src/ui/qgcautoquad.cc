@@ -144,6 +144,16 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_marker->addItem("Start & End 15s", 5);
     ui->comboBox_marker->addItem("manual", 6);
 
+    ui->comboBox_mode->addItem("RPM",0);
+    ui->comboBox_mode->addItem("Open Loop",1);
+    ui->comboBox_mode->addItem("Thrust",2);
+
+    ui->comboBox_in_mode->addItem("PWM",0);
+    ui->comboBox_in_mode->addItem("UART",1);
+    ui->comboBox_in_mode->addItem("I2C",2);
+    ui->comboBox_in_mode->addItem("CAN",3);
+    ui->comboBox_in_mode->addItem("OW", 4);
+
     setupPortList();
     loadSettings();
 }
@@ -513,6 +523,9 @@ void QGCAutoquad::showConfigEsc32(QString Config)
             edtList.at(i)->setText(value);
         }
     }
+
+    //paramEsc32.contains()
+
 }
 
 void QGCAutoquad::btnSaveToEsc32() {
@@ -541,7 +554,8 @@ void QGCAutoquad::btnSaveToEsc32() {
 }
 
 void QGCAutoquad::btnReadConfigEsc32() {
-    esc32->sendCommand(BINARY_COMMAND_DISARM,0.0f, 0.0f, 0, false);
+    esc32->sendCommand(BINARY_COMMAND_CONFIG,0.0f, 0.0f, 0, false);
+    esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::btnArmEsc32()
@@ -550,7 +564,7 @@ void QGCAutoquad::btnArmEsc32()
         return;
     if ( ui->pushButton_esc32_read_arm_disarm->text() == "arm")
         esc32->sendCommand(BINARY_COMMAND_ARM,0.0f, 0.0f, 0, false);
-    if ( ui->pushButton_esc32_read_arm_disarm->text() == "disarm")
+    else if ( ui->pushButton_esc32_read_arm_disarm->text() == "disarm")
         esc32->sendCommand(BINARY_COMMAND_DISARM,0.0f, 0.0f, 0, false);
 
 }
@@ -561,7 +575,7 @@ void QGCAutoquad::btnStartStopEsc32()
         return;
     if ( ui->pushButton_esc32_read_start_stop->text() == "start")
         esc32->sendCommand(BINARY_COMMAND_START,0.0f, 0.0f, 0, false);
-    if ( ui->pushButton_esc32_read_start_stop->text() == "stop")
+    else if ( ui->pushButton_esc32_read_start_stop->text() == "stop")
         esc32->sendCommand(BINARY_COMMAND_STOP,0.0f, 0.0f, 0, false);
 }
 
@@ -679,21 +693,16 @@ void QGCAutoquad::Esc32StartLogging() {
 void QGCAutoquad::Esc32StartCalibration() {
 
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
-        ui->pushButton_start_calibration->setText("stop calibration");
-
         QMessageBox InfomsgBox;
         InfomsgBox.setText("This is the calibration routine for esc32!\r\n Please be careful with the calibration function!\r\n The motor turn up to full throttle!\r\n Please fix the motor & prop!\r\n No guarantee about any damage or failures");
         InfomsgBox.exec();
 
         int ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
-        if ( ret == 0) {
+        if ( ret == 0)
             Esc32CalibrationMode = 1;
-        }
-        else if ( ret == 1) {
+        else if ( ret == 1)
             Esc32CalibrationMode = 2;
-        }
-        else
-        {
+        else {
             QMessageBox InfomsgBox;
             InfomsgBox.setText("Failure in calibration routine!");
             InfomsgBox.exec();
@@ -708,31 +717,33 @@ void QGCAutoquad::Esc32StartCalibration() {
         ret = msgBox.exec();
         switch (ret) {
             case QMessageBox::Yes:
+                esc32->SetCalibrationMode(this->Esc32CalibrationMode);
+                esc32->StartCalibration();
+                ui->pushButton_start_calibration->setText("stop calibration");
+                connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
             break;
             case QMessageBox::No:
-                return;
-            break;
+            return;
             default:
-                return;
-            break;
+            return;
         }
 
-        esc32->StartCalibration();
-        connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
     }
-    else
+    else if ( ui->pushButton_start_calibration->text() == "stop calibration")
     {
+        /*
+        disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
         ui->pushButton_start_calibration->setText("start calibration");
         esc32->StopCalibration();
-        disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
+        */
     }
 }
 
 void QGCAutoquad::Esc32CalibrationFinished(int mode) {
+    esc32->StopCalibration();
     if ( mode == 1) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
         ui->FF2TERM->setText(QString::number(esc32->getFF1Term()));
-        esc32->StopCalibration();
         ui->pushButton_start_calibration->setText("start calibration");
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with FF1Term and FF2Term!");
@@ -744,7 +755,6 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
         ui->CL3TERM->setText(QString::number(esc32->getCL1()));
         ui->CL4TERM->setText(QString::number(esc32->getCL1()));
         ui->CL5TERM->setText(QString::number(esc32->getCL1()));
-        esc32->StopCalibration();
         ui->pushButton_start_calibration->setText("start calibration");
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with Currentlimiter 1 to Currentlimiter 5!");
@@ -753,11 +763,15 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
 }
 
 void QGCAutoquad::Esc32ReadConf() {
-    qDebug() << "QGCAutoquad::Esc32ReadConf";
+    esc32->sendCommand(BINARY_COMMAND_CONFIG,2.0f, 0.0f, 0, false);
+    esc32->SwitchFromBinaryToAscii();
+    esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::Esc32ReLoadConf() {
-    qDebug() << "QGCAutoquad::Esc32ReLoadConf";
+    esc32->sendCommand(BINARY_COMMAND_CONFIG,1.0f, 0.0f, 0, false);
+    esc32->SwitchFromBinaryToAscii();
+    esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::Esc32CaliGetCommand(int Command){
