@@ -1003,6 +1003,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
     if (uas_ext)
     {
+
         uas = uas_ext;
         disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
         disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));

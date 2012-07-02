@@ -512,8 +512,10 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
             statusLabel->setPalette(pal);
         }
         statusLabel->setText(tr("Got %2 (#%1/%5): %3 (%4 missing)").arg(paramId+1).arg(parameterName).arg(value.toDouble()).arg(missCount).arg(paramCount));
+        /*
         if ((paramId+1) == paramCount )
             emit requestParameterRefreshed();
+            */
     }
 
     // Check if last parameter was received
@@ -526,6 +528,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
         {
             transmissionMissingPackets.value(key)->clear();
         }
+        emit requestParameterRefreshed();
     }
 }
 
@@ -1295,11 +1298,13 @@ void QGCAQParamWidget::clear()
 
 QVariant QGCAQParamWidget::getParaAQ(QString parameterName)
 {
+    if ( !parameters.contains(190) )
+        return "";
 	if (parameters.value(190)->contains(parameterName)) {
 		QVariant var = parameters.value(190)->value(parameterName);
 		return var;
 	}
-        return 0;
+    return "";
 }
 
 void QGCAQParamWidget::setParaAQ(QString parameterName, QVariant value)
