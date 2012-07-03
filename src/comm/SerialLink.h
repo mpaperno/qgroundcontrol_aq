@@ -132,6 +132,7 @@ public slots:
 
     void readBytes();
     void readEsc32Bytes();
+    TNX::QSerialPort *getPort();
     void setEsc32Mode(bool mode);
     bool getEsc32Mode();
     /**

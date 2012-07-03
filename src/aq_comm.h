@@ -436,6 +436,7 @@ class AQEsc32Logger : public QThread
 public:
     AQEsc32Logger();
     ~AQEsc32Logger();
+    void run();
     bool isFinished();
     void startLogging(SerialLink* seriallinkEsc);
     void stopLogging();
@@ -443,19 +444,19 @@ public:
     void setTelemValueMaxs(int index, float value);
     float getTelemValueMaxs(int index);
     float getTelemStorage(int index);
+    int getTelemStorageNum();
+    float *telemStorage;
 
 
-protected:
-    void run();
 
 private slots:
     void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
+
 
 private:
     volatile float telemData[256][BINARY_VALUE_NUM];
     volatile float telemValueAvgs[BINARY_VALUE_NUM];
     volatile float telemValueMaxs[BINARY_VALUE_NUM];
-    float *telemStorage;
     volatile int telemStorageNum;
 
     QString ParaWriten_MessageFromEsc32;

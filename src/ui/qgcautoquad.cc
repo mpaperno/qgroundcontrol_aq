@@ -486,7 +486,7 @@ void QGCAutoquad::btnConnectEsc32()
         connect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
         connect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
         connect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
-
+        connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
         ui->pushButton_connect_to_esc32->setText("disconnect");
         esc32->Connect(port);
     }
@@ -497,6 +497,7 @@ void QGCAutoquad::btnConnectEsc32()
         disconnect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
         disconnect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
         disconnect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
+        disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
         ui->pushButton_connect_to_esc32->setText("connect esc32");
         esc32->Disconnect();
         esc32 = NULL;
@@ -691,6 +692,8 @@ void QGCAutoquad::Esc32StartLogging() {
 }
 
 void QGCAutoquad::Esc32StartCalibration() {
+    if (!esc32)
+        return;
 
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
         QMessageBox InfomsgBox;
@@ -715,27 +718,19 @@ void QGCAutoquad::Esc32StartCalibration() {
         msgBox.setWindowModality(Qt::ApplicationModal);
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         ret = msgBox.exec();
-        switch (ret) {
-            case QMessageBox::Yes:
-                esc32->SetCalibrationMode(this->Esc32CalibrationMode);
-                esc32->StartCalibration();
-                ui->pushButton_start_calibration->setText("stop calibration");
-                connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
-            break;
-            case QMessageBox::No:
-            return;
-            default:
+        if ( ret == QMessageBox::Yes) {
+            esc32->SetCalibrationMode(this->Esc32CalibrationMode);
+            esc32->StartCalibration();
+            ui->pushButton_start_calibration->setText("stop calibration");
+        }
+        else {
             return;
         }
-
     }
     else if ( ui->pushButton_start_calibration->text() == "stop calibration")
     {
-        /*
-        disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
         ui->pushButton_start_calibration->setText("start calibration");
         esc32->StopCalibration();
-        */
     }
 }
 

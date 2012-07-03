@@ -516,28 +516,35 @@ void SerialLink::readBytes()
  * @param data Pointer to the data byte array to write the bytes to
  * @param maxLength The maximum number of bytes to write
  **/
+TNX::QSerialPort * SerialLink::getPort() {
+    dataMutex.lock();
+    return port;
+    dataMutex.unlock();
+}
+
 void SerialLink::readEsc32Bytes()
 {
+    return;
     dataMutex.lock();
     if(port && port->isOpen()) {
         const qint64 maxLength = 2048;
         char data[maxLength];
-        qint64 numBytes = port->bytesAvailable();
         //qDebug() << "numBytes: " << numBytes;
         retry:
-        if(numBytes > 0) {
+        qint64 numBytes = port->bytesAvailable();
+        if(numBytes > 5) {
             /* Read as much data in buffer as possible without overflow */
             //if(maxLength < numBytes) numBytes = maxLength;
 
             //port->read(data, numBytes);
 
-            port->read(data,1);
+            port->read(data,1);numBytes--;
             if ( data[0] != 'A')
                 goto retry;
-            port->read(data,1);
+            port->read(data,1);numBytes--;
             if ( data[0] != 'q')
                 goto retry;
-            port->read(data,1);
+            port->read(data,1);numBytes--;
             if ( data[0] != 'T')
                 goto retry;
 
@@ -546,19 +553,32 @@ void SerialLink::readEsc32Bytes()
             port->read(data,2);
             rows = data[0];
             cols = data[1];
+            numBytes--;numBytes--;
 
+            if ( numBytes <= 0){
+                return;
+            }
             int length_array = (((cols*rows)*4)+2);
             int timeout_waiting = 0;
 
+            if ( length_array > 500) {
+                length_array = 0;
+                dataMutex.unlock();
+                return;
+            }
+
             while(port->bytesAvailable() < length_array) {
-                MG::SLEEP::msleep(1);
                 timeout_waiting++;
-                if ( timeout_waiting > 1500)
+                if ( timeout_waiting > 1500) {
+                    timeout_waiting = 0;
+                    dataMutex.unlock();
                     return;
+                }
             }
 
             port->read(data, length_array);
             QByteArray b(data, length_array);
+            //qDebug() << "Packet Length " << QString::number(length_array);
             emit bytesReceived(this, b);
 
             //qDebug() << "SerialLink::readBytes()" << std::hex << data;
