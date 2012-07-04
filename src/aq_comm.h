@@ -487,7 +487,6 @@ class AQEsc32 : public QObject {
 public:
     AQEsc32();
     ~AQEsc32();
-    int esc32SendCommand(unsigned char command, float param1, float param2, int n);
     void Connect(QString port);
     void Disconnect();
     void SavePara(QString ParaName, QVariant ParaValue);
@@ -512,6 +511,7 @@ public:
     float getCL5();
 
 private:
+    int esc32SendCommand(unsigned char command, float param1, float param2, int n);
     int esc32state;
     int TimerState;
     int getEnumByName(QString Name);

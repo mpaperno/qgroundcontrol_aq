@@ -532,6 +532,8 @@ void QGCAutoquad::showConfigEsc32(QString Config)
 void QGCAutoquad::btnSaveToEsc32() {
 
     bool oneWritten = false;
+    bool something_gos_wrong = false;
+    int rettryToStore = 0;
     QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
     for ( int i = 0; i<edtList.count(); i++) {
         QString ParaName = edtList.at(i)->objectName();
@@ -540,18 +542,39 @@ void QGCAutoquad::btnSaveToEsc32() {
             QString valueEsc32 = paramEsc32.value(ParaName);
             QString valueText = edtList.at(i)->text();
             if ( valueEsc32 != valueText) {
-                esc32->SavePara(ParaName,valueText);
                 WaitForParaWriten = 1;
                 ParaNameWritten = ParaName;
+                esc32->SavePara(ParaName,valueText);
                 oneWritten = true;
+                int timeout = 0;
                 while(WaitForParaWriten >0) {
+                    if (paramEsc32Written.contains(ParaName)) {
+                        paramEsc32Written.remove(ParaName);
+                        break;
+                    }
+                    timeout++;
+                    if ( timeout > 500000) {
+                        something_gos_wrong = true;
+                        break;
+                    }
                     QCoreApplication::processEvents();
                 }
             }
         }
+        if ((rettryToStore >= 3) && (something_gos_wrong))
+            break;
     }
-    if ( oneWritten )
+    if (( oneWritten ) && (!something_gos_wrong))
         saveEEpromEsc32();
+    else if (something_gos_wrong) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Error");
+        msgBox.setInformativeText("Something goes wrong with storing the values. Please retry!");
+        msgBox.setWindowModality(Qt::ApplicationModal);
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+    }
+
 }
 
 void QGCAutoquad::btnReadConfigEsc32() {
@@ -591,6 +614,8 @@ void QGCAutoquad::ParaWrittenEsc32(QString ParaName) {
             {
                 paramEsc32.remove(ParaName);
                 paramEsc32.insert(ParaName,edtList.at(i)->text());
+                paramEsc32Written.insert(ParaName,edtList.at(i)->text());
+                qDebug() << ParaName << " written";
                 break;
             }
         }
@@ -738,7 +763,7 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
     esc32->StopCalibration();
     if ( mode == 1) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
-        ui->FF2TERM->setText(QString::number(esc32->getFF1Term()));
+        ui->FF2TERM->setText(QString::number(esc32->getFF2Term()));
         ui->pushButton_start_calibration->setText("start calibration");
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with FF1Term and FF2Term!");
@@ -746,10 +771,10 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
     }
     if ( mode == 2) {
         ui->CL1TERM->setText(QString::number(esc32->getCL1()));
-        ui->CL2TERM->setText(QString::number(esc32->getCL1()));
-        ui->CL3TERM->setText(QString::number(esc32->getCL1()));
-        ui->CL4TERM->setText(QString::number(esc32->getCL1()));
-        ui->CL5TERM->setText(QString::number(esc32->getCL1()));
+        ui->CL2TERM->setText(QString::number(esc32->getCL2()));
+        ui->CL3TERM->setText(QString::number(esc32->getCL3()));
+        ui->CL4TERM->setText(QString::number(esc32->getCL4()));
+        ui->CL5TERM->setText(QString::number(esc32->getCL5()));
         ui->pushButton_start_calibration->setText("start calibration");
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with Currentlimiter 1 to Currentlimiter 5!");
@@ -758,13 +783,13 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
 }
 
 void QGCAutoquad::Esc32ReadConf() {
-    esc32->sendCommand(BINARY_COMMAND_CONFIG,2.0f, 0.0f, 0, false);
+    esc32->sendCommand(BINARY_COMMAND_CONFIG,2.0f, 0.0f, 1, false);
     esc32->SwitchFromBinaryToAscii();
     esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::Esc32ReLoadConf() {
-    esc32->sendCommand(BINARY_COMMAND_CONFIG,1.0f, 0.0f, 0, false);
+    esc32->sendCommand(BINARY_COMMAND_CONFIG,0.0f, 0.0f, 1, false);
     esc32->SwitchFromBinaryToAscii();
     esc32->ReadConfigEsc32();
 }

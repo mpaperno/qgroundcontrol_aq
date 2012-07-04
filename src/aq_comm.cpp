@@ -2318,13 +2318,30 @@ void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
     {
         SwitchFromAsciiToBinary();
     }
-    StepMessageFromEsc32 = 4;
-    ParaNameLastSend = ParaName;
-    ParaLastSend = BINARY_COMMAND_SET;
-    int paraToWrite =  getEnumByName(ParaName);
-    float valueToWrite = ParaValue.toFloat();
-    esc32SendCommand(BINARY_COMMAND_SET,paraToWrite,valueToWrite,2);
+    for ( int i = 0; i<5; i++) {
+        StepMessageFromEsc32 = 4;
+        ParaNameLastSend = ParaName;
+        ParaLastSend = BINARY_COMMAND_SET;
+        int paraToWrite =  getEnumByName(ParaName);
+        float valueToWrite = ParaValue.toFloat();
+        esc32SendCommand(BINARY_COMMAND_SET,paraToWrite,valueToWrite,2);
 
+        TimeOutWaiting = 0;
+        while ( command_ACK_NACK != 250) {
+            QCoreApplication::processEvents();
+            SleepThread(1);
+            TimeOutWaiting++;
+            if (TimeOutWaiting > 500 ) {
+                qDebug() << "Timeout " << i+1 << "of 5";
+                break;
+            }
+        }
+        if (command_ACK_NACK == 250 ){
+            qDebug() << "command ACK = 250";
+            break;
+        }
+
+    }
 }
 
 void AQEsc32::sendCommand(int command, float Value1, float Value2, int num, bool withOutCheck ){
@@ -2353,8 +2370,9 @@ void AQEsc32::sendCommand(int command, float Value1, float Value2, int num, bool
             TimeOutWaiting = 0;
             while ( command_ACK_NACK != 250) {
                 QCoreApplication::processEvents();
+                SleepThread(1);
                 TimeOutWaiting++;
-                if (TimeOutWaiting > 100000 ) {
+                if (TimeOutWaiting > 500 ) {
                     qDebug() << "Timeout " << i+1 << "of 5";
                     break;
                 }
@@ -2707,8 +2725,9 @@ int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2,
     transmit.append("q");
     //################################
     seriallinkEsc32->writeBytes(transmit,transmit.size());
-    checkOutA = checkOutB = 0;
-
+    checkOutA = 0;
+    checkOutB = 0;
+    command_ACK_NACK = 0;
     esc32SendChar(1 + 2 + n*sizeof(float));
     esc32SendChar(command);
     esc32SendShort(commandSeqId++);
@@ -3208,6 +3227,7 @@ void AQEsc32::checkEsc32StateTimeOut() {
         TimerState = 20;
     }
     else if ( TimerState == 19 ) {
+        qDebug() << "Start Current Limiter";
         CurrentLimiter(30);
         TimerState = 20;
     }
@@ -3215,9 +3235,10 @@ void AQEsc32::checkEsc32StateTimeOut() {
         TimerState = 21;
         seriallinkEsc32->setEsc32Mode(false);
         SleepThread(1000);
-        connect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         esc32dataLogger->stopLogging();
         SleepThread(1000);
+        esc32dataLogger = NULL;
+        connect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         esc32dataLogger = NULL;
         emit finishedCalibration(calibrationMode);
     }
@@ -3257,11 +3278,6 @@ void AQEsc32Logger::startLogging(SerialLink *seriallinkEsc) {
 
 void AQEsc32Logger::stopLogging() {
     stopCalibration = 1;
-    ParaWriten_MessageFromEsc32 = "";
-    ResponseFromEsc32.clear();
-    StepMessageFromEsc32 = 0;
-    free(telemStorage);
-    qDebug() << "set serial back to normal mode";
 }
 
 void AQEsc32Logger::run() {
@@ -3300,6 +3316,8 @@ void AQEsc32Logger::run() {
             checkInB = 0;
             int i, in, j;
             while(myPort->bytesAvailable() < 2){
+                if ( stopCalibration == 1)
+                    goto retry;
                 el.processEvents();
             }
             myPort->read(data,2);
@@ -3315,6 +3333,8 @@ void AQEsc32Logger::run() {
             for (i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     while(myPort->bytesAvailable() < 4){
+                        if ( stopCalibration == 1)
+                            goto retry;
                         el.processEvents();
                     }
                     myPort->read(data,4);
@@ -3322,6 +3342,8 @@ void AQEsc32Logger::run() {
                 }
             }
             while(myPort->bytesAvailable() < 2){
+                if ( stopCalibration == 1)
+                    goto retry;
                 el.processEvents();
             }
             myPort->read(data,2);
@@ -3353,8 +3375,11 @@ void AQEsc32Logger::run() {
         el.processEvents();
     }
     myPort = NULL;
+    ParaWriten_MessageFromEsc32 = "";
+    ResponseFromEsc32.clear();
+    StepMessageFromEsc32 = 0;
+    free(telemStorage);
     qDebug() << "set serial back to normal mode";
-
 }
 
 void AQEsc32Logger::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes) {
