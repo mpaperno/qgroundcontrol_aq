@@ -447,12 +447,6 @@ public:
     int getTelemStorageNum();
     float *telemStorage;
 
-
-
-private slots:
-    void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
-
-
 private:
     volatile float telemData[256][BINARY_VALUE_NUM];
     volatile float telemValueAvgs[BINARY_VALUE_NUM];
@@ -461,7 +455,7 @@ private:
 
     QString ParaWriten_MessageFromEsc32;
     QByteArray ResponseFromEsc32;
-    int stopCalibration;
+    int StopLogging;
     int StepMessageFromEsc32;
     unsigned char commandSeqIdBack;
     unsigned char commandBack;
@@ -497,7 +491,7 @@ public:
     int GetEsc32State();
     SerialLink* getSerialLink();
     void StartCalibration();
-    void StopCalibration();
+    void StopCalibration(bool withEmergencyExit);
     void StartLogging();
     void SetCommandBack(int Command);
     bool currentError;
@@ -529,6 +523,7 @@ private:
     QVariant LastParaValueSend2;
     QString ParaWriten_MessageFromEsc32;
     QByteArray ResponseFromEsc32;
+    int ExitCalibration;
     int TimeOutWaiting;
     int esc32BinaryMode;
     int esc32DoCommand;

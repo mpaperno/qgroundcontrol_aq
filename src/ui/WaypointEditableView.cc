@@ -63,6 +63,10 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     m_ui->comboBox_frame->addItem("Local(NED)",MAV_FRAME_LOCAL_NED);
     m_ui->comboBox_frame->addItem("Mission",MAV_FRAME_MISSION);
 
+    m_ui->HorizontalSpeedSpinBox->hide();
+    m_ui->TargetAltitudedoubleSpinBox->hide();
+    m_ui->POIHeadingdoubleSpinBox->hide();
+
     // Initialize view correctly
     updateActionView(wp->getAction());
     updateFrameView(wp->getFrame());
@@ -235,6 +239,27 @@ void WaypointEditableView::updateActionView(int action)
         m_ui->orbitSpinBox->show();
         m_ui->holdTimeSpinBox->show();
         break;
+      case 1:
+        m_ui->takeOffAngleSpinBox->hide();
+        m_ui->yawSpinBox->hide();
+        m_ui->turnsSpinBox->hide();
+        m_ui->autoContinue->hide();
+        m_ui->acceptanceSpinBox->hide();
+        m_ui->customActionWidget->hide();
+        m_ui->missionDoWidgetSlot->hide();
+        m_ui->missionConditionWidgetSlot->hide();
+        m_ui->orbitSpinBox->hide();
+        m_ui->holdTimeSpinBox->hide();
+
+        m_ui->altSpinBox->hide();
+
+        m_ui->TargetAltitudedoubleSpinBox->show();
+        m_ui->acceptanceSpinBox->show();
+        m_ui->holdTimeSpinBox->show();
+        m_ui->POIHeadingdoubleSpinBox->show();
+        m_ui->HorizontalSpeedSpinBox->show();
+        m_ui->horizontalLayout->insertStretch(17, 20);
+        break;
 //    case MAV_CMD_NAV_ORIENTATION_TARGET:
 //        m_ui->orbitSpinBox->hide();
 //        m_ui->takeOffAngleSpinBox->hide();
@@ -277,6 +302,8 @@ void WaypointEditableView::changedAction(int index)
     case MAV_CMD_NAV_LOITER_UNLIM:
     case MAV_CMD_NAV_LOITER_TURNS:
     case MAV_CMD_NAV_LOITER_TIME:
+    case 1:
+    case 2:
         changeViewMode(QGC_WAYPOINTEDITABLEVIEW_MODE_NAV);
         // Update frame view        
         updateFrameView(cur_frame);

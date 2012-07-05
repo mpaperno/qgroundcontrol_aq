@@ -755,12 +755,15 @@ void QGCAutoquad::Esc32StartCalibration() {
     else if ( ui->pushButton_start_calibration->text() == "stop calibration")
     {
         ui->pushButton_start_calibration->setText("start calibration");
-        esc32->StopCalibration();
+        esc32->StopCalibration(true);
     }
 }
 
 void QGCAutoquad::Esc32CalibrationFinished(int mode) {
-    esc32->StopCalibration();
+    //Emergency exit
+    if ( mode == 99)
+        return;
+    esc32->StopCalibration(false);
     if ( mode == 1) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
         ui->FF2TERM->setText(QString::number(esc32->getFF2Term()));
