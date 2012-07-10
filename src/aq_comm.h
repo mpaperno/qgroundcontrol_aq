@@ -438,7 +438,7 @@ public:
     ~AQEsc32Logger();
     void run();
     bool isFinished();
-    void startLogging(SerialLink* seriallinkEsc);
+    void startLogging(SerialLink* seriallinkEsc, QString FileName);
     void stopLogging();
     float getTelemValueAvgs(int index);
     void setTelemValueMaxs(int index, float value);
@@ -472,6 +472,8 @@ private:
     float esc32GetFloat(QByteArray data, int startIndex);
     QMutex dataMutex;
     SerialLink* seriallinkEsc32;
+    FILE *telemOutFile;
+
 };
 
 #define MAX_TELEM_STORAGE	200000
@@ -490,11 +492,12 @@ public:
     void ReadConfigEsc32();
     int GetEsc32State();
     SerialLink* getSerialLink();
-    void StartCalibration();
+    void StartCalibration(float MaxCurrent, QString LogFile);
     void StopCalibration(bool withEmergencyExit);
     void StartLogging();
     void SetCommandBack(int Command);
     bool currentError;
+    int ExitCalibration;
     void SetCalibrationMode(int mode);
     float getFF1Term();
     float getFF2Term();
@@ -523,7 +526,6 @@ private:
     QVariant LastParaValueSend2;
     QString ParaWriten_MessageFromEsc32;
     QByteArray ResponseFromEsc32;
-    int ExitCalibration;
     int TimeOutWaiting;
     int esc32BinaryMode;
     int esc32DoCommand;
@@ -549,6 +551,8 @@ private:
     float CurrentLimiter5;
     SerialLink* seriallinkEsc32;
     int calibrationMode;
+    float maximum_Current;
+    QString LoggingFile;
 
 private slots:
     void connectedEsc32();
@@ -556,6 +560,7 @@ private slots:
     void destroyedEsc32();
     void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
     void checkEsc32StateTimeOut();
+    void communicationErrorEsc32(QString err1, QString err2);
 
 protected:
     AQEsc32Logger* esc32dataLogger;

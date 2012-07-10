@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1035</width>
-    <height>695</height>
+    <height>721</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        <string>Flashing and Setup</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
-       <item row="0" column="1" rowspan="2">
+       <item row="0" column="1" rowspan="3">
         <widget class="QGroupBox" name="grp_settings">
          <property name="title">
           <string>Basic Settings Autoquad</string>
@@ -964,7 +964,7 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -976,6 +976,19 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lbl_version">
+         <property name="toolTip">
+          <string>Version from Widget</string>
+         </property>
+         <property name="statusTip">
+          <string>Version from Widget</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -3575,6 +3588,40 @@
            </widget>
           </item>
           <item>
+           <widget class="QDoubleSpinBox" name="DoubleMaxCurrent">
+            <property name="toolTip">
+             <string notr="true">Max Current</string>
+            </property>
+            <property name="statusTip">
+             <string notr="true">Max Current</string>
+            </property>
+            <property name="specialValueText">
+             <string notr="true"/>
+            </property>
+            <property name="keyboardTracking">
+             <bool>false</bool>
+            </property>
+            <property name="prefix">
+             <string notr="true"/>
+            </property>
+            <property name="suffix">
+             <string notr="true"/>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>30.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>30.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pushButton_start_calibration">
             <property name="text">
              <string>start calibration</string>
@@ -4135,6 +4182,288 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>SelectFirmwareButton</tabstop>
+  <tabstop>portName</tabstop>
+  <tabstop>flashButton</tabstop>
+  <tabstop>textFlashOutput</tabstop>
+  <tabstop>tab_aq_settings</tabstop>
+  <tabstop>lineEdit_76</tabstop>
+  <tabstop>lineEdit_74</tabstop>
+  <tabstop>lineEdit_77</tabstop>
+  <tabstop>lineEdit_75</tabstop>
+  <tabstop>MOT_PWRD_01_T</tabstop>
+  <tabstop>MOT_PWRD_01_P</tabstop>
+  <tabstop>MOT_PWRD_01_R</tabstop>
+  <tabstop>MOT_PWRD_01_Y</tabstop>
+  <tabstop>MOT_PWRD_02_T</tabstop>
+  <tabstop>MOT_PWRD_02_P</tabstop>
+  <tabstop>MOT_PWRD_02_R</tabstop>
+  <tabstop>MOT_PWRD_02_Y</tabstop>
+  <tabstop>MOT_PWRD_03_T</tabstop>
+  <tabstop>MOT_PWRD_03_P</tabstop>
+  <tabstop>MOT_PWRD_03_R</tabstop>
+  <tabstop>MOT_PWRD_03_Y</tabstop>
+  <tabstop>MOT_PWRD_04_T</tabstop>
+  <tabstop>MOT_PWRD_04_P</tabstop>
+  <tabstop>MOT_PWRD_04_R</tabstop>
+  <tabstop>MOT_PWRD_04_Y</tabstop>
+  <tabstop>MOT_PWRD_05_T</tabstop>
+  <tabstop>MOT_PWRD_05_P</tabstop>
+  <tabstop>MOT_PWRD_05_R</tabstop>
+  <tabstop>MOT_PWRD_05_Y</tabstop>
+  <tabstop>MOT_PWRD_06_T</tabstop>
+  <tabstop>MOT_PWRD_06_P</tabstop>
+  <tabstop>MOT_PWRD_06_R</tabstop>
+  <tabstop>MOT_PWRD_06_Y</tabstop>
+  <tabstop>MOT_PWRD_07_T</tabstop>
+  <tabstop>MOT_PWRD_07_P</tabstop>
+  <tabstop>MOT_PWRD_07_R</tabstop>
+  <tabstop>MOT_PWRD_07_Y</tabstop>
+  <tabstop>MOT_PWRD_08_T</tabstop>
+  <tabstop>MOT_PWRD_08_P</tabstop>
+  <tabstop>MOT_PWRD_08_R</tabstop>
+  <tabstop>MOT_PWRD_08_Y</tabstop>
+  <tabstop>MOT_PWRD_09_T</tabstop>
+  <tabstop>MOT_PWRD_09_P</tabstop>
+  <tabstop>MOT_PWRD_09_R</tabstop>
+  <tabstop>MOT_PWRD_09_Y</tabstop>
+  <tabstop>MOT_PWRD_10_T</tabstop>
+  <tabstop>MOT_PWRD_10_P</tabstop>
+  <tabstop>MOT_PWRD_10_R</tabstop>
+  <tabstop>MOT_PWRD_10_Y</tabstop>
+  <tabstop>MOT_PWRD_11_T</tabstop>
+  <tabstop>MOT_PWRD_11_P</tabstop>
+  <tabstop>MOT_PWRD_11_R</tabstop>
+  <tabstop>MOT_PWRD_11_Y</tabstop>
+  <tabstop>MOT_PWRD_12_T</tabstop>
+  <tabstop>MOT_PWRD_12_P</tabstop>
+  <tabstop>MOT_PWRD_12_R</tabstop>
+  <tabstop>MOT_PWRD_12_Y</tabstop>
+  <tabstop>MOT_PWRD_13_T</tabstop>
+  <tabstop>MOT_PWRD_13_P</tabstop>
+  <tabstop>MOT_PWRD_13_R</tabstop>
+  <tabstop>MOT_PWRD_13_Y</tabstop>
+  <tabstop>MOT_PWRD_14_T</tabstop>
+  <tabstop>MOT_PWRD_14_P</tabstop>
+  <tabstop>MOT_PWRD_14_R</tabstop>
+  <tabstop>MOT_PWRD_14_Y</tabstop>
+  <tabstop>pushButton_Load_frame_from_file</tabstop>
+  <tabstop>pushButton_Save_farem_to_file</tabstop>
+  <tabstop>pushButton_save_to_aq_frame</tabstop>
+  <tabstop>pushButton_Add_Static</tabstop>
+  <tabstop>pushButton_Remov_Static</tabstop>
+  <tabstop>listWidgetStatic</tabstop>
+  <tabstop>pushButton_Add_Dynamic</tabstop>
+  <tabstop>pushButton_Remove_Dynamic</tabstop>
+  <tabstop>listWidgetDynamic</tabstop>
+  <tabstop>lineEdit_insert_declination</tabstop>
+  <tabstop>lineEdit_insert_inclination</tabstop>
+  <tabstop>pushButton_Calculate</tabstop>
+  <tabstop>lineEdit_cal_declination</tabstop>
+  <tabstop>lineEdit_cal_inclination</tabstop>
+  <tabstop>lineEdit_user_param_file</tabstop>
+  <tabstop>pushButton_Sel_params_file_user</tabstop>
+  <tabstop>pushButton_Create_params_file_user</tabstop>
+  <tabstop>tabWidget_Parameter</tabstop>
+  <tabstop>pushButton_start_cal2</tabstop>
+  <tabstop>pushButton_abort_cal2</tabstop>
+  <tabstop>textOutput_cal2</tabstop>
+  <tabstop>pushButton_start_cal3</tabstop>
+  <tabstop>pushButton_abort_cal3</tabstop>
+  <tabstop>textOutput_cal3</tabstop>
+  <tabstop>checkBox_sim3_4_var</tabstop>
+  <tabstop>lineEdit_variance</tabstop>
+  <tabstop>checkBox_sim3_4_stop</tabstop>
+  <tabstop>lineEdit_stop</tabstop>
+  <tabstop>pushButton_start_sim1</tabstop>
+  <tabstop>pushButton_abort_sim1</tabstop>
+  <tabstop>textOutput_sim1</tabstop>
+  <tabstop>checkBox_sim3_4_var_2</tabstop>
+  <tabstop>lineEdit_variance_4</tabstop>
+  <tabstop>checkBox_sim3_4_stop_2</tabstop>
+  <tabstop>lineEdit_stop_4</tabstop>
+  <tabstop>pushButton_start_sim1_2</tabstop>
+  <tabstop>pushButton_abort_sim1_2</tabstop>
+  <tabstop>textOutput_sim1_2</tabstop>
+  <tabstop>checkBox_sim3_5_var</tabstop>
+  <tabstop>lineEdit_variance_2</tabstop>
+  <tabstop>checkBox_sim3_5_stop</tabstop>
+  <tabstop>lineEdit_stop_2</tabstop>
+  <tabstop>pushButton_start_sim2</tabstop>
+  <tabstop>pushButton_abort_sim2</tabstop>
+  <tabstop>textOutput_sim2</tabstop>
+  <tabstop>checkBox_sim3_6_var</tabstop>
+  <tabstop>lineEdit_variance_3</tabstop>
+  <tabstop>checkBox_sim3_6_stop</tabstop>
+  <tabstop>lineEdit_stop_3</tabstop>
+  <tabstop>pushButton_start_sim3</tabstop>
+  <tabstop>pushButton_abort_sim3</tabstop>
+  <tabstop>textOutput_sim3</tabstop>
+  <tabstop>textOutput_Users_Params</tabstop>
+  <tabstop>pushButton_save</tabstop>
+  <tabstop>tabWidget_para_edit</tabstop>
+  <tabstop>CTRL_TLT_RTE_P</tabstop>
+  <tabstop>CTRL_TLT_RTE_PM</tabstop>
+  <tabstop>CTRL_TLT_RTE_I</tabstop>
+  <tabstop>CTRL_TLT_RTE_IM</tabstop>
+  <tabstop>CTRL_TLT_RTE_D</tabstop>
+  <tabstop>CTRL_TLT_RTE_DM</tabstop>
+  <tabstop>CTRL_TLT_RTE_F</tabstop>
+  <tabstop>CTRL_TLT_RTE_OM</tabstop>
+  <tabstop>CTRL_YAW_RTE_P</tabstop>
+  <tabstop>CTRL_YAW_RTE_PM</tabstop>
+  <tabstop>CTRL_YAW_RTE_I</tabstop>
+  <tabstop>CTRL_YAW_RTE_IM</tabstop>
+  <tabstop>CTRL_YAW_RTE_D</tabstop>
+  <tabstop>CTRL_YAW_RTE_DM</tabstop>
+  <tabstop>CTRL_YAW_RTE_F</tabstop>
+  <tabstop>CTRL_YAW_RTE_OM</tabstop>
+  <tabstop>CTRL_TLT_ANG_P</tabstop>
+  <tabstop>CTRL_TLT_ANG_PM</tabstop>
+  <tabstop>CTRL_TLT_ANG_I</tabstop>
+  <tabstop>CTRL_TLT_ANG_IM</tabstop>
+  <tabstop>CTRL_TLT_ANG_D</tabstop>
+  <tabstop>CTRL_TLT_ANG_DM</tabstop>
+  <tabstop>CTRL_TLT_ANG_F</tabstop>
+  <tabstop>CTRL_TLT_ANG_OM</tabstop>
+  <tabstop>CTRL_YAW_ANG_P</tabstop>
+  <tabstop>CTRL_YAW_ANG_PM</tabstop>
+  <tabstop>CTRL_YAW_ANG_I</tabstop>
+  <tabstop>CTRL_YAW_ANG_IM</tabstop>
+  <tabstop>CTRL_YAW_ANG_D</tabstop>
+  <tabstop>CTRL_YAW_ANG_DM</tabstop>
+  <tabstop>CTRL_YAW_ANG_F</tabstop>
+  <tabstop>CTRL_YAW_ANG_OM</tabstop>
+  <tabstop>pushButton_save_to_aq_pid1</tabstop>
+  <tabstop>NAV_SPEED_P</tabstop>
+  <tabstop>NAV_SPEED_PM</tabstop>
+  <tabstop>NAV_SPEED_I</tabstop>
+  <tabstop>NAV_SPEED_IM</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>NAV_SPEED_OM</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>NAV_ATL_SPED_P</tabstop>
+  <tabstop>NAV_ATL_SPED_PM</tabstop>
+  <tabstop>NAV_ATL_SPED_I</tabstop>
+  <tabstop>NAV_ATL_SPED_IM</tabstop>
+  <tabstop>lineEdit_4</tabstop>
+  <tabstop>NAV_ATL_SPED_OM</tabstop>
+  <tabstop>lineEdit_5</tabstop>
+  <tabstop>lineEdit_6</tabstop>
+  <tabstop>NAV_DIST_P</tabstop>
+  <tabstop>NAV_DIST_PM</tabstop>
+  <tabstop>NAV_DIST_I</tabstop>
+  <tabstop>NAV_DIST_IM</tabstop>
+  <tabstop>lineEdit_7</tabstop>
+  <tabstop>NAV_DIST_OM</tabstop>
+  <tabstop>lineEdit_8</tabstop>
+  <tabstop>lineEdit_12</tabstop>
+  <tabstop>pushButton_save_to_aq_pid2</tabstop>
+  <tabstop>NAV_ALT_POS_P</tabstop>
+  <tabstop>NAV_ALT_POS_PM</tabstop>
+  <tabstop>NAV_ALT_POS_I</tabstop>
+  <tabstop>NAV_ALT_POS_IM</tabstop>
+  <tabstop>lineEdit_10</tabstop>
+  <tabstop>NAV_ALT_POS_OM</tabstop>
+  <tabstop>lineEdit_9</tabstop>
+  <tabstop>lineEdit_11</tabstop>
+  <tabstop>CTRL_NAV_YAW_RT</tabstop>
+  <tabstop>IMU_ROT</tabstop>
+  <tabstop>NAV_MAX_SPEED</tabstop>
+  <tabstop>IMU_PRESS_SENSE</tabstop>
+  <tabstop>IMU_MAG_INCL</tabstop>
+  <tabstop>SPVR_LOW_BAT1</tabstop>
+  <tabstop>IMU_MAG_DECL</tabstop>
+  <tabstop>SPVR_LOW_BAT2</tabstop>
+  <tabstop>CTRL_FACT_THRO</tabstop>
+  <tabstop>CTRL_DEAD_BAND</tabstop>
+  <tabstop>CTRL_FACT_PITC</tabstop>
+  <tabstop>CTRL_MIN_THROT</tabstop>
+  <tabstop>CTRL_FACT_ROLL</tabstop>
+  <tabstop>CTRL_MAX</tabstop>
+  <tabstop>CTRL_FACT_RUDD</tabstop>
+  <tabstop>lineEdit_16</tabstop>
+  <tabstop>MOT_START</tabstop>
+  <tabstop>MOT_EXP_FACT</tabstop>
+  <tabstop>MOT_MIN</tabstop>
+  <tabstop>MOT_EXP_MIN</tabstop>
+  <tabstop>MOT_MAX</tabstop>
+  <tabstop>MOT_EXP_MAX</tabstop>
+  <tabstop>MOT_HOV_THROT</tabstop>
+  <tabstop>lineEdit_17</tabstop>
+  <tabstop>GMBL_PWM_MAX</tabstop>
+  <tabstop>GMBL_SCAL_PITCH</tabstop>
+  <tabstop>GMBL_PWM_MIN</tabstop>
+  <tabstop>GMBL_SCAL_ROLL</tabstop>
+  <tabstop>GMBL_NTRL_PITCH</tabstop>
+  <tabstop>GMBL_SLEW_RATE</tabstop>
+  <tabstop>GMBL_NTRL_ROLL</tabstop>
+  <tabstop>lineEdit_18</tabstop>
+  <tabstop>pushButton_save_to_aq_pid3</tabstop>
+  <tabstop>pushButton_Open_Log_file</tabstop>
+  <tabstop>pushButtonshow_cahnnels</tabstop>
+  <tabstop>pushButton_save_image_plot</tabstop>
+  <tabstop>comboBox_marker</tabstop>
+  <tabstop>pushButton_set_marker</tabstop>
+  <tabstop>pushButton_cut</tabstop>
+  <tabstop>pushButton_remove_marker</tabstop>
+  <tabstop>listView_Curves</tabstop>
+  <tabstop>comboBox_port_esc32</tabstop>
+  <tabstop>pushButton_connect_to_esc32</tabstop>
+  <tabstop>pushButton_read_config</tabstop>
+  <tabstop>pushButton_read_load_def</tabstop>
+  <tabstop>pushButton_send_to_esc32</tabstop>
+  <tabstop>pushButton_reload_conf</tabstop>
+  <tabstop>pushButton_esc32_read_arm_disarm</tabstop>
+  <tabstop>pushButton_esc32_read_start_stop</tabstop>
+  <tabstop>horizontalSlider_rpm</tabstop>
+  <tabstop>pushButton_send_rpm</tabstop>
+  <tabstop>DoubleMaxCurrent</tabstop>
+  <tabstop>pushButton_start_calibration</tabstop>
+  <tabstop>pushButton_logging</tabstop>
+  <tabstop>PTERM</tabstop>
+  <tabstop>CL1TERM</tabstop>
+  <tabstop>ITERM</tabstop>
+  <tabstop>CL2TERM</tabstop>
+  <tabstop>FF1TERM</tabstop>
+  <tabstop>CL3TERM</tabstop>
+  <tabstop>FF2TERM</tabstop>
+  <tabstop>CL4TERM</tabstop>
+  <tabstop>CL5TERM</tabstop>
+  <tabstop>BLANKING_MICROS</tabstop>
+  <tabstop>SHUNT_RESISTANCE</tabstop>
+  <tabstop>ADVANCE</tabstop>
+  <tabstop>MIN_PERIOD</tabstop>
+  <tabstop>START_VOLTAGE</tabstop>
+  <tabstop>MAX_PERIOD</tabstop>
+  <tabstop>GOOD_DETECTS_START</tabstop>
+  <tabstop>BAD_DETECTS_DISARM</tabstop>
+  <tabstop>comboBox_mode</tabstop>
+  <tabstop>MAX_CURRENT</tabstop>
+  <tabstop>comboBox_in_mode</tabstop>
+  <tabstop>SWITCH_FREQ</tabstop>
+  <tabstop>CTRL_YAW_RTE_DM_2</tabstop>
+  <tabstop>MOTOR_POLES</tabstop>
+  <tabstop>CTRL_YAW_RTE_OM_2</tabstop>
+  <tabstop>PWM_MIN_PERIOD</tabstop>
+  <tabstop>PWM_MIN_VALUE</tabstop>
+  <tabstop>PWM_MAX_PERIOD</tabstop>
+  <tabstop>PWM_MAX_VALUE</tabstop>
+  <tabstop>PWM_LO_VALUE</tabstop>
+  <tabstop>PWM_RPM_SCALE</tabstop>
+  <tabstop>PWM_HI_VALUE</tabstop>
+  <tabstop>FET_BRAKING</tabstop>
+  <tabstop>pushButton_start_cal1</tabstop>
+  <tabstop>graphicsView</tabstop>
+  <tabstop>comboBox_Radio_Type</tabstop>
+  <tabstop>checkBox_raw_value</tabstop>
+  <tabstop>pushButton_abort_cal1</tabstop>
+  <tabstop>pushButton_save_to_aq_radio</tabstop>
+  <tabstop>textOutput_cal1</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

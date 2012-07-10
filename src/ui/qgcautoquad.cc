@@ -37,6 +37,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
 
+    ui->lbl_version->setText("Version 1.0.1");
     //setup ListView curves
     //SetupListView();
 
@@ -154,6 +155,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_in_mode->addItem("CAN",3);
     ui->comboBox_in_mode->addItem("OW", 4);
 
+    ui->DoubleMaxCurrent->setValue(30.0);
     setupPortList();
     loadSettings();
 }
@@ -489,6 +491,18 @@ void QGCAutoquad::btnConnectEsc32()
         connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
         ui->pushButton_connect_to_esc32->setText("disconnect");
         esc32->Connect(port);
+
+        /*
+        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+        for ( int i = 0; i<edtList.count(); i++) {
+            QString ParaName = edtList.at(i)->objectName();
+            if (!ParaName.contains("DoubleMaxCurrent"))
+                //edtList.at(i)->setText("");
+            else
+                ParaName = ParaName;
+        }
+        */
+
     }
     else {
         disconnect(esc32,SIGNAL(ShowConfig(QString)),this,SLOT(showConfigEsc32(QString)));
@@ -514,9 +528,10 @@ void QGCAutoquad::showConfigEsc32(QString Config)
         if ( ParaList.length() >= 3)
             paramEsc32.insert(ParaList.at(0),ParaList.at(2));
     }
+
     QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
     for ( int i = 0; i<edtList.count(); i++) {
-        edtList.at(i)->setText("");
+        //edtList.at(i)->setText("");
         QString ParaName = edtList.at(i)->objectName();
         if ( paramEsc32.contains(ParaName) )
         {
@@ -524,9 +539,6 @@ void QGCAutoquad::showConfigEsc32(QString Config)
             edtList.at(i)->setText(value);
         }
     }
-
-    //paramEsc32.contains()
-
 }
 
 void QGCAutoquad::btnSaveToEsc32() {
@@ -720,22 +732,39 @@ void QGCAutoquad::Esc32StartCalibration() {
     if (!esc32)
         return;
 
+    QString Esc32LoggingFile = "";
+
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
         QMessageBox InfomsgBox;
         InfomsgBox.setText("This is the calibration routine for esc32!\r\n Please be careful with the calibration function!\r\n The motor turn up to full throttle!\r\n Please fix the motor & prop!\r\n No guarantee about any damage or failures");
         InfomsgBox.exec();
 
         int ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
-        if ( ret == 0)
+        if ( ret == 0) {
             Esc32CalibrationMode = 1;
-        else if ( ret == 1)
+            #ifdef Q_OS_WIN
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "RPMTOVOLTAGE.txt");
+            #else
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "RPMTOVOLTAGE.txt");
+            #endif
+        }
+        else if ( ret == 1) {
             Esc32CalibrationMode = 2;
+            #ifdef Q_OS_WIN
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "CURRENTLIMITER.txt");
+            #else
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "CURRENTLIMITER.txt");
+            #endif
+        }
         else {
             QMessageBox InfomsgBox;
             InfomsgBox.setText("Failure in calibration routine!");
             InfomsgBox.exec();
             return;
         }
+
+        if (QFile::exists(Esc32LoggingFile))
+            QFile::remove(Esc32LoggingFile);
 
         QMessageBox msgBox;
         msgBox.setWindowTitle("Information");
@@ -744,8 +773,10 @@ void QGCAutoquad::Esc32StartCalibration() {
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         ret = msgBox.exec();
         if ( ret == QMessageBox::Yes) {
+            float maxAmps = ui->DoubleMaxCurrent->text().toFloat();
+
             esc32->SetCalibrationMode(this->Esc32CalibrationMode);
-            esc32->StartCalibration();
+            esc32->StartCalibration(maxAmps,Esc32LoggingFile);
             ui->pushButton_start_calibration->setText("stop calibration");
         }
         else {
@@ -761,8 +792,17 @@ void QGCAutoquad::Esc32StartCalibration() {
 
 void QGCAutoquad::Esc32CalibrationFinished(int mode) {
     //Emergency exit
-    if ( mode == 99)
+    if ( mode == 99) {
+        //No values from esc32
+        QMessageBox InfomsgBox;
+        InfomsgBox.setText("Something went wrong in data logging, Aborted!");
+        InfomsgBox.exec();
         return;
+    }
+    if ( mode == 98) {
+        //Abort
+        return;
+    }
     esc32->StopCalibration(false);
     if ( mode == 1) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
@@ -771,6 +811,7 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with FF1Term and FF2Term!");
         InfomsgBox.exec();
+        return;
     }
     if ( mode == 2) {
         ui->CL1TERM->setText(QString::number(esc32->getCL1()));
@@ -782,6 +823,7 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with Currentlimiter 1 to Currentlimiter 5!");
         InfomsgBox.exec();
+        return;
     }
 }
 
@@ -2560,22 +2602,13 @@ void QGCAutoquad::startCutting() {
         {
             //LogFile
             QString newFileName = LogFile+".orig";
-
             if (!QFile::exists(newFileName)) {
-                /*
-                QDir *folder = new QDir(LogFile);
-                folder->rename(LogFile,newFileName);
-                */
                 QFile::copy(LogFile,newFileName);
             }
             else
             {
                 if (QFile::exists(newFileName))
                     QFile::remove(newFileName);
-                /*
-                QDir *folder = new QDir(LogFile);
-                folder->rename(LogFile,newFileName);
-                */
                 QFile::copy(LogFile,newFileName);
             }
 
