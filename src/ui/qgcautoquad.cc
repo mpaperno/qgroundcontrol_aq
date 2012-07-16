@@ -2069,6 +2069,7 @@ void QGCAutoquad::CalculatDeclination() {
 		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
         return;
 	}
+    /*
 	if ( !dec_source.startsWith("-")) {
 		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
         return;
@@ -2077,7 +2078,8 @@ void QGCAutoquad::CalculatDeclination() {
 		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
         return;
 	}
-	QStringList HoursMinutes = dec_source.mid(1,(dec_source.length()-1)).split(".");
+    */
+    QStringList HoursMinutes = dec_source.split(".");
 
     if ( HoursMinutes.count() != 2 ) {
 		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
@@ -2091,7 +2093,6 @@ void QGCAutoquad::CalculatDeclination() {
     recalculated.append(' ');
     recalculated.append("IMU_MAG_INCL");
     recalculated.append(' ');
-    recalculated.append("-");
     recalculated.append(HoursMinutes.at(0));
     recalculated.append(".");
     recalculated.append( QString::number(secounds_calc,'f',0));

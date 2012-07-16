@@ -2874,8 +2874,7 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     float f = 0;
     int j = 0;
     int i;
-    int Count_readed_log_values = 0;
-    int Count_readed_log_values_old = 0;
+
     // reset max current
     SleepThread(1000);
     if ( ExitCalibration != 0)
@@ -2900,15 +2899,6 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
             currentError = true;
             break;
         }
-        /*
-        Count_readed_log_values = esc32dataLogger->getTelemStorageNum();
-        if (Count_readed_log_values == Count_readed_log_values_old ) {
-            currentError = true;
-            ExitCalibration = 99;
-            break;
-        }
-        Count_readed_log_values_old = Count_readed_log_values;
-        */
     }
 
     sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, true);
@@ -2920,9 +2910,10 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     if ( ExitCalibration != 0)
         return true;
 
-    if ( currentError) {
+    if ( esc32dataLogger->getTelemStorageNum() <= 0) {
         return true;
     }
+
     A.setZero();
     c.setZero();
     for (i = 0; i < j; i++) {
@@ -2963,8 +2954,6 @@ int i, j, k, z;
     sendCommand(BINARY_COMMAND_START, 0.0, 0.0, 0, true);
     SleepThread(1);
     currentError = false;
-    int Count_readed_log_values = 0;
-    int Count_readed_log_values_old = 0;
     if ( ExitCalibration != 0)
         return true;
 
@@ -2980,16 +2969,6 @@ int i, j, k, z;
             if ( ExitCalibration != 0)
                 break;
         }
-        /*
-        Count_readed_log_values = esc32dataLogger->getTelemStorageNum();
-        if (Count_readed_log_values == Count_readed_log_values_old ) {
-            currentError = true;
-            ExitCalibration = 99;
-            break;
-        }
-        Count_readed_log_values_old = Count_readed_log_values;
-        */
-
         if ( ExitCalibration != 0)
             break;
         // break if the first try went overcurrent
@@ -3008,7 +2987,7 @@ int i, j, k, z;
     if ( ExitCalibration != 0)
         return true;
 
-    if ( currentError) {
+    if ( esc32dataLogger->getTelemStorageNum() <= 0) {
         return true;
     }
 
