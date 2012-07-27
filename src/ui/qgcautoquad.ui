@@ -1090,21 +1090,14 @@
              <item>
               <widget class="QLabel" name="label_131">
                <property name="text">
-                <string>Mag. Inc. (-66.43)</string>
+                <string>Mag. Inc. (-66.43) (°°.MM)</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_114">
                <property name="text">
-                <string>Mag. Dec. (1.54)</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string/>
+                <string>Mag. Dec. (1.54) (°°.MM)</string>
                </property>
               </widget>
              </item>
@@ -2908,16 +2901,16 @@
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_103">
                   <item>
-                   <widget class="QLabel" name="label_111">
+                   <widget class="QLabel" name="DownlinkBuad">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Downlink Baud</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_16">
+                   <widget class="QLineEdit" name="DOWNLINK_BAUD">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -3767,14 +3760,14 @@
                   <item>
                    <widget class="QLabel" name="label_122">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>PWM min Start</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_OM_2">
+                   <widget class="QLineEdit" name="PWM_MIN_START">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -4385,7 +4378,7 @@
   <tabstop>CTRL_FACT_ROLL</tabstop>
   <tabstop>CTRL_MAX</tabstop>
   <tabstop>CTRL_FACT_RUDD</tabstop>
-  <tabstop>lineEdit_16</tabstop>
+  <tabstop>DOWNLINK_BAUD</tabstop>
   <tabstop>MOT_START</tabstop>
   <tabstop>MOT_EXP_FACT</tabstop>
   <tabstop>MOT_MIN</tabstop>
@@ -4447,7 +4440,7 @@
   <tabstop>SWITCH_FREQ</tabstop>
   <tabstop>CTRL_YAW_RTE_DM_2</tabstop>
   <tabstop>MOTOR_POLES</tabstop>
-  <tabstop>CTRL_YAW_RTE_OM_2</tabstop>
+  <tabstop>PWM_MIN_START</tabstop>
   <tabstop>PWM_MIN_PERIOD</tabstop>
   <tabstop>PWM_MIN_VALUE</tabstop>
   <tabstop>PWM_MAX_PERIOD</tabstop>

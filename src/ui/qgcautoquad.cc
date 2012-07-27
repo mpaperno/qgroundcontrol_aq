@@ -1107,6 +1107,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 
 void QGCAutoquad::raw_transmitter_view() {
     if ( ui->checkBox_raw_value->checkState() ){
+
          disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
 
          ui->progressBar_Throttle->setMaximum(2500);
@@ -1252,49 +1253,49 @@ void QGCAutoquad::setChannelRaw(int channelId, float normalized)
 {
     if (channelId == 0 )
     {
-        qint32 val = (qint32)((normalized));
+        int val = (int)((normalized-1024));
         ui->progressBar_Throttle->setValue(val);
         ui->label_chan_1_M->setText(QString::number(val));
     }
     if (channelId == 1 )
     {
-        int val = (int)((normalized*10000.0f)/13);
+        int val = (int)((normalized-1024));
         ui->progressBar_Roll->setValue(val);
         ui->label_chan_2_M->setText(QString::number(val));
     }
     if (channelId == 2 )
     {
-        int val = (int)((normalized*10000.0f)/13);
+        int val = (int)((normalized-1024));
         ui->progressBar_Pitch->setValue(val);
         ui->label_chan_3_M->setText(QString::number(val));
     }
     if (channelId == 3 )
     {
-        int val = (int)((normalized*10000.0f)/13);
+        int val = (int)((normalized-1024));
         ui->progressBar_Rudd->setValue(val);
         ui->label_chan_4_M->setText(QString::number(val));
     }
     if (channelId == 4 )
     {
-        int val = (int)((normalized*10000.0f)/13);
+        int val = (int)((normalized-1024));
         ui->progressBar_Gear->setValue(val);
         ui->label_chan_5_M->setText(QString::number(val));
     }
     if (channelId == 5 )
     {
-        int val = (int)((normalized*10000.0f)/13);
+        int val = (int)((normalized-1024));
         ui->progressBar_Flaps->setValue(val);
         ui->label_chan_6_M->setText(QString::number(val) + " " + "Pos Hold");
     }
     if (channelId == 6 )
     {
-        int val = (int)((normalized*10000.0f)/13);
+        int val = (int)((normalized-1024));
         ui->progressBar_Aux2->setValue(val);
         ui->label_chan_7_M->setText(QString::number(val));
     }
     if (channelId == 7 )
     {
-        int val = (int)((normalized*10000.0f)/13);
+        int val = (int)((normalized-1024));
         ui->progressBar_Aux3->setValue(val);
         ui->label_chan_8_M->setText(QString::number(val));
     }
@@ -1697,6 +1698,7 @@ void QGCAutoquad::getGUIpara() {
     ui->IMU_MAG_DECL->setText(paramaq->getParaAQ("IMU_MAG_DECL").toString());
     ui->IMU_MAG_INCL->setText(paramaq->getParaAQ("IMU_MAG_INCL").toString());
     ui->IMU_PRESS_SENSE->setText(paramaq->getParaAQ("IMU_PRESS_SENSE").toString());
+    ui->DOWNLINK_BAUD->setText(paramaq->getParaAQ("DOWNLINK_BAUD").toString());
 
  }
 
