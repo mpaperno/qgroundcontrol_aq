@@ -1533,10 +1533,10 @@ void QGCAutoquad::startsim1b(){
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
     if ( ui->checkBox_sim3_4_var_2->checkState() ) {
-        Arguments.append("--var=" + ui->lineEdit_variance_2->text());
+        Arguments.append("--var=" + ui->lineEdit_variance_4->text());
     }
     if ( ui->checkBox_sim3_4_stop_2->checkState() ) {
-        Arguments.append("--stop=" + ui->lineEdit_stop_2->text());
+        Arguments.append("--stop=" + ui->lineEdit_stop_4->text());
     }
 
     for ( int i = 0; i<DynamicFiles.count(); i++) {
