@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_aq_flash_fw">
       <attribute name="title">
@@ -75,6 +75,9 @@
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBox_raw_value">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="text">
                    <string>Show raw value from transmitter</string>
                   </property>
@@ -132,10 +135,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Throttle">
                    <property name="minimum">
-                    <number>-500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -173,10 +176,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Roll">
                    <property name="minimum">
-                    <number>-1500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -214,10 +217,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Pitch">
                    <property name="minimum">
-                    <number>-1500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -255,10 +258,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Rudd">
                    <property name="minimum">
-                    <number>-1500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -296,10 +299,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Gear">
                    <property name="minimum">
-                    <number>-1500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -346,10 +349,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Flaps">
                    <property name="minimum">
-                    <number>-1500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -396,10 +399,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Aux2">
                    <property name="minimum">
-                    <number>-1500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -437,10 +440,10 @@
                  <item>
                   <widget class="QProgressBar" name="progressBar_Aux3">
                    <property name="minimum">
-                    <number>-1500</number>
+                    <number>-1024</number>
                    </property>
                    <property name="maximum">
-                    <number>1500</number>
+                    <number>1024</number>
                    </property>
                    <property name="value">
                     <number>0</number>
@@ -1168,7 +1171,7 @@
           <bool>true</bool>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="para_cal_rate">
           <attribute name="title">
@@ -1267,14 +1270,14 @@
                 <enum>QLayout::SetFixedSize</enum>
                </property>
                <item>
-                <widget class="QCheckBox" name="checkBox_sim3_4_var">
+                <widget class="QCheckBox" name="checkBox_sim3_4_var_1">
                  <property name="text">
                   <string>use variance</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_variance">
+                <widget class="QLineEdit" name="sim3_4_var_1">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1287,7 +1290,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBox_sim3_4_stop">
+                <widget class="QCheckBox" name="checkBox_sim3_4_stop_1">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
@@ -1297,7 +1300,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_stop">
+                <widget class="QLineEdit" name="sim3_4_stop_1">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1365,7 +1368,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_variance_4">
+                <widget class="QLineEdit" name="sim3_4_var_2">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1388,7 +1391,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_stop_4">
+                <widget class="QLineEdit" name="sim3_4_stop_2">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1456,7 +1459,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_variance_2">
+                <widget class="QLineEdit" name="sim3_5_var">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1479,7 +1482,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_stop_2">
+                <widget class="QLineEdit" name="sim3_5_stop">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1547,7 +1550,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_variance_3">
+                <widget class="QLineEdit" name="sim3_6_var">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -1570,7 +1573,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_stop_3">
+                <widget class="QLineEdit" name="sim3_6_stop">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -4266,31 +4269,31 @@
   <tabstop>pushButton_start_cal3</tabstop>
   <tabstop>pushButton_abort_cal3</tabstop>
   <tabstop>textOutput_cal3</tabstop>
-  <tabstop>checkBox_sim3_4_var</tabstop>
-  <tabstop>lineEdit_variance</tabstop>
-  <tabstop>checkBox_sim3_4_stop</tabstop>
-  <tabstop>lineEdit_stop</tabstop>
+  <tabstop>checkBox_sim3_4_var_1</tabstop>
+  <tabstop>sim3_4_var_1</tabstop>
+  <tabstop>checkBox_sim3_4_stop_1</tabstop>
+  <tabstop>sim3_4_stop_1</tabstop>
   <tabstop>pushButton_start_sim1</tabstop>
   <tabstop>pushButton_abort_sim1</tabstop>
   <tabstop>textOutput_sim1</tabstop>
   <tabstop>checkBox_sim3_4_var_2</tabstop>
-  <tabstop>lineEdit_variance_4</tabstop>
+  <tabstop>sim3_4_var_2</tabstop>
   <tabstop>checkBox_sim3_4_stop_2</tabstop>
-  <tabstop>lineEdit_stop_4</tabstop>
+  <tabstop>sim3_4_stop_2</tabstop>
   <tabstop>pushButton_start_sim1_2</tabstop>
   <tabstop>pushButton_abort_sim1_2</tabstop>
   <tabstop>textOutput_sim1_2</tabstop>
   <tabstop>checkBox_sim3_5_var</tabstop>
-  <tabstop>lineEdit_variance_2</tabstop>
+  <tabstop>sim3_5_var</tabstop>
   <tabstop>checkBox_sim3_5_stop</tabstop>
-  <tabstop>lineEdit_stop_2</tabstop>
+  <tabstop>sim3_5_stop</tabstop>
   <tabstop>pushButton_start_sim2</tabstop>
   <tabstop>pushButton_abort_sim2</tabstop>
   <tabstop>textOutput_sim2</tabstop>
   <tabstop>checkBox_sim3_6_var</tabstop>
-  <tabstop>lineEdit_variance_3</tabstop>
+  <tabstop>sim3_6_var</tabstop>
   <tabstop>checkBox_sim3_6_stop</tabstop>
-  <tabstop>lineEdit_stop_3</tabstop>
+  <tabstop>sim3_6_stop</tabstop>
   <tabstop>pushButton_start_sim3</tabstop>
   <tabstop>pushButton_abort_sim3</tabstop>
   <tabstop>textOutput_sim3</tabstop>

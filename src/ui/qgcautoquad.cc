@@ -37,7 +37,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
 
-    ui->lbl_version->setText("Version 1.0.1");
+    ui->lbl_version->setText("Version 1.0.2");
     //setup ListView curves
     //SetupListView();
 
@@ -103,8 +103,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_abort_sim1_2, SIGNAL(clicked()),this,SLOT(abortsim1b()));
     connect(ui->pushButton_abort_sim2, SIGNAL(clicked()),this,SLOT(abortsim2()));
     connect(ui->pushButton_abort_sim3, SIGNAL(clicked()),this,SLOT(abortsim3()));
-    connect(ui->checkBox_sim3_4_var, SIGNAL(clicked()),this,SLOT(check_var()));
-    connect(ui->checkBox_sim3_4_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
+    connect(ui->checkBox_sim3_4_var_1, SIGNAL(clicked()),this,SLOT(check_var()));
+    connect(ui->checkBox_sim3_4_stop_1, SIGNAL(clicked()),this,SLOT(check_stop()));
+    connect(ui->checkBox_sim3_4_var_2, SIGNAL(clicked()),this,SLOT(check_var()));
+    connect(ui->checkBox_sim3_4_stop_2, SIGNAL(clicked()),this,SLOT(check_stop()));
     connect(ui->checkBox_sim3_5_var, SIGNAL(clicked()),this,SLOT(check_var()));
     connect(ui->checkBox_sim3_5_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
     connect(ui->checkBox_sim3_6_var, SIGNAL(clicked()),this,SLOT(check_var()));
@@ -312,13 +314,15 @@ void QGCAutoquad::loadSettings()
             ShowUsersParams(QDir::toNativeSeparators(UsersParamsFile));
     }
 
-    ui->lineEdit_variance->setText(settings.value("AUTOQUAD_VARIANCE1").toString());
-    ui->lineEdit_variance_2->setText(settings.value("AUTOQUAD_VARIANCE2").toString());
-    ui->lineEdit_variance_3->setText(settings.value("AUTOQUAD_VARIANCE3").toString());
+    ui->sim3_4_var_1->setText(settings.value("AUTOQUAD_VARIANCE1").toString());
+    ui->sim3_4_var_2->setText(settings.value("AUTOQUAD_VARIANCE2").toString());
+    ui->sim3_5_var->setText(settings.value("AUTOQUAD_VARIANCE3").toString());
+    ui->sim3_6_var->setText(settings.value("AUTOQUAD_VARIANCE4").toString());
 
-    ui->lineEdit_stop->setText(settings.value("AUTOQUAD_STOP1").toString());
-    ui->lineEdit_stop_2->setText(settings.value("AUTOQUAD_STOP2").toString());
-    ui->lineEdit_stop_3->setText(settings.value("AUTOQUAD_STOP3").toString());
+    ui->sim3_4_stop_1->setText(settings.value("AUTOQUAD_STOP1").toString());
+    ui->sim3_4_stop_2->setText(settings.value("AUTOQUAD_STOP2").toString());
+    ui->sim3_5_stop->setText(settings.value("AUTOQUAD_STOP3").toString());
+    ui->sim3_6_stop->setText(settings.value("AUTOQUAD_STOP4").toString());
 
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
     settings.endGroup();
@@ -348,15 +352,15 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("AUTOQUAD_FW_FILE", ui->fileLabel->text());
 
-    settings.setValue("AUTOQUAD_VARIANCE1", ui->lineEdit_variance->text());
-    settings.setValue("AUTOQUAD_VARIANCE2", ui->lineEdit_variance_2->text());
-    settings.setValue("AUTOQUAD_VARIANCE3", ui->lineEdit_variance_3->text());
-    settings.setValue("AUTOQUAD_VARIANCE4", ui->lineEdit_variance_4->text());
+    settings.setValue("AUTOQUAD_VARIANCE1", ui->sim3_4_var_1->text());
+    settings.setValue("AUTOQUAD_VARIANCE2", ui->sim3_4_var_2->text());
+    settings.setValue("AUTOQUAD_VARIANCE3", ui->sim3_5_var->text());
+    settings.setValue("AUTOQUAD_VARIANCE4", ui->sim3_6_var->text());
 
-    settings.setValue("AUTOQUAD_STOP1", ui->lineEdit_stop->text());
-    settings.setValue("AUTOQUAD_STOP2", ui->lineEdit_stop_2->text());
-    settings.setValue("AUTOQUAD_STOP3", ui->lineEdit_stop_3->text());
-    settings.setValue("AUTOQUAD_STOP3", ui->lineEdit_stop_4->text());
+    settings.setValue("AUTOQUAD_STOP1", ui->sim3_4_stop_1->text());
+    settings.setValue("AUTOQUAD_STOP2", ui->sim3_4_stop_2->text());
+    settings.setValue("AUTOQUAD_STOP3", ui->sim3_5_stop->text());
+    settings.setValue("AUTOQUAD_STOP4", ui->sim3_5_stop->text());
 
     settings.setValue("AUTOQUAD_LAST_PATH", LastFilePath);
 
@@ -958,50 +962,64 @@ void QGCAutoquad::prtstdout() {
         }
         if ( active_cal_mode == 1 ) {
             output_cal1 = ps_master.readAllStandardOutput();
-            if ( output_cal1.contains("[H") )
-                    ui->textOutput_cal1->clear();
+            if ( output_cal1.contains("[H") ) {
+                ui->textOutput_cal1->clear();
+                output = output.right(output.length()-2);
+            }
 
             ui->textOutput_cal1->append(output_cal1);
         }
         if ( active_cal_mode == 2 ) {
             output_cal2 = ps_master.readAllStandardOutput();
-            if ( output_cal2.contains("[H") )
-                    ui->textOutput_cal2->clear();
+            if ( output_cal2.contains("[H") ) {
+                ui->textOutput_cal2->clear();
+                output = output.right(output.length()-2);
+            }
 
             ui->textOutput_cal2->append(output_cal2);
         }
         if ( active_cal_mode == 3 ) {
             output_cal3 = ps_master.readAllStandardOutput();
-            if ( output_cal3.contains("[H") )
-                    ui->textOutput_cal3->clear();
+            if ( output_cal3.contains("[H") ) {
+                ui->textOutput_cal3->clear();
+                output = output.right(output.length()-2);
+            }
 
             ui->textOutput_cal3->append(output_cal3);
         }
         if ( active_cal_mode == 4 ) {
             output_sim1 = ps_master.readAllStandardOutput();
-            if ( output_sim1.contains("[H") )
-                    ui->textOutput_sim1->clear();
+            if ( output_sim1.contains("[H") ) {
+                ui->textOutput_sim1->clear();
+                output = output.right(output.length()-2);
+            }
 
             ui->textOutput_sim1->append(output_sim1);
         }
         if ( active_cal_mode == 41 ) {
             output_sim1b = ps_master.readAllStandardOutput();
-            if ( output_sim1b.contains("[H") )
-                    ui->textOutput_sim1_2->clear();
+            if ( output_sim1b.contains("[H") ) {
+                ui->textOutput_sim1_2->clear();
+                output = output.right(output.length()-2);
+            }
 
             ui->textOutput_sim1_2->append(output_sim1b);
         }
         if ( active_cal_mode == 5 ) {
             output_sim2 = ps_master.readAllStandardOutput();
-            if ( output_sim2.contains("[H") )
-                    ui->textOutput_sim2->clear();
+            if ( output_sim2.contains("[H") ) {
+                ui->textOutput_sim2->clear();
+                output = output.right(output.length()-2);
+            }
 
             ui->textOutput_sim2->append(output_sim2);
         }
         if ( active_cal_mode == 6 ) {
             output_sim3 = ps_master.readAllStandardOutput();
-            if ( output_sim2.contains("[H") )
-                    ui->textOutput_sim3->clear();
+            if ( output_sim2.contains("[H") ) {
+                ui->textOutput_sim3->clear();
+                output = output.right(output.length()-2);
+            }
 
             ui->textOutput_sim3->append(output_sim3);
         }
@@ -1101,7 +1119,10 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 
             VisibleWidget = 2;
         //}
-        connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+
+        //connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+        ui->checkBox_raw_value->setChecked(true);
+        raw_transmitter_view();
     }
 }
 
@@ -1110,29 +1131,29 @@ void QGCAutoquad::raw_transmitter_view() {
 
          disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
 
-         ui->progressBar_Throttle->setMaximum(2500);
-         ui->progressBar_Throttle->setMinimum(500);
+         ui->progressBar_Throttle->setMaximum(+1500);
+         ui->progressBar_Throttle->setMinimum(0);
 
-         ui->progressBar_Roll->setMaximum(2500);
-         ui->progressBar_Roll->setMinimum(500);
+         ui->progressBar_Roll->setMaximum(1024);
+         ui->progressBar_Roll->setMinimum(-1024);
 
-         ui->progressBar_Pitch->setMaximum(2500);
-         ui->progressBar_Pitch->setMinimum(500);
+         ui->progressBar_Pitch->setMaximum(1024);
+         ui->progressBar_Pitch->setMinimum(-1024);
 
-         ui->progressBar_Rudd->setMaximum(2500);
-         ui->progressBar_Rudd->setMinimum(500);
+         ui->progressBar_Rudd->setMaximum(1024);
+         ui->progressBar_Rudd->setMinimum(-1024);
 
-         ui->progressBar_Gear->setMaximum(2500);
-         ui->progressBar_Gear->setMinimum(500);
+         ui->progressBar_Gear->setMaximum(1024);
+         ui->progressBar_Gear->setMinimum(-1024);
 
-         ui->progressBar_Flaps->setMaximum(2500);
-         ui->progressBar_Flaps->setMinimum(500);
+         ui->progressBar_Flaps->setMaximum(1024);
+         ui->progressBar_Flaps->setMinimum(-1024);
 
-         ui->progressBar_Aux2->setMaximum(2500);
-         ui->progressBar_Aux2->setMinimum(500);
+         ui->progressBar_Aux2->setMaximum(1024);
+         ui->progressBar_Aux2->setMinimum(-1024);
 
-         ui->progressBar_Aux3->setMaximum(2500);
-         ui->progressBar_Aux3->setMinimum(500);
+         ui->progressBar_Aux3->setMaximum(1024);
+         ui->progressBar_Aux3->setMinimum(-1024);
 
          connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
 
@@ -1254,49 +1275,57 @@ void QGCAutoquad::setChannelRaw(int channelId, float normalized)
     if (channelId == 0 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Throttle->setValue(val);
+        if (( val < ui->progressBar_Throttle->maximum()) || ( val > ui->progressBar_Throttle->minimum()))
+            ui->progressBar_Throttle->setValue(val);
         ui->label_chan_1_M->setText(QString::number(val));
     }
     if (channelId == 1 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Roll->setValue(val);
+        if (( val < ui->progressBar_Roll->maximum()) || ( val > ui->progressBar_Roll->minimum()))
+            ui->progressBar_Roll->setValue(val);
         ui->label_chan_2_M->setText(QString::number(val));
     }
     if (channelId == 2 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Pitch->setValue(val);
+        if (( val < ui->progressBar_Pitch->maximum()) || ( val > ui->progressBar_Pitch->minimum()))
+            ui->progressBar_Pitch->setValue(val);
         ui->label_chan_3_M->setText(QString::number(val));
     }
     if (channelId == 3 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Rudd->setValue(val);
+        if (( val < ui->progressBar_Rudd->maximum()) || ( val > ui->progressBar_Rudd->minimum()))
+            ui->progressBar_Rudd->setValue(val);
         ui->label_chan_4_M->setText(QString::number(val));
     }
     if (channelId == 4 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Gear->setValue(val);
+        if (( val < ui->progressBar_Gear->maximum()) || ( val > ui->progressBar_Gear->minimum()))
+            ui->progressBar_Gear->setValue(val);
         ui->label_chan_5_M->setText(QString::number(val));
     }
     if (channelId == 5 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Flaps->setValue(val);
+        if (( val < ui->progressBar_Flaps->maximum()) || ( val > ui->progressBar_Flaps->minimum()))
+            ui->progressBar_Flaps->setValue(val);
         ui->label_chan_6_M->setText(QString::number(val) + " " + "Pos Hold");
     }
     if (channelId == 6 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Aux2->setValue(val);
+        if (( val < ui->progressBar_Aux2->maximum()) || ( val > ui->progressBar_Aux2->minimum()))
+            ui->progressBar_Aux2->setValue(val);
         ui->label_chan_7_M->setText(QString::number(val));
     }
     if (channelId == 7 )
     {
         int val = (int)((normalized-1024));
-        ui->progressBar_Aux3->setValue(val);
+        if (( val < ui->progressBar_Aux3->maximum()) || ( val > ui->progressBar_Aux3->minimum()))
+            ui->progressBar_Aux3->setValue(val);
         ui->label_chan_8_M->setText(QString::number(val));
     }
 
@@ -1304,65 +1333,64 @@ void QGCAutoquad::setChannelRaw(int channelId, float normalized)
 
 void QGCAutoquad::check_var()
 {
-    if ( ui->checkBox_sim3_4_var->checkState()) {
-        ui->lineEdit_variance->setEnabled(true);
+    if ( ui->checkBox_sim3_4_var_1->checkState()) {
+        ui->sim3_4_var_1->setEnabled(true);
     }
-    else if  ( !ui->checkBox_sim3_4_var->checkState()) {
-        ui->lineEdit_variance->setEnabled(false);
+    else if  ( !ui->checkBox_sim3_4_var_1->checkState()) {
+        ui->sim3_4_var_1->setEnabled(false);
     }
 
     if ( ui->checkBox_sim3_4_var_2->checkState()) {
-        ui->lineEdit_variance_4->setEnabled(true);
+        ui->sim3_4_var_2->setEnabled(true);
     }
     else if  ( !ui->checkBox_sim3_4_var_2->checkState()) {
-        ui->lineEdit_variance_4->setEnabled(false);
+        ui->sim3_4_var_2->setEnabled(false);
     }
 
     if ( ui->checkBox_sim3_5_var->checkState()) {
-        ui->lineEdit_variance_2->setEnabled(true);
+        ui->sim3_5_var->setEnabled(true);
     }
     else if  ( !ui->checkBox_sim3_5_var->checkState()) {
-        ui->lineEdit_variance_2->setEnabled(false);
+        ui->sim3_5_var->setEnabled(false);
     }
-
 
     if ( ui->checkBox_sim3_6_var->checkState()) {
-        ui->lineEdit_variance_3->setEnabled(true);
+        ui->sim3_6_var->setEnabled(true);
     }
     else if  ( !ui->checkBox_sim3_6_var->checkState()) {
-        ui->lineEdit_variance_3->setEnabled(false);
+        ui->sim3_6_var->setEnabled(false);
     }
 
 }
 
 void QGCAutoquad::check_stop()
 {
-    if ( ui->checkBox_sim3_4_stop->checkState()) {
-        ui->lineEdit_stop->setEnabled(true);
+    if ( ui->checkBox_sim3_4_stop_1->checkState()) {
+        ui->sim3_4_stop_1->setEnabled(true);
     }
-    else if  ( !ui->checkBox_sim3_4_stop->checkState()) {
-        ui->lineEdit_stop->setEnabled(false);
+    else if  ( !ui->checkBox_sim3_4_stop_1->checkState()) {
+        ui->sim3_4_stop_1->setEnabled(false);
     }
 
     if ( ui->checkBox_sim3_4_stop_2->checkState()) {
-        ui->lineEdit_stop_4->setEnabled(true);
+        ui->sim3_4_stop_2->setEnabled(true);
     }
     else if  ( !ui->checkBox_sim3_4_stop_2->checkState()) {
-        ui->lineEdit_stop_4->setEnabled(false);
+        ui->sim3_4_stop_2->setEnabled(false);
     }
 
     if ( ui->checkBox_sim3_5_stop->checkState()) {
-        ui->lineEdit_stop_2->setEnabled(true);
+        ui->sim3_5_stop->setEnabled(true);
     }
     else if  ( !ui->checkBox_sim3_5_stop->checkState()) {
-        ui->lineEdit_stop_2->setEnabled(false);
+        ui->sim3_5_stop->setEnabled(false);
     }
 
     if ( ui->checkBox_sim3_6_stop->checkState()) {
-        ui->lineEdit_stop_3->setEnabled(true);
+        ui->sim3_6_stop->setEnabled(true);
     }
     else if  ( !ui->checkBox_sim3_6_stop->checkState()) {
-        ui->lineEdit_stop_3->setEnabled(false);
+        ui->sim3_6_stop->setEnabled(false);
     }
 
 
@@ -1489,11 +1517,11 @@ void QGCAutoquad::startsim1(){
     Arguments.append("-p");
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
-    if ( ui->checkBox_sim3_4_var->checkState() ) {
-        Arguments.append("--var=" + ui->lineEdit_variance->text());
+    if ( ui->checkBox_sim3_4_var_1->checkState() ) {
+        Arguments.append("--var=" + ui->sim3_4_var_1->text());
     }
-    if ( ui->checkBox_sim3_4_stop->checkState() ) {
-        Arguments.append("--stop=" + ui->lineEdit_stop->text());
+    if ( ui->checkBox_sim3_4_stop_1->checkState() ) {
+        Arguments.append("--stop=" + ui->sim3_4_stop_1->text());
     }
 
     for ( int i = 0; i<DynamicFiles.count(); i++) {
@@ -1533,10 +1561,10 @@ void QGCAutoquad::startsim1b(){
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
     if ( ui->checkBox_sim3_4_var_2->checkState() ) {
-        Arguments.append("--var=" + ui->lineEdit_variance_4->text());
+        Arguments.append("--var=" + ui->sim3_4_var_2->text());
     }
     if ( ui->checkBox_sim3_4_stop_2->checkState() ) {
-        Arguments.append("--stop=" + ui->lineEdit_stop_4->text());
+        Arguments.append("--stop=" + ui->sim3_4_var_2->text());
     }
 
     for ( int i = 0; i<DynamicFiles.count(); i++) {
@@ -1577,10 +1605,10 @@ void QGCAutoquad::startsim2(){
     Arguments.append( QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
     if ( ui->checkBox_sim3_5_var->checkState() ) {
-        Arguments.append("--var=" + ui->lineEdit_variance_2->text());
+        Arguments.append("--var=" + ui->sim3_5_var->text());
     }
     if ( ui->checkBox_sim3_5_stop->checkState() ) {
-        Arguments.append("--stop=" + ui->lineEdit_stop_2->text());
+        Arguments.append("--stop=" + ui->sim3_5_stop->text());
     }
 
     for ( int i = 0; i<DynamicFiles.count(); i++) {
@@ -1621,10 +1649,10 @@ void QGCAutoquad::startsim3(){
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
     if ( ui->checkBox_sim3_6_var->checkState() ) {
-        Arguments.append("--var=" + ui->lineEdit_variance_3->text());
+        Arguments.append("--var=" + ui->sim3_6_var->text());
     }
     if ( ui->checkBox_sim3_6_stop->checkState() ) {
-        Arguments.append("--stop=" + ui->lineEdit_stop_3->text());
+        Arguments.append("--stop=" + ui->sim3_6_var->text());
     }
 
     for ( int i = 0; i<DynamicFiles.count(); i++) {
@@ -2129,12 +2157,12 @@ void QGCAutoquad::CalculatInclination() {
 
     qint32 secounds = HoursMinutes.at(1).toInt();
     float secounds_calc =  (100.0f/60.0f) * secounds;
-    secounds_calc = Round(secounds_calc, 3);
+    //secounds_calc = Round(secounds_calc, 0);
     // Set together
     QString recalculated;
     recalculated.append(HoursMinutes.at(0));
     recalculated.append(".");
-    recalculated.append(QString::number(secounds_calc));
+    recalculated.append( QString::number(secounds_calc,'f',0));
     ui->lineEdit_cal_inclination->setText(recalculated);
 
 }
