@@ -1132,7 +1132,7 @@ void QGCAutoquad::raw_transmitter_view() {
          disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
 
          ui->progressBar_Throttle->setMaximum(+1500);
-         ui->progressBar_Throttle->setMinimum(0);
+         ui->progressBar_Throttle->setMinimum(-100);
 
          ui->progressBar_Roll->setMaximum(1024);
          ui->progressBar_Roll->setMinimum(-1024);
