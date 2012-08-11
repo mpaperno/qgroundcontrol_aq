@@ -1039,6 +1039,7 @@ void AQLogParser::ShowCurves() {
     QString fileName = QDir::toNativeSeparators(FileName);
     xValues.clear();
     yValues.clear();
+    xAxisCount = 0;
     #ifdef Q_OS_WIN
         lf = fopen(fileName.toLocal8Bit().constData(),"rb");
     #else
@@ -1077,7 +1078,6 @@ void AQLogParser::ShowCurves() {
 
 int AQLogParser::ParseLogM(FILE *fp) {
     int c = 0;
-
     loggerTop:
 
     if (c != EOF) {
