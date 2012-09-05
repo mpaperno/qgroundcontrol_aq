@@ -74,6 +74,7 @@ public slots:
     void changedAction(int state);
     void changedCurrent(int);
     void updateValues(void);
+    void checkAutoQuadItem();
 
 protected slots:
     void changeViewMode(QGC_WAYPOINTEDITABLEVIEW_MODE mode);

@@ -39,6 +39,9 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     // DO COMMAND WIDGET
     //doCommand->setupUi(m_ui->customActionWidget);
 
+    m_ui->maxHorizontalSpeed->hide();
+    m_ui->maxVerticalSpeed->hide();
+    m_ui->POIAltitude->hide();
 
     // add actions
     m_ui->comboBox_action->addItem(tr("NAV: Waypoint"),MAV_CMD_NAV_WAYPOINT);
@@ -49,8 +52,6 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     m_ui->comboBox_action->addItem(tr("NAV: Ret. to Launch"),MAV_CMD_NAV_RETURN_TO_LAUNCH);
     m_ui->comboBox_action->addItem(tr("NAV: Land"),MAV_CMD_NAV_LAND);
     m_ui->comboBox_action->addItem(tr("NAV: Orbit"),1);
-    m_ui->comboBox_action->addItem(tr("NAV: Go To TakeOff"),2);
-
     //m_ui->comboBox_action->addItem(tr("NAV: Target"),MAV_CMD_NAV_TARGET);
     //m_ui->comboBox_action->addItem(tr("IF: Delay over"),MAV_CMD_CONDITION_DELAY);
     //m_ui->comboBox_action->addItem(tr("IF: Yaw angle is"),MAV_CMD_CONDITION_YAW);
@@ -62,10 +63,6 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     m_ui->comboBox_frame->addItem("Global/Rel. Alt", MAV_FRAME_GLOBAL_RELATIVE_ALT);
     m_ui->comboBox_frame->addItem("Local(NED)",MAV_FRAME_LOCAL_NED);
     m_ui->comboBox_frame->addItem("Mission",MAV_FRAME_MISSION);
-
-    m_ui->HorizontalSpeedSpinBox->hide();
-    m_ui->TargetAltitudedoubleSpinBox->hide();
-    m_ui->POIHeadingdoubleSpinBox->hide();
 
     // Initialize view correctly
     updateActionView(wp->getAction());
@@ -113,6 +110,16 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     connect(customCommand->param5SpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setParam5(double)));
     connect(customCommand->param6SpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setParam6(double)));
     connect(customCommand->param7SpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setParam7(double)));
+
+    //AutoQuad
+    connect(m_ui->aqformat, SIGNAL(clicked()), this, SLOT(checkAutoQuadItem()));
+    connect(m_ui->maxHorizontalSpeed, SIGNAL(valueChanged(int)), wp, SLOT(setMaxHorizontSpeedAQ(double)));
+    connect(m_ui->maxVerticalSpeed, SIGNAL(valueChanged(int)), wp, SLOT(setMaxVerticalSpeedAQ(double)));
+    connect(m_ui->POIAltitude, SIGNAL(valueChanged(int)), wp, SLOT(setPOIAltitudeAQ(double)));
+    m_ui->maxHorizontalSpeed->hide();
+    m_ui->maxVerticalSpeed->hide();
+    m_ui->POIAltitude->hide();
+    checkAutoQuadItem();
 }
 
 void WaypointEditableView::moveUp()
@@ -140,6 +147,8 @@ void WaypointEditableView::changedAutoContinue(int state)
         wp->setAutocontinue(true);
 }
 
+//     <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,5,5,5,50,50,50,50,50,50,0,5,20,0,0,0,0,20,10,10,0,0,0,20,5,5,5,5">
+
 void WaypointEditableView::updateActionView(int action)
 {
     // Remove stretch item at index 17 (m_ui->removeSpacer)
@@ -148,30 +157,74 @@ void WaypointEditableView::updateActionView(int action)
 
     switch(action) {
     case MAV_CMD_NAV_TAKEOFF:
-        m_ui->orbitSpinBox->hide();
-        m_ui->yawSpinBox->hide();
-        m_ui->turnsSpinBox->hide();
-        m_ui->autoContinue->hide();
-        m_ui->holdTimeSpinBox->hide();
-        m_ui->acceptanceSpinBox->hide();
-        m_ui->customActionWidget->hide();
-        m_ui->missionDoWidgetSlot->hide();
-        m_ui->missionConditionWidgetSlot->hide();
-        m_ui->horizontalLayout->insertStretch(17, 82);
-        m_ui->takeOffAngleSpinBox->show();
+
+        if (!m_ui->aqformat->isChecked()) {
+            m_ui->orbitSpinBox->hide();
+            m_ui->yawSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
+            m_ui->autoContinue->hide();
+            m_ui->holdTimeSpinBox->hide();
+            m_ui->acceptanceSpinBox->hide();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+            m_ui->horizontalLayout->insertStretch(17, 82);
+            m_ui->takeOffAngleSpinBox->show();
+        }
+        else {
+            m_ui->orbitSpinBox->hide();
+            m_ui->yawSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
+            m_ui->autoContinue->hide();
+            m_ui->holdTimeSpinBox->hide();
+            m_ui->acceptanceSpinBox->hide();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+            m_ui->takeOffAngleSpinBox->hide();
+
+            m_ui->acceptanceSpinBox->show();
+            m_ui->holdTimeSpinBox->show();
+            m_ui->yawSpinBox->show();
+            m_ui->maxVerticalSpeed->show();
+            m_ui->horizontalLayout->insertStretch(17, 20);
+        }
         break;
     case MAV_CMD_NAV_LAND:
-        m_ui->orbitSpinBox->hide();
-        m_ui->takeOffAngleSpinBox->hide();
-        m_ui->yawSpinBox->hide();
-        m_ui->turnsSpinBox->hide();
-        m_ui->autoContinue->hide();
-        m_ui->holdTimeSpinBox->hide();
-        m_ui->acceptanceSpinBox->hide();
-        m_ui->customActionWidget->hide();
-        m_ui->missionDoWidgetSlot->hide();
-        m_ui->missionConditionWidgetSlot->hide();
-        m_ui->horizontalLayout->insertStretch(17, 26);
+        if (!m_ui->aqformat->isChecked()) {
+            m_ui->orbitSpinBox->hide();
+            m_ui->takeOffAngleSpinBox->hide();
+            m_ui->yawSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
+            m_ui->autoContinue->hide();
+            m_ui->holdTimeSpinBox->hide();
+            m_ui->acceptanceSpinBox->hide();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+            m_ui->maxHorizontalSpeed->hide();
+            m_ui->horizontalLayout->insertStretch(17, 26);
+        }
+        else {
+            m_ui->orbitSpinBox->hide();
+            m_ui->takeOffAngleSpinBox->hide();
+            m_ui->yawSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
+            m_ui->autoContinue->hide();
+            m_ui->holdTimeSpinBox->hide();
+            m_ui->acceptanceSpinBox->hide();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+            m_ui->maxHorizontalSpeed->hide();
+
+            m_ui->acceptanceSpinBox->hide();
+            m_ui->holdTimeSpinBox->hide();
+            m_ui->yawSpinBox->show();
+            m_ui->maxVerticalSpeed->show();
+            m_ui->maxHorizontalSpeed->show();
+            m_ui->horizontalLayout->insertStretch(17, 40);
+        }
         break;
     case MAV_CMD_NAV_RETURN_TO_LAUNCH:
         m_ui->orbitSpinBox->hide();
@@ -184,21 +237,70 @@ void WaypointEditableView::updateActionView(int action)
         m_ui->customActionWidget->hide();
         m_ui->missionDoWidgetSlot->hide();
         m_ui->missionConditionWidgetSlot->hide();
+        m_ui->maxHorizontalSpeed->hide();
         m_ui->horizontalLayout->insertStretch(17, 26);
         break;
     case MAV_CMD_NAV_WAYPOINT:
-        m_ui->orbitSpinBox->hide();
-        m_ui->takeOffAngleSpinBox->hide();
-        m_ui->turnsSpinBox->hide();
-        m_ui->holdTimeSpinBox->show();
-        m_ui->customActionWidget->hide();
-        m_ui->missionDoWidgetSlot->hide();
-        m_ui->missionConditionWidgetSlot->hide();
-        m_ui->horizontalLayout->insertStretch(17, 1);
+        if (!m_ui->aqformat->isChecked()) {
+            m_ui->orbitSpinBox->hide();
+            m_ui->takeOffAngleSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
+            m_ui->holdTimeSpinBox->show();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+            m_ui->acceptanceSpinBox->show();
+            m_ui->yawSpinBox->show();
+            m_ui->maxHorizontalSpeed->show();
+            m_ui->horizontalLayout->insertStretch(17, 1);
+            m_ui->autoContinue->show();
+        }
+        else {
+            m_ui->orbitSpinBox->hide();
+            m_ui->takeOffAngleSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
+            m_ui->holdTimeSpinBox->show();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+            m_ui->acceptanceSpinBox->show();
+            m_ui->yawSpinBox->show();
+            m_ui->maxHorizontalSpeed->show();
+            m_ui->horizontalLayout->insertStretch(17, 1);
+            m_ui->autoContinue->show();
+        }
+        break;
+    case 1:
+        if (!m_ui->aqformat->isChecked()) {
+            m_ui->orbitSpinBox->hide();
+            m_ui->takeOffAngleSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
+            m_ui->holdTimeSpinBox->show();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+            m_ui->acceptanceSpinBox->hide();
+            m_ui->yawSpinBox->hide();
+            m_ui->maxHorizontalSpeed->hide();
+            m_ui->horizontalLayout->insertStretch(17, 1);
+            m_ui->autoContinue->hide();
+        }
+        else {
+            m_ui->orbitSpinBox->hide();
+            m_ui->takeOffAngleSpinBox->hide();
+            m_ui->turnsSpinBox->hide();
 
-        m_ui->autoContinue->show();
-        m_ui->acceptanceSpinBox->show();
-        m_ui->yawSpinBox->show();
+            m_ui->customActionWidget->hide();
+            m_ui->missionDoWidgetSlot->hide();
+            m_ui->missionConditionWidgetSlot->hide();
+
+            m_ui->acceptanceSpinBox->show();
+            m_ui->holdTimeSpinBox->show();
+            m_ui->maxHorizontalSpeed->show();
+            m_ui->yawSpinBox->show();
+            m_ui->horizontalLayout->insertStretch(17, 1);
+            m_ui->autoContinue->show();
+        }
         break;
     case MAV_CMD_NAV_LOITER_UNLIM:
         m_ui->takeOffAngleSpinBox->hide();
@@ -210,6 +312,7 @@ void WaypointEditableView::updateActionView(int action)
         m_ui->customActionWidget->hide();
         m_ui->missionDoWidgetSlot->hide();
         m_ui->missionConditionWidgetSlot->hide();
+        m_ui->maxHorizontalSpeed->hide();
         m_ui->horizontalLayout->insertStretch(17, 25);
         m_ui->orbitSpinBox->show();
         break;
@@ -222,6 +325,7 @@ void WaypointEditableView::updateActionView(int action)
         m_ui->customActionWidget->hide();
         m_ui->missionDoWidgetSlot->hide();
         m_ui->missionConditionWidgetSlot->hide();
+        m_ui->maxHorizontalSpeed->hide();
         m_ui->horizontalLayout->insertStretch(17, 20);
         m_ui->orbitSpinBox->show();
         m_ui->turnsSpinBox->show();
@@ -235,30 +339,10 @@ void WaypointEditableView::updateActionView(int action)
         m_ui->customActionWidget->hide();
         m_ui->missionDoWidgetSlot->hide();
         m_ui->missionConditionWidgetSlot->hide();
+        m_ui->maxHorizontalSpeed->hide();
         m_ui->horizontalLayout->insertStretch(17, 20);
         m_ui->orbitSpinBox->show();
         m_ui->holdTimeSpinBox->show();
-        break;
-      case 1:
-        m_ui->takeOffAngleSpinBox->hide();
-        m_ui->yawSpinBox->hide();
-        m_ui->turnsSpinBox->hide();
-        m_ui->autoContinue->hide();
-        m_ui->acceptanceSpinBox->hide();
-        m_ui->customActionWidget->hide();
-        m_ui->missionDoWidgetSlot->hide();
-        m_ui->missionConditionWidgetSlot->hide();
-        m_ui->orbitSpinBox->hide();
-        m_ui->holdTimeSpinBox->hide();
-
-        m_ui->altSpinBox->hide();
-
-        m_ui->TargetAltitudedoubleSpinBox->show();
-        m_ui->acceptanceSpinBox->show();
-        m_ui->holdTimeSpinBox->show();
-        m_ui->POIHeadingdoubleSpinBox->show();
-        m_ui->HorizontalSpeedSpinBox->show();
-        m_ui->horizontalLayout->insertStretch(17, 20);
         break;
 //    case MAV_CMD_NAV_ORIENTATION_TARGET:
 //        m_ui->orbitSpinBox->hide();
@@ -295,6 +379,7 @@ void WaypointEditableView::changedAction(int index)
     // if action is unknown
 
     switch(actionIndex) {
+    case 1:
     case MAV_CMD_NAV_TAKEOFF:
     case MAV_CMD_NAV_LAND:
     case MAV_CMD_NAV_RETURN_TO_LAUNCH:
@@ -302,10 +387,8 @@ void WaypointEditableView::changedAction(int index)
     case MAV_CMD_NAV_LOITER_UNLIM:
     case MAV_CMD_NAV_LOITER_TURNS:
     case MAV_CMD_NAV_LOITER_TIME:
-    case 1:
-    case 2:
         changeViewMode(QGC_WAYPOINTEDITABLEVIEW_MODE_NAV);
-        // Update frame view        
+        // Update frame view
         updateFrameView(cur_frame);
         // Update view
         updateActionView(actionIndex);
@@ -388,7 +471,7 @@ void WaypointEditableView::changeViewMode(QGC_WAYPOINTEDITABLEVIEW_MODE mode)
 }
 
 void WaypointEditableView::updateFrameView(int frame)
-{    
+{
     switch(frame) {
     case MAV_FRAME_GLOBAL:
     case MAV_FRAME_GLOBAL_RELATIVE_ALT:
@@ -575,7 +658,7 @@ void WaypointEditableView::updateValues()
         if (m_ui->posDSpinBox->value() != wp->getZ()) {
             m_ui->posDSpinBox->setValue(wp->getZ());
         }
-    }      
+    }
     break;
     case MAV_FRAME_GLOBAL:
     case MAV_FRAME_GLOBAL_RELATIVE_ALT: {
@@ -623,7 +706,7 @@ void WaypointEditableView::updateValues()
             {
                 // Action ID known, update
                 m_ui->comboBox_action->setCurrentIndex(action_index);
-                updateActionView(action);                
+                updateActionView(action);
             }
         }
     }
@@ -642,9 +725,17 @@ void WaypointEditableView::updateValues()
 ////        std::cerr << "unknown action" << std::endl;
 ////    }
 
-    if (m_ui->yawSpinBox->value() != wp->getYaw())
-    {
-        m_ui->yawSpinBox->setValue(wp->getYaw());
+    if ( !m_ui->aqformat->isChecked()) {
+        if (m_ui->yawSpinBox->value() != wp->getYaw())
+        {
+            m_ui->yawSpinBox->setValue(wp->getYaw());
+        }
+    }
+    else {
+        if (m_ui->yawSpinBox->value() != wp->getPOIHeadingAQ())
+        {
+            m_ui->yawSpinBox->setValue(wp->getPOIHeadingAQ());
+        }
     }
     if (m_ui->selectedBox->isChecked() != wp->getCurrent())
     {
@@ -659,14 +750,28 @@ void WaypointEditableView::updateValues()
     {
         m_ui->orbitSpinBox->setValue(wp->getLoiterOrbit());
     }
-    if (m_ui->acceptanceSpinBox->value() != wp->getAcceptanceRadius())
-    {
-        m_ui->acceptanceSpinBox->setValue(wp->getAcceptanceRadius());
+
+    if ( !m_ui->aqformat->isChecked()) {
+        if (m_ui->acceptanceSpinBox->value() != wp->getAcceptanceRadius())
+        {
+            m_ui->acceptanceSpinBox->setValue(wp->getAcceptanceRadius());
+        }
+        if (m_ui->holdTimeSpinBox->value() != wp->getHoldTime())
+        {
+            m_ui->holdTimeSpinBox->setValue(wp->getHoldTime());
+        }
     }
-    if (m_ui->holdTimeSpinBox->value() != wp->getHoldTime())
-    {
-        m_ui->holdTimeSpinBox->setValue(wp->getHoldTime());
+    else {
+        if (m_ui->acceptanceSpinBox->value() != wp->getAcceptanceRadiusAQ())
+        {
+            m_ui->acceptanceSpinBox->setValue(wp->getAcceptanceRadiusAQ());
+        }
+        if (m_ui->holdTimeSpinBox->value() != wp->getHoldTimeAQ())
+        {
+            m_ui->holdTimeSpinBox->setValue(wp->getHoldTimeAQ());
+        }
     }
+
     if (m_ui->turnsSpinBox->value() != wp->getTurns())
     {
         m_ui->turnsSpinBox->setValue(wp->getTurns());
@@ -831,4 +936,29 @@ void WaypointEditableView::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void WaypointEditableView::checkAutoQuadItem(){
+    if ( m_ui->aqformat->isChecked() ) {
+        disconnect(m_ui->acceptanceSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setAcceptanceRadius(double)));
+        disconnect(m_ui->holdTimeSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setHoldTime(double)));
+        disconnect(m_ui->yawSpinBox, SIGNAL(valueChanged(int)), wp, SLOT(setYaw(int)));
+
+
+        connect(m_ui->acceptanceSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setAcceptanceRadiusAQ(double)));
+        connect(m_ui->holdTimeSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setHoldTimeAQ(double)));
+        connect(m_ui->yawSpinBox, SIGNAL(valueChanged(int)), wp, SLOT(setPOIHeadingAQ(int)));
+
+
+    }
+    else {
+        disconnect(m_ui->acceptanceSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setAcceptanceRadiusAQ(double)));
+        disconnect(m_ui->holdTimeSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setHoldTimeAQ(double)));
+        disconnect(m_ui->yawSpinBox, SIGNAL(valueChanged(int)), wp, SLOT(setPOIHeadingAQ(int)));
+
+        connect(m_ui->acceptanceSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setAcceptanceRadius(double)));
+        connect(m_ui->holdTimeSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setHoldTime(double)));
+        connect(m_ui->yawSpinBox, SIGNAL(valueChanged(int)), wp, SLOT(setYaw(int)));
+    }
+
 }

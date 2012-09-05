@@ -615,7 +615,10 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             parameterItem->setData(1, Qt::DisplayRole, value);
 
             compParamGroups->value(parent)->addChild(parameterItem);
-            parameterItem->setFlags(parameterItem->flags());
+            if ( !parent.contains("IMU"))
+                parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
+            else
+                parameterItem->setFlags(parameterItem->flags());
         }
     }
     else
@@ -646,7 +649,10 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             parameterItem->setData(1, Qt::DisplayRole, value);
 
             components->value(component)->addChild(parameterItem);
-            parameterItem->setFlags(parameterItem->flags());
+            if ( !parameterName.contains("IMU_"))
+                parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
+            else
+                parameterItem->setFlags(parameterItem->flags());
 
         }
         //tree->expandAll();

@@ -313,6 +313,7 @@ void Waypoint::setHoldTime(double holdTime)
     }
 }
 
+
 void Waypoint::setTurns(int turns)
 {
     if (this->param1 != turns) {
@@ -320,3 +321,136 @@ void Waypoint::setTurns(int turns)
         emit changed(this);
     }
 }
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++
+
+void Waypoint::setHoldTimeAQ(double holdTime)
+{
+    holdTime = holdTime *1000;
+    if (this->param2 != holdTime) {
+        this->param2 = holdTime;
+        emit changed(this);
+    }
+}
+
+void Waypoint::setAcceptanceRadiusAQ(double radius)
+{
+    if (this->param1 != radius)
+    {
+        this->param1 = radius;
+        emit changed(this);
+    }
+}
+
+void Waypoint::setMaxHorizontSpeedAQ(double speed) {
+    if (this->param3 != speed)
+    {
+        this->param3 = speed;
+        emit changed(this);
+    }
+}
+
+void Waypoint::setMaxVerticalSpeedAQ(double speed) {
+    // TakeOff
+    if ( action == 22) {
+        if (this->param4 != speed)
+        {
+            this->param4 = speed;
+            emit changed(this);
+        }
+    }
+    else if ( action == 21){
+        if (this->param2 != speed)
+        {
+            this->param2 = speed;
+            emit changed(this);
+        }
+    }
+}
+
+
+void Waypoint::setPOIHeadingAQ(int degree){
+    if ( action == 16 ) {
+        if ( this->param4 != degree ) {
+            this->param4 = degree;
+            emit changed(this);
+        }
+    }
+    else if ( action == 22 ) {
+        if ( this->param3 != degree ) {
+            this->param3 = degree;
+            emit changed(this);
+        }
+    }
+    else if ( action == 1 ) {
+        if ( this->param4 != degree ) {
+            this->param4 = degree;
+            emit changed(this);
+        }
+    }
+    else if ( action == 20 ) {
+        if ( this->param4 != degree ) {
+            this->param4 = degree;
+            emit changed(this);
+        }
+    }
+}
+
+void Waypoint::setPOIAltitudeAQ(double meter){
+    if ( this->param4 != meter ) {
+        this->param4 = meter;
+        emit changed(this);
+    }
+}
+
+
+double Waypoint::getAcceptanceRadiusAQ(){
+    if ( action > 2) {
+        return param1;
+    }
+    else {
+        return param2;
+    }
+}
+
+double Waypoint::getHoldTimeAQ(){
+    if (param2 > 0)
+        return param2/1000;
+    else
+        return 0.0;
+}
+
+double Waypoint::getMaxHorizontSpeedAQ() {
+    return this->param3;
+}
+
+double Waypoint::getMaxVerticalSpeedAQ() {
+    // TakeOff
+    if ( action == 22) {
+        return this->param4;
+    }
+    else if ( action == 21){
+        return this->param2;
+    }
+}
+
+double Waypoint::getPOIHeadingAQ(){
+    if ( action == 16 ) {
+        return this->param4;
+    }
+    else if ( action == 22 ) {
+        return this->param3;
+    }
+    else if ( action == 1 ) {
+        return this->param4;
+    }
+    else if ( action == 20 ) {
+        return this->param4;
+    }
+}
+
+double Waypoint::getPOIAltitudeAQ(){
+    return this->param4;
+}
+

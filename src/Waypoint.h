@@ -129,6 +129,12 @@ public:
     void save(QTextStream &saveStream);
     bool load(QTextStream &loadStream);
 
+    double getHoldTimeAQ();
+    double getAcceptanceRadiusAQ();
+    double getMaxHorizontSpeedAQ();
+    double getMaxVerticalSpeedAQ();
+    double getPOIHeadingAQ();
+    double getPOIAltitudeAQ();
 
 protected:
     quint16 id;
@@ -147,6 +153,8 @@ protected:
     QString name;
     QString description;
     quint64 reachedTime;
+    double param3;
+    double param4;
 
 public slots:
     void setId(quint16 id);
@@ -177,6 +185,14 @@ public slots:
     void setAcceptanceRadius(double radius);
     void setHoldTime(int holdTime);
     void setHoldTime(double holdTime);
+
+    void setHoldTimeAQ(double holdTime);
+    void setAcceptanceRadiusAQ(double radius);
+    void setMaxHorizontSpeedAQ(double speed);
+    void setMaxVerticalSpeedAQ(double speed);
+    void setPOIHeadingAQ(int degree);
+    void setPOIAltitudeAQ(double meter);
+
     /** @brief Number of turns for loiter waypoints */
     void setTurns(int turns);
     /** @brief Set waypoint as reached */
