@@ -327,26 +327,44 @@ void Waypoint::setTurns(int turns)
 
 void Waypoint::setHoldTimeAQ(double holdTime)
 {
-    holdTime = holdTime *1000;
-    if (this->param2 != holdTime) {
-        this->param2 = holdTime;
-        emit changed(this);
+    if ( action > 2) {
+        holdTime = holdTime *1000;
+        if (this->param2 != holdTime) {
+            this->param2 = holdTime;
+            emit changed(this);
+        }
+    }
+    else {
+        holdTime = holdTime *1000;
+        if (this->param2 != holdTime) {
+            this->param2 = holdTime;
+            emit changed(this);
+        }
     }
 }
 
 void Waypoint::setAcceptanceRadiusAQ(double radius)
 {
-    if (this->param1 != radius)
-    {
-        this->param1 = radius;
-        emit changed(this);
+    if ( action > 2) {
+        if (this->param1 != radius)
+        {
+            this->param1 = radius;
+            emit changed(this);
+        }
+    }
+    else {
+        if (this->param1 != radius)
+        {
+            this->param1 = radius;
+            emit changed(this);
+        }
     }
 }
 
 void Waypoint::setMaxHorizontSpeedAQ(double speed) {
-    if (this->param3 != speed)
+    if (this->orbit != speed)
     {
-        this->param3 = speed;
+        this->orbit = speed;
         emit changed(this);
     }
 }
@@ -354,9 +372,9 @@ void Waypoint::setMaxHorizontSpeedAQ(double speed) {
 void Waypoint::setMaxVerticalSpeedAQ(double speed) {
     // TakeOff
     if ( action == 22) {
-        if (this->param4 != speed)
+        if (this->yaw != speed)
         {
-            this->param4 = speed;
+            this->yaw = speed;
             emit changed(this);
         }
     }
@@ -372,35 +390,49 @@ void Waypoint::setMaxVerticalSpeedAQ(double speed) {
 
 void Waypoint::setPOIHeadingAQ(int degree){
     if ( action == 16 ) {
-        if ( this->param4 != degree ) {
-            this->param4 = degree;
+        if ( this->yaw != degree ) {
+            this->yaw = degree;
             emit changed(this);
         }
     }
     else if ( action == 22 ) {
-        if ( this->param3 != degree ) {
-            this->param3 = degree;
+        if ( this->orbit != degree ) {
+            this->orbit = degree;
             emit changed(this);
         }
     }
     else if ( action == 1 ) {
-        if ( this->param4 != degree ) {
-            this->param4 = degree;
+        if ( this->yaw != degree ) {
+            this->yaw = degree;
             emit changed(this);
         }
     }
     else if ( action == 20 ) {
-        if ( this->param4 != degree ) {
-            this->param4 = degree;
+        if ( this->yaw != degree ) {
+            this->yaw = degree;
             emit changed(this);
         }
     }
+    else if ( action == 21 ) {
+        if ( this->yaw != degree ) {
+            this->yaw = degree;
+            emit changed(this);
+        }
+    }
+
 }
 
 void Waypoint::setPOIAltitudeAQ(double meter){
-    if ( this->param4 != meter ) {
-        this->param4 = meter;
+    if ( this->yaw != meter ) {
+        this->yaw = meter;
         emit changed(this);
+    }
+}
+
+void Waypoint::setAutoquadMode(bool active) {
+    if ( this->isAutoquad != active) {
+        this->isAutoquad = active;
+        //emit changed(this);
     }
 }
 
@@ -410,25 +442,33 @@ double Waypoint::getAcceptanceRadiusAQ(){
         return param1;
     }
     else {
-        return param2;
+        return param1;
     }
 }
 
 double Waypoint::getHoldTimeAQ(){
-    if (param2 > 0)
-        return param2/1000;
-    else
-        return 0.0;
+    if ( action > 2) {
+        if (param2 > 0)
+            return param2/1000;
+        else
+            return 0.0;
+    }
+    else {
+        if (param2 > 0)
+            return param2/1000;
+        else
+            return 0.0;
+    }
 }
 
 double Waypoint::getMaxHorizontSpeedAQ() {
-    return this->param3;
+    return this->orbit;
 }
 
 double Waypoint::getMaxVerticalSpeedAQ() {
     // TakeOff
     if ( action == 22) {
-        return this->param4;
+        return this->yaw;
     }
     else if ( action == 21){
         return this->param2;
@@ -437,20 +477,35 @@ double Waypoint::getMaxVerticalSpeedAQ() {
 
 double Waypoint::getPOIHeadingAQ(){
     if ( action == 16 ) {
-        return this->param4;
+        return this->yaw;
     }
     else if ( action == 22 ) {
-        return this->param3;
+        return this->orbit;
     }
     else if ( action == 1 ) {
-        return this->param4;
+        return this->yaw;
     }
     else if ( action == 20 ) {
-        return this->param4;
+        return this->yaw;
+    }
+    else if ( action == 21 ) {
+        return this->yaw;
     }
 }
 
 double Waypoint::getPOIAltitudeAQ(){
-    return this->param4;
+    return this->yaw;
+}
+
+bool Waypoint::getAutoquadMode() {
+    return isAutoquad;
+}
+
+
+double Waypoint::getAcceptanceRadius(){
+    if (!this->isAutoquad)
+        return param2;
+    else
+        return getAcceptanceRadiusAQ();
 }
 

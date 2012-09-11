@@ -81,11 +81,20 @@ public:
     double getLoiterOrbit() const {
         return orbit;
     }
-    double getAcceptanceRadius() const {
-        return param2;
+    /*
+    double getAcceptanceRadius() const{
+      return param2;
     }
+    */
     double getHoldTime() const {
-        return param1;
+        if ( isAutoquad) {
+            if (param2 > 0)
+                return param2/1000;
+            else
+                return 0.0;
+        }
+        else
+            return param1;
     }
     double getParam1() const {
         return param1;
@@ -135,6 +144,9 @@ public:
     double getMaxVerticalSpeedAQ();
     double getPOIHeadingAQ();
     double getPOIAltitudeAQ();
+    bool getAutoquadMode();
+    void setAutoquadMode(bool active);
+    double getAcceptanceRadius();
 
 protected:
     quint16 id;
@@ -155,6 +167,7 @@ protected:
     quint64 reachedTime;
     double param3;
     double param4;
+    bool isAutoquad;
 
 public slots:
     void setId(quint16 id);

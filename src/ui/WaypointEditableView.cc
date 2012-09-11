@@ -27,7 +27,7 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     customCommand(new Ui_QGCCustomWaypointAction),
     doCommand(new Ui_QGCMissionDoWidget),
     viewMode(QGC_WAYPOINTEDITABLEVIEW_MODE_NAV),
-    m_ui(new Ui::WaypointEditableView)
+   m_ui(new Ui::WaypointEditableView)
 {
     m_ui->setupUi(this);
 
@@ -113,10 +113,10 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
 
     //AutoQuad
     connect(m_ui->aqformat, SIGNAL(clicked()), this, SLOT(checkAutoQuadItem()));
-    connect(m_ui->maxHorizontalSpeed, SIGNAL(valueChanged(int)), wp, SLOT(setMaxHorizontSpeedAQ(double)));
-    connect(m_ui->maxVerticalSpeed, SIGNAL(valueChanged(int)), wp, SLOT(setMaxVerticalSpeedAQ(double)));
-    connect(m_ui->POIAltitude, SIGNAL(valueChanged(int)), wp, SLOT(setPOIAltitudeAQ(double)));
-    m_ui->maxHorizontalSpeed->hide();
+    connect(m_ui->maxHorizontalSpeed, SIGNAL(valueChanged(double)), wp, SLOT(setMaxHorizontSpeedAQ(double)));
+    connect(m_ui->maxVerticalSpeed, SIGNAL(valueChanged(double)), wp, SLOT(setMaxVerticalSpeedAQ(double)));
+    connect(m_ui->POIAltitude, SIGNAL(valueChanged(double)), wp, SLOT(setPOIAltitudeAQ(double)));
+    m_ui->maxHorizontalSpeed->show();
     m_ui->maxVerticalSpeed->hide();
     m_ui->POIAltitude->hide();
     checkAutoQuadItem();
@@ -182,6 +182,7 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->missionDoWidgetSlot->hide();
             m_ui->missionConditionWidgetSlot->hide();
             m_ui->takeOffAngleSpinBox->hide();
+            m_ui->maxHorizontalSpeed->hide();
 
             m_ui->acceptanceSpinBox->show();
             m_ui->holdTimeSpinBox->show();
@@ -289,11 +290,10 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->orbitSpinBox->hide();
             m_ui->takeOffAngleSpinBox->hide();
             m_ui->turnsSpinBox->hide();
-
             m_ui->customActionWidget->hide();
             m_ui->missionDoWidgetSlot->hide();
             m_ui->missionConditionWidgetSlot->hide();
-
+            m_ui->maxVerticalSpeed->hide();
             m_ui->acceptanceSpinBox->show();
             m_ui->holdTimeSpinBox->show();
             m_ui->maxHorizontalSpeed->show();
@@ -772,6 +772,26 @@ void WaypointEditableView::updateValues()
         }
     }
 
+    //XXX Autoquad
+    //connect(m_ui->aqformat, SIGNAL(clicked()), this, SLOT(checkAutoQuadItem()));
+    //connect(m_ui->maxHorizontalSpeed, SIGNAL(valueChanged(int)), wp, SLOT(setMaxHorizontSpeedAQ(double)));
+    //connect(m_ui->maxVerticalSpeed, SIGNAL(valueChanged(int)), wp, SLOT(setMaxVerticalSpeedAQ(double)));
+    //connect(m_ui->POIAltitude, SIGNAL(valueChanged(int)), wp, SLOT(setPOIAltitudeAQ(double)));
+
+    if (m_ui->maxHorizontalSpeed->value() != wp->getMaxHorizontSpeedAQ())
+    {
+        m_ui->maxHorizontalSpeed->setValue(wp->getMaxHorizontSpeedAQ());
+    }
+    if (m_ui->maxVerticalSpeed->value() != wp->getMaxVerticalSpeedAQ())
+    {
+        m_ui->maxVerticalSpeed->setValue(wp->getMaxVerticalSpeedAQ());
+    }
+    if (m_ui->POIAltitude->value() != wp->getPOIAltitudeAQ())
+    {
+        m_ui->POIAltitude->setValue(wp->getPOIAltitudeAQ());
+    }
+
+
     if (m_ui->turnsSpinBox->value() != wp->getTurns())
     {
         m_ui->turnsSpinBox->setValue(wp->getTurns());
@@ -940,6 +960,7 @@ void WaypointEditableView::changeEvent(QEvent *e)
 
 void WaypointEditableView::checkAutoQuadItem(){
     if ( m_ui->aqformat->isChecked() ) {
+        wp->setAutoquadMode(true);
         disconnect(m_ui->acceptanceSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setAcceptanceRadius(double)));
         disconnect(m_ui->holdTimeSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setHoldTime(double)));
         disconnect(m_ui->yawSpinBox, SIGNAL(valueChanged(int)), wp, SLOT(setYaw(int)));
@@ -952,6 +973,7 @@ void WaypointEditableView::checkAutoQuadItem(){
 
     }
     else {
+        wp->setAutoquadMode(false);
         disconnect(m_ui->acceptanceSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setAcceptanceRadiusAQ(double)));
         disconnect(m_ui->holdTimeSpinBox, SIGNAL(valueChanged(double)), wp, SLOT(setHoldTimeAQ(double)));
         disconnect(m_ui->yawSpinBox, SIGNAL(valueChanged(int)), wp, SLOT(setPOIHeadingAQ(int)));
