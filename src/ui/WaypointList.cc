@@ -238,7 +238,7 @@ void WaypointList::addEditable()
             // Create waypoint with last frame
             Waypoint *last = waypoints.at(waypoints.size()-1);
             wp = new Waypoint(0, last->getX(), last->getY(), last->getZ(), last->getParam1(), last->getParam2(), last->getParam3(), last->getParam4(),
-                              last->getAutoContinue(), false, last->getFrame(), last->getAction());
+                              last->getAutoContinue(), false, MAV_FRAME_GLOBAL_RELATIVE_ALT, last->getAction());
             WPM->addWaypointEditable(wp);
         }
         else
@@ -254,7 +254,7 @@ void WaypointList::addEditable()
                 {
                     // MAV connected, but position unknown, add default waypoint
                    updateStatusLabel(tr("WARNING: No position known. Adding default LOCAL (NED) waypoint"));
-                   wp = new Waypoint(0, 0, 0, -0.50, 0, 0.20, 0, 0,true, true, MAV_FRAME_LOCAL_NED, MAV_CMD_NAV_WAYPOINT);
+                   wp = new Waypoint(0, 0, 0, -0.50, 0, 0.20, 0, 0,true, true, MAV_FRAME_GLOBAL_RELATIVE_ALT, MAV_CMD_NAV_WAYPOINT);
                    WPM->addWaypointEditable(wp);
                 }
             }
@@ -262,7 +262,7 @@ void WaypointList::addEditable()
             {
                 //Since no UAV available, create first default waypoint.
                  updateStatusLabel(tr("No UAV connected. Adding default LOCAL (NED) waypoint"));
-                wp = new Waypoint(0, 0, 0, -0.50, 0, 0.20, 0, 0,true, true, MAV_FRAME_LOCAL_NED, MAV_CMD_NAV_WAYPOINT);
+                wp = new Waypoint(0, 0, 0, -0.50, 0, 0.20, 0, 0,true, true, MAV_FRAME_GLOBAL_RELATIVE_ALT, MAV_CMD_NAV_WAYPOINT);
                 WPM->addWaypointEditable(wp);
                 //create a popup notifying the user about the limitations of offline editing
                 if (showOfflineWarning == true)
