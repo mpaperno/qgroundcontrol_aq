@@ -990,6 +990,10 @@ void UASWaypointManager::sendWaypoint(quint16 seq)
         wp->target_system = uasid;
         wp->target_component = MAV_COMP_ID_MISSIONPLANNER;
 
+        //if (( wp->command == 1) && ( wp->param4 == 0))
+            //wp->param4 = -0.0;
+
+
         emit updateStatusString(QString("Sending waypoint ID %1 of %2 total").arg(wp->seq).arg(current_count));
 
         // // qDebug() << "sent waypoint (" << wp->seq << ") to ID " << wp->target_system<<" WP Buffer count: "<<waypoint_buffer.count();

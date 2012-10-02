@@ -484,10 +484,10 @@ QPushButton:pressed {
          <string>°</string>
         </property>
         <property name="minimum">
-         <number>-180</number>
+         <number>-360</number>
         </property>
         <property name="maximum">
-         <number>180</number>
+         <number>360</number>
         </property>
         <property name="singleStep">
          <number>10</number>
