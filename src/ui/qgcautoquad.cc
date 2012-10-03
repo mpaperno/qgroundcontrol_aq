@@ -37,7 +37,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
 
-    ui->lbl_version->setText("Version 1.0.3");
+    ui->lbl_version->setText("Version 1.0.4");
     //setup ListView curves
     //SetupListView();
 
