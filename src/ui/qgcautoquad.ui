@@ -3180,14 +3180,14 @@
                   <item>
                    <widget class="QLabel" name="label_112">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Gimbal Slew Rate</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_17">
+                   <widget class="QLineEdit" name="GMBL_SLEW_RATE">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -3211,12 +3211,12 @@
                   <item>
                    <widget class="QLabel" name="label_82">
                     <property name="text">
-                     <string>Gimbal PWM MAX</string>
+                     <string>Gimbal PWM MAX Roll</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_PWM_MAX"/>
+                   <widget class="QLineEdit" name="GMBL_PWM_MAX_ROL"/>
                   </item>
                  </layout>
                 </item>
@@ -3225,12 +3225,12 @@
                   <item>
                    <widget class="QLabel" name="label_83">
                     <property name="text">
-                     <string>Gimbal PWM MIN</string>
+                     <string>Gimbal PWM MIN Roll</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_PWM_MIN"/>
+                   <widget class="QLineEdit" name="GMBL_PWM_MIN_ROL"/>
                   </item>
                  </layout>
                 </item>
@@ -3299,12 +3299,12 @@
                   <item>
                    <widget class="QLabel" name="label_86">
                     <property name="text">
-                     <string>Gimbal Slew Rate</string>
+                     <string>Gimbal PWM MIN Pitch</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_SLEW_RATE"/>
+                   <widget class="QLineEdit" name="GMBL_PWM_MIN_PIT"/>
                   </item>
                  </layout>
                 </item>
@@ -3313,14 +3313,14 @@
                   <item>
                    <widget class="QLabel" name="label_113">
                     <property name="text">
-                     <string>Res.</string>
+                     <string>Gimbal PWM MAX Pitch</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_18">
+                   <widget class="QLineEdit" name="GMBL_PWM_MAX_PIT">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -4389,15 +4389,15 @@
   <tabstop>MOT_MAX</tabstop>
   <tabstop>MOT_EXP_MAX</tabstop>
   <tabstop>MOT_HOV_THROT</tabstop>
-  <tabstop>lineEdit_17</tabstop>
-  <tabstop>GMBL_PWM_MAX</tabstop>
+  <tabstop>GMBL_SLEW_RATE</tabstop>
+  <tabstop>GMBL_PWM_MAX_ROL</tabstop>
   <tabstop>GMBL_SCAL_PITCH</tabstop>
-  <tabstop>GMBL_PWM_MIN</tabstop>
+  <tabstop>GMBL_PWM_MIN_ROL</tabstop>
   <tabstop>GMBL_SCAL_ROLL</tabstop>
   <tabstop>GMBL_NTRL_PITCH</tabstop>
-  <tabstop>GMBL_SLEW_RATE</tabstop>
+  <tabstop>GMBL_PWM_MIN_PIT</tabstop>
   <tabstop>GMBL_NTRL_ROLL</tabstop>
-  <tabstop>lineEdit_18</tabstop>
+  <tabstop>GMBL_PWM_MAX_PIT</tabstop>
   <tabstop>pushButton_save_to_aq_pid3</tabstop>
   <tabstop>pushButton_Open_Log_file</tabstop>
   <tabstop>pushButtonshow_cahnnels</tabstop>
