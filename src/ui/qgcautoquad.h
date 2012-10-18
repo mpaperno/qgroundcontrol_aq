@@ -87,6 +87,7 @@ private slots:
         void save_PID_toAQ1();
         void save_PID_toAQ2();
         void save_PID_toAQ3();
+        void save_PID_toAQ4();
         void save_plot_image();
         void showChannels();
         void startSetMarker();
@@ -113,6 +114,8 @@ private slots:
         void Esc32CaliGetCommand(int Command);
         void Esc32StartLogging();
         void Esc32CalibrationFinished(int mode);
+        void gmb_pitch_port_changed(int portIndex);
+        void gmb_roll_port_changed(int portIndex);
 
 
 private:
@@ -162,6 +165,8 @@ private:
         QwtPlotMarker *MarkerCut3;
         QwtPlotMarker *MarkerCut4;
         int Esc32CalibrationMode;
+        void setMotorPWMTimer(int pitch_port, int roll_port);
+        void setMotorEnable(int MotorIndex, bool value);
 
 protected:
         void showEvent(QShowEvent* event);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1035</width>
-    <height>721</height>
+    <width>1041</width>
+    <height>782</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
          <property name="title">
           <string>Basic Settings Autoquad</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
           <item>
            <widget class="QTabWidget" name="tab_aq_settings">
             <property name="currentIndex">
@@ -459,11 +459,11 @@
              <attribute name="title">
               <string>Frame</string>
              </attribute>
-             <layout class="QGridLayout" name="gridLayout_4">
-              <item row="0" column="0" rowspan="2">
-               <layout class="QVBoxLayout" name="verticalLayout_11">
+             <layout class="QHBoxLayout" name="horizontalLayout_67">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_270">
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <layout class="QHBoxLayout" name="Header">
                   <item>
                    <widget class="QLabel" name="label_9">
                     <property name="text">
@@ -550,7 +550,10 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_28">
+                 <layout class="QHBoxLayout" name="M1">
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetDefaultConstraint</enum>
+                  </property>
                   <item>
                    <widget class="QLabel" name="label_4">
                     <property name="text">
@@ -573,7 +576,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_27">
+                 <layout class="QHBoxLayout" name="M2">
                   <item>
                    <widget class="QLabel" name="label_5">
                     <property name="text">
@@ -596,7 +599,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <layout class="QHBoxLayout" name="M3">
                   <item>
                    <widget class="QLabel" name="label_6">
                     <property name="text">
@@ -619,7 +622,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <layout class="QHBoxLayout" name="M4">
                   <item>
                    <widget class="QLabel" name="label_8">
                     <property name="text">
@@ -642,7 +645,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_15">
+                 <layout class="QHBoxLayout" name="M5">
                   <item>
                    <widget class="QLabel" name="label_10">
                     <property name="text">
@@ -665,7 +668,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_16">
+                 <layout class="QHBoxLayout" name="M6">
                   <item>
                    <widget class="QLabel" name="label_11">
                     <property name="text">
@@ -688,7 +691,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_17">
+                 <layout class="QHBoxLayout" name="M7">
                   <item>
                    <widget class="QLabel" name="label_12">
                     <property name="text">
@@ -711,7 +714,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_18">
+                 <layout class="QHBoxLayout" name="M8">
                   <item>
                    <widget class="QLabel" name="label_13">
                     <property name="text">
@@ -734,7 +737,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_19">
+                 <layout class="QHBoxLayout" name="M9">
                   <item>
                    <widget class="QLabel" name="label_14">
                     <property name="text">
@@ -757,7 +760,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_20">
+                 <layout class="QHBoxLayout" name="M10">
                   <item>
                    <widget class="QLabel" name="label_15">
                     <property name="text">
@@ -780,7 +783,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_21">
+                 <layout class="QHBoxLayout" name="M11">
                   <item>
                    <widget class="QLabel" name="label_16">
                     <property name="text">
@@ -803,7 +806,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_22">
+                 <layout class="QHBoxLayout" name="M12">
                   <item>
                    <widget class="QLabel" name="label_17">
                     <property name="text">
@@ -826,7 +829,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_25">
+                 <layout class="QHBoxLayout" name="M13">
                   <item>
                    <widget class="QLabel" name="label_18">
                     <property name="text">
@@ -849,7 +852,7 @@
                  </layout>
                 </item>
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_26">
+                 <layout class="QHBoxLayout" name="M14">
                   <item>
                    <widget class="QLabel" name="label_19">
                     <property name="text">
@@ -873,43 +876,108 @@
                 </item>
                </layout>
               </item>
-              <item row="0" column="1">
-               <layout class="QVBoxLayout" name="verticalLayout_10">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_278">
                 <item>
-                 <widget class="QPushButton" name="pushButton_Load_frame_from_file">
-                  <property name="text">
-                   <string>Load from File</string>
-                  </property>
-                 </widget>
+                 <layout class="QVBoxLayout" name="verticalLayout_2">
+                  <item>
+                   <widget class="QPushButton" name="pushButton_Load_frame_from_file">
+                    <property name="text">
+                     <string>Load from File</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_Save_farem_to_file">
+                    <property name="text">
+                     <string>Save to File</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_save_to_aq_frame">
+                    <property name="text">
+                     <string>Save to AQ</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_Save_farem_to_file">
-                  <property name="text">
-                   <string>Save to File</string>
+                 <spacer name="verticalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
-                 </widget>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_save_to_aq_frame">
-                  <property name="text">
-                   <string>Save to AQ</string>
+                 <layout class="QVBoxLayout" name="verticalLayout_277">
+                  <item>
+                   <widget class="QLabel" name="label_209">
+                    <property name="text">
+                     <string>Gimbal Ports</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_178">
+                    <property name="text">
+                     <string>Roll</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBox_roll_inverse">
+                    <property name="text">
+                     <string>reverse</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="comboBox_gmb_roll_port"/>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_208">
+                    <property name="text">
+                     <string>Pitch</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBox_pitch_inverse">
+                    <property name="text">
+                     <string>reverse</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="comboBox_gmb_pitch_port"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_11">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
-                 </widget>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>308</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
-              </item>
-              <item row="1" column="1">
-               <spacer name="verticalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>408</height>
-                 </size>
-                </property>
-               </spacer>
               </item>
              </layout>
             </widget>
@@ -1171,7 +1239,7 @@
           <bool>true</bool>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>6</number>
          </property>
          <widget class="QWidget" name="para_cal_rate">
           <attribute name="title">
@@ -1670,7 +1738,7 @@
          <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="tabWidget_para_edit_1">
+         <widget class="QWidget" name="TiltYawPID">
           <attribute name="title">
            <string>Tilt and Yaw PID settings</string>
           </attribute>
@@ -1680,7 +1748,7 @@
              <item>
               <layout class="QGridLayout" name="gridLayout_8">
                <item row="0" column="1">
-                <widget class="QGroupBox" name="groupBox_PID2">
+                <widget class="QGroupBox" name="YawRate">
                  <property name="title">
                   <string>Yaw Rate PID</string>
                  </property>
@@ -1809,7 +1877,7 @@
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QGroupBox" name="groupBox_PID3">
+                <widget class="QGroupBox" name="TiltAngle">
                  <property name="title">
                   <string>Tilt Angle PID</string>
                  </property>
@@ -1938,7 +2006,7 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QGroupBox" name="groupBox_PID4">
+                <widget class="QGroupBox" name="YawAngle">
                  <property name="title">
                   <string>Yaw Angle PID</string>
                  </property>
@@ -2067,7 +2135,7 @@
                 </widget>
                </item>
                <item row="0" column="0">
-                <widget class="QGroupBox" name="groupBox_PID1">
+                <widget class="QGroupBox" name="TiltRate">
                  <property name="title">
                   <string>Tilt Rate PID</string>
                  </property>
@@ -2208,13 +2276,13 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tabWidget_para_edit_2">
+         <widget class="QWidget" name="NavigationPID">
           <attribute name="title">
            <string>Navigation Altitude Hold PID</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_9">
            <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBox_PID6">
+            <widget class="QGroupBox" name="NavigationDistanceRate">
              <property name="title">
               <string>Navigation Distance Rate</string>
              </property>
@@ -2355,7 +2423,7 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QGroupBox" name="groupBox_PID8">
+            <widget class="QGroupBox" name="NavigationAltPos">
              <property name="title">
               <string>Navigation Altitude Position</string>
              </property>
@@ -2496,7 +2564,7 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_PID7">
+            <widget class="QGroupBox" name="NavifationAltSpeed">
              <property name="title">
               <string>Navigation Altitude Speed</string>
              </property>
@@ -2637,7 +2705,7 @@
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_PID5">
+            <widget class="QGroupBox" name="NavigationSpeedrate">
              <property name="title">
               <string>Navigation Speed Rate</string>
              </property>
@@ -2786,13 +2854,13 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="tabWidget_para_edit_3">
+         <widget class="QWidget" name="SpecialSettings">
           <attribute name="title">
            <string>Special Settings</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_10">
            <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_PID10">
+            <widget class="QGroupBox" name="settings_radio">
              <property name="title">
               <string>Controller Radio</string>
              </property>
@@ -2864,12 +2932,12 @@
                   <item>
                    <widget class="QLabel" name="label_74">
                     <property name="text">
-                     <string>Stick Dead Band</string>
+                     <string>Stick Dead Band Throttle</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="CTRL_DEAD_BAND"/>
+                   <widget class="QLineEdit" name="CTRL_DBAND_THRO"/>
                   </item>
                  </layout>
                 </item>
@@ -2904,14 +2972,14 @@
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_103">
                   <item>
-                   <widget class="QLabel" name="DownlinkBuad">
+                   <widget class="QLabel" name="label_1000">
                     <property name="text">
-                     <string>Downlink Baud</string>
+                     <string>Stick Dead Band</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="DOWNLINK_BAUD">
+                   <widget class="QLineEdit" name="CTRL_DEAD_BAND">
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
@@ -2925,7 +2993,7 @@
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_PID9">
+            <widget class="QGroupBox" name="diverse">
              <property name="title">
               <string>Diverse</string>
              </property>
@@ -3066,7 +3134,7 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBox_PID11">
+            <widget class="QGroupBox" name="motor_esc">
              <property name="title">
               <string>Motor / Esc Settings</string>
              </property>
@@ -3180,12 +3248,12 @@
                   <item>
                    <widget class="QLabel" name="label_112">
                     <property name="text">
-                     <string>Gimbal Slew Rate</string>
+                     <string>Res.</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_SLEW_RATE">
+                   <widget class="QLineEdit" name="Res22_2">
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
@@ -3199,9 +3267,9 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QGroupBox" name="groupBox_PID12">
+            <widget class="QGroupBox" name="gimbal">
              <property name="title">
-              <string>Gimbal</string>
+              <string/>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_44">
               <item>
@@ -3211,12 +3279,12 @@
                   <item>
                    <widget class="QLabel" name="label_82">
                     <property name="text">
-                     <string>Gimbal PWM MAX Roll</string>
+                     <string>Downlink Baud</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_PWM_MAX_ROL"/>
+                   <widget class="QLineEdit" name="DOWNLINK_BAUD"/>
                   </item>
                  </layout>
                 </item>
@@ -3225,12 +3293,12 @@
                   <item>
                    <widget class="QLabel" name="label_83">
                     <property name="text">
-                     <string>Gimbal PWM MIN Roll</string>
+                     <string>Res.</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_PWM_MIN_ROL"/>
+                   <widget class="QLineEdit" name="Res2"/>
                   </item>
                  </layout>
                 </item>
@@ -3239,12 +3307,12 @@
                   <item>
                    <widget class="QLabel" name="label_94">
                     <property name="text">
-                     <string>Gimbal Neutral Pitch</string>
+                     <string>PowerSupply Stage1</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_NTRL_PITCH"/>
+                   <widget class="QLineEdit" name="SPVR_FS_RAD_ST1"/>
                   </item>
                  </layout>
                 </item>
@@ -3253,12 +3321,12 @@
                   <item>
                    <widget class="QLabel" name="label_95">
                     <property name="text">
-                     <string>Gimbal Neutral Roll</string>
+                     <string>PowerSupply Stage2</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_NTRL_ROLL"/>
+                   <widget class="QLineEdit" name="SPVR_FS_RAD_ST2"/>
                   </item>
                  </layout>
                 </item>
@@ -3271,12 +3339,12 @@
                   <item>
                    <widget class="QLabel" name="label_84">
                     <property name="text">
-                     <string>Gimbal Scale Pitch</string>
+                     <string>Res.</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_SCAL_PITCH"/>
+                   <widget class="QLineEdit" name="Res5"/>
                   </item>
                  </layout>
                 </item>
@@ -3285,12 +3353,12 @@
                   <item>
                    <widget class="QLabel" name="label_85">
                     <property name="text">
-                     <string>Gimbal Scale Roll</string>
+                     <string>Res.</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_SCAL_ROLL"/>
+                   <widget class="QLineEdit" name="Res6"/>
                   </item>
                  </layout>
                 </item>
@@ -3299,12 +3367,12 @@
                   <item>
                    <widget class="QLabel" name="label_86">
                     <property name="text">
-                     <string>Gimbal PWM MIN Pitch</string>
+                     <string>NAV Ceiling</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_PWM_MIN_PIT"/>
+                   <widget class="QLineEdit" name="NAV_CEILING"/>
                   </item>
                  </layout>
                 </item>
@@ -3313,12 +3381,12 @@
                   <item>
                    <widget class="QLabel" name="label_113">
                     <property name="text">
-                     <string>Gimbal PWM MAX Pitch</string>
+                     <string>Res.</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="GMBL_PWM_MAX_PIT">
+                   <widget class="QLineEdit" name="Res8">
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
@@ -3337,6 +3405,564 @@
               <string>Transmitt to AQ</string>
              </property>
             </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="Gimbal">
+          <attribute name="title">
+           <string>Gimbal</string>
+          </attribute>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_13">
+             <item row="0" column="0">
+              <widget class="QGroupBox" name="gimbal1">
+               <property name="title">
+                <string>Gimbal</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_59">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_227">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_228">
+                    <item>
+                     <widget class="QLabel" name="label_177">
+                      <property name="text">
+                       <string>Gimbal PWM Max Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_PWM_MAX_RL"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_229">
+                    <item>
+                     <widget class="QLabel" name="labelGMBL_PWM_MAX_PT">
+                      <property name="text">
+                       <string>Gimbal PWM Max Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_PWM_MAX_PT"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_230">
+                    <item>
+                     <widget class="QLabel" name="label_179">
+                      <property name="text">
+                       <string>Gimbal Neutral Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_NTRL_ROLL">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_231">
+                    <item>
+                     <widget class="QLabel" name="label_180">
+                      <property name="text">
+                       <string>Gimbal Scale Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_SCAL_ROLL">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_232">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_233">
+                    <item>
+                     <widget class="QLabel" name="label_181">
+                      <property name="text">
+                       <string>Gimbal PWM Min Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_PWM_MIN_RL"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_234">
+                    <item>
+                     <widget class="QLabel" name="label_182">
+                      <property name="text">
+                       <string>Gimbal PWM Min Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_PWM_MIN_PT">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_235">
+                    <item>
+                     <widget class="QLabel" name="label_183">
+                      <property name="text">
+                       <string>Gimbal Neutral Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_NTRL_PITCH"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_236">
+                    <item>
+                     <widget class="QLabel" name="label_184">
+                      <property name="text">
+                       <string>Gimbal Scale Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_SCAL_PITCH"/>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QGroupBox" name="res1">
+               <property name="title">
+                <string>Res.</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_61">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_247">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_248">
+                    <item>
+                     <widget class="QLabel" name="label_193">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res10"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_249">
+                    <item>
+                     <widget class="QLabel" name="label_194">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res15"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_250">
+                    <item>
+                     <widget class="QLabel" name="label_195">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res16"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_251">
+                    <item>
+                     <widget class="QLabel" name="label_196">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res17"/>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_252">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_253">
+                    <item>
+                     <widget class="QLabel" name="label_197">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res11"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_254">
+                    <item>
+                     <widget class="QLabel" name="label_198">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res12"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_255">
+                    <item>
+                     <widget class="QLabel" name="label_199">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res13"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_256">
+                    <item>
+                     <widget class="QLabel" name="label_201">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res14">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QGroupBox" name="gimbal2">
+               <property name="title">
+                <string>Gimbal</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_62">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_257">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_258">
+                    <item>
+                     <widget class="QLabel" name="label_200">
+                      <property name="text">
+                       <string>Gimbal Slew Rate</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_SLEW_RATE"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_259">
+                    <item>
+                     <widget class="QLabel" name="lbl_GMBL_ROLL_EXPO">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res30"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_260">
+                    <item>
+                     <widget class="QLabel" name="label_202">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res31"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_261">
+                    <item>
+                     <widget class="QLabel" name="label_203">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res32"/>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_262">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_263">
+                    <item>
+                     <widget class="QLabel" name="label_204">
+                      <property name="text">
+                       <string>PWM Frequenz</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="GMBL_PWM_FREQ"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_264">
+                    <item>
+                     <widget class="QLabel" name="label_205">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res33"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_265">
+                    <item>
+                     <widget class="QLabel" name="label_206">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res34"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_266">
+                    <item>
+                     <widget class="QLabel" name="label_207">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res35">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QGroupBox" name="res2">
+               <property name="title">
+                <string>Res.</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_60">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_237">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_238">
+                    <item>
+                     <widget class="QLabel" name="label_185">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res18"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_239">
+                    <item>
+                     <widget class="QLabel" name="label_186">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res20"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_240">
+                    <item>
+                     <widget class="QLabel" name="label_187">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res22"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_241">
+                    <item>
+                     <widget class="QLabel" name="label_188">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res24"/>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_242">
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_243">
+                    <item>
+                     <widget class="QLabel" name="label_189">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res19"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_244">
+                    <item>
+                     <widget class="QLabel" name="label_190">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res21"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_245">
+                    <item>
+                     <widget class="QLabel" name="label_191">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res23"/>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_246">
+                    <item>
+                     <widget class="QLabel" name="label_192">
+                      <property name="text">
+                       <string>Res.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="Res25">
+                      <property name="enabled">
+                       <bool>true</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QPushButton" name="pushButton_save_to_aq_pid4">
+               <property name="text">
+                <string>Transmitt to AQ</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -4184,67 +4810,6 @@
   <tabstop>portName</tabstop>
   <tabstop>flashButton</tabstop>
   <tabstop>textFlashOutput</tabstop>
-  <tabstop>tab_aq_settings</tabstop>
-  <tabstop>lineEdit_76</tabstop>
-  <tabstop>lineEdit_74</tabstop>
-  <tabstop>lineEdit_77</tabstop>
-  <tabstop>lineEdit_75</tabstop>
-  <tabstop>MOT_PWRD_01_T</tabstop>
-  <tabstop>MOT_PWRD_01_P</tabstop>
-  <tabstop>MOT_PWRD_01_R</tabstop>
-  <tabstop>MOT_PWRD_01_Y</tabstop>
-  <tabstop>MOT_PWRD_02_T</tabstop>
-  <tabstop>MOT_PWRD_02_P</tabstop>
-  <tabstop>MOT_PWRD_02_R</tabstop>
-  <tabstop>MOT_PWRD_02_Y</tabstop>
-  <tabstop>MOT_PWRD_03_T</tabstop>
-  <tabstop>MOT_PWRD_03_P</tabstop>
-  <tabstop>MOT_PWRD_03_R</tabstop>
-  <tabstop>MOT_PWRD_03_Y</tabstop>
-  <tabstop>MOT_PWRD_04_T</tabstop>
-  <tabstop>MOT_PWRD_04_P</tabstop>
-  <tabstop>MOT_PWRD_04_R</tabstop>
-  <tabstop>MOT_PWRD_04_Y</tabstop>
-  <tabstop>MOT_PWRD_05_T</tabstop>
-  <tabstop>MOT_PWRD_05_P</tabstop>
-  <tabstop>MOT_PWRD_05_R</tabstop>
-  <tabstop>MOT_PWRD_05_Y</tabstop>
-  <tabstop>MOT_PWRD_06_T</tabstop>
-  <tabstop>MOT_PWRD_06_P</tabstop>
-  <tabstop>MOT_PWRD_06_R</tabstop>
-  <tabstop>MOT_PWRD_06_Y</tabstop>
-  <tabstop>MOT_PWRD_07_T</tabstop>
-  <tabstop>MOT_PWRD_07_P</tabstop>
-  <tabstop>MOT_PWRD_07_R</tabstop>
-  <tabstop>MOT_PWRD_07_Y</tabstop>
-  <tabstop>MOT_PWRD_08_T</tabstop>
-  <tabstop>MOT_PWRD_08_P</tabstop>
-  <tabstop>MOT_PWRD_08_R</tabstop>
-  <tabstop>MOT_PWRD_08_Y</tabstop>
-  <tabstop>MOT_PWRD_09_T</tabstop>
-  <tabstop>MOT_PWRD_09_P</tabstop>
-  <tabstop>MOT_PWRD_09_R</tabstop>
-  <tabstop>MOT_PWRD_09_Y</tabstop>
-  <tabstop>MOT_PWRD_10_T</tabstop>
-  <tabstop>MOT_PWRD_10_P</tabstop>
-  <tabstop>MOT_PWRD_10_R</tabstop>
-  <tabstop>MOT_PWRD_10_Y</tabstop>
-  <tabstop>MOT_PWRD_11_T</tabstop>
-  <tabstop>MOT_PWRD_11_P</tabstop>
-  <tabstop>MOT_PWRD_11_R</tabstop>
-  <tabstop>MOT_PWRD_11_Y</tabstop>
-  <tabstop>MOT_PWRD_12_T</tabstop>
-  <tabstop>MOT_PWRD_12_P</tabstop>
-  <tabstop>MOT_PWRD_12_R</tabstop>
-  <tabstop>MOT_PWRD_12_Y</tabstop>
-  <tabstop>MOT_PWRD_13_T</tabstop>
-  <tabstop>MOT_PWRD_13_P</tabstop>
-  <tabstop>MOT_PWRD_13_R</tabstop>
-  <tabstop>MOT_PWRD_13_Y</tabstop>
-  <tabstop>MOT_PWRD_14_T</tabstop>
-  <tabstop>MOT_PWRD_14_P</tabstop>
-  <tabstop>MOT_PWRD_14_R</tabstop>
-  <tabstop>MOT_PWRD_14_Y</tabstop>
   <tabstop>pushButton_Load_frame_from_file</tabstop>
   <tabstop>pushButton_Save_farem_to_file</tabstop>
   <tabstop>pushButton_save_to_aq_frame</tabstop>
@@ -4375,13 +4940,13 @@
   <tabstop>IMU_MAG_DECL</tabstop>
   <tabstop>SPVR_LOW_BAT2</tabstop>
   <tabstop>CTRL_FACT_THRO</tabstop>
-  <tabstop>CTRL_DEAD_BAND</tabstop>
+  <tabstop>CTRL_DBAND_THRO</tabstop>
   <tabstop>CTRL_FACT_PITC</tabstop>
   <tabstop>CTRL_MIN_THROT</tabstop>
   <tabstop>CTRL_FACT_ROLL</tabstop>
   <tabstop>CTRL_MAX</tabstop>
   <tabstop>CTRL_FACT_RUDD</tabstop>
-  <tabstop>DOWNLINK_BAUD</tabstop>
+  <tabstop>CTRL_DEAD_BAND</tabstop>
   <tabstop>MOT_START</tabstop>
   <tabstop>MOT_EXP_FACT</tabstop>
   <tabstop>MOT_MIN</tabstop>
@@ -4389,15 +4954,15 @@
   <tabstop>MOT_MAX</tabstop>
   <tabstop>MOT_EXP_MAX</tabstop>
   <tabstop>MOT_HOV_THROT</tabstop>
-  <tabstop>GMBL_SLEW_RATE</tabstop>
-  <tabstop>GMBL_PWM_MAX_ROL</tabstop>
-  <tabstop>GMBL_SCAL_PITCH</tabstop>
-  <tabstop>GMBL_PWM_MIN_ROL</tabstop>
-  <tabstop>GMBL_SCAL_ROLL</tabstop>
-  <tabstop>GMBL_NTRL_PITCH</tabstop>
-  <tabstop>GMBL_PWM_MIN_PIT</tabstop>
-  <tabstop>GMBL_NTRL_ROLL</tabstop>
-  <tabstop>GMBL_PWM_MAX_PIT</tabstop>
+  <tabstop>Res22_2</tabstop>
+  <tabstop>DOWNLINK_BAUD</tabstop>
+  <tabstop>Res5</tabstop>
+  <tabstop>Res2</tabstop>
+  <tabstop>Res6</tabstop>
+  <tabstop>SPVR_FS_RAD_ST1</tabstop>
+  <tabstop>NAV_CEILING</tabstop>
+  <tabstop>SPVR_FS_RAD_ST2</tabstop>
+  <tabstop>Res8</tabstop>
   <tabstop>pushButton_save_to_aq_pid3</tabstop>
   <tabstop>pushButton_Open_Log_file</tabstop>
   <tabstop>pushButtonshow_cahnnels</tabstop>

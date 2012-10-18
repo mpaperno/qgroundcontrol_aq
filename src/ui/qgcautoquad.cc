@@ -84,6 +84,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(save_PID_toAQ1()));
     connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
     connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(save_PID_toAQ3()));
+    connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(save_PID_toAQ4()));
     connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
     connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
 
@@ -113,6 +114,40 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->checkBox_sim3_6_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
     connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(raw_transmitter_view()));
 
+
+    ui->comboBox_gmb_roll_port->addItem("off",0);
+    ui->comboBox_gmb_roll_port->addItem("1",1);
+    ui->comboBox_gmb_roll_port->addItem("2",2);
+    ui->comboBox_gmb_roll_port->addItem("3",3);
+    ui->comboBox_gmb_roll_port->addItem("4",4);
+    ui->comboBox_gmb_roll_port->addItem("5",5);
+    ui->comboBox_gmb_roll_port->addItem("6",6);
+    ui->comboBox_gmb_roll_port->addItem("7",7);
+    ui->comboBox_gmb_roll_port->addItem("8",8);
+    ui->comboBox_gmb_roll_port->addItem("9",9);
+    ui->comboBox_gmb_roll_port->addItem("10",10);
+    ui->comboBox_gmb_roll_port->addItem("11",11);
+    ui->comboBox_gmb_roll_port->addItem("12",12);
+    ui->comboBox_gmb_roll_port->addItem("13",13);
+    ui->comboBox_gmb_roll_port->addItem("14",14);
+    connect(ui->comboBox_gmb_roll_port, SIGNAL(currentIndexChanged(int)),this,SLOT(gmb_roll_port_changed(int)));
+
+    ui->comboBox_gmb_pitch_port->addItem("off",0);
+    ui->comboBox_gmb_pitch_port->addItem("1",1);
+    ui->comboBox_gmb_pitch_port->addItem("2",2);
+    ui->comboBox_gmb_pitch_port->addItem("3",3);
+    ui->comboBox_gmb_pitch_port->addItem("4",4);
+    ui->comboBox_gmb_pitch_port->addItem("5",5);
+    ui->comboBox_gmb_pitch_port->addItem("6",6);
+    ui->comboBox_gmb_pitch_port->addItem("7",7);
+    ui->comboBox_gmb_pitch_port->addItem("8",8);
+    ui->comboBox_gmb_pitch_port->addItem("9",9);
+    ui->comboBox_gmb_pitch_port->addItem("10",10);
+    ui->comboBox_gmb_pitch_port->addItem("11",11);
+    ui->comboBox_gmb_pitch_port->addItem("12",12);
+    ui->comboBox_gmb_pitch_port->addItem("13",13);
+    ui->comboBox_gmb_pitch_port->addItem("14",14);
+    connect(ui->comboBox_gmb_pitch_port, SIGNAL(currentIndexChanged(int)),this,SLOT(gmb_pitch_port_changed(int)));
 
 
 	//Process Slots
@@ -1728,7 +1763,218 @@ void QGCAutoquad::getGUIpara() {
     ui->IMU_PRESS_SENSE->setText(paramaq->getParaAQ("IMU_PRESS_SENSE").toString());
     ui->DOWNLINK_BAUD->setText(paramaq->getParaAQ("DOWNLINK_BAUD").toString());
 
- }
+
+
+    float port_nr_roll = paramaq->getParaAQ("GMBL_ROLL_PORT").toFloat();
+    if (port_nr_roll < 0 ) {
+        ui->checkBox_roll_inverse->setChecked(true);
+    }
+    ui->comboBox_gmb_roll_port->setCurrentIndex(abs(port_nr_roll));
+
+
+    float port_nr_pitch = paramaq->getParaAQ("GMBL_PITCH_PORT").toFloat();
+    if (port_nr_pitch < 0 ) {
+        ui->checkBox_pitch_inverse->setChecked(true);
+    }
+    ui->comboBox_gmb_pitch_port->setCurrentIndex(abs(port_nr_pitch));
+
+}
+
+void QGCAutoquad::gmb_pitch_port_changed(int portIndex) {
+    setMotorPWMTimer(portIndex, ui->comboBox_gmb_roll_port->currentIndex());
+}
+
+void QGCAutoquad::gmb_roll_port_changed(int portIndex){
+    setMotorPWMTimer(ui->comboBox_gmb_pitch_port->currentIndex(), portIndex);
+}
+
+void QGCAutoquad::setMotorPWMTimer(int pitch_port, int roll_port) {
+    setMotorEnable(1,true);
+    setMotorEnable(2,true);
+    setMotorEnable(3,true);
+    setMotorEnable(4,true);
+    setMotorEnable(5,true);
+    setMotorEnable(6,true);
+    setMotorEnable(7,true);
+    setMotorEnable(8,true);
+    setMotorEnable(9,true);
+    setMotorEnable(10,true);
+    setMotorEnable(11,true);
+    setMotorEnable(12,true);
+    setMotorEnable(13,true);
+    setMotorEnable(14,true);
+
+    if (( pitch_port >= 1) && ( pitch_port <= 4)) {
+        setMotorEnable(1,false);
+        setMotorEnable(2,false);
+        setMotorEnable(3,false);
+        setMotorEnable(4,false);
+    }
+    else if (( pitch_port >= 5) && ( pitch_port <= 8)) {
+        setMotorEnable(5,false);
+        setMotorEnable(6,false);
+        setMotorEnable(7,false);
+        setMotorEnable(8,false);
+    }
+    else if (( pitch_port >= 9) && ( pitch_port <= 10)) {
+        setMotorEnable(9,false);
+        setMotorEnable(10,false);
+    }
+    else if (( pitch_port >= 11) && ( pitch_port <= 12)) {
+        setMotorEnable(11,false);
+        setMotorEnable(12,false);
+    }
+    else if (( pitch_port == 13)) {
+        setMotorEnable(13,false);
+    }
+    else if (( pitch_port == 14)) {
+        setMotorEnable(14,false);
+    }
+
+
+    if (( roll_port >= 1) && ( roll_port <= 4)) {
+        setMotorEnable(1,false);
+        setMotorEnable(2,false);
+        setMotorEnable(3,false);
+        setMotorEnable(4,false);
+    }
+    else if (( roll_port >= 5) && ( roll_port <= 8)) {
+        setMotorEnable(5,false);
+        setMotorEnable(6,false);
+        setMotorEnable(7,false);
+        setMotorEnable(8,false);
+    }
+    else if (( roll_port >= 9) && ( roll_port <= 10)) {
+        setMotorEnable(9,false);
+        setMotorEnable(10,false);
+    }
+    else if (( roll_port >= 11) && ( roll_port <= 12)) {
+        setMotorEnable(11,false);
+        setMotorEnable(12,false);
+    }
+    else if (( roll_port == 13)) {
+        setMotorEnable(13,false);
+    }
+    else if (( roll_port == 14)) {
+        setMotorEnable(14,false);
+    }
+}
+
+void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
+
+    if ( MotorIndex == 1) {
+        ui->MOT_PWRD_01_T->setEnabled(value);
+        if ( value == false )
+            ui->MOT_PWRD_01_T->setText("0");
+
+        ui->MOT_PWRD_01_P->setEnabled(value);
+        if ( !value == false )
+            ui->MOT_PWRD_01_P->setText("0");
+
+        ui->MOT_PWRD_01_R->setEnabled(value);
+        if ( !value == false )
+            ui->MOT_PWRD_01_R->setText("0");
+
+        ui->MOT_PWRD_01_Y->setEnabled(value);
+        if ( !value == false )
+            ui->MOT_PWRD_01_Y->setText("0");
+    }
+
+    if ( MotorIndex == 2) {
+        ui->MOT_PWRD_02_T->setEnabled(value);
+        ui->MOT_PWRD_02_P->setEnabled(value);
+        ui->MOT_PWRD_02_R->setEnabled(value);
+        ui->MOT_PWRD_02_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 3) {
+        ui->MOT_PWRD_03_T->setEnabled(value);
+        ui->MOT_PWRD_03_P->setEnabled(value);
+        ui->MOT_PWRD_03_R->setEnabled(value);
+        ui->MOT_PWRD_03_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 4) {
+        ui->MOT_PWRD_04_T->setEnabled(value);
+        ui->MOT_PWRD_04_P->setEnabled(value);
+        ui->MOT_PWRD_04_R->setEnabled(value);
+        ui->MOT_PWRD_04_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 5) {
+        ui->MOT_PWRD_05_T->setEnabled(value);
+        ui->MOT_PWRD_05_P->setEnabled(value);
+        ui->MOT_PWRD_05_R->setEnabled(value);
+        ui->MOT_PWRD_05_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 6) {
+        ui->MOT_PWRD_06_T->setEnabled(value);
+        ui->MOT_PWRD_06_P->setEnabled(value);
+        ui->MOT_PWRD_06_R->setEnabled(value);
+        ui->MOT_PWRD_06_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 7) {
+        ui->MOT_PWRD_07_T->setEnabled(value);
+        ui->MOT_PWRD_07_P->setEnabled(value);
+        ui->MOT_PWRD_07_R->setEnabled(value);
+        ui->MOT_PWRD_07_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 8) {
+        ui->MOT_PWRD_08_T->setEnabled(value);
+        ui->MOT_PWRD_08_P->setEnabled(value);
+        ui->MOT_PWRD_08_R->setEnabled(value);
+        ui->MOT_PWRD_08_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 9) {
+        ui->MOT_PWRD_09_T->setEnabled(value);
+        ui->MOT_PWRD_09_P->setEnabled(value);
+        ui->MOT_PWRD_09_R->setEnabled(value);
+        ui->MOT_PWRD_09_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 10) {
+        ui->MOT_PWRD_10_T->setEnabled(value);
+        ui->MOT_PWRD_10_P->setEnabled(value);
+        ui->MOT_PWRD_10_R->setEnabled(value);
+        ui->MOT_PWRD_10_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 11) {
+        ui->MOT_PWRD_11_T->setEnabled(value);
+        ui->MOT_PWRD_11_P->setEnabled(value);
+        ui->MOT_PWRD_11_R->setEnabled(value);
+        ui->MOT_PWRD_11_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 12) {
+        ui->MOT_PWRD_12_T->setEnabled(value);
+        ui->MOT_PWRD_12_P->setEnabled(value);
+        ui->MOT_PWRD_12_R->setEnabled(value);
+        ui->MOT_PWRD_12_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 13) {
+        ui->MOT_PWRD_13_T->setEnabled(value);
+        ui->MOT_PWRD_13_P->setEnabled(value);
+        ui->MOT_PWRD_13_R->setEnabled(value);
+        ui->MOT_PWRD_13_Y->setEnabled(value);
+    }
+
+    if ( MotorIndex == 14) {
+        ui->MOT_PWRD_14_T->setEnabled(value);
+        ui->MOT_PWRD_14_P->setEnabled(value);
+        ui->MOT_PWRD_14_R->setEnabled(value);
+        ui->MOT_PWRD_14_Y->setEnabled(value);
+    }
+
+
+
+}
+
 
 void QGCAutoquad::setRadio() {
 
@@ -1805,6 +2051,24 @@ void QGCAutoquad::setFrame() {
 	paramaq->setParameter(190,"MOT_PWRD_14_Y",ui->MOT_PWRD_14_Y->text().toFloat());
 
     paramaq->setParameter(190,"MOT_FRAME","0");
+
+    if ( ui->checkBox_roll_inverse->isChecked() ) {
+        float port_nr_roll = 0-(float)ui->comboBox_gmb_roll_port->currentIndex();
+        paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
+    }
+    else {
+        float port_nr_roll = (float)ui->comboBox_gmb_roll_port->currentIndex();
+        paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
+    }
+
+    if ( ui->checkBox_pitch_inverse->isChecked() ) {
+        float port_nr_pitch = 0-(float)ui->comboBox_gmb_pitch_port->currentIndex();
+        paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
+    }
+    else {
+        float port_nr_pitch = (float)ui->comboBox_gmb_pitch_port->currentIndex();
+        paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
+    }
 
     QuestionForROM();
 }
@@ -2198,7 +2462,7 @@ bool changed;
     if ( !paramaq)
         return;
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget_para_edit_1 );
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->TiltYawPID );
     for ( int i = 0; i<edtList.count(); i++) {
         QString ParaName = edtList.at(i)->objectName();
         // Hier alle NAV von PID Page 1
@@ -2227,7 +2491,7 @@ void QGCAutoquad::save_PID_toAQ2()
         if ( !paramaq)
             return;
 
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget_para_edit_2 );
+        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->NavigationPID );
         for ( int i = 0; i<edtList.count(); i++) {
             QString ParaName = edtList.at(i)->objectName();
             // Hier alle CTRL von PID Page 2
@@ -2256,7 +2520,7 @@ void QGCAutoquad::save_PID_toAQ3()
         if ( !paramaq)
             return;
 
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget_para_edit_3 );
+        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->SpecialSettings );
         for ( int i = 0; i<edtList.count(); i++) {
             QString ParaName = edtList.at(i)->objectName();
             // Hier alle CTRL von PID Page 3
@@ -2270,11 +2534,38 @@ void QGCAutoquad::save_PID_toAQ3()
             }
         }
 
+        if ( changed )
+            QuestionForROM();
+}
+
+
+void QGCAutoquad::save_PID_toAQ4()
+{
+    QVariant val_uas;
+    QVariant val_local;
+    bool changed;
+
+        if ( !paramaq)
+            return;
+
+        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->Gimbal );
+        for ( int i = 0; i<edtList.count(); i++) {
+            QString ParaName = edtList.at(i)->objectName();
+            // Hier alle CTRL von PID Page 3
+            if ( paramaq->getParameterValue(190,ParaName,val_uas) )
+            {
+                val_local = edtList.at(i)->text().toFloat();
+                if ( val_uas != val_local) {
+                    paramaq->setParameter(190,ParaName,val_local);
+                    changed = true;
+                }
+            }
+        }
 
         if ( changed )
             QuestionForROM();
-
 }
+
 
 void QGCAutoquad::save_plot_image(){
     QString fileName = "plot.svg";
