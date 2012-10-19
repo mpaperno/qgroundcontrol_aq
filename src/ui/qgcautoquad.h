@@ -167,6 +167,8 @@ private:
         int Esc32CalibrationMode;
         void setMotorPWMTimer(int pitch_port, int roll_port);
         void setMotorEnable(int MotorIndex, bool value);
+        bool EventComesFromMavlink;
+        int somethingChangedInMotorConfig;
 
 protected:
         void showEvent(QShowEvent* event);

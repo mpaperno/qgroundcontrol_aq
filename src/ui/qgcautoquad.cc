@@ -14,6 +14,7 @@
 #include <QSettings>
 #include <QDesktopServices>
 #include <QStandardItemModel>
+#include <QSignalMapper>
 #include <QSvgGenerator>
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
@@ -36,8 +37,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
+    EventComesFromMavlink = false;
+    somethingChangedInMotorConfig = 0;
 
-    ui->lbl_version->setText("Version 1.0.4");
+    ui->lbl_version->setText("Version 1.0.5");
     //setup ListView curves
     //SetupListView();
 
@@ -149,6 +152,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_gmb_pitch_port->addItem("14",14);
     connect(ui->comboBox_gmb_pitch_port, SIGNAL(currentIndexChanged(int)),this,SLOT(gmb_pitch_port_changed(int)));
 
+
+    ui->CMB_SPVR_FS_RAD_ST1->addItem("nothing to do", 0);
+    ui->CMB_SPVR_FS_RAD_ST1->addItem("Return to Home and hover", 1);
+
+    ui->CMB_SPVR_FS_RAD_ST2->addItem("nothing to do", 0);
+    ui->CMB_SPVR_FS_RAD_ST2->addItem("Return to Home and hover", 1);
 
 	//Process Slots
     ps_master.setProcessChannelMode(QProcess::MergedChannels);
@@ -1764,7 +1773,7 @@ void QGCAutoquad::getGUIpara() {
     ui->DOWNLINK_BAUD->setText(paramaq->getParaAQ("DOWNLINK_BAUD").toString());
 
 
-
+    EventComesFromMavlink = true;
     float port_nr_roll = paramaq->getParaAQ("GMBL_ROLL_PORT").toFloat();
     if (port_nr_roll < 0 ) {
         ui->checkBox_roll_inverse->setChecked(true);
@@ -1778,14 +1787,39 @@ void QGCAutoquad::getGUIpara() {
     }
     ui->comboBox_gmb_pitch_port->setCurrentIndex(abs(port_nr_pitch));
 
+
+    int failsaveStage1 = paramaq->getParaAQ("SPVR_FS_RAD_ST1").toInt();
+    int failsaveStage2 = paramaq->getParaAQ("SPVR_FS_RAD_ST1").toInt();
+
+    ui->CMB_SPVR_FS_RAD_ST1->setCurrentIndex(failsaveStage1);
+    ui->CMB_SPVR_FS_RAD_ST2->setCurrentIndex(failsaveStage2);
+
 }
 
 void QGCAutoquad::gmb_pitch_port_changed(int portIndex) {
     setMotorPWMTimer(portIndex, ui->comboBox_gmb_roll_port->currentIndex());
+    if ( EventComesFromMavlink == false) {
+        if (somethingChangedInMotorConfig > 0) {
+            QString MessageInfo = QString();
+            MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port!");
+            MessageInfo.append("\r\n");
+            MessageInfo.append("Please check again your Motor configuration!");
+            QMessageBox::information(this, "Information", MessageInfo ,QMessageBox::Ok, 0 );
+        }
+    }
 }
 
 void QGCAutoquad::gmb_roll_port_changed(int portIndex){
     setMotorPWMTimer(ui->comboBox_gmb_pitch_port->currentIndex(), portIndex);
+    if ( EventComesFromMavlink == false) {
+        if (somethingChangedInMotorConfig > 0) {
+            QString MessageInfo = QString();
+            MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port!");
+            MessageInfo.append("\r\n");
+            MessageInfo.append("Please check again your Motor configuration!");
+            QMessageBox::information(this, "Information", MessageInfo ,QMessageBox::Ok, 0 );
+        }
+    }
 }
 
 void QGCAutoquad::setMotorPWMTimer(int pitch_port, int roll_port) {
@@ -1864,117 +1898,426 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
 
     if ( MotorIndex == 1) {
         ui->MOT_PWRD_01_T->setEnabled(value);
-        if ( value == false )
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_01_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
             ui->MOT_PWRD_01_T->setText("0");
+        }
 
         ui->MOT_PWRD_01_P->setEnabled(value);
-        if ( !value == false )
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_01_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
             ui->MOT_PWRD_01_P->setText("0");
+        }
 
         ui->MOT_PWRD_01_R->setEnabled(value);
-        if ( !value == false )
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_01_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
             ui->MOT_PWRD_01_R->setText("0");
+        }
 
         ui->MOT_PWRD_01_Y->setEnabled(value);
-        if ( !value == false )
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_01_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
             ui->MOT_PWRD_01_Y->setText("0");
+        }
     }
+
+
 
     if ( MotorIndex == 2) {
         ui->MOT_PWRD_02_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_02_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_02_T->setText("0");
+        }
+
         ui->MOT_PWRD_02_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_02_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_02_P->setText("0");
+        }
+
         ui->MOT_PWRD_02_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_02_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_02_R->setText("0");
+        }
+
         ui->MOT_PWRD_02_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_02_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_02_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 3) {
         ui->MOT_PWRD_03_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_03_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_03_T->setText("0");
+        }
+
         ui->MOT_PWRD_03_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_03_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_03_P->setText("0");
+        }
+
         ui->MOT_PWRD_03_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_03_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_03_R->setText("0");
+        }
+
         ui->MOT_PWRD_03_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_03_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_03_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 4) {
         ui->MOT_PWRD_04_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_04_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_04_T->setText("0");
+        }
+
         ui->MOT_PWRD_04_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_04_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_04_P->setText("0");
+        }
+
         ui->MOT_PWRD_04_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_04_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_04_R->setText("0");
+        }
+
         ui->MOT_PWRD_04_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_04_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_04_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 5) {
         ui->MOT_PWRD_05_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_05_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_05_T->setText("0");
+        }
+
         ui->MOT_PWRD_05_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_05_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_05_P->setText("0");
+        }
+
         ui->MOT_PWRD_05_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_05_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_05_R->setText("0");
+        }
+
         ui->MOT_PWRD_05_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_05_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_05_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 6) {
         ui->MOT_PWRD_06_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_06_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_06_T->setText("0");
+        }
+
         ui->MOT_PWRD_06_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_06_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_06_P->setText("0");
+        }
+
         ui->MOT_PWRD_06_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_06_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_06_R->setText("0");
+        }
+
         ui->MOT_PWRD_06_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_06_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_06_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 7) {
         ui->MOT_PWRD_07_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_07_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_07_T->setText("0");
+        }
+
         ui->MOT_PWRD_07_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_07_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_07_P->setText("0");
+        }
+
         ui->MOT_PWRD_07_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_07_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_07_R->setText("0");
+        }
+
         ui->MOT_PWRD_07_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_07_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_07_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 8) {
         ui->MOT_PWRD_08_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_08_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_08_T->setText("0");
+        }
+
         ui->MOT_PWRD_08_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_08_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_08_P->setText("0");
+        }
+
         ui->MOT_PWRD_08_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_08_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_08_R->setText("0");
+        }
+
         ui->MOT_PWRD_08_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_08_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_08_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 9) {
         ui->MOT_PWRD_09_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_09_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_09_T->setText("0");
+        }
+
         ui->MOT_PWRD_09_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_09_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_09_P->setText("0");
+        }
+
         ui->MOT_PWRD_09_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_09_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_09_R->setText("0");
+        }
+
         ui->MOT_PWRD_09_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_09_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_09_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 10) {
         ui->MOT_PWRD_10_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_10_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_10_T->setText("0");
+        }
+
         ui->MOT_PWRD_10_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_10_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_10_P->setText("0");
+        }
+
         ui->MOT_PWRD_10_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_10_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_10_R->setText("0");
+        }
+
         ui->MOT_PWRD_10_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_10_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_10_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 11) {
         ui->MOT_PWRD_11_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_11_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_11_T->setText("0");
+        }
+
         ui->MOT_PWRD_11_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_11_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_11_P->setText("0");
+        }
+
         ui->MOT_PWRD_11_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_11_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_11_R->setText("0");
+        }
+
         ui->MOT_PWRD_11_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_11_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_11_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 12) {
         ui->MOT_PWRD_12_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_12_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_12_T->setText("0");
+        }
+
         ui->MOT_PWRD_12_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_12_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_12_P->setText("0");
+        }
+
         ui->MOT_PWRD_12_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_12_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_12_R->setText("0");
+        }
+
         ui->MOT_PWRD_12_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_12_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_12_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 13) {
         ui->MOT_PWRD_13_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_13_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_13_T->setText("0");
+        }
+
         ui->MOT_PWRD_13_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_13_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_13_P->setText("0");
+        }
+
         ui->MOT_PWRD_13_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_13_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_13_R->setText("0");
+        }
+
         ui->MOT_PWRD_13_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_13_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_13_Y->setText("0");
+        }
     }
 
     if ( MotorIndex == 14) {
         ui->MOT_PWRD_14_T->setEnabled(value);
+        if ( value == false ) {
+            if ( ui->MOT_PWRD_14_T->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_14_T->setText("0");
+        }
+
         ui->MOT_PWRD_14_P->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_14_P->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_14_P->setText("0");
+        }
+
         ui->MOT_PWRD_14_R->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_14_R->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_14_R->setText("0");
+        }
+
         ui->MOT_PWRD_14_Y->setEnabled(value);
+        if ( !value == false ) {
+            if ( ui->MOT_PWRD_14_Y->text().toInt() != 0)
+                somethingChangedInMotorConfig = 1;
+            ui->MOT_PWRD_14_Y->setText("0");
+        }
     }
-
-
-
 }
-
 
 void QGCAutoquad::setRadio() {
 
@@ -2533,6 +2876,9 @@ void QGCAutoquad::save_PID_toAQ3()
                 }
             }
         }
+
+        paramaq->setParameter(190,"SPVR_FS_RAD_ST1",ui->CMB_SPVR_FS_RAD_ST1->currentIndex());
+        paramaq->setParameter(190,"SPVR_FS_RAD_ST2",ui->CMB_SPVR_FS_RAD_ST2->currentIndex());
 
         if ( changed )
             QuestionForROM();

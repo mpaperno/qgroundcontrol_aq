@@ -1709,7 +1709,7 @@
      </widget>
      <widget class="QWidget" name="tab_aq_edit_para">
       <attribute name="title">
-       <string>Edit PID</string>
+       <string>Edit Parameter</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_31">
        <item>
@@ -3307,12 +3307,12 @@
                   <item>
                    <widget class="QLabel" name="label_94">
                     <property name="text">
-                     <string>PowerSupply Stage1</string>
+                     <string>Radio Failsave Stage1</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="SPVR_FS_RAD_ST1"/>
+                   <widget class="QComboBox" name="CMB_SPVR_FS_RAD_ST1"/>
                   </item>
                  </layout>
                 </item>
@@ -3321,12 +3321,12 @@
                   <item>
                    <widget class="QLabel" name="label_95">
                     <property name="text">
-                     <string>PowerSupply Stage2</string>
+                     <string>Radio Failsave Stage2</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="SPVR_FS_RAD_ST2"/>
+                   <widget class="QComboBox" name="CMB_SPVR_FS_RAD_ST2"/>
                   </item>
                  </layout>
                 </item>
@@ -3716,12 +3716,12 @@
                     <item>
                      <widget class="QLabel" name="lbl_GMBL_ROLL_EXPO">
                       <property name="text">
-                       <string>Res.</string>
+                       <string>Gimbal Roll Expo</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="Res30"/>
+                     <widget class="QLineEdit" name="GMBL_ROLL_EXPO"/>
                     </item>
                    </layout>
                   </item>
@@ -4959,9 +4959,7 @@
   <tabstop>Res5</tabstop>
   <tabstop>Res2</tabstop>
   <tabstop>Res6</tabstop>
-  <tabstop>SPVR_FS_RAD_ST1</tabstop>
   <tabstop>NAV_CEILING</tabstop>
-  <tabstop>SPVR_FS_RAD_ST2</tabstop>
   <tabstop>Res8</tabstop>
   <tabstop>pushButton_save_to_aq_pid3</tabstop>
   <tabstop>pushButton_Open_Log_file</tabstop>
