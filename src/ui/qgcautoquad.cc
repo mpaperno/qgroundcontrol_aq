@@ -93,6 +93,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     connect(ui->comboBox_marker, SIGNAL(currentIndexChanged(int)),this,SLOT(CuttingItemChanged(int)));
 
+    port_nr_roll = 0;
+    port_nr_pitch = 0;
     connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
     connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
     connect(ui->pushButton_start_cal3, SIGNAL(clicked()),this,SLOT(startcal3()));
@@ -117,41 +119,47 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->checkBox_sim3_6_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
     connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(raw_transmitter_view()));
 
+    connect(ui->checkBox_isPitchM1, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P1(bool)));
+    connect(ui->checkBox_isRollM1, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P1(bool)));
 
-    ui->comboBox_gmb_roll_port->addItem("off",0);
-    ui->comboBox_gmb_roll_port->addItem("1",1);
-    ui->comboBox_gmb_roll_port->addItem("2",2);
-    ui->comboBox_gmb_roll_port->addItem("3",3);
-    ui->comboBox_gmb_roll_port->addItem("4",4);
-    ui->comboBox_gmb_roll_port->addItem("5",5);
-    ui->comboBox_gmb_roll_port->addItem("6",6);
-    ui->comboBox_gmb_roll_port->addItem("7",7);
-    ui->comboBox_gmb_roll_port->addItem("8",8);
-    ui->comboBox_gmb_roll_port->addItem("9",9);
-    ui->comboBox_gmb_roll_port->addItem("10",10);
-    ui->comboBox_gmb_roll_port->addItem("11",11);
-    ui->comboBox_gmb_roll_port->addItem("12",12);
-    ui->comboBox_gmb_roll_port->addItem("13",13);
-    ui->comboBox_gmb_roll_port->addItem("14",14);
-    connect(ui->comboBox_gmb_roll_port, SIGNAL(currentIndexChanged(int)),this,SLOT(gmb_roll_port_changed(int)));
+    connect(ui->checkBox_isPitchM2, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P2(bool)));
+    connect(ui->checkBox_isRollM2, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P2(bool)));
 
-    ui->comboBox_gmb_pitch_port->addItem("off",0);
-    ui->comboBox_gmb_pitch_port->addItem("1",1);
-    ui->comboBox_gmb_pitch_port->addItem("2",2);
-    ui->comboBox_gmb_pitch_port->addItem("3",3);
-    ui->comboBox_gmb_pitch_port->addItem("4",4);
-    ui->comboBox_gmb_pitch_port->addItem("5",5);
-    ui->comboBox_gmb_pitch_port->addItem("6",6);
-    ui->comboBox_gmb_pitch_port->addItem("7",7);
-    ui->comboBox_gmb_pitch_port->addItem("8",8);
-    ui->comboBox_gmb_pitch_port->addItem("9",9);
-    ui->comboBox_gmb_pitch_port->addItem("10",10);
-    ui->comboBox_gmb_pitch_port->addItem("11",11);
-    ui->comboBox_gmb_pitch_port->addItem("12",12);
-    ui->comboBox_gmb_pitch_port->addItem("13",13);
-    ui->comboBox_gmb_pitch_port->addItem("14",14);
-    connect(ui->comboBox_gmb_pitch_port, SIGNAL(currentIndexChanged(int)),this,SLOT(gmb_pitch_port_changed(int)));
+    connect(ui->checkBox_isPitchM3, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P3(bool)));
+    connect(ui->checkBox_isRollM3, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P3(bool)));
 
+    connect(ui->checkBox_isPitchM4, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P4(bool)));
+    connect(ui->checkBox_isRollM4, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P4(bool)));
+
+    connect(ui->checkBox_isPitchM5, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P5(bool)));
+    connect(ui->checkBox_isRollM5, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P5(bool)));
+
+    connect(ui->checkBox_isPitchM6, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P6(bool)));
+    connect(ui->checkBox_isRollM6, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P6(bool)));
+
+    connect(ui->checkBox_isPitchM7, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P7(bool)));
+    connect(ui->checkBox_isRollM7, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P7(bool)));
+
+    connect(ui->checkBox_isPitchM8, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P8(bool)));
+    connect(ui->checkBox_isRollM8, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P8(bool)));
+
+    connect(ui->checkBox_isPitchM9, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P9(bool)));
+    connect(ui->checkBox_isRollM9, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P9(bool)));
+
+    connect(ui->checkBox_isPitchM10, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P10(bool)));
+    connect(ui->checkBox_isRollM10, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P10(bool)));
+
+    connect(ui->checkBox_isPitchM11, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P11(bool)));
+    connect(ui->checkBox_isRollM11, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P11(bool)));
+
+    connect(ui->checkBox_isPitchM12, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P12(bool)));
+    connect(ui->checkBox_isRollM12, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P12(bool)));
+
+    connect(ui->checkBox_isPitchM13, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P13(bool)));
+    connect(ui->checkBox_isRollM13, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P13(bool)));
+
+    connect(ui->checkBox_isPitchM14, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P14(bool)));
+    connect(ui->checkBox_isRollM14, SIGNAL(clicked(bool)),this, SLOT(gmb_Roll_P14(bool)));
 
     ui->CMB_SPVR_FS_RAD_ST1->addItem("nothing to do", 0);
     ui->CMB_SPVR_FS_RAD_ST1->addItem("Return to Home and hover", 1);
@@ -1774,19 +1782,147 @@ void QGCAutoquad::getGUIpara() {
 
 
     EventComesFromMavlink = true;
-    float port_nr_roll = paramaq->getParaAQ("GMBL_ROLL_PORT").toFloat();
-    if (port_nr_roll < 0 ) {
-        ui->checkBox_roll_inverse->setChecked(true);
+
+    port_nr_pitch = paramaq->getParaAQ("GMBL_ROLL_PORT").toInt();
+    port_nr_roll = paramaq->getParaAQ("GMBL_PITCH_PORT").toInt();
+
+    if ( port_nr_pitch < 0 )
+    {
+        port_nr_pitch = abs(paramaq->getParaAQ("GMBL_ROLL_PORT").toInt());
+        ui->reverse_gimbal_pitch->setEnabled(true);
     }
-    ui->comboBox_gmb_roll_port->setCurrentIndex(abs(port_nr_roll));
 
-
-    float port_nr_pitch = paramaq->getParaAQ("GMBL_PITCH_PORT").toFloat();
-    if (port_nr_pitch < 0 ) {
-        ui->checkBox_pitch_inverse->setChecked(true);
+    if ( port_nr_roll < 0 )
+    {
+        port_nr_roll = abs(paramaq->getParaAQ("GMBL_PITCH_PORT").toInt());
+        ui->reverse_gimbal_roll->setEnabled(true);
     }
-    ui->comboBox_gmb_pitch_port->setCurrentIndex(abs(port_nr_pitch));
 
+    if (port_nr_pitch  > 0 ) {
+        switch (port_nr_pitch) {
+            case 0:
+                gmb_pitch_P1(false);
+                gmb_pitch_P2(false);
+                gmb_pitch_P3(false);
+                gmb_pitch_P4(false);
+                gmb_pitch_P5(false);
+                gmb_pitch_P6(false);
+                gmb_pitch_P7(false);
+                gmb_pitch_P8(false);
+                gmb_pitch_P9(false);
+                gmb_pitch_P10(false);
+                gmb_pitch_P11(false);
+                gmb_pitch_P12(false);
+                gmb_pitch_P13(false);
+                gmb_pitch_P14(false);
+                break;
+            case 1:
+                gmb_pitch_P1(true);
+                break;
+            case 2:
+                gmb_pitch_P2(true);
+                break;
+            case 3:
+                gmb_pitch_P3(true);
+                break;
+            case 4:
+                gmb_pitch_P4(true);
+                break;
+            case 5:
+                gmb_pitch_P5(true);
+                break;
+            case 6:
+                gmb_pitch_P6(true);
+                break;
+            case 7:
+                gmb_pitch_P7(true);
+                break;
+            case 8:
+                gmb_pitch_P8(true);
+                break;
+            case 9:
+                gmb_pitch_P9(true);
+                break;
+            case 10:
+                gmb_pitch_P10(true);
+                break;
+            case 11:
+                gmb_pitch_P11(true);
+                break;
+            case 12:
+                gmb_pitch_P12(true);
+                break;
+            case 13:
+                gmb_pitch_P13(true);
+                break;
+            case 14:
+                gmb_pitch_P14(true);
+                break;
+        }
+    }
+
+    if (port_nr_roll   > 0 ) {
+        switch (port_nr_roll ) {
+            case 0:
+                gmb_roll_P1(false);
+                gmb_roll_P2(false);
+                gmb_roll_P3(false);
+                gmb_roll_P4(false);
+                gmb_roll_P5(false);
+                gmb_roll_P6(false);
+                gmb_roll_P7(false);
+                gmb_roll_P8(false);
+                gmb_roll_P9(false);
+                gmb_roll_P10(false);
+                gmb_roll_P11(false);
+                gmb_roll_P12(false);
+                gmb_roll_P13(false);
+                gmb_roll_P14(false);
+                break;
+            case 1:
+                gmb_roll_P1(true);
+                break;
+            case 2:
+                gmb_roll_P2(true);
+                break;
+            case 3:
+                gmb_roll_P3(true);
+                break;
+            case 4:
+                gmb_roll_P4(true);
+                break;
+            case 5:
+                gmb_roll_P5(true);
+                break;
+            case 6:
+                gmb_roll_P6(true);
+                break;
+            case 7:
+                gmb_roll_P7(true);
+                break;
+            case 8:
+                gmb_roll_P8(true);
+                break;
+            case 9:
+                gmb_roll_P9(true);
+                break;
+            case 10:
+                gmb_roll_P10(true);
+                break;
+            case 11:
+                gmb_roll_P11(true);
+                break;
+            case 12:
+                gmb_roll_P12(true);
+                break;
+            case 13:
+                gmb_roll_P13(true);
+                break;
+            case 14:
+                gmb_roll_P14(true);
+                break;
+        }
+    }
 
     int failsaveStage1 = paramaq->getParaAQ("SPVR_FS_RAD_ST1").toInt();
     int failsaveStage2 = paramaq->getParaAQ("SPVR_FS_RAD_ST1").toInt();
@@ -1796,6 +1932,156 @@ void QGCAutoquad::getGUIpara() {
 
 }
 
+void QGCAutoquad::gmb_pitch_P1(bool value){
+    port_nr_pitch = 1;
+    CheckGimbal(1,value);
+}
+void QGCAutoquad::gmb_roll_P1(bool value){
+    port_nr_roll = 1;
+    CheckGimbal(1,value);
+}
+void QGCAutoquad::gmb_pitch_P2(bool value){
+    port_nr_pitch = 2;
+    CheckGimbal(2,value);
+}
+void QGCAutoquad::gmb_roll_P2(bool value){
+    port_nr_roll = 2;
+    CheckGimbal(2,value);
+}
+void QGCAutoquad::gmb_pitch_P3(bool value){
+    port_nr_pitch = 3;
+    CheckGimbal(3,value);
+}
+void QGCAutoquad::gmb_roll_P3(bool value){
+    port_nr_roll = 3;
+    CheckGimbal(3,value);
+}
+void QGCAutoquad::gmb_pitch_P4(bool value){
+    port_nr_pitch = 4;
+    CheckGimbal(4,value);
+}
+void QGCAutoquad::gmb_roll_P4(bool value){
+    port_nr_roll = 4;
+    CheckGimbal(4,value);
+}
+void QGCAutoquad::gmb_pitch_P5(bool value){
+    port_nr_pitch = 5;
+    CheckGimbal(5,value);
+}
+void QGCAutoquad::gmb_roll_P5(bool value){
+    port_nr_roll = 5;
+    CheckGimbal(5,value);
+}
+void QGCAutoquad::gmb_pitch_P6(bool value){
+    port_nr_pitch = 6;
+    CheckGimbal(6,value);
+}
+void QGCAutoquad::gmb_roll_P6(bool value){
+    port_nr_roll = 6;
+    CheckGimbal(6,value);
+}
+void QGCAutoquad::gmb_pitch_P7(bool value){
+    port_nr_pitch = 7;
+    CheckGimbal(7,value);
+}
+void QGCAutoquad::gmb_roll_P7(bool value){
+    port_nr_roll = 7;
+    CheckGimbal(7,value);
+}
+void QGCAutoquad::gmb_pitch_P8(bool value){
+    port_nr_pitch = 8;
+    CheckGimbal(8,value);
+}
+void QGCAutoquad::gmb_roll_P8(bool value){
+    port_nr_roll = 8;
+    CheckGimbal(8,value);
+}
+void QGCAutoquad::gmb_pitch_P9(bool value){
+    port_nr_pitch = 9;
+    CheckGimbal(9,value);
+}
+void QGCAutoquad::gmb_roll_P9(bool value){
+    port_nr_roll = 9;
+    CheckGimbal(9,value);
+}
+void QGCAutoquad::gmb_pitch_P10(bool value){
+    port_nr_pitch = 10;
+    CheckGimbal(10,value);
+}
+void QGCAutoquad::gmb_roll_P10(bool value){
+    port_nr_roll = 10;
+    CheckGimbal(10,value);
+}
+void QGCAutoquad::gmb_pitch_P11(bool value){
+    port_nr_pitch = 11;
+    CheckGimbal(11,value);
+}
+void QGCAutoquad::gmb_roll_P11(bool value){
+    port_nr_roll = 11;
+    CheckGimbal(11,value);
+}
+void QGCAutoquad::gmb_pitch_P12(bool value){
+    port_nr_pitch = 12;
+    CheckGimbal(12,value);
+}
+void QGCAutoquad::gmb_roll_P12(bool value){
+    port_nr_roll = 12;
+    CheckGimbal(12,value);
+}
+void QGCAutoquad::gmb_pitch_P13(bool value){
+    port_nr_pitch = 13;
+    CheckGimbal(13,value);
+}
+void QGCAutoquad::gmb_roll_P13(bool value){
+    port_nr_roll = 13;
+    CheckGimbal(13,value);
+}
+void QGCAutoquad::gmb_pitch_P14(bool value){
+    port_nr_pitch = 14;
+    CheckGimbal(14,value);
+}
+void QGCAutoquad::gmb_roll_P14(bool value){
+    port_nr_roll = 14;
+    CheckGimbal(14,value);
+}
+
+
+void QGCAutoquad::CheckGimbal(int port, bool value) {
+
+    /*
+    if (( gmb_roll_P1 > 0 ) || ( gmb_pitch_P1 > 0 )) {
+    }
+    */
+
+    if (( port >= 1) && ( port <= 4)) {
+        setMotorEnable(1,!value);
+        setMotorEnable(2,!value);
+        setMotorEnable(3,!value);
+        setMotorEnable(4,!value);
+    }
+    else if (( port >= 5) && ( port <= 8)) {
+        setMotorEnable(5,!value);
+        setMotorEnable(6,!value);
+        setMotorEnable(7,!value);
+        setMotorEnable(8,!value);
+    }
+    else if (( port >= 9) && ( port <= 10)) {
+        setMotorEnable(9,!value);
+        setMotorEnable(10,!value);
+    }
+    else if (( port >= 11) && ( port <= 12)) {
+        setMotorEnable(11,!value);
+        setMotorEnable(12,!value);
+    }
+    else if (( port == 13)) {
+        setMotorEnable(13,!value);
+    }
+    else if (( port == 14)) {
+        setMotorEnable(14,!value);
+    }
+}
+
+/*
 void QGCAutoquad::gmb_pitch_port_changed(int portIndex) {
     setMotorPWMTimer(portIndex, ui->comboBox_gmb_roll_port->currentIndex());
     if ( EventComesFromMavlink == false) {
@@ -1893,6 +2179,17 @@ void QGCAutoquad::setMotorPWMTimer(int pitch_port, int roll_port) {
         setMotorEnable(14,false);
     }
 }
+*/
+
+void QGCAutoquad::ShowMessageForChangingMotorConfig(int Motor) {
+    if ( EventComesFromMavlink == false) {
+        QString MessageInfo = QString();
+        MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port!");
+        MessageInfo.append("\r\n");
+        MessageInfo.append("Please check again your Motor configuration!");
+        QMessageBox::information(this, "Information", MessageInfo ,QMessageBox::Ok, 0 );
+    }
+}
 
 void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
 
@@ -1901,27 +2198,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_01_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(1);
+            }
             ui->MOT_PWRD_01_T->setText("0");
         }
 
         ui->MOT_PWRD_01_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_01_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(1);
+            }
             ui->MOT_PWRD_01_P->setText("0");
         }
 
         ui->MOT_PWRD_01_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_01_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(1);
+            }
             ui->MOT_PWRD_01_R->setText("0");
         }
 
         ui->MOT_PWRD_01_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_01_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(1);
+            }
             ui->MOT_PWRD_01_Y->setText("0");
         }
     }
@@ -1933,27 +2242,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_02_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(2);
+            }
             ui->MOT_PWRD_02_T->setText("0");
         }
 
         ui->MOT_PWRD_02_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_02_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(2);
+            }
             ui->MOT_PWRD_02_P->setText("0");
         }
 
         ui->MOT_PWRD_02_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_02_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(2);
+            }
             ui->MOT_PWRD_02_R->setText("0");
         }
 
         ui->MOT_PWRD_02_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_02_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(2);
+            }
             ui->MOT_PWRD_02_Y->setText("0");
         }
     }
@@ -1963,27 +2284,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_03_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(3);
+            }
             ui->MOT_PWRD_03_T->setText("0");
         }
 
         ui->MOT_PWRD_03_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_03_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(3);
+            }
             ui->MOT_PWRD_03_P->setText("0");
         }
 
         ui->MOT_PWRD_03_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_03_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(3);
+            }
             ui->MOT_PWRD_03_R->setText("0");
         }
 
         ui->MOT_PWRD_03_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_03_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(3);
+            }
             ui->MOT_PWRD_03_Y->setText("0");
         }
     }
@@ -1993,27 +2326,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_04_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(4);
+            }
             ui->MOT_PWRD_04_T->setText("0");
         }
 
         ui->MOT_PWRD_04_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_04_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(4);
+            }
             ui->MOT_PWRD_04_P->setText("0");
         }
 
         ui->MOT_PWRD_04_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_04_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(4);
+            }
             ui->MOT_PWRD_04_R->setText("0");
         }
 
         ui->MOT_PWRD_04_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_04_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(4);
+            }
             ui->MOT_PWRD_04_Y->setText("0");
         }
     }
@@ -2023,27 +2368,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_05_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(5);
+            }
             ui->MOT_PWRD_05_T->setText("0");
         }
 
         ui->MOT_PWRD_05_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_05_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(5);
+            }
             ui->MOT_PWRD_05_P->setText("0");
         }
 
         ui->MOT_PWRD_05_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_05_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(5);
+            }
             ui->MOT_PWRD_05_R->setText("0");
         }
 
         ui->MOT_PWRD_05_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_05_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(5);
+            }
             ui->MOT_PWRD_05_Y->setText("0");
         }
     }
@@ -2053,27 +2410,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_06_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(6);
+            }
             ui->MOT_PWRD_06_T->setText("0");
         }
 
         ui->MOT_PWRD_06_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_06_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(6);
+            }
             ui->MOT_PWRD_06_P->setText("0");
         }
 
         ui->MOT_PWRD_06_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_06_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(6);
+            }
             ui->MOT_PWRD_06_R->setText("0");
         }
 
         ui->MOT_PWRD_06_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_06_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(6);
+            }
             ui->MOT_PWRD_06_Y->setText("0");
         }
     }
@@ -2083,27 +2452,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_07_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(7);
+            }
             ui->MOT_PWRD_07_T->setText("0");
         }
 
         ui->MOT_PWRD_07_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_07_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(7);
+            }
             ui->MOT_PWRD_07_P->setText("0");
         }
 
         ui->MOT_PWRD_07_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_07_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(7);
+            }
             ui->MOT_PWRD_07_R->setText("0");
         }
 
         ui->MOT_PWRD_07_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_07_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(7);
+            }
             ui->MOT_PWRD_07_Y->setText("0");
         }
     }
@@ -2113,27 +2494,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_08_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(8);
+            }
             ui->MOT_PWRD_08_T->setText("0");
         }
 
         ui->MOT_PWRD_08_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_08_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(8);
+            }
             ui->MOT_PWRD_08_P->setText("0");
         }
 
         ui->MOT_PWRD_08_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_08_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(8);
+            }
             ui->MOT_PWRD_08_R->setText("0");
         }
 
         ui->MOT_PWRD_08_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_08_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(8);
+            }
             ui->MOT_PWRD_08_Y->setText("0");
         }
     }
@@ -2143,27 +2536,36 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_09_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(9);
+            }
             ui->MOT_PWRD_09_T->setText("0");
         }
 
         ui->MOT_PWRD_09_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_09_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(9);
+            }
             ui->MOT_PWRD_09_P->setText("0");
         }
 
         ui->MOT_PWRD_09_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_09_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
             ui->MOT_PWRD_09_R->setText("0");
         }
 
         ui->MOT_PWRD_09_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_09_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(9);
+            }
             ui->MOT_PWRD_09_Y->setText("0");
         }
     }
@@ -2173,27 +2575,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_10_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(10);
+            }
             ui->MOT_PWRD_10_T->setText("0");
         }
 
         ui->MOT_PWRD_10_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_10_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(10);
+            }
             ui->MOT_PWRD_10_P->setText("0");
         }
 
         ui->MOT_PWRD_10_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_10_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(10);
+            }
             ui->MOT_PWRD_10_R->setText("0");
         }
 
         ui->MOT_PWRD_10_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_10_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(10);
+            }
             ui->MOT_PWRD_10_Y->setText("0");
         }
     }
@@ -2203,27 +2617,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_11_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(11);
+            }
             ui->MOT_PWRD_11_T->setText("0");
         }
 
         ui->MOT_PWRD_11_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_11_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(11);
+            }
             ui->MOT_PWRD_11_P->setText("0");
         }
 
         ui->MOT_PWRD_11_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_11_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(11);
+            }
             ui->MOT_PWRD_11_R->setText("0");
         }
 
         ui->MOT_PWRD_11_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_11_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(11);
+            }
             ui->MOT_PWRD_11_Y->setText("0");
         }
     }
@@ -2233,27 +2659,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_12_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(12);
+            }
             ui->MOT_PWRD_12_T->setText("0");
         }
 
         ui->MOT_PWRD_12_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_12_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(12);
+            }
             ui->MOT_PWRD_12_P->setText("0");
         }
 
         ui->MOT_PWRD_12_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_12_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(12);
+            }
             ui->MOT_PWRD_12_R->setText("0");
         }
 
         ui->MOT_PWRD_12_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_12_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(12);
+            }
             ui->MOT_PWRD_12_Y->setText("0");
         }
     }
@@ -2263,27 +2701,39 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_13_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(13);
+            }
             ui->MOT_PWRD_13_T->setText("0");
         }
 
         ui->MOT_PWRD_13_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_13_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(13);
+            }
             ui->MOT_PWRD_13_P->setText("0");
         }
 
         ui->MOT_PWRD_13_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_13_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(13);
+            }
             ui->MOT_PWRD_13_R->setText("0");
         }
 
         ui->MOT_PWRD_13_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_13_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(13);
+            }
             ui->MOT_PWRD_13_Y->setText("0");
         }
     }
@@ -2293,31 +2743,44 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
         if ( value == false ) {
             if ( ui->MOT_PWRD_14_T->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(14);
+            }
             ui->MOT_PWRD_14_T->setText("0");
         }
 
         ui->MOT_PWRD_14_P->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_14_P->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(14);
+            }
             ui->MOT_PWRD_14_P->setText("0");
         }
 
         ui->MOT_PWRD_14_R->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_14_R->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(14);
+            }
             ui->MOT_PWRD_14_R->setText("0");
         }
 
         ui->MOT_PWRD_14_Y->setEnabled(value);
-        if ( !value == false ) {
+        if ( value == false ) {
             if ( ui->MOT_PWRD_14_Y->text().toInt() != 0)
                 somethingChangedInMotorConfig = 1;
+            if (somethingChangedInMotorConfig > 0 ) {
+                ShowMessageForChangingMotorConfig(14);
+            }
             ui->MOT_PWRD_14_Y->setText("0");
         }
     }
 }
+
 
 void QGCAutoquad::setRadio() {
 
@@ -2395,21 +2858,17 @@ void QGCAutoquad::setFrame() {
 
     paramaq->setParameter(190,"MOT_FRAME","0");
 
-    if ( ui->checkBox_roll_inverse->isChecked() ) {
-        float port_nr_roll = 0-(float)ui->comboBox_gmb_roll_port->currentIndex();
-        paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
+    if ( ui->reverse_gimbal_pitch->checkState()) {
+        paramaq->setParameter(190,"GMBL_ROLL_PORT",0-port_nr_roll);
     }
     else {
-        float port_nr_roll = (float)ui->comboBox_gmb_roll_port->currentIndex();
         paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
     }
 
-    if ( ui->checkBox_pitch_inverse->isChecked() ) {
-        float port_nr_pitch = 0-(float)ui->comboBox_gmb_pitch_port->currentIndex();
-        paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
+    if ( ui->reverse_gimbal_roll->checkState()) {
+        paramaq->setParameter(190,"GMBL_PITCH_PORT",0-port_nr_pitch);
     }
     else {
-        float port_nr_pitch = (float)ui->comboBox_gmb_pitch_port->currentIndex();
         paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
     }
 

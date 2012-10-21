@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1041</width>
-    <height>782</height>
+    <height>945</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -459,7 +459,7 @@
              <attribute name="title">
               <string>Frame</string>
              </attribute>
-             <layout class="QHBoxLayout" name="horizontalLayout_67">
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_270">
                 <item>
@@ -468,6 +468,25 @@
                    <widget class="QLabel" name="label_9">
                     <property name="text">
                      <string>M#</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_13">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Gimbal</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
                     </property>
                    </widget>
                   </item>
@@ -562,6 +581,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_187">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM1">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM1">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_01_T"/>
                   </item>
                   <item>
@@ -583,6 +623,27 @@
                      <string>M2</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_11">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM2">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM2">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="MOT_PWRD_02_T"/>
@@ -608,6 +669,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_188">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM3">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM3">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_03_T"/>
                   </item>
                   <item>
@@ -629,6 +711,27 @@
                      <string>M4</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_189">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM4">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM4">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="MOT_PWRD_04_T"/>
@@ -654,6 +757,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_190">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM5">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM5">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_05_T"/>
                   </item>
                   <item>
@@ -675,6 +799,27 @@
                      <string>M6</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_191">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM6">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM6">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="MOT_PWRD_06_T"/>
@@ -700,6 +845,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_193">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM7">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM7">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_07_T"/>
                   </item>
                   <item>
@@ -721,6 +887,27 @@
                      <string>M8</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_194">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM8">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM8">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="MOT_PWRD_08_T"/>
@@ -746,6 +933,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_195">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM9">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM9">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_09_T"/>
                   </item>
                   <item>
@@ -767,6 +975,27 @@
                      <string>M10</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_196">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM10">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM10">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="MOT_PWRD_10_T"/>
@@ -792,6 +1021,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_197">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM11">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM11">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_11_T"/>
                   </item>
                   <item>
@@ -813,6 +1063,27 @@
                      <string>M12</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_198">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM12">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM12">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="MOT_PWRD_12_T"/>
@@ -838,6 +1109,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_200">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM14">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM14">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_13_T"/>
                   </item>
                   <item>
@@ -861,6 +1153,27 @@
                    </widget>
                   </item>
                   <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_199">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isPitchM13">
+                      <property name="text">
+                       <string>as Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_isRollM13">
+                      <property name="text">
+                       <string>as Roll</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
                    <widget class="QLineEdit" name="MOT_PWRD_14_T"/>
                   </item>
                   <item>
@@ -877,7 +1190,7 @@
                </layout>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_278">
+               <layout class="QVBoxLayout" name="verticalLayout_10">
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_2">
                   <item>
@@ -904,75 +1217,14 @@
                  </layout>
                 </item>
                 <item>
-                 <spacer name="verticalSpacer_12">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Fixed</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_277">
-                  <item>
-                   <widget class="QLabel" name="label_209">
-                    <property name="text">
-                     <string>Gimbal Ports</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_178">
-                    <property name="text">
-                     <string>Roll</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_roll_inverse">
-                    <property name="text">
-                     <string>reverse</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="comboBox_gmb_roll_port"/>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_208">
-                    <property name="text">
-                     <string>Pitch</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_pitch_inverse">
-                    <property name="text">
-                     <string>reverse</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="comboBox_gmb_pitch_port"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
                  <spacer name="verticalSpacer_11">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
-                    <width>20</width>
-                    <height>308</height>
+                    <width>17</width>
+                    <height>623</height>
                    </size>
                   </property>
                  </spacer>
@@ -3730,12 +3982,16 @@
                     <item>
                      <widget class="QLabel" name="label_202">
                       <property name="text">
-                       <string>Res.</string>
+                       <string>Reverse Gimbal Roll</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="Res31"/>
+                     <widget class="QCheckBox" name="reverse_gimbal_roll">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </item>
@@ -3790,12 +4046,16 @@
                     <item>
                      <widget class="QLabel" name="label_206">
                       <property name="text">
-                       <string>Res.</string>
+                       <string>Reverse Gimbal Pitch</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="Res34"/>
+                     <widget class="QCheckBox" name="reverse_gimbal_pitch">
+                      <property name="text">
+                       <string/>
+                      </property>
+                     </widget>
                     </item>
                    </layout>
                   </item>

@@ -114,9 +114,47 @@ private slots:
         void Esc32CaliGetCommand(int Command);
         void Esc32StartLogging();
         void Esc32CalibrationFinished(int mode);
-        void gmb_pitch_port_changed(int portIndex);
-        void gmb_roll_port_changed(int portIndex);
+        void gmb_pitch_P1(bool value);
+        void gmb_roll_P1(bool value);
 
+        void gmb_pitch_P2(bool value);
+        void gmb_roll_P2(bool value);
+
+        void gmb_pitch_P3(bool value);
+        void gmb_roll_P3(bool value);
+
+        void gmb_pitch_P4(bool value);
+        void gmb_roll_P4(bool value);
+
+        void gmb_pitch_P5(bool value);
+        void gmb_roll_P5(bool value);
+
+        void gmb_pitch_P6(bool value);
+        void gmb_roll_P6(bool value);
+
+        void gmb_pitch_P7(bool value);
+        void gmb_roll_P7(bool value);
+
+        void gmb_pitch_P8(bool value);
+        void gmb_roll_P8(bool value);
+
+        void gmb_pitch_P9(bool value);
+        void gmb_roll_P9(bool value);
+
+        void gmb_pitch_P10(bool value);
+        void gmb_roll_P10(bool value);
+
+        void gmb_pitch_P11(bool value);
+        void gmb_roll_P11(bool value);
+
+        void gmb_pitch_P12(bool value);
+        void gmb_roll_P12(bool value);
+
+        void gmb_pitch_P13(bool value);
+        void gmb_roll_P13(bool value);
+
+        void gmb_pitch_P14(bool value);
+        void gmb_roll_P14(bool value);
 
 private:
         Ui::QGCAutoquad *ui;
@@ -169,7 +207,10 @@ private:
         void setMotorEnable(int MotorIndex, bool value);
         bool EventComesFromMavlink;
         int somethingChangedInMotorConfig;
-
+        void CheckGimbal(int port, bool value);
+        void ShowMessageForChangingMotorConfig(int Motor);
+        int port_nr_roll;
+        int port_nr_pitch;
 protected:
         void showEvent(QShowEvent* event);
         void hideEvent(QHideEvent* event);
