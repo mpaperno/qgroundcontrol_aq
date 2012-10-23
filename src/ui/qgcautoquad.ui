@@ -1114,14 +1114,14 @@
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_isPitchM14">
+                     <widget class="QCheckBox" name="checkBox_isPitchM13">
                       <property name="text">
                        <string>as Pitch</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_isRollM14">
+                     <widget class="QCheckBox" name="checkBox_isRollM13">
                       <property name="text">
                        <string>as Roll</string>
                       </property>
@@ -1158,14 +1158,14 @@
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_isPitchM13">
+                     <widget class="QCheckBox" name="checkBox_isPitchM14">
                       <property name="text">
                        <string>as Pitch</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_isRollM13">
+                     <widget class="QCheckBox" name="checkBox_isRollM14">
                       <property name="text">
                        <string>as Roll</string>
                       </property>

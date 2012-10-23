@@ -161,11 +161,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->checkBox_isPitchM14, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P14(bool)));
     connect(ui->checkBox_isRollM14, SIGNAL(clicked(bool)),this, SLOT(gmb_roll_P14(bool)));
 
-    ui->CMB_SPVR_FS_RAD_ST1->addItem("nothing to do", 0);
-    ui->CMB_SPVR_FS_RAD_ST1->addItem("Return to Home and hover", 1);
+    ui->CMB_SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
 
-    ui->CMB_SPVR_FS_RAD_ST2->addItem("nothing to do", 0);
-    ui->CMB_SPVR_FS_RAD_ST2->addItem("Return to Home and hover", 1);
+    ui->CMB_SPVR_FS_RAD_ST2->addItem("slow decent", 0);
+    ui->CMB_SPVR_FS_RAD_ST2->addItem("RTH and slow decent", 1);
 
 	//Process Slots
     ps_master.setProcessChannelMode(QProcess::MergedChannels);
@@ -1876,11 +1875,11 @@ void QGCAutoquad::getGUIpara() {
     port_nr_pitch = abs(paramaq->getParaAQ("GMBL_ROLL_PORT").toInt());
     port_nr_roll = abs(paramaq->getParaAQ("GMBL_PITCH_PORT").toInt());
     if ( f_port_nr_pitch < 0 ) {
-        ui->reverse_gimbal_pitch->setEnabled(true);
+        ui->reverse_gimbal_pitch->setChecked(true);
     }
 
     if ( f_port_nr_roll < 0 ) {
-        ui->reverse_gimbal_roll->setEnabled(true);
+        ui->reverse_gimbal_roll->setChecked(true);
     }
 
     if (port_nr_pitch  > 0 ) {
@@ -1889,45 +1888,59 @@ void QGCAutoquad::getGUIpara() {
                 break;
             case 1:
                 ui->checkBox_isPitchM1->setChecked(true);
+                ui->checkBox_isRollM1->setChecked(false);
                 break;
             case 2:
                 ui->checkBox_isPitchM2->setChecked(true);
+                ui->checkBox_isRollM2->setChecked(false);
                 break;
             case 3:
                 ui->checkBox_isPitchM3->setChecked(true);
+                ui->checkBox_isRollM3->setChecked(false);
                 break;
             case 4:
                 ui->checkBox_isPitchM4->setChecked(true);
+                ui->checkBox_isRollM4->setChecked(false);
                 break;
             case 5:
                 ui->checkBox_isPitchM5->setChecked(true);
+                ui->checkBox_isRollM5->setChecked(false);
                 break;
             case 6:
                 ui->checkBox_isPitchM6->setChecked(true);
+                ui->checkBox_isRollM6->setChecked(false);
                 break;
             case 7:
                 ui->checkBox_isPitchM7->setChecked(true);
+                ui->checkBox_isRollM7->setChecked(false);
                 break;
             case 8:
                 ui->checkBox_isPitchM8->setChecked(true);
+                ui->checkBox_isRollM8->setChecked(false);
                 break;
             case 9:
                 ui->checkBox_isPitchM9->setChecked(true);
+                ui->checkBox_isRollM9->setChecked(false);
                 break;
             case 10:
                 ui->checkBox_isPitchM10->setChecked(true);
+                ui->checkBox_isRollM10->setChecked(false);
                 break;
             case 11:
                 ui->checkBox_isPitchM11->setChecked(true);
+                ui->checkBox_isRollM11->setChecked(false);
                 break;
             case 12:
                 ui->checkBox_isPitchM12->setChecked(true);
+                ui->checkBox_isRollM12->setChecked(false);
                 break;
             case 13:
                 ui->checkBox_isPitchM13->setChecked(true);
+                ui->checkBox_isRollM13->setChecked(false);
                 break;
             case 14:
                 ui->checkBox_isPitchM14->setChecked(true);
+                ui->checkBox_isRollM14->setChecked(false);
                 break;
         }
     }
@@ -3360,6 +3373,20 @@ void QGCAutoquad::save_PID_toAQ4()
                     changed = true;
                 }
             }
+        }
+
+        if ( ui->reverse_gimbal_pitch->checkState()) {
+            paramaq->setParameter(190,"GMBL_ROLL_PORT",0-port_nr_roll);
+        }
+        else {
+            paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
+        }
+
+        if ( ui->reverse_gimbal_roll->checkState()) {
+            paramaq->setParameter(190,"GMBL_PITCH_PORT",0-port_nr_pitch);
+        }
+        else {
+            paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
         }
 
         if ( changed )
