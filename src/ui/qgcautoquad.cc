@@ -230,6 +230,7 @@ void QGCAutoquad::SetupListView()
         QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
         QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
         item->setCheckable(true);
+        DefaultColorMeasureChannels = item->background().color();
         model->appendRow(item);
     }
     ui->listView_Curves->setModel(model);
@@ -272,7 +273,6 @@ void QGCAutoquad::OpenLogFile()
 
 void QGCAutoquad::CurveItemChanged(QStandardItem *item)
 {
-
     if ( item->checkState() )
     {
         for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
@@ -321,9 +321,26 @@ void QGCAutoquad::showChannels() {
 
     for (int i = 0; i < parser.yValues.count(); i++) {
         plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
+
     }
+
     plot->setStyleText("lines");
     plot->updateScale();
+
+    for ( int i = 0; i < model->rowCount(); i++) {
+        bool isChecked = model->item(i,0)->checkState();
+        QStandardItem *item = model->item(i,0);
+        if ( isChecked ) {
+            if ( item) {
+                //item->setForeground(plot->getColorForCurve(item->text()));
+                item->setBackground(plot->getColorForCurve(item->text()));
+            }
+        }
+        else {
+            item->setBackground(DefaultColorMeasureChannels);
+        }
+    }
+
 }
 
 void QGCAutoquad::loadSettings()

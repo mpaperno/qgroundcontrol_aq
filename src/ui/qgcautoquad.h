@@ -211,6 +211,7 @@ private:
         void ShowMessageForChangingMotorConfig(int Motor);
         int port_nr_roll;
         int port_nr_pitch;
+        QColor DefaultColorMeasureChannels;
 protected:
         void showEvent(QShowEvent* event);
         void hideEvent(QHideEvent* event);
