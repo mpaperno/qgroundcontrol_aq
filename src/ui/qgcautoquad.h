@@ -212,6 +212,9 @@ private:
         int port_nr_roll;
         int port_nr_pitch;
         QColor DefaultColorMeasureChannels;
+        bool AlreadyShowMessage;
+        void DisableEnableAllPitchGimbal(int selectedIndex, bool value);
+        void DisableEnableAllRollGimbal(int selectedIndex, bool value);
 protected:
         void showEvent(QShowEvent* event);
         void hideEvent(QHideEvent* event);

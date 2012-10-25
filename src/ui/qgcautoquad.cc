@@ -1887,10 +1887,11 @@ void QGCAutoquad::getGUIpara() {
     gmb_roll_P14(false);
 
 
-    float f_port_nr_pitch = paramaq->getParaAQ("GMBL_ROLL_PORT").toFloat();
-    float f_port_nr_roll = paramaq->getParaAQ("GMBL_PITCH_PORT").toFloat();
-    port_nr_pitch = abs(paramaq->getParaAQ("GMBL_ROLL_PORT").toInt());
-    port_nr_roll = abs(paramaq->getParaAQ("GMBL_PITCH_PORT").toInt());
+    float f_port_nr_pitch = paramaq->getParaAQ("GMBL_PITCH_PORT").toFloat();
+    float f_port_nr_roll = paramaq->getParaAQ("GMBL_ROLL_PORT").toFloat();
+
+    port_nr_pitch = abs(paramaq->getParaAQ("GMBL_PITHC_PORT").toInt());
+    port_nr_roll = abs(paramaq->getParaAQ("GMBL_ROLL_PORT").toInt());
     if ( f_port_nr_pitch < 0 ) {
         ui->reverse_gimbal_pitch->setChecked(true);
     }
@@ -1967,45 +1968,59 @@ void QGCAutoquad::getGUIpara() {
             case 0:
                 break;
             case 1:
+                ui->checkBox_isPitchM1->setChecked(false);
                 ui->checkBox_isRollM1->setChecked(true);
                 break;
             case 2:
+                ui->checkBox_isPitchM2->setChecked(false);
                 ui->checkBox_isRollM2->setChecked(true);
                 break;
             case 3:
+                ui->checkBox_isPitchM3->setChecked(false);
                 ui->checkBox_isRollM3->setChecked(true);
                 break;
             case 4:
+                ui->checkBox_isPitchM4->setChecked(false);
                 ui->checkBox_isRollM4->setChecked(true);
                 break;
             case 5:
+                ui->checkBox_isPitchM5->setChecked(false);
                 ui->checkBox_isRollM5->setChecked(true);
                 break;
             case 6:
+                ui->checkBox_isPitchM6->setChecked(false);
                 ui->checkBox_isRollM6->setChecked(true);
                 break;
             case 7:
+                ui->checkBox_isPitchM7->setChecked(false);
                 ui->checkBox_isRollM7->setChecked(true);
                 break;
             case 8:
+                ui->checkBox_isPitchM8->setChecked(false);
                 ui->checkBox_isRollM8->setChecked(true);
                 break;
             case 9:
+                ui->checkBox_isPitchM9->setChecked(false);
                 ui->checkBox_isRollM9->setChecked(true);
                 break;
             case 10:
+                ui->checkBox_isPitchM10->setChecked(false);
                 ui->checkBox_isRollM10->setChecked(true);
                 break;
             case 11:
+                ui->checkBox_isPitchM11->setChecked(false);
                 ui->checkBox_isRollM11->setChecked(true);
                 break;
             case 12:
+                ui->checkBox_isPitchM12->setChecked(false);
                 ui->checkBox_isRollM12->setChecked(true);
                 break;
             case 13:
+                ui->checkBox_isPitchM13->setChecked(false);
                 ui->checkBox_isRollM13->setChecked(true);
                 break;
             case 14:
+                ui->checkBox_isPitchM14->setChecked(false);
                 ui->checkBox_isRollM14->setChecked(true);
                 break;
         }
@@ -2040,7 +2055,7 @@ void QGCAutoquad::getGUIpara() {
     connect(ui->checkBox_isRollM14, SIGNAL(clicked(bool)),this, SLOT(gmb_roll_P14(bool)));
 
     int failsaveStage1 = paramaq->getParaAQ("SPVR_FS_RAD_ST1").toInt();
-    int failsaveStage2 = paramaq->getParaAQ("SPVR_FS_RAD_ST1").toInt();
+    int failsaveStage2 = paramaq->getParaAQ("SPVR_FS_RAD_ST2").toInt();
 
     ui->CMB_SPVR_FS_RAD_ST1->setCurrentIndex(failsaveStage1);
     ui->CMB_SPVR_FS_RAD_ST2->setCurrentIndex(failsaveStage2);
@@ -2055,6 +2070,7 @@ void QGCAutoquad::gmb_pitch_P1(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM1->setEnabled(!value);
     CheckGimbal(1,value);
+    DisableEnableAllPitchGimbal(1,value);
 }
 void QGCAutoquad::gmb_roll_P1(bool value){
     if ( value )
@@ -2063,6 +2079,7 @@ void QGCAutoquad::gmb_roll_P1(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM1->setEnabled(!value);
     CheckGimbal(1,value);
+    DisableEnableAllRollGimbal(1,value);
 }
 void QGCAutoquad::gmb_pitch_P2(bool value){
     if ( value )
@@ -2071,6 +2088,7 @@ void QGCAutoquad::gmb_pitch_P2(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM2->setEnabled(!value);
     CheckGimbal(2,value);
+    DisableEnableAllPitchGimbal(2,value);
 }
 void QGCAutoquad::gmb_roll_P2(bool value){
     if ( value )
@@ -2079,6 +2097,7 @@ void QGCAutoquad::gmb_roll_P2(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM2->setEnabled(!value);
     CheckGimbal(2,value);
+    DisableEnableAllRollGimbal(2,value);
 }
 void QGCAutoquad::gmb_pitch_P3(bool value){
     if ( value )
@@ -2087,6 +2106,7 @@ void QGCAutoquad::gmb_pitch_P3(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM3->setEnabled(!value);
     CheckGimbal(3,value);
+    DisableEnableAllPitchGimbal(3,value);
 }
 void QGCAutoquad::gmb_roll_P3(bool value){
     if ( value )
@@ -2095,6 +2115,7 @@ void QGCAutoquad::gmb_roll_P3(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM3->setEnabled(!value);
     CheckGimbal(3,value);
+    DisableEnableAllRollGimbal(3,value);
 }
 void QGCAutoquad::gmb_pitch_P4(bool value){
     if ( value )
@@ -2103,6 +2124,7 @@ void QGCAutoquad::gmb_pitch_P4(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM4->setEnabled(!value);
     CheckGimbal(4,value);
+    DisableEnableAllPitchGimbal(4,value);
 }
 void QGCAutoquad::gmb_roll_P4(bool value){
     if ( value )
@@ -2110,6 +2132,7 @@ void QGCAutoquad::gmb_roll_P4(bool value){
     else
         port_nr_roll = 0;
     ui->checkBox_isPitchM4->setEnabled(!value);
+    DisableEnableAllRollGimbal(4,value);
     CheckGimbal(4,value);
 }
 void QGCAutoquad::gmb_pitch_P5(bool value){
@@ -2119,6 +2142,7 @@ void QGCAutoquad::gmb_pitch_P5(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM5->setEnabled(!value);
     CheckGimbal(5,value);
+    DisableEnableAllPitchGimbal(5,value);
 }
 void QGCAutoquad::gmb_roll_P5(bool value){
     if ( value )
@@ -2127,6 +2151,7 @@ void QGCAutoquad::gmb_roll_P5(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM5->setEnabled(!value);
     CheckGimbal(5,value);
+    DisableEnableAllRollGimbal(5,value);
 }
 void QGCAutoquad::gmb_pitch_P6(bool value){
     if ( value )
@@ -2135,6 +2160,7 @@ void QGCAutoquad::gmb_pitch_P6(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM6->setEnabled(!value);
     CheckGimbal(6,value);
+    DisableEnableAllPitchGimbal(6,value);
 }
 void QGCAutoquad::gmb_roll_P6(bool value){
     if ( value )
@@ -2143,6 +2169,7 @@ void QGCAutoquad::gmb_roll_P6(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM6->setEnabled(!value);
     CheckGimbal(6,value);
+    DisableEnableAllRollGimbal(6,value);
 }
 void QGCAutoquad::gmb_pitch_P7(bool value){
     if ( value )
@@ -2151,6 +2178,7 @@ void QGCAutoquad::gmb_pitch_P7(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM7->setEnabled(!value);
     CheckGimbal(7,value);
+    DisableEnableAllPitchGimbal(7,value);
 }
 void QGCAutoquad::gmb_roll_P7(bool value){
     if ( value )
@@ -2159,6 +2187,7 @@ void QGCAutoquad::gmb_roll_P7(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM7->setEnabled(!value);
     CheckGimbal(7,value);
+    DisableEnableAllRollGimbal(7,value);
 }
 void QGCAutoquad::gmb_pitch_P8(bool value){
     if ( value )
@@ -2167,6 +2196,7 @@ void QGCAutoquad::gmb_pitch_P8(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM8->setEnabled(!value);
     CheckGimbal(8,value);
+    DisableEnableAllPitchGimbal(8,value);
 }
 void QGCAutoquad::gmb_roll_P8(bool value){
     if ( value )
@@ -2175,6 +2205,7 @@ void QGCAutoquad::gmb_roll_P8(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM8->setEnabled(!value);
     CheckGimbal(8,value);
+    DisableEnableAllRollGimbal(8,value);
 }
 void QGCAutoquad::gmb_pitch_P9(bool value){
     if ( value )
@@ -2183,6 +2214,7 @@ void QGCAutoquad::gmb_pitch_P9(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM9->setEnabled(!value);
     CheckGimbal(9,value);
+    DisableEnableAllPitchGimbal(9,value);
 }
 void QGCAutoquad::gmb_roll_P9(bool value){
     if ( value )
@@ -2191,6 +2223,7 @@ void QGCAutoquad::gmb_roll_P9(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM9->setEnabled(!value);
     CheckGimbal(9,value);
+    DisableEnableAllRollGimbal(9,value);
 }
 void QGCAutoquad::gmb_pitch_P10(bool value){
     if ( value )
@@ -2199,6 +2232,7 @@ void QGCAutoquad::gmb_pitch_P10(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM10->setEnabled(!value);
     CheckGimbal(10,value);
+    DisableEnableAllPitchGimbal(10,value);
 }
 void QGCAutoquad::gmb_roll_P10(bool value){
     if ( value )
@@ -2207,6 +2241,7 @@ void QGCAutoquad::gmb_roll_P10(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM10->setEnabled(!value);
     CheckGimbal(10,value);
+    DisableEnableAllRollGimbal(10,value);
 }
 void QGCAutoquad::gmb_pitch_P11(bool value){
     if ( value )
@@ -2215,6 +2250,7 @@ void QGCAutoquad::gmb_pitch_P11(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM11->setEnabled(!value);
     CheckGimbal(11,value);
+    DisableEnableAllPitchGimbal(11,value);
 }
 void QGCAutoquad::gmb_roll_P11(bool value){
     if ( value )
@@ -2223,6 +2259,7 @@ void QGCAutoquad::gmb_roll_P11(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM11->setEnabled(!value);
     CheckGimbal(11,value);
+    DisableEnableAllRollGimbal(11,value);
 }
 void QGCAutoquad::gmb_pitch_P12(bool value){
     if ( value )
@@ -2231,6 +2268,7 @@ void QGCAutoquad::gmb_pitch_P12(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM12->setEnabled(!value);
     CheckGimbal(12,value);
+    DisableEnableAllPitchGimbal(12,value);
 }
 void QGCAutoquad::gmb_roll_P12(bool value){
     if ( value )
@@ -2239,6 +2277,7 @@ void QGCAutoquad::gmb_roll_P12(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM12->setEnabled(!value);
     CheckGimbal(12,value);
+    DisableEnableAllRollGimbal(12,value);
 }
 void QGCAutoquad::gmb_pitch_P13(bool value){
     if ( value )
@@ -2247,6 +2286,7 @@ void QGCAutoquad::gmb_pitch_P13(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM13->setEnabled(!value);
     CheckGimbal(13,value);
+    DisableEnableAllPitchGimbal(13,value);
 }
 void QGCAutoquad::gmb_roll_P13(bool value){
     if ( value )
@@ -2255,6 +2295,7 @@ void QGCAutoquad::gmb_roll_P13(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM13->setEnabled(!value);
     CheckGimbal(13,value);
+    DisableEnableAllRollGimbal(13,value);
 }
 void QGCAutoquad::gmb_pitch_P14(bool value){
     if ( value )
@@ -2263,6 +2304,7 @@ void QGCAutoquad::gmb_pitch_P14(bool value){
         port_nr_pitch = 0;
     ui->checkBox_isRollM14->setEnabled(!value);
     CheckGimbal(14,value);
+    DisableEnableAllPitchGimbal(14,value);
 }
 void QGCAutoquad::gmb_roll_P14(bool value){
     if ( value )
@@ -2271,11 +2313,12 @@ void QGCAutoquad::gmb_roll_P14(bool value){
         port_nr_roll = 0;
     ui->checkBox_isPitchM14->setEnabled(!value);
     CheckGimbal(14,value);
+    DisableEnableAllRollGimbal(14,value);
 }
 
-
 void QGCAutoquad::CheckGimbal(int port, bool value) {
-
+    AlreadyShowMessage = false;
+    somethingChangedInMotorConfig = 0;
     if (( port >= 1) && ( port <= 4)) {
         setMotorEnable(1,!value);
         setMotorEnable(2,!value);
@@ -2306,6 +2349,7 @@ void QGCAutoquad::CheckGimbal(int port, bool value) {
 
 void QGCAutoquad::ShowMessageForChangingMotorConfig(int Motor) {
     if ( EventComesFromMavlink == false) {
+        AlreadyShowMessage = true;
         QString MessageInfo = QString();
         MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port!");
         MessageInfo.append("\r\n");
@@ -2345,7 +2389,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
             //ui->MOT_PWRD_01_Y->setText("0");
         }
 
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(1);
         }
         somethingChangedInMotorConfig = 0;
@@ -2381,7 +2425,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_02_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(2);
         }
         somethingChangedInMotorConfig = 0;
@@ -2415,7 +2459,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_03_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(3);
         }
         somethingChangedInMotorConfig = 0;
@@ -2449,7 +2493,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_04_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(4);
         }
         somethingChangedInMotorConfig = 0;
@@ -2483,7 +2527,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_05_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(5);
         }
         somethingChangedInMotorConfig = 0;
@@ -2526,7 +2570,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
             }
             //ui->MOT_PWRD_06_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(6);
         }
         somethingChangedInMotorConfig  = 0;
@@ -2560,7 +2604,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_07_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(7);
         }
         somethingChangedInMotorConfig = 0;
@@ -2594,10 +2638,10 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_08_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(8);
         }
-        somethingChangedInMotorConfig = 1;
+        somethingChangedInMotorConfig = 0;
     }
 
     if ( MotorIndex == 9) {
@@ -2628,7 +2672,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_09_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(9);
         }
         somethingChangedInMotorConfig = 0;
@@ -2662,7 +2706,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_10_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(10);
         }
         somethingChangedInMotorConfig = 0;
@@ -2697,10 +2741,10 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
             //ui->MOT_PWRD_11_Y->setText("0");
         }
 
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(11);
         }
-        somethingChangedInMotorConfig = 1;
+        somethingChangedInMotorConfig = 0;
     }
 
     if ( MotorIndex == 12) {
@@ -2731,10 +2775,10 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_12_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(12);
         }
-        somethingChangedInMotorConfig = 1;
+        somethingChangedInMotorConfig = 0;
     }
 
     if ( MotorIndex == 13) {
@@ -2765,7 +2809,7 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_13_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(13);
         }
         somethingChangedInMotorConfig = 0;
@@ -2799,10 +2843,79 @@ void QGCAutoquad::setMotorEnable(int MotorIndex, bool value){
                 somethingChangedInMotorConfig = 1;
             //ui->MOT_PWRD_14_Y->setText("0");
         }
-        if (somethingChangedInMotorConfig > 0 ) {
+        if ((somethingChangedInMotorConfig > 0 ) && ( !AlreadyShowMessage )) {
             ShowMessageForChangingMotorConfig(14);
         }
         somethingChangedInMotorConfig = 0;
+    }
+}
+
+void QGCAutoquad::DisableEnableAllPitchGimbal(int selectedIndex, bool value){
+    int foundPitchBoxes;
+    if ( value ) {
+        foundPitchBoxes = 0;
+        QList<QCheckBox*> checkList = qFindChildren<QCheckBox*> ( ui->tab_aq_settings );
+        for ( int i = 0; i<checkList.count(); i++) {
+            QString ParaName = checkList.at(i)->objectName();
+            if ( ParaName.startsWith("checkBox_isPitch",Qt::CaseSensitive)) {
+                foundPitchBoxes++;
+                checkList.at(i)->setEnabled(false);
+                if ( foundPitchBoxes == selectedIndex ) {
+                    checkList.at(i)->setEnabled(true);
+                }
+            }
+        }
+    }
+    else {
+        QList<QCheckBox*> checkList = qFindChildren<QCheckBox*> ( ui->tab_aq_settings );
+        foundPitchBoxes = 0;
+        for ( int i = 0; i<checkList.count(); i++) {
+            QString ParaName = checkList.at(i)->objectName();
+            if ( ParaName.startsWith("checkBox_isPitch",Qt::CaseSensitive)) {
+                checkList.at(i)->setEnabled(true);
+                foundPitchBoxes++;
+                if ( port_nr_roll > 0 ) {
+                    if ( foundPitchBoxes == port_nr_roll ) {
+                        checkList.at(i)->setEnabled(false);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+void QGCAutoquad::DisableEnableAllRollGimbal(int selectedIndex, bool value) {
+    int foundRollBoxes;
+    if ( value ) {
+        foundRollBoxes = 0;
+        QList<QCheckBox*> checkList = qFindChildren<QCheckBox*> ( ui->tab_aq_settings );
+        for ( int i = 0; i<checkList.count(); i++) {
+            QString ParaName = checkList.at(i)->objectName();
+            if ( ParaName.startsWith("checkBox_isRoll",Qt::CaseSensitive)) {
+                checkList.at(i)->setEnabled(false);
+                foundRollBoxes++;
+                if ( foundRollBoxes == selectedIndex ) {
+                    checkList.at(i)->setEnabled(true);
+                }
+            }
+        }
+    }
+    else {
+        QList<QCheckBox*> checkList = qFindChildren<QCheckBox*> ( ui->tab_aq_settings );
+        foundRollBoxes = 0;
+        for ( int i = 0; i<checkList.count(); i++) {
+            QString ParaName = checkList.at(i)->objectName();
+            if ( ParaName.startsWith("checkBox_isRoll",Qt::CaseSensitive)) {
+                foundRollBoxes++;
+                checkList.at(i)->setEnabled(true);
+                if ( port_nr_pitch > 0 ) {
+                    if ( foundRollBoxes == port_nr_pitch ) {
+                        checkList.at(i)->setEnabled(false);
+                    }
+                }
+            }
+        }
     }
 }
 
