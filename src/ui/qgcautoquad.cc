@@ -1890,7 +1890,7 @@ void QGCAutoquad::getGUIpara() {
     float f_port_nr_pitch = paramaq->getParaAQ("GMBL_PITCH_PORT").toFloat();
     float f_port_nr_roll = paramaq->getParaAQ("GMBL_ROLL_PORT").toFloat();
 
-    port_nr_pitch = abs(paramaq->getParaAQ("GMBL_PITHC_PORT").toInt());
+    port_nr_pitch = abs(paramaq->getParaAQ("GMBL_PITCH_PORT").toInt());
     port_nr_roll = abs(paramaq->getParaAQ("GMBL_ROLL_PORT").toInt());
     if ( f_port_nr_pitch < 0 ) {
         ui->reverse_gimbal_pitch->setChecked(true);
@@ -1963,7 +1963,7 @@ void QGCAutoquad::getGUIpara() {
         }
     }
 
-    if (port_nr_roll   > 0 ) {
+    if (port_nr_roll > 0 ) {
         switch (port_nr_roll ) {
             case 0:
                 break;
@@ -2351,7 +2351,9 @@ void QGCAutoquad::ShowMessageForChangingMotorConfig(int Motor) {
     if ( EventComesFromMavlink == false) {
         AlreadyShowMessage = true;
         QString MessageInfo = QString();
-        MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port!");
+        MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port," );
+        MessageInfo.append("\r\n");
+        MessageInfo.append("or shares a hardware timer with a motor port!");
         MessageInfo.append("\r\n");
         MessageInfo.append("Please check again your Motor configuration!");
         QMessageBox::information(this, "Information", MessageInfo ,QMessageBox::Ok, 0 );
@@ -3505,14 +3507,14 @@ void QGCAutoquad::save_PID_toAQ4()
             }
         }
 
-        if ( ui->reverse_gimbal_pitch->checkState()) {
+        if ( ui->reverse_gimbal_roll->checkState()) {
             paramaq->setParameter(190,"GMBL_ROLL_PORT",0-port_nr_roll);
         }
         else {
             paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
         }
 
-        if ( ui->reverse_gimbal_roll->checkState()) {
+        if ( ui->reverse_gimbal_pitch->checkState()) {
             paramaq->setParameter(190,"GMBL_PITCH_PORT",0-port_nr_pitch);
         }
         else {

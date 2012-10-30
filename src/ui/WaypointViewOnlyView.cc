@@ -176,6 +176,7 @@ void WaypointViewOnlyView::updateValues()
     {
         switch (wp->getFrame())
         {
+
         case MAV_FRAME_GLOBAL_RELATIVE_ALT:
         case MAV_FRAME_GLOBAL:
         {
@@ -394,6 +395,13 @@ void WaypointViewOnlyView::updateValues()
         } //end Frame switch
         break;
     }
+
+    case 1:
+    {
+        m_ui->displayBar->setText(QString("Do Orbit: <b>(%1, %2)</b> and <b>(%3, %4)</b>; z: <b>%5</b>; scan radius: %6").arg(wp->getParam3()).arg(wp->getParam4()).arg(wp->getParam5()).arg(wp->getParam6()).arg(wp->getParam7()).arg(wp->getParam1()));
+            break;
+    }
+
     default:
     {
         m_ui->displayBar->setText(QString("Unknown Command ID (%1) : %2, %3, %4, %5, %6, %7, %8").arg(wp->getAction()).arg(wp->getParam1()).arg(wp->getParam2()).arg(wp->getParam3()).arg(wp->getParam4()).arg(wp->getParam5()).arg(wp->getParam6()).arg(wp->getParam7()));

@@ -472,25 +472,6 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLineEdit" name="lineEdit_13">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Gimbal</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QLineEdit" name="lineEdit_76">
                     <property name="enabled">
                      <bool>false</bool>
@@ -566,6 +547,37 @@
                     </property>
                    </widget>
                   </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_13">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Gimbal</string>
+                    </property>
+                    <property name="maxLength">
+                     <number>50</number>
+                    </property>
+                    <property name="frame">
+                     <bool>true</bool>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </item>
                 <item>
@@ -579,6 +591,18 @@
                      <string>M1</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_01_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_01_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_01_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_01_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_187">
@@ -601,18 +625,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_01_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_01_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_01_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_01_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -623,6 +635,18 @@
                      <string>M2</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_02_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_02_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_02_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_02_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -645,18 +669,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_02_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_02_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_02_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_02_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -667,6 +679,18 @@
                      <string>M3</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_03_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_03_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_03_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_03_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_188">
@@ -689,18 +713,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_03_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_03_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_03_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_03_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -711,6 +723,18 @@
                      <string>M4</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_04_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_04_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_04_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_04_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_189">
@@ -733,18 +757,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_04_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_04_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_04_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_04_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -755,6 +767,18 @@
                      <string>M5</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_05_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_05_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_05_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_05_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_190">
@@ -777,18 +801,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_05_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_05_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_05_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_05_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -799,6 +811,18 @@
                      <string>M6</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_06_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_06_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_06_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_06_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_191">
@@ -821,18 +845,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_06_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_06_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_06_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_06_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -843,6 +855,18 @@
                      <string>M7</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_07_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_07_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_07_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_07_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_193">
@@ -865,18 +889,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_07_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_07_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_07_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_07_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -887,6 +899,18 @@
                      <string>M8</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_08_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_08_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_08_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_08_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_194">
@@ -909,18 +933,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_08_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_08_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_08_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_08_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -931,6 +943,18 @@
                      <string>M9</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_09_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_09_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_09_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_09_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_195">
@@ -953,18 +977,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_09_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_09_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_09_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_09_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -975,6 +987,18 @@
                      <string>M10</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_10_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_10_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_10_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_10_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_196">
@@ -997,18 +1021,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_10_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_10_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_10_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_10_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -1019,6 +1031,18 @@
                      <string>M11</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_11_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_11_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_11_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_11_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_197">
@@ -1041,18 +1065,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_11_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_11_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_11_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_11_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -1063,6 +1075,18 @@
                      <string>M12</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_12_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_12_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_12_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_12_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_198">
@@ -1085,18 +1109,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_12_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_12_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_12_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_12_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -1107,6 +1119,18 @@
                      <string>M13</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_13_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_13_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_13_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_13_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_200">
@@ -1129,18 +1153,6 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_13_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_13_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_13_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_13_Y"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
@@ -1151,6 +1163,18 @@
                      <string>M14</string>
                     </property>
                    </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_14_T"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_14_P"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_14_R"/>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="MOT_PWRD_14_Y"/>
                   </item>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_199">
@@ -1172,18 +1196,6 @@
                      </widget>
                     </item>
                    </layout>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_14_T"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_14_P"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_14_R"/>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOT_PWRD_14_Y"/>
                   </item>
                  </layout>
                 </item>
