@@ -402,6 +402,9 @@ void Waypoint::setPOIHeadingAQ(int degree){
         }
     }
     else if ( action == 1 ) {
+        if ( degree == 0)
+            this->yaw = -0.0;
+
         if ( this->yaw != degree ) {
             if ( degree == 0)
                 this->yaw = -0.0;

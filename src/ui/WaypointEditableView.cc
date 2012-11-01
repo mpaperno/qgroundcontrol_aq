@@ -300,6 +300,7 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->yawSpinBox->show();
             m_ui->horizontalLayout->insertStretch(17, 1);
             m_ui->autoContinue->show();
+            wp->setPOIHeadingAQ(0);
         }
         break;
     case MAV_CMD_NAV_LOITER_UNLIM:
