@@ -1895,9 +1895,15 @@ void QGCAutoquad::getGUIpara() {
     if ( f_port_nr_pitch < 0 ) {
         ui->reverse_gimbal_pitch->setChecked(true);
     }
+    else {
+        ui->reverse_gimbal_pitch->setChecked(false);
+    }
 
     if ( f_port_nr_roll < 0 ) {
         ui->reverse_gimbal_roll->setChecked(true);
+    }
+    else {
+        ui->reverse_gimbal_roll->setChecked(false);
     }
 
     if (port_nr_pitch  > 0 ) {
