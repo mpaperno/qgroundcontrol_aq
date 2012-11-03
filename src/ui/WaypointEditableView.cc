@@ -30,6 +30,9 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
    m_ui(new Ui::WaypointEditableView)
 {
     m_ui->setupUi(this);
+    m_ui->maxHorizontalSpeed->hide();
+    m_ui->maxVerticalSpeed->hide();
+    m_ui->POIAltitude->hide();
 
     this->wp = wp;
     connect(wp, SIGNAL(destroyed(QObject*)), this, SLOT(deleted(QObject*)));
@@ -116,9 +119,6 @@ WaypointEditableView::WaypointEditableView(Waypoint* wp, QWidget* parent) :
     connect(m_ui->maxHorizontalSpeed, SIGNAL(valueChanged(double)), wp, SLOT(setMaxHorizontSpeedAQ(double)));
     connect(m_ui->maxVerticalSpeed, SIGNAL(valueChanged(double)), wp, SLOT(setMaxVerticalSpeedAQ(double)));
     connect(m_ui->POIAltitude, SIGNAL(valueChanged(double)), wp, SLOT(setPOIAltitudeAQ(double)));
-    m_ui->maxHorizontalSpeed->show();
-    m_ui->maxVerticalSpeed->hide();
-    m_ui->POIAltitude->hide();
     checkAutoQuadItem();
 }
 
@@ -188,6 +188,7 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->holdTimeSpinBox->show();
             m_ui->yawSpinBox->show();
             m_ui->maxVerticalSpeed->show();
+            m_ui->maxHorizontalSpeed->hide();
             m_ui->horizontalLayout->insertStretch(17, 20);
         }
         break;
