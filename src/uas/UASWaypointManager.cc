@@ -860,7 +860,7 @@ void UASWaypointManager::writeWaypoints()
                 cur_d->z = cur_s->getZ();
 
                 if (cur_d->command == 1 )
-                    cur_d->param4 = 0.0f;
+                    cur_d->param4 = -0.0f;
 
                 if (cur_s->getCurrent() && noCurrent)
                     noCurrent = false;

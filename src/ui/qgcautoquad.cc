@@ -1887,19 +1887,19 @@ void QGCAutoquad::getGUIpara() {
     gmb_roll_P14(false);
 
 
-    float f_port_nr_pitch = paramaq->getParaAQ("GMBL_PITCH_PORT").toFloat();
-    float f_port_nr_roll = paramaq->getParaAQ("GMBL_ROLL_PORT").toFloat();
+    float f_pitch_direction = paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat();
+    float f_roll_direction = paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat();
 
     port_nr_pitch = abs(paramaq->getParaAQ("GMBL_PITCH_PORT").toInt());
     port_nr_roll = abs(paramaq->getParaAQ("GMBL_ROLL_PORT").toInt());
-    if ( f_port_nr_pitch < 0 ) {
+    if ( f_pitch_direction < 0 ) {
         ui->reverse_gimbal_pitch->setChecked(true);
     }
     else {
         ui->reverse_gimbal_pitch->setChecked(false);
     }
 
-    if ( f_port_nr_roll < 0 ) {
+    if ( f_roll_direction < 0 ) {
         ui->reverse_gimbal_roll->setChecked(true);
     }
     else {
@@ -3003,20 +3003,27 @@ void QGCAutoquad::setFrame() {
 	paramaq->setParameter(190,"MOT_PWRD_14_Y",ui->MOT_PWRD_14_Y->text().toFloat());
 
     paramaq->setParameter(190,"MOT_FRAME","0");
+    paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
+    paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
 
-    if ( ui->reverse_gimbal_pitch->checkState()) {
-        paramaq->setParameter(190,"GMBL_ROLL_PORT",0-port_nr_roll);
-    }
-    else {
-        paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
-    }
-
+    QVariant value_scal_pitch = 0.0f;
+    paramaq->getParameterValue(190,"GMBL_SCAL_PITCH",value_scal_pitch);
     if ( ui->reverse_gimbal_roll->checkState()) {
-        paramaq->setParameter(190,"GMBL_PITCH_PORT",0-port_nr_pitch);
+        paramaq->setParameter(190,"GMBL_SCAL_PITCH",0-value_scal_pitch.toFloat());
     }
     else {
-        paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
+        paramaq->setParameter(190,"GMBL_SCAL_PITCH",value_scal_pitch.toFloat());
     }
+
+    QVariant value_scal_roll = 0.0f;
+    paramaq->getParameterValue(190,"GMBL_SCAL_ROLL",value_scal_roll);
+    if ( ui->reverse_gimbal_pitch->checkState()) {
+        paramaq->setParameter(190,"GMBL_SCAL_ROLL",0-value_scal_roll.toFloat());
+    }
+    else {
+        paramaq->setParameter(190,"GMBL_SCAL_ROLL",value_scal_roll.toFloat());
+    }
+
 
     QuestionForROM();
 }
@@ -3513,18 +3520,22 @@ void QGCAutoquad::save_PID_toAQ4()
             }
         }
 
+        QVariant value_scal_pitch = 0.0f;
+        paramaq->getParameterValue(190,"GMBL_SCAL_PITCH",value_scal_pitch);
         if ( ui->reverse_gimbal_roll->checkState()) {
-            paramaq->setParameter(190,"GMBL_ROLL_PORT",0-port_nr_roll);
+            paramaq->setParameter(190,"GMBL_SCAL_PITCH",0-value_scal_pitch.toFloat());
         }
         else {
-            paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
+            paramaq->setParameter(190,"GMBL_SCAL_PITCH",value_scal_pitch);
         }
 
+        QVariant value_scal_roll = 0.0f;
+        paramaq->getParameterValue(190,"GMBL_SCAL_ROLL",value_scal_roll);
         if ( ui->reverse_gimbal_pitch->checkState()) {
-            paramaq->setParameter(190,"GMBL_PITCH_PORT",0-port_nr_pitch);
+            paramaq->setParameter(190,"GMBL_SCAL_ROLL",0-value_scal_roll.toFloat());
         }
         else {
-            paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
+            paramaq->setParameter(190,"GMBL_SCAL_ROLL",value_scal_roll);
         }
 
         if ( changed )
