@@ -1781,7 +1781,17 @@ void QGCAutoquad::getGUIpara() {
 	for ( int i = 0; i<edtList.count(); i++) {
 		QString ParaName = edtList.at(i)->objectName();
 		if ( ParaName.startsWith("CTRL",Qt::CaseSensitive) || ParaName.startsWith("NAV",Qt::CaseSensitive) || ParaName.startsWith("GMBL",Qt::CaseSensitive) || ParaName.startsWith("SPVR",Qt::CaseSensitive) ) {
-			edtList.at(i)->setText(paramaq->getParaAQ(ParaName).toString());
+            if ( ParaName == "GMBL_SCAL_PITCH") {
+                float dummy_value = fabs(paramaq->getParaAQ(ParaName).toFloat());
+                edtList.at(i)->setText(QString::number(dummy_value));
+            }
+            else if ( ParaName == "GMBL_SCAL_ROLL"){
+                float dummy_value = fabs(paramaq->getParaAQ(ParaName).toFloat());
+                edtList.at(i)->setText(QString::number(dummy_value));
+            }
+            else {
+                edtList.at(i)->setText(paramaq->getParaAQ(ParaName).toString());
+            }
 		}
 		else if ( ParaName.startsWith("MOT_",Qt::CaseSensitive)) {
 			edtList.at(i)->setText(paramaq->getParaAQ(ParaName).toString());
@@ -3006,24 +3016,26 @@ void QGCAutoquad::setFrame() {
     paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
     paramaq->setParameter(190,"GMBL_PITCH_PORT",port_nr_pitch);
 
+    float abs_value;
     QVariant value_scal_pitch = 0.0f;
     paramaq->getParameterValue(190,"GMBL_SCAL_PITCH",value_scal_pitch);
-    if ( ui->reverse_gimbal_roll->checkState()) {
-        paramaq->setParameter(190,"GMBL_SCAL_PITCH",0-value_scal_pitch.toFloat());
+    abs_value = fabs(value_scal_pitch.toFloat());
+    if ( ui->reverse_gimbal_pitch->checkState()) {
+        paramaq->setParameter(190,"GMBL_SCAL_PITCH",0-abs_value);
     }
     else {
-        paramaq->setParameter(190,"GMBL_SCAL_PITCH",value_scal_pitch.toFloat());
+        paramaq->setParameter(190,"GMBL_SCAL_PITCH",abs_value);
     }
 
     QVariant value_scal_roll = 0.0f;
     paramaq->getParameterValue(190,"GMBL_SCAL_ROLL",value_scal_roll);
-    if ( ui->reverse_gimbal_pitch->checkState()) {
-        paramaq->setParameter(190,"GMBL_SCAL_ROLL",0-value_scal_roll.toFloat());
+    abs_value = fabs(value_scal_roll.toFloat());
+    if ( ui->reverse_gimbal_roll->checkState()) {
+        paramaq->setParameter(190,"GMBL_SCAL_ROLL",0-abs_value);
     }
     else {
-        paramaq->setParameter(190,"GMBL_SCAL_ROLL",value_scal_roll.toFloat());
+        paramaq->setParameter(190,"GMBL_SCAL_ROLL",abs_value);
     }
-
 
     QuestionForROM();
 }
@@ -3514,28 +3526,32 @@ void QGCAutoquad::save_PID_toAQ4()
             {
                 val_local = edtList.at(i)->text().toFloat();
                 if ( val_uas != val_local) {
-                    paramaq->setParameter(190,ParaName,val_local);
+                    if (( ParaName != "GMBL_SCAL_PITCH") && ( ParaName != "GMBL_SCAL_ROLL"))
+                        paramaq->setParameter(190,ParaName,val_local);
                     changed = true;
                 }
             }
         }
 
+        float abs_value;
         QVariant value_scal_pitch = 0.0f;
         paramaq->getParameterValue(190,"GMBL_SCAL_PITCH",value_scal_pitch);
-        if ( ui->reverse_gimbal_roll->checkState()) {
-            paramaq->setParameter(190,"GMBL_SCAL_PITCH",0-value_scal_pitch.toFloat());
+        abs_value = fabs(value_scal_pitch.toFloat());
+        if ( ui->reverse_gimbal_pitch->checkState()) {
+            paramaq->setParameter(190,"GMBL_SCAL_PITCH",0-abs_value);
         }
         else {
-            paramaq->setParameter(190,"GMBL_SCAL_PITCH",value_scal_pitch);
+            paramaq->setParameter(190,"GMBL_SCAL_PITCH",abs_value);
         }
 
         QVariant value_scal_roll = 0.0f;
         paramaq->getParameterValue(190,"GMBL_SCAL_ROLL",value_scal_roll);
-        if ( ui->reverse_gimbal_pitch->checkState()) {
-            paramaq->setParameter(190,"GMBL_SCAL_ROLL",0-value_scal_roll.toFloat());
+        abs_value = fabs(value_scal_roll.toFloat());
+        if ( ui->reverse_gimbal_roll->checkState()) {
+            paramaq->setParameter(190,"GMBL_SCAL_ROLL",0-abs_value);
         }
         else {
-            paramaq->setParameter(190,"GMBL_SCAL_ROLL",value_scal_roll);
+            paramaq->setParameter(190,"GMBL_SCAL_ROLL",abs_value);
         }
 
         if ( changed )
