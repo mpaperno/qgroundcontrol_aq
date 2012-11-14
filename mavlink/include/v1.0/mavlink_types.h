@@ -17,7 +17,15 @@
 
 #define MAVLINK_MSG_ID_EXTENDED_MESSAGE 255
 #define MAVLINK_EXTENDED_HEADER_LEN 14
-#define MAVLINK_MAX_EXTENDED_PACKET_LEN 65507
+
+#if (defined _MSC_VER) | ((defined __APPLE__) & (defined __MACH__)) | (defined __linux__)
+  /* full fledged 32bit++ OS */
+  #define MAVLINK_MAX_EXTENDED_PACKET_LEN 65507
+#else
+  /* small microcontrollers */
+  #define MAVLINK_MAX_EXTENDED_PACKET_LEN 2048
+#endif
+
 #define MAVLINK_MAX_EXTENDED_PAYLOAD_LEN (MAVLINK_MAX_EXTENDED_PACKET_LEN - MAVLINK_EXTENDED_HEADER_LEN - MAVLINK_NUM_NON_PAYLOAD_BYTES)
 
 typedef struct param_union {
@@ -51,13 +59,13 @@ typedef struct __mavlink_message {
 	uint64_t payload64[(MAVLINK_MAX_PAYLOAD_LEN+MAVLINK_NUM_CHECKSUM_BYTES+7)/8];
 } mavlink_message_t;
 
-
+/*
 typedef struct __mavlink_extended_message {
        mavlink_message_t base_msg;
        int32_t extended_payload_len;   ///< Length of extended payload if any
        uint8_t extended_payload[MAVLINK_MAX_EXTENDED_PAYLOAD_LEN];
 } mavlink_extended_message_t;
-
+*/
 
 typedef enum {
 	MAVLINK_TYPE_CHAR     = 0,

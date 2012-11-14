@@ -216,7 +216,7 @@ MAVLINK_HELPER uint8_t mavlink_parse_char(uint8_t chan, uint8_t c, mavlink_messa
 	int bufferIndex = 0;
 
 	status->msg_received = 0;
-
+    qDebug() <<"xbee_setup() failed...\n";
 	switch (status->parse_state)
 	{
 	case MAVLINK_PARSE_STATE_UNINIT:

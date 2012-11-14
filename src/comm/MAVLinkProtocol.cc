@@ -194,6 +194,7 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b)
 
     for (int position = 0; position < b.size(); position++) {
         unsigned int decodeState = mavlink_parse_char(link->getId(), (uint8_t)(b[position]), &message, &status);
+        //unsigned int decodeState = Test_mavlink_parse_char(link->getId(), (uint8_t)(b[position]), &message, &status);
 
         if ((uint8_t)b[position] == 0x55) mavlink09Count++;
         if ((mavlink09Count > 100) && !decodedFirstPacket && !warnedUser)
@@ -426,6 +427,11 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b)
         }
     }
 }
+
+uint8_t MAVLinkProtocol::Test_mavlink_parse_char(uint8_t chan, uint8_t c, mavlink_message_t* r_message, mavlink_status_t* r_mavlink_status)
+{
+}
+
 
 /**
  * @return The name of this protocol

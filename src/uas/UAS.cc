@@ -279,6 +279,26 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
         switch (message.msgid)
         {
+
+        case MAVLINK_MSG_ID_AQ_TELE_F:{
+
+            //QString errString = "Received Telemetry Values Float";
+            //emit textMessageReceived(uasId, message.compid, 255, errString);
+            mavlink_aq_tele_f_t float_msg;
+            mavlink_msg_aq_tele_f_decode(&message, &float_msg);
+            emit floatChanged(uasId, float_msg);
+            break;
+        }
+
+        case MAVLINK_MSG_ID_AQ_TELE_I:{
+            //QString errString = "Received Telemetry Values Integer";
+            //emit textMessageReceived(uasId, message.compid, 255, errString);
+            mavlink_aq_tele_i_t integer_msg;
+            mavlink_msg_aq_tele_i_decode(&message, &integer_msg);
+            emit intChanged(uasId, integer_msg);
+            break;
+        }
+
         case MAVLINK_MSG_ID_HEARTBEAT:
         {
             if (multiComponentSourceDetected && wrongComponent)
@@ -531,6 +551,8 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
         }
             break;
+
+        /*
         case MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET:
         {
             mavlink_local_position_ned_system_global_offset_t offset;
@@ -543,6 +565,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             nedAttGlobalOffset.setZ(offset.yaw);
         }
             break;
+        */
         case MAVLINK_MSG_ID_HIL_CONTROLS:
         {
             mavlink_hil_controls_t hil;

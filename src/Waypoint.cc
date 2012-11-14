@@ -390,6 +390,8 @@ void Waypoint::setMaxVerticalSpeedAQ(double speed) {
 
 void Waypoint::setPOIHeadingAQ(int degree){
     if ( action == 16 ) {
+        if ( degree == 0 )
+            this->yaw = -0.0;
         if ( this->yaw != degree ) {
             this->yaw = degree;
             emit changed(this);

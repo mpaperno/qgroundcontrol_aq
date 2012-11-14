@@ -862,6 +862,12 @@ void UASWaypointManager::writeWaypoints()
                 if (cur_d->command == 1 )
                     cur_d->param4 = -0.0f;
 
+                if ( cur_d->command == 16 ) {
+                    if ( cur_d->param4 == 0)
+                        cur_d->param4 = -0.0f;
+                }
+
+
                 if (cur_s->getCurrent() && noCurrent)
                     noCurrent = false;
                 if (i == (current_count - 1) && noCurrent == true) //not a single waypoint was set as "current"

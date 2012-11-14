@@ -28,11 +28,13 @@ MAVLinkDecoder::MAVLinkDecoder(MAVLinkProtocol* protocol, QObject *parent) :
     messageFilter.insert(MAVLINK_MSG_ID_MISSION_COUNT, false);
     messageFilter.insert(MAVLINK_MSG_ID_MISSION_ACK, false);
     messageFilter.insert(MAVLINK_MSG_ID_DATA_STREAM, false);
+    messageFilter.insert(MAVLINK_MSG_ID_AQ_TELE_F, false);
+    messageFilter.insert(MAVLINK_MSG_ID_AQ_TELE_I, false);
     #ifdef MAVLINK_ENABLED_PIXHAWK
     messageFilter.insert(MAVLINK_MSG_ID_ENCAPSULATED_DATA, false);
     messageFilter.insert(MAVLINK_MSG_ID_DATA_TRANSMISSION_HANDSHAKE, false);
     #endif
-    messageFilter.insert(MAVLINK_MSG_ID_EXTENDED_MESSAGE, false);
+    //messageFilter.insert(MAVLINK_MSG_ID_EXTENDED_MESSAGE, false);
 
     textMessageFilter.insert(MAVLINK_MSG_ID_DEBUG, false);
     textMessageFilter.insert(MAVLINK_MSG_ID_DEBUG_VECT, false);
