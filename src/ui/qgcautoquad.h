@@ -11,6 +11,8 @@
 #include "Linecharts.h"
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
+#include "aqlinechartwidget.h"
+
 #include <QWidget>
 #include <QProcess>
 #include <QMap>
@@ -156,6 +158,12 @@ private slots:
         void gmb_pitch_P14(bool value);
         void gmb_roll_P14(bool value);
 
+        void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values);
+        void getNewTelemetryI(int uasId, mavlink_aq_telemetry_i_t values);
+
+        void teleValuesStart();
+        void teleValuesStop();
+
 private:
         Ui::QGCAutoquad *ui;
         QString output;
@@ -221,7 +229,7 @@ protected:
         void SetupListView();
         IncrementalPlot* plot;
         AQLogParser parser;
-
+        AQLinechartWidget* AqTeleChart;
 };
 
 #endif // QGCAUTOQUAD_H

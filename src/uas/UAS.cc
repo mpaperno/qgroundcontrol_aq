@@ -280,24 +280,27 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
         switch (message.msgid)
         {
 
-        case MAVLINK_MSG_ID_AQ_TELE_F:{
+        case MAVLINK_MSG_ID_AQ_TELEMETRY_F:{
+            mavlink_aq_telemetry_f_t telemetry_msg;
+            mavlink_msg_aq_telemetry_f_decode(&message, &telemetry_msg);
+            emit TelemetryChangedF(uasId, telemetry_msg);
 
-            //QString errString = "Received Telemetry Values Float";
+            //QString errString = tr("getfloat message %1").arg(telemetry_msg.Index);
             //emit textMessageReceived(uasId, message.compid, 255, errString);
-            mavlink_aq_tele_f_t float_msg;
-            mavlink_msg_aq_tele_f_decode(&message, &float_msg);
-            emit floatChanged(uasId, float_msg);
+
+            break;
+        }
+        case MAVLINK_MSG_ID_AQ_TELEMETRY_I:{
+            mavlink_aq_telemetry_i_t telemetry_msg;
+            mavlink_msg_aq_telemetry_i_decode(&message, &telemetry_msg);
+            emit TelemetryChangedI(uasId, telemetry_msg);
+
+            //QString errString = tr("getint message %1").arg(telemetry_msg.Index);
+            //emit textMessageReceived(uasId, message.compid, 255, errString);
+
             break;
         }
 
-        case MAVLINK_MSG_ID_AQ_TELE_I:{
-            //QString errString = "Received Telemetry Values Integer";
-            //emit textMessageReceived(uasId, message.compid, 255, errString);
-            mavlink_aq_tele_i_t integer_msg;
-            mavlink_msg_aq_tele_i_decode(&message, &integer_msg);
-            emit intChanged(uasId, integer_msg);
-            break;
-        }
 
         case MAVLINK_MSG_ID_HEARTBEAT:
         {
@@ -1816,6 +1819,19 @@ void UAS::writeWaypointsToSDAQ()
     mavlink_message_t msg;
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 5.0f, 0, 0, 0, 0, 0, 0);
     qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
+    sendMessage(msg);
+}
+
+
+void UAS::startStopTelemetry(bool enable){
+    mavlink_message_t msg;
+    if ( enable) {
+        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0);
+    }
+    else {
+        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0);
+    }
+    qDebug() << "SENT COMMAND" << 2;
     sendMessage(msg);
 }
 

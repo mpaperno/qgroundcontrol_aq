@@ -65,7 +65,6 @@ class MAVLinkProtocol : public ProtocolInterface
 public:
     MAVLinkProtocol();
     ~MAVLinkProtocol();
-    uint8_t Test_mavlink_parse_char(uint8_t chan, uint8_t c, mavlink_message_t* r_message, mavlink_status_t* r_mavlink_status);
     /** @brief Get the human-friendly name of this protocol */
     QString getName();
     /** @brief Get the system id of this application */

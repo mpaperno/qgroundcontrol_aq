@@ -242,7 +242,8 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/firmwareupdate/QGCFirmwareUpdateWidget.ui \
     src/ui/QGCPluginHost.ui \
     src/ui/firmwareupdate/QGCPX4FirmwareUpdate.ui \
-    src/ui/qgcautoquad.ui
+    src/ui/qgcautoquad.ui \
+    src/ui/AQLinechart.ui
 INCLUDEPATH += src \
     src/ui \
     src/ui/linechart \
@@ -367,7 +368,8 @@ HEADERS += src/MG.h \
     src/ui/firmwareupdate/QGCPX4FirmwareUpdate.h \
     src/ui/qgcautoquad.h \
     src/ui/qgcaqparamwidget.h \
-    src/aq_comm.h
+    src/aq_comm.h \
+    src/ui/linechart/aqlinechartwidget.h
 
 # Google Earth is only supported on Mac OS and Windows with Visual Studio Compiler
 macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::HEADERS += src/ui/map3D/QGCGoogleEarthView.h
@@ -513,7 +515,8 @@ SOURCES += src/main.cc \
     src/ui/firmwareupdate/QGCPX4FirmwareUpdate.cc \
     src/ui/qgcautoquad.cc \
     src/ui/qgcaqparamwidget.cc \
-    src/aq_comm.cpp
+    src/aq_comm.cpp \
+    src/ui/linechart/aqlinechartwidget.cpp
 
 # Enable Google Earth only on Mac OS and Windows with Visual Studio compiler
 macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::SOURCES += src/ui/map3D/QGCGoogleEarthView.cc

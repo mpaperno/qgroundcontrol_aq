@@ -600,6 +600,7 @@ public slots:
     void writeParametersToStorageAQ();
     void writeParametersToSDAQ();
     void writeWaypointsToSDAQ();
+    void startStopTelemetry(bool enable);
 
     /** @brief Read parameters from permanent storage */
     void readParametersFromStorage();

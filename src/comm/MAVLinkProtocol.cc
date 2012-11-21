@@ -428,9 +428,6 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b)
     }
 }
 
-uint8_t MAVLinkProtocol::Test_mavlink_parse_char(uint8_t chan, uint8_t c, mavlink_message_t* r_message, mavlink_status_t* r_mavlink_status)
-{
-}
 
 
 /**

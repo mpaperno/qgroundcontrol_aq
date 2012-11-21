@@ -37,8 +37,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
+
+
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
+
+    //plotFrameTele
 
     ui->lbl_version->setText("Version 1.0.5");
     //setup ListView curves
@@ -161,6 +165,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->checkBox_isPitchM14, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P14(bool)));
     connect(ui->checkBox_isRollM14, SIGNAL(clicked(bool)),this, SLOT(gmb_roll_P14(bool)));
 
+    connect(ui->pushButton_start_tel_grid, SIGNAL(clicked()),this, SLOT(teleValuesStart()));
+    connect(ui->pushButton_stop_tel_grid, SIGNAL(clicked()),this, SLOT(teleValuesStop()));
+
     ui->CMB_SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
 
     ui->CMB_SPVR_FS_RAD_ST2->addItem("slow decent", 0);
@@ -209,17 +216,19 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_in_mode->addItem("OW", 4);
 
     ui->DoubleMaxCurrent->setValue(30.0);
+
+
     setupPortList();
     loadSettings();
+
+    AqTeleChart = new AQLinechartWidget(0, this->ui->plotFrameTele);
 }
 
 QGCAutoquad::~QGCAutoquad()
 {
     if ( esc32)
         btnConnectEsc32();
-
     writeSettings();
-
     delete ui;
 }
 
@@ -731,7 +740,6 @@ void QGCAutoquad::btnSetRPM()
         ui->label_rpm->setText(QString::number(ui->horizontalSlider_rpm->value()));
         esc32->sendCommand(BINARY_COMMAND_RPM,rpm, 0.0f, 1, false);
     }
-
 }
 
 void QGCAutoquad::Esc32RpmSlider(int rpm) {
@@ -797,7 +805,6 @@ void QGCAutoquad::setupPortList()
 
 void QGCAutoquad::Esc32StartLogging() {
     esc32->StartLogging();
-
 }
 
 void QGCAutoquad::Esc32StartCalibration() {
@@ -1168,7 +1175,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
     if (uas_ext)
     {
-
         uas = uas_ext;
         disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
         disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
@@ -3995,4 +4001,85 @@ void QGCAutoquad::removeMarker() {
 
 void QGCAutoquad::CuttingItemChanged(int itemIndex) {
     removeMarker();
+}
+
+void QGCAutoquad::teleValuesStart(){
+    connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
+    connect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
+    uas->startStopTelemetry(true);
+}
+
+void QGCAutoquad::teleValuesStop() {
+    disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
+    disconnect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
+    uas->startStopTelemetry(false);
+}
+
+void QGCAutoquad::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values){
+
+    if ( values.Index == 0) {
+        ui->Tele_Value1->setText(QString::number(values.value1));
+        ui->Tele_Value2->setText(QString::number(values.value2));
+        ui->Tele_Value3->setText(QString::number(values.value3));
+        ui->Tele_Value4->setText(QString::number(values.value4));
+        ui->Tele_Value5->setText(QString::number(values.value5));
+        ui->Tele_Value6->setText(QString::number(values.value6));
+        ui->Tele_Value7->setText(QString::number(values.value7));
+        ui->Tele_Value8->setText(QString::number(values.value8));
+        ui->Tele_Value9->setText(QString::number(values.value9));
+        ui->Tele_Value10->setText(QString::number(values.value10));
+        ui->Tele_Value11->setText(QString::number(values.value11));
+        ui->Tele_Value12->setText(QString::number(values.value12));
+        ui->Tele_Value13->setText(QString::number(values.value13));
+        ui->Tele_Value14->setText(QString::number(values.value14));
+        ui->Tele_Value15->setText(QString::number(values.value15));
+        ui->Tele_Value16->setText(QString::number(values.value16));
+        ui->Tele_Value17->setText(QString::number(values.value17));
+        ui->Tele_Value18->setText(QString::number(values.value18));
+        ui->Tele_Value19->setText(QString::number(values.value19));
+        ui->Tele_Value20->setText(QString::number(values.value20));
+    }
+    else if ( values.Index == 1) {
+        ui->Tele_Value21->setText(QString::number(values.value1));
+        ui->Tele_Value22->setText(QString::number(values.value2));
+        ui->Tele_Value23->setText(QString::number(values.value3));
+        ui->Tele_Value24->setText(QString::number(values.value4));
+        ui->Tele_Value25->setText(QString::number(values.value5));
+        ui->Tele_Value26->setText(QString::number(values.value6));
+        ui->Tele_Value27->setText(QString::number(values.value7));
+        ui->Tele_Value28->setText(QString::number(values.value8));
+        ui->Tele_Value29->setText(QString::number(values.value9));
+        ui->Tele_Value30->setText(QString::number(values.value10));
+        ui->Tele_Value31->setText(QString::number(values.value11));
+        ui->Tele_Value32->setText(QString::number(values.value12));
+        ui->Tele_Value33->setText(QString::number(values.value13));
+        ui->Tele_Value34->setText(QString::number(values.value14));
+        ui->Tele_Value35->setText(QString::number(values.value15));
+        ui->Tele_Value36->setText(QString::number(values.value16));
+        ui->Tele_Value37->setText(QString::number(values.value17));
+        ui->Tele_Value38->setText(QString::number(values.value18));
+        ui->Tele_Value39->setText(QString::number(values.value19));
+        ui->Tele_Value40->setText(QString::number(values.value20));
+    }
+}
+
+void QGCAutoquad::getNewTelemetryI(int uasId, mavlink_aq_telemetry_i_t values){
+
+        ui->Tele_Value40->setText(QString::number(values.value1));
+        ui->Tele_Value41->setText(QString::number(values.value2));
+        ui->Tele_Value42->setText(QString::number(values.value3));
+        ui->Tele_Value43->setText(QString::number(values.value4));
+        ui->Tele_Value44->setText(QString::number(values.value5));
+        ui->Tele_Value45->setText(QString::number(values.value6));
+        /*
+        ui->Tele_Value46->setText(QString::number(values.value7));
+        ui->Tele_Value47->setText(QString::number(values.value8));
+        ui->Tele_Value48->setText(QString::number(values.value9));
+        ui->Tele_Value49->setText(QString::number(values.value10));
+        ui->Tele_Value50->setText(QString::number(values.value11));
+        ui->Tele_Value51->setText(QString::number(values.value12));
+        ui->Tele_Value52->setText(QString::number(values.value13));
+        ui->Tele_Value53->setText(QString::number(values.value14));
+        ui->Tele_Value54->setText(QString::number(values.value15));
+        */
 }
