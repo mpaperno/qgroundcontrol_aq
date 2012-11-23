@@ -36,6 +36,7 @@ public:
 
     static const int MIN_TIME_SCROLLBAR_VALUE = 0; ///< The minimum scrollbar value
     static const int MAX_TIME_SCROLLBAR_VALUE = 16383; ///< The maximum scrollbar value
+    bool CurveIsActive[100];
 
 public slots:
     void addCurve(const QString& curve, const QString& unit);
@@ -105,6 +106,7 @@ protected:
 
     int curveListIndex;
     int curveListCounter;                 ///< Counter of curves in curve list
+    QList<QString>* ListItems;         ///< Curves listed
     QList<QString>* listedCurves;         ///< Curves listed
     QMap<QString, QLabel*>* curveLabels;  ///< References to the curve labels
     QMap<QString, QLabel*> curveNameLabels;  ///< References to the curve labels

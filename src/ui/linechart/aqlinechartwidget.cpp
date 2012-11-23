@@ -59,14 +59,14 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     curvesWidgetLayout->setColumnStretch(0, 0);
     curvesWidgetLayout->setColumnStretch(1, 0);
     curvesWidgetLayout->setColumnStretch(2, 80);
-    curvesWidgetLayout->setColumnStretch(3, 50);
-    curvesWidgetLayout->setColumnStretch(4, 50);
-    curvesWidgetLayout->setColumnStretch(5, 50);
+    //curvesWidgetLayout->setColumnStretch(3, 50);
+    //curvesWidgetLayout->setColumnStretch(4, 50);
+    //curvesWidgetLayout->setColumnStretch(5, 50);
 //    horizontalLayout->setColumnStretch(median, 50);
-    curvesWidgetLayout->setColumnStretch(6, 50);
+    //curvesWidgetLayout->setColumnStretch(6, 50);
 
     curvesWidget->setLayout(curvesWidgetLayout);
-
+    ListItems = new QList<QString>;
     // Create curve list headings
     QLabel* label;
     /*
@@ -109,6 +109,9 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 
     // Create the layout
     createLayout();
+
+    for ( int i =0; i<100;i++)
+        CurveIsActive[i] = false;
 
     // Add the last actions
     //connect(this, SIGNAL(plotWindowPositionUpdated(int)), scrollbar, SLOT(setValue(int)));
@@ -291,7 +294,8 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
 
 void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, qint64 value, quint64 usec)
 {
-    if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
+    //if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
+    if ((selectedMAV == -1 ) || (selectedMAV == uasId ))
     {
         // Order matters here, first append to plot, then update curve list
         activePlot->appendData(curve+unit, usec, value);
@@ -326,7 +330,8 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
 
 void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, quint64 value, quint64 usec)
 {
-    if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
+    //if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
+    if ((selectedMAV == -1 ) || (selectedMAV == uasId ))
     {
         // Order matters here, first append to plot, then update curve list
         activePlot->appendData(curve+unit, usec, value);
@@ -336,7 +341,7 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         if(!label)
         {
             intData.insert(curve+unit, 0);
-            addCurve(curve, unit);
+            addCurve(curve+unit, unit);
         }
 
         // Add int data
@@ -394,8 +399,10 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
 void AQLinechartWidget::refresh()
 {
     setUpdatesEnabled(false);
+    /*
     QString str;
     // Value
+
     QMap<QString, QLabel*>::iterator i;
     for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
         if (intData.contains(i.key())) {
@@ -432,6 +439,8 @@ void AQLinechartWidget::refresh()
         }
         j.value()->setText(str);
     }
+
+
 //    QMap<QString, QLabel*>::iterator k;
 //    for (k = curveMedians->begin(); k != curveMedians->end(); ++k)
 //    {
@@ -445,6 +454,10 @@ void AQLinechartWidget::refresh()
         str.sprintf("% 8.3e", activePlot->getVariance(l.key()));
         l.value()->setText(str);
     }
+
+
+
+    */
     setUpdatesEnabled(true);
 }
 
@@ -571,6 +584,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
 
     curveNames.insert(curve+unit, curve);
+    ListItems->append(curve);
 
     int labelRow = curvesWidgetLayout->rowCount();
 
@@ -601,7 +615,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
     // Label
     curveNameLabels.insert(curve+unit, label);
-
+    curveLabels->insert(curve+unit, value);
     /*
     // Value
     value = new QLabel(this);
@@ -920,6 +934,12 @@ void AQLinechartWidget::takeButtonClick(bool checked)
     if(button != NULL)
     {
         activePlot->setVisible(button->objectName(), checked);
+
+
+        //CurveIsActive[]
+        qDebug() << button->objectName();
+        int index = ListItems->indexOf(button->objectName());
+        CurveIsActive[index] = checked;
 
         QColor color = activePlot->getColorForCurve(button->objectName());
         if(color.isValid())
