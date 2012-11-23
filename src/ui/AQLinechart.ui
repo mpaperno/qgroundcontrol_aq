@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>linechart</class>
+ <class>AQlinechart</class>
  <widget class="QWidget" name="AQlinechart">
   <property name="geometry">
    <rect>
@@ -28,11 +28,11 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="5,0,0">
-   <item row="0" column="0" rowspan="3">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0,4">
+   <item row="0" column="0">
     <widget class="QGroupBox" name="curveGroupBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
        <horstretch>1</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -53,22 +53,16 @@
       <string notr="true"/>
      </property>
      <property name="title">
-      <string>Curve Selection</string>
+      <string>Value Selection</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <property name="margin">
-       <number>0</number>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QScrollArea" name="curveListWidget">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -108,106 +102,51 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>368</width>
-           <height>488</height>
+           <width>136</width>
+           <height>465</height>
           </rect>
          </property>
         </widget>
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="spacing">
-         <number>2</number>
+       <widget class="QComboBox" name="uasSelectionBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <item>
-         <widget class="QComboBox" name="uasSelectionBox">
-          <item>
-           <property name="text">
-            <string>All MAVs</string>
-           </property>
-          </item>
-         </widget>
+         <property name="text">
+          <string>All MAVs</string>
+         </property>
         </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="shortNameCheckBox">
-              <property name="toolTip">
-               <string>Display only variable names in curve list</string>
-              </property>
-              <property name="text">
-               <string>Short Names</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="showUnitsCheckBox">
-              <property name="toolTip">
-               <string>Display variable units in curve list</string>
-              </property>
-              <property name="whatsThis">
-               <string>Display variable units in curve list</string>
-              </property>
-              <property name="text">
-               <string>Show units</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <widget class="QPushButton" name="recolorButton">
-              <property name="toolTip">
-               <string>Rotate color scheme for all curves</string>
-              </property>
-              <property name="text">
-               <string>Recolor</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Minimum</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>0</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="recolorButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Rotate color scheme for all curves</string>
+        </property>
+        <property name="text">
+         <string>Recolor</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="0" column="2" rowspan="3">
-    <widget class="QGroupBox" name="diagramGroupBox">
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="AQdiagramGroupBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -233,6 +172,9 @@
     </widget>
    </item>
   </layout>
+  <zorder>curveGroupBox</zorder>
+  <zorder>AQdiagramGroupBox</zorder>
+  <zorder>verticalSpacer</zorder>
  </widget>
  <resources/>
  <connections/>

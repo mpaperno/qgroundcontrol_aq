@@ -223,6 +223,7 @@ private:
         bool AlreadyShowMessage;
         void DisableEnableAllPitchGimbal(int selectedIndex, bool value);
         void DisableEnableAllRollGimbal(int selectedIndex, bool value);
+        int msec;
 protected:
         void showEvent(QShowEvent* event);
         void hideEvent(QHideEvent* event);

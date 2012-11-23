@@ -21,7 +21,7 @@
 
 #include "LinechartPlot.h"
 #include "UASInterface.h"
-#include "ui_Linechart.h"
+#include "ui_AQLinechart.h"
 
 #include "LogCompressor.h"
 
@@ -146,7 +146,7 @@ protected:
     static const int PAGESTEP_TIME_SCROLLBAR_VALUE = (MAX_TIME_SCROLLBAR_VALUE - MIN_TIME_SCROLLBAR_VALUE) / 10;
 
 private:
-    Ui::linechart ui;
+    Ui::AQlinechart ui;
     void createActions();
 
 signals:

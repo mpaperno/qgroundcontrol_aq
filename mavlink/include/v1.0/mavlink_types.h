@@ -67,6 +67,7 @@ typedef struct __mavlink_extended_message {
 } mavlink_extended_message_t;
 */
 
+
 typedef enum {
 	MAVLINK_TYPE_CHAR     = 0,
 	MAVLINK_TYPE_UINT8_T  = 1,

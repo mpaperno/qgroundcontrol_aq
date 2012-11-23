@@ -220,8 +220,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     setupPortList();
     loadSettings();
-
-    AqTeleChart = new AQLinechartWidget(0, this->ui->plotFrameTele);
 }
 
 QGCAutoquad::~QGCAutoquad()
@@ -1192,6 +1190,8 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
             //getGUIpara();
 
             VisibleWidget = 2;
+            AqTeleChart = new AQLinechartWidget(uas->getUASID(), this->ui->plotFrameTele);
+
         //}
 
         //connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
@@ -4004,73 +4004,129 @@ void QGCAutoquad::CuttingItemChanged(int itemIndex) {
 }
 
 void QGCAutoquad::teleValuesStart(){
+    if (!uas)
+        return;
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
     connect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
     uas->startStopTelemetry(true);
 }
 
 void QGCAutoquad::teleValuesStop() {
+    if (!uas)
+        return;
     disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
     disconnect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
     uas->startStopTelemetry(false);
 }
 
 void QGCAutoquad::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values){
-
+    msec = 0;
     if ( values.Index == 0) {
+        //QTime time = QTime::currentTime();
+
         ui->Tele_Value1->setText(QString::number(values.value1));
+        AqTeleChart->appendData(uasId,"AQ_ROLL","",values.value1,msec);
         ui->Tele_Value2->setText(QString::number(values.value2));
+        AqTeleChart->appendData(uasId,"AQ_PITCH","",values.value2,msec);
         ui->Tele_Value3->setText(QString::number(values.value3));
+        AqTeleChart->appendData(uasId,"AQ_YAW","",values.value3,msec);
         ui->Tele_Value4->setText(QString::number(values.value4));
+        AqTeleChart->appendData(uasId,"IMU_RATEX","",values.value4,msec);
         ui->Tele_Value5->setText(QString::number(values.value5));
+        AqTeleChart->appendData(uasId,"IMU_RATEY","",values.value5,msec);
         ui->Tele_Value6->setText(QString::number(values.value6));
+        AqTeleChart->appendData(uasId,"IMU_RATEZ","",values.value6,msec);
         ui->Tele_Value7->setText(QString::number(values.value7));
+        AqTeleChart->appendData(uasId,"IMU_ACCX","",values.value7,msec);
         ui->Tele_Value8->setText(QString::number(values.value8));
+        AqTeleChart->appendData(uasId,"IMU_ACCY","",values.value8,msec);
         ui->Tele_Value9->setText(QString::number(values.value9));
+        AqTeleChart->appendData(uasId,"IMU_ACCZ","",values.value9,msec);
         ui->Tele_Value10->setText(QString::number(values.value10));
+        AqTeleChart->appendData(uasId,"IMU_MAGX","",values.value10,msec);
         ui->Tele_Value11->setText(QString::number(values.value11));
+        AqTeleChart->appendData(uasId,"IMU_MAGY","",values.value11,msec);
         ui->Tele_Value12->setText(QString::number(values.value12));
+        AqTeleChart->appendData(uasId,"IMU_MAGZ","",values.value12,msec);
         ui->Tele_Value13->setText(QString::number(values.value13));
+        AqTeleChart->appendData(uasId,"navData.HoldHeading","",values.value13,msec);
         ui->Tele_Value14->setText(QString::number(values.value14));
+        AqTeleChart->appendData(uasId,"AQ_Pressure","",values.value14,msec);
         ui->Tele_Value15->setText(QString::number(values.value15));
+        AqTeleChart->appendData(uasId,"IMU_TEMP","",values.value15,msec);
         ui->Tele_Value16->setText(QString::number(values.value16));
+        AqTeleChart->appendData(uasId,"UKF_ALTITUDE","",values.value16,msec);
         ui->Tele_Value17->setText(QString::number(values.value17));
+        AqTeleChart->appendData(uasId,"adcData.vIn","",values.value17,msec);
         ui->Tele_Value18->setText(QString::number(values.value18));
+        AqTeleChart->appendData(uasId,"UKF_POSN","",values.value18,msec);
         ui->Tele_Value19->setText(QString::number(values.value19));
+        AqTeleChart->appendData(uasId,"UKF_POSE","",values.value19,msec);
         ui->Tele_Value20->setText(QString::number(values.value20));
+        AqTeleChart->appendData(uasId,"Res1","",values.value20,msec);
     }
     else if ( values.Index == 1) {
         ui->Tele_Value21->setText(QString::number(values.value1));
+        AqTeleChart->appendData(uasId,"gpsData.lat","",values.value1,msec);
         ui->Tele_Value22->setText(QString::number(values.value2));
+        AqTeleChart->appendData(uasId,"gpsData.lon","",values.value2,msec);
         ui->Tele_Value23->setText(QString::number(values.value3));
+        AqTeleChart->appendData(uasId,"gpsData.hAcc","",values.value3,msec);
         ui->Tele_Value24->setText(QString::number(values.value4));
+        AqTeleChart->appendData(uasId,"gpsData.heading","",values.value4,msec);
         ui->Tele_Value25->setText(QString::number(values.value5));
+        AqTeleChart->appendData(uasId,"gpsData.height","",values.value5,msec);
         ui->Tele_Value26->setText(QString::number(values.value6));
+        AqTeleChart->appendData(uasId,"gpsData.pDOP","",values.value6,msec);
         ui->Tele_Value27->setText(QString::number(values.value7));
+        AqTeleChart->appendData(uasId,"navData.holdCourse","",values.value7,msec);
         ui->Tele_Value28->setText(QString::number(values.value8));
+        AqTeleChart->appendData(uasId,"navData.holdDistance","",values.value8,msec);
         ui->Tele_Value29->setText(QString::number(values.value9));
+        AqTeleChart->appendData(uasId,"navData.holdAlt","",values.value9,msec);
         ui->Tele_Value30->setText(QString::number(values.value10));
+        AqTeleChart->appendData(uasId,"navData.holdTiltN","",values.value10,msec);
         ui->Tele_Value31->setText(QString::number(values.value11));
+        AqTeleChart->appendData(uasId,"navData.holdTiltE","",values.value11,msec);
         ui->Tele_Value32->setText(QString::number(values.value12));
+        AqTeleChart->appendData(uasId,"UKF_VELN","",values.value12,msec);
         ui->Tele_Value33->setText(QString::number(values.value13));
+        AqTeleChart->appendData(uasId,"UKF_VELE","",values.value13,msec);
         ui->Tele_Value34->setText(QString::number(values.value14));
+        AqTeleChart->appendData(uasId,"UKF_VELD","",values.value14,msec);
         ui->Tele_Value35->setText(QString::number(values.value15));
+        AqTeleChart->appendData(uasId,"RADIO_QUALITY","",values.value15,msec);
         ui->Tele_Value36->setText(QString::number(values.value16));
+        AqTeleChart->appendData(uasId,"UKF_ACC_BIASX","",values.value16,msec);
         ui->Tele_Value37->setText(QString::number(values.value17));
+        AqTeleChart->appendData(uasId,"UKF_ACC_BIASY","",values.value17,msec);
         ui->Tele_Value38->setText(QString::number(values.value18));
+        AqTeleChart->appendData(uasId,"UKF_ACC_BIASZ","",values.value18,msec);
         ui->Tele_Value39->setText(QString::number(values.value19));
+        AqTeleChart->appendData(uasId,"supervisor.flighttime","",values.value19,msec);
         ui->Tele_Value40->setText(QString::number(values.value20));
+        AqTeleChart->appendData(uasId,"Res2","",values.value20,msec);
     }
 }
 
 void QGCAutoquad::getNewTelemetryI(int uasId, mavlink_aq_telemetry_i_t values){
 
         ui->Tele_Value40->setText(QString::number(values.value1));
+        AqTeleChart->appendData(uasId,"RADIO_THROT","",values.value1,msec);
         ui->Tele_Value41->setText(QString::number(values.value2));
+        AqTeleChart->appendData(uasId,"RADIO_RUDD","",values.value2,msec);
         ui->Tele_Value42->setText(QString::number(values.value3));
+        AqTeleChart->appendData(uasId,"RADIO_PITCH","",values.value3,msec);
         ui->Tele_Value43->setText(QString::number(values.value4));
+        AqTeleChart->appendData(uasId,"RADIO_ROLL","",values.value4,msec);
         ui->Tele_Value44->setText(QString::number(values.value5));
+        AqTeleChart->appendData(uasId,"RADIO_FLAPS","",values.value5,msec);
         ui->Tele_Value45->setText(QString::number(values.value6));
+        AqTeleChart->appendData(uasId,"RADIO_AUX2","",values.value6,msec);
+        ui->Tele_Value45->setText(QString::number(values.value7));
+        AqTeleChart->appendData(uasId,"RADIO_AUX3","",values.value7,msec);
+        ui->Tele_Value45->setText(QString::number(values.value8));
+        AqTeleChart->appendData(uasId,"RADIO_AUX4","",values.value8,msec);
         /*
         ui->Tele_Value46->setText(QString::number(values.value7));
         ui->Tele_Value47->setText(QString::number(values.value8));

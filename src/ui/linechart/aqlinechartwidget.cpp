@@ -69,12 +69,13 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
 
     // Create curve list headings
     QLabel* label;
+    /*
     QLabel* value;
     QLabel* mean;
     QLabel* variance;
+    */
 
     connect(ui.recolorButton, SIGNAL(clicked()), this, SLOT(recolor()));
-    connect(ui.shortNameCheckBox, SIGNAL(clicked(bool)), this, SLOT(setShortNames(bool)));
 
     int labelRow = curvesWidgetLayout->rowCount();
 
@@ -86,6 +87,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     label->setText("Name");
     curvesWidgetLayout->addWidget(label, labelRow, 2);
 
+    /*
     // Value
     value = new QLabel(this);
     value->setText("Val");
@@ -103,6 +105,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     variance = new QLabel(this);
     variance->setText("Variance");
     curvesWidgetLayout->addWidget(variance, labelRow, 6);
+    */
 
     // Create the layout
     createLayout();
@@ -115,6 +118,7 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
     readSettings();
+
 }
 
 AQLinechartWidget::~AQLinechartWidget()
@@ -148,28 +152,10 @@ void AQLinechartWidget::selectAllCurves(bool all)
 
 void AQLinechartWidget::writeSettings()
 {
-    QSettings settings;
-    settings.beginGroup("AQLINECHART");
-    if (timeButton) settings.setValue("ENFORCE_GROUNDTIME", timeButton->isChecked());
-    if (ui.showUnitsCheckBox) settings.setValue("SHOW_UNITS", ui.showUnitsCheckBox->isChecked());
-    if (ui.shortNameCheckBox) settings.setValue("SHORT_NAMES", ui.shortNameCheckBox->isChecked());
-    settings.endGroup();
-    settings.sync();
 }
 
 void AQLinechartWidget::readSettings()
 {
-    QSettings settings;
-    settings.sync();
-    settings.beginGroup("AQLINECHART");
-    if (activePlot) {
-        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-        activePlot->enforceGroundTime(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-    }
-    if (ui.showUnitsCheckBox) ui.showUnitsCheckBox->setChecked(settings.value("SHOW_UNITS", ui.showUnitsCheckBox->isChecked()).toBool());
-    if (ui.shortNameCheckBox) ui.shortNameCheckBox->setChecked(settings.value("SHORT_NAMES", ui.shortNameCheckBox->isChecked()).toBool());
-    settings.endGroup();
 }
 
 void AQLinechartWidget::createLayout()
@@ -178,7 +164,7 @@ void AQLinechartWidget::createLayout()
     createActions();
 
     // Setup the plot group box area layout
-    QGridLayout* layout = new QGridLayout(ui.diagramGroupBox);
+    QGridLayout* layout = new QGridLayout(ui.AQdiagramGroupBox);
     mainLayout = layout;
     layout->setSpacing(4);
     layout->setMargin(2);
@@ -237,6 +223,7 @@ void AQLinechartWidget::createLayout()
     connect(logButton, SIGNAL(clicked()), this, SLOT(startLogging()));
 
     // Ground time button
+    /*
     timeButton = new QCheckBox(this);
     timeButton->setText(tr("Ground Time"));
     timeButton->setToolTip(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
@@ -245,12 +232,12 @@ void AQLinechartWidget::createLayout()
     layout->setColumnStretch(4, 0);
     connect(timeButton, SIGNAL(clicked(bool)), activePlot, SLOT(enforceGroundTime(bool)));
     connect(timeButton, SIGNAL(clicked()), this, SLOT(writeSettings()));
-
+    */
+    activePlot->enforceGroundTime(true);
     // Initialize the "Show units" checkbox. This is configured in the .ui file, so all
     // we do here is attach the clicked() signal.
-    connect(ui.showUnitsCheckBox, SIGNAL(clicked()), this, SLOT(writeSettings()));
 
-    ui.diagramGroupBox->setLayout(layout);
+    ui.AQdiagramGroupBox->setLayout(layout);
 
     // Add actions
     averageSpinBox->setValue(activePlot->getAverageWindow());
@@ -461,7 +448,6 @@ void AQLinechartWidget::refresh()
     setUpdatesEnabled(true);
 }
 
-
 void AQLinechartWidget::startLogging()
 {
     // Store reference to file
@@ -579,13 +565,10 @@ void AQLinechartWidget::createActions()
 void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 {
     LinechartPlot* plot = activePlot;
-//    QHBoxLayout *horizontalLayout;
     QCheckBox *checkBox;
     QLabel* label;
     QLabel* value;
-    QLabel* unitLabel;
-    QLabel* mean;
-    QLabel* variance;
+
 
     curveNames.insert(curve+unit, curve);
 
@@ -607,10 +590,9 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
 
     label = new QLabel(this);
+    label->setText(curve);
     curvesWidgetLayout->addWidget(label, labelRow, 2);
 
-    //checkBox->setText(QString());
-    label->setText(getCurveName(curve+unit, ui.shortNameCheckBox->isChecked()));
     QColor color(Qt::gray);// = plot->getColorForCurve(curve+unit);
     QString colorstyle;
     colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
@@ -620,6 +602,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     // Label
     curveNameLabels.insert(curve+unit, label);
 
+    /*
     // Value
     value = new QLabel(this);
     value->setNum(0.00);
@@ -628,7 +611,8 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     value->setWhatsThis(tr("Current value of %1 in %2 units").arg(curve, unit));
     curveLabels->insert(curve+unit, value);
     curvesWidgetLayout->addWidget(value, labelRow, 3);
-
+    */
+    /*
     // Unit
     unitLabel = new QLabel(this);
     unitLabel->setText(unit);
@@ -637,8 +621,6 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     unitLabel->setToolTip(tr("Unit of ") + curve);
     unitLabel->setWhatsThis(tr("Unit of ") + curve);
     curvesWidgetLayout->addWidget(unitLabel, labelRow, 4);
-    unitLabel->setVisible(ui.showUnitsCheckBox->isChecked());
-    connect(ui.showUnitsCheckBox, SIGNAL(clicked(bool)), unitLabel, SLOT(setVisible(bool)));
 
     // Mean
     mean = new QLabel(this);
@@ -663,6 +645,7 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     variance->setWhatsThis(tr("Variance of %1 in (%2)^2 units").arg(curve, unit));
     curveVariances->insert(curve+unit, variance);
     curvesWidgetLayout->addWidget(variance, labelRow, 6);
+    */
 
     /* Color picker
     QColor color = QColorDialog::getColor(Qt::green, this);
