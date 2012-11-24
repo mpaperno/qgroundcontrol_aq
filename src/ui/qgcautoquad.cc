@@ -1235,7 +1235,14 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
             //getGUIpara();
 
             VisibleWidget = 2;
-            AqTeleChart = new AQLinechartWidget(uas->getUASID(), this->ui->plotFrameTele);
+            if ( !AqTeleChart ) {
+                AqTeleChart = new AQLinechartWidget(uas->getUASID(), this->ui->plotFrameTele);
+                linLayoutPlot = new QGridLayout( this->ui->plotFrameTele);
+                linLayoutPlot->addWidget(AqTeleChart,0,Qt::AlignCenter);
+
+                //this->ui->plotFrameTele->setLayout(linLayoutPlot);
+            }
+            //plotFrameTele
 
         //}
 
@@ -4097,7 +4104,14 @@ void QGCAutoquad::teleValuesStart(){
     AqTeleChart->appendData(uasId,"supervisor.flighttime","",0,0);
     AqTeleChart->appendData(uasId,"Res2","",0,0);
 
-
+    AqTeleChart->appendData(uasId,"RADIO_THROT","",0,0);
+    AqTeleChart->appendData(uasId,"RADIO_RUDD","",0,0);
+    AqTeleChart->appendData(uasId,"RADIO_PITCH","",0,0);
+    AqTeleChart->appendData(uasId,"RADIO_ROLL","",0,0);
+    AqTeleChart->appendData(uasId,"RADIO_FLAPS","",0,0);
+    AqTeleChart->appendData(uasId,"RADIO_AUX2","",0,0);
+    AqTeleChart->appendData(uasId,"RADIO_AUX3","",0,0);
+    AqTeleChart->appendData(uasId,"RADIO_AUX4","",0,0);
 
     uas->startStopTelemetry(true);
 }
