@@ -4334,8 +4334,8 @@
       <attribute name="title">
        <string>Esc32 Settings</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_53">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_12">
+       <item row="0" column="0" rowspan="2">
         <widget class="QGroupBox" name="groupBox_connect_esc32">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -4535,540 +4535,668 @@
          </layout>
         </widget>
        </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_134">
-         <item>
-          <layout class="QGridLayout" name="gridLayout_12">
-           <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_esc_setting_2">
-             <property name="title">
-              <string>Esc32</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_48">
+       <item row="0" column="1">
+        <widget class="QGroupBox" name="groupBox_esc_setting_1">
+         <property name="title">
+          <string>Esc32</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_134">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_176">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_135">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_136">
-                  <item>
-                   <widget class="QLabel" name="label_115">
-                    <property name="frameShape">
-                     <enum>QFrame::NoFrame</enum>
-                    </property>
-                    <property name="text">
-                     <string>Bad detecteds Disarm</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="BAD_DETECTS_DISARM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_137">
-                  <item>
-                   <widget class="QLabel" name="label_116">
-                    <property name="text">
-                     <string>Max current</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MAX_CURRENT"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_138">
-                  <item>
-                   <widget class="QLabel" name="label_117">
-                    <property name="text">
-                     <string>Switch frequenz</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="SWITCH_FREQ"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_139">
-                  <item>
-                   <widget class="QLabel" name="label_118">
-                    <property name="text">
-                     <string>Motor poles</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MOTOR_POLES"/>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLabel" name="label_147">
+                <property name="text">
+                 <string>Esc32 P</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_140">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_141">
-                  <item>
-                   <widget class="QLabel" name="label_119">
-                    <property name="text">
-                     <string>Esc32 Mode</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="comboBox_mode"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_142">
-                  <item>
-                   <widget class="QLabel" name="label_120">
-                    <property name="text">
-                     <string>Esc32 Input Mode</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QComboBox" name="comboBox_in_mode"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_143">
-                  <item>
-                   <widget class="QLabel" name="label_121">
-                    <property name="text">
-                     <string>Res.</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CTRL_YAW_RTE_DM_2">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_144">
-                  <item>
-                   <widget class="QLabel" name="label_122">
-                    <property name="text">
-                     <string>PWM min Start</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_MIN_START">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLineEdit" name="PTERM"/>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QGroupBox" name="groupBox_esc_setting_3">
-             <property name="title">
-              <string>Esc32</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_49">
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_177">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_145">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_146">
-                  <item>
-                   <widget class="QLabel" name="label_123">
-                    <property name="text">
-                     <string>Current limiter 5</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CL5TERM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_147">
-                  <item>
-                   <widget class="QLabel" name="label_124">
-                    <property name="text">
-                     <string>Shunt resistant</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="SHUNT_RESISTANCE"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_148">
-                  <item>
-                   <widget class="QLabel" name="label_125">
-                    <property name="text">
-                     <string>min period</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MIN_PERIOD"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_149">
-                  <item>
-                   <widget class="QLabel" name="label_126">
-                    <property name="text">
-                     <string>max period</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="MAX_PERIOD"/>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLabel" name="label_148">
+                <property name="text">
+                 <string>Esc32 I</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_150">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_151">
-                  <item>
-                   <widget class="QLabel" name="label_127">
-                    <property name="text">
-                     <string>Blanking Microsec.</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="BLANKING_MICROS"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_152">
-                  <item>
-                   <widget class="QLabel" name="label_128">
-                    <property name="text">
-                     <string>Advance</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="ADVANCE"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_153">
-                  <item>
-                   <widget class="QLabel" name="label_129">
-                    <property name="text">
-                     <string>Start Voltage</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="START_VOLTAGE"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_164">
-                  <item>
-                   <widget class="QLabel" name="label_130">
-                    <property name="text">
-                     <string>Good detecteds Start</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="GOOD_DETECTS_START"/>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLineEdit" name="ITERM"/>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QGroupBox" name="groupBox_esc_setting_4">
-             <property name="title">
-              <string>Esc32</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_51">
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_178">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_165">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_166">
-                  <item>
-                   <widget class="QLabel" name="label_139">
-                    <property name="text">
-                     <string>PWM min Period</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_MIN_PERIOD"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_167">
-                  <item>
-                   <widget class="QLabel" name="label_140">
-                    <property name="text">
-                     <string>PWM max Period</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_MAX_PERIOD"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_168">
-                  <item>
-                   <widget class="QLabel" name="label_141">
-                    <property name="text">
-                     <string>PWM LO Value</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_LO_VALUE"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_169">
-                  <item>
-                   <widget class="QLabel" name="label_142">
-                    <property name="text">
-                     <string>PWM HI Value</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_HI_VALUE"/>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLabel" name="label_149">
+                <property name="text">
+                 <string>FF1 Term</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_170">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_171">
-                  <item>
-                   <widget class="QLabel" name="label_143">
-                    <property name="text">
-                     <string>PWM min Value</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_MIN_VALUE"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_172">
-                  <item>
-                   <widget class="QLabel" name="label_144">
-                    <property name="text">
-                     <string>PWM max Value</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_MAX_VALUE"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_173">
-                  <item>
-                   <widget class="QLabel" name="label_145">
-                    <property name="text">
-                     <string>PWM RPM Scale</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PWM_RPM_SCALE"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_174">
-                  <item>
-                   <widget class="QLabel" name="label_146">
-                    <property name="text">
-                     <string>FET Breaking</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="FET_BRAKING"/>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLineEdit" name="FF1TERM"/>
               </item>
              </layout>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QGroupBox" name="groupBox_esc_setting_1">
-             <property name="title">
-              <string>Esc32 PID</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_52">
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_179">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_175">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_176">
-                  <item>
-                   <widget class="QLabel" name="label_147">
-                    <property name="text">
-                     <string>Esc32 P</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="PTERM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_177">
-                  <item>
-                   <widget class="QLabel" name="label_148">
-                    <property name="text">
-                     <string>Esc32 I</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="ITERM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_178">
-                  <item>
-                   <widget class="QLabel" name="label_149">
-                    <property name="text">
-                     <string>FF1 Term</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="FF1TERM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_179">
-                  <item>
-                   <widget class="QLabel" name="label_150">
-                    <property name="text">
-                     <string>FF2 Term</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="FF2TERM"/>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLabel" name="label_150">
+                <property name="text">
+                 <string>FF2 Term</string>
+                </property>
+               </widget>
               </item>
               <item>
-               <layout class="QVBoxLayout" name="verticalLayout_180">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_181">
-                  <item>
-                   <widget class="QLabel" name="label_151">
-                    <property name="text">
-                     <string>Current limiter 1</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CL1TERM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_182">
-                  <item>
-                   <widget class="QLabel" name="label_152">
-                    <property name="text">
-                     <string>Current limiter 2</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CL2TERM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_183">
-                  <item>
-                   <widget class="QLabel" name="label_153">
-                    <property name="text">
-                     <string>Current limiter 3</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CL3TERM"/>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_184">
-                  <item>
-                   <widget class="QLabel" name="label_154">
-                    <property name="text">
-                     <string>Current limiter 4</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="CL4TERM"/>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
+               <widget class="QLineEdit" name="FF2TERM"/>
               </item>
              </layout>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_204">
+              <item>
+               <widget class="QLabel" name="label_165">
+                <property name="text">
+                 <string>THR 1 Term</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="THR1TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_207">
+              <item>
+               <widget class="QLabel" name="label_215">
+                <property name="text">
+                 <string>PWM Low Pass</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_LOWPASS"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_135">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_180">
+              <item>
+               <widget class="QLabel" name="label_157">
+                <property name="text">
+                 <string>PNFAC</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PNFAC"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_203">
+              <item>
+               <widget class="QLabel" name="label_161">
+                <property name="text">
+                 <string>INFAC</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="INFAC"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_181">
+              <item>
+               <widget class="QLabel" name="label_151">
+                <property name="text">
+                 <string>Current limiter 1</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="CL1TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_182">
+              <item>
+               <widget class="QLabel" name="label_152">
+                <property name="text">
+                 <string>Current limiter 2</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="CL2TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_205">
+              <item>
+               <widget class="QLabel" name="label_169">
+                <property name="text">
+                 <string>THR 2 Term</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="THR2TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_208">
+              <item>
+               <widget class="QLabel" name="label_219">
+                <property name="text">
+                 <string>RPM Meas Lp</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="RPM_MEAS_LP"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QGroupBox" name="groupBox_esc_setting_2">
+         <property name="title">
+          <string>Esc32</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_16">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_209">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_136">
+              <item>
+               <widget class="QLabel" name="label_115">
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                 <string>Bad detecteds Disarm</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="BAD_DETECTS_DISARM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_137">
+              <item>
+               <widget class="QLabel" name="label_116">
+                <property name="text">
+                 <string>Max current</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="MAX_CURRENT"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_138">
+              <item>
+               <widget class="QLabel" name="label_117">
+                <property name="text">
+                 <string>Switch frequenz</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="SWITCH_FREQ"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_139">
+              <item>
+               <widget class="QLabel" name="label_118">
+                <property name="text">
+                 <string>Motor poles</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="MOTOR_POLES"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_150">
+              <item>
+               <widget class="QLabel" name="label_133">
+                <property name="text">
+                 <string>Start Align Time</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="START_ALIGN_TIME"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_143">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_141">
+              <item>
+               <widget class="QLabel" name="label_119">
+                <property name="text">
+                 <string>Esc32 Mode</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboBox_mode"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_142">
+              <item>
+               <widget class="QLabel" name="label_120">
+                <property name="text">
+                 <string>Esc32 Input Mode</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboBox_in_mode"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_206">
+              <item>
+               <widget class="QLabel" name="label_211">
+                <property name="text">
+                 <string>Start Step Accel</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="START_STEPS_ACCEL"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_144">
+              <item>
+               <widget class="QLabel" name="label_122">
+                <property name="text">
+                 <string>PWM min Start</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_MIN_START">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_165">
+              <item>
+               <widget class="QLabel" name="label_137">
+                <property name="text">
+                 <string>Start Align Voltage</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="START_ALIGN_VOLTAGE"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QGroupBox" name="groupBox_esc_setting_3">
+         <property name="title">
+          <string>Esc32</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_19">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_140">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_183">
+              <item>
+               <widget class="QLabel" name="label_153">
+                <property name="text">
+                 <string>Current limiter 3</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="CL3TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_184">
+              <item>
+               <widget class="QLabel" name="label_154">
+                <property name="text">
+                 <string>Current limiter 4</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="CL4TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_146">
+              <item>
+               <widget class="QLabel" name="label_123">
+                <property name="text">
+                 <string>Current limiter 5</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="CL5TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_147">
+              <item>
+               <widget class="QLabel" name="label_124">
+                <property name="text">
+                 <string>Shunt resistant</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="SHUNT_RESISTANCE"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_148">
+              <item>
+               <widget class="QLabel" name="label_125">
+                <property name="text">
+                 <string>min period</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="MIN_PERIOD"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_145">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_149">
+              <item>
+               <widget class="QLabel" name="label_126">
+                <property name="text">
+                 <string>max period</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="MAX_PERIOD"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_151">
+              <item>
+               <widget class="QLabel" name="label_127">
+                <property name="text">
+                 <string>Blanking Microsec.</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="BLANKING_MICROS"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_152">
+              <item>
+               <widget class="QLabel" name="label_128">
+                <property name="text">
+                 <string>Advance</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="ADVANCE"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_153">
+              <item>
+               <widget class="QLabel" name="label_129">
+                <property name="text">
+                 <string>Start Voltage</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="START_VOLTAGE"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_164">
+              <item>
+               <widget class="QLabel" name="label_130">
+                <property name="text">
+                 <string>Good detecteds Start</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="GOOD_DETECTS_START"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QGroupBox" name="groupBox_esc_setting_4">
+         <property name="title">
+          <string>Esc32</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_20">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_210">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_170">
+              <item>
+               <widget class="QLabel" name="label_173">
+                <property name="text">
+                 <string>Start Steps Num</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="START_STEPS_NUM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_166">
+              <item>
+               <widget class="QLabel" name="label_139">
+                <property name="text">
+                 <string>PWM min Period</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_MIN_PERIOD"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_167">
+              <item>
+               <widget class="QLabel" name="label_140">
+                <property name="text">
+                 <string>PWM max Period</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_MAX_PERIOD"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_168">
+              <item>
+               <widget class="QLabel" name="label_141">
+                <property name="text">
+                 <string>PWM LO Value</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_LO_VALUE"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_169">
+              <item>
+               <widget class="QLabel" name="label_142">
+                <property name="text">
+                 <string>PWM HI Value</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_HI_VALUE"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_211">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_175">
+              <item>
+               <widget class="QLabel" name="label_178">
+                <property name="text">
+                 <string>Start Steps Period</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="START_STEPS_PERIOD"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_171">
+              <item>
+               <widget class="QLabel" name="label_143">
+                <property name="text">
+                 <string>PWM min Value</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_MIN_VALUE"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_172">
+              <item>
+               <widget class="QLabel" name="label_144">
+                <property name="text">
+                 <string>PWM max Value</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_MAX_VALUE"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_173">
+              <item>
+               <widget class="QLabel" name="label_145">
+                <property name="text">
+                 <string>PWM RPM Scale</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_RPM_SCALE"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_174">
+              <item>
+               <widget class="QLabel" name="label_146">
+                <property name="text">
+                 <string>FET Breaking</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="FET_BRAKING"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -5640,7 +5768,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
   <tabstop>SelectFirmwareButton</tabstop>
   <tabstop>portName</tabstop>
   <tabstop>flashButton</tabstop>
@@ -5839,7 +5966,6 @@
   <tabstop>MAX_CURRENT</tabstop>
   <tabstop>comboBox_in_mode</tabstop>
   <tabstop>SWITCH_FREQ</tabstop>
-  <tabstop>CTRL_YAW_RTE_DM_2</tabstop>
   <tabstop>MOTOR_POLES</tabstop>
   <tabstop>PWM_MIN_START</tabstop>
   <tabstop>PWM_MIN_PERIOD</tabstop>

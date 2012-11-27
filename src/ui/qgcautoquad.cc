@@ -670,13 +670,14 @@ void QGCAutoquad::btnSaveToEsc32() {
     bool oneWritten = false;
     bool something_gos_wrong = false;
     int rettryToStore = 0;
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget );
     for ( int i = 0; i<edtList.count(); i++) {
         QString ParaName = edtList.at(i)->objectName();
+        QString valueText = edtList.at(i)->text();
         if ( paramEsc32.contains(ParaName) )
         {
             QString valueEsc32 = paramEsc32.value(ParaName);
-            QString valueText = edtList.at(i)->text();
+            //QString valueText = edtList.at(i)->text();
             if ( valueEsc32 != valueText) {
                 WaitForParaWriten = 1;
                 ParaNameWritten = ParaName;
