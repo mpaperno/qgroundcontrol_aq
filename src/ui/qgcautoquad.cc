@@ -16,6 +16,8 @@
 #include <QStandardItemModel>
 #include <QSignalMapper>
 #include <QSvgGenerator>
+#include "GAudioOutput.h"
+
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
@@ -265,6 +267,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     AqTeleChart->appendData(uasId,"supervisor.flighttime","",0,0);
     AqTeleChart->appendData(uasId,"Res2","",0,0);
     */
+
 }
 
 QGCAutoquad::~QGCAutoquad()
@@ -1217,6 +1220,8 @@ void QGCAutoquad::addUAS(UASInterface* uas_ext)
 
 void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
+    GAudioOutput::instance()->say("Welcome to autoquad");
+
     if (uas_ext)
     {
         uas = uas_ext;

@@ -950,6 +950,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             //qDebug() << "RECEIVED STATUS:" << text;false
             //emit statusTextReceived(severity, text);
 
+            GAudioOutput::instance()->say(text, severity);
             if (text.startsWith("#audio:"))
             {
                 text.remove("#audio:");
