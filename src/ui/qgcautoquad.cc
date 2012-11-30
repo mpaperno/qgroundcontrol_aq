@@ -44,11 +44,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
 
-    //plotFrameTele
-
     ui->lbl_version->setText("Version 1.0.6");
-    //setup ListView curves
-    //SetupListView();
 
 	//GUI slots
 	connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -219,55 +215,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->DoubleMaxCurrent->setValue(30.0);
 
-
     setupPortList();
     loadSettings();
 
-    /*
-    AqTeleChart = new AQLinechartWidget(0, this->ui->plotFrameTele);
-    int uasId = 0;
-    AqTeleChart->appendData(uasId,"AQ_ROLL","",0,0);
-    AqTeleChart->appendData(uasId,"AQ_PITCH","",0,0);
-    AqTeleChart->appendData(uasId,"AQ_YAW","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_RATEX","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_RATEY","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_RATEZ","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_ACCX","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_ACCY","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_ACCZ","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_MAGX","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_MAGY","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_MAGZ","",0,0);
-    AqTeleChart->appendData(uasId,"navData.HoldHeading","",0,0);
-    AqTeleChart->appendData(uasId,"AQ_Pressure","",0,0);
-    AqTeleChart->appendData(uasId,"IMU_TEMP","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_ALTITUDE","",0,0);
-    AqTeleChart->appendData(uasId,"adcData.vIn","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_POSN","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_POSE","",0,0);
-    AqTeleChart->appendData(uasId,"Res1","",0,0);
-    AqTeleChart->appendData(uasId,"gpsData.lat","",0,0);
-    AqTeleChart->appendData(uasId,"gpsData.lon","",0,0);
-    AqTeleChart->appendData(uasId,"gpsData.hAcc","",0,0);
-    AqTeleChart->appendData(uasId,"gpsData.heading","",0,0);
-    AqTeleChart->appendData(uasId,"gpsData.height","",0,0);
-    AqTeleChart->appendData(uasId,"gpsData.pDOP","",0,0);
-    AqTeleChart->appendData(uasId,"navData.holdCourse","",0,0);
-    AqTeleChart->appendData(uasId,"navData.holdDistance","",0,0);
-    AqTeleChart->appendData(uasId,"navData.holdAlt","",0,0);
-    AqTeleChart->appendData(uasId,"navData.holdTiltN","",0,0);
-    AqTeleChart->appendData(uasId,"navData.holdTiltE","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_VELN","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_VELE","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_VELD","",0,0);
-    AqTeleChart->appendData(uasId,"RADIO_QUALITY","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_ACC_BIASX","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_ACC_BIASY","",0,0);
-    AqTeleChart->appendData(uasId,"UKF_ACC_BIASZ","",0,0);
-    AqTeleChart->appendData(uasId,"supervisor.flighttime","",0,0);
-    AqTeleChart->appendData(uasId,"Res2","",0,0);
-    */
-
+    ui->Frequenz_Telemetry->addItem("1 Hz", 1000000);
+    ui->Frequenz_Telemetry->addItem("10 Hz", 100000);
+    ui->Frequenz_Telemetry->addItem("25 Hz", 50000);
+    ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
+    ui->Frequenz_Telemetry->setCurrentIndex(2);
 }
 
 QGCAutoquad::~QGCAutoquad()
@@ -4119,7 +4074,17 @@ void QGCAutoquad::teleValuesStart(){
     AqTeleChart->appendData(uasId,"RADIO_AUX3","",0,0);
     AqTeleChart->appendData(uasId,"RADIO_AUX4","",0,0);
 
-    uas->startStopTelemetry(true);
+    float freq = 40000;
+    if ( ui->Frequenz_Telemetry->currentIndex() == 0)
+        freq = 1000000;
+    if ( ui->Frequenz_Telemetry->currentIndex() == 1)
+        freq = 100000;
+    if ( ui->Frequenz_Telemetry->currentIndex() == 2)
+        freq = 40000;
+    if ( ui->Frequenz_Telemetry->currentIndex() == 3)
+        freq = 20000;
+
+    uas->startStopTelemetry(true,freq);
 }
 
 void QGCAutoquad::teleValuesStop() {
@@ -4127,7 +4092,7 @@ void QGCAutoquad::teleValuesStop() {
         return;
     disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
     disconnect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
-    uas->startStopTelemetry(false);
+    uas->startStopTelemetry(false,0.0f);
 }
 
 void QGCAutoquad::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values){

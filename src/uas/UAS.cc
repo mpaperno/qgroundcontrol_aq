@@ -1824,13 +1824,13 @@ void UAS::writeWaypointsToSDAQ()
 }
 
 
-void UAS::startStopTelemetry(bool enable){
+void UAS::startStopTelemetry(bool enable, float frequenz){
     mavlink_message_t msg;
     if ( enable) {
-        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 1, 0, 0, 0, 0, 0, 0);
+        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 1, frequenz, 0, 0, 0, 0, 0);
     }
     else {
-        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0);
+        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 0, frequenz, 0, 0, 0, 0, 0);
     }
     qDebug() << "SENT COMMAND" << 2;
     sendMessage(msg);

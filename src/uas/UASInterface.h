@@ -277,7 +277,7 @@ public slots:
     virtual void writeParametersToStorageAQ() = 0;
     virtual void writeParametersToSDAQ() = 0;
     virtual void writeWaypointsToSDAQ() = 0;
-    virtual void startStopTelemetry(bool enable) =0;
+    virtual void startStopTelemetry(bool enable, float frequenz) =0;
     /** @brief Read parameter from permanent storage */
     virtual void readParametersFromStorage() = 0;
     virtual void readParametersFromStorageAQ() = 0;
