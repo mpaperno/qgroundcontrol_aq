@@ -3659,6 +3659,253 @@ static void mavlink_test_aq_telemetry_i(uint8_t system_id, uint8_t component_id,
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
 
+static void mavlink_test_groupcreate(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+	mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+	mavlink_groupcreate_t packet_in = {
+		5,
+	72,
+	139,
+	206,
+	{ 17, 18, 19, 20, 21 },
+	};
+	mavlink_groupcreate_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        	packet1.componentID = packet_in.componentID;
+        	packet1.groupID = packet_in.groupID;
+        	packet1.nUAV = packet_in.nUAV;
+        	packet1.leaderID = packet_in.leaderID;
+        
+        	mav_array_memcpy(packet1.uavID, packet_in.uavID, sizeof(uint8_t)*5);
+        
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupcreate_encode(system_id, component_id, &msg, &packet1);
+	mavlink_msg_groupcreate_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupcreate_pack(system_id, component_id, &msg , packet1.componentID , packet1.groupID , packet1.nUAV , packet1.leaderID , packet1.uavID );
+	mavlink_msg_groupcreate_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupcreate_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.componentID , packet1.groupID , packet1.nUAV , packet1.leaderID , packet1.uavID );
+	mavlink_msg_groupcreate_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+	mavlink_msg_groupcreate_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupcreate_send(MAVLINK_COMM_1 , packet1.componentID , packet1.groupID , packet1.nUAV , packet1.leaderID , packet1.uavID );
+	mavlink_msg_groupcreate_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
+static void mavlink_test_groupdestroy(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+	mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+	mavlink_groupdestroy_t packet_in = {
+		5,
+	72,
+	139,
+	};
+	mavlink_groupdestroy_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        	packet1.componentID = packet_in.componentID;
+        	packet1.groupID = packet_in.groupID;
+        	packet1.leaderID = packet_in.leaderID;
+        
+        
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupdestroy_encode(system_id, component_id, &msg, &packet1);
+	mavlink_msg_groupdestroy_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupdestroy_pack(system_id, component_id, &msg , packet1.componentID , packet1.groupID , packet1.leaderID );
+	mavlink_msg_groupdestroy_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupdestroy_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.componentID , packet1.groupID , packet1.leaderID );
+	mavlink_msg_groupdestroy_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+	mavlink_msg_groupdestroy_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupdestroy_send(MAVLINK_COMM_1 , packet1.componentID , packet1.groupID , packet1.leaderID );
+	mavlink_msg_groupdestroy_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
+static void mavlink_test_groupleave(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+	mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+	mavlink_groupleave_t packet_in = {
+		5,
+	72,
+	139,
+	206,
+	};
+	mavlink_groupleave_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        	packet1.componentID = packet_in.componentID;
+        	packet1.groupID = packet_in.groupID;
+        	packet1.leaderID = packet_in.leaderID;
+        	packet1.uavID = packet_in.uavID;
+        
+        
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupleave_encode(system_id, component_id, &msg, &packet1);
+	mavlink_msg_groupleave_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupleave_pack(system_id, component_id, &msg , packet1.componentID , packet1.groupID , packet1.leaderID , packet1.uavID );
+	mavlink_msg_groupleave_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupleave_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.componentID , packet1.groupID , packet1.leaderID , packet1.uavID );
+	mavlink_msg_groupleave_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+	mavlink_msg_groupleave_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_groupleave_send(MAVLINK_COMM_1 , packet1.componentID , packet1.groupID , packet1.leaderID , packet1.uavID );
+	mavlink_msg_groupleave_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
+static void mavlink_test_networktopology(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+	mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+	mavlink_networktopology_t packet_in = {
+		{ 17.0, 18.0, 19.0, 20.0, 21.0 },
+	65,
+	132,
+	199,
+	10,
+	};
+	mavlink_networktopology_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        	packet1.componentID = packet_in.componentID;
+        	packet1.groupID = packet_in.groupID;
+        	packet1.leaderID = packet_in.leaderID;
+        	packet1.followerID = packet_in.followerID;
+        
+        	mav_array_memcpy(packet1.connectivityMap, packet_in.connectivityMap, sizeof(float)*5);
+        
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_networktopology_encode(system_id, component_id, &msg, &packet1);
+	mavlink_msg_networktopology_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_networktopology_pack(system_id, component_id, &msg , packet1.componentID , packet1.groupID , packet1.leaderID , packet1.followerID , packet1.connectivityMap );
+	mavlink_msg_networktopology_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_networktopology_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.componentID , packet1.groupID , packet1.leaderID , packet1.followerID , packet1.connectivityMap );
+	mavlink_msg_networktopology_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+	mavlink_msg_networktopology_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_networktopology_send(MAVLINK_COMM_1 , packet1.componentID , packet1.groupID , packet1.leaderID , packet1.followerID , packet1.connectivityMap );
+	mavlink_msg_networktopology_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
+static void mavlink_test_coordinationexchange(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+	mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+	mavlink_coordinationexchange_t packet_in = {
+		17.0,
+	17,
+	84,
+	151,
+	};
+	mavlink_coordinationexchange_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        	packet1.coordinationParameter = packet_in.coordinationParameter;
+        	packet1.componentID = packet_in.componentID;
+        	packet1.groupID = packet_in.groupID;
+        	packet1.senderID = packet_in.senderID;
+        
+        
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_coordinationexchange_encode(system_id, component_id, &msg, &packet1);
+	mavlink_msg_coordinationexchange_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_coordinationexchange_pack(system_id, component_id, &msg , packet1.componentID , packet1.groupID , packet1.senderID , packet1.coordinationParameter );
+	mavlink_msg_coordinationexchange_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_coordinationexchange_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.componentID , packet1.groupID , packet1.senderID , packet1.coordinationParameter );
+	mavlink_msg_coordinationexchange_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+	mavlink_msg_coordinationexchange_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_coordinationexchange_send(MAVLINK_COMM_1 , packet1.componentID , packet1.groupID , packet1.senderID , packet1.coordinationParameter );
+	mavlink_msg_coordinationexchange_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
 static void mavlink_test_memory_vect(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 	mavlink_message_t msg;
@@ -4061,6 +4308,11 @@ static void mavlink_test_common(uint8_t system_id, uint8_t component_id, mavlink
 	mavlink_test_vicon_position_estimate(system_id, component_id, last_msg);
 	mavlink_test_aq_telemetry_f(system_id, component_id, last_msg);
 	mavlink_test_aq_telemetry_i(system_id, component_id, last_msg);
+	mavlink_test_groupcreate(system_id, component_id, last_msg);
+	mavlink_test_groupdestroy(system_id, component_id, last_msg);
+	mavlink_test_groupleave(system_id, component_id, last_msg);
+	mavlink_test_networktopology(system_id, component_id, last_msg);
+	mavlink_test_coordinationexchange(system_id, component_id, last_msg);
 	mavlink_test_memory_vect(system_id, component_id, last_msg);
 	mavlink_test_debug_vect(system_id, component_id, last_msg);
 	mavlink_test_named_value_float(system_id, component_id, last_msg);
