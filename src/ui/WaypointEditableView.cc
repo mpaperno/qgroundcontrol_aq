@@ -254,6 +254,7 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->acceptanceSpinBox->show();
             m_ui->yawSpinBox->show();
             m_ui->maxHorizontalSpeed->show();
+            m_ui->maxVerticalSpeed->hide();
             m_ui->horizontalLayout->insertStretch(17, 1);
             m_ui->autoContinue->show();
         }
@@ -267,6 +268,7 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->missionConditionWidgetSlot->hide();
             m_ui->acceptanceSpinBox->show();
             m_ui->yawSpinBox->show();
+            m_ui->maxVerticalSpeed->hide();
             m_ui->maxHorizontalSpeed->show();
             m_ui->horizontalLayout->insertStretch(17, 1);
             m_ui->autoContinue->show();

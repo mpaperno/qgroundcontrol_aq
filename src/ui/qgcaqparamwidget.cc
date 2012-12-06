@@ -887,6 +887,8 @@ void QGCAQParamWidget::loadParameters()
         QTextStream in(&file);
         while (!in.atEnd()) {
             QString line = in.readLine();
+            if ( line.contains("DEFAULT_"))
+                line.replace("DEFAULT_","");
             if (!line.startsWith("#")) {
                 QStringList wpParams = line.split("\t");
                 if (wpParams.size() == 5) {
@@ -895,6 +897,11 @@ void QGCAQParamWidget::loadParameters()
 
                         bool changed = false;
                         int component = wpParams.at(1).toInt();
+                        /*
+                        if ( wpParams.at(2).startsWith("DEFAULT_",Qt::CaseSensitive) ) {
+                            wpParams.at(2) = wpParams.at(2).mid(8,-1);
+                        }
+                        */
                         QString parameterName = wpParams.at(2);
                         if (!parameters.contains(component) || parameters.value(component)->value(parameterName, wpParams.at(3).toDouble()-3.0f) != (float)wpParams.at(3).toDouble()) {
                             changed = true;
@@ -952,6 +959,9 @@ void QGCAQParamWidget::loadParameters()
         int ErrorLineWithDefine = 0;
         while (!in.atEnd()) {
             QString line = in.readLine();
+            if ( line.contains("DEFAULT_"))
+                line.replace("DEFAULT_","");
+
             if (line.startsWith("#define ")) {
                 line.replace("\t"," ");
                 line.replace("\\\\","  ");

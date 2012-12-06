@@ -659,6 +659,12 @@ void QGCAutoquad::btnSaveToEsc32() {
         if ((rettryToStore >= 3) && (something_gos_wrong))
             break;
     }
+
+
+
+    //comboBox_mode
+    //comboBox_in_mode
+
     if (( oneWritten ) && (!something_gos_wrong))
         saveEEpromEsc32();
     else if (something_gos_wrong) {
@@ -1175,39 +1181,29 @@ void QGCAutoquad::addUAS(UASInterface* uas_ext)
 
 void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
-    GAudioOutput::instance()->say("Welcome to autoquad");
-
     if (uas_ext)
     {
         uas = uas_ext;
         disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
         disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
-        //if ( VisibleWidget == 1) {
-            if ( !paramaq ) {
-                paramaq = new QGCAQParamWidget(uas, this);
-                ui->gridLayout_paramAQ->addWidget(paramaq);
-                connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
-                if ( LastFilePath == "")
-                    paramaq->setFilePath(QCoreApplication::applicationDirPath());
-                else
-                    paramaq->setFilePath(LastFilePath);
-            }
-            paramaq->loadParaAQ();
-            //getGUIpara();
+        if ( !paramaq ) {
+            paramaq = new QGCAQParamWidget(uas, this);
+            ui->gridLayout_paramAQ->addWidget(paramaq);
+            connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
+            if ( LastFilePath == "")
+                paramaq->setFilePath(QCoreApplication::applicationDirPath());
+            else
+                paramaq->setFilePath(LastFilePath);
+        }
+        paramaq->loadParaAQ();
+        //getGUIpara();
 
-            VisibleWidget = 2;
-            if ( !AqTeleChart ) {
-                AqTeleChart = new AQLinechartWidget(uas->getUASID(), this->ui->plotFrameTele);
-                linLayoutPlot = new QGridLayout( this->ui->plotFrameTele);
-                linLayoutPlot->addWidget(AqTeleChart,0,Qt::AlignCenter);
-
-                //this->ui->plotFrameTele->setLayout(linLayoutPlot);
-            }
-            //plotFrameTele
-
-        //}
-
-        //connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+        VisibleWidget = 2;
+        if ( !AqTeleChart ) {
+            AqTeleChart = new AQLinechartWidget(uas->getUASID(), this->ui->plotFrameTele);
+            linLayoutPlot = new QGridLayout( this->ui->plotFrameTele);
+            linLayoutPlot->addWidget(AqTeleChart,0,Qt::AlignCenter);
+        }
         ui->checkBox_raw_value->setChecked(true);
         raw_transmitter_view();
     }
