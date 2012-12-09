@@ -2260,7 +2260,40 @@ void AQLogParser::loggerWriteDataL(FILE *fs, FILE *fd, int start1, int end1, int
         }
     }
 }
+//#######################################################################################################
 
+
+GPX_KMLParser::GPX_KMLParser()
+{
+    //Process Slots
+    ps_import.setProcessChannelMode(QProcess::MergedChannels);
+    connect(&ps_import, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
+    connect(&ps_import, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
+    connect(&ps_import, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
+}
+
+GPX_KMLParser::~GPX_KMLParser()
+{
+    disconnect(&ps_import, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
+    disconnect(&ps_import, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
+    disconnect(&ps_import, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
+}
+
+
+void GPX_KMLParser::prtstderr() {
+    output = ps_import.readAllStandardError();
+}
+
+void GPX_KMLParser::prtstdout() {
+    output = ps_import.readAllStandardOutput();
+}
+
+void GPX_KMLParser::prtstexit(int) {
+}
+
+void GPX_KMLParser::startImport() {
+
+}
 
 //#######################################################################################################
 
@@ -2881,11 +2914,11 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
         return true;
     esc32dataLogger->setTelemValueMaxs(2,0.0f);
     currentError = false;
-    //esc32calibration->telemValueMaxs[2] = 0.0;
+
     qDebug() << "Doing Calibration Loop";
 
     for (f = 4; f <= 100.0; f += 2.0) {
-        sendCommand(BINARY_COMMAND_DUTY, f, 0.0, 1, true);
+        sendCommand(BINARY_COMMAND_DUTY, f, 0.0f, 1, true);
         SleepThread(((100.0f - f) / 3.0f * 1e6 * 0.15)/1000);
         if ( ExitCalibration != 0)
             break;
@@ -2907,8 +2940,6 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     SleepThread(1000);
     sendCommand(BINARY_COMMAND_DISARM, 0.0, 0.0, 0, true);
     qDebug() << "Stopping";
-    if ( ExitCalibration != 0)
-        return true;
 
     if ( esc32dataLogger->getTelemStorageNum() <= 0) {
         return true;
@@ -2958,8 +2989,6 @@ int i, j, k, z;
         return true;
 
     for (i = 10; i <= 90; i += 10) {
-    //for (i = 10; i <= 20; i += 10) {
-        // reset max current
         esc32dataLogger->setTelemValueMaxs(2,0.0f);
 
         for (j = i+5; j <= 100; j += 5) {
@@ -2971,7 +3000,7 @@ int i, j, k, z;
         }
         if ( ExitCalibration != 0)
             break;
-        // break if the first try went overcurrent
+
         if (esc32dataLogger->getTelemValueMaxs(2) > maxAmps && j == i+5) {
             currentError = true;
             break;
@@ -2984,8 +3013,6 @@ int i, j, k, z;
     SleepThread(1);
     sendCommand(BINARY_COMMAND_DISARM, 0.0, 0.0, 0, true);
     qDebug() << "Stopping";
-    if ( ExitCalibration != 0)
-        return true;
 
     if ( esc32dataLogger->getTelemStorageNum() <= 0) {
         return true;

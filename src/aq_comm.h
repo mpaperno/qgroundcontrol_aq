@@ -12,6 +12,7 @@
 #include "UASInterface.h"
 #include <SerialLinkInterface.h>
 #include <SerialLink.h>
+#include <QProcess>
 
 #ifdef Q_OS_WIN
 
@@ -349,8 +350,27 @@ private:
     loggerRecord_t logEntry;
     int loggerReadEntry(FILE *fp, loggerRecord_t *r);
     double logDumpGetValue(loggerRecord_t *l, int field);
+};
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+class GPX_KMLParser: public QObject
+{
+    Q_OBJECT
+public:
+    explicit GPX_KMLParser();
+    ~GPX_KMLParser();
+    void startImport();
 
+private:
+    QProcess ps_import;
+    QString output;
 
+private slots:
+        void prtstexit(int);
+        void prtstdout();
+        void prtstderr();
+
+signals:
+    void ImportDone(int Error);
 };
 
 

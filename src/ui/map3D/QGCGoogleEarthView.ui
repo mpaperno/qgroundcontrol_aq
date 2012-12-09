@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="1,10,10,10,10,5,10,1000,10,10,10,10,10,5,2,2,0,0">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
    <property name="horizontalSpacing">
     <number>4</number>
    </property>
@@ -23,7 +23,7 @@
    <property name="margin">
     <number>2</number>
    </property>
-   <item row="0" column="0" colspan="18">
+   <item row="0" column="0" colspan="19">
     <layout class="QVBoxLayout" name="webViewLayout"/>
    </item>
    <item row="1" column="1">
@@ -68,7 +68,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
+   <item row="1" column="5">
     <widget class="QCheckBox" name="trailCheckbox">
      <property name="toolTip">
       <string>Show MAV trajectories</string>
@@ -84,14 +84,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="5">
+   <item row="1" column="6">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
-   <item row="1" column="6">
+   <item row="1" column="7">
     <widget class="QComboBox" name="camDistanceComboBox">
      <property name="toolTip">
       <string>Select the MAV to chase</string>
@@ -114,7 +114,7 @@
      </item>
     </widget>
    </item>
-   <item row="1" column="7">
+   <item row="1" column="8">
     <widget class="QSlider" name="camDistanceSlider">
      <property name="toolTip">
       <string>Distance of the chase camera to the MAV</string>
@@ -139,7 +139,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="8">
+   <item row="1" column="9">
     <widget class="QCheckBox" name="followAirplaneCheckbox">
      <property name="toolTip">
       <string>Chase the MAV</string>
@@ -155,21 +155,21 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="9">
+   <item row="1" column="10">
     <widget class="QPushButton" name="changeViewButton">
      <property name="text">
       <string>Overhead</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="10">
+   <item row="1" column="11">
     <widget class="Line" name="line_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
-   <item row="1" column="11">
+   <item row="1" column="12">
     <widget class="QPushButton" name="clearTrailsButton">
      <property name="toolTip">
       <string>Delete all waypoints</string>
@@ -185,14 +185,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="12">
+   <item row="1" column="13">
     <widget class="QPushButton" name="resetButton">
      <property name="text">
       <string>Reset</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="13">
+   <item row="1" column="14">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -208,7 +208,7 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="14">
+   <item row="1" column="15">
     <widget class="QCheckBox" name="atmosphereCheckBox">
      <property name="toolTip">
       <string>Enable the atmosphere visualization. Not recommended for mission execution, only for visualization</string>
@@ -221,7 +221,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="15">
+   <item row="1" column="16">
     <widget class="QCheckBox" name="daylightCheckBox">
      <property name="toolTip">
       <string>Enable day/night light. Not recommended for mission execution, only for visualization.</string>
@@ -238,6 +238,13 @@
     <widget class="QPushButton" name="toLatLonButton">
      <property name="text">
       <string>Lat/Lon</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QPushButton" name="ImportButton">
+     <property name="text">
+      <string>KML/GPX</string>
      </property>
     </widget>
    </item>
