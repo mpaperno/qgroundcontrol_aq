@@ -6,6 +6,11 @@ AQKMLGPXOptions::AQKMLGPXOptions(QWidget *parent) :
     ui(new Ui::AQKMLGPXOptions)
 {
     ui->setupUi(this);
+    //csv|tab|gpx|kml
+    ui->format->addItem("csv");
+    ui->format->addItem("tab");
+    ui->format->addItem("gpx");
+    ui->format->addItem("kml");
 }
 
 AQKMLGPXOptions::~AQKMLGPXOptions()

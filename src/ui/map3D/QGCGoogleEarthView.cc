@@ -8,6 +8,8 @@
 #include <QFile>
 #include <QTextStream>
 #include "UASManager.h"
+#include <QFileDialog>
+
 
 #ifdef Q_OS_MAC
 #include <QWebFrame>
@@ -28,6 +30,7 @@
 #include "ui_QGCGoogleEarthView.h"
 #include "QGCGoogleEarthView.h"
 #include "UASWaypointManager.h"
+#include "aqkmlgpxoptions.h"
 
 #define QGCGOOGLEEARTHVIEWSETTINGS QString("GoogleEarthViewSettings_")
 
@@ -91,6 +94,8 @@ QGCGoogleEarthView::QGCGoogleEarthView(QWidget *parent) :
     connect(ui->daylightCheckBox, SIGNAL(clicked(bool)), this, SLOT(enableDaylight(bool)));
 
     connect(UASManager::instance(), SIGNAL(homePositionChanged(double,double,double)), this, SLOT(setHome(double,double,double)));
+
+    connect(ui->ImportButton, SIGNAL(clicked()), this, SLOT(OpenImportDialog()));
 }
 
 QGCGoogleEarthView::~QGCGoogleEarthView()
@@ -750,4 +755,29 @@ void QGCGoogleEarthView::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void QGCGoogleEarthView::OpenImportDialog() {
+
+    QString dirPath = QDir::toNativeSeparators(UsersParamsFile);
+    QFileInfo dir(dirPath);
+    QFileDialog dialog;
+    dialog.setDirectory(dir.absoluteDir());
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("AQ Log File (*.log)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+    }
+
+    if (fileNames.size() > 0)
+    {
+        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
+    }
+
+
+    ImportDialog = new AQKMLGPXOptions(this);
+    ImportDialog.show();
 }
