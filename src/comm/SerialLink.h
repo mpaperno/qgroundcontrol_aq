@@ -37,7 +37,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QMutex>
 #include <QString>
 #include "qserialport.h"
-#include <configuration.h>
+#include "configuration.h"
 #include "SerialLinkInterface.h"
 #ifdef _WIN32
 #include "windows.h"
@@ -59,7 +59,7 @@ class SerialLink : public SerialLinkInterface
 
 public:
     SerialLink(QString portname = "",
-               int baudrate=57600,
+               int baudrate=115200,
                bool flow=false,
                bool parity=false,
                int dataBits=8,
