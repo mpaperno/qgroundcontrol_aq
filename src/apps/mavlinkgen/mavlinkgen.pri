@@ -18,27 +18,27 @@
 
 ###### EXAMPLE END
 
+MAVLINKGEN_SRCPATH = src/apps/mavlinkgen
 
+INCLUDEPATH += $$MAVLINKGEN_SRCPATH/. \
+    $$MAVLINKGEN_SRCPATH/ui \
+    $$MAVLINKGEN_SRCPATH/generator
 
-INCLUDEPATH += .\
-    ui \
-    generator
-
-FORMS += ui/XMLCommProtocolWidget.ui
+FORMS += $$MAVLINKGEN_SRCPATH/ui/XMLCommProtocolWidget.ui
 
 HEADERS += \
-    ui/XMLCommProtocolWidget.h \
-    generator/MAVLinkXMLParser.h \
-    generator/MAVLinkXMLParserV10.h \
-    ui/DomItem.h \
-    ui/DomModel.h \
-    ui/QGCMAVLinkTextEdit.h
+    $$MAVLINKGEN_SRCPATH/ui/XMLCommProtocolWidget.h \
+    $$MAVLINKGEN_SRCPATH/generator/MAVLinkXMLParser.h \
+    $$MAVLINKGEN_SRCPATH/generator/MAVLinkXMLParserV10.h \
+    $$MAVLINKGEN_SRCPATH/ui/DomItem.h \
+    $$MAVLINKGEN_SRCPATH/ui/DomModel.h \
+    $$MAVLINKGEN_SRCPATH/ui/QGCMAVLinkTextEdit.h
 SOURCES += \
-    ui/XMLCommProtocolWidget.cc \
-    ui/DomItem.cc \
-    ui/DomModel.cc \
-    generator/MAVLinkXMLParser.cc \
-    generator/MAVLinkXMLParserV10.cc \
-    ui/QGCMAVLinkTextEdit.cc
+    $$MAVLINKGEN_SRCPATH/ui/XMLCommProtocolWidget.cc \
+    $$MAVLINKGEN_SRCPATH/ui/DomItem.cc \
+    $$MAVLINKGEN_SRCPATH/ui/DomModel.cc \
+    $$MAVLINKGEN_SRCPATH/generator/MAVLinkXMLParser.cc \
+    $$MAVLINKGEN_SRCPATH/generator/MAVLinkXMLParserV10.cc \
+    $$MAVLINKGEN_SRCPATH/ui/QGCMAVLinkTextEdit.cc
 
-RESOURCES += mavlinkgen.qrc
+RESOURCES += $$MAVLINKGEN_SRCPATH/mavlinkgen.qrc

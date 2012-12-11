@@ -25,7 +25,7 @@ QT += network \
     opengl \
     svg \
     xml \
-    phonon \
+#    phonon \
     webkit \
     sql
 
@@ -69,7 +69,7 @@ win32 {
 # EXTERNAL LIBRARY CONFIGURATION
 
 # Include NMEA parsing library (currently unused)
-include(src/libs/nmea/nmea.pri)
+# include(src/libs/nmea/nmea.pri)
 
 # EIGEN matrix library (header-only)
 INCLUDEPATH += src/libs/eigen
@@ -613,8 +613,10 @@ win32-msvc2008|win32-msvc2010|linux {
         src/comm/HexSpinBox.cpp \
         src/ui/XbeeConfigurationWindow.cpp
     DEFINES += XBEELINK
-    INCLUDEPATH += thirdParty/libxbee
+    INCLUDEPATH += $${BASEDIR}/thirdParty/libxbee
 # TO DO: build library when it does not exist already
-    LIBS += -LthirdParty/libxbee/lib \
+    LIBS += -L$${BASEDIR}/thirdParty/libxbee/lib \
         -llibxbee
 }
+
+OTHER_FILES +=
