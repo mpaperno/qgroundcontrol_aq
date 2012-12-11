@@ -971,10 +971,19 @@ void QGCAQParamWidget::loadParameters()
                     bool changed = false;
                     int component = 190;
                     QString parameterName = wpParams.at(1);
+
                     float parameterValue = wpParams.at(2).toFloat();
+                    if ( wpParams.at(2).contains("f") ) {
+                        QString tempStr = wpParams.at(2);
+                        tempStr = tempStr.replace("f","",Qt::CaseSensitive);
+                        parameterValue = tempStr.toFloat();
+                    }
+
 
                     if ( parameterName.contains("IMU_ACC_ALN_" ))
                         parameterName = parameterName.replace("IMU_ACC_ALN_","IMU_ACC_ALGN_");
+                    if ( parameterName.contains("L1_ATT_PWM_SCALE" ))
+                        parameterName = parameterName.replace("L1_ATT_PWM_SCALE","L1_ATT_PWM_SCAL");
                     /*
                     if (!parameters.contains(component) || parameters.value(component)->value(parameterName, wpParams.at(2).toDouble()-3.0f) != (float)wpParams.at(2).toDouble()) {
                         changed = true;

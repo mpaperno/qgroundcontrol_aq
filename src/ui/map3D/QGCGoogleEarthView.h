@@ -175,7 +175,7 @@ private:
     Ui::QGCGoogleEarthView* ui;
 #endif
 
-    AQKMLGPXOptions ImportDialog;
+    AQKMLGPXOptions* ImportDialog;
 };
 
 #endif // QGCGOOGLEEARTHVIEW_H

@@ -759,7 +759,7 @@ void QGCGoogleEarthView::changeEvent(QEvent *e)
 
 void QGCGoogleEarthView::OpenImportDialog() {
 
-    QString dirPath = QDir::toNativeSeparators(UsersParamsFile);
+    QString dirPath = QDir::toNativeSeparators(QApplication::applicationDirPath());
     QFileInfo dir(dirPath);
     QFileDialog dialog;
     dialog.setDirectory(dir.absoluteDir());
@@ -774,10 +774,7 @@ void QGCGoogleEarthView::OpenImportDialog() {
 
     if (fileNames.size() > 0)
     {
-        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
+        ImportDialog = new AQKMLGPXOptions(this);
+        ImportDialog->show();
     }
-
-
-    ImportDialog = new AQKMLGPXOptions(this);
-    ImportDialog.show();
 }
