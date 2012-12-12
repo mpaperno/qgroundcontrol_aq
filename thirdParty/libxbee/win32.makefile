@@ -3,8 +3,8 @@
 #LDBUG:=/DEBUG
 
 #-- you may need to edit these lines if your installation is different
-VCPath:=C:\Program Files\Microsoft Visual Studio 10.0\VC
-SDKPath:=C:\Program Files\Microsoft SDKs\Windows\v7.1
+VCPath:=C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC
+SDKPath:=C:\Programs\Authoring\Microsoft_SDKs\Windows\v7.1
 
 #!! if using visual studio 2010, you may need to run the following in a shell,
 #     and then within the same shell run `make -f win32.makefile`
