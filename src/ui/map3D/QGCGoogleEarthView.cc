@@ -759,25 +759,22 @@ void QGCGoogleEarthView::changeEvent(QEvent *e)
 
 void QGCGoogleEarthView::OpenImportDialog() {
 
-//    QString dirPath = QDir::toNativeSeparators(UsersParamsFile);
-//    QFileInfo dir(dirPath);
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setFilter(tr("AQ Log File (*.log)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    QStringList fileNames;
-//    if (dialog.exec())
-//    {
-//        fileNames = dialog.selectedFiles();
-//    }
+    QString dirPath = QDir::toNativeSeparators(QApplication::applicationDirPath());
+    QFileInfo dir(dirPath);
+    QFileDialog dialog;
+    dialog.setDirectory(dir.absoluteDir());
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("AQ Log File (*.log)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+    }
 
-//    if (fileNames.size() > 0)
-//    {
-//        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
-//    }
-
-
-//    ImportDialog = new AQKMLGPXOptions(this);
-//    ImportDialog.show();
+    if (fileNames.size() > 0)
+    {
+        ImportDialog = new AQKMLGPXOptions(this);
+        ImportDialog->show();
+    }
 }
