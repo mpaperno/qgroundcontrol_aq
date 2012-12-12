@@ -2,6 +2,7 @@
 #include <cmath>
 #include <QDebug>
 #include <QMap>
+#include <QApplication>
 
 
 AQLogParser::AQLogParser()
