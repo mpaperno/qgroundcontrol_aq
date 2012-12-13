@@ -30,9 +30,7 @@ win32-msvc2008|win32-msvc2010|win32-g++ {
 HEADERS += $$QSERIALPORT_ROOT/src/win32/commdcbhelper.h \
            $$QSERIALPORT_ROOT/src/win32/qwincommevtnotifier.h \
            $$QSERIALPORT_ROOT/src/win32/wincommevtbreaker.h \
-           $$QSERIALPORT_ROOT/src/win32/commdcbhelper.h \
-           $$QSERIALPORT_ROOT/src/win32/qwincommevtnotifier.h \
-           $$QSERIALPORT_ROOT/src/win32/wincommevtbreaker.h
+           $$QSERIALPORT_ROOT/src/win32/commdcbhelper.h
 }
 
 SOURCES += $$QSERIALPORT_ROOT/src/common/qportsettings.cpp \
