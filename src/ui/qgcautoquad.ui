@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_aq_flash_fw">
       <attribute name="title">
@@ -4278,26 +4278,44 @@
          <item>
           <widget class="QPushButton" name="pushButton_Open_Log_file">
            <property name="text">
-            <string>Open Log File</string>
+            <string>Select Log File...</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButtonshow_cahnnels">
            <property name="text">
-            <string>Show curves</string>
+            <string>Show Curves</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_save_image_plot">
            <property name="text">
-            <string>save as image</string>
+            <string>Save As Image...</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_marker"/>
+          <widget class="QPushButton" name="pushButton_Export_Log">
+           <property name="text">
+            <string>Export Log...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_marker">
+           <property name="toolTip">
+            <string>Set size of cut area. Select a pre-defined area or create a custom one.</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_set_marker">
@@ -4305,7 +4323,7 @@
             <bool>true</bool>
            </property>
            <property name="text">
-            <string>set Marker</string>
+            <string>Set Marker</string>
            </property>
           </widget>
          </item>
@@ -4315,14 +4333,14 @@
             <bool>false</bool>
            </property>
            <property name="text">
-            <string>cut</string>
+            <string>Cut</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_remove_marker">
            <property name="text">
-            <string>remove marker</string>
+            <string>Remove Marker</string>
            </property>
           </widget>
          </item>

@@ -12,6 +12,7 @@
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
 #include "aqlinechartwidget.h"
+#include "aq_LogExporter.h"
 
 #include <QWidget>
 #include <QProcess>
@@ -35,6 +36,9 @@ private:
 
 signals:
     void visibilityChanged(bool visible);
+
+public slots:
+    void OpenLogFile(bool doDecode=true);
 
 protected slots:
     void selectFWToFlash();
@@ -85,7 +89,7 @@ private slots:
 		void CalculatDeclination();
         void CalculatInclination();
         void CurveItemChanged(QStandardItem *item);
-        void OpenLogFile();
+        void openExportOptionsDlg();
         void save_PID_toAQ1();
         void save_PID_toAQ2();
         void save_PID_toAQ3();
@@ -164,6 +168,9 @@ private slots:
         void teleValuesStart();
         void teleValuesStop();
 
+public:
+        QString LogFile;
+
 private:
         Ui::QGCAutoquad *ui;
         QString output;
@@ -192,7 +199,6 @@ private:
         QString UsersParamsFile;
         void ShowUsersParams(QString fileName);
         void DecodeLogFile(QString fileName);
-        QString LogFile;
         void QuestionForROM();
         void exportPDF(QString fileName);
         void exportSVG(QString fileName);
@@ -225,6 +231,8 @@ private:
         void DisableEnableAllRollGimbal(int selectedIndex, bool value);
         int msec;
         QGridLayout* linLayoutPlot;
+        AQLogExporter* ImportDialog;
+
 protected:
         void showEvent(QShowEvent* event);
         void hideEvent(QHideEvent* event);

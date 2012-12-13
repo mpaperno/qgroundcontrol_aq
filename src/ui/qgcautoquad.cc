@@ -1,5 +1,6 @@
 #include "qgcautoquad.h"
 #include "ui_qgcautoquad.h"
+#include "aq_LogExporter.h"
 #include "LinkManager.h"
 #include "UASManager.h"
 #include <SerialLinkInterface.h>
@@ -81,6 +82,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_Load_frame_from_file, SIGNAL(clicked()),this,SLOT(LoadFrameFromFile()));
     connect(ui->pushButton_Save_farem_to_file, SIGNAL(clicked()),this,SLOT(SaveFrameToFile()));
     connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
+    connect(ui->pushButton_Export_Log, SIGNAL(clicked()),this,SLOT(openExportOptionsDlg()));
     connect(ui->pushButton_Open_Log_file, SIGNAL(clicked()),this,SLOT(OpenLogFile()));
     connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
     connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
@@ -247,7 +249,7 @@ void QGCAutoquad::SetupListView()
     connect(model, SIGNAL(itemChanged(QStandardItem*)), this,SLOT(CurveItemChanged(QStandardItem*)));
 }
 
-void QGCAutoquad::OpenLogFile()
+void QGCAutoquad::OpenLogFile(bool doDecode)
 {
     QString dirPath;
     if ( LastFilePath == "")
@@ -277,8 +279,17 @@ void QGCAutoquad::OpenLogFile()
         }
         LogFile = QDir::toNativeSeparators(file.fileName());
         LastFilePath = LogFile;
-        DecodeLogFile(LogFile);
+        if (doDecode)
+            DecodeLogFile(LogFile);
     }
+}
+
+void QGCAutoquad::openExportOptionsDlg() {
+    if (LogFile == ""){
+        OpenLogFile(false);
+    }
+    ImportDialog = new AQLogExporter(this);
+    ImportDialog->show();
 }
 
 void QGCAutoquad::CurveItemChanged(QStandardItem *item)

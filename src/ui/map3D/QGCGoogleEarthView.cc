@@ -30,7 +30,7 @@
 #include "ui_QGCGoogleEarthView.h"
 #include "QGCGoogleEarthView.h"
 #include "UASWaypointManager.h"
-#include "aqkmlgpxoptions.h"
+#include "aq_LogExporter.h"
 
 #define QGCGOOGLEEARTHVIEWSETTINGS QString("GoogleEarthViewSettings_")
 
@@ -758,23 +758,6 @@ void QGCGoogleEarthView::changeEvent(QEvent *e)
 }
 
 void QGCGoogleEarthView::OpenImportDialog() {
-
-    QString dirPath = QDir::toNativeSeparators(QApplication::applicationDirPath());
-    QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Log File (*.log)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
-
-    if (fileNames.size() > 0)
-    {
-        ImportDialog = new AQKMLGPXOptions(this);
-        ImportDialog->show();
-    }
+    ImportDialog = new AQLogExporter(this);
+    ImportDialog->show();
 }
