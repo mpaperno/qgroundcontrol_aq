@@ -2294,8 +2294,8 @@ void GPX_KMLParser::prtstexit(int) {
 void GPX_KMLParser::startImport() {
     QString AppPath = "";
     #ifdef Q_OS_WIN
-        AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "logDump.exe");
-        ps_import.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
+        AppPath = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "logDump.exe");
+        ps_import.setWorkingDirectory(QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "\\" + "aq_win"));
     #else
         return;
     #endif
