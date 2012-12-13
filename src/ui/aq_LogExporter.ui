@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <author>Maxim Paperno</author>
- <class>AQKMLGPXOptions</class>
- <widget class="QDialog" name="AQKMLGPXOptions">
+ <class>AQLogExporter</class>
+ <widget class="QDialog" name="AQLogExporter">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -129,7 +129,7 @@
             <second>59</second>
             <year>3001</year>
             <month>1</month>
-            <day>8</day>
+            <day>9</day>
            </datetime>
           </property>
           <property name="minimumDateTime">
@@ -200,6 +200,9 @@
      </property>
      <property name="title">
       <string>Output Options</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1">
       <property name="leftMargin">
@@ -405,6 +408,9 @@
      </property>
      <property name="title">
       <string>Trigger Indicator</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <layout class="QGridLayout" name="gridLayout_6" columnstretch="1,1">
       <property name="topMargin">
@@ -682,6 +688,9 @@
      <property name="title">
       <string>Export Status</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <widget class="QPlainTextEdit" name="plainTextEdit_logdumpOutput">
@@ -728,6 +737,9 @@
      <property name="title">
       <string>Log File</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <property name="topMargin">
        <number>4</number>
@@ -771,7 +783,7 @@
       <string>GPS Data Export</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="1,1">
       <property name="topMargin">
@@ -1447,7 +1459,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>AQKMLGPXOptions</receiver>
+   <receiver>AQLogExporter</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -1463,7 +1475,7 @@
   <connection>
    <sender>pushButton_doExport</sender>
    <signal>clicked()</signal>
-   <receiver>AQKMLGPXOptions</receiver>
+   <receiver>AQLogExporter</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
