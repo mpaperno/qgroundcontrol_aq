@@ -289,7 +289,7 @@ QRadioButton::indicator:disabled {
 QPushButton {
     height: 20px;
     /*max-height: 20px;*/
-	border: 0px solid #59666f;
+	border: 1px solid transparent;
 	border-radius: 2px;
 	padding-left: 8px;
 	padding-right: 8px;
@@ -297,7 +297,7 @@ QPushButton {
 }
 QPushButton:checked, QPushButton:hover {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
-    border: 0px solid #379AC3;
+    border: 1px solid #777777;
 }
 QPushButton:pressed {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
@@ -330,6 +330,7 @@ QToolButton:disabled {
 }
 QToolButton[autoRaise="true"] {
     background-color: #050508;
+    border: 1px solid #050508;
 }
 QToolButton:checked {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
@@ -337,6 +338,9 @@ QToolButton:checked {
 }
 QToolButton:hover {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
+}
+QToolButton[autoRaise="true"]:hover {
+    border: 1px solid #777777;
 }
 QToolButton:pressed {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);

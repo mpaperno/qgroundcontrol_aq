@@ -147,7 +147,7 @@ bool AQLogExporter::validateForm(bool showAlert) {
  */
 void AQLogExporter::newLogFile() {
     if (!ui->lineEdit_inputFile->text().length()) {
-        ui->pushButton_doExport->setEnabled(false);
+        emit formValidRecheck();
         return;
     }
 
@@ -170,6 +170,8 @@ void AQLogExporter::newLogFile() {
            writeMsgToStatusWindow(QString("Log file modification date appears to be incorrect, please set the Date of Flight manually."), MSG_WARNING);
     }
 
+    ui->lineEdit_inputFile->setToolTip(ui->lineEdit_inputFile->text());
+
     emit formValidRecheck();
 }
 
@@ -180,7 +182,10 @@ void AQLogExporter::newLogFile() {
  */
 void AQLogExporter::newOutputFile(const QString &fname) {
 
-    if (!fname.length()) return;
+    if (!fname.length()) {
+        emit formValidRecheck();
+        return;
+    }
 
     QString fileName = QDir::toNativeSeparators(fname);
     QFileInfo fi(fileName);
@@ -199,6 +204,8 @@ void AQLogExporter::newOutputFile(const QString &fname) {
                 .arg(savedOutputPath);
         writeMsgToStatusWindow(msg, MSG_WARNING);
     }
+
+    ui->lineEdit_outputFile->setToolTip(ui->lineEdit_outputFile->text());
 
     emit formValidRecheck();
 }
@@ -450,13 +457,17 @@ void AQLogExporter::setExportTypeOptions(QString typ) {
     if (xmlExpTypes.indexOf(typ.toUpper()) > -1) {
         ui->groupBox_values->setEnabled(false);
         ui->checkBox_gpsWaypoints->setEnabled(true);
-        if (!ui->checkBox_gpsTrack->isChecked() && !ui->checkBox_gpsWaypoints->isChecked()) {
+        if (!ui->checkBox_gpsTrack->isChecked() && !ui->checkBox_gpsWaypoints->isChecked())
             ui->checkBox_gpsTrack->setChecked(true);
-        }
+        else
+            toggleGPSTrackOpts(true);
     } else {
         ui->groupBox_values->setEnabled(true);
-        ui->checkBox_gpsWaypoints->setChecked(false);
         ui->checkBox_gpsWaypoints->setEnabled(false);
+        if (ui->checkBox_gpsWaypoints->isChecked())
+            ui->checkBox_gpsWaypoints->setChecked(false);
+        else
+            toggleGPSTrackOpts(ui->checkBox_gpsTrack->isChecked());
     }
 
     emit formValidRecheck();
