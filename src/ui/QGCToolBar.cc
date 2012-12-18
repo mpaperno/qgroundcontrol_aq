@@ -77,7 +77,7 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
     addWidget(toolBarStateLabel);
 
     toolBarBatteryBar = new QProgressBar(this);
-    toolBarBatteryBar->setStyleSheet("QProgressBar:horizontal { margin: 0px 4px 0px 0px; border: 1px solid #4A4A4F; border-radius: 4px; text-align: center; padding: 2px; color: #111111; background-color: #111118; height: 10px; } QProgressBar:horizontal QLabel { font-size: 9px; color: #111111; } QProgressBar::chunk { background-color: green; }");
+//    toolBarBatteryBar->setStyleSheet("QProgressBar:horizontal { margin: 0px 4px 0px 0px; border: 1px solid #4A4A4F; border-radius: 4px; text-align: center; padding: 2px; color: #111111; background-color: #111118; height: 10px; } QProgressBar:horizontal QLabel { font-size: 9px; color: #111111; } QProgressBar::chunk { background-color: green; }");
     toolBarBatteryBar->setMinimum(0);
     toolBarBatteryBar->setMaximum(100);
     toolBarBatteryBar->setMinimumWidth(20);
@@ -196,37 +196,37 @@ void QGCToolBar::addPerspectiveChangeAction(QAction* action)
     insertAction(toggleLoggingAction, action);
 
     // Set tab style
-    QWidget* widget = widgetForAction(action);
-    widget->setStyleSheet("\
-                          * { font-weight: bold; min-height: 16px; min-width: 24px; \
-                          border-top: 1px solid #BBBBBB; \
-                          border-bottom: 0px; \
-                          border-left: 1px solid #BBBBBB; \
-                          border-right: 1px solid #BBBBBB; \
-                          border-top-left-radius: 5px; \
-                          border-top-right-radius: 5px; \
-                          border-bottom-left-radius: 0px; \
-                          border-bottom-right-radius: 0px; \
-                          max-height: 22px; \
-                          margin-top: 4px; \
-                          margin-left: 2px; \
-                          margin-bottom: 0px; \
-                          margin-right: 2px; \
-                          background-color: #222222; \
-                  } \
-                  *:checked { \
-                          background-color: #000000; \
-                          border-top: 2px solid #379AC3; \
-                          border-bottom: 0px; \
-                          border-left: 2px solid #379AC3; \
-                          border-right: 2px solid #379AC3; \
-                  } \
-                  *:pressed { \
-                          background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0); \
-                          border-top: 2px solid #379AC3; \
-                          border-bottom: 0px; \
-                          border-left: 2px solid #379AC3; \
-                          border-right: 2px solid #379AC3; }");
+//    QWidget* widget = widgetForAction(action);
+//    widget->setStyleSheet("\
+//                          * { font-weight: bold; min-height: 16px; min-width: 24px; \
+//                          border-top: 1px solid #BBBBBB; \
+//                          border-bottom: 0px; \
+//                          border-left: 1px solid #BBBBBB; \
+//                          border-right: 1px solid #BBBBBB; \
+//                          border-top-left-radius: 5px; \
+//                          border-top-right-radius: 5px; \
+//                          border-bottom-left-radius: 0px; \
+//                          border-bottom-right-radius: 0px; \
+//                          max-height: 22px; \
+//                          margin-top: 4px; \
+//                          margin-left: 2px; \
+//                          margin-bottom: 0px; \
+//                          margin-right: 2px; \
+//                          background-color: #222222; \
+//                  } \
+//                  *:checked { \
+//                          background-color: #000000; \
+//                          border-top: 2px solid #379AC3; \
+//                          border-bottom: 0px; \
+//                          border-left: 2px solid #379AC3; \
+//                          border-right: 2px solid #379AC3; \
+//                  } \
+//                  *:pressed { \
+//                          background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0); \
+//                          border-top: 2px solid #379AC3; \
+//                          border-bottom: 0px; \
+//                          border-left: 2px solid #379AC3; \
+//                          border-right: 2px solid #379AC3; }");
 }
 
 void QGCToolBar::setActiveUAS(UASInterface* active)

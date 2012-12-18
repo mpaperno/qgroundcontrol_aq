@@ -52,7 +52,7 @@ macx|macx-g++42|macx-g++: {
 	# Copy google earth starter file
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/images/earth.html $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy CSS stylesheets
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/images/style-mission.css $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/style-indoor.css
+	QMAKE_POST_LINK += && cp -f $$BASEDIR/images/style-indoor.css $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/style-indoor.css
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/images/style-outdoor.css $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy parameter tooltip files
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR/qgroundcontrol.app/Contents/MacOS

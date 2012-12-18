@@ -875,7 +875,7 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
     break;
     case QGC_MAINWINDOW_STYLE_INDOOR:
         qApp->setStyle("plastique");
-        styleFileName = ":/images/style-mission.css";
+        styleFileName = ":/images/style-indoor.css";
         reloadStylesheet();
         break;
     case QGC_MAINWINDOW_STYLE_OUTDOOR:
@@ -914,7 +914,7 @@ void MainWindow::reloadStylesheet()
     QFile* styleSheet = new QFile(styleFileName);
     if (!styleSheet->exists())
     {
-        styleSheet = new QFile(":/images/style-mission.css");
+        styleSheet = new QFile(":/images/style-indoor.css");
     }
     if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text))
     {

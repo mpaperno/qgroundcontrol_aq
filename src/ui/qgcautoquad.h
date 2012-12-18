@@ -38,7 +38,7 @@ signals:
     void visibilityChanged(bool visible);
 
 public slots:
-    void OpenLogFile(bool doDecode=true);
+    void OpenLogFile(bool openFile=true);
 
 protected slots:
     void selectFWToFlash();
@@ -170,6 +170,7 @@ private slots:
 
 public:
         QString LogFile;
+        QString LastFilePath;
 
 private:
         Ui::QGCAutoquad *ui;
@@ -202,7 +203,6 @@ private:
         void QuestionForROM();
         void exportPDF(QString fileName);
         void exportSVG(QString fileName);
-        QString LastFilePath;
         AQEsc32 *esc32;
         QStandardItemModel *model;
         QMap<QString, QString> paramEsc32;

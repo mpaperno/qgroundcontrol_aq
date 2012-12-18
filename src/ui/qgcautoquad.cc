@@ -237,19 +237,22 @@ QGCAutoquad::~QGCAutoquad()
 
 void QGCAutoquad::SetupListView()
 {
+    ui->listView_Curves->setAutoFillBackground(true);
+    QPalette p =  ui->listView_Curves->palette();
+    DefaultColorMeasureChannels = p.color(QPalette::Window);
     model = new QStandardItemModel(this); //listView_curves
     for ( int i=0; i<parser.LogChannelsStruct.count(); i++ ) {
         QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
         QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
         item->setCheckable(true);
-        DefaultColorMeasureChannels = item->background().color();
+//        DefaultColorMeasureChannels = item->background().color();
         model->appendRow(item);
     }
     ui->listView_Curves->setModel(model);
     connect(model, SIGNAL(itemChanged(QStandardItem*)), this,SLOT(CurveItemChanged(QStandardItem*)));
 }
 
-void QGCAutoquad::OpenLogFile(bool doDecode)
+void QGCAutoquad::OpenLogFile(bool openFile)
 {
     QString dirPath;
     if ( LastFilePath == "")
@@ -271,15 +274,14 @@ void QGCAutoquad::OpenLogFile(bool doDecode)
     if (fileNames.size() > 0)
     {
         QFile file(fileNames.first());
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        LogFile = QDir::toNativeSeparators(file.fileName());
+        LastFilePath = LogFile;
+        if (openFile && !file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
             QMessageBox msgBox;
             msgBox.setText("Could not read Log file. Permission denied");
             msgBox.exec();
-        }
-        LogFile = QDir::toNativeSeparators(file.fileName());
-        LastFilePath = LogFile;
-        if (doDecode)
+        } else if (openFile)
             DecodeLogFile(LogFile);
     }
 }
@@ -347,7 +349,6 @@ void QGCAutoquad::showChannels() {
 
     plot->setStyleText("lines");
     plot->updateScale();
-
     for ( int i = 0; i < model->rowCount(); i++) {
         bool isChecked = model->item(i,0)->checkState();
         QStandardItem *item = model->item(i,0);

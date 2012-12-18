@@ -1,5 +1,17 @@
 <RCC>
     <qresource prefix="/">
+        <file>images/actions/folder-search-result.png</file>
+        <file>images/actions/application-monitor.png</file>
+        <file>images/actions/document-new.svg</file>
+        <file>images/actions/document-open.svg</file>
+        <file>images/actions/document-properties.svg</file>
+        <file>images/actions/document-save.svg</file>
+        <file>images/actions/document-save-as.svg</file>
+        <file>images/actions/folder-horizontal-open.png</file>
+        <file>images/actions/folder-new.svg</file>
+        <file>images/actions/process-stop.svg</file>
+        <file>images/actions/system-search.svg</file>
+        <file>images/actions/view-refresh.svg</file>
         <file>images/control/launch.svg</file>
         <file>images/status/dialog-error.svg</file>
         <file>images/status/dialog-warning.svg</file>
@@ -76,7 +88,7 @@
         <file>images/status/audio-volume-low.svg</file>
         <file>images/status/audio-volume-high.svg</file>
         <file>images/status/colorbars.png</file>
-        <file>images/style-mission.css</file>
+        <file>images/style-indoor.css</file>
         <file>images/splash.png</file>
         <file>files/audio/alert.wav</file>
         <file>demo-log.txt</file>
@@ -88,6 +100,8 @@
         <file>images/contrib/slugs.png</file>
         <file>images/style-outdoor.css</file>
         <file>images/patterns/lenna.jpg</file>
+        <file>images/actions/cross-white.png</file>
+        <file>images/actions/document-export.png</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">images/Vera.ttf</file>
