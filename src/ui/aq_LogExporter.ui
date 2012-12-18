@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author>Maxim Paperno</author>
+ <author>Maxim Paperno &amp; Peter Haffner</author>
  <class>AQLogExporter</class>
  <widget class="QDialog" name="AQLogExporter">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>742</width>
-    <height>746</height>
+    <width>665</width>
+    <height>765</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,408 +26,1183 @@
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="3" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Timestamp Options</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_4" columnminimumwidth="1,1">
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <item row="0" column="0">
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>6</number>
+   </property>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_6">
+     <item row="0" column="0">
+      <widget class="QGroupBox" name="groupBox_logfile">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>Log File</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_lf">
+          <item>
+           <widget class="QLineEdit" name="lineEdit_inputFile">
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButton_selectLogFile">
+            <property name="toolTip">
+             <string>Select log file</string>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/images/actions/folder-horizontal-open.png</normaloff>:/images/actions/folder-horizontal-open.png</iconset>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="0" column="1" rowspan="6">
+      <widget class="QGroupBox" name="groupBox_values">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Select what data to export. Mouse over individual items for descriptions.</string>
+       </property>
+       <property name="title">
+        <string>Value(s) to Export</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="spacing">
-         <number>6</number>
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>7</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>7</number>
         </property>
         <item>
-         <widget class="QCheckBox" name="checkBox_timestamp">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+         <widget class="QCheckBox" name="checkBox_allValues">
+          <property name="toolTip">
+           <string>Select/de-select all values</string>
           </property>
           <property name="text">
-           <string>Include Timestamp</string>
+           <string>All</string>
+          </property>
+          <property name="tristate">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_localtime">
-          <property name="enabled">
-           <bool>false</bool>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="spacing">
+           <number>0</number>
           </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+          <property name="leftMargin">
+           <number>8</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="val_micros">
+            <property name="toolTip">
+             <string>Microseconds since AQ boot</string>
+            </property>
+            <property name="text">
+             <string>timer</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_voltages">
+            <property name="toolTip">
+             <string>Voltage readings 0-14</string>
+            </property>
+            <property name="text">
+             <string>voltages</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_rates">
+            <property name="toolTip">
+             <string>RATE X, Y, &amp; Z</string>
+            </property>
+            <property name="text">
+             <string>gyro values</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_accs">
+            <property name="toolTip">
+             <string>ACC X, Y, &amp; Z</string>
+            </property>
+            <property name="text">
+             <string>accel. values</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_mags">
+            <property name="toolTip">
+             <string>MAG X, Y, &amp; Z</string>
+            </property>
+            <property name="text">
+             <string>mag. values</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_mag_sign">
+            <property name="toolTip">
+             <string>ADC_MAG_SIGN</string>
+            </property>
+            <property name="text">
+             <string>mag-sign</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_pressures">
+            <property name="toolTip">
+             <string>Pressure 1, pressure 2</string>
+            </property>
+            <property name="text">
+             <string>pressure sensor</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_pres_alt">
+            <property name="toolTip">
+             <string> UKF_ALT and UKF_PRES_ALT</string>
+            </property>
+            <property name="text">
+             <string>pressure altitude</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_temps">
+            <property name="toolTip">
+             <string>Temperatures 0-2</string>
+            </property>
+            <property name="text">
+             <string>temperatures</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_vin">
+            <property name="toolTip">
+             <string>Flight battery voltage</string>
+            </property>
+            <property name="text">
+             <string>battery voltage</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_quat">
+            <property name="toolTip">
+             <string>Quaternions 0-4</string>
+            </property>
+            <property name="text">
+             <string>quaternions</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_poss">
+            <property name="toolTip">
+             <string>UKF positions N, E, &amp; D</string>
+            </property>
+            <property name="text">
+             <string>UKF positions</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_vels">
+            <property name="toolTip">
+             <string>UKF velocity N, E, &amp; D</string>
+            </property>
+            <property name="text">
+             <string>UKF velocities</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_motors">
+            <property name="toolTip">
+             <string>Motor port outputs 0-13</string>
+            </property>
+            <property name="text">
+             <string>motor outputs</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_throttle">
+            <property name="toolTip">
+             <string>Output throttle</string>
+            </property>
+            <property name="text">
+             <string>throttle output</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_out_pry">
+            <property name="toolTip">
+             <string>Output pitch, roll, &amp; yaw</string>
+            </property>
+            <property name="text">
+             <string>pitch/roll/yaw out.</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_attitude">
+            <property name="toolTip">
+             <string>Heading, roll, &amp; pitch in degrees</string>
+            </property>
+            <property name="text">
+             <string>vehicle attitude</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_gpsExportVals</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_lat_lon">
+            <property name="toolTip">
+             <string>GPS Latitude and Longitude</string>
+            </property>
+            <property name="text">
+             <string>GPS Lat. &amp; Lon.</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_gpsExportVals</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_pos_acc">
+            <property name="toolTip">
+             <string>GPS horizontal position accuracy in meters</string>
+            </property>
+            <property name="text">
+             <string>GPS position accuracy</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_alt">
+            <property name="toolTip">
+             <string>GPS Altitude in meters</string>
+            </property>
+            <property name="text">
+             <string>GPS altitude</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_gpsExportVals</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_alt_acc">
+            <property name="toolTip">
+             <string>GPS vertical accuracy in meters</string>
+            </property>
+            <property name="text">
+             <string>GPS alt. accuracy</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_vels">
+            <property name="toolTip">
+             <string>Velocities N, E, &amp; D</string>
+            </property>
+            <property name="text">
+             <string>GPS velocities</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_gpsExportVals</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_vel_acc">
+            <property name="toolTip">
+             <string>GPS velocity accuracy in meters</string>
+            </property>
+            <property name="text">
+             <string>GPS vel. accuracy</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_dops">
+            <property name="toolTip">
+             <string>PDOP, HDOP, VDOP, TDOP, NDOP, EDOP</string>
+            </property>
+            <property name="text">
+             <string>GPS DOPs</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_tow">
+            <property name="toolTip">
+             <string>GPS Time of Week</string>
+            </property>
+            <property name="text">
+             <string>GPS time of week</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_gpsExportVals</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_pos_micros">
+            <property name="toolTip">
+             <string>GPS position update timer</string>
+            </property>
+            <property name="text">
+             <string>GPS position update</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_gps_vel_micros">
+            <property name="toolTip">
+             <string>GPS velocity update timer</string>
+            </property>
+            <property name="text">
+             <string>GPS velocity update</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_radio_chan_8">
+            <property name="toolTip">
+             <string>Radio channel inputs 0-7</string>
+            </property>
+            <property name="text">
+             <string>radio channels 1-8</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_radio_chan_gt8">
+            <property name="toolTip">
+             <string>Radio channel inputs 8-17</string>
+            </property>
+            <property name="text">
+             <string>radio channels 9-18</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="val_radio_quality">
+            <property name="toolTip">
+             <string>RC radio signal status</string>
+            </property>
+            <property name="text">
+             <string>radio signal quality</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QGroupBox" name="groupBox_oo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Output Options&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select or enter a file in &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;To File&lt;/span&gt; to which to save the exported data. The file extension will automatically be adjusted based on your chosen export format.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export Format&lt;/span&gt; determines the type of output. &lt;span style=&quot; font-weight:600;&quot;&gt;CSV&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;TAB&lt;/span&gt;, and &lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt; types are &amp;quot;flat file&amp;quot; types with rows of data values which are separated by a comma, tab, or space character respectively. You may choose to &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Include Column Headers&lt;/span&gt; to output the field names as the first line of the export (this is recommended for easy import into a spreadsheet or database).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; (GPS eXchange) and &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; (Keyhole Markup Language) are XML output types which are typically used for GPS tracking and visualisation. KML is the native format for importing into Google Earth and provides more features than GPX, while GPX is a more accepted standard for data exchange.&lt;/p&gt;&lt;p&gt;Output Frequency determines how many records are exported per second of logged data. AutoQuad logs at a 200Hz rate (200 records per second). In many cases this is more data than necessary and can create very large export files. To limit the amount of data exported, select a lower frequency. For GPS tracking, a low value like 5 to 10 Hz is recommended, especially with KML or GPX exports which can create very large files even at low frequencies.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Output Options</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <item row="0" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_oo_2">
+          <item>
+           <widget class="QLabel" name="label_outFile">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>To File:</string>
+            </property>
+            <property name="margin">
+             <number>0</number>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_outputFile</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_outputFile">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Path and file for export output</string>
+            </property>
+            <property name="maxLength">
+             <number>2048</number>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toolButton_selectOutputFile">
+            <property name="toolTip">
+             <string>Select output file</string>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/images/actions/folder-horizontal-open.png</normaloff>:/images/actions/folder-horizontal-open.png</iconset>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_oo" stretch="0,1,0">
+          <item>
+           <widget class="QLabel" name="label_exportFormat">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Export format:</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_exportFormat</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_exportFormat">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Export data in this format</string>
+            </property>
+            <property name="currentIndex">
+             <number>-1</number>
+            </property>
+            <property name="minimumContentsLength">
+             <number>4</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_oo">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_oo_3">
+          <item>
+           <widget class="QLabel" name="label_outputFreq">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Output frequency:</string>
+            </property>
+            <property name="buddy">
+             <cstring>spinBox_outputFreq</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_outputFreq">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Number of samples per second to export (AQ logging rate is 200Hz)</string>
+            </property>
+            <property name="suffix">
+             <string>Hz</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>200</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>200</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_oo_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="checkBox_colHeaders">
+          <property name="toolTip">
+           <string>If selected, the first row of the export will list the exported values. Only valid for txt, csv, and tab export formats.</string>
           </property>
           <property name="text">
-           <string>Adjust to Local Time</string>
+           <string>Include Column Headers</string>
           </property>
           <property name="checked">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0">
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QGroupBox" name="groupBox_gpstrack">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;GPS Data Export&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export GPS Data as Track&lt;/span&gt; to automatically include all data releavant to GPS position and speed tracking, as well as vehicle attitude data (heading, roll, &amp;amp; pitch angles), and an accurate time stamp.&lt;/p&gt;&lt;p&gt;If you choose a flat file type output format (&lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt;,&lt;span style=&quot; font-weight:600;&quot;&gt; CSV&lt;/span&gt;,&lt;span style=&quot; font-weight:600;&quot;&gt; TAB&lt;/span&gt;) then you can also select other values to include in the export from the choices on the right. Column headings are automatically included.&lt;/p&gt;&lt;p&gt;If you choose &lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; or &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; format, you also have the choice to output the GPS data as &amp;quot;waypoints&amp;quot; by selecting &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export GPS Data as Waypoints&lt;/span&gt;.You can export this either in addition to, or instead of, the track data. The difference is mostly in how the data is plotted in programs like Google Earth. &lt;span style=&quot; color:#9e0000;&quot;&gt;Exporting waypoint data can produce significantly larger output files and may take longer to process.&lt;/span&gt; Both KML and GPX files can be opened directly in Google Earth, although KML is recommended.&lt;/p&gt;&lt;p&gt;You can also specify the minimum GPS &lt;span style=&quot; font-style:italic;&quot;&gt;estimated&lt;/span&gt; accuracy of the records you want exported. This eliminates the &amp;quot;no data&amp;quot; records before the flight controller aquires a GPS fix, and can control the accuracy of the data you are exporting. Typically anything over with an accuracy great than 3 will be very poor data.&lt;/p&gt;&lt;p&gt;To ensure the dates in your GPS log are correct, make sure the &lt;span style=&quot; font-style:italic;&quot;&gt;Date of Flight&lt;/span&gt; field below has the correct date. It is based on the log file modification date and may, or may not, be accurate. The &lt;span style=&quot; text-decoration: underline;&quot;&gt;time&lt;/span&gt; portion of the exported data will be correct regardless.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>GPS Data Export</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <layout class="QGridLayout" name="gridLayout" columnstretch="1,1">
+        <property name="topMargin">
+         <number>4</number>
+        </property>
         <property name="bottomMargin">
-         <number>20</number>
+         <number>4</number>
         </property>
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Date of Flight:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-          </property>
-          <property name="buddy">
-           <cstring>dateEdit_logDate</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDateEdit" name="dateEdit_logDate">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Actual UTC date of the flight (in case log creation date is incorrect). DD/MM/YYYY format.</string>
-          </property>
-          <property name="maximumDateTime">
-           <datetime>
-            <hour>4</hour>
-            <minute>59</minute>
-            <second>59</second>
-            <year>3001</year>
-            <month>1</month>
-            <day>9</day>
-           </datetime>
-          </property>
-          <property name="minimumDateTime">
-           <datetime>
-            <hour>5</hour>
-            <minute>0</minute>
-            <second>0</second>
-            <year>2010</year>
-            <month>1</month>
-            <day>1</day>
-           </datetime>
-          </property>
-          <property name="displayFormat">
-           <string>dd/MM/yyyy</string>
-          </property>
-          <property name="calendarPopup">
-           <bool>true</bool>
-          </property>
-          <property name="currentSectionIndex">
-           <number>0</number>
-          </property>
-          <property name="timeSpec">
-           <enum>Qt::UTC</enum>
-          </property>
-          <property name="date">
-           <date>
-            <year>2012</year>
-            <month>1</month>
-            <day>1</day>
-           </date>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Maximum</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_5">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>100</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Output Options</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1">
-      <property name="leftMargin">
-       <number>9</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <item row="0" column="0" colspan="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>To File:</string>
-          </property>
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <property name="buddy">
-           <cstring>lineEdit_outputFile</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="lineEdit_outputFile">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maxLength">
-           <number>2048</number>
-          </property>
-          <property name="frame">
-           <bool>true</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="toolButton_selectOutputFile">
-          <property name="toolTip">
-           <string>Select output file</string>
-          </property>
-          <property name="text">
-           <string>...</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,0">
-        <item>
-         <widget class="QLabel" name="labelFormat">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Export format:</string>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_exportFormat</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="comboBox_exportFormat">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Export data in this format</string>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-          <property name="minimumContentsLength">
-           <number>4</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Output frequency:</string>
-          </property>
-          <property name="buddy">
-           <cstring>spinBox</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="spinBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Number of samples per second to export (AQ logging rate is 200Hz)</string>
-          </property>
-          <property name="suffix">
-           <string>Hz</string>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>200</number>
-          </property>
-          <property name="singleStep">
-           <number>10</number>
-          </property>
-          <property name="value">
-           <number>200</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="checkBox_colHeaders">
-        <property name="toolTip">
-         <string>If selected, the first row of the export will list the exported values. Only valid for txt, csv, and tab export formats.</string>
-        </property>
-        <property name="text">
-         <string>Include Column Headers</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QGroupBox" name="groupBox_6">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Trigger Indicator</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_6" columnstretch="1,1">
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_5">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_gt">
           <item>
-           <widget class="QLabel" name="label_6">
+           <widget class="QCheckBox" name="checkBox_gpsTrack">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Set GPS Track output mode (see &quot;What's this&quot; help for this section)</string>
+            </property>
+            <property name="text">
+             <string>Export GPS Data as Track</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_gpsWaypoints">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Set GPS track output as Waypoints (only in GPX and KML formats)</string>
+            </property>
+            <property name="text">
+             <string>Export GPS Data as Waypoints</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="1">
+         <layout class="QGridLayout" name="gridLayout_gt">
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_minVAcc">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Vertical GPS accuracy must this high or better (lower)</string>
+            </property>
+            <property name="prefix">
+             <string>~ </string>
+            </property>
+            <property name="suffix">
+             <string>m</string>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>0.100000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.500000000000000</double>
+            </property>
+            <property name="value">
+             <double>2.500000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_gpsAccH">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Min. Horizontal GPS Accuracy:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>doubleSpinBox_minHAcc</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox_minHAcc">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Horizontal GPS accuracy must this high or better (lower)</string>
+            </property>
+            <property name="prefix">
+             <string>~ </string>
+            </property>
+            <property name="suffix">
+             <string>m</string>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>0.100000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.500000000000000</double>
+            </property>
+            <property name="value">
+             <double>2.500000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_gpsAccV">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Min. Verticall GPS Accuracy:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>doubleSpinBox_minVAcc</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QGroupBox" name="groupBox_ts">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Timestamp Options&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select options to include a date/time value for each exported record. This is based on the logged GPS Time of Week (iTOW) and is &lt;span style=&quot; font-weight:600;&quot;&gt;calculated based on the &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Date of Flight&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; field in this section&lt;/span&gt;. The default date shown is based on the log file modification date, which may or may not be correct. Even if the date is not set correctly, the time value will still be exact.&lt;/p&gt;&lt;p&gt;Date and time is output in UTC (GMT) time by default. Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Adjust to Local Time&lt;/span&gt; to use the time zone information on this computer to change the timestamp to local time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Timestamp Options</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4" columnminimumwidth="1,1">
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_ts">
+          <item>
+           <widget class="QCheckBox" name="checkBox_timestamp">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Include GPS date/time in output</string>
+            </property>
+            <property name="text">
+             <string>Include Timestamp</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_localtime">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Adjust timestamp to local time based on computer settings</string>
+            </property>
+            <property name="text">
+             <string>Adjust to Local Time</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_ts" stretch="0,0,0">
+          <property name="bottomMargin">
+           <number>20</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_dateOfFlight">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Date of Flight:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            </property>
+            <property name="buddy">
+             <cstring>dateEdit_logDate</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDateEdit" name="dateEdit_logDate">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Actual UTC date of the flight (in case log creation date is incorrect). DD/MM/YYYY format.</string>
+            </property>
+            <property name="maximumDateTime">
+             <datetime>
+              <hour>4</hour>
+              <minute>59</minute>
+              <second>59</second>
+              <year>3001</year>
+              <month>1</month>
+              <day>22</day>
+             </datetime>
+            </property>
+            <property name="minimumDateTime">
+             <datetime>
+              <hour>5</hour>
+              <minute>0</minute>
+              <second>0</second>
+              <year>2010</year>
+              <month>1</month>
+              <day>1</day>
+             </datetime>
+            </property>
+            <property name="displayFormat">
+             <string>dd-MMM-yyyy</string>
+            </property>
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="currentSectionIndex">
+             <number>0</number>
+            </property>
+            <property name="timeSpec">
+             <enum>Qt::UTC</enum>
+            </property>
+            <property name="date">
+             <date>
+              <year>2012</year>
+              <month>1</month>
+              <day>1</day>
+             </date>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_ts">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QGroupBox" name="groupBox_trigger">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Trigger Indicator&lt;/span&gt;&lt;/p&gt;&lt;p&gt;You can use a radio channel as a &amp;quot;trigger&amp;quot; mechanism, for example to indicate a flight mode or a camera being triggered. The output depends on the export format selected.&lt;/p&gt;&lt;p&gt;For flat files (&lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;CSV&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;TAB&lt;/span&gt;), a column will be included which has a value of one (1) or zero (0). 1 indicates that the trigger is active (meaning the channel is at/above/below the value indicated).&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; export types, a special waypoint is created for every point in the track where the trigger is active. For example when viewing the output in Google Earth, each triggered waypoint will appear with a named marker (in KML format it will be uniquely colored to distinguish it from other waypoint types).&lt;/p&gt;&lt;p&gt;Select the desired channel using &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Trigger Channel&lt;/span&gt; and specify a value in &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Channel Value&lt;/span&gt;. You have 3 options for the channel value: greater than a value (eg. a switch set to high), less than a value (eg. a switch set to low) and a value of zero with a buffer of +/-100 (meaning in the range -100 to +100, eg. to indicate a switch in middle position).&lt;/p&gt;&lt;p&gt;Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Output Triggered Records Only&lt;/span&gt; to only include records where the trigger is active.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Trigger Indicator</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_triggerChannel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -442,7 +1217,7 @@
             </property>
            </widget>
           </item>
-          <item>
+          <item row="0" column="1">
            <widget class="QSpinBox" name="spinBox_triggerChannel">
             <property name="enabled">
              <bool>true</bool>
@@ -470,211 +1245,370 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_trig_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0" colspan="3">
+           <widget class="QCheckBox" name="checkBox_triggerOnly">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Output Triggerered Records only</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_trig_1" stretch="0,1">
           <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBox_triggerOnly">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Output Triggerered Records only</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="1">
-       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,1">
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">padding-bottom: 40px;</string>
-          </property>
-          <property name="text">
-           <string>Channel Value:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <property name="indent">
-           <number>-2</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QGridLayout" name="gridLayout_5" columnstretch="0,0,0" columnminimumwidth="0,50,0">
-          <property name="horizontalSpacing">
-           <number>4</number>
-          </property>
-          <property name="verticalSpacing">
-           <number>2</number>
-          </property>
-          <item row="2" column="2">
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="0">
-           <widget class="QRadioButton" name="radioButton_trigVal_opt1">
+           <widget class="QLabel" name="label_trigChVal">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="toolTip">
-             <string>Channel should be less than this value</string>
+            <property name="styleSheet">
+             <string notr="true">padding-bottom: 40px;</string>
             </property>
             <property name="text">
-             <string>is &lt;</string>
+             <string>Channel Value:</string>
             </property>
-            <attribute name="buttonGroup">
-             <string notr="true">buttonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QSpinBox" name="spinBox_trigVal_lt">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Negative channel value</string>
-            </property>
-            <property name="prefix">
-             <string/>
-            </property>
-            <property name="minimum">
-             <number>-1500</number>
-            </property>
-            <property name="maximum">
-             <number>0</number>
-            </property>
-            <property name="singleStep">
-             <number>50</number>
-            </property>
-            <property name="value">
-             <number>-250</number>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
             </property>
            </widget>
           </item>
-          <item row="4" column="0" colspan="2">
-           <widget class="QRadioButton" name="radioButton_trigVal_opt3">
-            <property name="enabled">
-             <bool>false</bool>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_trig" columnstretch="0,0,0" columnminimumwidth="0,50,0">
+            <property name="horizontalSpacing">
+             <number>4</number>
             </property>
-            <property name="toolTip">
-             <string>Channel should equal zero, +/- 100</string>
+            <property name="verticalSpacing">
+             <number>2</number>
             </property>
-            <property name="text">
-             <string>= 0 (+/-100)</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">buttonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QSpinBox" name="spinBox_trigVal_gt">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Positive channel value</string>
-            </property>
-            <property name="maximum">
-             <number>1500</number>
-            </property>
-            <property name="singleStep">
-             <number>50</number>
-            </property>
-            <property name="value">
-             <number>250</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QRadioButton" name="radioButton_trigVal_opt2">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Channel should be greater than this value</string>
-            </property>
-            <property name="text">
-             <string>is &gt;</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">buttonGroup</string>
-            </attribute>
-           </widget>
+            <item row="2" column="2">
+             <spacer name="horizontalSpacer_trig_1">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="2" column="0">
+             <widget class="QRadioButton" name="radioButton_trigVal_opt02">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Channel should be less than this value</string>
+              </property>
+              <property name="text">
+               <string>is &lt;</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_trigChanValues</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QSpinBox" name="spinBox_trigVal_lt">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>45</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Negative channel value</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="prefix">
+               <string/>
+              </property>
+              <property name="minimum">
+               <number>-1500</number>
+              </property>
+              <property name="maximum">
+               <number>0</number>
+              </property>
+              <property name="singleStep">
+               <number>50</number>
+              </property>
+              <property name="value">
+               <number>-250</number>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="2">
+             <widget class="QRadioButton" name="radioButton_trigVal_opt03">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Channel should equal zero, +/- 100</string>
+              </property>
+              <property name="text">
+               <string>= 0 (+/-100)</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_trigChanValues</string>
+              </attribute>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spinBox_trigVal_gt">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>45</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Positive channel value</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="prefix">
+               <string/>
+              </property>
+              <property name="maximum">
+               <number>1500</number>
+              </property>
+              <property name="singleStep">
+               <number>50</number>
+              </property>
+              <property name="value">
+               <number>250</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButton_trigVal_opt01">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Channel should be greater than this value</string>
+              </property>
+              <property name="text">
+               <string>is &gt;</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_trigChanValues</string>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
        </layout>
-      </item>
-     </layout>
-    </widget>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,1,3,2,2">
+       <property name="horizontalSpacing">
+        <number>10</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>13</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0">
+        <widget class="QToolButton" name="toolButton_openOutput">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>75</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Open the output file in the associated application (if any).</string>
+         </property>
+         <property name="text">
+          <string>Open</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../qgroundcontrol.qrc">
+           <normaloff>:/images/actions/application-monitor.png</normaloff>:/images/actions/application-monitor.png</iconset>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QToolButton" name="toolButton_browseOutput">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>75</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>Browse the output folder using the native file browser application.</string>
+         </property>
+         <property name="text">
+          <string>Browse</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../qgroundcontrol.qrc">
+           <normaloff>:/images/actions/folder-search-result.png</normaloff>:/images/actions/folder-search-result.png</iconset>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <spacer name="horizontalSpacer_btns">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>268</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="3">
+        <widget class="QPushButton" name="pushButton_doExport">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Export</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pushButton_close">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Close</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
-   <item row="8" column="0" colspan="3">
-    <widget class="QGroupBox" name="groupBox_12">
+   <item>
+    <widget class="QGroupBox" name="groupBox_Status">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -682,7 +1616,7 @@
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>200</height>
+       <height>16777215</height>
       </size>
      </property>
      <property name="title">
@@ -693,9 +1627,9 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QPlainTextEdit" name="plainTextEdit_logdumpOutput">
+       <widget class="QTextEdit" name="textEdit_logdumpOutput">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -706,739 +1640,86 @@
         <property name="toolTip">
          <string>Export status will appear here...</string>
         </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
         <property name="undoRedoEnabled">
          <bool>false</bool>
         </property>
         <property name="readOnly">
          <bool>true</bool>
         </property>
+        <property name="html">
+         <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
         <property name="textInteractionFlags">
-         <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>50</height>
-      </size>
-     </property>
-     <property name="title">
-      <string>Log File</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLineEdit" name="lineEdit_inputFile">
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="toolButton_selectLogFile">
-          <property name="toolTip">
-           <string>Select log file</string>
-          </property>
-          <property name="text">
-           <string>...</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>GPS Data Export</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="1,1">
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QCheckBox" name="checkBox_gpsTrack">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Export GPS Data as Track</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="checkBox_gpsWaypoints">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Export GPS Data as Waypoints</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="0" column="1">
-       <layout class="QGridLayout" name="gridLayout_7">
-        <property name="horizontalSpacing">
-         <number>6</number>
-        </property>
-        <property name="verticalSpacing">
-         <number>2</number>
-        </property>
-        <item row="1" column="1">
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_MinVAcc">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>70</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="prefix">
-           <string>~ </string>
-          </property>
-          <property name="suffix">
-           <string>m</string>
-          </property>
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="minimum">
-           <double>0.100000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>10.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.500000000000000</double>
-          </property>
-          <property name="value">
-           <double>2.500000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Min. Horizontal GPS Accuracy:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="buddy">
-           <cstring>doubleSpinBox_minHAcc</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_minHAcc">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>70</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="prefix">
-           <string>~ </string>
-          </property>
-          <property name="suffix">
-           <string>m</string>
-          </property>
-          <property name="decimals">
-           <number>1</number>
-          </property>
-          <property name="minimum">
-           <double>0.100000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>10.000000000000000</double>
-          </property>
-          <property name="singleStep">
-           <double>0.500000000000000</double>
-          </property>
-          <property name="value">
-           <double>2.500000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Min. Verticall GPS Accuracy:</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="buddy">
-           <cstring>doubleSpinBox_MinVAcc</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <spacer name="horizontalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="1" rowspan="7" colspan="2">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Value(s) to Export</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="leftMargin">
-       <number>7</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>20</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <item>
-       <widget class="QCheckBox" name="microsec">
-        <property name="toolTip">
-         <string>Microseconds since AQ boot</string>
-        </property>
-        <property name="text">
-         <string>timer</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="voltages">
-        <property name="toolTip">
-         <string>Voltage readings 0-14</string>
-        </property>
-        <property name="text">
-         <string>voltages</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="rates">
-        <property name="toolTip">
-         <string>RATE X, Y, &amp; Z</string>
-        </property>
-        <property name="text">
-         <string>gyro values</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="acc">
-        <property name="toolTip">
-         <string>ACC X, Y, &amp; Z</string>
-        </property>
-        <property name="text">
-         <string>accel. values</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="mags">
-        <property name="toolTip">
-         <string>MAG X, Y, &amp; Z</string>
-        </property>
-        <property name="text">
-         <string>mag. values</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="mag_sign">
-        <property name="toolTip">
-         <string>ADC_MAG_SIGN</string>
-        </property>
-        <property name="text">
-         <string>mag-sign</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="pressures">
-        <property name="toolTip">
-         <string>Pressure 1, pressure 2</string>
-        </property>
-        <property name="text">
-         <string>pressure sensor</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="pres_alt">
-        <property name="toolTip">
-         <string> UKF_ALT and UKF_PRES_ALT</string>
-        </property>
-        <property name="text">
-         <string>pressure altitude</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="temps">
-        <property name="toolTip">
-         <string>Temperatures 0-2</string>
-        </property>
-        <property name="text">
-         <string>temperatures</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="vin">
-        <property name="toolTip">
-         <string>Flight battery voltage</string>
-        </property>
-        <property name="text">
-         <string>battery voltage</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="quat">
-        <property name="toolTip">
-         <string>Quaternions 0-4</string>
-        </property>
-        <property name="text">
-         <string>quaternions</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="poss">
-        <property name="toolTip">
-         <string>UKF positions N, E, &amp; D</string>
-        </property>
-        <property name="text">
-         <string>UKF positions</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="vels">
-        <property name="toolTip">
-         <string>UKF velocity N, E, &amp; D</string>
-        </property>
-        <property name="text">
-         <string>UKF velocities</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="motors">
-        <property name="toolTip">
-         <string>Motor port outputs 0-13</string>
-        </property>
-        <property name="text">
-         <string>motor outputs</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="throttle">
-        <property name="toolTip">
-         <string>Output throttle</string>
-        </property>
-        <property name="text">
-         <string>throttle output</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="output_pry">
-        <property name="toolTip">
-         <string>Output pitch, roll, &amp; yaw</string>
-        </property>
-        <property name="text">
-         <string>pitch/roll/yaw out.</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_lat_lon">
-        <property name="toolTip">
-         <string>GPS Latitude and Longitude</string>
-        </property>
-        <property name="text">
-         <string>GPS Lat. &amp; Lon.</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_pos_acc">
-        <property name="toolTip">
-         <string>GPS horizontal position accuracy in meters</string>
-        </property>
-        <property name="text">
-         <string>GPS position accuracy</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_alt">
-        <property name="toolTip">
-         <string>GPS Altitude in meters</string>
-        </property>
-        <property name="text">
-         <string>GPS altitude</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_alt_acc">
-        <property name="toolTip">
-         <string>GPS vertical accuracy in meters</string>
-        </property>
-        <property name="text">
-         <string>GPS alt. accuracy</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_vels">
-        <property name="toolTip">
-         <string>Velocities N, E, &amp; D</string>
-        </property>
-        <property name="text">
-         <string>GPS velocities</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_vel_acc">
-        <property name="toolTip">
-         <string>GPS velocity accuracy in meters</string>
-        </property>
-        <property name="text">
-         <string>GPS vel. accuracy</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_dops">
-        <property name="toolTip">
-         <string>PDOP, HDOP, VDOP, TDOP, NDOP, EDOP</string>
-        </property>
-        <property name="text">
-         <string>GPS DOPs</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_tow">
-        <property name="toolTip">
-         <string>GPS Time of Week</string>
-        </property>
-        <property name="text">
-         <string>GPS time of week</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_pos_micros">
-        <property name="toolTip">
-         <string>GPS position update timer</string>
-        </property>
-        <property name="text">
-         <string>GPS position update</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="gps_vel_micros">
-        <property name="toolTip">
-         <string>GPS velocity update timer</string>
-        </property>
-        <property name="text">
-         <string>GPS velocity update</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="radio_chan_8">
-        <property name="toolTip">
-         <string>Radio channel inputs 0-7</string>
-        </property>
-        <property name="text">
-         <string>radio channels 1-8</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="radio_chan_gt8">
-        <property name="toolTip">
-         <string>Radio channel inputs 8-17</string>
-        </property>
-        <property name="text">
-         <string>radio channels 9-18</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="radio_quality">
-        <property name="toolTip">
-         <string>RC radio signal status</string>
-        </property>
-        <property name="text">
-         <string>radio signal quality</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Minimum</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="6" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_9">
-     <property name="topMargin">
-      <number>30</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>268</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_doExport">
-       <property name="text">
-        <string>Export</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="7" column="1">
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="7" column="0">
-    <spacer name="verticalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
-  <zorder>groupBox_5</zorder>
-  <zorder>groupBox_4</zorder>
-  <zorder>groupBox_2</zorder>
-  <zorder>groupBox_6</zorder>
-  <zorder>groupBox</zorder>
-  <zorder>groupBox</zorder>
-  <zorder>verticalSpacer</zorder>
-  <zorder>groupBox_12</zorder>
-  <zorder>verticalSpacer_2</zorder>
-  <zorder>verticalSpacer_3</zorder>
  </widget>
  <layoutdefault spacing="4" margin="9"/>
  <tabstops>
   <tabstop>lineEdit_inputFile</tabstop>
   <tabstop>lineEdit_outputFile</tabstop>
   <tabstop>comboBox_exportFormat</tabstop>
-  <tabstop>spinBox</tabstop>
+  <tabstop>spinBox_outputFreq</tabstop>
   <tabstop>checkBox_colHeaders</tabstop>
   <tabstop>checkBox_gpsTrack</tabstop>
   <tabstop>checkBox_gpsWaypoints</tabstop>
   <tabstop>doubleSpinBox_minHAcc</tabstop>
-  <tabstop>doubleSpinBox_MinVAcc</tabstop>
+  <tabstop>doubleSpinBox_minVAcc</tabstop>
   <tabstop>checkBox_timestamp</tabstop>
   <tabstop>checkBox_localtime</tabstop>
   <tabstop>dateEdit_logDate</tabstop>
   <tabstop>spinBox_triggerChannel</tabstop>
   <tabstop>checkBox_triggerOnly</tabstop>
-  <tabstop>radioButton_trigVal_opt1</tabstop>
+  <tabstop>radioButton_trigVal_opt02</tabstop>
   <tabstop>spinBox_trigVal_lt</tabstop>
-  <tabstop>radioButton_trigVal_opt3</tabstop>
-  <tabstop>microsec</tabstop>
-  <tabstop>voltages</tabstop>
-  <tabstop>rates</tabstop>
-  <tabstop>acc</tabstop>
-  <tabstop>mags</tabstop>
-  <tabstop>mag_sign</tabstop>
-  <tabstop>pressures</tabstop>
-  <tabstop>pres_alt</tabstop>
-  <tabstop>temps</tabstop>
-  <tabstop>vin</tabstop>
-  <tabstop>quat</tabstop>
-  <tabstop>poss</tabstop>
-  <tabstop>vels</tabstop>
-  <tabstop>motors</tabstop>
-  <tabstop>throttle</tabstop>
-  <tabstop>output_pry</tabstop>
-  <tabstop>gps_lat_lon</tabstop>
-  <tabstop>gps_pos_acc</tabstop>
-  <tabstop>gps_alt</tabstop>
-  <tabstop>gps_alt_acc</tabstop>
-  <tabstop>gps_vels</tabstop>
-  <tabstop>gps_vel_acc</tabstop>
-  <tabstop>gps_dops</tabstop>
-  <tabstop>gps_tow</tabstop>
-  <tabstop>gps_pos_micros</tabstop>
-  <tabstop>gps_vel_micros</tabstop>
-  <tabstop>radio_chan_8</tabstop>
-  <tabstop>radio_chan_gt8</tabstop>
-  <tabstop>radio_quality</tabstop>
+  <tabstop>radioButton_trigVal_opt03</tabstop>
+  <tabstop>val_micros</tabstop>
+  <tabstop>val_voltages</tabstop>
+  <tabstop>val_rates</tabstop>
+  <tabstop>val_accs</tabstop>
+  <tabstop>val_mags</tabstop>
+  <tabstop>val_mag_sign</tabstop>
+  <tabstop>val_pressures</tabstop>
+  <tabstop>val_pres_alt</tabstop>
+  <tabstop>val_temps</tabstop>
+  <tabstop>val_vin</tabstop>
+  <tabstop>val_quat</tabstop>
+  <tabstop>val_poss</tabstop>
+  <tabstop>val_vels</tabstop>
+  <tabstop>val_motors</tabstop>
+  <tabstop>val_throttle</tabstop>
+  <tabstop>val_out_pry</tabstop>
+  <tabstop>val_gps_lat_lon</tabstop>
+  <tabstop>val_gps_pos_acc</tabstop>
+  <tabstop>val_gps_alt</tabstop>
+  <tabstop>val_gps_alt_acc</tabstop>
+  <tabstop>val_gps_vels</tabstop>
+  <tabstop>val_gps_vel_acc</tabstop>
+  <tabstop>val_gps_dops</tabstop>
+  <tabstop>val_gps_tow</tabstop>
+  <tabstop>val_gps_pos_micros</tabstop>
+  <tabstop>val_gps_vel_micros</tabstop>
+  <tabstop>val_radio_chan_8</tabstop>
+  <tabstop>val_radio_chan_gt8</tabstop>
+  <tabstop>val_radio_quality</tabstop>
   <tabstop>pushButton_doExport</tabstop>
-  <tabstop>buttonBox</tabstop>
-  <tabstop>plainTextEdit_logdumpOutput</tabstop>
+  <tabstop>textEdit_logdumpOutput</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../qgroundcontrol.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>checkBox_timestamp</sender>
@@ -1447,76 +1728,76 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>92</x>
+     <x>193</x>
      <y>285</y>
     </hint>
     <hint type="destinationlabel">
-     <x>97</x>
-     <y>308</y>
+     <x>193</x>
+     <y>300</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>AQLogExporter</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>566</x>
-     <y>523</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_doExport</sender>
-   <signal>clicked()</signal>
-   <receiver>AQLogExporter</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>485</x>
-     <y>523</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>298</x>
-     <y>382</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_trigVal_opt1</sender>
+   <sender>radioButton_trigVal_opt02</sender>
    <signal>toggled(bool)</signal>
    <receiver>spinBox_trigVal_lt</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>381</x>
-     <y>345</y>
+     <x>364</x>
+     <y>386</y>
     </hint>
     <hint type="destinationlabel">
-     <x>433</x>
-     <y>343</y>
+     <x>413</x>
+     <y>389</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>radioButton_trigVal_opt2</sender>
+   <sender>radioButton_trigVal_opt01</sender>
    <signal>toggled(bool)</signal>
    <receiver>spinBox_trigVal_gt</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>392</x>
-     <y>365</y>
+     <x>364</x>
+     <y>362</y>
     </hint>
     <hint type="destinationlabel">
-     <x>425</x>
+     <x>413</x>
      <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_timestamp</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_dateOfFlight</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>216</x>
+     <y>281</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>292</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_timestamp</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dateEdit_logDate</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>138</x>
+     <y>278</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>375</x>
+     <y>282</y>
     </hint>
    </hints>
   </connection>
@@ -1539,6 +1820,16 @@
   </property>
  </designerdata>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_gpsExportVals">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="buttonGroup_exportValues">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="buttonGroup_trigChanValues"/>
  </buttongroups>
 </ui>
