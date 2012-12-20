@@ -287,11 +287,24 @@ void QGCAutoquad::OpenLogFile(bool openFile)
 }
 
 void QGCAutoquad::openExportOptionsDlg() {
-    if (LogFile == ""){
-        OpenLogFile(false);
-    }
-    ImportDialog = new AQLogExporter(this);
-    ImportDialog->show();
+    static QWeakPointer<AQLogExporter> dlg_;
+
+//    if (!LogFile.length()){
+//        OpenLogFile(false);
+//    }
+
+    if (!dlg_)
+        dlg_ = new AQLogExporter(this);
+
+    AQLogExporter *dlg = dlg_.data();
+
+    if (LogFile.length())
+        dlg->setLogFile(LogFile);
+
+    dlg->setAttribute(Qt::WA_DeleteOnClose);
+    dlg->show();
+    dlg->raise();
+    dlg->activateWindow();
 }
 
 void QGCAutoquad::CurveItemChanged(QStandardItem *item)

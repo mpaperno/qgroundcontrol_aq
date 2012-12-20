@@ -4,11 +4,19 @@
 #include <QDialog>
 #include <QProcess>
 #include <QCheckBox>
+#include <QSettings>
+#include <QCloseEvent>
 
-class QGCAutoquad;
+//class QGCAutoquad;
 
 namespace Ui {
 class AQLogExporter;
+}
+
+namespace AQLOGEXPORTER {
+    const QString APP_NAME = "AQLogExporter";
+    const QString APP_ORG = "AutoQuad";
+    const int APP_VERSION = 100; // 1.0.0
 }
 
 class AQLogExporter : public QDialog
@@ -18,25 +26,27 @@ class AQLogExporter : public QDialog
 public:
     explicit AQLogExporter(QWidget *parent = 0);
     ~AQLogExporter();
+    void setLogFile(QString &logFile);
+
+protected:
+    enum statusMsgTypes { MSG_PLAIN, MSG_INFO, MSG_SUCCESS, MSG_WARNING, MSG_ERROR};
+    void closeEvent(QCloseEvent *event);
 
 private:
-    enum statusMsgTypes { MSG_PLAIN, MSG_INFO, MSG_SUCCESS, MSG_WARNING, MSG_ERROR};
-
     void newLogFile();
+    void newOutputFile();
     void toggleGPSTrackOpts(bool enable);
-    void newOutputFile(const QString &fname);
-    void selectOutputFile();
     void setExportTypeOptions(QString typ);
     void writeMsgToStatusWindow(QString &msg, statusMsgTypes typ = MSG_INFO);
-//    void processWaitLoop();
     void scrollStatusWindow();
+    void readSettings();
+    void writeSettings();
 
 signals:
     void formValidRecheck();
 
 private slots:
     void extProcessExit(int exitcode);
-//    void extProcessStdOut();
     void extProcessStdErr();
     void extProcessError(QProcess::ProcessError err);
     bool validateForm(bool showAlert = false);
@@ -50,7 +60,6 @@ private slots:
     void on_checkBox_gpsWaypoints_toggled(bool checked);
     void on_checkBox_allValues_clicked();
     void on_pushButton_doExport_clicked();
-    void on_pushButton_close_clicked();
     void on_toolButton_selectLogFile_clicked();
     void on_toolButton_selectOutputFile_clicked();
     void on_toolButton_openOutput_clicked();
@@ -58,11 +67,12 @@ private slots:
 
 private:
     Ui::AQLogExporter *ui;
-    QGCAutoquad *aq;
+//    QGCAutoquad *aq;
+    QSettings settings;
     QProcess ps_export;
     QString savedOutputPath;
+    QString savedLogfilePath;
     QString lastOutfilePath;
-//    QString execOutput;
     QStringList flatExpTypes;
     QStringList xmlExpTypes;
     QStringList allExpTypes;
@@ -70,4 +80,4 @@ private:
 
 };
 
-#endif // AQKMLGPXOPTIONS_H
+#endif // AQ_LOGEXPORTER_H

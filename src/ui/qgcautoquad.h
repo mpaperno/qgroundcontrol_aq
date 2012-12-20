@@ -12,7 +12,6 @@
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
 #include "aqlinechartwidget.h"
-#include "aq_LogExporter.h"
 
 #include <QWidget>
 #include <QProcess>
@@ -231,7 +230,6 @@ private:
         void DisableEnableAllRollGimbal(int selectedIndex, bool value);
         int msec;
         QGridLayout* linLayoutPlot;
-        AQLogExporter* ImportDialog;
 
 protected:
         void showEvent(QShowEvent* event);

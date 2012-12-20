@@ -132,7 +132,7 @@ public slots:
     /** @brief Print a Windows exception */
     void printWinException(int no, QString str1, QString str2, QString str3);
 
-    void OpenImportDialog();
+//    void OpenImportDialog();
 
 public:
     /** @brief Execute java script inside the Google Earth window */

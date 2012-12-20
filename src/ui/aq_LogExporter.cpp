@@ -19,6 +19,7 @@ AQLogExporter::AQLogExporter(QWidget *parent) :
 
     ui->setupUi(this);
 
+
     // populate class vars
 
     // all export file types
@@ -29,11 +30,20 @@ AQLogExporter::AQLogExporter(QWidget *parent) :
     // flag to determine if we should prompt about file overwrite
     outFileWasSelectedViaBrowse = false;
 
+    // connections
+
     // create a formValidRecheck signal for programatic use
     connect(this, SIGNAL(formValidRecheck()), this, SLOT(validateForm()));
     // map an action whenever one of the export values checkboxes are clicked
     connect(ui->buttonGroup_exportValues, SIGNAL(buttonClicked(int)), this, SLOT(validateForm()));
     connect(ui->buttonGroup_gpsExportVals, SIGNAL(buttonClicked(int)), this, SLOT(validateForm()));
+    // connect STDIO
+    connect(&ps_export, SIGNAL(finished(int)), this, SLOT(extProcessExit(int)));
+    connect(&ps_export, SIGNAL(readyReadStandardError()), this, SLOT(extProcessStdErr()));
+    connect(&ps_export, SIGNAL(error(QProcess::ProcessError)), this, SLOT(extProcessError(QProcess::ProcessError)));
+
+
+    // populate form field values
 
     // populate export types form field
     for (int i=0; i < allExpTypes.size(); i++)
@@ -43,19 +53,17 @@ AQLogExporter::AQLogExporter(QWidget *parent) :
     foreach (QAbstractButton *curBtn, ui->buttonGroup_trigChanValues->buttons())
         ui->buttonGroup_trigChanValues->setId(curBtn, curBtn->objectName().replace(QRegExp("[^\\d]*"), "").toInt());
 
-    // find QGCAutoquad class to see if a log file is already selected and use its log file selection dialog
-    aq = qobject_cast<QGCAutoquad *>(parent);
-    if (aq) {
-        ui->lineEdit_inputFile->insert(aq->LogFile);
-        newLogFile();
-    } else
-        aq = new QGCAutoquad();
 
-    // connect STDIO
-    connect(&ps_export, SIGNAL(finished(int)), this, SLOT(extProcessExit(int)));
-//    connect(&ps_export, SIGNAL(readyReadStandardOutput()), this, SLOT(extProcessStdOut()));
-    connect(&ps_export, SIGNAL(readyReadStandardError()), this, SLOT(extProcessStdErr()));
-    connect(&ps_export, SIGNAL(error(QProcess::ProcessError)), this, SLOT(extProcessError(QProcess::ProcessError)));
+    // find QGCAutoquad class to see if a log file is already selected and use its log file selection dialog
+//    aq = qobject_cast<QGCAutoquad *>(parent);
+//    if (aq)
+//        ui->lineEdit_inputFile->insert(aq->LogFile);
+//    else
+//        aq = new QGCAutoquad();
+
+    // restore settings
+    readSettings();
+
 }
 
 AQLogExporter::~AQLogExporter()
@@ -64,7 +72,6 @@ AQLogExporter::~AQLogExporter()
 
     //disconnect STDIO
     disconnect(&ps_export, SIGNAL(finished(int)), this, SLOT(extProcessExit(int)));
-//    disconnect(&ps_export, SIGNAL(readyReadStandardOutput()), this, SLOT(extProcessStdOut()));
     disconnect(&ps_export, SIGNAL(readyReadStandardError()), this, SLOT(extProcessStdErr()));
     disconnect(&ps_export, SIGNAL(error(QProcess::ProcessError)), this, SLOT(extProcessError(QProcess::ProcessError)));
 }
@@ -151,12 +158,22 @@ void AQLogExporter::newLogFile() {
         return;
     }
 
-    QFileInfo fi(ui->lineEdit_inputFile->text());
+    QString fileName = QDir::toNativeSeparators(ui->lineEdit_inputFile->text());
+    ui->lineEdit_inputFile->setText(fileName);
+    ui->lineEdit_inputFile->setToolTip(ui->lineEdit_inputFile->text());
+
+    QFileInfo fi(fileName);
+
+    savedLogfilePath = fi.absolutePath();
 
     // if output file field is blank, populate it
     if (!ui->lineEdit_outputFile->text().length()) {
-        QString expExt = ui->comboBox_exportFormat->currentText().toLower();
-        ui->lineEdit_outputFile->setText(QDir::toNativeSeparators(fi.absoluteFilePath()).replace(fi.suffix(), expExt));
+        QString expName = fi.fileName().replace(fi.suffix(), ui->comboBox_exportFormat->currentText().toLower());
+        QString expDir = fi.absolutePath();
+        if (savedOutputPath.length())
+            expDir = savedOutputPath;
+
+        ui->lineEdit_outputFile->setText(QDir::toNativeSeparators(expDir + "/" + expName));
     }
 
     // reset date of flight field to log modification date
@@ -170,95 +187,41 @@ void AQLogExporter::newLogFile() {
            writeMsgToStatusWindow(QString("Log file modification date appears to be incorrect, please set the Date of Flight manually."), MSG_WARNING);
     }
 
-    ui->lineEdit_inputFile->setToolTip(ui->lineEdit_inputFile->text());
-
     emit formValidRecheck();
 }
 
 /**
  * @brief Takes action when a new output file has been specified either
  *          via file selector or by editing the form field.
- * @param fname The text of the form field
  */
-void AQLogExporter::newOutputFile(const QString &fname) {
-
-    if (!fname.length()) {
+void AQLogExporter::newOutputFile() {
+    if (!ui->lineEdit_outputFile->text().length()) {
         emit formValidRecheck();
         return;
     }
 
-    QString fileName = QDir::toNativeSeparators(fname);
-    QFileInfo fi(fileName);
-
+    QString fileName = QDir::toNativeSeparators(ui->lineEdit_outputFile->text());
     ui->lineEdit_outputFile->setText(fileName);
+    ui->lineEdit_outputFile->setToolTip(fileName);
+
+    QFileInfo fi(fileName);
     QString suffx = fi.suffix();
+
+    savedOutputPath = fi.absolutePath();
+
     int sufIdx = allExpTypes.indexOf(suffx.toUpper());
     if (sufIdx > -1) {
         setExportTypeOptions(suffx);
         ui->comboBox_exportFormat->setCurrentIndex(sufIdx);
     }
 
-    savedOutputPath = QDir::toNativeSeparators(fi.absolutePath());
     if (!fi.dir().exists()) {
         QString msg = QString(tr("The directory you specified for output (%1) does not exist. The program will attempt to create it during export."))
-                .arg(savedOutputPath);
+                .arg(QDir::toNativeSeparators(savedOutputPath));
         writeMsgToStatusWindow(msg, MSG_WARNING);
     }
 
-    ui->lineEdit_outputFile->setToolTip(ui->lineEdit_outputFile->text());
-
     emit formValidRecheck();
-}
-
-/**
- * @brief Action for choosing an output file. Determines default path and shows file selection dialog.
- */
-void AQLogExporter::selectOutputFile() {
-    QString dirPath;
-    QString fileName;
-
-    if ( ui->lineEdit_outputFile->text().length() &&
-              QFileInfo::QFileInfo(ui->lineEdit_outputFile->text()).canonicalPath().length() )
-        dirPath = ui->lineEdit_outputFile->text();
-    else if (savedOutputPath.length())
-        dirPath = savedOutputPath;
-    else if (aq->LastFilePath.length())
-        dirPath = QFileInfo::QFileInfo(aq->LastFilePath).canonicalPath();
-    else
-        dirPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-
-    if (!dirPath.length())
-        dirPath = QCoreApplication::applicationDirPath();
-
-    QFileInfo fi(dirPath);
-
-    if (fi.isDir()) {
-        QFileInfo fiIn(ui->lineEdit_inputFile->text());
-        if (fiIn.isFile()) {
-            QString expExt = ui->comboBox_exportFormat->currentText().toLower();
-            dirPath = fi.absolutePath() + "/" + fiIn.fileName().replace(fiIn.suffix(), expExt);
-            fi = QFileInfo(dirPath);
-        }
-    }
-
-    // use native file dialog
-    fileName = QFileDialog::getSaveFileName(this, tr("Select Output File"), fi.absoluteFilePath(),
-                                            tr("Export File Types (*.csv *.tab *.txt *.gpx *.kml);;All File Types (*.*)"));
-
-    // use Qt file dialog (slower)
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setNameFilter(tr("Export File Types (*.csv *.tab *.txt *.gpx *.kml)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    if (dialog.exec())
-//        fileName = dialog.selectedFiles()at(0);
-
-    if (fileName.length())
-        outFileWasSelectedViaBrowse = true;
-
-    newOutputFile(fileName);
-
 }
 
 /**
@@ -312,6 +275,7 @@ void AQLogExporter::startExport() {
     }
 
     lastOutfilePath = outfile;
+    savedOutputPath = outDir.absolutePath();
 
     // export format
     appArgs += QString("-e%1").arg(ui->comboBox_exportFormat->currentText().toLower());
@@ -363,7 +327,6 @@ void AQLogExporter::startExport() {
 
     // values to export (don't bother if XML output format)
     if (xmlExpTypes.indexOf(ui->comboBox_exportFormat->currentText()) == -1){
-        QAbstractButton *curBtn;
         QString valName;
         QList<QAbstractButton *> valBtns = ui->buttonGroup_exportValues->buttons();
 
@@ -371,8 +334,7 @@ void AQLogExporter::startExport() {
         if (!gpstrk)
             valBtns += ui->buttonGroup_gpsExportVals->buttons();
 
-        for (int i=0; i < valBtns.size(); i++) {
-            curBtn = valBtns.at(i);
+        foreach (QAbstractButton *curBtn, valBtns) {
             if (curBtn->isChecked()) {
                 valName = "--" % curBtn->objectName().replace("val_", "").replace("_", "-");
                 appArgs += valName;
@@ -473,10 +435,112 @@ void AQLogExporter::setExportTypeOptions(QString typ) {
     emit formValidRecheck();
 }
 
+/**
+ * @brief Load saved dialog settings from common app storage
+ */
+void AQLogExporter::readSettings() {
+    if (settings.childGroups().contains(AQLOGEXPORTER::APP_NAME)) {
+        settings.beginGroup(AQLOGEXPORTER::APP_NAME);
+
+        QPoint pos = settings.value("WindowPosition", QPoint(0,0)).toPoint();
+        QSize size = settings.value("WindowSize", QSize(0,0)).toSize();
+        if (size.width() > 200)
+            resize(size);
+        if (pos.x())
+            move(pos);
+
+        QString path = settings.value("OutputPath", "").toString();
+        if (path.length() && QDir::QDir(path).exists())
+            savedOutputPath = path;
+
+        path = settings.value("LogfilePath", "").toString();
+        if (path.length() && QDir::QDir(path).exists())
+            savedLogfilePath = path;
+
+        ui->spinBox_outputFreq->setValue(settings.value("OutputFrequency", 200).toInt());
+        ui->checkBox_colHeaders->setChecked(settings.value("IncludeHeaders", true).toBool());
+        ui->checkBox_gpsTrack->setChecked(settings.value("GPSTrack", false).toBool());
+        ui->checkBox_gpsWaypoints->setChecked(settings.value("GPSWaypoints", false).toBool());
+        ui->doubleSpinBox_minHAcc->setValue(settings.value("GPSMinHAcc", 2.5).toFloat());
+        ui->doubleSpinBox_minVAcc->setValue(settings.value("GPSMinVAcc", 2.5).toFloat());
+        ui->checkBox_timestamp->setChecked(settings.value("Timestamp", false).toBool());
+        ui->checkBox_localtime->setChecked(settings.value("Localtime", false).toBool());
+        ui->checkBox_triggerOnly->setChecked(settings.value("TriggeredOnly", false).toBool());
+        ui->buttonGroup_trigChanValues->button(settings.value("ChannelValueTypeId", 0).toInt())->setChecked(true);
+        ui->spinBox_trigVal_gt->setValue(settings.value("TriggerValueGT", 250).toInt());
+        ui->spinBox_trigVal_lt->setValue(settings.value("TriggerValueLT", -250).toInt());
+        ui->spinBox_triggerChannel->setValue(settings.value("TriggerChannel", 0).toInt());
+
+        foreach (QString curBtn, settings.value("SelectedValues").toStringList())
+            ui->groupBox_values->findChild<QAbstractButton *>(curBtn)->setChecked(true);
+
+        QString expFmt = settings.value("ExportFormat", "CSV").toString().toUpper();
+        if (allExpTypes.indexOf(expFmt) > -1) {
+            setExportTypeOptions(expFmt);
+            ui->comboBox_exportFormat->setCurrentIndex(allExpTypes.indexOf(expFmt));
+        }
+
+        settings.endGroup();
+    }
+}
+
+/**
+ * @brief Save dialog settings to common app storage
+ */
+void AQLogExporter::writeSettings() {
+    QStringList selectedValues;
+
+    settings.beginGroup(AQLOGEXPORTER::APP_NAME);
+
+    settings.setValue("APP_VERSION", AQLOGEXPORTER::APP_VERSION);
+    settings.setValue("WindowPosition", pos());
+    settings.setValue("WindowSize", size());
+    settings.setValue("OutputPath", savedOutputPath);
+    settings.setValue("LogfilePath", savedLogfilePath);
+    settings.setValue("ExportFormat", ui->comboBox_exportFormat->currentText());
+    settings.setValue("OutputFrequency", ui->spinBox_outputFreq->value());
+    settings.setValue("IncludeHeaders", ui->checkBox_colHeaders->isChecked());
+    settings.setValue("GPSTrack", ui->checkBox_gpsTrack->isChecked());
+    settings.setValue("GPSWaypoints", ui->checkBox_gpsWaypoints->isChecked());
+    settings.setValue("GPSMinHAcc", ui->doubleSpinBox_minHAcc->value());
+    settings.setValue("GPSMinVAcc", ui->doubleSpinBox_minVAcc->value());
+    settings.setValue("Timestamp", ui->checkBox_timestamp->isChecked());
+    settings.setValue("Localtime", ui->checkBox_localtime->isChecked());
+    settings.setValue("TriggerChannel", ui->spinBox_triggerChannel->value());
+    settings.setValue("TriggeredOnly", ui->checkBox_triggerOnly->isChecked());
+    settings.setValue("ChannelValueTypeId", ui->buttonGroup_trigChanValues->id(ui->buttonGroup_trigChanValues->checkedButton()));
+    settings.setValue("TriggerValueGT", ui->spinBox_trigVal_gt->value());
+    settings.setValue("TriggerValueLT", ui->spinBox_trigVal_lt->value());
+
+    foreach (QAbstractButton *curBtn, ui->buttonGroup_exportValues->buttons() + ui->buttonGroup_gpsExportVals->buttons()) {
+        if (curBtn->isChecked())
+            selectedValues << curBtn->objectName();
+    }
+    settings.setValue("SelectedValues", selectedValues);
+
+    settings.endGroup();
+    settings.sync();
+}
+
+
+//
+// Public
+//
+void AQLogExporter::setLogFile(QString &logFile) {
+    if (logFile.length()) {
+        ui->lineEdit_inputFile->setText(logFile);
+        newLogFile();
+    }
+}
+
+
 //
 // Private Slots
 //
 
+/**
+ * @brief Read and handle STDERR output from external process
+ */
 void AQLogExporter::extProcessStdErr() {
     QString out = ps_export.readAllStandardError().replace("\n", "<br>");
     //if (out.trimmed().length()){
@@ -485,10 +549,10 @@ void AQLogExporter::extProcessStdErr() {
     //}
 }
 
-//void AQLogExporter::extProcessStdOut() {
-//    ui->textEdit_logdumpOutput->insertPlainText(ps_export.readAllStandardOutput());
-//}
-
+/**
+ * @brief External process exit handler
+ * @param exitcode Exit code from external process
+ */
 void AQLogExporter::extProcessExit(int exitcode) {
     if (!exitcode) {
         writeMsgToStatusWindow(QString("<br/>logDump finished successfully"), MSG_SUCCESS);
@@ -503,6 +567,10 @@ void AQLogExporter::extProcessExit(int exitcode) {
     }
 }
 
+/**
+ * @brief Handle external process error code
+ * @param err Error code
+ */
 void AQLogExporter::extProcessError(QProcess::ProcessError err) {
     QString msg;
     switch(err)
@@ -529,35 +597,112 @@ void AQLogExporter::extProcessError(QProcess::ProcessError err) {
     writeMsgToStatusWindow(msg, MSG_ERROR);
 }
 
+
 //
 // UI Event Handlers
 //
 
-// log file changed
+// log file edited manually
 void AQLogExporter::on_lineEdit_inputFile_editingFinished()
 {
-    newLogFile();
+    if (ui->lineEdit_inputFile->isModified())
+        newLogFile();
 }
 
 // Select log file button click
+/**
+ * @brief Action for choosing an input file. Determines default path and shows file selection dialog.
+ */
 void AQLogExporter::on_toolButton_selectLogFile_clicked()
 {
-    aq->OpenLogFile(false);
-    ui->lineEdit_inputFile->setText(aq->LogFile);
-    newLogFile();
+//    aq->OpenLogFile(false);
+//    ui->lineEdit_inputFile->setText(aq->LogFile);
+    QString dirPath;
+    QString fileName;
+
+    if ( ui->lineEdit_inputFile->text().length() &&
+              QFileInfo::QFileInfo(ui->lineEdit_inputFile->text()).canonicalPath().length() )
+        dirPath = ui->lineEdit_inputFile->text();
+    else if (savedLogfilePath.length())
+        dirPath = savedLogfilePath;
+    else
+        dirPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+
+    if (!dirPath.length())
+        dirPath = QCoreApplication::applicationDirPath();
+
+    QFileInfo fi(dirPath);
+
+    // use native file dialog
+    fileName = QFileDialog::getOpenFileName(this, tr("Select Output File"), fi.absoluteFilePath(),
+                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+
+    if (fileName.length()) {
+        ui->lineEdit_inputFile->setText(fileName);
+        newLogFile();
+    }
 }
 
-// output file changed
+// output file edited manually
 void AQLogExporter::on_lineEdit_outputFile_editingFinished()
 {
-    outFileWasSelectedViaBrowse = false;
-    newOutputFile(ui->lineEdit_outputFile->text());
+    if (ui->lineEdit_outputFile->isModified()) {
+        outFileWasSelectedViaBrowse = false;
+        newOutputFile();
+    }
 }
 
 // file selector button click
+/**
+ * @brief Action for choosing an output file. Determines default path and shows file selection dialog.
+ */
 void AQLogExporter::on_toolButton_selectOutputFile_clicked()
 {
-    selectOutputFile();
+    QString dirPath;
+    QString fileName;
+
+    if ( ui->lineEdit_outputFile->text().length() &&
+              QFileInfo::QFileInfo(ui->lineEdit_outputFile->text()).canonicalPath().length() )
+        dirPath = ui->lineEdit_outputFile->text();
+    else if (savedOutputPath.length())
+        dirPath = savedOutputPath;
+    else if (savedLogfilePath.length())
+        dirPath = savedLogfilePath;
+    else
+        dirPath = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+
+    if (!dirPath.length())
+        dirPath = QCoreApplication::applicationDirPath();
+
+    QFileInfo fi(dirPath);
+
+    if (fi.isDir()) {
+        QFileInfo fiIn(ui->lineEdit_inputFile->text());
+        if (fiIn.isFile()) {
+            QString expExt = ui->comboBox_exportFormat->currentText().toLower();
+            dirPath = fi.absolutePath() + "/" + fiIn.fileName().replace(fiIn.suffix(), expExt);
+            fi = QFileInfo(dirPath);
+        }
+    }
+
+    // use native file dialog
+    fileName = QFileDialog::getSaveFileName(this, tr("Select Output File"), fi.absoluteFilePath(),
+                                            tr("Export File Types (*.csv *.tab *.txt *.gpx *.kml);;All File Types (*.*)"));
+
+    // use Qt file dialog (slower)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setNameFilter(tr("Export File Types (*.csv *.tab *.txt *.gpx *.kml)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    if (dialog.exec())
+//        fileName = dialog.selectedFiles()at(0);
+
+    if (fileName.length()) {
+        outFileWasSelectedViaBrowse = true;
+        ui->lineEdit_outputFile->setText(fileName);
+        newOutputFile();
+    }
 }
 
 // Trigger channel changed
@@ -656,16 +801,17 @@ void AQLogExporter::on_toolButton_browseOutput_clicked()
         writeMsgToStatusWindow(QString("Could not determine output directory."), MSG_ERROR);
 }
 
-// Dialog close button pressed
-void AQLogExporter::on_pushButton_close_clicked()
+// Dialog close event
+void AQLogExporter::closeEvent(QCloseEvent *event)
 {
     if (ps_export.state() == QProcess::Running) {
         QMessageBox::StandardButton qrply;
         QString msg = "LogDump is still running. If you close this window, it will keep running in the background.\n\nAre you sure?";
         qrply = QMessageBox::question(this, tr("Confirm Close Window"), msg, QMessageBox::Yes | QMessageBox::Cancel);
         if (qrply == QMessageBox::Cancel)
-            return;
+            event->ignore();
+    } else {
+        writeSettings();
+        event->accept();
     }
-
-    this->close();
 }

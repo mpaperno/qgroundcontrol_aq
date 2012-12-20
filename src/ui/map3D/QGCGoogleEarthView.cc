@@ -95,7 +95,7 @@ QGCGoogleEarthView::QGCGoogleEarthView(QWidget *parent) :
 
     connect(UASManager::instance(), SIGNAL(homePositionChanged(double,double,double)), this, SLOT(setHome(double,double,double)));
 
-    connect(ui->ImportButton, SIGNAL(clicked()), this, SLOT(OpenImportDialog()));
+//    connect(ui->ImportButton, SIGNAL(clicked()), this, SLOT(OpenImportDialog()));
 }
 
 QGCGoogleEarthView::~QGCGoogleEarthView()
@@ -757,7 +757,7 @@ void QGCGoogleEarthView::changeEvent(QEvent *e)
     }
 }
 
-void QGCGoogleEarthView::OpenImportDialog() {
-    ImportDialog = new AQLogExporter(this);
-    ImportDialog->show();
-}
+//void QGCGoogleEarthView::OpenImportDialog() {
+//    ImportDialog = new AQLogExporter(this, QString(""));
+//    ImportDialog->show();
+//}
