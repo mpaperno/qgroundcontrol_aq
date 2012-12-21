@@ -1,6 +1,6 @@
 #include "aq_LogExporter.h"
 #include "ui_aq_LogExporter.h"
-#include "qgcautoquad.h"
+//#include "qgcautoquad.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QStringBuilder>
@@ -91,7 +91,7 @@ void AQLogExporter::scrollStatusWindow() {
  * @param msg The message to output
  * @param typ One of statusMsgTypes
  */
-void AQLogExporter::writeMsgToStatusWindow(QString &msg, statusMsgTypes typ) {
+void AQLogExporter::writeMsgToStatusWindow(QString msg, statusMsgTypes typ) {
     QStringList colors;
 //    QPalette qp;
 //    QString winTxtColor = qp.color(QPalette::Active, QPalette::Text).name();
@@ -124,7 +124,7 @@ bool AQLogExporter::validateForm(bool showAlert) {
         QFileInfo fi(ui->lineEdit_inputFile->text());
         if (!fi.exists()) {
             msg << QString(tr("Log file not found, please verify your entry: %1")).arg(QDir::toNativeSeparators(fi.absoluteFilePath()));
-            writeMsgToStatusWindow(QString(msg.at(0)), MSG_ERROR);
+            writeMsgToStatusWindow(msg.at(0), MSG_ERROR);
         }
     }
 
@@ -182,9 +182,9 @@ void AQLogExporter::newLogFile() {
         if ( fi.lastModified().toUTC().date() != QDateTime(QDate(2012, 1, 1)).toUTC().date() ) {
             ui->dateEdit_logDate->setDate(fi.lastModified().toUTC().date());
             if (ui->dateEdit_logDate->isEnabled())
-                writeMsgToStatusWindow(QString("Date of Flight field has been reset to log file date."), MSG_WARNING);
+                writeMsgToStatusWindow("Date of Flight field has been reset to log file date.", MSG_WARNING);
         } else if (ui->dateEdit_logDate->isEnabled())
-           writeMsgToStatusWindow(QString("Log file modification date appears to be incorrect, please set the Date of Flight manually."), MSG_WARNING);
+           writeMsgToStatusWindow("Log file modification date appears to be incorrect, please set the Date of Flight manually.", MSG_WARNING);
     }
 
     emit formValidRecheck();
@@ -244,8 +244,7 @@ void AQLogExporter::startExport() {
         platformPath = "win";
         platformExt = ".exe";
     #elif defined(Q_OS_MAC)
-        writeMsgToStatusWindow(QString("Sorry, logDump on OS X currently not supported."), MSG_ERROR);
-        return;
+        platformPath = "osx";
     #endif
 
     if (!validateForm(true)) return;
@@ -253,20 +252,20 @@ void AQLogExporter::startExport() {
     outfile = ui->lineEdit_outputFile->text();
 
     // check if output directory exists and try to create if it doesn't
-    outDir = QFileInfo::QFileInfo(outfile).dir();
+    outDir = QFileInfo(outfile).dir();
     if (!outDir.exists()) {
         msg = QString("Attempting to create output directory: %1").arg(QDir::toNativeSeparators(outDir.absolutePath()));
         writeMsgToStatusWindow(msg, MSG_WARNING);
         if (outDir.mkpath(outDir.absolutePath())) {
-            writeMsgToStatusWindow(QString("Directory created!"), MSG_SUCCESS);
+            writeMsgToStatusWindow("Directory created!", MSG_SUCCESS);
         } else {
-            writeMsgToStatusWindow(QString("Directory creation failed! Please check the path."), MSG_ERROR);
+            writeMsgToStatusWindow("Directory creation failed! Please check the path.", MSG_ERROR);
             return;
         }
     }
     // otherwise confirm if we're going to overwrite an existing file, but only if it was typed manually
     // (system file select dialog already prompts to overwrite)
-    else if (!outFileWasSelectedViaBrowse && QFileInfo::QFileInfo(outfile).exists()) {
+    else if (!outFileWasSelectedViaBrowse && QFileInfo(outfile).exists()) {
         QMessageBox::StandardButton qrply;
         msg = QString("Output file (%1) already exists! Overwrite?").arg(QDir::toNativeSeparators(outfile));
         qrply = QMessageBox::question(this, tr("Confirm Overwrite Existing File"), msg, QMessageBox::Yes | QMessageBox::Cancel);
@@ -450,11 +449,11 @@ void AQLogExporter::readSettings() {
             move(pos);
 
         QString path = settings.value("OutputPath", "").toString();
-        if (path.length() && QDir::QDir(path).exists())
+        if (path.length() && QDir(path).exists())
             savedOutputPath = path;
 
         path = settings.value("LogfilePath", "").toString();
-        if (path.length() && QDir::QDir(path).exists())
+        if (path.length() && QDir(path).exists())
             savedLogfilePath = path;
 
         ui->spinBox_outputFreq->setValue(settings.value("OutputFrequency", 200).toInt());
@@ -555,12 +554,12 @@ void AQLogExporter::extProcessStdErr() {
  */
 void AQLogExporter::extProcessExit(int exitcode) {
     if (!exitcode) {
-        writeMsgToStatusWindow(QString("<br/>logDump finished successfully"), MSG_SUCCESS);
+        writeMsgToStatusWindow("<br/>logDump finished successfully", MSG_SUCCESS);
         ui->toolButton_openOutput->setEnabled(true);
         ui->toolButton_browseOutput->setEnabled(true);
     }
     else {
-        writeMsgToStatusWindow(QString("<br/>logDump exited with error"), MSG_ERROR);
+        writeMsgToStatusWindow("<br/>logDump exited with error", MSG_ERROR);
         lastOutfilePath = "";
         ui->toolButton_openOutput->setEnabled(false);
         ui->toolButton_browseOutput->setEnabled(false);
@@ -621,7 +620,7 @@ void AQLogExporter::on_toolButton_selectLogFile_clicked()
     QString fileName;
 
     if ( ui->lineEdit_inputFile->text().length() &&
-              QFileInfo::QFileInfo(ui->lineEdit_inputFile->text()).canonicalPath().length() )
+              QFileInfo(ui->lineEdit_inputFile->text()).canonicalPath().length() )
         dirPath = ui->lineEdit_inputFile->text();
     else if (savedLogfilePath.length())
         dirPath = savedLogfilePath;
@@ -662,7 +661,7 @@ void AQLogExporter::on_toolButton_selectOutputFile_clicked()
     QString fileName;
 
     if ( ui->lineEdit_outputFile->text().length() &&
-              QFileInfo::QFileInfo(ui->lineEdit_outputFile->text()).canonicalPath().length() )
+              QFileInfo(ui->lineEdit_outputFile->text()).canonicalPath().length() )
         dirPath = ui->lineEdit_outputFile->text();
     else if (savedOutputPath.length())
         dirPath = savedOutputPath;
@@ -786,19 +785,19 @@ void AQLogExporter::on_toolButton_openOutput_clicked()
 {
     if (lastOutfilePath.length()) {
         if ( !QDesktopServices::openUrl(QUrl::fromLocalFile(lastOutfilePath)) )
-            writeMsgToStatusWindow(QString("Could not launch native application to handle output file."), MSG_ERROR);
+            writeMsgToStatusWindow("Could not launch native application to handle output file.", MSG_ERROR);
     } else
-        writeMsgToStatusWindow(QString("Could not determine output file location."), MSG_ERROR);
+        writeMsgToStatusWindow("Could not determine output file location.", MSG_ERROR);
 }
 
 // Browse output folder button click
 void AQLogExporter::on_toolButton_browseOutput_clicked()
 {
     if (lastOutfilePath.length()) {
-        if ( !QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo::QFileInfo(lastOutfilePath).absolutePath())) )
-            writeMsgToStatusWindow(QString("Could not launch native file browser."), MSG_ERROR);
+        if ( !QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(lastOutfilePath).absolutePath())) )
+            writeMsgToStatusWindow("Could not launch native file browser.", MSG_ERROR);
     } else
-        writeMsgToStatusWindow(QString("Could not determine output directory."), MSG_ERROR);
+        writeMsgToStatusWindow("Could not determine output directory.", MSG_ERROR);
 }
 
 // Dialog close event

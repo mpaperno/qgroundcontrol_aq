@@ -37,7 +37,7 @@ private:
     void newOutputFile();
     void toggleGPSTrackOpts(bool enable);
     void setExportTypeOptions(QString typ);
-    void writeMsgToStatusWindow(QString &msg, statusMsgTypes typ = MSG_INFO);
+    void writeMsgToStatusWindow(QString msg, statusMsgTypes typ = MSG_INFO);
     void scrollStatusWindow();
     void readSettings();
     void writeSettings();
