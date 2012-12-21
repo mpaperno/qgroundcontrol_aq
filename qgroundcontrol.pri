@@ -47,8 +47,9 @@ macx|macx-g++42|macx-g++: {
 
 	ICON = $$BASEDIR/images/icons/macx.icns
 
-	# Copy contributed files
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
+	# Copy AQ files
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/aq_osx
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/../aq_bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq_osx
 	# Copy google earth starter file
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/images/earth.html $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy CSS stylesheets
@@ -228,6 +229,10 @@ linux-g++|linux-g++-64{
 		QMAKE_POST_LINK += && mkdir -p $$TARGETDIR
 	}
 	DESTDIR = $$TARGETDIR
+	# Copy AQ files
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq_unix
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/../aq_bin/aq_unix_all/* $$TARGETDIR/qgroundcontrol.app/aq_unix
+	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq_unix/*
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/data $$TARGETDIR
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/images
@@ -316,6 +321,7 @@ win32-msvc2008|win32-msvc2010 {
 	TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")
 
 	CONFIG(debug, debug|release) {
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\..\\aq_bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\debug\\aq_win" /E /I $$escape_expand(\\n))
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN\\debug"$$escape_expand(\\n))
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\files" "$$TARGETDIR_WIN\\debug\\files" /E /I $$escape_expand(\\n))
 #		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\models" "$$TARGETDIR_WIN\\debug\\models" /E /I $$escape_expand(\\n))
@@ -336,6 +342,7 @@ win32-msvc2008|win32-msvc2010 {
 	}
 
 	CONFIG(release, debug|release) {
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\..\\aq_bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\release\\aq_win" /E /I $$escape_expand(\\n))
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN\\release"$$escape_expand(\\n))
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\files" "$$TARGETDIR_WIN\\release\\files" /E /I $$escape_expand(\\n))
 #		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\models" "$$TARGETDIR_WIN\\release\\models" /E /I $$escape_expand(\\n))
