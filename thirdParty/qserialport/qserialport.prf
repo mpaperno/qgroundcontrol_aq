@@ -1,2 +1,0 @@
-QSERIALPORT_INCDIR = "C:\Documents\Max\RC\AutoQuad\dev\qgroundcontrol_aq\qgroundcontrol\thirdParty\qserialport\include" 
-QSERIALPORT_LIBDIR = "C:\Documents\Max\RC\AutoQuad\dev\qgroundcontrol_aq\qgroundcontrol\thirdParty\qserialport\lib" 

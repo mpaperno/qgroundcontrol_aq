@@ -40,6 +40,7 @@ This file is part of the PIXHAWK project
 #include "UASWaypointManager.h"
 #include "MainWindow.h"
 #include "ui_UASView.h"
+#include <QGCHilFlightGearConfiguration.h>
 
 UASView::UASView(UASInterface* uas, QWidget *parent) :
         QWidget(parent),
@@ -68,7 +69,7 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
         removeAction(new QAction("Delete this system", this)),
         renameAction(new QAction("Rename..", this)),
         selectAction(new QAction("Control this system", this )),
-        hilAction(new QAction("Enable Hardware-in-the-Loop Simulation", this )),
+        hilAction(new QAction("HIL - Hardware in the Loop", this )),
         selectAirframeAction(new QAction("Choose Airframe", this)),
         setBatterySpecsAction(new QAction("Set Battery Options", this)),
         lowPowerModeEnabled(true),
@@ -94,7 +95,7 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     connect(uas, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*,QString,QString)));
     connect(uas, SIGNAL(modeChanged(int,QString,QString)), this, SLOT(updateMode(int,QString,QString)));
     connect(uas, SIGNAL(loadChanged(UASInterface*, double)), this, SLOT(updateLoad(UASInterface*, double)));
-    connect(uas, SIGNAL(heartbeatTimeout()), this, SLOT(heartbeatTimeout()));
+    connect(uas, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool, unsigned int)));
     connect(uas, SIGNAL(waypointSelected(int,int)), this, SLOT(selectWaypoint(int,int)));
     connect(uas->getWaypointManager(), SIGNAL(currentWaypointChanged(quint16)), this, SLOT(currentWaypointUpdated(quint16)));
     connect(uas, SIGNAL(systemTypeSet(UASInterface*,uint)), this, SLOT(setSystemType(UASInterface*,uint)));
@@ -109,7 +110,7 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     connect(m_ui->liftoffButton, SIGNAL(clicked()), uas, SLOT(launch()));
     connect(m_ui->haltButton, SIGNAL(clicked()), uas, SLOT(halt()));
     connect(m_ui->continueButton, SIGNAL(clicked()), uas, SLOT(go()));
-    connect(m_ui->landButton, SIGNAL(clicked()), uas, SLOT(home()));
+    connect(m_ui->landButton, SIGNAL(clicked()), uas, SLOT(land()));
     connect(m_ui->abortButton, SIGNAL(clicked()), uas, SLOT(emergencySTOP()));
     connect(m_ui->killButton, SIGNAL(clicked()), uas, SLOT(emergencyKILL()));
     connect(m_ui->shutdownButton, SIGNAL(clicked()), uas, SLOT(shutdown()));
@@ -118,7 +119,7 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     connect(removeAction, SIGNAL(triggered()), this, SLOT(deleteLater()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(selectAction, SIGNAL(triggered()), uas, SLOT(setSelected()));
-    connect(hilAction, SIGNAL(triggered(bool)), uas, SLOT(enableHil(bool)));
+    connect(hilAction, SIGNAL(triggered(bool)), this, SLOT(showHILUi()));
     connect(selectAirframeAction, SIGNAL(triggered()), this, SLOT(selectAirframe()));
     connect(setBatterySpecsAction, SIGNAL(triggered()), this, SLOT(setBatterySpecs()));
     connect(uas, SIGNAL(systemRemoved()), this, SLOT(deleteLater()));
@@ -170,9 +171,10 @@ UASView::~UASView()
     delete selectAction;
 }
 
-void UASView::heartbeatTimeout()
+void UASView::heartbeatTimeout(bool timeout, unsigned int ms)
 {
-    timeout = true;
+    Q_UNUSED(ms);
+    this->timeout = timeout;
 }
 
 void UASView::updateNavMode(int uasid, int mode, const QString& text)
@@ -320,25 +322,25 @@ void UASView::setSystemType(UASInterface* uas, unsigned int systemType)
         // Set matching icon
         switch (systemType)
         {
-        case 0:
-            m_ui->typeButton->setIcon(QIcon(":/images/mavs/generic.svg"));
+        case MAV_TYPE_GENERIC:
+            m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/generic.svg"));
             break;
-        case 1:
-            m_ui->typeButton->setIcon(QIcon(":/images/mavs/fixed-wing.svg"));
+        case MAV_TYPE_FIXED_WING:
+            m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/fixed-wing.svg"));
             break;
-        case 2:
-            m_ui->typeButton->setIcon(QIcon(":/images/mavs/quadrotor.svg"));
+        case MAV_TYPE_QUADROTOR:
+            m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/quadrotor.svg"));
             break;
-        case 3:
-            m_ui->typeButton->setIcon(QIcon(":/images/mavs/coaxial.svg"));
+        case MAV_TYPE_COAXIAL:
+            m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/coaxial.svg"));
             break;
-        case 4:
-            m_ui->typeButton->setIcon(QIcon(":/images/mavs/helicopter.svg"));
+        case MAV_TYPE_HELICOPTER:
+            m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/helicopter.svg"));
             break;
-        case 5:
-            m_ui->typeButton->setIcon(QIcon(":/images/mavs/unknown.svg"));
+        case MAV_TYPE_ANTENNA_TRACKER:
+            m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/unknown.svg"));
             break;
-        case 6: {
+        case MAV_TYPE_GCS: {
                 // A groundstation is a special system type, update widget
                 QString result;
                 m_ui->nameLabel->setText(tr("GCS ") + result.sprintf("%03d", uas->getUASID()));
@@ -354,11 +356,44 @@ void UASView::setSystemType(UASInterface* uas, unsigned int systemType)
                 m_ui->landButton->hide();
                 m_ui->shutdownButton->hide();
                 m_ui->abortButton->hide();
-                m_ui->typeButton->setIcon(QIcon(":/images/mavs/groundstation.svg"));
+                m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/groundstation.svg"));
             }
             break;
+        case MAV_TYPE_AIRSHIP:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/airship.svg"));
+            break;
+        case MAV_TYPE_FREE_BALLOON:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/free-balloon.svg"));
+            break;
+        case MAV_TYPE_ROCKET:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/rocket.svg"));
+            break;
+        case MAV_TYPE_GROUND_ROVER:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/ground-rover.svg"));
+            break;
+        case MAV_TYPE_SURFACE_BOAT:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/surface-boat.svg"));
+            break;
+        case MAV_TYPE_SUBMARINE:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/submarine.svg"));
+            break;
+        case MAV_TYPE_HEXAROTOR:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/hexarotor.svg"));
+            break;
+        case MAV_TYPE_OCTOROTOR:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/octorotor.svg"));
+            break;
+        case MAV_TYPE_TRICOPTER:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/tricopter.svg"));
+            break;
+        case MAV_TYPE_FLAPPING_WING:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/flapping-wing.svg"));
+            break;
+        case MAV_TYPE_KITE:
+            m_ui->typeButton->setIcon(QIcon(":files/images/mavs/kite.svg"));
+            break;
         default:
-            m_ui->typeButton->setIcon(QIcon(":/images/mavs/unknown.svg"));
+            m_ui->typeButton->setIcon(QIcon(":/files/images/mavs/unknown.svg"));
             break;
         }
     }
@@ -525,6 +560,11 @@ void UASView::selectAirframe()
     }
 }
 
+void UASView::showHILUi()
+{
+     MainWindow::instance()->showHILConfigurationWidget(uas);
+}
+
 void UASView::refresh()
 {
     //setUpdatesEnabled(false);
@@ -532,10 +572,6 @@ void UASView::refresh()
     //repaint();
     //qDebug() << "UPDATING UAS WIDGET!" << uas->getUASName();
 
-
-    quint64 lastupdate = 0;
-    //// qDebug() << "UASVIEW update diff: " << MG::TIME::getGroundTimeNow() - lastupdate;
-    lastupdate = QGC::groundTimeMilliseconds();
 
     if (generalUpdateCount == 4)
     {

@@ -149,7 +149,8 @@ public:
         QGC_AIRFRAME_COAXIAL,
         QGC_AIRFRAME_PTERYX,
         QGC_AIRFRAME_TRICOPTER,
-        QGC_AIRFRAME_HEXCOPTER
+        QGC_AIRFRAME_HEXCOPTER,
+        QGC_AIRFRAME_END_OF_ENUM
     };
 
     /**
@@ -171,36 +172,34 @@ public:
      */
     static QColor getNextColor() {
         /* Create color map */
-        static QList<QColor> colors = QList<QColor>();
+        static QList<QColor> colors = QList<QColor>() 
+		<< QColor(231,72,28) 
+		<< QColor(104,64,240) 
+		<< QColor(203,254,121) 
+		<< QColor(161,252,116)
+               	<< QColor(232,33,47) 
+		<< QColor(116,251,110) 
+		<< QColor(234,38,107) 
+		<< QColor(104,250,138)
+                << QColor(235,43,165) 
+		<< QColor(98,248,176) 
+		<< QColor(236,48,221) 
+		<< QColor(92,247,217)
+                << QColor(200,54,238) 
+		<< QColor(87,231,246) 
+		<< QColor(151,59,239) 
+		<< QColor(81,183,244)
+                << QColor(75,133,243) 
+		<< QColor(242,255,128) 
+		<< QColor(230,126,23);
+        
         static int nextColor = -1;
-
-        if (nextColor == -1) {
-            ///> Color map for plots, includes 20 colors
-            ///> Map will start from beginning when the first 20 colors are exceeded
-
-            colors.append(QColor(231,72,28));
-            colors.append(QColor(104,64,240));
-            colors.append(QColor(203,254,121));
-            colors.append(QColor(161,252,116));
-            colors.append(QColor(232,33,47));
-            colors.append(QColor(116,251,110));
-            colors.append(QColor(234,38,107));
-            colors.append(QColor(104,250,138));
-            colors.append(QColor(235,43,165));
-            colors.append(QColor(98,248,176));
-            colors.append(QColor(236,48,221));
-            colors.append(QColor(92,247,217));
-            colors.append(QColor(200,54,238));
-            colors.append(QColor(87,231,246));
-            colors.append(QColor(151,59,239));
-            colors.append(QColor(81,183,244));
-            colors.append(QColor(75,133,243));
-            colors.append(QColor(242,255,128));
-            colors.append(QColor(230,126,23));
-            nextColor = 0;
+        if(nextColor == 18){//if at the end of the list
+            nextColor = -1;//go back to the beginning
         }
-        return colors[nextColor++];
-    }
+        nextColor++; 
+        return colors[nextColor];//return the next color
+   }
 
     /** @brief Get the type of the system (airplane, quadrotor, helicopter,..)*/
     virtual int getSystemType() = 0;
@@ -237,6 +236,8 @@ public slots:
     //virtual void setWaypointActive(int wp) = 0;
     /** @brief Order the robot to return home / to land on the runway **/
     virtual void home() = 0;
+    /** @brief Order the robot to land **/
+    virtual void land() = 0;
     /** @brief Halt the system */
     virtual void halt() = 0;
     /** @brief Start/continue the current robot action */
@@ -483,6 +484,7 @@ signals:
     void imageDataReceived(int imgid, const unsigned char* imageData, int length, int startIndex);
     /** @brief Emit the new system type */
     void systemTypeSet(UASInterface* uas, unsigned int type);
+
     /** @brief Attitude control enabled/disabled */
     void attitudeControlEnabled(bool enabled);
     /** @brief Position 2D control enabled/disabled */
@@ -491,6 +493,30 @@ signals:
     void positionZControlEnabled(bool enabled);
     /** @brief Heading control enabled/disabled */
     void positionYawControlEnabled(bool enabled);
+    /** @brief Optical flow status changed */
+    void opticalFlowStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Vision based localization status changed */
+    void visionLocalizationStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Infrared / Ultrasound status changed */
+    void distanceSensorStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Gyroscope status changed */
+    void gyroStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Accelerometer status changed */
+    void accelStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Magnetometer status changed */
+    void magSensorStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Barometer status changed */
+    void baroStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Differential pressure / airspeed status changed */
+    void airspeedStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Actuator status changed */
+    void actuatorStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Laser scanner status changed */
+    void laserStatusChanged(bool supported, bool enabled, bool ok);
+    /** @brief Vicon / Leica Geotracker status changed */
+    void groundTruthSensorStatusChanged(bool supported, bool enabled, bool ok);
+
+
     /** @brief Value of a remote control channel (raw) */
     void remoteControlChannelRawChanged(int channelId, float raw);
     /** @brief Value of a remote control channel (scaled)*/
@@ -535,10 +561,8 @@ signals:
     void irUltraSoundLocalizationChanged(UASInterface* uas, int fix);
 
     // ERROR AND STATUS SIGNALS
-    /** @brief Heartbeat timed out */
-    void heartbeatTimeout();
-    /** @brief Heartbeat timed out */
-    void heartbeatTimeout(unsigned int ms);
+    /** @brief Heartbeat timed out or was regained */
+    void heartbeatTimeout(bool timeout, unsigned int ms);
     /** @brief Name of system changed */
     void nameChanged(QString newName);
     /** @brief System has been selected as focused system */
@@ -556,7 +580,7 @@ signals:
 protected:
 
     // TIMEOUT CONSTANTS
-    static const unsigned int timeoutIntervalHeartbeat = 2000 * 1000; ///< Heartbeat timeout is 1.5 seconds
+    static const unsigned int timeoutIntervalHeartbeat = 3500 * 1000; ///< Heartbeat timeout is 2.5 seconds
 
 };
 

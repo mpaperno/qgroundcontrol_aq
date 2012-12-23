@@ -207,7 +207,6 @@ void MAVLinkSimulationLink::mainloop()
 
     uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
     int bufferlength;
-    int messageSize;
     mavlink_message_t msg;
 
     // Timers
@@ -458,7 +457,7 @@ void MAVLinkSimulationLink::mainloop()
             chan.chan7_raw = (chan.chan4_raw + chan.chan2_raw) / 2.0f;
             chan.chan8_raw = 0;
             chan.rssi = 100;
-            messageSize = mavlink_msg_rc_channels_raw_encode(systemId, componentId, &msg, &chan);
+            mavlink_msg_rc_channels_raw_encode(systemId, componentId, &msg, &chan);
             // Allocate buffer with packet data
             bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
             //add data into datastream
@@ -513,7 +512,7 @@ void MAVLinkSimulationLink::mainloop()
                 detectionCounter = 0;
             }
             detected.detected = 1;
-            messageSize = mavlink_msg_pattern_detected_encode(systemId, componentId, &msg, &detected);
+            mavlink_msg_pattern_detected_encode(systemId, componentId, &msg, &detected);
             // Allocate buffer with packet data
             bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
             //add data into datastream
@@ -528,7 +527,7 @@ void MAVLinkSimulationLink::mainloop()
         status.load = 33 * detectionCounter % 1000;
 
         // Pack message and get size of encoded byte string
-        messageSize = mavlink_msg_sys_status_encode(systemId, componentId, &msg, &status);
+        mavlink_msg_sys_status_encode(systemId, componentId, &msg, &status);
         // Allocate buffer with packet data
         bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
         //add data into datastream
@@ -546,7 +545,7 @@ void MAVLinkSimulationLink::mainloop()
 
         /*
         // Pack message and get size of encoded byte string
-        messageSize = mavlink_msg_boot_pack(systemId, componentId, &msg, version);
+        mavlink_msg_boot_pack(systemId, componentId, &msg, version);
         // Allocate buffer with packet data
         bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
         //add data into datastream
@@ -568,7 +567,7 @@ void MAVLinkSimulationLink::mainloop()
         typeCounter++;
 
         // Pack message and get size of encoded byte string
-        messageSize = mavlink_msg_heartbeat_pack(systemId, componentId, &msg, mavType, MAV_AUTOPILOT_PIXHAWK, system.base_mode, system.custom_mode, system.system_status);
+        mavlink_msg_heartbeat_pack(systemId, componentId, &msg, mavType, MAV_AUTOPILOT_PIXHAWK, system.base_mode, system.custom_mode, system.system_status);
         // Allocate buffer with packet data
         bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
         //qDebug() << "CRC:" << msg.ck_a << msg.ck_b;
@@ -577,7 +576,7 @@ void MAVLinkSimulationLink::mainloop()
         streampointer += bufferlength;
 
         // Pack message and get size of encoded byte string
-        messageSize = mavlink_msg_heartbeat_pack(systemId+1, componentId+1, &msg, mavType, MAV_AUTOPILOT_GENERIC, system.base_mode, system.custom_mode, system.system_status);
+        mavlink_msg_heartbeat_pack(systemId+1, componentId+1, &msg, mavType, MAV_AUTOPILOT_GENERIC, system.base_mode, system.custom_mode, system.system_status);
         // Allocate buffer with packet data
         bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
         //qDebug() << "CRC:" << msg.ck_a << msg.ck_b;
@@ -597,7 +596,7 @@ void MAVLinkSimulationLink::mainloop()
 //        // HEARTBEAT VEHICLE 2
 
 //        // Pack message and get size of encoded byte string
-//        messageSize = mavlink_msg_heartbeat_pack(54, componentId, &msg, MAV_HELICOPTER, MAV_AUTOPILOT_ARDUPILOTMEGA);
+//        mavlink_msg_heartbeat_pack(54, componentId, &msg, MAV_HELICOPTER, MAV_AUTOPILOT_ARDUPILOTMEGA);
 //        // Allocate buffer with packet data
 //        bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
 //        //add data into datastream
@@ -607,23 +606,15 @@ void MAVLinkSimulationLink::mainloop()
 //        // HEARTBEAT VEHICLE 3
 
 //        // Pack message and get size of encoded byte string
-//        messageSize = mavlink_msg_heartbeat_pack(60, componentId, &msg, MAV_FIXED_WING, MAV_AUTOPILOT_PIXHAWK);
+//        mavlink_msg_heartbeat_pack(60, componentId, &msg, MAV_FIXED_WING, MAV_AUTOPILOT_PIXHAWK);
 //        // Allocate buffer with packet data
 //        bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
 //        //add data into datastream
 //        memcpy(stream+streampointer,buffer, bufferlength);
 //        streampointer += bufferlength;
 
-        // STATUS VEHICLE 2
-        mavlink_sys_status_t status2;
-        mavlink_heartbeat_t system2;
-        system2.base_mode = MAV_MODE_PREFLIGHT;
-        status2.voltage_battery = voltage;
-        status2.load = 120;
-        system2.system_status = MAV_STATE_STANDBY;
-
         // Pack message and get size of encoded byte string
-        messageSize = mavlink_msg_sys_status_encode(54, componentId, &msg, &status);
+        mavlink_msg_sys_status_encode(54, componentId, &msg, &status);
         // Allocate buffer with packet data
         bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
         //add data into datastream
@@ -646,7 +637,7 @@ void MAVLinkSimulationLink::mainloop()
         // Attitude
 
         // Pack message and get size of encoded byte string
-        messageSize = mavlink_msg_attitude_pack(systemId, componentId, &msg, usec, roll, pitch, yaw, 0, 0, 0);
+        mavlink_msg_attitude_pack(systemId, componentId, &msg, usec, roll, pitch, yaw, 0, 0, 0);
         // Allocate buffer with packet data
         bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
         //add data into datastream
@@ -766,7 +757,7 @@ void MAVLinkSimulationLink::writeBytes(const char* data, qint64 size)
             case MAVLINK_MSG_ID_MANUAL_CONTROL: {
                 mavlink_manual_control_t control;
                 mavlink_msg_manual_control_decode(&msg, &control);
-                qDebug() << "\n" << "ROLL:" << control.roll << "PITCH:" << control.pitch;
+                qDebug() << "\n" << "ROLL:" << control.x << "PITCH:" << control.y;
             }
             break;
 #endif
@@ -785,7 +776,7 @@ void MAVLinkSimulationLink::writeBytes(const char* data, qint64 size)
                     for (i = onboardParams.begin(); i != onboardParams.end(); ++i) {
                         if (j != 5) {
                             // Pack message and get size of encoded byte string
-                            mavlink_msg_param_value_pack(read.target_system, componentId, &msg, i.key().toStdString().c_str(), i.value(), MAVLINK_TYPE_FLOAT, onboardParams.size(), j);
+                            mavlink_msg_param_value_pack(read.target_system, componentId, &msg, i.key().toStdString().c_str(), i.value(), MAV_PARAM_TYPE_REAL32, onboardParams.size(), j);
                             // Allocate buffer with packet data
                             bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
                             //add data into datastream
@@ -816,7 +807,7 @@ void MAVLinkSimulationLink::writeBytes(const char* data, qint64 size)
                         onboardParams.insert(key, set.param_value);
 
                         // Pack message and get size of encoded byte string
-                        mavlink_msg_param_value_pack(set.target_system, componentId, &msg, key.toStdString().c_str(), set.param_value, MAVLINK_TYPE_FLOAT, onboardParams.size(), onboardParams.keys().indexOf(key));
+                        mavlink_msg_param_value_pack(set.target_system, componentId, &msg, key.toStdString().c_str(), set.param_value, MAV_PARAM_TYPE_REAL32, onboardParams.size(), onboardParams.keys().indexOf(key));
                         // Allocate buffer with packet data
                         bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
                         //add data into datastream
@@ -839,7 +830,7 @@ void MAVLinkSimulationLink::writeBytes(const char* data, qint64 size)
                     float paramValue = onboardParams.value(key);
 
                     // Pack message and get size of encoded byte string
-                    mavlink_msg_param_value_pack(read.target_system, componentId, &msg, key.toStdString().c_str(), paramValue, MAVLINK_TYPE_FLOAT, onboardParams.size(), onboardParams.keys().indexOf(key));
+                    mavlink_msg_param_value_pack(read.target_system, componentId, &msg, key.toStdString().c_str(), paramValue, MAV_PARAM_TYPE_REAL32, onboardParams.size(), onboardParams.keys().indexOf(key));
                     // Allocate buffer with packet data
                     bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
                     //add data into datastream
@@ -853,7 +844,7 @@ void MAVLinkSimulationLink::writeBytes(const char* data, qint64 size)
                     float paramValue = onboardParams.value(key);
 
                     // Pack message and get size of encoded byte string
-                    mavlink_msg_param_value_pack(read.target_system, componentId, &msg, key.toStdString().c_str(), paramValue, MAVLINK_TYPE_FLOAT, onboardParams.size(), onboardParams.keys().indexOf(key));
+                    mavlink_msg_param_value_pack(read.target_system, componentId, &msg, key.toStdString().c_str(), paramValue, MAV_PARAM_TYPE_REAL32, onboardParams.size(), onboardParams.keys().indexOf(key));
                     // Allocate buffer with packet data
                     bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
                     //add data into datastream

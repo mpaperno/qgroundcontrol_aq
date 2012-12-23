@@ -65,6 +65,7 @@ class MAVLinkProtocol : public ProtocolInterface
 public:
     MAVLinkProtocol();
     ~MAVLinkProtocol();
+
     /** @brief Get the human-friendly name of this protocol */
     QString getName();
     /** @brief Get the system id of this application */
@@ -129,8 +130,10 @@ public slots:
     void receiveBytes(LinkInterface* link, QByteArray b);
     /** @brief Send MAVLink message through serial interface */
     void sendMessage(mavlink_message_t message);
-    /** @brief Send MAVLink message through serial interface */
+    /** @brief Send MAVLink message */
     void sendMessage(LinkInterface* link, mavlink_message_t message);
+    /** @brief Send MAVLink message with correct system / component ID */
+    void sendMessage(LinkInterface* link, mavlink_message_t message, quint8 systemid, quint8 componentid);
     /** @brief Set the rate at which heartbeats are emitted */
     void setHeartbeatRate(int rate);
     /** @brief Set the system id of this application */

@@ -50,8 +50,6 @@ This file is part of the QGROUNDCONTROL project
 #include "SwitchCalibrator.h"
 #include "CurveCalibrator.h"
 
-#include "mavlink.h"
-#include "mavlink_types.h"
 #include "UAS.h"
 #include "UASManager.h"
 #include "RadioCalibrationData.h"

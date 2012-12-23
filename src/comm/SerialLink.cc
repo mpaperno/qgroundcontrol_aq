@@ -324,7 +324,10 @@ QVector<QString>* SerialLink::getCurrentPorts()
     QFileInfoList list = dir.entryInfoList();
     for (int i = list.size() - 1; i >= 0; i--) {
         QFileInfo fileInfo = list.at(i);
-        if (fileInfo.fileName().contains(QString("ttyUSB")) || fileInfo.fileName().contains(QString("ttyS")) || fileInfo.fileName().contains(QString("tty.usbserial")) || fileInfo.fileName().contains(QString("ttyACM")))
+        if (fileInfo.fileName().contains(QString("ttyUSB")) ||
+                fileInfo.fileName().contains(QString("tty.")) ||
+                fileInfo.fileName().contains(QString("ttyS")) ||
+                fileInfo.fileName().contains(QString("ttyACM")))
         {
             ports->append(fileInfo.canonicalFilePath());
         }
@@ -360,7 +363,7 @@ void SerialLink::loadSettings()
     settings.sync();
     if (settings.contains("SERIALLINK_COMM_PORT"))
     {
-        if (porthandle == "") setPortName(settings.value("SERIALLINK_COMM_PORT").toString());
+        setPortName(settings.value("SERIALLINK_COMM_PORT").toString());
         setBaudRateType(settings.value("SERIALLINK_COMM_BAUD").toInt());
         setParityType(settings.value("SERIALLINK_COMM_PARITY").toInt());
         setStopBits(settings.value("SERIALLINK_COMM_STOPBITS").toInt());
@@ -373,7 +376,7 @@ void SerialLink::writeSettings()
 {
     // Store settings
     QSettings settings(QGC::COMPANYNAME, QGC::APPNAME);
-    settings.setValue("SERIALLINK_COMM_PORT", this->porthandle);
+    settings.setValue("SERIALLINK_COMM_PORT", getPortName());
     settings.setValue("SERIALLINK_COMM_BAUD", getBaudRateType());
     settings.setValue("SERIALLINK_COMM_PARITY", getParityType());
     settings.setValue("SERIALLINK_COMM_STOPBITS", getStopBits());
@@ -389,7 +392,6 @@ void SerialLink::writeSettings()
  **/
 void SerialLink::run()
 {
-    mode_port = false;
     // Initialize the connection
     hardwareConnect();
 
@@ -432,15 +434,21 @@ void SerialLink::checkForBytes()
 
         if(available > 0)
         {
-            if ( !mode_port )
                 readBytes();
         }
-    }
-    else
-    {
+        else if (available < 0) {
+            /* Error, close port */
+            port->close();
         emit disconnected();
         emit connected(false);
+            emit communicationError(this->getName(), tr("Could not send data - link %1 is disconnected!").arg(this->getName()));
+        }
     }
+//    else
+//    {
+//        emit disconnected();
+//        emit connected(false);
+//    }
 
 }
 
@@ -450,8 +458,19 @@ void SerialLink::writeBytes(const char* data, qint64 size)
         int b = port->write(data, size);
 
         if (b > 0) {
+
+            //            qDebug() << "Serial link " << this->getName() << "transmitted" << b << "bytes:";
+
             // Increase write counter
             bitsSentTotal += size * 8;
+
+            //            int i;
+            //            for (i=0; i<size; i++)
+            //            {
+            //                unsigned char v =data[i];
+            //                qDebug("%02x ", v);
+            //            }
+            //            qDebug("\n");
         } else {
             disconnect();
             // Error occured
@@ -567,10 +586,16 @@ bool SerialLink::disconnect()
 
         emit disconnected();
         emit connected(false);
+        if (port) {
+            port->close();
+        }
         return closed;
     }
     else {
-        // No port, so we're disconnected
+        // not running
+        if (port) {
+            port->close();
+        }
         return true;
     }
 
@@ -929,13 +954,13 @@ bool SerialLink::setBaudRateType(int rateIndex)
     // These minimum and maximum baud rates were based on those enumerated in qportsettings.h.
 #if defined(Q_OS_WIN32) || defined(Q_OS_WINCE)
     const int minBaud = (int)QPortSettings::BAUDR_110;
-    const int maxBaud = (int)QPortSettings::BAUDR_256000;
+    const int maxBaud = (int)QPortSettings::BAUDR_921600;
 #elif defined(Q_OS_LINUX)
     const int minBaud = (int)QPortSettings::BAUDR_50;
     const int maxBaud = (int)QPortSettings::BAUDR_921600;
 #elif defined(Q_OS_UNIX) || defined(Q_OS_DARWIN)
     const int minBaud = (int)QPortSettings::BAUDR_50;
-    const int maxBaud = (int)QPortSettings::BAUDR_115200;
+    const int maxBaud = (int)QPortSettings::BAUDR_921600;
 #endif
 
     if (rateIndex >= minBaud && rateIndex <= maxBaud)

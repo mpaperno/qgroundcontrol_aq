@@ -49,6 +49,13 @@ This file is part of the QGROUNDCONTROL project
 
 HSIDisplay::HSIDisplay(QWidget *parent) :
     HDDisplay(NULL, "HSI", parent),
+    dragStarted(false),
+    leftDragStarted(false),
+    mouseHasMoved(false),
+    startX(0.0f),
+    startY(0.0f),
+    actionPending(false),
+    directSending(false),
     gpsSatellites(),
     satellitesUsed(0),
     attXSet(0.0f),
@@ -88,6 +95,8 @@ HSIDisplay::HSIDisplay(QWidget *parent) :
     uiZSetCoordinate(0.0f),
     uiYawSet(0.0f),
     metricWidth(4.0),
+    xCenterPos(0),
+    yCenterPos(0),
     positionLock(false),
     attControlEnabled(false),
     xyControlEnabled(false),
@@ -97,14 +106,47 @@ HSIDisplay::HSIDisplay(QWidget *parent) :
     gpsFix(0),
     visionFix(0),
     laserFix(0),
+    iruFix(0),
     mavInitialized(false),
-    bottomMargin(10.0f),
-    dragStarted(false),
-    topMargin(12.0f),
-    leftDragStarted(false),
-    mouseHasMoved(false),
-    actionPending(false),
-    directSending(false),
+    topMargin(20.0f),
+    bottomMargin(14.0f),
+    attControlKnown(false),
+    xyControlKnown(false),
+    zControlKnown(false),
+    yawControlKnown(false),
+    positionFixKnown(false),
+    visionFixKnown(false),
+    gpsFixKnown(false),
+    iruFixKnown(false),
+    gyroKnown(false),
+    gyroON(false),
+    gyroOK(false),
+    accelKnown(false),
+    accelON(false),
+    accelOK(false),
+    magKnown(false),
+    magON(false),
+    magOK(false),
+    pressureKnown(false),
+    pressureON(false),
+    pressureOK(false),
+    diffPressureKnown(false),
+    diffPressureON(false),
+    diffPressureOK(false),
+    flowKnown(false),
+    flowON(false),
+    flowOK(false),
+    laserKnown(false),
+    laserON(false),
+    laserOK(false),
+    viconKnown(false),
+    viconON(false),
+    viconOK(false),
+    actuatorsKnown(false),
+    actuatorsON(false),
+    actuatorsOK(false),
+    setPointKnown(false),
+    positionSetPointKnown(false),
     userSetPointSet(false),
     userXYSetPointSet(false),
     userZSetPointSet(false),
@@ -119,7 +161,7 @@ HSIDisplay::HSIDisplay(QWidget *parent) :
     setPalette(pal);
 
     vwidth = 80.0f;
-    vheight = 80.0f;
+    vheight = 100.0f;
 
     xCenterPos = vwidth/2.0f;
     yCenterPos = vheight/2.0f + topMargin - bottomMargin;
@@ -198,7 +240,7 @@ void HSIDisplay::renderOverlay()
 
     // Size of the ring instrument
     //const float margin = 0.1f;  // 10% margin of total width on each side
-    float baseRadius = (vheight - topMargin - bottomMargin) / 2.0f - bottomMargin / 2.0f;
+    float baseRadius = (vheight - topMargin - bottomMargin) / 2.0f - (topMargin + bottomMargin) / 2.8f;
 
     // Draw instruments
     // TESTING THIS SHOULD BE MOVED INTO A QGRAPHICSVIEW
@@ -215,16 +257,16 @@ void HSIDisplay::renderOverlay()
     // Draw base instrument
     // ----------------------
     painter.setBrush(Qt::NoBrush);
-    const QColor ringColor = QColor(200, 250, 200);
+    const QColor ringColor = QColor(200, 200, 200);
     QPen pen;
     pen.setColor(ringColor);
-    pen.setWidth(refLineWidthToPen(0.1f));
+    pen.setWidth(refLineWidthToPen(1.0f));
     painter.setPen(pen);
     const int ringCount = 2;
     for (int i = 0; i < ringCount; i++)
     {
         float radius = (vwidth - (topMargin + bottomMargin)*0.3f) / (1.35f * i+1) / 2.0f - bottomMargin / 2.0f;
-        drawCircle(xCenterPos, yCenterPos, radius, 0.1f, ringColor, &painter);
+        drawCircle(xCenterPos, yCenterPos, radius, 1.0f, ringColor, &painter);
         paintText(tr("%1 m").arg(refToMetric(radius), 5, 'f', 1, ' '), QGC::colorCyan, 1.6f, vwidth/2-4, vheight/2+radius+2.2, &painter);
     }
 
@@ -305,25 +347,37 @@ void HSIDisplay::renderOverlay()
     drawWaypoints(painter);
 
     // Draw status flags
-    drawStatusFlag(2,  1, tr("ATT"), attControlEnabled, attControlKnown, painter);
-    drawStatusFlag(22, 1, tr("PXY"), xyControlEnabled,  xyControlKnown,  painter);
-    drawStatusFlag(44, 1, tr("PZ"),  zControlEnabled,   zControlKnown,   painter);
-    drawStatusFlag(66, 1, tr("YAW"), yawControlEnabled, yawControlKnown, painter);
+    drawStatusFlag(1,  1, tr("RAT"), rateControlEnabled, rateControlKnown, painter);
+    drawStatusFlag(17, 1, tr("ATT"), attControlEnabled, attControlKnown, painter);
+    drawStatusFlag(33, 1, tr("PXY"), xyControlEnabled,  xyControlKnown,  painter);
+    drawStatusFlag(49, 1, tr("PZ"),  zControlEnabled,   zControlKnown,   painter);
+    drawStatusFlag(65, 1, tr("YAW"), yawControlEnabled, yawControlKnown, painter);
 
     // Draw position lock indicators
-    drawPositionLock(2,  5, tr("POS"), positionFix, positionFixKnown, painter);
-    drawPositionLock(22, 5, tr("VIS"), visionFix,   visionFixKnown,   painter);
-    drawPositionLock(44, 5, tr("GPS"), gpsFix,      gpsFixKnown,      painter);
-    drawPositionLock(66, 5, tr("IRU"), iruFix,      iruFixKnown,      painter);
+    drawPositionLock(1,  6, tr("POS"), positionFix, positionFixKnown, painter);
+    drawPositionLock(17, 6, tr("GPS"), gpsFix,      gpsFixKnown,      painter);
+    drawStatusFlag(33,   6, tr("FLO"), flowON, flowKnown, flowOK, painter);
+    drawPositionLock(49, 6, tr("VIS"), visionFix,   visionFixKnown,   painter);
+    drawPositionLock(65, 6, tr("IRU"), iruFix,      iruFixKnown,      painter);
+
+    drawStatusFlag(1,   11, tr("GYR"), gyroON, gyroKnown, gyroOK, painter);
+    drawStatusFlag(17,  11, tr("ACC"), accelON, accelKnown, accelOK, painter);
+    drawStatusFlag(33,  11, tr("MAG"), magON, magKnown, magOK, painter);
+    drawStatusFlag(49,  11, tr("BAR"), pressureON, pressureKnown, pressureOK, painter);
+    drawStatusFlag(65,  11, tr("PIT"), diffPressureON, diffPressureKnown, diffPressureOK, painter);
+
+    drawStatusFlag(1, 16, tr("ACT"), actuatorsON, actuatorsKnown, actuatorsOK, painter);
+    drawStatusFlag(17, 16, tr("LAS"), laserON, laserKnown, laserOK, painter);
+    drawStatusFlag(33, 16, tr("VCN"), viconON, viconKnown, viconOK, painter);
 
     // Draw speed to top left
-    paintText(tr("SPEED"), QGC::colorCyan, 2.2f, 2, 11, &painter);
-    paintText(tr("%1 m/s").arg(speed, 5, 'f', 2, '0'), Qt::white, 2.2f, 12, 11, &painter);
+    paintText(tr("SPEED"), QGC::colorCyan, 2.2f, 2, topMargin+2, &painter);
+    paintText(tr("%1 m/s").arg(speed, 5, 'f', 2, '0'), Qt::white, 2.2f, 12, topMargin+2, &painter);
 
     // Draw crosstrack error to top right
     float crossTrackError = 0;
-    paintText(tr("XTRACK"), QGC::colorCyan, 2.2f, 54, 11, &painter);
-    paintText(tr("%1 m").arg(crossTrackError, 5, 'f', 2, '0'), Qt::white, 2.2f, 67, 11, &painter);
+    paintText(tr("XTRACK"), QGC::colorCyan, 2.2f, 54, topMargin+2, &painter);
+    paintText(tr("%1 m").arg(crossTrackError, 5, 'f', 2, '0'), Qt::white, 2.2f, 67, topMargin+2, &painter);
 
     // Draw position to bottom left
     if (localAvailable > 0)
@@ -376,12 +430,22 @@ void HSIDisplay::renderOverlay()
 
 void HSIDisplay::drawStatusFlag(float x, float y, QString label, bool status, bool known, QPainter& painter)
 {
+    drawStatusFlag(x, y, label, status, known, true, painter);
+}
+
+void HSIDisplay::drawStatusFlag(float x, float y, QString label, bool status, bool known, bool ok, QPainter& painter)
+{
     paintText(label, QGC::colorCyan, 2.6f, x, y+0.8f, &painter);
     QColor statusColor(250, 250, 250);
-    if(status) {
-        painter.setBrush(QGC::colorGreen);
-    } else {
+
+    if (!ok) {
         painter.setBrush(QGC::colorDarkYellow);
+    } else {
+        if(status) {
+            painter.setBrush(QGC::colorGreen);
+        } else {
+            painter.setBrush(Qt::darkGray);
+        }
     }
     painter.setPen(Qt::NoPen);
 
@@ -394,7 +458,7 @@ void HSIDisplay::drawStatusFlag(float x, float y, QString label, bool status, bo
     if (!known)
     {
         QPen pen(Qt::yellow);
-        pen.setWidth(2);
+        pen.setWidth(3);
         painter.setPen(pen);
         // Top left to bottom right
         QPointF p1, p2, p3, p4;
@@ -453,7 +517,7 @@ void HSIDisplay::drawPositionLock(float x, float y, QString label, int status, b
     // Cross out instrument if state unknown
     if (!known) {
         QPen pen(Qt::yellow);
-        pen.setWidth(2);
+        pen.setWidth(3);
         painter.setPen(pen);
         // Top left to bottom right
         QPointF p1, p2, p3, p4;
@@ -607,7 +671,7 @@ void HSIDisplay::mouseDoubleClickEvent(QMouseEvent * event)
 void HSIDisplay::mouseReleaseEvent(QMouseEvent * event)
 {
     // FIXME hardcode yaw to current value
-    setBodySetpointCoordinateYaw(0);
+    //setBodySetpointCoordinateYaw(0);
     if (mouseHasMoved)
     {
         if (event->type() == QMouseEvent::MouseButtonRelease && event->button() == Qt::RightButton)
@@ -808,6 +872,16 @@ void HSIDisplay::setActiveUAS(UASInterface* uas)
         disconnect(this->uas, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsLocalization(UASInterface*,int)));
         disconnect(this->uas, SIGNAL(irUltraSoundLocalizationChanged(UASInterface*,int)), this, SLOT(updateInfraredUltrasoundLocalization(UASInterface*,int)));
         disconnect(this->uas, SIGNAL(objectDetected(uint,int,int,QString,int,float,float)), this, SLOT(updateObjectPosition(uint,int,int,QString,int,float,float)));
+
+        disconnect(this->uas, SIGNAL(gyroStatusChanged(bool,bool,bool)), this, SLOT(updateGyroStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(accelStatusChanged(bool,bool,bool)), this, SLOT(updateAccelStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(magSensorStatusChanged(bool,bool,bool)), this, SLOT(updateMagSensorStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(baroStatusChanged(bool,bool,bool)), this, SLOT(updateBaroStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(airspeedStatusChanged(bool,bool,bool)), this, SLOT(updateAirspeedStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(opticalFlowStatusChanged(bool,bool,bool)), this, SLOT(updateOpticalFlowStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(laserStatusChanged(bool,bool,bool)), this, SLOT(updateLaserStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(groundTruthSensorStatusChanged(bool,bool,bool)), this, SLOT(updateGroundTruthSensorStatus(bool,bool,bool)));
+        disconnect(this->uas, SIGNAL(actuatorStatusChanged(bool,bool,bool)), this, SLOT(updateActuatorStatus(bool,bool,bool)));
     }
 
     connect(uas, SIGNAL(gpsSatelliteStatusChanged(int,int,float,float,float,bool)), this, SLOT(updateSatellite(int,int,float,float,float,bool)));
@@ -829,6 +903,16 @@ void HSIDisplay::setActiveUAS(UASInterface* uas)
     connect(uas, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsLocalization(UASInterface*,int)));
     connect(uas, SIGNAL(irUltraSoundLocalizationChanged(UASInterface*,int)), this, SLOT(updateInfraredUltrasoundLocalization(UASInterface*,int)));
     connect(uas, SIGNAL(objectDetected(uint,int,int,QString,int,float,float)), this, SLOT(updateObjectPosition(uint,int,int,QString,int,float,float)));
+
+    connect(uas, SIGNAL(gyroStatusChanged(bool,bool,bool)), this, SLOT(updateGyroStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(accelStatusChanged(bool,bool,bool)), this, SLOT(updateAccelStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(magSensorStatusChanged(bool,bool,bool)), this, SLOT(updateMagSensorStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(baroStatusChanged(bool,bool,bool)), this, SLOT(updateBaroStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(airspeedStatusChanged(bool,bool,bool)), this, SLOT(updateAirspeedStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(opticalFlowStatusChanged(bool,bool,bool)), this, SLOT(updateOpticalFlowStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(laserStatusChanged(bool,bool,bool)), this, SLOT(updateLaserStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(groundTruthSensorStatusChanged(bool,bool,bool)), this, SLOT(updateGroundTruthSensorStatus(bool,bool,bool)));
+    connect(uas, SIGNAL(actuatorStatusChanged(bool,bool,bool)), this, SLOT(updateActuatorStatus(bool,bool,bool)));
 
     this->uas = uas;
 
@@ -990,12 +1074,13 @@ void HSIDisplay::updateGlobalPosition(UASInterface*, double lat, double lon, dou
 void HSIDisplay::updateSatellite(int uasid, int satid, float elevation, float azimuth, float snr, bool used)
 {
     Q_UNUSED(uasid);
-    //qDebug() << "UPDATED SATELLITE";
     // If slot is empty, insert object
-    if (gpsSatellites.contains(satid)) {
-        gpsSatellites.value(satid)->update(satid, elevation, azimuth, snr, used);
-    } else {
-        gpsSatellites.insert(satid, new GPSSatellite(satid, elevation, azimuth, snr, used));
+    if (satid != 0) { // Satellite PRNs currently range from 1-32, but are never zero
+        if (gpsSatellites.contains(satid)) {
+            gpsSatellites.value(satid)->update(satid, elevation, azimuth, snr, used);
+        } else {
+            gpsSatellites.insert(satid, new GPSSatellite(satid, elevation, azimuth, snr, used));
+        }
     }
 }
 
@@ -1101,18 +1186,63 @@ void HSIDisplay::drawSetpointXYZYaw(float x, float y, float z, float yaw, const 
     }
 }
 
+void HSIDisplay::drawWaypoint(QPainter& painter, const QColor& color, float width, const QVector<Waypoint*>& list, int i, const QPointF& p)
+{
+    painter.setBrush(Qt::NoBrush);
+
+    // Setup pen for foreground
+    QPen pen(color);
+    pen.setWidthF(width);
+
+    // DRAW WAYPOINT
+    float waypointSize = vwidth / 20.0f * 2.0f;
+    QPolygonF poly(4);
+    // Top point
+    poly.replace(0, QPointF(p.x(), p.y()-waypointSize/2.0f));
+    // Right point
+    poly.replace(1, QPointF(p.x()+waypointSize/2.0f, p.y()));
+    // Bottom point
+    poly.replace(2, QPointF(p.x(), p.y() + waypointSize/2.0f));
+    poly.replace(3, QPointF(p.x() - waypointSize/2.0f, p.y()));
+
+    float radius = (waypointSize/2.0f) * 0.8 * (1/sqrt(2.0f));
+    float acceptRadius = list.at(i)->getAcceptanceRadius();
+
+    // Draw background
+    pen.setColor(Qt::black);
+    painter.setPen(pen);
+    drawLine(p.x(), p.y(), p.x()+sin(list.at(i)->getYaw()/180.0*M_PI-yaw) * radius, p.y()-cos(list.at(i)->getYaw()/180.0*M_PI-yaw) * radius, refLineWidthToPen(0.4f*3.0f), Qt::black, &painter);
+    drawPolygon(poly, &painter);
+    drawCircle(p.x(), p.y(), metricToRef(acceptRadius), 3.0, Qt::black, &painter);
+
+    // Draw foreground
+    pen.setColor(color);
+    painter.setPen(pen);
+    drawLine(p.x(), p.y(), p.x()+sin(list.at(i)->getYaw()/180.0*M_PI-yaw) * radius, p.y()-cos(list.at(i)->getYaw()/180.0*M_PI-yaw) * radius, refLineWidthToPen(0.4f), color, &painter);
+    drawPolygon(poly, &painter);
+    drawCircle(p.x(), p.y(), metricToRef(acceptRadius), 1.0, Qt::green, &painter);
+}
+
 void HSIDisplay::drawWaypoints(QPainter& painter)
 {
     if (uas)
     {
         const QVector<Waypoint*>& list = uas->getWaypointManager()->getWaypointEditableList();
 
+        // Do not work on empty lists
+        if (list.size() == 0) return;
+
         QColor color;
         painter.setBrush(Qt::NoBrush);
 
-        QPointF lastWaypoint;
+        // XXX Ugly hacks, needs rewrite
 
-        for (int i = 0; i < list.size(); i++) {
+        QPointF lastWaypoint;
+        QPointF currentWaypoint;
+        int currentIndex = 0;
+
+        for (int i = 0; i < list.size(); i++)
+        {
             QPointF in;
             if (list.at(i)->getFrame() == MAV_FRAME_LOCAL_NED)
             {
@@ -1129,49 +1259,28 @@ void HSIDisplay::drawWaypoints(QPainter& painter)
             // Scale from metric to screen reference coordinates
             QPointF p = metricBodyToRef(in);
 
-            // Setup pen
-            QPen pen(color);
-            painter.setBrush(Qt::NoBrush);
-
-            // DRAW WAYPOINT
-            float waypointSize = vwidth / 20.0f * 2.0f;
-            QPolygonF poly(4);
-            // Top point
-            poly.replace(0, QPointF(p.x(), p.y()-waypointSize/2.0f));
-            // Right point
-            poly.replace(1, QPointF(p.x()+waypointSize/2.0f, p.y()));
-            // Bottom point
-            poly.replace(2, QPointF(p.x(), p.y() + waypointSize/2.0f));
-            poly.replace(3, QPointF(p.x() - waypointSize/2.0f, p.y()));
-
             // Select color based on if this is the current waypoint
-            if (list.at(i)->getCurrent()) {
-                color = QGC::colorYellow;//uas->getColor();
-                pen.setWidthF(refLineWidthToPen(0.8f));
-            } else {
-                color = QGC::colorCyan;
-                pen.setWidthF(refLineWidthToPen(0.4f));
+            if (list.at(i)->getCurrent())
+            {
+                currentIndex = i;
+                currentWaypoint = p;
             }
-
-            pen.setColor(color);
-            painter.setPen(pen);
-            float radius = (waypointSize/2.0f) * 0.8 * (1/sqrt(2.0f));
-            drawLine(p.x(), p.y(), p.x()+sin(list.at(i)->getYaw()/180.0*M_PI-yaw) * radius, p.y()-cos(list.at(i)->getYaw()/180.0*M_PI-yaw) * radius, refLineWidthToPen(0.4f), color, &painter);
-            drawPolygon(poly, &painter);
-            float acceptRadius = list.at(i)->getAcceptanceRadius();
-            drawCircle(p.x(), p.y(), metricToRef(acceptRadius), 1.0, Qt::green, &painter);
+            else
+            {
+                drawWaypoint(painter, QGC::colorCyan, refLineWidthToPen(0.4f), list, i, p);
+            }
 
             // DRAW CONNECTING LINE
             // Draw line from last waypoint to this one
             if (!lastWaypoint.isNull())
             {
-                pen.setWidthF(refLineWidthToPen(0.4f));
-                painter.setPen(pen);
-                color = QGC::colorCyan;
-                drawLine(lastWaypoint.x(), lastWaypoint.y(), p.x(), p.y(), refLineWidthToPen(0.4f), color, &painter);
+                drawLine(lastWaypoint.x(), lastWaypoint.y(), p.x(), p.y(), refLineWidthToPen(0.4f*2.0f), Qt::black, &painter);
+                drawLine(lastWaypoint.x(), lastWaypoint.y(), p.x(), p.y(), refLineWidthToPen(0.4f), QGC::colorCyan, &painter);
             }
             lastWaypoint = p;
         }
+
+        drawWaypoint(painter, QGC::colorYellow, refLineWidthToPen(0.8f), list, currentIndex, currentWaypoint);
     }
 }
 

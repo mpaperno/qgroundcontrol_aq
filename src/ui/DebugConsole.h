@@ -121,9 +121,14 @@ protected:
     bool autoHold;            ///< Auto-hold mode sets view into hold if the data rate is too high
     int bytesToIgnore;        ///< Number of bytes to ignore
     char lastByte;            ///< The last received byte
+    bool escReceived;         ///< True if received ESC char in ASCII mode
+    int escIndex;             ///< Index of bytes since ESC was received
+    char escBytes[5];         ///< Escape-following bytes
+    bool terminalReceived;    ///< Terminal sequence received
     QList<QString> sentBytes; ///< Transmitted bytes, per transmission
     QByteArray holdBuffer;    ///< Buffer where bytes are stored during hold-enable
     QString lineBuffer;       ///< Buffere where bytes are stored before writing them out
+    quint64 lastLineBuffer;   ///< Last line buffer emission time
     QTimer lineBufferTimer;   ///< Line buffer timer
     QTimer snapShotTimer;     ///< Timer for measuring traffic snapshots
     int snapShotInterval;     ///< Snapshot interval for traffic measurements

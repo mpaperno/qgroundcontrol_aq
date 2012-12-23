@@ -84,7 +84,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../qgroundcontrol.qrc">
-              <normaloff>:/images/actions/folder-horizontal-open.png</normaloff>:/images/actions/folder-horizontal-open.png</iconset>
+              <normaloff>:/files/images/actions/folder-horizontal-open.png</normaloff>:/files/images/actions/folder-horizontal-open.png</iconset>
             </property>
             <property name="autoRaise">
              <bool>true</bool>
@@ -640,7 +640,7 @@
             </property>
             <property name="icon">
              <iconset resource="../../qgroundcontrol.qrc">
-              <normaloff>:/images/actions/folder-horizontal-open.png</normaloff>:/images/actions/folder-horizontal-open.png</iconset>
+              <normaloff>:/files/images/actions/folder-horizontal-open.png</normaloff>:/files/images/actions/folder-horizontal-open.png</iconset>
             </property>
             <property name="autoRaise">
              <bool>true</bool>
@@ -1132,7 +1132,7 @@
               <second>59</second>
               <year>3001</year>
               <month>1</month>
-              <day>22</day>
+              <day>23</day>
              </datetime>
             </property>
             <property name="minimumDateTime">
@@ -1523,7 +1523,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../qgroundcontrol.qrc">
-           <normaloff>:/images/actions/application-monitor.png</normaloff>:/images/actions/application-monitor.png</iconset>
+           <normaloff>:/files/images/actions/application-monitor.png</normaloff>:/files/images/actions/application-monitor.png</iconset>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -1552,7 +1552,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../qgroundcontrol.qrc">
-           <normaloff>:/images/actions/folder-search-result.png</normaloff>:/images/actions/folder-search-result.png</iconset>
+           <normaloff>:/files/images/actions/folder-search-result.png</normaloff>:/files/images/actions/folder-search-result.png</iconset>
          </property>
          <property name="toolButtonStyle">
           <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -1848,16 +1848,16 @@ p, li { white-space: pre-wrap; }
   </property>
  </designerdata>
  <buttongroups>
-  <buttongroup name="buttonGroup_gpsExportVals">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="buttonGroup_exportValues">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="buttonGroup_trigChanValues"/>
+  <buttongroup name="buttonGroup_gpsExportVals">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>

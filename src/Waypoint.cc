@@ -313,7 +313,6 @@ void Waypoint::setHoldTime(double holdTime)
     }
 }
 
-
 void Waypoint::setTurns(int turns)
 {
     if (this->param1 != turns) {

@@ -78,10 +78,8 @@ public slots:
     void refresh();
     /** @brief Add a waypoint to "edit"-tab */
     void addEditable();
-    /** @brief Add a waypoint to "view"-tab */
-   // void addViewOnly();
     /** @brief Add a waypoint at the current MAV position */
-    void addCurrentPositionWaypoint();
+    int addCurrentPositionWaypoint();
     /** @brief Add a waypoint by mouse click over the map */
 
     //Update events

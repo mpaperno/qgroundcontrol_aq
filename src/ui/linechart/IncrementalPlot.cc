@@ -95,8 +95,7 @@ IncrementalPlot::IncrementalPlot(QWidget *parent):
 
     setFrameStyle(QFrame::NoFrame);
     setLineWidth(0);
-    //setStyleText("solid crosses");
-    setStyleText("line");
+    setStyleText("solid crosses");
     setCanvasLineWidth(2);
 
     plotLayout()->setAlignCanvasToScales(true);
@@ -316,9 +315,8 @@ void IncrementalPlot::appendData(QString key, double *x, double *y, int size)
         curve->setPaintAttribute(QwtPlotCurve::PaintFiltered);
 
         const QColor &c = getNextColor();
-        //curve->setSymbol(QwtSymbol(QwtSymbol::Cross,QBrush(c), QPen(c, 1.2f), QSize(5, 5)) );
-
-        curve->setSymbol(QwtSymbol(QwtSymbol::NoSymbol,QBrush(c), QPen(c, 1.2f), QSize(5, 5)) );
+        curve->setSymbol(QwtSymbol(QwtSymbol::XCross,
+                                   QBrush(c), QPen(c, 1.2f), QSize(5, 5)) );
 
         curve->attach(this);
     } else {
@@ -454,5 +452,4 @@ void IncrementalPlot::removeData()
     d_data.clear();
     resetScaling();
     replot();
-    nextColor = 0;
 }

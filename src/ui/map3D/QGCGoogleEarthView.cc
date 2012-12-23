@@ -8,8 +8,6 @@
 #include <QFile>
 #include <QTextStream>
 #include "UASManager.h"
-#include <QFileDialog>
-
 
 #ifdef Q_OS_MAC
 #include <QWebFrame>
@@ -30,7 +28,6 @@
 #include "ui_QGCGoogleEarthView.h"
 #include "QGCGoogleEarthView.h"
 #include "UASWaypointManager.h"
-#include "aq_LogExporter.h"
 
 #define QGCGOOGLEEARTHVIEWSETTINGS QString("GoogleEarthViewSettings_")
 
@@ -94,8 +91,6 @@ QGCGoogleEarthView::QGCGoogleEarthView(QWidget *parent) :
     connect(ui->daylightCheckBox, SIGNAL(clicked(bool)), this, SLOT(enableDaylight(bool)));
 
     connect(UASManager::instance(), SIGNAL(homePositionChanged(double,double,double)), this, SLOT(setHome(double,double,double)));
-
-//    connect(ui->ImportButton, SIGNAL(clicked()), this, SLOT(OpenImportDialog()));
 }
 
 QGCGoogleEarthView::~QGCGoogleEarthView()
@@ -417,7 +412,7 @@ void QGCGoogleEarthView::showEvent(QShowEvent* event)
 
 #ifdef _MSC_VER
         //webViewWin->dynamicCall("GoHome()");
-        webViewWin->dynamicCall("Navigate(const QString&)", QApplication::applicationDirPath() + "/earth.html");
+        webViewWin->dynamicCall("Navigate(const QString&)", QApplication::applicationDirPath() + "/files/images/earth.html");
 #endif
 
         webViewInitialized = true;
@@ -756,8 +751,3 @@ void QGCGoogleEarthView::changeEvent(QEvent *e)
         break;
     }
 }
-
-//void QGCGoogleEarthView::OpenImportDialog() {
-//    ImportDialog = new AQLogExporter(this, QString(""));
-//    ImportDialog->show();
-//}

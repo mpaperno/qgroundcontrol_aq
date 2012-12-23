@@ -51,7 +51,7 @@ MOC_DIR = $${BUILDDIR}/moc
 UI_DIR = $${BUILDDIR}/ui
 RCC_DIR = $${BUILDDIR}/rcc
 MAVLINK_CONF = ""
-MAVLINKPATH = $$BASEDIR/mavlink/include/v1.0
+MAVLINKPATH = $$BASEDIR/libs/mavlink/include/mavlink/v1.0
 DEFINES += MAVLINK_NO_DATA
 
 win32 {
@@ -61,6 +61,14 @@ win32 {
     QMAKE_MOC = "$$(QTDIR)/bin/moc.exe"
     QMAKE_RCC = "$$(QTDIR)/bin/rcc.exe"
     QMAKE_QMAKE = "$$(QTDIR)/bin/qmake.exe"
+	
+	# Build QAX for GoogleEarth API access
+	!exists( $(QTDIR)/src/activeqt/Makefile ) {
+		message( Making QAx (ONE TIME) )
+		system( cd $$(QTDIR)\\src\\activeqt && $$(QTDIR)\\bin\\qmake.exe )
+		system( cd $$(QTDIR)\\src\\activeqt\\container && $$(QTDIR)\\bin\\qmake.exe )
+		system( cd $$(QTDIR)\\src\\activeqt\\control && $$(QTDIR)\\bin\\qmake.exe )
+	}
 }
 
 
@@ -68,81 +76,44 @@ win32 {
 #################################################################
 # EXTERNAL LIBRARY CONFIGURATION
 
-# Include NMEA parsing library (currently unused)
-# include(src/libs/nmea/nmea.pri)
-
 # EIGEN matrix library (header-only)
-INCLUDEPATH += src/libs/eigen
+INCLUDEPATH += libs/eigen
 
 # OPMapControl library (from OpenPilot)
-include(src/libs/utils/utils_external.pri)
-include(src/libs/opmapcontrol/opmapcontrol_external.pri)
+include(libs/utils/utils_external.pri)
+include(libs/opmapcontrol/opmapcontrol_external.pri)
 DEPENDPATH += \
-    src/libs/utils \
-    src/libs/utils/src \
-    src/libs/opmapcontrol \
-    src/libs/opmapcontrol/src \
-    src/libs/opmapcontrol/src/mapwidget
+    libs/utils \
+    libs/utils/src \
+    libs/opmapcontrol \
+    libs/opmapcontrol/src \
+    libs/opmapcontrol/src/mapwidget
 
 INCLUDEPATH += \
-    src/libs/utils \
-    src/libs \
-    src/libs/opmapcontrol
+    libs/utils \
+    libs \
+    libs/opmapcontrol
 
 # If the user config file exists, it will be included.
 # if the variable MAVLINK_CONF contains the name of an
 # additional project, QGroundControl includes the support
-# of custom MAVLink messages of this project
+# of custom MAVLink messages of this project. It will also
+# create a QGC_USE_{AUTOPILOT_NAME}_MESSAGES macro for use
+# within the actual code.
 exists(user_config.pri) { 
     include(user_config.pri)
     message("----- USING CUSTOM USER QGROUNDCONTROL CONFIG FROM user_config.pri -----")
     message("Adding support for additional MAVLink messages for: " $$MAVLINK_CONF)
     message("------------------------------------------------------------------------")
 }
-INCLUDEPATH += $$MAVLINKPATH/common
 INCLUDEPATH += $$MAVLINKPATH
-contains(MAVLINK_CONF, pixhawk) { 
-    # Remove the default set - it is included anyway
-    INCLUDEPATH -= $$MAVLINKPATH/common
-
-    # PIXHAWK SPECIAL MESSAGES
-    INCLUDEPATH += $$MAVLINKPATH/pixhawk
-    DEFINES += QGC_USE_PIXHAWK_MESSAGES
+isEmpty(MAVLINK_CONF) { 
+    INCLUDEPATH += $$MAVLINKPATH/common
+} else {
+    INCLUDEPATH += $$MAVLINKPATH/$$MAVLINK_CONF
+    #DEFINES += 'MAVLINK_CONF="$${MAVLINK_CONF}.h"'
+    DEFINES += $$sprintf('QGC_USE_%1_MESSAGES', $$upper($$MAVLINK_CONF))
 }
-contains(MAVLINK_CONF, slugs) { 
-    # Remove the default set - it is included anyway
-    INCLUDEPATH -= $$MAVLINKPATH/common
-    
-    # SLUGS SPECIAL MESSAGES
-    INCLUDEPATH += $$MAVLINKPATH/slugs
-    DEFINES += QGC_USE_SLUGS_MESSAGES
-}
-contains(MAVLINK_CONF, ualberta) { 
-    # Remove the default set - it is included anyway
-    INCLUDEPATH -= $$MAVLINKPATH/common
-    
-    # UALBERTA SPECIAL MESSAGES
-    INCLUDEPATH += $$MAVLINKPATH/ualberta
-    DEFINES += QGC_USE_UALBERTA_MESSAGES
-}
-contains(MAVLINK_CONF, ardupilotmega) { 
-    # Remove the default set - it is included anyway
-    INCLUDEPATH -= $$MAVLINKPATH/common
-    INCLUDEPATH -= $$BASEDIR/mavlink/include/v1.0/common
-    
-    # UALBERTA SPECIAL MESSAGES
-    INCLUDEPATH += $$MAVLINKPATH/ardupilotmega
-    DEFINES += QGC_USE_ARDUPILOTMEGA_MESSAGES
-}
-contains(MAVLINK_CONF, senseSoar) { 
-    # Remove the default set - it is included anyway
-    INCLUDEPATH -= $$MAVLINKPATH/common
-    
-    # SENSESOAR SPECIAL MESSAGES
-    INCLUDEPATH += $$MAVLINKPATH/SenseSoar
-    DEFINES += QGC_USE_SENSESOAR_MESSAGES
-}
-
 
 # Include general settings for QGroundControl
 # necessary as last include to override any non-acceptable settings
@@ -164,29 +135,29 @@ include(src/apps/mavlinkgen/mavlinkgen.pri)
 
 
 # Include QWT plotting library
-include(src/lib/qwt/qwt.pri)
+include(libs/qwt/qwt.pri)
 DEPENDPATH += . \
     plugins \
-    thirdParty/qserialport/include \
-    thirdParty/qserialport/include/QtSerialPort \
-    thirdParty/qserialport \
-    src/libs/qextserialport
+    libs/thirdParty/qserialport/include \
+    libs/thirdParty/qserialport/include/QtSerialPort \
+    libs/thirdParty/qserialport \
+    libs/qextserialport
 
 INCLUDEPATH += . \
-    thirdParty/qserialport/include \
-    thirdParty/qserialport/include/QtSerialPort \
-    thirdParty/qserialport/src \
-    src/libs/qextserialport
+    libs/thirdParty/qserialport/include \
+    libs/thirdParty/qserialport/include/QtSerialPort \
+    libs/thirdParty/qserialport/src \
+    libs/qextserialport
 
 # Include serial port library (QSerial)
 include(qserialport.pri)
 
 # Serial port detection (ripped-off from qextserialport library)
-macx|macx-g++|macx-g++42::SOURCES += src/libs/qextserialport/qextserialenumerator_osx.cpp
-linux-g++::SOURCES += src/libs/qextserialport/qextserialenumerator_unix.cpp
-linux-g++-64::SOURCES += src/libs/qextserialport/qextserialenumerator_unix.cpp
-win32::SOURCES += src/libs/qextserialport/qextserialenumerator_win.cpp
-win32-msvc2008|win32-msvc2010::SOURCES += src/libs/qextserialport/qextserialenumerator_win.cpp
+macx|macx-g++|macx-g++42::SOURCES += libs/qextserialport/qextserialenumerator_osx.cpp
+linux-g++::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
+linux-g++-64::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
+win32::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
+win32-msvc2008|win32-msvc2010::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
 
 # Input
 FORMS += src/ui/MainWindow.ui \
@@ -242,6 +213,23 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/firmwareupdate/QGCFirmwareUpdateWidget.ui \
     src/ui/QGCPluginHost.ui \
     src/ui/firmwareupdate/QGCPX4FirmwareUpdate.ui \
+    src/ui/mission/QGCMissionOther.ui \
+    src/ui/mission/QGCMissionNavWaypoint.ui \
+    src/ui/mission/QGCMissionDoJump.ui \
+    src/ui/mission/QGCMissionConditionDelay.ui \
+    src/ui/mission/QGCMissionNavLoiterUnlim.ui \
+    src/ui/mission/QGCMissionNavLoiterTurns.ui \
+    src/ui/mission/QGCMissionNavLoiterTime.ui \
+    src/ui/mission/QGCMissionNavReturnToLaunch.ui \
+    src/ui/mission/QGCMissionNavLand.ui \
+    src/ui/mission/QGCMissionNavTakeoff.ui \
+    src/ui/mission/QGCMissionNavSweep.ui \
+    src/ui/mission/QGCMissionDoStartSearch.ui \
+    src/ui/mission/QGCMissionDoFinishSearch.ui \
+    src/ui/QGCVehicleConfig.ui \
+    src/ui/QGCHilConfiguration.ui \
+    src/ui/QGCHilFlightGearConfiguration.ui \
+    src/ui/QGCHilXPlaneConfiguration.ui \
     src/ui/qgcautoquad.ui \
     src/ui/AQLinechart.ui \
     src/ui/aq_LogExporter.ui
@@ -260,8 +248,8 @@ INCLUDEPATH += src \
     src/ui/param \
     src/ui/watchdog \
     src/ui/map3D \
+    src/ui/mission \
     src/ui/designer
-
 HEADERS += src/MG.h \
     src/QGCCore.h \
     src/uas/UASInterface.h \
@@ -274,6 +262,7 @@ HEADERS += src/MG.h \
     src/comm/ProtocolInterface.h \
     src/comm/MAVLinkProtocol.h \
     src/comm/QGCFlightGearLink.h \
+    src/comm/QGCXPlaneLink.h \
     src/ui/CommConfigurationWindow.h \
     src/ui/SerialConfigurationWindow.h \
     src/ui/MainWindow.h \
@@ -355,11 +344,12 @@ HEADERS += src/MG.h \
     src/ui/map/Waypoint2DIcon.h \
     src/ui/map/QGCMapTool.h \
     src/ui/map/QGCMapToolBar.h \
-    src/libs/qextserialport/qextserialenumerator.h \
+    libs/qextserialport/qextserialenumerator.h \
     src/QGCGeo.h \
     src/ui/QGCToolBar.h \
     src/ui/QGCMAVLinkInspector.h \
     src/ui/MAVLinkDecoder.h \
+    src/ui/WaypointViewOnlyView.h \
     src/ui/WaypointViewOnlyView.h \
     src/ui/WaypointEditableView.h \    
     src/ui/UnconnectedUASInfoWidget.h \
@@ -368,6 +358,24 @@ HEADERS += src/MG.h \
     src/ui/firmwareupdate/QGCFirmwareUpdateWidget.h \
     src/ui/QGCPluginHost.h \
     src/ui/firmwareupdate/QGCPX4FirmwareUpdate.h \
+    src/ui/mission/QGCMissionOther.h \
+    src/ui/mission/QGCMissionNavWaypoint.h \
+    src/ui/mission/QGCMissionDoJump.h \
+    src/ui/mission/QGCMissionConditionDelay.h \
+    src/ui/mission/QGCMissionNavLoiterUnlim.h \
+    src/ui/mission/QGCMissionNavLoiterTurns.h \
+    src/ui/mission/QGCMissionNavLoiterTime.h \
+    src/ui/mission/QGCMissionNavReturnToLaunch.h \
+    src/ui/mission/QGCMissionNavLand.h \
+    src/ui/mission/QGCMissionNavTakeoff.h \
+    src/ui/mission/QGCMissionNavSweep.h \
+    src/ui/mission/QGCMissionDoStartSearch.h \
+    src/ui/mission/QGCMissionDoFinishSearch.h \
+    src/ui/QGCVehicleConfig.h \
+    src/comm/QGCHilLink.h \
+    src/ui/QGCHilConfiguration.h \
+    src/ui/QGCHilFlightGearConfiguration.h \
+    src/ui/QGCHilXPlaneConfiguration.h \
     src/ui/qgcautoquad.h \
     src/ui/qgcaqparamwidget.h \
     src/aq_comm.h \
@@ -390,7 +398,7 @@ contains(DEPENDENCIES_PRESENT, osg) {
         src/ui/map3D/Q3DWidget.h \
         src/ui/map3D/GCManipulator.h \
         src/ui/map3D/ImageWindowGeode.h \
-        src/ui/map3D/PixhawkCheetahGeode.h \
+        src/ui/map3D/PixhawkCheetahNode.h \
         src/ui/map3D/Pixhawk3DWidget.h \
         src/ui/map3D/Q3DWidgetFactory.h \
         src/ui/map3D/WebImageCache.h \
@@ -407,7 +415,7 @@ contains(DEPENDENCIES_PRESENT, protobuf):contains(MAVLINK_CONF, pixhawk) {
     message("Including headers for Protocol Buffers")
 
     # Enable only if protobuf is available
-    HEADERS += mavlink/include/v1.0/pixhawk/pixhawk.pb.h \
+    HEADERS += libs/mavlink/include/mavlink/v1.0/pixhawk/pixhawk.pb.h \
         src/ui/map3D/ObstacleGroupNode.h \
         src/ui/map3D/GLOverlayGeode.h
 }
@@ -426,6 +434,7 @@ SOURCES += src/main.cc \
     src/comm/SerialLink.cc \
     src/comm/MAVLinkProtocol.cc \
     src/comm/QGCFlightGearLink.cc \
+    src/comm/QGCXPlaneLink.cc \
     src/ui/CommConfigurationWindow.cc \
     src/ui/SerialConfigurationWindow.cc \
     src/ui/MainWindow.cc \
@@ -516,6 +525,23 @@ SOURCES += src/main.cc \
     src/ui/firmwareupdate/QGCFirmwareUpdateWidget.cc \
     src/ui/QGCPluginHost.cc \
     src/ui/firmwareupdate/QGCPX4FirmwareUpdate.cc \
+    src/ui/mission/QGCMissionOther.cc \
+    src/ui/mission/QGCMissionNavWaypoint.cc \
+    src/ui/mission/QGCMissionDoJump.cc \
+    src/ui/mission/QGCMissionConditionDelay.cc \
+    src/ui/mission/QGCMissionNavLoiterUnlim.cc \
+    src/ui/mission/QGCMissionNavLoiterTurns.cc \
+    src/ui/mission/QGCMissionNavLoiterTime.cc \
+    src/ui/mission/QGCMissionNavReturnToLaunch.cc \
+    src/ui/mission/QGCMissionNavLand.cc \
+    src/ui/mission/QGCMissionNavTakeoff.cc \
+    src/ui/mission/QGCMissionNavSweep.cc \
+    src/ui/mission/QGCMissionDoStartSearch.cc \
+    src/ui/mission/QGCMissionDoFinishSearch.cc \
+    src/ui/QGCVehicleConfig.cc \
+    src/ui/QGCHilConfiguration.cc \
+    src/ui/QGCHilFlightGearConfiguration.cc \
+    src/ui/QGCHilXPlaneConfiguration.cc \
     src/ui/qgcautoquad.cc \
     src/ui/qgcaqparamwidget.cc \
     src/aq_comm.cpp \
@@ -540,7 +566,7 @@ contains(DEPENDENCIES_PRESENT, osg) {
         src/ui/map3D/Q3DWidget.cc \
         src/ui/map3D/ImageWindowGeode.cc \
         src/ui/map3D/GCManipulator.cc \
-        src/ui/map3D/PixhawkCheetahGeode.cc \
+        src/ui/map3D/PixhawkCheetahNode.cc \
         src/ui/map3D/Pixhawk3DWidget.cc \
         src/ui/map3D/Q3DWidgetFactory.cc \
         src/ui/map3D/WebImageCache.cc \
@@ -557,14 +583,14 @@ contains(DEPENDENCIES_PRESENT, osg) {
         message("Including sources for osgEarth")
         
         # Enable only if OpenSceneGraph is available
-        SOURCES += src/ui/map3D/QMap3D.cc
+        SOURCES +=
     }
 }
 contains(DEPENDENCIES_PRESENT, protobuf):contains(MAVLINK_CONF, pixhawk) {
     message("Including sources for Protocol Buffers")
 
     # Enable only if protobuf is available
-    SOURCES += mavlink/src/v1.0/pixhawk/pixhawk.pb.cc \
+    SOURCES += libs/mavlink/share/mavlink/src/v1.0/pixhawk/pixhawk.pb.cc \
         src/ui/map3D/ObstacleGroupNode.cc \
         src/ui/map3D/GLOverlayGeode.cc
 }
@@ -614,10 +640,41 @@ win32-msvc2008|win32-msvc2010|linux {
         src/comm/HexSpinBox.cpp \
         src/ui/XbeeConfigurationWindow.cpp
     DEFINES += XBEELINK
-    INCLUDEPATH += $${BASEDIR}/thirdParty/libxbee
+    INCLUDEPATH += libs/thirdParty/libxbee
 # TO DO: build library when it does not exist already
-    LIBS += -L$${BASEDIR}/thirdParty/libxbee/lib \
+    LIBS += -L$${BASEDIR}/libs/thirdParty/libxbee/lib \
         -llibxbee
 }
 
-OTHER_FILES +=
+###################################################################
+#### --- 3DConnexion 3d Mice support (e.g. spacenavigator) --- ####
+###################################################################
+
+# xdrvlib only supported by linux (theoretical all X11) systems
+# You have to install the official 3DxWare driver for linux to use 3D mouse support on linux systems!
+linux-g++|linux-g++-64{
+    exists(/usr/local/lib/libxdrvlib.so){
+        message("Including support for Magellan 3DxWare for linux system.")
+        SOURCES  += src/input/Mouse6dofInput.cpp
+        HEADERS  += src/input/Mouse6dofInput.h
+        LIBS += -L/usr/local/lib/ -lxdrvlib
+        INCLUDEPATH *= /usr/local/include
+        DEFINES += MOUSE_ENABLED_LINUX \
+                    ParameterCheck                      # Hack: Has to be defined for magellan usage
+    }
+}
+
+# Support for Windows systems
+# You have to install the official 3DxWare driver for Windows to use the 3D mouse support on Windows systems!
+win32-msvc2008|win32-msvc2010 {
+    message("Including support for 3DxWare for Windows system.")
+    SOURCES  += libs/thirdParty/3DMouse/win/MouseParameters.cpp \
+                libs/thirdParty/3DMouse/win/Mouse3DInput.cpp \
+                src/input/Mouse6dofInput.cpp
+    HEADERS  += libs/thirdParty/3DMouse/win/I3dMouseParams.h \
+                libs/thirdParty/3DMouse/win/MouseParameters.h \
+                libs/thirdParty/3DMouse/win/Mouse3DInput.h \
+                src/input/Mouse6dofInput.h
+    INCLUDEPATH += libs/thirdParty/3DMouse/win
+    DEFINES += MOUSE_ENABLED_WIN
+}

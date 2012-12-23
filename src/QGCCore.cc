@@ -107,8 +107,8 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
     settings.sync();
 
     // Show splash screen
-    QPixmap splashImage(":images/splash.png");
-    QSplashScreen* splashScreen = new QSplashScreen(splashImage, Qt::WindowStaysOnTopHint);
+    QPixmap splashImage(":/files/images/splash.png");
+    QSplashScreen* splashScreen = new QSplashScreen(splashImage);
     // Delete splash screen after mainWindow was displayed
     splashScreen->setAttribute(Qt::WA_DeleteOnClose);
     splashScreen->show();
@@ -206,9 +206,12 @@ QGCCore::~QGCCore()
     mainWindow->close();
     //mainWindow->deleteLater();
     // Delete singletons
-	delete MainWindow::instance();
-    delete LinkManager::instance();
+    // First systems
     delete UASManager::instance();
+    // then links
+    delete LinkManager::instance();
+    // Finally the main window
+	delete MainWindow::instance();
 }
 
 /**

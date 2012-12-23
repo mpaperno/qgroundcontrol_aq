@@ -30,24 +30,13 @@ This file is part of the QGROUNDCONTROL project
 #ifndef QGCMAVLINK_H
 #define QGCMAVLINK_H
 
-#include <mavlink_types.h>
 #include <mavlink.h>
 
-#ifdef QGC_USE_PIXHAWK_MESSAGES
-#include <pixhawk.h>
-#endif
-
-#ifdef QGC_USE_SLUGS_MESSAGES
-#include <slugs.h>
-#endif
-
-#ifdef QGC_USE_UALBERTA_MESSAGES
-#include <ualberta.h>
-#endif
-
-#ifdef QGC_USE_ARDUPILOTMEGA_MESSAGES
-#include <ardupilotmega.h>
-#endif
+//#ifdef MAVLINK_CONF
+//#define MY_MACRO(x) <x>
+//#include MY_MACRO(MAVLINK_CONF)
+//#include MAVLINK_CONF
+//#endif
 
 
 #endif // QGCMAVLINK_H

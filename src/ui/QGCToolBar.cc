@@ -54,12 +54,17 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
     // Add internal actions
     // Add MAV widget
     symbolButton = new QToolButton(this);
-    symbolButton->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; } QToolButton { font-weight: bold; font-size: 12px; border: 0px solid #999999; border-radius: 5px; min-width:22px; max-width: 22px; min-height: 22px; max-height: 22px; padding: 0px; margin: 0px 0px 0px 20px; background-color: none; }");
+    symbolButton->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; }");
 	addWidget(symbolButton);
 
     toolBarNameLabel = new QLabel("------", this);
 	toolBarNameLabel->setToolTip(tr("Currently controlled vehicle"));
     addWidget(toolBarNameLabel);
+
+    toolBarTimeoutLabel = new QLabel("UNCONNECTED", this);
+    toolBarTimeoutLabel->setToolTip(tr("System timed out, interval since last message"));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 14px; color: %1; background-color: %2; }").arg(QGC::colorDarkWhite.name()).arg(QGC::colorMagenta.name()));
+    addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel("SAFE", this);
     toolBarSafetyLabel->setStyleSheet("QLabel { margin: 0px 2px; font: 14px; color: #14C814; }");
@@ -113,6 +118,33 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
 	// Set the toolbar to be updated every 2s
     connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateView()));
     updateViewTimer.start(2000);
+}
+
+void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
+{
+    // set timeout label visible
+    if (timeout)
+    {
+        // Alternate colors to increase visibility
+        if ((ms / 1000) % 2 == 0)
+        {
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 14px; color: %1; background-color: %2; }").arg(QGC::colorDarkWhite.name()).arg(QGC::colorMagenta.name()));
+        }
+        else
+        {
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 14px; color: %1; background-color: %2; }").arg(QGC::colorDarkWhite.name()).arg(QGC::colorMagenta.dark(250).name()));
+        }
+        toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
+    }
+    else
+    {
+        // Check if loss text is present, reset once
+        if (toolBarTimeoutLabel->text() != "")
+        {
+            toolBarTimeoutLabel->setText("");
+            toolBarTimeoutLabel->setStyleSheet(QString(""));
+        }
+    }
 }
 
 void QGCToolBar::setLogPlayer(QGCMAVLinkLogPlayer* player)
@@ -194,39 +226,6 @@ void QGCToolBar::logging(bool checked)
 void QGCToolBar::addPerspectiveChangeAction(QAction* action)
 {
     insertAction(toggleLoggingAction, action);
-
-    // Set tab style
-//    QWidget* widget = widgetForAction(action);
-//    widget->setStyleSheet("\
-//                          * { font-weight: bold; min-height: 16px; min-width: 24px; \
-//                          border-top: 1px solid #BBBBBB; \
-//                          border-bottom: 0px; \
-//                          border-left: 1px solid #BBBBBB; \
-//                          border-right: 1px solid #BBBBBB; \
-//                          border-top-left-radius: 5px; \
-//                          border-top-right-radius: 5px; \
-//                          border-bottom-left-radius: 0px; \
-//                          border-bottom-right-radius: 0px; \
-//                          max-height: 22px; \
-//                          margin-top: 4px; \
-//                          margin-left: 2px; \
-//                          margin-bottom: 0px; \
-//                          margin-right: 2px; \
-//                          background-color: #222222; \
-//                  } \
-//                  *:checked { \
-//                          background-color: #000000; \
-//                          border-top: 2px solid #379AC3; \
-//                          border-bottom: 0px; \
-//                          border-left: 2px solid #379AC3; \
-//                          border-right: 2px solid #379AC3; \
-//                  } \
-//                  *:pressed { \
-//                          background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0); \
-//                          border-top: 2px solid #379AC3; \
-//                          border-bottom: 0px; \
-//                          border-left: 2px solid #379AC3; \
-//                          border-right: 2px solid #379AC3; }");
 }
 
 void QGCToolBar::setActiveUAS(UASInterface* active)
@@ -244,6 +243,7 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
         disconnect(mav, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(receiveTextMessage(int,int,int,QString)));
         disconnect(mav, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
         disconnect(mav, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
+        disconnect(mav, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool,unsigned int)));
         if (mav->getWaypointManager())
         {
             disconnect(mav->getWaypointManager(), SIGNAL(currentWaypointChanged(quint16)), this, SLOT(updateCurrentWaypoint(quint16)));
@@ -260,6 +260,7 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
     connect(active, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(receiveTextMessage(int,int,int,QString)));
     connect(active, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
     connect(active, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
+    connect(active, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool,unsigned int)));
     if (active->getWaypointManager())
     {
         connect(active->getWaypointManager(), SIGNAL(currentWaypointChanged(quint16)), this, SLOT(updateCurrentWaypoint(quint16)));
@@ -274,6 +275,8 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
     symbolButton->setStyleSheet(QString("QWidget { background-color: %1; color: #DDDDDF; background-clip: border; } QToolButton { font-weight: bold; font-size: 12px; border: 0px solid #999999; border-radius: 5px; min-width:22px; max-width: 22px; min-height: 22px; max-height: 22px; padding: 0px; margin: 0px 4px 0px 20px; background-color: none; }").arg(mav->getColor().name()));
     toolBarModeLabel->setText(mav->getShortMode());
     toolBarStateLabel->setText(mav->getShortState());
+    toolBarTimeoutLabel->setStyleSheet(QString(""));
+    toolBarTimeoutLabel->setText("");
     setSystemType(mav, mav->getSystemType());
 }
 
@@ -286,6 +289,8 @@ void QGCToolBar::updateArmingState(bool armed)
 {
     systemArmed = armed;
     changed = true;
+    /* important, immediately update */
+    updateView();
 }
 
 void QGCToolBar::updateView()
@@ -341,6 +346,8 @@ void QGCToolBar::updateState(UASInterface* system, QString name, QString descrip
     Q_UNUSED(description);
     if (state != name) changed = true;
     state = name;
+    /* important, immediately update */
+    updateView();
 }
 
 void QGCToolBar::updateMode(int system, QString name, QString description)
@@ -349,11 +356,16 @@ void QGCToolBar::updateMode(int system, QString name, QString description)
     Q_UNUSED(description);
     if (mode != name) changed = true;
     mode = name;
+    /* important, immediately update */
+    updateView();
 }
 
 void QGCToolBar::updateName(const QString& name)
 {
-    if (systemName != name) changed = true;
+    if (systemName != name)
+    {
+        changed = true;
+    }
     systemName = name;
 }
 
@@ -369,26 +381,62 @@ void QGCToolBar::setSystemType(UASInterface* uas, unsigned int systemType)
     Q_UNUSED(uas);
         // Set matching icon
         switch (systemType) {
-        case 0:
-            symbolButton->setIcon(QIcon(":/images/mavs/generic.svg"));
+        case MAV_TYPE_GENERIC:
+            symbolButton->setIcon(QIcon(":/files/images/mavs/generic.svg"));
             break;
-        case 1:
-            symbolButton->setIcon(QIcon(":/images/mavs/fixed-wing.svg"));
+        case MAV_TYPE_FIXED_WING:
+            symbolButton->setIcon(QIcon(":/files/images/mavs/fixed-wing.svg"));
             break;
-        case 2:
-            symbolButton->setIcon(QIcon(":/images/mavs/quadrotor.svg"));
+        case MAV_TYPE_QUADROTOR:
+            symbolButton->setIcon(QIcon(":/files/images/mavs/quadrotor.svg"));
             break;
-        case 3:
-            symbolButton->setIcon(QIcon(":/images/mavs/coaxial.svg"));
+        case MAV_TYPE_COAXIAL:
+            symbolButton->setIcon(QIcon(":/files/images/mavs/coaxial.svg"));
             break;
-        case 4:
-            symbolButton->setIcon(QIcon(":/images/mavs/helicopter.svg"));
+        case MAV_TYPE_HELICOPTER:
+            symbolButton->setIcon(QIcon(":/files/images/mavs/helicopter.svg"));
             break;
-        case 5:
-            symbolButton->setIcon(QIcon(":/images/mavs/unknown.svg"));
+        case MAV_TYPE_ANTENNA_TRACKER:
+            symbolButton->setIcon(QIcon(":/files/images/mavs/antenn-tracker.svg"));
+            break;
+        case MAV_TYPE_GCS:
+            symbolButton->setIcon(QIcon(":files/images/mavs/groundstation.svg"));
+            break;
+        case MAV_TYPE_AIRSHIP:
+            symbolButton->setIcon(QIcon(":files/images/mavs/airship.svg"));
+            break;
+        case MAV_TYPE_FREE_BALLOON:
+            symbolButton->setIcon(QIcon(":files/images/mavs/free-balloon.svg"));
+            break;
+        case MAV_TYPE_ROCKET:
+            symbolButton->setIcon(QIcon(":files/images/mavs/rocket.svg"));
+            break;
+        case MAV_TYPE_GROUND_ROVER:
+            symbolButton->setIcon(QIcon(":files/images/mavs/ground-rover.svg"));
+            break;
+        case MAV_TYPE_SURFACE_BOAT:
+            symbolButton->setIcon(QIcon(":files/images/mavs/surface-boat.svg"));
+            break;
+        case MAV_TYPE_SUBMARINE:
+            symbolButton->setIcon(QIcon(":files/images/mavs/submarine.svg"));
+            break;
+        case MAV_TYPE_HEXAROTOR:
+            symbolButton->setIcon(QIcon(":files/images/mavs/hexarotor.svg"));
+            break;
+        case MAV_TYPE_OCTOROTOR:
+            symbolButton->setIcon(QIcon(":files/images/mavs/octorotor.svg"));
+            break;
+        case MAV_TYPE_TRICOPTER:
+            symbolButton->setIcon(QIcon(":files/images/mavs/tricopter.svg"));
+            break;
+        case MAV_TYPE_FLAPPING_WING:
+            symbolButton->setIcon(QIcon(":files/images/mavs/flapping-wing.svg"));
+            break;
+        case MAV_TYPE_KITE:
+            symbolButton->setIcon(QIcon(":files/images/mavs/kite.svg"));
             break;
         default:
-            symbolButton->setIcon(QIcon(":/images/mavs/unknown.svg"));
+            symbolButton->setIcon(QIcon(":/files/images/mavs/unknown.svg"));
             break;
         }
 }

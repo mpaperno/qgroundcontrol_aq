@@ -18,6 +18,7 @@
 #include "UASManager.h"
 #include "QGC.h"
 #include <QMutexLocker>
+#include <QSettings>
 
 /**
  * The coordinate frame of the joystick axis is the aeronautical frame like shown on this image:
@@ -34,8 +35,13 @@ JoystickInput::JoystickInput() :
         xAxis(0),
         yAxis(1),
         yawAxis(3),
+        autoButtonMapping(-1),
+        manualButtonMapping(-1),
+        stabilizeButtonMapping(-1),
         joystickName(tr("Unitinialized"))
 {
+    loadSettings();
+
     for (int i = 0; i < 10; i++) {
         calibrationPositive[i] = sdlJoystickMax;
         calibrationNegative[i] = sdlJoystickMin;
@@ -49,9 +55,40 @@ JoystickInput::JoystickInput() :
 
 JoystickInput::~JoystickInput()
 {
+    storeSettings();
     done = true;
-    QGC::SLEEP::usleep(50000);
-    this->deleteLater();
+}
+
+void JoystickInput::loadSettings()
+{
+    // Load defaults from settings
+    QSettings settings;
+    settings.sync();
+    settings.beginGroup("QGC_JOYSTICK_INPUT");
+    xAxis = (settings.value("X_AXIS_MAPPING", xAxis).toInt());
+    yAxis = (settings.value("Y_AXIS_MAPPING", yAxis).toInt());
+    thrustAxis = (settings.value("THRUST_AXIS_MAPPING", thrustAxis).toInt());
+    yawAxis = (settings.value("YAW_AXIS_MAPPING", yawAxis).toInt());
+    autoButtonMapping = (settings.value("AUTO_BUTTON_MAPPING", autoButtonMapping).toInt());
+    stabilizeButtonMapping = (settings.value("STABILIZE_BUTTON_MAPPING", stabilizeButtonMapping).toInt());
+    manualButtonMapping = (settings.value("MANUAL_BUTTON_MAPPING", manualButtonMapping).toInt());
+    settings.endGroup();
+}
+
+void JoystickInput::storeSettings()
+{
+    // Store settings
+    QSettings settings;
+    settings.beginGroup("QGC_JOYSTICK_INPUT");
+    settings.setValue("X_AXIS_MAPPING", xAxis);
+    settings.setValue("Y_AXIS_MAPPING", yAxis);
+    settings.setValue("THRUST_AXIS_MAPPING", thrustAxis);
+    settings.setValue("YAW_AXIS_MAPPING", yawAxis);
+    settings.setValue("AUTO_BUTTON_MAPPING", autoButtonMapping);
+    settings.setValue("STABILIZE_BUTTON_MAPPING", stabilizeButtonMapping);
+    settings.setValue("MANUAL_BUTTON_MAPPING", manualButtonMapping);
+    settings.endGroup();
+    settings.sync();
 }
 
 
@@ -64,7 +101,7 @@ void JoystickInput::setActiveUAS(UASInterface* uas)
         tmp = dynamic_cast<UAS*>(this->uas);
         if(tmp)
         {
-            disconnect(this, SIGNAL(joystickChanged(double,double,double,double,int,int)), tmp, SLOT(setManualControlCommands(double,double,double,double)));
+            disconnect(this, SIGNAL(joystickChanged(double,double,double,double,int,int,int)), tmp, SLOT(setManualControlCommands(double,double,double,double,int,int,int)));
             disconnect(this, SIGNAL(buttonPressed(int)), tmp, SLOT(receiveButton(int)));
         }
     }
@@ -73,7 +110,7 @@ void JoystickInput::setActiveUAS(UASInterface* uas)
 
     tmp = dynamic_cast<UAS*>(this->uas);
     if(tmp) {
-        connect(this, SIGNAL(joystickChanged(double,double,double,double,int,int)), tmp, SLOT(setManualControlCommands(double,double,double,double)));
+        connect(this, SIGNAL(joystickChanged(double,double,double,double,int,int,int)), tmp, SLOT(setManualControlCommands(double,double,double,double,int,int,int)));
         connect(this, SIGNAL(buttonPressed(int)), tmp, SLOT(receiveButton(int)));
     }
     if (!isRunning())
@@ -95,7 +132,7 @@ void JoystickInput::init()
     // Wait for joysticks if none is connected
     while (numJoysticks == 0)
     {
-        QGC::SLEEP::msleep(800);
+        QGC::SLEEP::msleep(400);
         // INITIALIZE SDL Joystick support
         if (SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_NOPARACHUTE) < 0)
         {
@@ -126,7 +163,6 @@ void JoystickInput::init()
  */
 void JoystickInput::run()
 {
-
     init();
 
     forever
@@ -177,19 +213,20 @@ void JoystickInput::run()
             }
         }
 
-        // Display all axes
-        for(int i = 0; i < SDL_JoystickNumAxes(joystick); i++)
-        {
-            //qDebug() << "\rAXIS" << i << "is: " << SDL_JoystickGetAxis(joystick, i);
-        }
+//        // Display all axes
+//        for(int i = 0; i < SDL_JoystickNumAxes(joystick); i++)
+//        {
+//            qDebug() << "\rAXIS" << i << "is: " << SDL_JoystickGetAxis(joystick, i);
+//        }
 
         // THRUST
         double thrust = ((double)SDL_JoystickGetAxis(joystick, thrustAxis) - calibrationNegative[thrustAxis]) / (calibrationPositive[thrustAxis] - calibrationNegative[thrustAxis]);
         // Has to be inverted for Logitech Wingman
         thrust = 1.0f - thrust;
+        thrust = thrust * 2.0f - 1.0f;
         // Bound rounding errors
-        if (thrust > 1) thrust = 1;
-        if (thrust < 0) thrust = 0;
+        if (thrust > 1.0f) thrust = 1.0f;
+        if (thrust < -1.0f) thrust = -1.0f;
         emit thrustChanged((float)thrust);
 
         // X Axis
@@ -246,16 +283,16 @@ void JoystickInput::run()
 
         // Send new values to rest of groundstation
         emit hatDirectionChanged(xHat, yHat);
-        emit joystickChanged(y, x, yaw, thrust, xHat, yHat);
-
 
         // Display all buttons
+        int buttons = 0;
         for(int i = 0; i < SDL_JoystickNumButtons(joystick); i++)
         {
             //qDebug() << "BUTTON" << i << "is: " << SDL_JoystickGetAxis(joystick, i);
             if(SDL_JoystickGetButton(joystick, i))
             {
                 emit buttonPressed(i);
+                buttons |= 1 << i;
                 // Check if button is a UAS select button
 
                 if (uasButtonList.contains(i))
@@ -269,6 +306,7 @@ void JoystickInput::run()
             }
 
         }
+        emit joystickChanged(y, x, yaw, thrust, xHat, yHat, buttons);
 
         // Sleep, update rate of joystick is approx. 50 Hz (1000 ms / 50 = 20 ms)
         QGC::SLEEP::msleep(20);

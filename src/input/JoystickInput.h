@@ -36,7 +36,11 @@ This file is part of the PIXHAWK project
 #include <QThread>
 #include <QList>
 #include <qmutex.h>
+#ifdef Q_OS_MAC
+#include <SDL.h>
+#else
 #include <SDL/SDL.h>
+#endif
 
 #include "UASInterface.h"
 
@@ -53,6 +57,51 @@ public:
     void run();
 
     const QString& getName();
+
+    /**
+     * @brief Load joystick settings
+     */
+    void loadSettings();
+
+    /**
+     * @brief Store joystick settings
+     */
+    void storeSettings();
+
+    int getMappingThrustAxis()
+    {
+        return thrustAxis;
+    }
+
+    int getMappingXAxis()
+    {
+        return xAxis;
+    }
+
+    int getMappingYAxis()
+    {
+        return yAxis;
+    }
+
+    int getMappingYawAxis()
+    {
+        return yawAxis;
+    }
+
+    int getMappingAutoButton()
+    {
+        return autoButtonMapping;
+    }
+
+    int getMappingManualButton()
+    {
+        return manualButtonMapping;
+    }
+
+    int getMappingStabilizeButton()
+    {
+        return stabilizeButtonMapping;
+    }
 
     const double sdlJoystickMin;
     const double sdlJoystickMax;
@@ -72,6 +121,9 @@ protected:
     int xAxis;
     int yAxis;
     int yawAxis;
+    int autoButtonMapping;
+    int manualButtonMapping;
+    int stabilizeButtonMapping;
     SDL_Event event;
     QString joystickName;
 
@@ -89,7 +141,7 @@ signals:
      * @param xHat hat vector in forward-backward direction, +1 forward, 0 center, -1 backward
      * @param yHat hat vector in left-right direction, -1 left, 0 center, +1 right
      */
-    void joystickChanged(double roll, double pitch, double yaw, double thrust, int xHat, int yHat);
+    void joystickChanged(double roll, double pitch, double yaw, double thrust, int xHat, int yHat, int buttons);
 
     /**
      * @brief Thrust lever of the joystick has changed
@@ -145,6 +197,40 @@ signals:
 
 public slots:
     void setActiveUAS(UASInterface* uas);
+    void setMappingThrustAxis(int mapping)
+    {
+        thrustAxis = mapping;
+    }
+
+    void setMappingXAxis(int mapping)
+    {
+        xAxis = mapping;
+    }
+
+    void setMappingYAxis(int mapping)
+    {
+        yAxis = mapping;
+    }
+
+    void setMappingYawAxis(int mapping)
+    {
+        yawAxis = mapping;
+    }
+
+    void setMappingAutoButton(int mapping)
+    {
+        autoButtonMapping = mapping;
+    }
+
+    void setMappingManualButton(int mapping)
+    {
+        manualButtonMapping = mapping;
+    }
+
+    void setMappingStabilizeButton(int mapping)
+    {
+        stabilizeButtonMapping = mapping;
+    }
 };
 
 #endif // _JOYSTICKINPUT_H_

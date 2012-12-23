@@ -194,7 +194,6 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b)
 
     for (int position = 0; position < b.size(); position++) {
         unsigned int decodeState = mavlink_parse_char(link->getId(), (uint8_t)(b[position]), &message, &status);
-        //unsigned int decodeState = Test_mavlink_parse_char(link->getId(), (uint8_t)(b[position]), &message, &status);
 
         if ((uint8_t)b[position] == 0x55) mavlink09Count++;
         if ((mavlink09Count > 100) && !decodedFirstPacket && !warnedUser)
@@ -218,7 +217,17 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b)
 
                 // read extended header
                 uint8_t* payload = reinterpret_cast<uint8_t*>(message.payload64);
+
                 memcpy(&extended_message.extended_payload_len, payload + 3, 4);
+
+                // Check if message is valid
+                if
+                 (b.size() != MAVLINK_NUM_NON_PAYLOAD_BYTES+MAVLINK_EXTENDED_HEADER_LEN+ extended_message.extended_payload_len)
+                {
+                    //invalid message
+                    qDebug() << "GOT INVALID EXTENDED MESSAGE, ABORTING";
+                    return;
+                }
 
                 const uint8_t* extended_payload = reinterpret_cast<const uint8_t*>(b.constData()) + MAVLINK_NUM_NON_PAYLOAD_BYTES + MAVLINK_EXTENDED_HEADER_LEN;
 
@@ -282,14 +291,13 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b)
             // Log data
             if (m_loggingEnabled && m_logfile)
             {
-                const int len = MAVLINK_MAX_PACKET_LEN+sizeof(quint64);
-                uint8_t buf[len];
+                uint8_t buf[MAVLINK_MAX_PACKET_LEN+sizeof(quint64)];
                 quint64 time = QGC::groundTimeUsecs();
                 memcpy(buf, (void*)&time, sizeof(quint64));
                 // Write message to buffer
-                mavlink_msg_to_send_buffer(buf+sizeof(quint64), &message);
+                int len = mavlink_msg_to_send_buffer(buf+sizeof(quint64), &message);
                 QByteArray b((const char*)buf, len);
-                if(m_logfile->write(b) < static_cast<qint64>(MAVLINK_MAX_PACKET_LEN+sizeof(quint64)))
+                if(m_logfile->write(b) != len)
                 {
                     emit protocolStatusMessage(tr("MAVLink Logging failed"), tr("Could not write to file %1, disabling logging.").arg(m_logfile->fileName()));
                     // Stop logging
@@ -420,15 +428,13 @@ void MAVLinkProtocol::receiveBytes(LinkInterface* link, QByteArray b)
                     {
                         // Only forward this message to the other links,
                         // not the link the message was received on
-                        if (currLink != link) sendMessage(currLink, message);
+                        if (currLink != link) sendMessage(currLink, message, message.sysid, message.compid);
                     }
                 }
             }
         }
     }
 }
-
-
 
 /**
  * @return The name of this protocol
@@ -468,7 +474,7 @@ void MAVLinkProtocol::sendMessage(mavlink_message_t message)
     for (i = links.begin(); i != links.end(); ++i)
     {
         sendMessage(*i, message);
-        //qDebug() << __FILE__ << __LINE__ << "SENT MESSAGE OVER" << ((LinkInterface*)*i)->getName() << "LIST SIZE:" << links.size();
+        qDebug() << __FILE__ << __LINE__ << "SENT MESSAGE OVER" << ((LinkInterface*)*i)->getName() << "LIST SIZE:" << links.size();
     }
 }
 
@@ -483,6 +489,29 @@ void MAVLinkProtocol::sendMessage(LinkInterface* link, mavlink_message_t message
     // Rewriting header to ensure correct link ID is set
     static uint8_t messageKeys[256] = MAVLINK_MESSAGE_CRCS;
     if (link->getId() != 0) mavlink_finalize_message_chan(&message, this->getSystemId(), this->getComponentId(), link->getId(), message.len, messageKeys[message.msgid]);
+    // Write message into buffer, prepending start sign
+    int len = mavlink_msg_to_send_buffer(buffer, &message);
+    // If link is connected
+    if (link->isConnected())
+    {
+        // Send the portion of the buffer now occupied by the message
+        link->writeBytes((const char*)buffer, len);
+    }
+}
+
+/**
+ * @param link the link to send the message over
+ * @param message message to send
+ * @param systemid id of the system the message is originating from
+ * @param componentid id of the component the message is originating from
+ */
+void MAVLinkProtocol::sendMessage(LinkInterface* link, mavlink_message_t message, quint8 systemid, quint8 componentid)
+{
+    // Create buffer
+    static uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+    // Rewriting header to ensure correct link ID is set
+    static uint8_t messageKeys[256] = MAVLINK_MESSAGE_CRCS;
+    if (link->getId() != 0) mavlink_finalize_message_chan(&message, systemid, componentid, link->getId(), message.len, messageKeys[message.msgid]);
     // Write message into buffer, prepending start sign
     int len = mavlink_msg_to_send_buffer(buffer, &message);
     // If link is connected
@@ -510,8 +539,8 @@ void MAVLinkProtocol::sendHeartbeat()
     {
         mavlink_message_t msg;
         mavlink_auth_key_t auth;
-        if (m_authKey.length() != MAVLINK_MSG_AUTH_KEY_FIELD_KEY_LEN) m_authKey.resize(MAVLINK_MSG_AUTH_KEY_FIELD_KEY_LEN);
-        strcpy(auth.key, m_authKey.toStdString().c_str());
+        memset(&auth, 0, sizeof(auth));
+        memcpy(auth.key, m_authKey.toStdString().c_str(), qMin(m_authKey.length(), MAVLINK_MSG_AUTH_KEY_FIELD_KEY_LEN));
         mavlink_msg_auth_key_encode(getSystemId(), getComponentId(), &msg, &auth);
         sendMessage(msg);
     }

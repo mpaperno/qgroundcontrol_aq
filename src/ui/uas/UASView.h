@@ -64,6 +64,7 @@ public slots:
     void updateMode(int sysId, QString status, QString description);
     void updateLoad(UASInterface* uas, double load);
     //void receiveValue(int uasid, QString id, double value, quint64 time);
+    void showHILUi();
     void refresh();
     /** @brief Receive new waypoint information */
     void setWaypoint(int uasId, int id, double x, double y, double z, double yaw, bool autocontinue, bool current);
@@ -78,7 +79,7 @@ public slots:
     /** @brief Update the view if an UAS has been set to active */
     void updateActiveUAS(UASInterface* uas, bool active);
     /** @brief Set the widget into critical mode */
-    void heartbeatTimeout();
+    void heartbeatTimeout(bool timeout, unsigned int ms);
     /** @brief Set the background color for the widget */
     void setBackgroundColor();
     /** @brief Bring up the dialog to rename the system */
@@ -122,6 +123,7 @@ protected:
     QAction* renameAction;
     QAction* selectAction;
     QAction* hilAction;
+    QAction* hilXAction;
     QAction* selectAirframeAction;
     QAction* setBatterySpecsAction;
     static const int updateInterval = 800;

@@ -181,7 +181,8 @@ void LinechartWidget::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("LINECHART");
-    if (timeButton) settings.setValue("ENFORCE_GROUNDTIME", timeButton->isChecked());
+    bool enforceGT = (!autoGroundTimeSet && timeButton->isChecked()) ? true : false;
+    if (timeButton) settings.setValue("ENFORCE_GROUNDTIME", enforceGT);
     if (ui.showUnitsCheckBox) settings.setValue("SHOW_UNITS", ui.showUnitsCheckBox->isChecked());
     if (ui.shortNameCheckBox) settings.setValue("SHORT_NAMES", ui.shortNameCheckBox->isChecked());
     settings.endGroup();
@@ -197,6 +198,7 @@ void LinechartWidget::readSettings()
         timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
         activePlot->enforceGroundTime(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
         timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+        //userGroundTimeSet = settings.value("USER_GROUNDTIME", timeButton->isChecked()).toBool();
     }
     if (ui.showUnitsCheckBox) ui.showUnitsCheckBox->setChecked(settings.value("SHOW_UNITS", ui.showUnitsCheckBox->isChecked()).toBool());
     if (ui.shortNameCheckBox) ui.shortNameCheckBox->setChecked(settings.value("SHORT_NAMES", ui.shortNameCheckBox->isChecked()).toBool());
@@ -349,6 +351,18 @@ void LinechartWidget::appendData(int uasId, const QString& curve, const QString&
         intData.insert(curve+unit, value);
     }
 
+    if (lastTimestamp == 0 && usec != 0)
+    {
+        lastTimestamp = usec;
+    } else if (usec != 0) {
+        // Difference larger than 5 secs, enforce ground time
+        if (((qint64)usec - (qint64)lastTimestamp) > 5000)
+        {
+            autoGroundTimeSet = true;
+            if (activePlot) activePlot->groundTime();
+        }
+    }
+
     // Log data
     if (logging)
     {
@@ -360,7 +374,6 @@ void LinechartWidget::appendData(int uasId, const QString& curve, const QString&
             if (time < 0) time = 0;
 
             logFile->write(QString(QString::number(time) + "\t" + QString::number(uasId) + "\t" + curve + "\t" + QString::number(value) + "\n").toLatin1());
-            logFile->flush();
         }
     }
 }
@@ -382,6 +395,18 @@ void LinechartWidget::appendData(int uasId, const QString& curve, const QString&
 
         // Add int data
         intData.insert(curve+unit, value);
+    }
+
+    if (lastTimestamp == 0 && usec != 0)
+    {
+        lastTimestamp = usec;
+    } else if (usec != 0) {
+        // Difference larger than 5 secs, enforce ground time
+        if (abs((int)((qint64)usec - (quint64)lastTimestamp)) > 5000)
+        {
+            autoGroundTimeSet = true;
+            if (activePlot) activePlot->groundTime();
+        }
     }
 
     // Log data
@@ -413,6 +438,18 @@ void LinechartWidget::appendData(int uasId, const QString& curve, const QString&
         {
             //qDebug() << "ADDING CURVE IN APPENDDATE DOUBLE";
             addCurve(curve, unit);
+        }
+    }
+
+    if (lastTimestamp == 0 && usec != 0)
+    {
+        lastTimestamp = usec;
+    } else if (usec != 0) {
+        // Difference larger than 1 sec, enforce ground time
+        if (abs((int)((qint64)usec - (quint64)lastTimestamp)) > 1000)
+        {
+            autoGroundTimeSet = true;
+            if (activePlot) activePlot->groundTime();
         }
     }
 
@@ -511,13 +548,13 @@ void LinechartWidget::startLogging()
     // Let user select the log file name
     //QDate date(QDate::currentDate());
     // QString("./pixhawk-log-" + date.toString("yyyy-MM-dd") + "-" + QString::number(logindex) + ".log")
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("Logfile (*.csv *.txt);;"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("Logfile (*.log);;"));
 
-    while (!(fileName.endsWith(".txt") || fileName.endsWith(".csv")) && !abort && fileName != "") {
+    while (!(fileName.endsWith(".log")) && !abort && fileName != "") {
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.setText("Unsuitable file extension for logfile");
-        msgBox.setInformativeText("Please choose .txt or .csv as file extension. Click OK to change the file extension, cancel to not start logging.");
+        msgBox.setInformativeText("Please choose .log as file extension. Click OK to change the file extension, cancel to not start logging.");
         msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Ok);
         if(msgBox.exec() != QMessageBox::Ok)
@@ -525,7 +562,7 @@ void LinechartWidget::startLogging()
             abort = true;
             break;
         }
-        fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("Logfile (*.txt *.csv);;"));
+        fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("Logfile (*.log);;"));
     }
 
     qDebug() << "SAVE FILE" << fileName;
@@ -533,7 +570,7 @@ void LinechartWidget::startLogging()
     // Check if the user did not abort the file save dialog
     if (!abort && fileName != "") {
         logFile = new QFile(fileName);
-        if (logFile->open(QIODevice::WriteOnly | QIODevice::Text)) {
+        if (logFile->open(QIODevice::Truncate | QIODevice::WriteOnly | QIODevice::Text)) {
             logging = true;
             logStartTime = 0;
             curvesWidget->setEnabled(false);

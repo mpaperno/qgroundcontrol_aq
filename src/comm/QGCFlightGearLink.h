@@ -41,14 +41,15 @@ This file is part of the QGROUNDCONTROL project
 #include <LinkInterface.h>
 #include <configuration.h>
 #include "UASInterface.h"
+#include "QGCHilLink.h"
 
-class QGCFlightGearLink : public QThread
+class QGCFlightGearLink : public QGCHilLink
 {
     Q_OBJECT
     //Q_INTERFACES(QGCFlightGearLinkInterface:LinkInterface)
 
 public:
-    QGCFlightGearLink(UASInterface* mav, QString remoteHost=QString("127.0.0.1:49000"), QHostAddress host = QHostAddress::Any, quint16 port = 49005);
+    QGCFlightGearLink(UASInterface* mav, QString startupArguments, QString remoteHost=QString("127.0.0.1:49000"), QHostAddress host = QHostAddress::Any, quint16 port = 49005);
     ~QGCFlightGearLink();
 
     bool isConnected();
@@ -62,6 +63,22 @@ public:
      */
     QString getName();
 
+    /**
+     * @brief Get remote host and port
+     * @return string in format <host>:<port>
+     */
+    QString getRemoteHost();
+
+    QString getVersion()
+    {
+        return QString("FlightGear %1").arg(flightGearVersion);
+    }
+
+    int getAirFrameIndex()
+    {
+        return -1;
+    }
+
     void run();
 
 public slots:
@@ -71,10 +88,21 @@ public slots:
     void setRemoteHost(const QString& host);
     /** @brief Send new control states to the simulation */
     void updateControls(uint64_t time, float rollAilerons, float pitchElevator, float yawRudder, float throttle, uint8_t systemMode, uint8_t navMode);
+    void updateActuators(uint64_t time, float act1, float act2, float act3, float act4, float act5, float act6, float act7, float act8);
 //    /** @brief Remove a host from broadcasting messages to */
 //    void removeHost(const QString& host);
     //    void readPendingDatagrams();
     void processError(QProcess::ProcessError err);
+    /** @brief Set the simulator version as text string */
+    void setVersion(const QString& version)
+    {
+        Q_UNUSED(version);
+    }
+
+    void selectAirframe(const QString& airframe)
+    {
+        Q_UNUSED(airframe);
+    }
 
     void readBytes();
     /**
@@ -86,6 +114,10 @@ public slots:
     void writeBytes(const char* data, qint64 length);
     bool connectSimulation();
     bool disconnectSimulation();
+
+    void printTerraSyncOutput();
+    void printTerraSyncError();
+    void setStartupArguments(QString startupArguments);
 
 protected:
     QString name;
@@ -110,29 +142,12 @@ protected:
     UASInterface* mav;
     QProcess* process;
     QProcess* terraSync;
+    unsigned int flightGearVersion;
+    QString startupArguments;
 
     void setName(QString name);
 
 signals:
-    /**
-     * @brief This signal is emitted instantly when the link is connected
-     **/
-    void flightGearConnected();
-
-    /**
-     * @brief This signal is emitted instantly when the link is disconnected
-     **/
-    void flightGearDisconnected();
-
-    /**
-     * @brief This signal is emitted instantly when the link status changes
-     **/
-    void flightGearConnected(bool connected);
-
-    /** @brief State update from FlightGear */
-    void hilStateChanged(uint64_t time_us, float roll, float pitch, float yaw, float rollspeed,
-                        float pitchspeed, float yawspeed, int32_t lat, int32_t lon, int32_t alt,
-                        int16_t vx, int16_t vy, int16_t vz, int16_t xacc, int16_t yacc, int16_t zacc);
 
 
 };

@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QTimer>
 #include <UASInterface.h>
-#include "aq_LogExporter.h"
 
 #if (defined Q_OS_MAC)
 #include <QWebView>
@@ -132,8 +131,6 @@ public slots:
     /** @brief Print a Windows exception */
     void printWinException(int no, QString str1, QString str2, QString str3);
 
-//    void OpenImportDialog();
-
 public:
     /** @brief Execute java script inside the Google Earth window */
     QVariant javaScript(QString javascript);
@@ -175,8 +172,6 @@ private:
 #else
     Ui::QGCGoogleEarthView* ui;
 #endif
-
-    AQLogExporter* ImportDialog;
 };
 
 #endif // QGCGOOGLEEARTHVIEW_H
