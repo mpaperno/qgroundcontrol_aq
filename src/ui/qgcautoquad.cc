@@ -45,7 +45,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
 
-    ui->lbl_version->setText("Version 1.0.6");
+    ui->lbl_version->setText("Version 1.0.7");
 
 	//GUI slots
 	connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
