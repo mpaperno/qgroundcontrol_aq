@@ -22,10 +22,10 @@ namespace Ui {
 class QGCAutoquad;
 }
 
-class QGCAutoquad : public QWidget 
+class QGCAutoquad : public QWidget
 {
     Q_OBJECT
-    
+
 public:
     explicit QGCAutoquad(QWidget *parent = 0);
     ~QGCAutoquad();
@@ -83,9 +83,9 @@ private slots:
         void setUsersParams();
         void CreateUsersParams();
         void WriteUsersParams();
-		void LoadFrameFromFile();
-		void SaveFrameToFile();
-		void CalculatDeclination();
+        void LoadFrameFromFile();
+        void SaveFrameToFile();
+        void CalculatDeclination();
         void CalculatInclination();
         void CurveItemChanged(QStandardItem *item);
         void openExportOptionsDlg();
@@ -167,6 +167,9 @@ private slots:
         void teleValuesStart();
         void teleValuesStop();
 
+        void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
+        void pushButton_dev1();
+
 public:
         QString LogFile;
         QString LastFilePath;
@@ -195,7 +198,7 @@ private:
         void writeSettings();
         QStringList StaticFiles;
         QStringList DynamicFiles;
-		quint32 active_cal_mode;
+        quint32 active_cal_mode;
         QString UsersParamsFile;
         void ShowUsersParams(QString fileName);
         void DecodeLogFile(QString fileName);
@@ -230,6 +233,8 @@ private:
         void DisableEnableAllRollGimbal(int selectedIndex, bool value);
         int msec;
         QGridLayout* linLayoutPlot;
+        int devCommand;
+        double lat,lon,alt;
 
 protected:
         void showEvent(QShowEvent* event);

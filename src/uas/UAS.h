@@ -504,7 +504,7 @@ public slots:
           this->airframe = airframe;
           emit systemSpecsChanged(uasId);
         }
-        
+
     }
     /** @brief Set a new name **/
     void setUASName(const QString& name);
@@ -620,7 +620,7 @@ public slots:
     void writeParametersToSDAQ();
     void writeWaypointsToSDAQ();
     void startStopTelemetry(bool enable, float frequenz);
-
+    void sendCommmandToAq(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7);
     /** @brief Read parameters from permanent storage */
     void readParametersFromStorage();
     void readParametersFromStorageAQ();
