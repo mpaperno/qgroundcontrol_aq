@@ -434,6 +434,10 @@ QColor IncrementalPlot::getNextColor()
     return colors[nextColor++];
 }
 
+void IncrementalPlot::ResetColor(){
+    nextColor = 0;
+}
+
 QColor IncrementalPlot::getColorForCurve(QString id)
 {
     return d_curve.value(id)->pen().color();

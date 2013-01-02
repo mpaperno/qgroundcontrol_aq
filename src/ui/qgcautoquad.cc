@@ -357,6 +357,7 @@ void QGCAutoquad::showChannels() {
     parser.ShowCurves();
     plot->removeData();
     plot->clear();
+    plot->ResetColor();
     if (!QFile::exists(LogFile))
         return;
 
