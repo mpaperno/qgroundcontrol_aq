@@ -1510,7 +1510,7 @@
           <bool>true</bool>
          </property>
          <property name="currentIndex">
-          <number>6</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="para_cal_rate">
           <attribute name="title">
@@ -6724,7 +6724,7 @@
      </widget>
      <widget class="QWidget" name="tab_dev">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <attribute name="title">
        <string>Development</string>

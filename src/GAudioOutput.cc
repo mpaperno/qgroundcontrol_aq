@@ -42,7 +42,7 @@ This file is part of the QGROUNDCONTROL project
 #endif
 
 // Speech synthesis is only supported with MSVC compiler
-#if _MSC_VER2
+#ifdef _MSC_VER2
 // Documentation: http://msdn.microsoft.com/en-us/library/ee125082%28v=VS.85%29.aspx
 #define _ATL_APARTMENT_THREADED
 

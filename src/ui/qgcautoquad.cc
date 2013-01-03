@@ -42,7 +42,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
-    ui->tabWidget->removeTab(6);
+    //ui->tabWidget->removeTab(6);
 
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
@@ -363,7 +363,6 @@ void QGCAutoquad::showChannels() {
 
     for (int i = 0; i < parser.yValues.count(); i++) {
         plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
-
     }
 
     plot->setStyleText("lines");
@@ -4340,5 +4339,8 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
 }
 
 void QGCAutoquad::pushButton_dev1(){
-    uas->sendCommmandToAq(3,1,(float)900, (float)900, alt,0.0f,0.0f,0.0f,0.0f);
+    QString audiostring = QString("Link regained to system %1 after %2 seconds");
+    GAudioOutput::instance()->say(audiostring.toLower());
+
+    //uas->sendCommmandToAq(3,1,(float)900, (float)900, alt,0.0f,0.0f,0.0f,0.0f);
 }

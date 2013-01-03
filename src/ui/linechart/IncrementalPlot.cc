@@ -315,7 +315,7 @@ void IncrementalPlot::appendData(QString key, double *x, double *y, int size)
         curve->setPaintAttribute(QwtPlotCurve::PaintFiltered);
 
         const QColor &c = getNextColor();
-        curve->setSymbol(QwtSymbol(QwtSymbol::XCross,
+        curve->setSymbol(QwtSymbol(QwtSymbol::NoSymbol,
                                    QBrush(c), QPen(c, 1.2f), QSize(5, 5)) );
 
         curve->attach(this);
