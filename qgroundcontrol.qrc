@@ -112,6 +112,7 @@
         <file>files/styles/style-outdoor.css</file>
         <file>files/images/patterns/lenna.jpg</file>
         <file>files/images/rc_stick.svg</file>
+        <file>files/images/control/emergency-button.png</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/styles/Vera.ttf</file>

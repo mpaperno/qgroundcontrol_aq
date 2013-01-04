@@ -254,13 +254,13 @@ QSpinBox, QDoubleSpinBox {
 QSpinBox::up-button, QDoubleSpinBox::up-button {
     subcontrol-origin: content;
     subcontrol-position: top right; /* position at the top right corner */
-    border-image: url(:/images/actions/go-up.svg) 1;
+    border-image: url(:/files/images/actions/go-up.svg) 1;
     /*border-width: 1px;*/
 }
 QSpinBox::down-button, QDoubleSpinBox::down-button {
     subcontrol-origin: content;
     subcontrol-position: bottom right; /* position at the top right corner */
-    border-image: url(:/images/actions/go-down.svg) 1;
+    border-image: url(:/files/images/actions/go-down.svg) 1;
     /*border-width: 1px;*/
 }
 
@@ -371,7 +371,7 @@ QPushButton#killButton {
 	min-height: 30px;
 	color: #000000;
 	background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                             stop:0 #ffee01, stop:1 #ae8f00) url("ICONDIR/control/emergency-button.png");
+                             stop:0 #ffee01, stop:1 #ae8f00) url(:/files/images/control/emergency-button.png);
 	background-clip: border;
 	border: 1px solid #222222;
 	border-radius: 5px;
