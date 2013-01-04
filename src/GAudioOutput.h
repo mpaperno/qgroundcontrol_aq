@@ -49,6 +49,8 @@ This file is part of the PIXHAWK project
 #include <Phonon/AudioOutput>
 #endif
 
+//#define _MSC_VER2
+
 /* For Snow leopard and later
 #ifdef Q_OS_MAC
 #include <NSSpeechSynthesizer.h>

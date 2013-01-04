@@ -33,9 +33,9 @@
 
 /**
 * Gets the settings from the previous UAS (name, airframe, autopilot, battery specs)
-* by calling readSettings. This means the new UAS will have the same settings 
+* by calling readSettings. This means the new UAS will have the same settings
 * as the previous one created unless one calls deleteSettings in the code after
-* creating the UAS. 
+* creating the UAS.
 */
 UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     uasId(id),
@@ -115,17 +115,17 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
         componentID[i] = -1;
         componentMulti[i] = false;
     }
-    
+
     color = UASInterface::getNextColor();
     setBatterySpecs(QString("9V,9.5V,12.6V"));
     connect(statusTimeout, SIGNAL(timeout()), this, SLOT(updateState()));
     connect(this, SIGNAL(systemSpecsChanged(int)), this, SLOT(writeSettings()));
     statusTimeout->start(500);
-    readSettings(); 
+    readSettings();
     type = MAV_TYPE_GENERIC;
     // Initial signals
     emit disarmed();
-    emit armingChanged(false);  
+    emit armingChanged(false);
 }
 
 /**
@@ -176,7 +176,7 @@ void UAS::readSettings()
 
 /**
 *  Deletes the settings origianally read into the UAS by readSettings.
-*  This is in case one does not want the old values but would rather 
+*  This is in case one does not want the old values but would rather
 *  start with the values assigned by the constructor.
 */
 void UAS::deleteSettings()
@@ -409,15 +409,15 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             emit heartbeat(this);
             mavlink_heartbeat_t state;
             mavlink_msg_heartbeat_decode(&message, &state);
-			
-			// Send the base_mode and system_status values to the plotter. This uses the ground time
-			// so the Ground Time checkbox must be ticked for these values to display
+
+            // Send the base_mode and system_status values to the plotter. This uses the ground time
+            // so the Ground Time checkbox must be ticked for these values to display
             quint64 time = getUnixTime();
-			QString name = QString("M%1:HEARTBEAT.%2").arg(message.sysid);
-			emit valueChanged(uasId, name.arg("base_mode"), "bits", state.base_mode, time);
-			emit valueChanged(uasId, name.arg("custom_mode"), "bits", state.custom_mode, time);
-			emit valueChanged(uasId, name.arg("system_status"), "-", state.system_status, time);
-			
+            QString name = QString("M%1:HEARTBEAT.%2").arg(message.sysid);
+            emit valueChanged(uasId, name.arg("base_mode"), "bits", state.base_mode, time);
+            emit valueChanged(uasId, name.arg("custom_mode"), "bits", state.custom_mode, time);
+            emit valueChanged(uasId, name.arg("system_status"), "-", state.system_status, time);
+
             // Set new type if it has changed
             if (this->type != state.type)
             {
@@ -541,22 +541,22 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             mavlink_sys_status_t state;
             mavlink_msg_sys_status_decode(&message, &state);
 
-			// Prepare for sending data to the realtime plotter, which is every field excluding onboard_control_sensors_present.
+            // Prepare for sending data to the realtime plotter, which is every field excluding onboard_control_sensors_present.
             quint64 time = getUnixTime();
-			QString name = QString("M%1:SYS_STATUS.%2").arg(message.sysid);
-			emit valueChanged(uasId, name.arg("sensors_enabled"), "bits", state.onboard_control_sensors_enabled, time);
-			emit valueChanged(uasId, name.arg("sensors_health"), "bits", state.onboard_control_sensors_health, time);
-			emit valueChanged(uasId, name.arg("errors_comm"), "-", state.errors_comm, time);
-			emit valueChanged(uasId, name.arg("errors_count1"), "-", state.errors_count1, time);
-			emit valueChanged(uasId, name.arg("errors_count2"), "-", state.errors_count2, time);
-			emit valueChanged(uasId, name.arg("errors_count3"), "-", state.errors_count3, time);
+            QString name = QString("M%1:SYS_STATUS.%2").arg(message.sysid);
+            emit valueChanged(uasId, name.arg("sensors_enabled"), "bits", state.onboard_control_sensors_enabled, time);
+            emit valueChanged(uasId, name.arg("sensors_health"), "bits", state.onboard_control_sensors_health, time);
+            emit valueChanged(uasId, name.arg("errors_comm"), "-", state.errors_comm, time);
+            emit valueChanged(uasId, name.arg("errors_count1"), "-", state.errors_count1, time);
+            emit valueChanged(uasId, name.arg("errors_count2"), "-", state.errors_count2, time);
+            emit valueChanged(uasId, name.arg("errors_count3"), "-", state.errors_count3, time);
             emit valueChanged(uasId, name.arg("errors_count4"), "-", state.errors_count4, time);
 
-			// Process CPU load.
+            // Process CPU load.
             emit loadChanged(this,state.load/10.0f);
-			emit valueChanged(uasId, name.arg("load"), "%", state.load/10.0f, time);
+            emit valueChanged(uasId, name.arg("load"), "%", state.load/10.0f, time);
 
-			// Battery charge/time remaining/voltage calculations
+            // Battery charge/time remaining/voltage calculations
             currentVoltage = state.voltage_battery/1000.0f;
             lpVoltage = filterVoltage(currentVoltage);
             tickLowpassVoltage = tickLowpassVoltage*0.8f + 0.2f*currentVoltage;
@@ -590,15 +590,15 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 chargeLevel = state.battery_remaining;
             }
             emit batteryChanged(this, lpVoltage, getChargeLevel(), timeRemaining);
-			emit valueChanged(uasId, name.arg("battery_remaining"), "%", getChargeLevel(), time);
+            emit valueChanged(uasId, name.arg("battery_remaining"), "%", getChargeLevel(), time);
             emit voltageChanged(message.sysid, currentVoltage);
-			emit valueChanged(uasId, name.arg("battery_voltage"), "V", currentVoltage, time);
+            emit valueChanged(uasId, name.arg("battery_voltage"), "V", currentVoltage, time);
 
-			// And if the battery current draw is measured, log that also.
-			if (state.current_battery != -1)
-			{
-				emit valueChanged(uasId, name.arg("battery_current"), "A", ((double)state.current_battery) / 100.0f, time);
-			}
+            // And if the battery current draw is measured, log that also.
+            if (state.current_battery != -1)
+            {
+                emit valueChanged(uasId, name.arg("battery_current"), "A", ((double)state.current_battery) / 100.0f, time);
+            }
 
             // LOW BATTERY ALARM
             if (lpVoltage < warnVoltage && (currentVoltage - 0.2f) < warnVoltage && (currentVoltage > 3.3))
@@ -617,17 +617,17 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             emit positionZControlEnabled(state.onboard_control_sensors_enabled & (1 << 13));
             emit positionXYControlEnabled(state.onboard_control_sensors_enabled & (1 << 14));
 
-			// Trigger drop rate updates as needed. Here we convert the incoming
-			// drop_rate_comm value from 1/100 of a percent in a uint16 to a true
-			// percentage as a float. We also cap the incoming value at 100% as defined
-			// by the MAVLink specifications.
-			if (state.drop_rate_comm > 10000)
-			{
-				state.drop_rate_comm = 10000;
-			}
-			emit dropRateChanged(this->getUASID(), state.drop_rate_comm/100.0f);
-			emit valueChanged(uasId, name.arg("drop_rate_comm"), "%", state.drop_rate_comm/100.0f, time);
-		}
+            // Trigger drop rate updates as needed. Here we convert the incoming
+            // drop_rate_comm value from 1/100 of a percent in a uint16 to a true
+            // percentage as a float. We also cap the incoming value at 100% as defined
+            // by the MAVLink specifications.
+            if (state.drop_rate_comm > 10000)
+            {
+                state.drop_rate_comm = 10000;
+            }
+            emit dropRateChanged(this->getUASID(), state.drop_rate_comm/100.0f);
+            emit valueChanged(uasId, name.arg("drop_rate_comm"), "%", state.drop_rate_comm/100.0f, time);
+        }
             break;
         case MAVLINK_MSG_ID_ATTITUDE:
         {
@@ -786,13 +786,13 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             // only accept values in a realistic range
             // quint64 time = getUnixTime(pos.time_usec);
             quint64 time = getUnixTime(pos.time_usec);
-            
+
             emit gpsLocalizationChanged(this, pos.fix_type);
             // TODO: track localization state not only for gps but also for other loc. sources
             int loc_type = pos.fix_type;
             if (loc_type == 1)
             {
-                loc_type = 0; 
+                loc_type = 0;
             }
             emit localizationChanged(this, loc_type);
 
@@ -944,6 +944,8 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
         {
             mavlink_command_ack_t ack;
             mavlink_msg_command_ack_decode(&message, &ack);
+
+            /*for later
             switch (ack.result)
             {
             case MAV_RESULT_ACCEPTED:
@@ -969,6 +971,25 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             case MAV_RESULT_FAILED:
             {
                 emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Failed CMD: %1").arg(ack.command));
+            }
+                break;
+            }
+            */
+            switch (ack.result)
+            {
+            case MAV_CMD_ACK_OK:
+            {
+                emit textMessageReceived(uasId, message.compid, 0, tr("SUCCESS: Executed CMD: %1").arg(ack.command));
+            }
+                break;
+            case MAV_CMD_ACK_ERR_FAIL:
+            {
+                emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Temporarily rejected CMD: %1").arg(ack.command));
+            }
+                break;
+            case MAV_CMD_ACK_ERR_NOT_SUPPORTED:
+            {
+                emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Unsupported CMD: %1").arg(ack.command));
             }
                 break;
             }
@@ -1470,7 +1491,7 @@ void UAS::setLocalOriginAtCurrentGPSPosition()
 * @param x postion
 * @param y position
 * @param z position
-*/ 
+*/
 void UAS::setLocalPositionSetpoint(float x, float y, float z, float yaw)
 {
 #ifdef MAVLINK_ENABLED_PIXHAWK
@@ -1490,7 +1511,7 @@ void UAS::setLocalPositionSetpoint(float x, float y, float z, float yaw)
 * @param x position
 * @param y position
 * @param z position
-* @param yaw 
+* @param yaw
 */
 void UAS::setLocalPositionOffset(float x, float y, float z, float yaw)
 {
@@ -1552,8 +1573,8 @@ void UAS::startPressureCalibration()
     sendMessage(msg);
 }
 
-/** 
-* Check if time is smaller than 40 years, assuming no system without Unix 
+/**
+* Check if time is smaller than 40 years, assuming no system without Unix
 * timestamp runs longer than 40 years continuously without reboot. In worst case
 * this will add/subtract the communication delay between GCS and MAV, it will
 * never alter the timestamp in a safety critical way.
@@ -1605,11 +1626,11 @@ quint64 UAS::getUnixReferenceTime(quint64 time)
 
 /**
 * @warning If attitudeStamped is enabled, this function will not actually return
-* the precise time stamp of this measurement augmented to UNIX time, but will 
+* the precise time stamp of this measurement augmented to UNIX time, but will
 * MOVE the timestamp IN TIME to match the last measured attitude. There is no
-* reason why one would want this, except for system setups where the onboard 
+* reason why one would want this, except for system setups where the onboard
 * clock is not present or broken and datasets should be collected that are still
-* roughly synchronized. PLEASE NOTE THAT ENABLING ATTITUDE STAMPED RUINS THE 
+* roughly synchronized. PLEASE NOTE THAT ENABLING ATTITUDE STAMPED RUINS THE
 * SCIENTIFIC NATURE OF THE CORRECT LOGGING FUNCTIONS OF QGROUNDCONTROL!
 */
 quint64 UAS::getUnixTimeFromMs(quint64 time)
@@ -1619,10 +1640,10 @@ quint64 UAS::getUnixTimeFromMs(quint64 time)
 
 /**
 * @warning If attitudeStamped is enabled, this function will not actually return
-* the precise time stam of this measurement augmented to UNIX time, but will 
-* MOVE the timestamp IN TIME to match the last measured attitude. There is no 
-* reason why one would want this, except for system setups where the onboard 
-* clock is not present or broken and datasets should be collected that are 
+* the precise time stam of this measurement augmented to UNIX time, but will
+* MOVE the timestamp IN TIME to match the last measured attitude. There is no
+* reason why one would want this, except for system setups where the onboard
+* clock is not present or broken and datasets should be collected that are
 * still roughly synchronized. PLEASE NOTE THAT ENABLING ATTITUDE STAMPED
 * RUINS THE SCIENTIFIC NATURE OF THE CORRECT LOGGING FUNCTIONS OF QGROUNDCONTROL!
 */
@@ -1822,7 +1843,7 @@ QString UAS::getNavModeText(int mode)
     return QString("UNKNOWN");
 }
 
-/** 
+/**
 * Get the status of the code and a description of the status.
 * Status can be unitialized, booting up, calibrating sensors, active
 * standby, cirtical, emergency, shutdown or unknown.
@@ -2057,7 +2078,15 @@ void UAS::startStopTelemetry(bool enable, float frequenz){
     sendMessage(msg);
 }
 
-/** 
+void UAS::sendCommmandToAq(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7){
+    mavlink_message_t msg;
+    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, command, confirm, para1, para2, para3, para4, para5, para6, para7);
+    qDebug() << "SENT COMMAND" << 2;
+    sendMessage(msg);
+}
+
+
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableAllDataTransmission(int rate)
@@ -2085,7 +2114,7 @@ void UAS::enableAllDataTransmission(int rate)
     sendMessage(msg);
 }
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableRawSensorDataTransmission(int rate)
@@ -2109,7 +2138,7 @@ void UAS::enableRawSensorDataTransmission(int rate)
     sendMessage(msg);
 }
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableExtendedSystemStatusTransmission(int rate)
@@ -2133,7 +2162,7 @@ void UAS::enableExtendedSystemStatusTransmission(int rate)
     sendMessage(msg);
 }
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableRCChannelDataTransmission(int rate)
@@ -2162,7 +2191,7 @@ void UAS::enableRCChannelDataTransmission(int rate)
 #endif
 }
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableRawControllerDataTransmission(int rate)
@@ -2208,7 +2237,7 @@ void UAS::enableRawControllerDataTransmission(int rate)
 //    sendMessage(msg);
 //}
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enablePositionTransmission(int rate)
@@ -2232,7 +2261,7 @@ void UAS::enablePositionTransmission(int rate)
     sendMessage(msg);
 }
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableExtra1Transmission(int rate)
@@ -2257,7 +2286,7 @@ void UAS::enableExtra1Transmission(int rate)
     sendMessage(msg);
 }
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableExtra2Transmission(int rate)
@@ -2282,7 +2311,7 @@ void UAS::enableExtra2Transmission(int rate)
     sendMessage(msg);
 }
 
-/** 
+/**
 * @param rate The update rate in Hz the message should be sent
 */
 void UAS::enableExtra3Transmission(int rate)
@@ -2311,7 +2340,7 @@ void UAS::enableExtra3Transmission(int rate)
  * Set a parameter value onboard
  *
  * @param component The component to set the parameter
- * @param id Name of the parameter 
+ * @param id Name of the parameter
  */
 void UAS::setParameter(const int component, const QString& id, const QVariant& value)
 {
@@ -2366,7 +2395,7 @@ void UAS::setParameter(const int component, const QString& id, const QVariant& v
     }
 }
 
-/**    
+/**
 * Request parameter, use parameter name to request it.
 */
 void UAS::requestParameter(int component, int id)
@@ -2414,7 +2443,7 @@ void UAS::setSystemType(int systemType)
     if((systemType >= MAV_TYPE_GENERIC) && (systemType < MAV_TYPE_ENUM_END))
     {
       type = systemType;
-    
+
       // If the airframe is still generic, change it to a close default type
       if (airframe == 0)
       {
@@ -2514,8 +2543,8 @@ void UAS::disarmSystem()
     sendMessage(msg);
 }
 
-/** 
-* Set the manual control commands. 
+/**
+* Set the manual control commands.
 * This can only be done if the system has manual inputs enabled and is armed.
 */
 void UAS::setManualControlCommands(double roll, double pitch, double yaw, double thrust, int xHat, int yHat, int buttons)
@@ -2616,8 +2645,8 @@ void UAS::go()
     sendMessage(msg);
 }
 
-/** 
-* Order the robot to return home 
+/**
+* Order the robot to return home
 */
 void UAS::home()
 {
@@ -2633,7 +2662,7 @@ void UAS::home()
 }
 
 /**
-* Order the robot to land on the runway 
+* Order the robot to land on the runway
 */
 void UAS::land()
 {
@@ -2870,8 +2899,8 @@ const QString& UAS::getShortState() const
     return shortStateText;
 }
 
-/** 
-* The mode can be autonomous, guided, manual or armed. It will also return if 
+/**
+* The mode can be autonomous, guided, manual or armed. It will also return if
 * hardware in the loop is being used.
 * @return the audio mode text for the id given.
 */
@@ -2920,7 +2949,7 @@ QString UAS::getAudioModeTextFor(int id)
 }
 
 /**
-* The mode returned can be auto, stabilized, test, manual, preflight or unknown. 
+* The mode returned can be auto, stabilized, test, manual, preflight or unknown.
 * @return the short text of the mode for the id given.
 */
 QString UAS::getShortModeTextFor(int id)

@@ -1051,8 +1051,12 @@ void AQLogParser::ShowCurves() {
 
             if (!oldLog) {
                 GenerateChannelsCurve(false);
-                while (ParseLogM(lf) != EOF)
+                CRCErrorCnt = 0;
+                PosOfCrcError = 0;
+                while (ParseLogM(lf) != EOF) {
+                    PosOfCrcError++;
                     n++;
+                }
             } else {
                 count = 0;
                 GenerateChannelsCurve(true);
@@ -1204,8 +1208,10 @@ int AQLogParser::loggerReadEntryM(FILE *fp) {
             }
             return 1;
         }
-
-        qDebug() << "logger: checksum error\n";
+        else {
+            CRCErrorCnt++;
+            qDebug() << "logger: checksum error " << CRCErrorCnt << " on frame " << PosOfCrcError;
+        }
 
     }
 

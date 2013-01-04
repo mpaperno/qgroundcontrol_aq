@@ -350,6 +350,8 @@ private:
     loggerRecord_t logEntry;
     int loggerReadEntry(FILE *fp, loggerRecord_t *r);
     double logDumpGetValue(loggerRecord_t *l, int field);
+    long PosOfCrcError;
+    int CRCErrorCnt;
 };
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class GPX_KMLParser: public QObject

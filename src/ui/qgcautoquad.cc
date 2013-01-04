@@ -37,19 +37,21 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     MarkerCut2  = NULL;
     MarkerCut3  = NULL;
     MarkerCut4  = NULL;
+    AqTeleChart = NULL;
+    devCommand = 0;
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
-
+    //ui->tabWidget->removeTab(6);
 
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
 
     ui->lbl_version->setText("Version 1.0.7");
 
-	//GUI slots
-	connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
-	connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
+    //GUI slots
+    connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
+    connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
 
     connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
@@ -69,7 +71,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_reload_conf, SIGNAL(clicked()),this,SLOT(Esc32ReLoadConf()));
 
 
-	connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
+    connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->pushButton_Add_Static, SIGNAL(clicked()),this,SLOT(addStatic()));
     connect(ui->pushButton_Remov_Static, SIGNAL(clicked()),this,SLOT(delStatic()));
     connect(ui->pushButton_Add_Dynamic, SIGNAL(clicked()),this,SLOT(addDynamic()));
@@ -168,20 +170,22 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_start_tel_grid, SIGNAL(clicked()),this, SLOT(teleValuesStart()));
     connect(ui->pushButton_stop_tel_grid, SIGNAL(clicked()),this, SLOT(teleValuesStop()));
 
+    connect(ui->pushButton_dev1, SIGNAL(clicked()),this, SLOT(pushButton_dev1()));
+
     ui->CMB_SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
 
     ui->CMB_SPVR_FS_RAD_ST2->addItem("slow decent", 0);
     ui->CMB_SPVR_FS_RAD_ST2->addItem("RTH and slow decent", 1);
 
-	//Process Slots
+    //Process Slots
     ps_master.setProcessChannelMode(QProcess::MergedChannels);
     connect(&ps_master, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
     connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
     connect(&ps_master, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
 
 
-	// UAS slots
-	connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
+    // UAS slots
+    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
     QList<UASInterface*> mavs = UASManager::instance()->getUASList();
     foreach (UASInterface* currMav, mavs) {
         addUAS(currMav);
@@ -225,6 +229,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->Frequenz_Telemetry->addItem("25 Hz", 50000);
     ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
     ui->Frequenz_Telemetry->setCurrentIndex(2);
+
 }
 
 QGCAutoquad::~QGCAutoquad()
@@ -352,12 +357,12 @@ void QGCAutoquad::showChannels() {
     parser.ShowCurves();
     plot->removeData();
     plot->clear();
+    plot->ResetColor();
     if (!QFile::exists(LogFile))
         return;
 
     for (int i = 0; i < parser.yValues.count(); i++) {
         plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
-
     }
 
     plot->setStyleText("lines");
@@ -403,8 +408,8 @@ void QGCAutoquad::loadSettings()
         }
     }
 
-	ui->lineEdit_insert_declination->setText(settings.value("DECLINATION_SOURCE").toString());
-	ui->lineEdit_cal_declination->setText(settings.value("DECLINATION_CALC").toString());
+    ui->lineEdit_insert_declination->setText(settings.value("DECLINATION_SOURCE").toString());
+    ui->lineEdit_cal_declination->setText(settings.value("DECLINATION_CALC").toString());
 
     ui->lineEdit_insert_inclination->setText(settings.value("INCLINATION_SOURCE").toString());
     ui->lineEdit_cal_inclination->setText(settings.value("INCLINATION_CALC").toString());
@@ -570,8 +575,8 @@ void QGCAutoquad::setPortName(QString port)
     port = port.split("-").first();
 #endif
     port = port.remove(" ");
-	portName = port;
-	ui->ComPortLabel->setText(portName);
+    portName = port;
+    ui->ComPortLabel->setText(portName);
 }
 
 void QGCAutoquad::setPortNameEsc32(QString port)
@@ -816,7 +821,7 @@ void QGCAutoquad::setupPortList()
     ui->comboBox_port_esc32->clear();
     ui->comboBox_port_esc32->clearEditText();
     // Get the ports available on this system
-	seriallink = new SerialLink();
+    seriallink = new SerialLink();
     QVector<QString>* ports = seriallink->getCurrentPorts();
 
     // Add the ports in reverse order, because we prepend them to the list
@@ -973,7 +978,7 @@ void QGCAutoquad::selectFWToFlash()
     {
         fileNames = dialog.selectedFiles();
     }
-	
+
     if (fileNames.size() > 0)
     {
         QString fileNameLocale = QDir::toNativeSeparators(fileNames.first());
@@ -993,12 +998,12 @@ void QGCAutoquad::selectFWToFlash()
 
 void QGCAutoquad::flashFW()
 {
-	QString AppPath = "";
-	#ifdef Q_OS_WIN
-		AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "stm32flash.exe");
+    QString AppPath = "";
+    #ifdef Q_OS_WIN
+        AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "stm32flash.exe");
         #else
          AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "stm32flash");
-	#endif
+    #endif
 
 
      QMessageBox msgBox;
@@ -1006,12 +1011,12 @@ void QGCAutoquad::flashFW()
      msgBox.exec();
 
 
-	QStringList Arguments;
-	Arguments.append("-b 57600");
+    QStringList Arguments;
+    Arguments.append("-b 57600");
     Arguments.append("-w" );
     Arguments.append(QDir::toNativeSeparators(ui->fileLabel->text()));
-	Arguments.append("-v");
-	Arguments.append(portName);
+    Arguments.append("-v");
+    Arguments.append(portName);
     active_cal_mode = 0;
     ui->textFlashOutput->clear();
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
@@ -1124,7 +1129,7 @@ void QGCAutoquad::prtstdout() {
         }
         if ( active_cal_mode == 6 ) {
             output_sim3 = ps_master.readAllStandardOutput();
-            if ( output_sim2.contains("[H") ) {
+            if ( output_sim3.contains("[H") ) {
                 ui->textOutput_sim3->clear();
                 output = output.right(output.length()-2);
             }
@@ -1136,7 +1141,7 @@ void QGCAutoquad::prtstdout() {
 void QGCAutoquad::prtstderr() {
     if ( active_cal_mode == 0 ) {
         output = ps_master.readAllStandardError();
-	ui->textFlashOutput->append(output);
+    ui->textFlashOutput->append(output);
     }
     if ( active_cal_mode == 1 ) {
             output_cal1 = ps_master.readAllStandardError();
@@ -1210,11 +1215,13 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     {
         uas = uas_ext;
         disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+        disconnect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
         disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
         if ( !paramaq ) {
             paramaq = new QGCAQParamWidget(uas, this);
             ui->gridLayout_paramAQ->addWidget(paramaq);
             connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
+            connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
             if ( LastFilePath == "")
                 paramaq->setFilePath(QCoreApplication::applicationDirPath());
             else
@@ -1814,13 +1821,13 @@ void QGCAutoquad::abortsim3(){
 }
 
 void QGCAutoquad::getGUIpara() {
-	if ( !paramaq)
-		return;
+    if ( !paramaq)
+        return;
 
-	QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( this );
-	for ( int i = 0; i<edtList.count(); i++) {
-		QString ParaName = edtList.at(i)->objectName();
-		if ( ParaName.startsWith("CTRL",Qt::CaseSensitive) || ParaName.startsWith("NAV",Qt::CaseSensitive) || ParaName.startsWith("GMBL",Qt::CaseSensitive) || ParaName.startsWith("SPVR",Qt::CaseSensitive) ) {
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( this );
+    for ( int i = 0; i<edtList.count(); i++) {
+        QString ParaName = edtList.at(i)->objectName();
+        if ( ParaName.startsWith("CTRL",Qt::CaseSensitive) || ParaName.startsWith("NAV",Qt::CaseSensitive) || ParaName.startsWith("GMBL",Qt::CaseSensitive) || ParaName.startsWith("SPVR",Qt::CaseSensitive) ) {
             if ( ParaName == "GMBL_SCAL_PITCH") {
                 float dummy_value = fabs(paramaq->getParaAQ(ParaName).toFloat());
                 edtList.at(i)->setText(QString::number(dummy_value));
@@ -1832,11 +1839,11 @@ void QGCAutoquad::getGUIpara() {
             else {
                 edtList.at(i)->setText(paramaq->getParaAQ(ParaName).toString());
             }
-		}
-		else if ( ParaName.startsWith("MOT_",Qt::CaseSensitive)) {
-			edtList.at(i)->setText(paramaq->getParaAQ(ParaName).toString());
-		}
-	}
+        }
+        else if ( ParaName.startsWith("MOT_",Qt::CaseSensitive)) {
+            edtList.at(i)->setText(paramaq->getParaAQ(ParaName).toString());
+        }
+    }
 
     int radio_type = paramaq->getParaAQ("RADIO_TYPE").toInt();
     ui->comboBox_Radio_Type->setCurrentIndex(radio_type);
@@ -3050,7 +3057,7 @@ void QGCAutoquad::setFrame() {
     paramaq->setParameter(190,"MOT_PWRD_11_Y",ui->MOT_PWRD_11_Y->text().toFloat());
     paramaq->setParameter(190,"MOT_PWRD_12_Y",ui->MOT_PWRD_12_Y->text().toFloat());
     paramaq->setParameter(190,"MOT_PWRD_13_Y",ui->MOT_PWRD_13_Y->text().toFloat());
-	paramaq->setParameter(190,"MOT_PWRD_14_Y",ui->MOT_PWRD_14_Y->text().toFloat());
+    paramaq->setParameter(190,"MOT_PWRD_14_Y",ui->MOT_PWRD_14_Y->text().toFloat());
 
     paramaq->setParameter(190,"MOT_FRAME","0");
     paramaq->setParameter(190,"GMBL_ROLL_PORT",port_nr_roll);
@@ -3197,7 +3204,7 @@ void QGCAutoquad::LoadFrameFromFile() {
     {
         fileNames = dialog.selectedFiles();
     }
-	
+
     if (fileNames.size() > 0)
     {
         QString fileName = fileNames.first();
@@ -3208,156 +3215,156 @@ void QGCAutoquad::LoadFrameFromFile() {
             QMessageBox msgBox;
             msgBox.setText("Could not read mixing file. Permission denied");
             msgBox.exec();
-			return;
+            return;
         }
-		file.close();
+        file.close();
 
-		QSettings settings(fileName, QSettings::IniFormat);
+        QSettings settings(fileName, QSettings::IniFormat);
 
-		settings.beginGroup("Throttle");
-		ui->MOT_PWRD_01_T->setText(settings.value("Motor1").toString());
-		ui->MOT_PWRD_02_T->setText(settings.value("Motor2").toString());
-		ui->MOT_PWRD_03_T->setText(settings.value("Motor3").toString());
-		ui->MOT_PWRD_04_T->setText(settings.value("Motor4").toString());
-		ui->MOT_PWRD_05_T->setText(settings.value("Motor5").toString());
-		ui->MOT_PWRD_06_T->setText(settings.value("Motor6").toString());
-		ui->MOT_PWRD_07_T->setText(settings.value("Motor7").toString());
-		ui->MOT_PWRD_08_T->setText(settings.value("Motor8").toString());
-		ui->MOT_PWRD_09_T->setText(settings.value("Motor9").toString());
-		ui->MOT_PWRD_10_T->setText(settings.value("Motor10").toString());
-		ui->MOT_PWRD_11_T->setText(settings.value("Motor11").toString());
-		ui->MOT_PWRD_12_T->setText(settings.value("Motor12").toString());
-		ui->MOT_PWRD_13_T->setText(settings.value("Motor13").toString());
-		ui->MOT_PWRD_14_T->setText(settings.value("Motor14").toString());
-		settings.endGroup();
-		settings.beginGroup("Pitch");
-		ui->MOT_PWRD_01_P->setText(settings.value("Motor1").toString());
-		ui->MOT_PWRD_02_P->setText(settings.value("Motor2").toString());
-		ui->MOT_PWRD_03_P->setText(settings.value("Motor3").toString());
-		ui->MOT_PWRD_04_P->setText(settings.value("Motor4").toString());
-		ui->MOT_PWRD_05_P->setText(settings.value("Motor5").toString());
-		ui->MOT_PWRD_06_P->setText(settings.value("Motor6").toString());
-		ui->MOT_PWRD_07_P->setText(settings.value("Motor7").toString());
-		ui->MOT_PWRD_08_P->setText(settings.value("Motor8").toString());
-		ui->MOT_PWRD_09_P->setText(settings.value("Motor9").toString());
-		ui->MOT_PWRD_10_P->setText(settings.value("Motor10").toString());
-		ui->MOT_PWRD_11_P->setText(settings.value("Motor11").toString());
-		ui->MOT_PWRD_12_P->setText(settings.value("Motor12").toString());
-		ui->MOT_PWRD_13_P->setText(settings.value("Motor13").toString());
-		ui->MOT_PWRD_14_P->setText(settings.value("Motor14").toString());
-		settings.endGroup();
-		settings.beginGroup("Roll");
-		ui->MOT_PWRD_01_R->setText(settings.value("Motor1").toString());
-		ui->MOT_PWRD_02_R->setText(settings.value("Motor2").toString());
-		ui->MOT_PWRD_03_R->setText(settings.value("Motor3").toString());
-		ui->MOT_PWRD_04_R->setText(settings.value("Motor4").toString());
-		ui->MOT_PWRD_05_R->setText(settings.value("Motor5").toString());
-		ui->MOT_PWRD_06_R->setText(settings.value("Motor6").toString());
-		ui->MOT_PWRD_07_R->setText(settings.value("Motor7").toString());
-		ui->MOT_PWRD_08_R->setText(settings.value("Motor8").toString());
-		ui->MOT_PWRD_09_R->setText(settings.value("Motor9").toString());
-		ui->MOT_PWRD_10_R->setText(settings.value("Motor10").toString());
-		ui->MOT_PWRD_11_R->setText(settings.value("Motor11").toString());
-		ui->MOT_PWRD_12_R->setText(settings.value("Motor12").toString());
-		ui->MOT_PWRD_13_R->setText(settings.value("Motor13").toString());
-		ui->MOT_PWRD_14_R->setText(settings.value("Motor14").toString());
-		settings.endGroup();
-		settings.beginGroup("Yaw");
-		ui->MOT_PWRD_01_Y->setText(settings.value("Motor1").toString());
-		ui->MOT_PWRD_02_Y->setText(settings.value("Motor2").toString());
-		ui->MOT_PWRD_03_Y->setText(settings.value("Motor3").toString());
-		ui->MOT_PWRD_04_Y->setText(settings.value("Motor4").toString());
-		ui->MOT_PWRD_05_Y->setText(settings.value("Motor5").toString());
-		ui->MOT_PWRD_06_Y->setText(settings.value("Motor6").toString());
-		ui->MOT_PWRD_07_Y->setText(settings.value("Motor7").toString());
-		ui->MOT_PWRD_08_Y->setText(settings.value("Motor8").toString());
-		ui->MOT_PWRD_09_Y->setText(settings.value("Motor9").toString());
-		ui->MOT_PWRD_10_Y->setText(settings.value("Motor10").toString());
-		ui->MOT_PWRD_11_Y->setText(settings.value("Motor11").toString());
-		ui->MOT_PWRD_12_Y->setText(settings.value("Motor12").toString());
-		ui->MOT_PWRD_13_Y->setText(settings.value("Motor13").toString());
-		ui->MOT_PWRD_14_Y->setText(settings.value("Motor14").toString());
-		settings.endGroup();
-		settings.sync();
-	}
+        settings.beginGroup("Throttle");
+        ui->MOT_PWRD_01_T->setText(settings.value("Motor1").toString());
+        ui->MOT_PWRD_02_T->setText(settings.value("Motor2").toString());
+        ui->MOT_PWRD_03_T->setText(settings.value("Motor3").toString());
+        ui->MOT_PWRD_04_T->setText(settings.value("Motor4").toString());
+        ui->MOT_PWRD_05_T->setText(settings.value("Motor5").toString());
+        ui->MOT_PWRD_06_T->setText(settings.value("Motor6").toString());
+        ui->MOT_PWRD_07_T->setText(settings.value("Motor7").toString());
+        ui->MOT_PWRD_08_T->setText(settings.value("Motor8").toString());
+        ui->MOT_PWRD_09_T->setText(settings.value("Motor9").toString());
+        ui->MOT_PWRD_10_T->setText(settings.value("Motor10").toString());
+        ui->MOT_PWRD_11_T->setText(settings.value("Motor11").toString());
+        ui->MOT_PWRD_12_T->setText(settings.value("Motor12").toString());
+        ui->MOT_PWRD_13_T->setText(settings.value("Motor13").toString());
+        ui->MOT_PWRD_14_T->setText(settings.value("Motor14").toString());
+        settings.endGroup();
+        settings.beginGroup("Pitch");
+        ui->MOT_PWRD_01_P->setText(settings.value("Motor1").toString());
+        ui->MOT_PWRD_02_P->setText(settings.value("Motor2").toString());
+        ui->MOT_PWRD_03_P->setText(settings.value("Motor3").toString());
+        ui->MOT_PWRD_04_P->setText(settings.value("Motor4").toString());
+        ui->MOT_PWRD_05_P->setText(settings.value("Motor5").toString());
+        ui->MOT_PWRD_06_P->setText(settings.value("Motor6").toString());
+        ui->MOT_PWRD_07_P->setText(settings.value("Motor7").toString());
+        ui->MOT_PWRD_08_P->setText(settings.value("Motor8").toString());
+        ui->MOT_PWRD_09_P->setText(settings.value("Motor9").toString());
+        ui->MOT_PWRD_10_P->setText(settings.value("Motor10").toString());
+        ui->MOT_PWRD_11_P->setText(settings.value("Motor11").toString());
+        ui->MOT_PWRD_12_P->setText(settings.value("Motor12").toString());
+        ui->MOT_PWRD_13_P->setText(settings.value("Motor13").toString());
+        ui->MOT_PWRD_14_P->setText(settings.value("Motor14").toString());
+        settings.endGroup();
+        settings.beginGroup("Roll");
+        ui->MOT_PWRD_01_R->setText(settings.value("Motor1").toString());
+        ui->MOT_PWRD_02_R->setText(settings.value("Motor2").toString());
+        ui->MOT_PWRD_03_R->setText(settings.value("Motor3").toString());
+        ui->MOT_PWRD_04_R->setText(settings.value("Motor4").toString());
+        ui->MOT_PWRD_05_R->setText(settings.value("Motor5").toString());
+        ui->MOT_PWRD_06_R->setText(settings.value("Motor6").toString());
+        ui->MOT_PWRD_07_R->setText(settings.value("Motor7").toString());
+        ui->MOT_PWRD_08_R->setText(settings.value("Motor8").toString());
+        ui->MOT_PWRD_09_R->setText(settings.value("Motor9").toString());
+        ui->MOT_PWRD_10_R->setText(settings.value("Motor10").toString());
+        ui->MOT_PWRD_11_R->setText(settings.value("Motor11").toString());
+        ui->MOT_PWRD_12_R->setText(settings.value("Motor12").toString());
+        ui->MOT_PWRD_13_R->setText(settings.value("Motor13").toString());
+        ui->MOT_PWRD_14_R->setText(settings.value("Motor14").toString());
+        settings.endGroup();
+        settings.beginGroup("Yaw");
+        ui->MOT_PWRD_01_Y->setText(settings.value("Motor1").toString());
+        ui->MOT_PWRD_02_Y->setText(settings.value("Motor2").toString());
+        ui->MOT_PWRD_03_Y->setText(settings.value("Motor3").toString());
+        ui->MOT_PWRD_04_Y->setText(settings.value("Motor4").toString());
+        ui->MOT_PWRD_05_Y->setText(settings.value("Motor5").toString());
+        ui->MOT_PWRD_06_Y->setText(settings.value("Motor6").toString());
+        ui->MOT_PWRD_07_Y->setText(settings.value("Motor7").toString());
+        ui->MOT_PWRD_08_Y->setText(settings.value("Motor8").toString());
+        ui->MOT_PWRD_09_Y->setText(settings.value("Motor9").toString());
+        ui->MOT_PWRD_10_Y->setText(settings.value("Motor10").toString());
+        ui->MOT_PWRD_11_Y->setText(settings.value("Motor11").toString());
+        ui->MOT_PWRD_12_Y->setText(settings.value("Motor12").toString());
+        ui->MOT_PWRD_13_Y->setText(settings.value("Motor13").toString());
+        ui->MOT_PWRD_14_Y->setText(settings.value("Motor14").toString());
+        settings.endGroup();
+        settings.sync();
+    }
 
 }
 
 void QGCAutoquad::SaveFrameToFile() {
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./motorMixing.mix", tr("AQ Mixing Table (*.mix)"));
-	if ( !fileName.endsWith(".mix"))
-		fileName += ".mix";
+    if ( !fileName.endsWith(".mix"))
+        fileName += ".mix";
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return;
     }
-	file.close();
+    file.close();
 
-	QSettings settings(fileName, QSettings::IniFormat);
+    QSettings settings(fileName, QSettings::IniFormat);
     settings.beginGroup("Throttle");
-	settings.setValue("Motor1", ui->MOT_PWRD_01_T->text());
-	settings.setValue("Motor2", ui->MOT_PWRD_02_T->text());
-	settings.setValue("Motor3", ui->MOT_PWRD_03_T->text());
-	settings.setValue("Motor4", ui->MOT_PWRD_04_T->text());
-	settings.setValue("Motor5", ui->MOT_PWRD_05_T->text());
-	settings.setValue("Motor6", ui->MOT_PWRD_06_T->text());
-	settings.setValue("Motor7", ui->MOT_PWRD_07_T->text());
-	settings.setValue("Motor8", ui->MOT_PWRD_08_T->text());
-	settings.setValue("Motor9", ui->MOT_PWRD_09_T->text());
-	settings.setValue("Motor10", ui->MOT_PWRD_10_T->text());
-	settings.setValue("Motor11", ui->MOT_PWRD_11_T->text());
-	settings.setValue("Motor12", ui->MOT_PWRD_12_T->text());
-	settings.setValue("Motor13", ui->MOT_PWRD_13_T->text());
-	settings.setValue("Motor14", ui->MOT_PWRD_14_T->text());
+    settings.setValue("Motor1", ui->MOT_PWRD_01_T->text());
+    settings.setValue("Motor2", ui->MOT_PWRD_02_T->text());
+    settings.setValue("Motor3", ui->MOT_PWRD_03_T->text());
+    settings.setValue("Motor4", ui->MOT_PWRD_04_T->text());
+    settings.setValue("Motor5", ui->MOT_PWRD_05_T->text());
+    settings.setValue("Motor6", ui->MOT_PWRD_06_T->text());
+    settings.setValue("Motor7", ui->MOT_PWRD_07_T->text());
+    settings.setValue("Motor8", ui->MOT_PWRD_08_T->text());
+    settings.setValue("Motor9", ui->MOT_PWRD_09_T->text());
+    settings.setValue("Motor10", ui->MOT_PWRD_10_T->text());
+    settings.setValue("Motor11", ui->MOT_PWRD_11_T->text());
+    settings.setValue("Motor12", ui->MOT_PWRD_12_T->text());
+    settings.setValue("Motor13", ui->MOT_PWRD_13_T->text());
+    settings.setValue("Motor14", ui->MOT_PWRD_14_T->text());
     settings.endGroup();
     settings.beginGroup("Pitch");
-	settings.setValue("Motor1", ui->MOT_PWRD_01_P->text());
-	settings.setValue("Motor2", ui->MOT_PWRD_02_P->text());
-	settings.setValue("Motor3", ui->MOT_PWRD_03_P->text());
-	settings.setValue("Motor4", ui->MOT_PWRD_04_P->text());
-	settings.setValue("Motor5", ui->MOT_PWRD_05_P->text());
-	settings.setValue("Motor6", ui->MOT_PWRD_06_P->text());
-	settings.setValue("Motor7", ui->MOT_PWRD_07_P->text());
-	settings.setValue("Motor8", ui->MOT_PWRD_08_P->text());
-	settings.setValue("Motor9", ui->MOT_PWRD_09_P->text());
-	settings.setValue("Motor10", ui->MOT_PWRD_10_P->text());
-	settings.setValue("Motor11", ui->MOT_PWRD_11_P->text());
-	settings.setValue("Motor12", ui->MOT_PWRD_12_P->text());
-	settings.setValue("Motor13", ui->MOT_PWRD_13_P->text());
-	settings.setValue("Motor14", ui->MOT_PWRD_14_P->text());
+    settings.setValue("Motor1", ui->MOT_PWRD_01_P->text());
+    settings.setValue("Motor2", ui->MOT_PWRD_02_P->text());
+    settings.setValue("Motor3", ui->MOT_PWRD_03_P->text());
+    settings.setValue("Motor4", ui->MOT_PWRD_04_P->text());
+    settings.setValue("Motor5", ui->MOT_PWRD_05_P->text());
+    settings.setValue("Motor6", ui->MOT_PWRD_06_P->text());
+    settings.setValue("Motor7", ui->MOT_PWRD_07_P->text());
+    settings.setValue("Motor8", ui->MOT_PWRD_08_P->text());
+    settings.setValue("Motor9", ui->MOT_PWRD_09_P->text());
+    settings.setValue("Motor10", ui->MOT_PWRD_10_P->text());
+    settings.setValue("Motor11", ui->MOT_PWRD_11_P->text());
+    settings.setValue("Motor12", ui->MOT_PWRD_12_P->text());
+    settings.setValue("Motor13", ui->MOT_PWRD_13_P->text());
+    settings.setValue("Motor14", ui->MOT_PWRD_14_P->text());
     settings.endGroup();
     settings.beginGroup("Roll");
-	settings.setValue("Motor1", ui->MOT_PWRD_01_R->text());
-	settings.setValue("Motor2", ui->MOT_PWRD_02_R->text());
-	settings.setValue("Motor3", ui->MOT_PWRD_03_R->text());
-	settings.setValue("Motor4", ui->MOT_PWRD_04_R->text());
-	settings.setValue("Motor5", ui->MOT_PWRD_05_R->text());
-	settings.setValue("Motor6", ui->MOT_PWRD_06_R->text());
-	settings.setValue("Motor7", ui->MOT_PWRD_07_R->text());
-	settings.setValue("Motor8", ui->MOT_PWRD_08_R->text());
-	settings.setValue("Motor9", ui->MOT_PWRD_09_R->text());
-	settings.setValue("Motor10", ui->MOT_PWRD_10_R->text());
-	settings.setValue("Motor11", ui->MOT_PWRD_11_R->text());
-	settings.setValue("Motor12", ui->MOT_PWRD_12_R->text());
-	settings.setValue("Motor13", ui->MOT_PWRD_13_R->text());
-	settings.setValue("Motor14", ui->MOT_PWRD_14_R->text());
+    settings.setValue("Motor1", ui->MOT_PWRD_01_R->text());
+    settings.setValue("Motor2", ui->MOT_PWRD_02_R->text());
+    settings.setValue("Motor3", ui->MOT_PWRD_03_R->text());
+    settings.setValue("Motor4", ui->MOT_PWRD_04_R->text());
+    settings.setValue("Motor5", ui->MOT_PWRD_05_R->text());
+    settings.setValue("Motor6", ui->MOT_PWRD_06_R->text());
+    settings.setValue("Motor7", ui->MOT_PWRD_07_R->text());
+    settings.setValue("Motor8", ui->MOT_PWRD_08_R->text());
+    settings.setValue("Motor9", ui->MOT_PWRD_09_R->text());
+    settings.setValue("Motor10", ui->MOT_PWRD_10_R->text());
+    settings.setValue("Motor11", ui->MOT_PWRD_11_R->text());
+    settings.setValue("Motor12", ui->MOT_PWRD_12_R->text());
+    settings.setValue("Motor13", ui->MOT_PWRD_13_R->text());
+    settings.setValue("Motor14", ui->MOT_PWRD_14_R->text());
     settings.endGroup();
     settings.beginGroup("Yaw");
-	settings.setValue("Motor1", ui->MOT_PWRD_01_Y->text());
-	settings.setValue("Motor2", ui->MOT_PWRD_02_Y->text());
-	settings.setValue("Motor3", ui->MOT_PWRD_03_Y->text());
-	settings.setValue("Motor4", ui->MOT_PWRD_04_Y->text());
-	settings.setValue("Motor5", ui->MOT_PWRD_05_Y->text());
-	settings.setValue("Motor6", ui->MOT_PWRD_06_Y->text());
-	settings.setValue("Motor7", ui->MOT_PWRD_07_Y->text());
-	settings.setValue("Motor8", ui->MOT_PWRD_08_Y->text());
-	settings.setValue("Motor9", ui->MOT_PWRD_09_Y->text());
-	settings.setValue("Motor10", ui->MOT_PWRD_10_Y->text());
-	settings.setValue("Motor11", ui->MOT_PWRD_11_Y->text());
-	settings.setValue("Motor12", ui->MOT_PWRD_12_Y->text());
-	settings.setValue("Motor13", ui->MOT_PWRD_13_Y->text());
-	settings.setValue("Motor14", ui->MOT_PWRD_14_Y->text());
+    settings.setValue("Motor1", ui->MOT_PWRD_01_Y->text());
+    settings.setValue("Motor2", ui->MOT_PWRD_02_Y->text());
+    settings.setValue("Motor3", ui->MOT_PWRD_03_Y->text());
+    settings.setValue("Motor4", ui->MOT_PWRD_04_Y->text());
+    settings.setValue("Motor5", ui->MOT_PWRD_05_Y->text());
+    settings.setValue("Motor6", ui->MOT_PWRD_06_Y->text());
+    settings.setValue("Motor7", ui->MOT_PWRD_07_Y->text());
+    settings.setValue("Motor8", ui->MOT_PWRD_08_Y->text());
+    settings.setValue("Motor9", ui->MOT_PWRD_09_Y->text());
+    settings.setValue("Motor10", ui->MOT_PWRD_10_Y->text());
+    settings.setValue("Motor11", ui->MOT_PWRD_11_Y->text());
+    settings.setValue("Motor12", ui->MOT_PWRD_12_Y->text());
+    settings.setValue("Motor13", ui->MOT_PWRD_13_Y->text());
+    settings.setValue("Motor14", ui->MOT_PWRD_14_Y->text());
     settings.endGroup();
     settings.sync();
 
@@ -3365,30 +3372,30 @@ void QGCAutoquad::SaveFrameToFile() {
 
 void QGCAutoquad::CalculatDeclination() {
 
-	QString dec_source = ui->lineEdit_insert_declination->text();
-	if ( !dec_source.contains(".")) {
-		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+    QString dec_source = ui->lineEdit_insert_declination->text();
+    if ( !dec_source.contains(".")) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
         return;
-	}
+    }
     /*
-	if ( !dec_source.startsWith("-")) {
-		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+    if ( !dec_source.startsWith("-")) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
         return;
-	}
-	if ( dec_source.length() != 6 ) {
-		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+    }
+    if ( dec_source.length() != 6 ) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
         return;
-	}
+    }
     */
     QStringList HoursMinutes = dec_source.split(".");
 
     if ( HoursMinutes.count() != 2 ) {
-		QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
         return;
-	}
-	qint32 secounds = HoursMinutes.at(1).toInt();
+    }
+    qint32 secounds = HoursMinutes.at(1).toInt();
     float secounds_calc = (100.0f/60.0f) * secounds;
-	// Set together
+    // Set together
     QString recalculated;
     recalculated.append("#define");
     recalculated.append(' ');
@@ -4042,7 +4049,7 @@ void QGCAutoquad::teleValuesStart(){
     if (!uas)
         return;
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
-    //connect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
+    connect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
 
     int uasId = uas->getUASID();
     AqTeleChart->appendData(uasId,"AQ_ROLL","",0,0);
@@ -4282,85 +4289,58 @@ void QGCAutoquad::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values){
         if ( AqTeleChart->CurveIsActive[39])
             AqTeleChart->appendData(uasId,"Res2","",values.value20,msec);
     }
-    else if ( values.Index == 2) {
-        ui->Tele_Value40->setText(QString::number(values.value1));
-        if ( AqTeleChart->CurveIsActive[40])
-            AqTeleChart->appendData(uasId,"RADIO_THROT","",values.value1,msec);
-
-        ui->Tele_Value41->setText(QString::number(values.value2));
-        if ( AqTeleChart->CurveIsActive[41])
-            AqTeleChart->appendData(uasId,"RADIO_RUDD","",values.value2,msec);
-
-        ui->Tele_Value42->setText(QString::number(values.value3));
-        if ( AqTeleChart->CurveIsActive[42])
-            AqTeleChart->appendData(uasId,"RADIO_PITCH","",values.value3,msec);
-
-        ui->Tele_Value43->setText(QString::number(values.value4));
-        if ( AqTeleChart->CurveIsActive[43])
-            AqTeleChart->appendData(uasId,"RADIO_ROLL","",values.value4,msec);
-
-        ui->Tele_Value44->setText(QString::number(values.value5));
-        if ( AqTeleChart->CurveIsActive[44])
-            AqTeleChart->appendData(uasId,"RADIO_FLAPS","",values.value5,msec);
-
-        ui->Tele_Value45->setText(QString::number(values.value6));
-        if ( AqTeleChart->CurveIsActive[45])
-            AqTeleChart->appendData(uasId,"RADIO_AUX2","",values.value6,msec);
-
-        ui->Tele_Value45->setText(QString::number(values.value7));
-        if ( AqTeleChart->CurveIsActive[46])
-            AqTeleChart->appendData(uasId,"RADIO_AUX3","",values.value7,msec);
-
-        ui->Tele_Value45->setText(QString::number(values.value8));
-        if ( AqTeleChart->CurveIsActive[47])
-            AqTeleChart->appendData(uasId,"RADIO_AUX4","",values.value8,msec);
-
-    }
 }
 
 void QGCAutoquad::getNewTelemetryI(int uasId, mavlink_aq_telemetry_i_t values){
 
-        ui->Tele_Value40->setText(QString::number(values.value1));
-        if ( AqTeleChart->CurveIsActive[40])
+    if ( values.Index == 0) {
+        ui->Tele_Value41->setText(QString::number(values.value1));
+        if ( AqTeleChart->CurveIsActive[41])
             AqTeleChart->appendData(uasId,"RADIO_THROT","",values.value1,msec);
 
-        ui->Tele_Value41->setText(QString::number(values.value2));
-        if ( AqTeleChart->CurveIsActive[41])
+        ui->Tele_Value42->setText(QString::number(values.value2));
+        if ( AqTeleChart->CurveIsActive[42])
             AqTeleChart->appendData(uasId,"RADIO_RUDD","",values.value2,msec);
 
-        ui->Tele_Value42->setText(QString::number(values.value3));
-        if ( AqTeleChart->CurveIsActive[42])
+        ui->Tele_Value43->setText(QString::number(values.value3));
+        if ( AqTeleChart->CurveIsActive[43])
             AqTeleChart->appendData(uasId,"RADIO_PITCH","",values.value3,msec);
 
-        ui->Tele_Value43->setText(QString::number(values.value4));
-        if ( AqTeleChart->CurveIsActive[43])
+        ui->Tele_Value44->setText(QString::number(values.value4));
+        if ( AqTeleChart->CurveIsActive[44])
             AqTeleChart->appendData(uasId,"RADIO_ROLL","",values.value4,msec);
 
-        ui->Tele_Value44->setText(QString::number(values.value5));
-        if ( AqTeleChart->CurveIsActive[44])
+        ui->Tele_Value45->setText(QString::number(values.value5));
+        if ( AqTeleChart->CurveIsActive[45])
             AqTeleChart->appendData(uasId,"RADIO_FLAPS","",values.value5,msec);
 
-        ui->Tele_Value45->setText(QString::number(values.value6));
-        if ( AqTeleChart->CurveIsActive[45])
+        /*
+        ui->Tele_Value46->setText(QString::number(values.value6));
+        if ( AqTeleChart->CurveIsActive[46])
             AqTeleChart->appendData(uasId,"RADIO_AUX2","",values.value6,msec);
 
-        ui->Tele_Value45->setText(QString::number(values.value7));
-        if ( AqTeleChart->CurveIsActive[46])
+        ui->Tele_Value47->setText(QString::number(values.value7));
+        if ( AqTeleChart->CurveIsActive[47])
             AqTeleChart->appendData(uasId,"RADIO_AUX3","",values.value7,msec);
 
-        ui->Tele_Value45->setText(QString::number(values.value8));
-        if ( AqTeleChart->CurveIsActive[47])
+        ui->Tele_Value48->setText(QString::number(values.value8));
+        if ( AqTeleChart->CurveIsActive[48])
             AqTeleChart->appendData(uasId,"RADIO_AUX4","",values.value8,msec);
-
-        /*
-        ui->Tele_Value46->setText(QString::number(values.value7));
-        ui->Tele_Value47->setText(QString::number(values.value8));
-        ui->Tele_Value48->setText(QString::number(values.value9));
-        ui->Tele_Value49->setText(QString::number(values.value10));
-        ui->Tele_Value50->setText(QString::number(values.value11));
-        ui->Tele_Value51->setText(QString::number(values.value12));
-        ui->Tele_Value52->setText(QString::number(values.value13));
-        ui->Tele_Value53->setText(QString::number(values.value14));
-        ui->Tele_Value54->setText(QString::number(values.value15));
         */
+    }
+}
+
+void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time){
+    if ( !uas)
+        return;
+    this->lat = lat;
+    this->lon = lon;
+    this->alt = alt;
+}
+
+void QGCAutoquad::pushButton_dev1(){
+    QString audiostring = QString("Link regained to system %1 after %2 seconds");
+    GAudioOutput::instance()->say(audiostring.toLower());
+
+    //uas->sendCommmandToAq(3,1,(float)900, (float)900, alt,0.0f,0.0f,0.0f,0.0f);
 }

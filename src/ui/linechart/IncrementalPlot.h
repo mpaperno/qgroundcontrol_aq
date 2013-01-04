@@ -87,6 +87,8 @@ public:
     /** @brief Get next color of color map */
     QColor getNextColor();
 
+    void ResetColor();
+
     /** @brief Get color for curve id */
     QColor getColorForCurve(QString id);
 
