@@ -12,7 +12,6 @@
 #include <QFileDialog>
 #include <QTextBrowser>
 #include <QMessageBox>
-#include <QSettings>
 #include <QDesktopServices>
 #include <QStandardItemModel>
 #include <QSignalMapper>
@@ -42,12 +41,16 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
-    //ui->tabWidget->removeTab(6);
+    ui->groupBox_Radio_Connection->hide(); // hide the radio diagram space for now, unused
+
+#ifdef QT_NO_DEBUG
+    ui->tabWidget->removeTab(6); // hide devel tab
+#endif
 
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
 
-    ui->lbl_version->setText("Version 1.0.7");
+    ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " Version: " + QGCAUTOQUAD::APP_VERSION_TXT);
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -386,8 +389,20 @@ void QGCAutoquad::showChannels() {
 void QGCAutoquad::loadSettings()
 {
     // Load defaults from settings
-    QSettings settings("Aq.ini", QSettings::IniFormat);
+    // QSettings settings("Aq.ini", QSettings::IniFormat);
+
     settings.beginGroup("AUTOQUAD_SETTINGS");
+
+    // if old style Aq.ini file exists, copy settings to QGC shared storage
+    if (QFile("Aq.ini").exists()) {
+        QSettings aq_settings("Aq.ini", QSettings::IniFormat);
+        aq_settings.beginGroup("AUTOQUAD_SETTINGS");
+        foreach (QString childKey, aq_settings.childKeys())
+            settings.setValue(childKey, aq_settings.value(childKey));
+        settings.sync();
+        QFile("Aq.ini").rename("Aq.ini.bak");
+        qDebug() << "Copied settings from Aq.ini to QGC shared config storage.";
+    }
 
     if (settings.contains("STATIC_FILE_COUNT"))
     {
@@ -439,8 +454,10 @@ void QGCAutoquad::loadSettings()
 
 void QGCAutoquad::writeSettings()
 {
-    QSettings settings("Aq.ini", QSettings::IniFormat);
+    //QSettings settings("Aq.ini", QSettings::IniFormat);
     settings.beginGroup("AUTOQUAD_SETTINGS");
+
+    settings.setValue("APP_VERSION", QGCAUTOQUAD::APP_VERSION);
 
     settings.setValue("STATIC_FILE_COUNT", QString::number(StaticFiles.count()));
     for ( int i = 0; i<StaticFiles.count(); i++) {
@@ -1368,7 +1385,7 @@ void QGCAutoquad::setChannelScaled(int channelId, float normalized)
     {
         int val = (int)((normalized*10000.0f)/13);
         ui->progressBar_Flaps->setValue(val);
-        ui->label_chan_6_M->setText(QString::number(val) + " " + "Pos Hold");
+        ui->label_chan_6_M->setText(QString::number(val));
     }
     if (channelId == 6 )
     {
@@ -1427,7 +1444,7 @@ void QGCAutoquad::setChannelRaw(int channelId, float normalized)
         int val = (int)((normalized-1024));
         if (( val < ui->progressBar_Flaps->maximum()) || ( val > ui->progressBar_Flaps->minimum()))
             ui->progressBar_Flaps->setValue(val);
-        ui->label_chan_6_M->setText(QString::number(val) + " " + "Pos Hold");
+        ui->label_chan_6_M->setText(QString::number(val));
     }
     if (channelId == 6 )
     {

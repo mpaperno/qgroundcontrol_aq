@@ -345,6 +345,7 @@ QToolBar#QGC_TOOLBAR QToolButton:pressed {
     border-color: #1C1C1C;
     border-width: 2px;
 }
+QToolBar#QGC_TOOLBAR #mavSymbolButton { border: 0; margin-left: 30px; background: transparent; }
 
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
     border: 1px solid #4A4A4F;

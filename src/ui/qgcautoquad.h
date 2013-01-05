@@ -17,9 +17,17 @@
 #include <QProcess>
 #include <QMap>
 #include <QStandardItemModel>
+#include <QSettings>
 
 namespace Ui {
 class QGCAutoquad;
+}
+
+namespace QGCAUTOQUAD {
+    const QString APP_NAME = "AutoQuad Widget";
+    const QString APP_ORG = "AutoQuad";
+    const QString APP_VERSION_TXT = "1.1.0 (alpha 1)";
+    const int APP_VERSION = 110; // 1.1.0
 }
 
 class QGCAutoquad : public QWidget
@@ -176,6 +184,7 @@ public:
 
 private:
         Ui::QGCAutoquad *ui;
+        QSettings settings;
         QString output;
         QString output_cal1;
         QString output_cal2;

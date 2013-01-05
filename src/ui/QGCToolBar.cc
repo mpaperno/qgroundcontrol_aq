@@ -54,7 +54,8 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
     // Add internal actions
     // Add MAV widget
     symbolButton = new QToolButton(this);
-    symbolButton->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; }");
+    //symbolButton->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; }");
+    symbolButton->setObjectName("mavSymbolButton");
 	addWidget(symbolButton);
 
     toolBarNameLabel = new QLabel("------", this);

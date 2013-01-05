@@ -468,6 +468,7 @@ void AQLogExporter::readSettings() {
         ui->buttonGroup_trigChanValues->button(settings.value("ChannelValueTypeId", 0).toInt())->setChecked(true);
         ui->spinBox_trigVal_gt->setValue(settings.value("TriggerValueGT", 250).toInt());
         ui->spinBox_trigVal_lt->setValue(settings.value("TriggerValueLT", -250).toInt());
+        ui->spinBox_triggerChannel->setValue(18); // hack! do this to force a change event on next step
         ui->spinBox_triggerChannel->setValue(settings.value("TriggerChannel", 0).toInt());
 
         foreach (QString curBtn, settings.value("SelectedValues").toStringList())
@@ -475,8 +476,8 @@ void AQLogExporter::readSettings() {
 
         QString expFmt = settings.value("ExportFormat", "CSV").toString().toUpper();
         if (allExpTypes.indexOf(expFmt) > -1) {
-            setExportTypeOptions(expFmt);
             ui->comboBox_exportFormat->setCurrentIndex(allExpTypes.indexOf(expFmt));
+            setExportTypeOptions(expFmt);
         }
 
         settings.endGroup();
