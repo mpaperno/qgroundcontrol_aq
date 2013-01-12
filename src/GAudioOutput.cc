@@ -104,7 +104,7 @@ GAudioOutput::GAudioOutput(QObject* parent) : QObject(parent),
     flite_init();
 #endif
 
-#if _MSC_VER2
+#ifdef _MSC_VER2
 
     ISpVoice * pVoice = NULL;
     if (FAILED(::CoInitialize(NULL)))
@@ -123,6 +123,7 @@ GAudioOutput::GAudioOutput(QObject* parent) : QObject(parent),
         }
     }
 #endif
+
     // Initialize audio output
     //m_media = new Phonon::MediaObject(this);
     //Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
@@ -182,6 +183,12 @@ bool GAudioOutput::say(QString text, int severity)
             synth.SelectVoice("Microsoft Anna");
             synth.SpeakText(text.toStdString().c_str());
             res = true;
+#endif
+
+#ifdef Q_OS_WIN
+    //QString text = "Hello World!";
+    qDebug() << "About to say synchrounously" << text << "using voice:" << speech.name().name;
+    speech.say(text);
 #endif
 
 #ifdef Q_OS_LINUX

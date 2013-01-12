@@ -6361,7 +6361,7 @@
                <item row="12" column="0">
                 <widget class="QLabel" name="label_224">
                  <property name="text">
-                  <string>IMU_MAGZ</string>
+                  <string>holdHeading</string>
                  </property>
                 </widget>
                </item>
@@ -6371,7 +6371,7 @@
                <item row="13" column="0">
                 <widget class="QLabel" name="label_228">
                  <property name="text">
-                  <string>holdHeading</string>
+                  <string>AQ_PRESSURE</string>
                  </property>
                 </widget>
                </item>
@@ -6381,7 +6381,7 @@
                <item row="14" column="0">
                 <widget class="QLabel" name="label_232">
                  <property name="text">
-                  <string>AQ_PRESSURE</string>
+                  <string>IMU_TEMP</string>
                  </property>
                 </widget>
                </item>
@@ -6423,7 +6423,7 @@
                <item row="4" column="0">
                 <widget class="QLabel" name="label_163">
                  <property name="text">
-                  <string>UKF_POSE</string>
+                  <string>not connected</string>
                  </property>
                 </widget>
                </item>
@@ -6467,7 +6467,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_155">
                  <property name="text">
-                  <string>vIn</string>
+                  <string>UKF_POSN</string>
                  </property>
                 </widget>
                </item>
@@ -6505,7 +6505,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_135">
                  <property name="text">
-                  <string>UKF_ALTITUDE</string>
+                  <string>adc.vIn</string>
                  </property>
                 </widget>
                </item>
@@ -6518,14 +6518,14 @@
                <item row="0" column="0">
                 <widget class="QLabel" name="label_111">
                  <property name="text">
-                  <string>IMU_TEMP</string>
+                  <string>UKF_ALTITUDE</string>
                  </property>
                 </widget>
                </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="label_159">
                  <property name="text">
-                  <string>UKF_POSN</string>
+                  <string>UKF_POSE</string>
                  </property>
                 </widget>
                </item>

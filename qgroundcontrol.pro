@@ -94,6 +94,8 @@ INCLUDEPATH += \
     libs \
     libs/opmapcontrol
 
+include(libs/QtSpeech/QtSpeech.pri)
+
 # If the user config file exists, it will be included.
 # if the variable MAVLINK_CONF contains the name of an
 # additional project, QGroundControl includes the support

@@ -47,9 +47,10 @@ This file is part of the PIXHAWK project
 #ifdef Q_OS_WIN
 #include <Phonon/MediaObject>
 #include <Phonon/AudioOutput>
+#include <QtSpeech>
 #endif
 
-//#define _MSC_VER2
+//#define _MSC_VER2   1
 
 /* For Snow leopard and later
 #ifdef Q_OS_MAC
@@ -117,6 +118,10 @@ protected:
 #endif
 #ifdef Q_OS_LINUX
     //cst_voice* voice; ///< The flite voice object
+#endif
+
+#ifdef Q_OS_WIN
+    QtSpeech speech;
 #endif
     int voiceIndex;   ///< The index of the flite voice to use (awb, slt, rms)
     Phonon::MediaObject* m_media; ///< The output object for audio

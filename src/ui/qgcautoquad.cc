@@ -4306,6 +4306,41 @@ void QGCAutoquad::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values){
         if ( AqTeleChart->CurveIsActive[39])
             AqTeleChart->appendData(uasId,"Res2","",values.value20,msec);
     }
+    else if ( values.Index == 2) {
+        ui->Tele_Value41->setText(QString::number(values.value1));
+        if ( AqTeleChart->CurveIsActive[41])
+            AqTeleChart->appendData(uasId,"RADIO_THROT","",values.value1,msec);
+
+        ui->Tele_Value42->setText(QString::number(values.value2));
+        if ( AqTeleChart->CurveIsActive[42])
+            AqTeleChart->appendData(uasId,"RADIO_RUDD","",values.value2,msec);
+
+        ui->Tele_Value43->setText(QString::number(values.value3));
+        if ( AqTeleChart->CurveIsActive[43])
+            AqTeleChart->appendData(uasId,"RADIO_PITCH","",values.value3,msec);
+
+        ui->Tele_Value44->setText(QString::number(values.value4));
+        if ( AqTeleChart->CurveIsActive[44])
+            AqTeleChart->appendData(uasId,"RADIO_ROLL","",values.value4,msec);
+
+        ui->Tele_Value45->setText(QString::number(values.value5));
+        if ( AqTeleChart->CurveIsActive[45])
+            AqTeleChart->appendData(uasId,"RADIO_FLAPS","",values.value5,msec);
+
+        /*
+        ui->Tele_Value46->setText(QString::number(values.value6));
+        if ( AqTeleChart->CurveIsActive[46])
+            AqTeleChart->appendData(uasId,"RADIO_AUX2","",values.value6,msec);
+
+        ui->Tele_Value47->setText(QString::number(values.value7));
+        if ( AqTeleChart->CurveIsActive[47])
+            AqTeleChart->appendData(uasId,"RADIO_AUX3","",values.value7,msec);
+
+        ui->Tele_Value48->setText(QString::number(values.value8));
+        if ( AqTeleChart->CurveIsActive[48])
+            AqTeleChart->appendData(uasId,"RADIO_AUX4","",values.value8,msec);
+        */
+    }
 }
 
 void QGCAutoquad::getNewTelemetryI(int uasId, mavlink_aq_telemetry_i_t values){
@@ -4356,7 +4391,7 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
 }
 
 void QGCAutoquad::pushButton_dev1(){
-    QString audiostring = QString("Link regained to system %1 after %2 seconds");
+    QString audiostring = QString("Hello, welcome to AutoQuad");
     GAudioOutput::instance()->say(audiostring.toLower());
 
     //uas->sendCommmandToAq(3,1,(float)900, (float)900, alt,0.0f,0.0f,0.0f,0.0f);
