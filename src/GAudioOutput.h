@@ -36,13 +36,13 @@ This file is part of the PIXHAWK project
 #include <QTimer>
 #include <QStringList>
 #ifdef Q_OS_MAC
-#include <MediaObject>
-#include <AudioOutput>
+#include <Phonon/MediaObject>
+#include <Phonon/AudioOutput>
 #endif
 #ifdef Q_OS_LINUX
 //#include <flite/flite.h>
-#include <Phonon/MediaObject>
-#include <Phonon/AudioOutput>
+#include <phonon/MediaObject>
+#include <phonon/AudioOutput>
 #endif
 #ifdef Q_OS_WIN
 #include <Phonon/MediaObject>
