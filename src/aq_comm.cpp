@@ -3390,7 +3390,7 @@ void AQEsc32Logger::run() {
             cols = 0;
             checkInA =  0;
             checkInB = 0;
-            int i, in, j;
+            int i, j;
             while(myPort->bytesAvailable() < 2){
                 if ( StopLogging == 1)
                     goto retry;

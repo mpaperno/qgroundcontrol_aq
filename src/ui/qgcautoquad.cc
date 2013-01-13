@@ -2420,6 +2420,7 @@ void QGCAutoquad::CheckGimbal(int port, bool value) {
 }
 
 void QGCAutoquad::ShowMessageForChangingMotorConfig(int Motor) {
+    Q_UNUSED(Motor);
     if ( EventComesFromMavlink == false) {
         AlreadyShowMessage = true;
         QString MessageInfo = QString();
@@ -4048,10 +4049,12 @@ void QGCAutoquad::removeMarker() {
 }
 
 void QGCAutoquad::CuttingItemChanged(int itemIndex) {
+    Q_UNUSED(itemIndex);
     removeMarker();
 }
 
 void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time){
+    Q_UNUSED(time);
     if ( !uas)
         return;
     this->lat = lat;
