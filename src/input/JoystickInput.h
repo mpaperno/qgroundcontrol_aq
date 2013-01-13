@@ -36,11 +36,7 @@ This file is part of the PIXHAWK project
 #include <QThread>
 #include <QList>
 #include <qmutex.h>
-#ifdef Q_OS_MAC
-#include <SDL.h>
-#else
 #include <SDL/SDL.h>
-#endif
 
 #include "UASInterface.h"
 

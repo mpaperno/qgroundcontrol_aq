@@ -34,12 +34,17 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	CONFIG += x86_64 cocoa phonon
 	CONFIG -= x86
 
+	# For release builds remove support for various Qt debugging macros.
+	CONFIG(release, debug|release) {
+		DEFINES += QT_NO_DEBUG
+	}
+
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 
-        INCLUDEPATH += $$BASEDIR/libs/lib/Frameworks/SDL.framework/Headers
+	INCLUDEPATH += $$BASEDIR/libs/lib/Frameworks/SDL.framework/Headers
 
 	LIBS += -framework IOKit \
-                -F$$BASEDIR/libs/lib/Frameworks \
+		-F$$BASEDIR/libs/lib/Frameworks \
 		-framework SDL \
 		-framework CoreFoundation \
 		-framework ApplicationServices \
@@ -51,23 +56,22 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/aq_osx
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/../aq_bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq_osx
 
-	# Copy contributed files
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy google earth starter file
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/images/earth.html $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy CSS stylesheets
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/styles/style-indoor.css $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/style-indoor.css
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/styles/style-outdoor.css $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
-        # Copy support files
+	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/styles/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
+	# Copy audio files (this is taken from the mac deployment script)
+	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/.
+    # Copy support files
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
-        # Copy MAVLink
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/mavlink $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
+	# Copy MAVLink
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/mavlink $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy libraries
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/mac64/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
-        # Copy frameworks
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
+	# Copy frameworks
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
 
 
 	# Fix library paths inside executable
@@ -126,8 +130,8 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	# CORE OSG LIBRARY
 	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosg.dylib
 
-        # SDL Framework
-        QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
+	# SDL Framework
+	QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
 
 	# No check for GLUT.framework since it's a MAC default
 	message("Building support for OpenSceneGraph")
@@ -245,12 +249,10 @@ linux-g++|linux-g++-64{
 	DESTDIR = $$TARGETDIR
 	# Copy AQ files
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq_unix
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/../aq_bin/aq_unix_all/* $$TARGETDIR/qgroundcontrol.app/aq_unix
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/../aq_bin/aq_unix_all/* $$TARGETDIR/aq_unix
 	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq_unix/*
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/data $$TARGETDIR
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/files/images
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/styles/Vera.ttf $$TARGETDIR/files/styles/Vera.ttf
 
 	# osg/osgEarth dynamic casts might fail without this compiler option.
 	# see http://osgearth.org/wiki/FAQ for details.
