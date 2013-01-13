@@ -4063,7 +4063,7 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
 }
 
 void QGCAutoquad::pushButton_dev1(){
-    QString audiostring = QString("Link regained to system %1 after %2 seconds");
+    QString audiostring = QString("Hello, welcome to AutoQuad");
     GAudioOutput::instance()->say(audiostring.toLower());
 
     //uas->sendCommmandToAq(3,1,(float)900, (float)900, alt,0.0f,0.0f,0.0f,0.0f);
