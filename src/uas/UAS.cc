@@ -200,12 +200,16 @@ int UAS::getUASID() const
 */
 void UAS::updateState()
 {
+    QString audioSystemName = "";
+    if (UASManager::instance()->getSystemsCount() > 1)
+        audioSystemName = QString("to System %1").arg(uasId);
+
     // Check if heartbeat timed out
     quint64 heartbeatInterval = QGC::groundTimeUsecs() - lastHeartbeat;
     if (!connectionLost && (heartbeatInterval > timeoutIntervalHeartbeat))
     {
         connectionLost = true;
-        QString audiostring = QString("Link lost to system %1").arg(this->getUASID());
+        QString audiostring = QString("Link lost %1").arg(audioSystemName);
         GAudioOutput::instance()->say(audiostring.toLower());
     }
 
@@ -219,7 +223,7 @@ void UAS::updateState()
     // Connection gained
     if (connectionLost && (heartbeatInterval < timeoutIntervalHeartbeat))
     {
-        QString audiostring = QString("Link regained to system %1 after %2 seconds").arg(this->getUASID()).arg((int)(connectionLossTime/1000000));
+        QString audiostring = QString("Link regained %1 after %2 seconds").arg(audioSystemName).arg((int)(connectionLossTime/1000000));
         GAudioOutput::instance()->say(audiostring.toLower());
         connectionLost = false;
         connectionLossTime = 0;
@@ -340,9 +344,13 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
     {
         QString uasState;
         QString stateDescription;
+        QString audioSystemName = "";
 
         bool multiComponentSourceDetected = false;
         bool wrongComponent = false;
+
+        if (UASManager::instance()->getSystemsCount() > 1)
+            audioSystemName = QString("System %1").arg(uasId);
 
         switch (message.compid)
         {
@@ -460,7 +468,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 }
             }
 
-            QString audiostring = QString("System %1").arg(uasId);
+            QString audiostring = audioSystemName;
             QString stateAudio = "";
             QString modeAudio = "";
             QString navModeAudio = "";
@@ -468,7 +476,6 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             bool modechanged = false;
 
             QString audiomodeText = getAudioModeTextFor(static_cast<int>(state.base_mode));
-
 
             if ((state.system_status != this->status) && state.system_status != MAV_STATE_UNINIT)
             {
@@ -497,7 +504,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
                 emit modeChanged(this->getUASID(), shortModeText, "");
 
-                modeAudio = " is now in " + audiomodeText;
+                modeAudio = " now in " + audiomodeText;
             }
 
             if (navMode != state.custom_mode)
@@ -521,7 +528,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             if (statechanged && ((int)state.system_status == (int)MAV_STATE_CRITICAL || state.system_status == (int)MAV_STATE_EMERGENCY))
             {
-                GAudioOutput::instance()->say(QString("emergency for system %1").arg(this->getUASID()));
+                GAudioOutput::instance()->say(QString("emergency condition %1").arg(audioSystemName));
                 QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
             }
             else if (modechanged || statechanged)
@@ -1065,7 +1072,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             mavlink_mission_item_reached_t wpr;
             mavlink_msg_mission_item_reached_decode(&message, &wpr);
             waypointManager.handleWaypointReached(message.sysid, message.compid, &wpr);
-            QString text = QString("System %1 reached waypoint %2").arg(getUASName()).arg(wpr.seq);
+            QString text = QString("%1 reached waypoint %2").arg(audioSystemName).arg(wpr.seq);
             GAudioOutput::instance()->say(text);
             emit textMessageReceived(message.sysid, message.compid, 0, text);
         }
@@ -3184,9 +3191,13 @@ float UAS::getChargeLevel()
 
 void UAS::startLowBattAlarm()
 {
+    QString audioSystemName = "";
+    if (UASManager::instance()->getSystemsCount() > 1)
+        audioSystemName = QString("on System %1").arg(uasId);
+
     if (!lowBattAlarm)
     {
-        GAudioOutput::instance()->alert(tr("system %1 has low battery").arg(getUASName()));
+        GAudioOutput::instance()->alert(tr("Low battery detected %1").arg(audioSystemName));
         QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
         lowBattAlarm = true;
     }

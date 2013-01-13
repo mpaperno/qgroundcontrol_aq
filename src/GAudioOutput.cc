@@ -187,8 +187,8 @@ bool GAudioOutput::say(QString text, int severity)
 
 #ifdef Q_OS_WIN
     //QString text = "Hello World!";
-    qDebug() << "About to say synchrounously" << text << "using voice:" << speech.name().name;
-    speech.say(text);
+    //qDebug() << "About to say synchrounously" << text << "using voice:" << speech.name().name;
+    speech.tell(text);
 #endif
 
 #ifdef Q_OS_LINUX

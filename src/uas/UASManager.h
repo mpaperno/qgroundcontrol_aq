@@ -90,6 +90,11 @@ public:
         return homeFrame;
     }
 
+    /** @brief Get home position altitude */
+    int getSystemsCount() const {
+        return systems.size();
+    }
+
     /** @brief Convert WGS84 coordinates to earth centric frame */
     Eigen::Vector3d wgs84ToEcef(const double & latitude, const double & longitude, const double & altitude);
     /** @brief Convert earth centric frame to EAST-NORTH-UP frame (x-y-z directions */

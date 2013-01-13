@@ -188,19 +188,22 @@ void QtSpeech::tell(QString text) const {
 
 void QtSpeech::tell(QString text, QObject * obj, const char * slot) const
 {
-    if (d->waitingFinish)
-        throw LogicError(Where+"Already waiting to finish speech");
+    if (obj != 0L && slot != 0L)
+    {
+        if (d->waitingFinish)
+            throw LogicError(Where+"Already waiting to finish speech");
 
-    d->onFinishObj = obj;
-    d->onFinishSlot = slot;
-    if (obj && slot)
-        connect(const_cast<QtSpeech *>(this), SIGNAL(finished()), obj, slot);
+        d->onFinishObj = obj;
+        d->onFinishSlot = slot;
+        if (obj && slot)
+            connect(const_cast<QtSpeech *>(this), SIGNAL(finished()), obj, slot);
 
-    d->waitingFinish = true;
-    const_cast<QtSpeech *>(this)->startTimer(100);
+        d->waitingFinish = true;
+        const_cast<QtSpeech *>(this)->startTimer(100);
+    }
 
     Private::WCHAR_Holder w_text(text);
-    SysCall( d->voice->Speak( w_text.w, SPF_ASYNC | SPF_IS_NOT_XML, 0), LogicError);
+    SysCall( d->voice->Speak( w_text.w, SPF_ASYNC | SPF_IS_NOT_XML | SPF_PURGEBEFORESPEAK, 0), LogicError);
 }
 
 void QtSpeech::say(QString text) const
