@@ -11,7 +11,7 @@
 #include "Linecharts.h"
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
-#include "aqlinechartwidget.h"
+#include "aq_telemetryView.h"
 
 #include <QWidget>
 #include <QProcess>
@@ -26,7 +26,7 @@ class QGCAutoquad;
 namespace QGCAUTOQUAD {
     const QString APP_NAME = "AutoQuad Widget";
     const QString APP_ORG = "AutoQuad";
-    const QString APP_VERSION_TXT = "1.1.0 (alpha 1)";
+    const QString APP_VERSION_TXT = "1.1.0 (alpha 3)";
     const int APP_VERSION = 110; // 1.1.0
 }
 
@@ -169,12 +169,6 @@ private slots:
         void gmb_pitch_P14(bool value);
         void gmb_roll_P14(bool value);
 
-        void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values);
-        void getNewTelemetryI(int uasId, mavlink_aq_telemetry_i_t values);
-
-        void teleValuesStart();
-        void teleValuesStop();
-
         void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
         void pushButton_dev1();
 
@@ -200,7 +194,6 @@ private:
         LinkInterface* currLink;
         SerialLink* seriallink;
         void setupPortList();
-        UASInterface* uas;
         QGCAQParamWidget* paramaq;
         int VisibleWidget;
         void loadSettings();
@@ -240,10 +233,10 @@ private:
         bool AlreadyShowMessage;
         void DisableEnableAllPitchGimbal(int selectedIndex, bool value);
         void DisableEnableAllRollGimbal(int selectedIndex, bool value);
-        int msec;
         QGridLayout* linLayoutPlot;
         int devCommand;
         double lat,lon,alt;
+        AQTelemetryView* aqTelemetryView;
 
 protected:
         void showEvent(QShowEvent* event);
@@ -251,7 +244,7 @@ protected:
         void SetupListView();
         IncrementalPlot* plot;
         AQLogParser parser;
-        AQLinechartWidget* AqTeleChart;
+        UASInterface* uas;
 };
 
 #endif // QGCAUTOQUAD_H

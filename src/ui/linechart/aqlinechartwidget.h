@@ -36,11 +36,20 @@ public:
 
     static const int MIN_TIME_SCROLLBAR_VALUE = 0; ///< The minimum scrollbar value
     static const int MAX_TIME_SCROLLBAR_VALUE = 16383; ///< The maximum scrollbar value
-    bool CurveIsActive[100];
+    static const int DEFAULT_CURVE_LIST_WIDTH = 200; // default width of curve listing frame
+    static const int DEFAULT_AVG_WINDOW = 200; // default average window value
+    static const quint64 DEFAULT_PLOT_INTERVAL = 10; // plot interval - time length of X axis
+    static const int UPDATE_INTERVAL = 500; ///< Time between number updates, in milliseconds
+    static const int MAX_CURVE_MENUITEM_NUMBER = 8;
+    static const int PAGESTEP_TIME_SCROLLBAR_VALUE = (MAX_TIME_SCROLLBAR_VALUE - MIN_TIME_SCROLLBAR_VALUE) / 10;
+
+//    bool CurveIsActive[100];
 
 public slots:
     void addCurve(const QString& curve, const QString& unit);
     void removeCurve(QString curve);
+    /** @brief Remove all curves */
+    void clearCurves();
     /** @brief Recolor all curves */
     void recolor();
     /** @brief Set short names for curves */
@@ -67,7 +76,7 @@ public slots:
     void takeButtonClick(bool checked);
     void setPlotWindowPosition(int scrollBarValue);
     void setPlotWindowPosition(quint64 position);
-    void setPlotInterval(quint64 interval);
+    void setPlotInterval(int interval);
     /** @brief Start automatic updates once visible */
     void showEvent(QShowEvent* event);
     /** @brief Stop automatic updates once hidden */
@@ -89,6 +98,11 @@ public slots:
     void readSettings();
     /** @brief Select all curves */
     void selectAllCurves(bool all);
+    /** @brief Set logarithmic plot y-axis scaling */
+    void setLogarithmicScaling();
+    /** @brief Set linear plot y-axis scaling */
+    void setLinearScaling();
+
 
 protected:
     void addCurveToList(QString curve);
@@ -116,11 +130,14 @@ protected:
     QMap<QString, QLabel*>* curveVariances; ///< References to the curve variances
     QMap<QString, int> intData;           ///< Current values for integer-valued curves
     QMap<QString, QWidget*> colorIcons;    ///< Reference to color icons
+    QMap<QString, QCheckBox*> checkBoxes;    ///< Reference to curve selection checkboxes
+    QMap<QString, QString> curveUnits;    ///< Curve units by name
 
     QWidget* curvesWidget;                ///< The QWidget containing the curve selection button
     QGridLayout* curvesWidgetLayout;      ///< The layout for the curvesWidget QWidget
     QScrollBar* scrollbar;                ///< The plot window scroll bar
     QSpinBox* averageSpinBox;             ///< Spin box to setup average window filter size
+    QSpinBox* intervalSpinBox;             ///< Spin box to setup plot interval time
 
     QAction* setScalingLogarithmic;       ///< Set logarithmic scaling
     QAction* setScalingLinear;            ///< Set linear scaling
@@ -142,10 +159,6 @@ protected:
     LogCompressor* compressor;
     QCheckBox* selectAllCheckBox;
     int selectedMAV; ///< The MAV for which plot items are accepted, -1 for all systems
-    static const int updateInterval = 1000; ///< Time between number updates, in milliseconds
-
-    static const int MAX_CURVE_MENUITEM_NUMBER = 8;
-    static const int PAGESTEP_TIME_SCROLLBAR_VALUE = (MAX_TIME_SCROLLBAR_VALUE - MIN_TIME_SCROLLBAR_VALUE) / 10;
 
 private:
     Ui::AQlinechart ui;
