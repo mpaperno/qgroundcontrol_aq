@@ -149,6 +149,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     centerStack = new QStackedWidget(this);
     setCentralWidget(centerStack);
+    centerStack->setMinimumSize(QSize(200,150)); // this allows smoother resizing of docks on small screens
 
     // Load Toolbar
     toolBar = new QGCToolBar(this);

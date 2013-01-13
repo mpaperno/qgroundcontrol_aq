@@ -79,7 +79,16 @@ QPushButton:pressed {
 </string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <property name="spacing">
@@ -100,7 +109,16 @@ QPushButton:pressed {
       <property name="spacing">
        <number>2</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
        <number>4</number>
       </property>
       <item>
@@ -762,7 +780,7 @@ QPushButton:pressed {
         </property>
         <property name="icon">
          <iconset resource="../../qgroundcontrol.qrc">
-          <normaloff>:/images/actions/go-up.svg</normaloff>:/images/actions/go-up.svg</iconset>
+          <normaloff>:/files/images/actions/go-up.svg</normaloff>:/files/images/actions/go-up.svg</iconset>
         </property>
        </widget>
       </item>
@@ -788,7 +806,7 @@ QPushButton:pressed {
         </property>
         <property name="icon">
          <iconset resource="../../qgroundcontrol.qrc">
-          <normaloff>:/images/actions/go-down.svg</normaloff>:/images/actions/go-down.svg</iconset>
+          <normaloff>:/files/images/actions/go-down.svg</normaloff>:/files/images/actions/go-down.svg</iconset>
         </property>
        </widget>
       </item>
@@ -811,7 +829,7 @@ QPushButton:pressed {
         </property>
         <property name="icon">
          <iconset resource="../../qgroundcontrol.qrc">
-          <normaloff>:/images/actions/list-remove.svg</normaloff>:/images/actions/list-remove.svg</iconset>
+          <normaloff>:/files/images/actions/list-remove.svg</normaloff>:/files/images/actions/list-remove.svg</iconset>
         </property>
        </widget>
       </item>
