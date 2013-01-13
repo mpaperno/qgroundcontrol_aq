@@ -54,7 +54,7 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 
 	# Copy AQ files
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/aq_osx
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/../aq_bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq_osx
+        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq_osx
 
 	# Copy google earth starter file
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/images/earth.html $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
@@ -249,7 +249,7 @@ linux-g++|linux-g++-64{
 	DESTDIR = $$TARGETDIR
 	# Copy AQ files
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq_unix
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/../aq_bin/aq_unix_all/* $$TARGETDIR/aq_unix
+        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_unix_all/* $$TARGETDIR/aq_unix
 	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq_unix/*
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/data $$TARGETDIR
@@ -341,7 +341,7 @@ win32-msvc2008|win32-msvc2010 {
 
 	CONFIG(debug, debug|release) {
 		# Copy AQ files
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\..\\aq_bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\debug\\aq_win" /E /I $$escape_expand(\\n))
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\debug\\aq_win" /E /I $$escape_expand(\\n))
 
 		# Copy supporting library DLLs
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN\\debug"$$escape_expand(\\n))
@@ -370,7 +370,7 @@ win32-msvc2008|win32-msvc2010 {
 
 	CONFIG(release, debug|release) {
 		# Copy AQ files
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\..\\aq_bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\release\\aq_win" /E /I $$escape_expand(\\n))
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\release\\aq_win" /E /I $$escape_expand(\\n))
 
 		# Copy supporting library DLLs
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN\\release"$$escape_expand(\\n))
