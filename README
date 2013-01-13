@@ -18,7 +18,7 @@ Linux
 =====
 
 
-To build on Linux:
+To build on Ubuntu Linux (others are similar but might use different installer and package names; you may also need to build the Qt 4.8.4 libraries from source):
 
 sudo apt-get install phonon libqt4-dev \
  libphonon-dev libphonon4 phonon-backend-gstreamer \
@@ -48,23 +48,48 @@ Windows
 =======
 
 GNU GCC / MINGW IS UNTESTED, COULD WORK
-VISUAL STUDIO 2008 / 2010 EXPRESS EDITION IS FREE!
-
-Steps for Visual Studio 2008 / 2010:
+USE QT CREATOR OR VISUAL STUDIO 2008 / 2010 EXPRESS EDITION, BOTH FREE!
 
 Windows XP/7:
 
+Prerequsites:
+
 1) Download and install the Qt 4.8.4 (not 5.x) libraries for Windows from http://qt-project.org/downloads (the Visual Studio 2010 version).
 
-2) Download Qt Creator 2.x, also from http://qt-project.org/downloads .
+2) For voice support, first follow the instructions in libs/QtSpeech/INSTALL.txt.
 
-3) Download and install the Windows 7.1 SDK (Win 8 SDK might possibly work as well).
+3) If you do not have Visual Studio PRO version installed, you also need the ATL MFC developer package.  The simplest way to get this is to download the Windows Driver Kit Version 7.1.0 (http://www.microsoft.com/en-us/download/details.aspx?id=11800).  Mount the ISO and run the installer, then select the Development package.  Install it to the folder of your choice (you can remove it later).  Once installed, find the inc/atl71 folder and copy the contents to \Program Files (x86)\Microsoft Visual Studio 10.0\VC\atlmfc.  Then find the lib/ATL/i386 folder and copy the contents to \Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib.
 
-4) Go to the QGroundControl folder and then to thirdParty/libxbee and build it following the instructions in win32.README
 
-5) Run Qt Creator and open the qgroundcontrol.pro file from this project.
+Option 1: Qt Creator with Microsoft Windows SDK
 
-6) Configure your build settings as appropriate.  You may need to edit the Qt Kits if your Qt 4.8.4 installation is not detected automatically.
+4) Download Qt Creator 2.x, also from http://qt-project.org/downloads .
+
+5) Download and install the Windows 7.1 SDK (http://www.microsoft.com/en-us/download/details.aspx?id=8279) (Win 8 SDK might possibly work as well).
+
+6) Go to the QGroundControl folder and then to thirdParty/libxbee and build it following the instructions in win32.README
+
+7) Run Qt Creator and open the qgroundcontrol.pro file from this project.  Adjust the build directories on the opening screen.
+
+8) Click the Project button on the left and configure your build settings as appropriate.  You may need to edit the Qt Kits if your Qt 4.8.4 installation is not detected automatically.
+
+9) Compile in Qt Cretor using the Build button or CTRL-B
+
+
+Option 2: Visual Studio 2008/2010
+
+4) Download and install Visual Studio 2008 or 2010 Express Edition (free) from https://www.microsoft.com/visualstudio. If using Visual Studio 2010, make sure you are running at least SP1. There is a linking error you'll encounter otherwise that will prevent compilation.
+
+5) Go to the QGroundControl folder and then to thirdParty/libxbee and build it following the instructions in win32.README
+
+6) Open the Qt Command Prompt program (should be in the Start Menu), navigate to the source folder of QGroundControl and create the Visual Studio project by typing:
+
+`qmake -tp vc qgroundcontrol.pro`
+
+7) Now start Visual Studio and load the qgroundcontrol.vcproj if using Visual Studio 2008 or qgroundcontrol.vcxproj if using Visual Studio 2010
+
+8) Compile and edit in Visual Studio. If you need to add new files, add them to qgroundcontrol.pro and re-run `qmake -tp vc qgroundcontrol.pro
+
 
 
 Mac OS X (incomplete)
