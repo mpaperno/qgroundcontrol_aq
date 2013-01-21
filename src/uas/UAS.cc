@@ -2026,69 +2026,42 @@ void UAS::readParametersFromStorage()
 
 void UAS::readParametersFromSDAQ()
 {
-    mavlink_message_t msg;
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 2.0f, 0, 0, 0, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
-    sendMessage(msg);
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 2.0f);
 }
 
 void UAS::readParametersFromStorageAQ()
 {
-    mavlink_message_t msg;
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 0.0f, 0, 0, 0, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
-    sendMessage(msg);
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 0.0f);
 }
 
 void UAS::readWaypointsFromSDAQ()
 {
-    mavlink_message_t msg;
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 4.0f, 0, 0, 0, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
-    sendMessage(msg);
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 4.0f);
 }
 
 void UAS::writeParametersToSDAQ()
 {
-    mavlink_message_t msg;
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 3.0f, 0, 0, 0, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
-    sendMessage(msg);
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 3.0f);
 }
 
 void UAS::writeParametersToStorageAQ()
 {
-    mavlink_message_t msg;
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 1.0f, 0, 0, 0, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
-    sendMessage(msg);
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 1.0f);
 }
 
 void UAS::writeWaypointsToSDAQ()
 {
-    mavlink_message_t msg;
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, MAV_CMD_PREFLIGHT_STORAGE, 1, 5.0f, 0, 0, 0, 0, 0, 0);
-    qDebug() << "SENT COMMAND" << MAV_CMD_PREFLIGHT_STORAGE;
-    sendMessage(msg);
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 5.0f);
 }
 
-
 void UAS::startStopTelemetry(bool enable, float frequenz){
-    mavlink_message_t msg;
-    if ( enable) {
-        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 1, frequenz, 0, 0, 0, 0, 0);
-    }
-    else {
-        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, 2, 1, 0, frequenz, 0, 0, 0, 0, 0);
-    }
-    qDebug() << "SENT COMMAND" << 2;
-    sendMessage(msg);
+    sendCommmandToAq(2, 1, enable, frequenz);
 }
 
 void UAS::sendCommmandToAq(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7){
     mavlink_message_t msg;
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, command, confirm, para1, para2, para3, para4, para5, para6, para7);
-    qDebug() << "SENT COMMAND" << 2;
+    qDebug() << "SENT COMMAND" << command << "para1:" << para1 << "para2:" << para2 << "para3:" << para3 << "para4:" << para4;
     sendMessage(msg);
 }
 
@@ -2924,6 +2897,10 @@ QString UAS::getAudioModeTextFor(int id)
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_GUIDED)
     {
         mode += "guided";
+    }
+    else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_STABILIZE)
+    {
+        mode += "stabilized";
     }
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_MANUAL)
     {

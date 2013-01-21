@@ -287,7 +287,7 @@ public slots:
     virtual void readParametersFromStorageAQ() = 0;
     virtual void readParametersFromSDAQ() = 0;
     virtual void readWaypointsFromSDAQ() = 0;
-    virtual void sendCommmandToAq(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7) = 0;
+    virtual void sendCommmandToAq(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0) = 0;
     /** @brief Set a system parameter
      * @param component ID of the system component to write the parameter to
      * @param id String identifying the parameter
