@@ -26,6 +26,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     uas(NULL),
     paramaq(NULL),
     esc32(NULL),
+    aqFirmwareVersion(0.0),
+    aqFirmwareRevision(0),
     ui(new Ui::QGCAutoquad)
 {
     ui->setupUi(this);
@@ -175,7 +177,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->checkBox_isPitchM14, SIGNAL(clicked(bool)),this, SLOT(gmb_pitch_P14(bool)));
     connect(ui->checkBox_isRollM14, SIGNAL(clicked(bool)),this, SLOT(gmb_roll_P14(bool)));
 
+#ifndef QT_NO_DEBUG
     connect(ui->pushButton_dev1, SIGNAL(clicked()),this, SLOT(pushButton_dev1()));
+#endif
 
     ui->CMB_SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
 
@@ -1226,15 +1230,21 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
     if (uas_ext)
     {
+        if (uas) {
+            disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+            disconnect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
+            disconnect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
+        }
+//        if (paramaq)
+//            disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
+
         uas = uas_ext;
-        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
-        disconnect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
-        disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
+        connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
+        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
         if ( !paramaq ) {
             paramaq = new QGCAQParamWidget(uas, this);
             ui->gridLayout_paramAQ->addWidget(paramaq);
             connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
-            connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
             if ( LastFilePath == "")
                 paramaq->setFilePath(QCoreApplication::applicationDirPath());
             else
@@ -1242,6 +1252,11 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         }
         paramaq->loadParaAQ();
         //getGUIpara();
+
+        // get firmware version of this AQ
+        aqFirmwareVersion = 0;
+        aqFirmwareRevision = 0;
+        uas->sendCommmandToAq(4, 1);
 
         VisibleWidget = 2;
         aqTelemetryView->initChart(uas);
@@ -4062,9 +4077,34 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
     this->alt = alt;
 }
 
-void QGCAutoquad::pushButton_dev1(){
-    QString audiostring = QString("Hello, welcome to AutoQuad");
-    GAudioOutput::instance()->say(audiostring.toLower());
+void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString text) {
+    Q_UNUSED(severity);
+    Q_UNUSED(compid);
+    QRegExp versionRe("^(AutoQuad version: )?(\\d+\\.\\d+).* r(\\d{1,5})\n?$");
+    bool ok;
 
-    //uas->sendCommmandToAq(3,1,(float)900, (float)900, alt,0.0f,0.0f,0.0f,0.0f);
+    // parse version number
+    if (uasId == uas->getUASID() && text.contains(versionRe)) {
+        QStringList vlist = versionRe.capturedTexts();
+//        qDebug() << vlist.at(2) << vlist.at(3);
+        aqFirmwareVersion = vlist.at(2).toFloat(&ok);
+        if (!ok) aqFirmwareVersion = 0.0f;
+        aqFirmwareRevision = vlist.at(3).toInt(&ok);
+        if (!ok) aqFirmwareRevision = 0;
+    }
+}
+
+void QGCAutoquad::pushButton_dev1(){
+//    QString audiostring = QString("Hello, welcome to AutoQuad");
+//    GAudioOutput::instance()->say(audiostring.toLower());
+
+//    uas->sendCommmandToAq(4, 1);
+//    QEventLoop waiter;
+//    connect(uas, SIGNAL(textMessageReceived()), &waiter, SLOT(quit()));
+//    QTimer::singleShot(5000, &waiter, SLOT(quit()));
+    ui->lineEdit_13->setText("");
+    ui->lineEdit_14->setText("");
+    ui->lineEdit_13->setText(QString::number(aqFirmwareVersion));
+    ui->lineEdit_14->setText(QString::number(aqFirmwareRevision));
+//    waiter.exec();
 }

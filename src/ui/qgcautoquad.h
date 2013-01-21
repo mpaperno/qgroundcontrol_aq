@@ -56,6 +56,7 @@ protected slots:
     void setChannelScaled(int channelId, float normalized);
     void setChannelRaw(int channelId, float normalized);
     void getGUIpara();
+    void handleStatusText(int uasId, int compid, int severity, QString text);
 
 private slots:
         void prtstexit(int);
@@ -175,6 +176,8 @@ private slots:
 public:
         QString LogFile;
         QString LastFilePath;
+        float aqFirmwareVersion;
+        int aqFirmwareRevision;
 
 private:
         Ui::QGCAutoquad *ui;
