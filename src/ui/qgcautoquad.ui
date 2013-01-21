@@ -1402,13 +1402,32 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Version from Widget</string>
+             <string>AQ ground control software version</string>
             </property>
             <property name="statusTip">
-             <string>Version from Widget</string>
+             <string>AQ ground control software version</string>
             </property>
             <property name="text">
              <string>AutoQuad Widget Version: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_aq_fw_version">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>AutoQuad firmware version</string>
+            </property>
+            <property name="statusTip">
+             <string>AutoQuad firmware version</string>
+            </property>
+            <property name="text">
+             <string>AutoQuad Firmware Version: [not connected]</string>
             </property>
            </widget>
           </item>

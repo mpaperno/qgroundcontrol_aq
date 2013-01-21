@@ -178,6 +178,7 @@ public:
         QString LastFilePath;
         float aqFirmwareVersion;
         int aqFirmwareRevision;
+        int aqHardwareRevision;
 
 private:
         Ui::QGCAutoquad *ui;

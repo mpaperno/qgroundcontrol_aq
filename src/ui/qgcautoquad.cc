@@ -28,6 +28,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     esc32(NULL),
     aqFirmwareVersion(0.0),
     aqFirmwareRevision(0),
+    aqHardwareRevision(0),
     ui(new Ui::QGCAutoquad)
 {
     ui->setupUi(this);
@@ -1256,6 +1257,8 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         // get firmware version of this AQ
         aqFirmwareVersion = 0;
         aqFirmwareRevision = 0;
+        aqHardwareRevision = 0;
+        ui->lbl_aq_fw_version->setText("Firmware Version: [unknown]");
         uas->sendCommmandToAq(4, 1);
 
         VisibleWidget = 2;
@@ -4080,17 +4083,28 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
 void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString text) {
     Q_UNUSED(severity);
     Q_UNUSED(compid);
-    QRegExp versionRe("^(AutoQuad version: )?(\\d+\\.\\d+).* r(\\d{1,5})\n?$");
+    QRegExp versionRe("^(AutoQuad version: )?(\\d+\\.\\d+)(.*) ? r(\\d{1,5})( hwrev(\\d))?\n?$");
     bool ok;
 
     // parse version number
     if (uasId == uas->getUASID() && text.contains(versionRe)) {
         QStringList vlist = versionRe.capturedTexts();
-//        qDebug() << vlist.at(2) << vlist.at(3);
+//        qDebug() << vlist.at(2) << vlist.at(3) << vlist.at(4) << vlist.at(6);
         aqFirmwareVersion = vlist.at(2).toFloat(&ok);
         if (!ok) aqFirmwareVersion = 0.0f;
-        aqFirmwareRevision = vlist.at(3).toInt(&ok);
+        aqFirmwareRevision = vlist.at(4).toInt(&ok);
         if (!ok) aqFirmwareRevision = 0;
+        if (vlist.length() > 5 && vlist.at(6).length()) {
+            aqHardwareRevision = vlist.at(6).toInt(&ok);
+            if (!ok) aqHardwareRevision = 0;
+        }
+
+        if (aqFirmwareVersion > 0) {
+            QString verStr = QString("Firmware Version: %1%2 r%3").arg(QString::number(aqFirmwareVersion)).arg(vlist.at(3)).arg(QString::number(aqFirmwareRevision));
+            if (aqHardwareRevision > 0)
+                verStr += QString(" for board rev. %1").arg(QString::number(aqHardwareRevision));
+            ui->lbl_aq_fw_version->setText(verStr);
+        }
     }
 }
 
@@ -4106,5 +4120,6 @@ void QGCAutoquad::pushButton_dev1(){
     ui->lineEdit_14->setText("");
     ui->lineEdit_13->setText(QString::number(aqFirmwareVersion));
     ui->lineEdit_14->setText(QString::number(aqFirmwareRevision));
+    ui->lineEdit_15->setText(QString::number(aqHardwareRevision));
 //    waiter.exec();
 }
