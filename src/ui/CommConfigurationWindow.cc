@@ -55,8 +55,9 @@ This file is part of the QGROUNDCONTROL project
 #include "LinkManager.h"
 #include "MainWindow.h"
 
-CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolInterface* protocol, QWidget *parent, Qt::WindowFlags flags) : QWidget(parent, flags)
+CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolInterface* protocol, QWidget *parent) : QWidget(NULL)
 {
+    Q_UNUSED(parent);
     this->link = link;
 
     // Setup the user interface according to link type
