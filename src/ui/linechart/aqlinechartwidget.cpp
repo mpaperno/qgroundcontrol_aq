@@ -166,14 +166,9 @@ void AQLinechartWidget::readSettings()
     settings.beginGroup("AQ_TELEMETRY_VIEW");
     if (settings.contains("SPLITTER_SIZES"))
         ui.splitter->restoreState(settings.value("SPLITTER_SIZES").toByteArray());
-    qDebug() << "resized to" << ui.splitter->sizes();
-//    ui.splitter->layout()->activate();
+//  qDebug() << "resized to" << ui.splitter->sizes();
     if (averageSpinBox) averageSpinBox->setValue(settings.value("AVG_WINDOW", DEFAULT_AVG_WINDOW).toInt());
     if (intervalSpinBox) intervalSpinBox->setValue(settings.value("PLOT_INTERVAL", DEFAULT_PLOT_INTERVAL).toInt());
-//    if (activePlot) {
-//        activePlot->setAverageWindow(averageSpinBox->value());
-//        activePlot->setPlotInterval(intervalSpinBox->value());
-//    }
     settings.endGroup();
 }
 
