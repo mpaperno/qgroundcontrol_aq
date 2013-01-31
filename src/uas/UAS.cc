@@ -395,17 +395,6 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             break;
         }
-        case MAVLINK_MSG_ID_AQ_TELEMETRY_I:{
-            mavlink_aq_telemetry_i_t telemetry_msg;
-            mavlink_msg_aq_telemetry_i_decode(&message, &telemetry_msg);
-            emit TelemetryChangedI(uasId, telemetry_msg);
-
-            //QString errString = tr("getint message %1").arg(telemetry_msg.Index);
-            //emit textMessageReceived(uasId, message.compid, 255, errString);
-
-            break;
-        }
-
 
         case MAVLINK_MSG_ID_HEARTBEAT:
         {
@@ -1134,7 +1123,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             if (hilEnabled)
             {
-                emit hilActuatorsChanged(static_cast<uint64_t>(getUnixTimeFromMs(raw.time_boot_ms)), static_cast<float>(raw.servo1_raw),
+                emit hilActuatorsChanged(static_cast<uint64_t>(getUnixTimeFromMs(raw.time_usec)), static_cast<float>(raw.servo1_raw),
                                      static_cast<float>(raw.servo2_raw), static_cast<float>(raw.servo3_raw),
                                      static_cast<float>(raw.servo4_raw), static_cast<float>(raw.servo5_raw), static_cast<float>(raw.servo6_raw),
                                      static_cast<float>(raw.servo7_raw), static_cast<float>(raw.servo8_raw));

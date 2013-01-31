@@ -436,7 +436,6 @@ signals:
       * @param msec the timestamp of the message, in milliseconds
       */
     void TelemetryChangedF(const int uasId, mavlink_aq_telemetry_f_t values);
-    void TelemetryChangedI(const int uasId, mavlink_aq_telemetry_i_t values);
     void valueChanged(const int uasId, const QString& name, const QString& unit, const quint8 value, const quint64 msec);
     void valueChanged(const int uasId, const QString& name, const QString& unit, const qint8 value, const quint64 msec);
     void valueChanged(const int uasId, const QString& name, const QString& unit, const quint16 value, const quint64 msec);

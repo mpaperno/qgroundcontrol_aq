@@ -78,8 +78,20 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDataFields.append(telemFieldsMeta("RADIO_ROLL", unit, 4, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("RADIO_FLAPS", unit, 5, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("RADIO_AUX2", unit, 6, msgidx, dset));
-    telemDataFields.append(telemFieldsMeta("RADIO_AUX3", unit, 7, msgidx, dset));
-//    telemDataFields.append(telemFieldsMeta("RADIO_AUX4", unit, validx++, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR1", unit, 7, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR2", unit, 8, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR3", unit, 9, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR4", unit, 10, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR5", unit, 11, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR6", unit, 12, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR7", unit, 13, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR8", unit, 14, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR9", unit, 15, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR10", unit, 16, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR11", unit, 17, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR12", unit, 18, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR13", unit, 19, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("MOTOR14", unit, 20, msgidx, dset));
 
     // save size of this data set
     totalDatasetFields[dset] = telemDataFields.size();
@@ -177,64 +189,64 @@ float AQTelemetryView::getTelemValue(const int idx) {
     float ret = 0.0f, x, y, z;
     switch(idx) {
     case 1 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value1 : (float)currentValuesI->value1;
+        ret = currentValuesF->value1;
         break;
     case 2 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value2 : (float)currentValuesI->value2;
+        ret = currentValuesF->value2;
         break;
     case 3 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value3 : (float)currentValuesI->value3;
+        ret = currentValuesF->value3;
         break;
     case 4 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value4 : (float)currentValuesI->value4;
+        ret = currentValuesF->value4;
         break;
     case 5 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value5 : (float)currentValuesI->value5;
+        ret = currentValuesF->value5;
         break;
     case 6 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value6 : (float)currentValuesI->value6;
+        ret = currentValuesF->value6;
         break;
     case 7 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value7 : (float)currentValuesI->value7;
+        ret = currentValuesF->value7;
         break;
     case 8 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value8 : (float)currentValuesI->value8;
+        ret = currentValuesF->value8;
         break;
     case 9 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value9 : (float)currentValuesI->value9;
+        ret = currentValuesF->value9;
         break;
     case 10 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value10 : (float)currentValuesI->value10;
+        ret = currentValuesF->value10;
         break;
     case 11 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value11 : (float)currentValuesI->value11;
+        ret = currentValuesF->value11;
         break;
     case 12 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value12 : (float)currentValuesI->value12;
+        ret = currentValuesF->value12;
         break;
     case 13 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value13 : (float)currentValuesI->value13;
+        ret = currentValuesF->value13;
         break;
     case 14 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value14 : (float)currentValuesI->value14;
+        ret = currentValuesF->value14;
         break;
     case 15 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value15 : (float)currentValuesI->value15;
+        ret = currentValuesF->value15;
         break;
     case 16 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value16 : (float)currentValuesI->value16;
+        ret = currentValuesF->value16;
         break;
     case 17 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value17 : (float)currentValuesI->value17;
+        ret = currentValuesF->value17;
         break;
     case 18 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value18 : (float)currentValuesI->value18;
+        ret = currentValuesF->value18;
         break;
     case 19 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value19 : (float)currentValuesI->value19;
+        ret = currentValuesF->value19;
         break;
     case 20 :
-        ret = currentValueType == TELEM_VALUETYPE_FLOAT ? currentValuesF->value20 : (float)currentValuesI->value20;
+        ret = currentValuesF->value20;
         break;
 
     // values > 100 don't come from the mavlink messages (they're calculated, or whatever)
@@ -260,7 +272,6 @@ void AQTelemetryView::teleValuesStart(){
     if (!uas) return;
 
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
-    connect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
 
     float freq = 40000;
     if ( ui->Frequenz_Telemetry->currentIndex() == 0)
@@ -279,7 +290,6 @@ void AQTelemetryView::teleValuesStop() {
     if (!uas)
         return;
     disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
-    disconnect(uas, SIGNAL(TelemetryChangedI(int,mavlink_aq_telemetry_i_t)), this, SLOT(getNewTelemetryI(int,mavlink_aq_telemetry_i_t)));
     uas->startStopTelemetry(false,0.0f);
 }
 
@@ -332,14 +342,6 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
 void AQTelemetryView::getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values){
     currentValuesF = &values;
     currentValueType = TELEM_VALUETYPE_FLOAT;
-
-    getNewTelemetry(uasId, values.Index);
-}
-
-void AQTelemetryView::getNewTelemetryI(int uasId, mavlink_aq_telemetry_i_t values){
-
-    currentValueType = TELEM_VALUETYPE_INT;
-    currentValuesI = &values;
 
     getNewTelemetry(uasId, values.Index);
 }
