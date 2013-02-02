@@ -343,6 +343,11 @@ win32-msvc2008|win32-msvc2010 {
 		# Copy AQ files
                 QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\debug\\aq_win" /E /I $$escape_expand(\\n))
 
+                # Copy VLC files
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\plugins\\*"  "$$TARGETDIR_WIN\\debug\\plugins" /E /I $$escape_expand(\\n))
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlccore.dll" "$$TARGETDIR_WIN\\debug"$$escape_expand(\\n))
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlc.dll" "$$TARGETDIR_WIN\\debug"$$escape_expand(\\n))
+
 		# Copy supporting library DLLs
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN\\debug"$$escape_expand(\\n))
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\mavlink" "$$TARGETDIR_WIN\\debug\\mavlink" /E /I $$escape_expand(\\n))
@@ -371,6 +376,11 @@ win32-msvc2008|win32-msvc2010 {
 	CONFIG(release, debug|release) {
 		# Copy AQ files
                 QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\release\\aq_win" /E /I $$escape_expand(\\n))
+
+                # Copy VLC files
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\plugins\\*"  "$$TARGETDIR_WIN\\release\\plugins" /E /I $$escape_expand(\\n))
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlccore.dll" "$$TARGETDIR_WIN\\release"$$escape_expand(\\n))
+                QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlc.dll" "$$TARGETDIR_WIN\\release"$$escape_expand(\\n))
 
 		# Copy supporting library DLLs
 		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN\\release"$$escape_expand(\\n))
