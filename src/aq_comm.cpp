@@ -138,310 +138,337 @@ int AQLogParser::loggerReadHeader(FILE *fp)
 QString AQLogParser::GetChannelsName(uint8_t fieldId)
 {
     switch (fieldId) {
-        case LOG_LASTUPDATE:
-            return "LOG_LASTUPDATE";
+    case LOG_LASTUPDATE:
+        return "LOG_LASTUPDATE";
         break;
-        case LOG_VOLTAGE0:
-            return "LOG_VOLTAGE0";
+    case LOG_VOLTAGE0:
+        return "LOG_VOLTAGE0";
         break;
-        case LOG_VOLTAGE1:
-            return "LOG_VOLTAGE1";
+    case LOG_VOLTAGE1:
+        return "LOG_VOLTAGE1";
         break;
-        case LOG_VOLTAGE2:
-            return "LOG_VOLTAGE2";
+    case LOG_VOLTAGE2:
+        return "LOG_VOLTAGE2";
         break;
-        case LOG_VOLTAGE3:
-            return "LOG_VOLTAGE3";
+    case LOG_VOLTAGE3:
+        return "LOG_VOLTAGE3";
         break;
-        case LOG_VOLTAGE4:
-            return "LOG_VOLTAGE4";
+    case LOG_VOLTAGE4:
+        return "LOG_VOLTAGE4";
         break;
-        case LOG_VOLTAGE5:
-            return "LOG_VOLTAGE5";
+    case LOG_VOLTAGE5:
+        return "LOG_VOLTAGE5";
         break;
-        case LOG_VOLTAGE6:
-            return "LOG_VOLTAGE6";
+    case LOG_VOLTAGE6:
+        return "LOG_VOLTAGE6";
         break;
-        case LOG_VOLTAGE7:
-            return "LOG_VOLTAGE7";
+    case LOG_VOLTAGE7:
+        return "LOG_VOLTAGE7";
         break;
-        case LOG_VOLTAGE8:
-            return "LOG_VOLTAGE8";
+    case LOG_VOLTAGE8:
+        return "LOG_VOLTAGE8";
         break;
-        case LOG_VOLTAGE9:
-            return "LOG_VOLTAGE9";
+    case LOG_VOLTAGE9:
+        return "LOG_VOLTAGE9";
         break;
-        case LOG_VOLTAGE10:
-            return "LOG_VOLTAGE10";
+    case LOG_VOLTAGE10:
+        return "LOG_VOLTAGE10";
         break;
-        case LOG_VOLTAGE11:
-            return "LOG_VOLTAGE11";
+    case LOG_VOLTAGE11:
+        return "LOG_VOLTAGE11";
         break;
-        case LOG_VOLTAGE12:
-            return "LOG_VOLTAGE12";
+    case LOG_VOLTAGE12:
+        return "LOG_VOLTAGE12";
         break;
-        case LOG_VOLTAGE13:
-            return "LOG_VOLTAGE13";
+    case LOG_VOLTAGE13:
+        return "LOG_VOLTAGE13";
         break;
-        case LOG_VOLTAGE14:
-            return "LOG_VOLTAGE14";
+    case LOG_VOLTAGE14:
+        return "LOG_VOLTAGE14";
         break;
-        case LOG_IMU_RATEX:
-            return "LOG_IMU_RATEX";
+    case LOG_IMU_RATEX:
+        return "LOG_IMU_RATEX";
         break;
-        case LOG_IMU_RATEY:
-            return "LOG_IMU_RATEY";
+    case LOG_IMU_RATEY:
+        return "LOG_IMU_RATEY";
         break;
-        case LOG_IMU_RATEZ:
-            return "LOG_IMU_RATEZ";
+    case LOG_IMU_RATEZ:
+        return "LOG_IMU_RATEZ";
         break;
-        case LOG_IMU_ACCX:
-            return "LOG_IMU_ACCX";
+    case LOG_IMU_ACCX:
+        return "LOG_IMU_ACCX";
         break;
-        case LOG_IMU_ACCY:
-            return "LOG_IMU_ACCY";
+    case LOG_IMU_ACCY:
+        return "LOG_IMU_ACCY";
         break;
-        case LOG_IMU_ACCZ:
-            return "LOG_IMU_ACCZ";
+    case LOG_IMU_ACCZ:
+        return "LOG_IMU_ACCZ";
         break;
-        case LOG_IMU_MAGX:
-            return "LOG_IMU_MAGX";
+    case LOG_IMU_MAGX:
+        return "LOG_IMU_MAGX";
         break;
-        case LOG_IMU_MAGY:
-            return "LOG_IMU_MAGY";
+    case LOG_IMU_MAGY:
+        return "LOG_IMU_MAGY";
         break;
-        case LOG_IMU_MAGZ:
-            return "LOG_IMU_MAGZ";
+    case LOG_IMU_MAGZ:
+        return "LOG_IMU_MAGZ";
         break;
-        case LOG_GPS_PDOP:
-            return "LOG_GPS_PDOP";
+    case LOG_GPS_PDOP:
+        return "LOG_GPS_PDOP";
         break;
-        case LOG_GPS_HDOP:
-            return "LOG_GPS_HDOP";
+    case LOG_GPS_HDOP:
+        return "LOG_GPS_HDOP";
         break;
-        case LOG_GPS_VDOP:
-            return "LOG_GPS_VDOP";
+    case LOG_GPS_VDOP:
+        return "LOG_GPS_VDOP";
         break;
-        case LOG_GPS_TDOP:
-            return "LOG_GPS_TDOP";
+    case LOG_GPS_TDOP:
+        return "LOG_GPS_TDOP";
         break;
-        case LOG_GPS_NDOP:
-            return "LOG_GPS_NDOP";
+    case LOG_GPS_NDOP:
+        return "LOG_GPS_NDOP";
         break;
-        case LOG_GPS_EDOP:
-            return "LOG_GPS_EDOP";
+    case LOG_GPS_EDOP:
+        return "LOG_GPS_EDOP";
         break;
-        case LOG_GPS_ITOW:
-            return "LOG_GPS_ITOW";
+    case LOG_GPS_ITOW:
+        return "LOG_GPS_ITOW";
         break;
-        case LOG_GPS_POS_UPDATE:
-            return "LOG_GPS_POS_UPDATE";
+    case LOG_GPS_POS_UPDATE:
+        return "LOG_GPS_POS_UPDATE";
         break;
-        case LOG_GPS_LAT:
-            return "LOG_GPS_LAT";
+    case LOG_GPS_LAT:
+        return "LOG_GPS_LAT";
         break;
-        case LOG_GPS_LON:
-            return "LOG_GPS_LON";
+    case LOG_GPS_LON:
+        return "LOG_GPS_LON";
         break;
-        case LOG_GPS_HEIGHT:
-            return "LOG_GPS_HEIGHT";
+    case LOG_GPS_HEIGHT:
+        return "LOG_GPS_HEIGHT";
         break;
-        case LOG_GPS_HACC:
-            return "LOG_GPS_HACC";
+    case LOG_GPS_HACC:
+        return "LOG_GPS_HACC";
         break;
-        case LOG_GPS_VACC:
-            return "LOG_GPS_VACC";
+    case LOG_GPS_VACC:
+        return "LOG_GPS_VACC";
         break;
-        case LOG_GPS_VEL_UPDATE:
-            return "LOG_GPS_VEL_UPDATE";
+    case LOG_GPS_VEL_UPDATE:
+        return "LOG_GPS_VEL_UPDATE";
         break;
-        case LOG_GPS_VELN:
-            return "LOG_GPS_VELN";
+    case LOG_GPS_VELN:
+        return "LOG_GPS_VELN";
         break;
-        case LOG_GPS_VELE:
-            return "LOG_GPS_VELE";
+    case LOG_GPS_VELE:
+        return "LOG_GPS_VELE";
         break;
-        case LOG_GPS_VELD:
-            return "LOG_GPS_VELD";
+    case LOG_GPS_VELD:
+        return "LOG_GPS_VELD";
         break;
-        case LOG_GPS_SACC:
-            return "LOG_GPS_SACC";
+    case LOG_GPS_SACC:
+        return "LOG_GPS_SACC";
         break;
 
-        case LOG_ADC_PRESSURE1:
-                return "LOG_ADC_PRESSURE1";
-            break;
-        case LOG_ADC_PRESSURE2:
-                return "LOG_ADC_PRESSURE2";
-            break;
-        case LOG_ADC_TEMP0:
-                return "LOG_ADC_TEMP0";
-            break;
-        case LOG_ADC_TEMP1:
-                return "LOG_ADC_TEMP1";
-            break;
-        case LOG_ADC_TEMP2:
-                return "LOG_ADC_TEMP2";
-            break;
-        case LOG_ADC_VIN:
-                return "LOG_ADC_VIN";
-            break;
-        case LOG_ADC_MAG_SIGN:
-                return "LOG_ADC_MAG_SIGN";
-            break;
-        case LOG_UKF_Q1:
-                return "LOG_UKF_Q1";
-            break;
-        case LOG_UKF_Q2:
-                return "LOG_UKF_Q2";
-            break;
-        case LOG_UKF_Q3:
-                return "LOG_UKF_Q3";
-            break;
-        case LOG_UKF_Q4:
-                return "LOG_UKF_Q4";
-            break;
-        case LOG_UKF_POSN:
-                return "LOG_UKF_POSN";
-            break;
-        case LOG_UKF_POSE:
-                return "LOG_UKF_POSE";
-            break;
-        case LOG_UKF_POSD:
-                return "LOG_UKF_POSD";
-            break;
-        case LOG_UKF_PRES_ALT:
-                return "LOG_UKF_PRES_ALT";
-            break;
-        case LOG_UKF_ALT:
-                return "LOG_UKF_ALT";
-            break;
-        case LOG_UKF_VELN:
-                return "LOG_UKF_VELN";
-            break;
-        case LOG_UKF_VELE:
-                return "LOG_UKF_VELE";
-            break;
-        case LOG_UKF_VELD:
-                return "LOG_UKF_VELD";
-            break;
-        case LOG_MOT_MOTOR0:
-                return "LOG_MOT_MOTOR0";
-            break;
-        case LOG_MOT_MOTOR1:
-                return "LOG_MOT_MOTOR1";
-            break;
-        case LOG_MOT_MOTOR2:
-                return "LOG_MOT_MOTOR2";
-            break;
-        case LOG_MOT_MOTOR3:
-                return "LOG_MOT_MOTOR3";
-            break;
-        case LOG_MOT_MOTOR4:
-                return "LOG_MOT_MOTOR4";
-            break;
-        case LOG_MOT_MOTOR5:
-                return "LOG_MOT_MOTOR5";
-            break;
-        case LOG_MOT_MOTOR6:
-                return "LOG_MOT_MOTOR6";
-            break;
-        case LOG_MOT_MOTOR7:
-                return "LOG_MOT_MOTOR7";
-            break;
-        case LOG_MOT_MOTOR8:
-                return "LOG_MOT_MOTOR8";
-            break;
-        case LOG_MOT_MOTOR9:
-                return "LOG_MOT_MOTOR9";
-            break;
-        case LOG_MOT_MOTOR10:
-                return "LOG_MOT_MOTOR10";
-            break;
-        case LOG_MOT_MOTOR11:
-                return "LOG_MOT_MOTOR11";
-            break;
-        case LOG_MOT_MOTOR12:
-                return "LOG_MOT_MOTOR12";
-            break;
-        case LOG_MOT_MOTOR13:
-                return "LOG_MOT_MOTOR13";
-            break;
+    case LOG_ADC_PRESSURE1:
+        return "LOG_ADC_PRESSURE1";
+        break;
+    case LOG_ADC_PRESSURE2:
+        return "LOG_ADC_PRESSURE2";
+        break;
+    case LOG_ADC_TEMP0:
+        return "LOG_ADC_TEMP0";
+        break;
+    case LOG_ADC_TEMP1:
+        return "LOG_ADC_TEMP1";
+        break;
+    case LOG_ADC_TEMP2:
+        return "LOG_ADC_TEMP2";
+        break;
+    case LOG_ADC_VIN:
+        return "LOG_ADC_VIN";
+        break;
+    case LOG_ADC_MAG_SIGN:
+        return "LOG_ADC_MAG_SIGN";
+        break;
+    case LOG_UKF_Q1:
+        return "LOG_UKF_Q1";
+        break;
+    case LOG_UKF_Q2:
+        return "LOG_UKF_Q2";
+        break;
+    case LOG_UKF_Q3:
+        return "LOG_UKF_Q3";
+        break;
+    case LOG_UKF_Q4:
+        return "LOG_UKF_Q4";
+        break;
+    case LOG_UKF_POSN:
+        return "LOG_UKF_POSN";
+        break;
+    case LOG_UKF_POSE:
+        return "LOG_UKF_POSE";
+        break;
+    case LOG_UKF_POSD:
+        return "LOG_UKF_POSD";
+        break;
+    case LOG_UKF_PRES_ALT:
+        return "LOG_UKF_PRES_ALT";
+        break;
+    case LOG_UKF_ALT:
+        return "LOG_UKF_ALT";
+        break;
+    case LOG_UKF_VELN:
+        return "LOG_UKF_VELN";
+        break;
+    case LOG_UKF_VELE:
+        return "LOG_UKF_VELE";
+        break;
+    case LOG_UKF_VELD:
+        return "LOG_UKF_VELD";
+        break;
+    case LOG_MOT_MOTOR0:
+        return "LOG_MOT_MOTOR0";
+        break;
+    case LOG_MOT_MOTOR1:
+        return "LOG_MOT_MOTOR1";
+        break;
+    case LOG_MOT_MOTOR2:
+        return "LOG_MOT_MOTOR2";
+        break;
+    case LOG_MOT_MOTOR3:
+        return "LOG_MOT_MOTOR3";
+        break;
+    case LOG_MOT_MOTOR4:
+        return "LOG_MOT_MOTOR4";
+        break;
+    case LOG_MOT_MOTOR5:
+        return "LOG_MOT_MOTOR5";
+        break;
+    case LOG_MOT_MOTOR6:
+        return "LOG_MOT_MOTOR6";
+        break;
+    case LOG_MOT_MOTOR7:
+        return "LOG_MOT_MOTOR7";
+        break;
+    case LOG_MOT_MOTOR8:
+        return "LOG_MOT_MOTOR8";
+        break;
+    case LOG_MOT_MOTOR9:
+        return "LOG_MOT_MOTOR9";
+        break;
+    case LOG_MOT_MOTOR10:
+        return "LOG_MOT_MOTOR10";
+        break;
+    case LOG_MOT_MOTOR11:
+        return "LOG_MOT_MOTOR11";
+        break;
+    case LOG_MOT_MOTOR12:
+        return "LOG_MOT_MOTOR12";
+        break;
+    case LOG_MOT_MOTOR13:
+        return "LOG_MOT_MOTOR13";
+        break;
 
-        case LOG_MOT_THROTTLE:
-                return "LOG_MOT_THROTTLE";
-            break;
-        case LOG_MOT_PITCH:
-                return "LOG_MOT_PITCH";
-            break;
-        case LOG_MOT_ROLL:
-                return "LOG_MOT_ROLL";
-            break;
-        case LOG_MOT_YAW:
-                return "LOG_MOT_YAW";
-            break;
-        case LOG_RADIO_QUALITY:
-                return "LOG_RADIO_QUALITY";
-            break;
-        case LOG_RADIO_CHANNEL0:
-                return "LOG_RADIO_CHANNEL0";
-            break;
-        case LOG_RADIO_CHANNEL1:
-                return "LOG_RADIO_CHANNEL1";
-            break;
-        case LOG_RADIO_CHANNEL2:
-                return "LOG_RADIO_CHANNEL2";
-            break;
-        case LOG_RADIO_CHANNEL3:
-                return "LOG_RADIO_CHANNEL3";
-            break;
-        case LOG_RADIO_CHANNEL4:
-                return "LOG_RADIO_CHANNEL4";
-            break;
-        case LOG_RADIO_CHANNEL5:
-                return "LOG_RADIO_CHANNEL5";
-            break;
-        case LOG_RADIO_CHANNEL6:
-                return "LOG_RADIO_CHANNEL6";
-            break;
-        case LOG_RADIO_CHANNEL7:
-                return "LOG_RADIO_CHANNEL7";
-            break;
-        case LOG_RADIO_CHANNEL8:
-                return "LOG_RADIO_CHANNEL8";
-            break;
-        case LOG_RADIO_CHANNEL9:
-                return "LOG_RADIO_CHANNEL9";
-            break;
-        case LOG_RADIO_CHANNEL10:
-                return "LOG_RADIO_CHANNEL10";
-            break;
-        case LOG_RADIO_CHANNEL11:
-                return "LOG_RADIO_CHANNEL11";
-            break;
-        case LOG_RADIO_CHANNEL12:
-                return "LOG_RADIO_CHANNEL12";
-            break;
-        case LOG_RADIO_CHANNEL13:
-                return "LOG_RADIO_CHANNEL13";
-            break;
-        case LOG_RADIO_CHANNEL14:
-                return "LOG_RADIO_CHANNEL14";
-            break;
-        case LOG_RADIO_CHANNEL15:
-                return "LOG_RADIO_CHANNEL15";
-            break;
-        case LOG_RADIO_CHANNEL16:
-                return "LOG_RADIO_CHANNEL16";
-            break;
-        case LOG_RADIO_CHANNEL17:
-                return "LOG_RADIO_CHANNEL17";
-            break;
-        case LOG_NUM_IDS:
-                return "LOG_NUM_IDS";
-            break;
-        default:
-            return "Not connected" + QString::number(fieldId);
+    case LOG_MOT_THROTTLE:
+        return "LOG_MOT_THROTTLE";
+        break;
+    case LOG_MOT_PITCH:
+        return "LOG_MOT_PITCH";
+        break;
+    case LOG_MOT_ROLL:
+        return "LOG_MOT_ROLL";
+        break;
+    case LOG_MOT_YAW:
+        return "LOG_MOT_YAW";
+        break;
+    case LOG_RADIO_QUALITY:
+        return "LOG_RADIO_QUALITY";
+        break;
+    case LOG_RADIO_CHANNEL0:
+        return "LOG_RADIO_CHANNEL0";
+        break;
+    case LOG_RADIO_CHANNEL1:
+        return "LOG_RADIO_CHANNEL1";
+        break;
+    case LOG_RADIO_CHANNEL2:
+        return "LOG_RADIO_CHANNEL2";
+        break;
+    case LOG_RADIO_CHANNEL3:
+        return "LOG_RADIO_CHANNEL3";
+        break;
+    case LOG_RADIO_CHANNEL4:
+        return "LOG_RADIO_CHANNEL4";
+        break;
+    case LOG_RADIO_CHANNEL5:
+        return "LOG_RADIO_CHANNEL5";
+        break;
+    case LOG_RADIO_CHANNEL6:
+        return "LOG_RADIO_CHANNEL6";
+        break;
+    case LOG_RADIO_CHANNEL7:
+        return "LOG_RADIO_CHANNEL7";
+        break;
+    case LOG_RADIO_CHANNEL8:
+        return "LOG_RADIO_CHANNEL8";
+        break;
+    case LOG_RADIO_CHANNEL9:
+        return "LOG_RADIO_CHANNEL9";
+        break;
+    case LOG_RADIO_CHANNEL10:
+        return "LOG_RADIO_CHANNEL10";
+        break;
+    case LOG_RADIO_CHANNEL11:
+        return "LOG_RADIO_CHANNEL11";
+        break;
+    case LOG_RADIO_CHANNEL12:
+        return "LOG_RADIO_CHANNEL12";
+        break;
+    case LOG_RADIO_CHANNEL13:
+        return "LOG_RADIO_CHANNEL13";
+        break;
+    case LOG_RADIO_CHANNEL14:
+        return "LOG_RADIO_CHANNEL14";
+        break;
+    case LOG_RADIO_CHANNEL15:
+        return "LOG_RADIO_CHANNEL15";
+        break;
+    case LOG_RADIO_CHANNEL16:
+        return "LOG_RADIO_CHANNEL16";
+        break;
+    case LOG_RADIO_CHANNEL17:
+        return "LOG_RADIO_CHANNEL17";
+        break;
+    case LOG_STACK_FREE_INIT:
+        return "LOG_STACK_FREE_INIT";
+        break;
+    case LOG_STACK_FREE_FILER:
+        return "LOG_STACK_FREE_FILER";
+        break;
+    case LOG_STACK_FREE_SUPERVISOR:
+        return "LOG_STACK_FREE_SUPERVISOR";
+        break;
+    case LOG_STACK_FREE_MAVLINK:
+        return "LOG_STACK_FREE_MAVLINK";
+        break;
+    case LOG_STACK_FREE_ADC:
+        return "LOG_STACK_FREE_ADC";
+        break;
+    case LOG_STACK_FREE_RADIO:
+        return "LOG_STACK_FREE_RADIO";
+        break;
+    case LOG_STACK_FREE_CONTROL:
+        return "LOG_STACK_FREE_CONTROL";
+        break;
+    case LOG_STACK_FREE_GPS:
+        return "LOG_STACK_FREE_GPS";
+        break;
+    case LOG_STACK_FREE_RUN:
+        return "LOG_STACK_FREE_RUN";
+        break;
+    case LOG_NUM_IDS:
+        return "LOG_NUM_IDS";
+        break;
+    default:
+        return "Not connected" + QString::number(fieldId);
         break;
 
     }
@@ -759,6 +786,33 @@ void AQLogParser::GenerateChannelsCurve(bool isOld) {
                         break;
                     case LOG_RADIO_CHANNEL17:
                         yValues.insert("LOG_RADIO_CHANNEL17", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_INIT:
+                        yValues.insert("LOG_STACK_FREE_INIT", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_FILER:
+                        yValues.insert("LOG_STACK_FREE_FILER", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_SUPERVISOR:
+                        yValues.insert("LOG_STACK_FREE_SUPERVISOR", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_MAVLINK:
+                        yValues.insert("LOG_STACK_FREE_MAVLINK", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_ADC:
+                        yValues.insert("LOG_STACK_FREE_ADC", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_RADIO:
+                        yValues.insert("LOG_STACK_FREE_RADIO", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_CONTROL:
+                        yValues.insert("LOG_STACK_FREE_CONTROL", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_GPS:
+                        yValues.insert("LOG_STACK_FREE_GPS", new QVector<double>());
+                        break;
+                    case LOG_STACK_FREE_RUN:
+                        yValues.insert("LOG_STACK_FREE_RUN", new QVector<double>());
                         break;
                     case LOG_NUM_IDS:
                         yValues.insert("LOG_NUM_IDS", new QVector<double>());
