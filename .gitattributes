@@ -1,0 +1,31 @@
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files we want to always be normalized and converted 
+# to native line endings on checkout.
+*.c 	text
+*.cpp 	text
+*.h 	text
+*.ui 	text
+*.xml 	text
+*.py 	text
+*.md 	text
+*.pro 	text
+*.pri 	text
+*.prf 	text
+*.qrc 	text
+
+# Force LF
+*.sh	eol=lf
+
+# Binary files
+*.bmp	binary
+*.png	binary
+*.jpg	binary
+*.gif	binary
+*.exe	binary
+*.dll	binary
+*.a		binary
+*.la	binary
+*.exp	binary
+*.pdf	binary
