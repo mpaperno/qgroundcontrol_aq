@@ -179,6 +179,7 @@ public:
         float aqFirmwareVersion;
         int aqFirmwareRevision;
         int aqHardwareRevision;
+        int aqBuildNumber;
 
 private:
         Ui::QGCAutoquad *ui;

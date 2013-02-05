@@ -4083,26 +4083,33 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
 void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString text) {
     Q_UNUSED(severity);
     Q_UNUSED(compid);
-    QRegExp versionRe("^(AutoQuad version: )?(\\d+\\.\\d+)(.*) ? r(\\d{1,5})( hwrev(\\d))?\n?$");
+    QRegExp versionRe("^(?:AutoQuad.*: )?(\\d+\\.\\d+)(.*) r(\\d{1,5})(?: b(\\d+))?(?: hwrev(\\d))?\n?$");
     bool ok;
 
     // parse version number
     if (uasId == uas->getUASID() && text.contains(versionRe)) {
         QStringList vlist = versionRe.capturedTexts();
-//        qDebug() << vlist.at(2) << vlist.at(3) << vlist.at(4) << vlist.at(6);
-        aqFirmwareVersion = vlist.at(2).toFloat(&ok);
+//        qDebug() << vlist.at(1) << vlist.at(2) << vlist.at(3) << vlist.at(4) << vlist.at(5);
+        aqFirmwareVersion = vlist.at(1).toFloat(&ok);
         if (!ok) aqFirmwareVersion = 0.0f;
-        aqFirmwareRevision = vlist.at(4).toInt(&ok);
+        aqFirmwareRevision = vlist.at(3).toInt(&ok);
         if (!ok) aqFirmwareRevision = 0;
-        if (vlist.length() > 5 && vlist.at(6).length()) {
-            aqHardwareRevision = vlist.at(6).toInt(&ok);
+        if (vlist.at(4).length()) {
+            aqBuildNumber = vlist.at(4).toInt(&ok);
+            if (!ok) aqBuildNumber = 0;
+        }
+        if (vlist.at(5).length()) {
+            aqHardwareRevision = vlist.at(5).toInt(&ok);
             if (!ok) aqHardwareRevision = 0;
         }
 
         if (aqFirmwareVersion > 0) {
-            QString verStr = QString("Firmware Version: %1%2 r%3").arg(QString::number(aqFirmwareVersion)).arg(vlist.at(3)).arg(QString::number(aqFirmwareRevision));
+            QString verStr = QString("Firmware Version: %1 r%3").arg(QString::number(aqFirmwareVersion)).arg(QString::number(aqFirmwareRevision));
+            if (aqBuildNumber > 0)
+                verStr += QString(" build %1").arg(QString::number(aqBuildNumber));
             if (aqHardwareRevision > 0)
-                verStr += QString(" for board rev. %1").arg(QString::number(aqHardwareRevision));
+                verStr += QString(" hw. rev. %1").arg(QString::number(aqHardwareRevision));
+
             ui->lbl_aq_fw_version->setText(verStr);
         }
     }
