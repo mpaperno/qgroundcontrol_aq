@@ -1,0 +1,45 @@
+#define SIM_VARIANCE		1e-6
+#define SIM_QUAT_Q		+0.5027311405	//  0.0000999934 -0.0000487060
+#define SIM_GYO_BIAS_Q		+0.0003112643	//  0.0000999988 -0.0000000157
+#define SIM_GYO_BIAS_V		+0.0000013485	//  0.0000999598 -0.0000000001
+#define SIM_RATE_V		+0.0009609014	//  0.0000992330 -0.0000003207
+#define SIM_ACC_N		+0.0016357025	//  0.0000988572 +0.0000005226
+//#define SIM_MAG_N		+0.0015434884	//  0.0000101632 -0.0000010830
+
+#define IMU_MAG_BIAS_X          +0.001
+#define IMU_MAG_BIAS_Y          +0.001
+#define IMU_MAG_BIAS_Z          +0.001
+#define IMU_MAG_SCAL_X          +1.0
+#define IMU_MAG_SCAL_Y          +1.0
+#define IMU_MAG_SCAL_Z          +1.0
+#define IMU_MAG_ALGN_XY         +0.001
+#define IMU_MAG_ALGN_XZ         +0.001
+#define IMU_MAG_ALGN_YX         +0.001
+#define IMU_MAG_ALGN_YZ         +0.001
+#define IMU_MAG_ALGN_ZX         +0.001
+#define IMU_MAG_ALGN_ZY         +0.001
+
+#define IMU_ACC_BIAS_X		+0.0
+#define IMU_ACC_BIAS_Y		+0.0
+#define IMU_ACC_BIAS_Z		+0.0
+#define IMU_ACC_SCAL_X		+1.0
+#define IMU_ACC_SCAL_Y		+1.0
+#define IMU_ACC_SCAL_Z		+1.0
+#define IMU_ACC_ALN_XY		+0.0
+#define IMU_ACC_ALN_XZ		+0.0
+#define IMU_ACC_ALN_YX		+0.0
+#define IMU_ACC_ALN_YZ		+0.0
+#define IMU_ACC_ALN_ZX		+0.0
+#define IMU_ACC_ALN_ZY		-0.0
+
+#define IMU_GYO_SCAL_X         +0.1145900000
+#define IMU_GYO_SCAL_Y         +0.1145900000
+#define IMU_GYO_SCAL_Z         +0.1145900000
+
+#define IMU_GYO_ALGN_XY		+0.05
+#define IMU_GYO_ALGN_XZ		+0.05
+#define IMU_GYO_ALGN_YX		+0.05
+#define IMU_GYO_ALGN_YZ		+0.05
+#define IMU_GYO_ALGN_ZX		+0.05
+#define IMU_GYO_ALGN_ZY		+0.05
+
