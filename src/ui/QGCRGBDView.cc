@@ -2,12 +2,13 @@
 #include <QContextMenuEvent>
 #include <QSettings>
 
-#include <QMessageBox>
-#include <QMenu>
-#include <QMenuBar>
-#include <QLayout>
-#include <QFileDialog>
-#include <vlc/vlc.h>
+#ifdef QGC_USE_VLC
+    #include <QMessageBox>
+    #include <QMenuBar>
+    #include <QLayout>
+    #include <QFileDialog>
+    #include <vlc/vlc.h>
+#endif
 
 #include "QGCRGBDView.h"
 #include "UASManager.h"
@@ -17,8 +18,6 @@ QGCRGBDView::QGCRGBDView(int width, int height, QWidget *parent) :
     rgbEnabled(false),
     depthEnabled(false)
 {
-    VIDEOWIDTH = 640;
-    VIDEOHEIGHT = 480;
     enableRGBAction = new QAction(tr("Enable RGB Image"), this);
     enableRGBAction->setStatusTip(tr("Show the RGB image live stream in this window"));
     enableRGBAction->setCheckable(true);
@@ -31,7 +30,9 @@ QGCRGBDView::QGCRGBDView(int width, int height, QWidget *parent) :
     enableDepthAction->setChecked(depthEnabled);
     connect(enableDepthAction, SIGNAL(triggered(bool)), this, SLOT(enableDepth(bool)));
 
-#ifdef Q_OS_WIN
+#ifdef QGC_USE_VLC
+    VIDEOWIDTH = 640;
+    VIDEOHEIGHT = 480;
     vlcInstance = NULL;
     VLCEnabled = false;
     enableVLCAction = new QAction(tr("VLC"), this);
@@ -51,7 +52,7 @@ QGCRGBDView::~QGCRGBDView()
 {
     storeSettings();
 
-#ifdef Q_OS_WIN
+#ifdef QGC_USE_VLC
     if ( vlcInstance ) {
         if(vlcPlayer) {
             libvlc_media_player_stop(vlcPlayer);
@@ -126,8 +127,12 @@ void QGCRGBDView::contextMenuEvent(QContextMenuEvent* event)
     menu.addAction(enableRGBAction);
     menu.addAction(enableDepthAction);
 
+
+#ifdef QGC_USE_VLC
+
     enableVLCAction->setChecked(VLCEnabled);
     menu.addAction(enableVLCAction);
+#endif
 
     //menu.addAction(selectHUDColorAction);
     //menu.addAction(enableVideoAction);
@@ -150,13 +155,15 @@ void QGCRGBDView::enableDepth(bool enabled)
     resize(size());
 }
 
+
+#ifdef QGC_USE_VLC
+
 void QGCRGBDView::enableVLC(bool enabled)
 {
     VLCEnabled = enabled;
+
     VIDEOWIDTH = glImage.size().width();
     VIDEOHEIGHT = glImage.size().height();
-
-#ifdef Q_OS_WIN
     if ( VLCEnabled ) {
         VlcEnabledFlip = true;
         initVlcUI();
@@ -176,11 +183,9 @@ void QGCRGBDView::enableVLC(bool enabled)
         }
         vlcInstance = NULL;
     }
-#endif
 
     resize(size());
 }
-
 
 void QGCRGBDView::initVlcUI() {
     /* Buttons for the UI */
@@ -238,20 +243,16 @@ void QGCRGBDView::initVlcUI() {
     //resize( 600, 400);
 }
 
+
 void QGCRGBDView::openFile() {
-#ifdef Q_OS_WIN_1
     /* The basic file-select box */
     QString fileOpen = QFileDialog::getOpenFileName(this, tr("Load a file"), "~");
     /* Stop if something is playing */
     if (vlcPlayer && libvlc_media_player_is_playing(vlcPlayer))
         stop();
-#endif
-
 }
 
 void QGCRGBDView::play() {
-
-#ifdef Q_OS_WIN
 
     const char * const vlc_args[] = {
               "-I", "dummy", /* Don't use any interface */
@@ -274,7 +275,6 @@ void QGCRGBDView::play() {
     libvlc_video_set_format(vlcPlayer,"RV32",VIDEOWIDTH,VIDEOHEIGHT, VIDEOWIDTH*4);
     libvlc_media_player_play(vlcPlayer);
 
-#endif
 }
 
 void *QGCRGBDView::lock( void *data, void**pp_ret )
@@ -295,22 +295,17 @@ void QGCRGBDView::unlock( void *data, void *id, void *const *p_pixels )
 }
 
 int QGCRGBDView::changeVolume(int vol) { /* Called on volume slider change */
-#ifdef Q_OS_WIN
     if (vlcPlayer)
         return libvlc_audio_set_volume (vlcPlayer,vol);
-#endif
     return 0;
 }
 
 void QGCRGBDView::changePosition(int pos) { /* Called on position slider change */
-#ifdef Q_OS_WIN
     if (vlcPlayer)
         libvlc_media_player_set_position(vlcPlayer, (float)pos/1000.0);
-#endif
 }
 
 void QGCRGBDView::stop() {
-#ifdef Q_OS_WIN
     if(vlcPlayer) {
         /* stop the media player */
         libvlc_media_player_stop(vlcPlayer);
@@ -323,11 +318,9 @@ void QGCRGBDView::stop() {
         slider->setValue(0);
         playBut->setText("Play");
     }
-#endif
 }
 
 void QGCRGBDView::mute() {
-#ifdef Q_OS_WIN
     if(vlcPlayer) {
         if(volumeSlider->value() == 0) { //if already muted...
             this->changeVolume(80);
@@ -337,8 +330,9 @@ void QGCRGBDView::mute() {
             volumeSlider->setValue(0);
         }
     }
-#endif
 }
+
+#endif
 
 float colormapJet[128][3] = {
     {0.0f,0.0f,0.53125f},

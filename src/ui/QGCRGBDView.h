@@ -2,7 +2,7 @@
 #define QGCRGBDVIEW_H
 
 #include "HUD.h"
-#ifdef Q_OS_WIN
+#ifdef QGC_USE_VLC
 #include <vlc/vlc.h>
 #include <QMutex>
 #include <QMainWindow>
@@ -30,7 +30,6 @@ public slots:
     void clearData(void);
     void enableRGB(bool enabled);
     void enableDepth(bool enabled);
-    void enableVLC(bool enabled);
     void updateData(UASInterface *uas);
 
 protected:
@@ -46,8 +45,12 @@ protected:
     void loadSettings();
 
 
+#ifdef QGC_USE_VLC
+
+public slots:
+    void enableVLC(bool enabled);
+
 private:
-#ifdef Q_OS_WIN
     /*
     struct ctx {
         uchar* pixels;

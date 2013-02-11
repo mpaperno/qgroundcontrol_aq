@@ -97,10 +97,14 @@ INCLUDEPATH += \
 win32-msvc2008|win32-msvc2010 {
     include(libs/QtSpeech/QtSpeech.pri)
 
-    INCLUDEPATH += "libs/vlc/sdk/include"
-#    LIBS += -L"C:/Program Files (x86)/VideoLAN/VLC/sdk/lib"
-    LIBS += -L$${BASEDIR}/libs/vlc/sdk/lib
-    LIBS += -llibvlc
+    DEFINES += QGC_USE_VLC
+
+    contains(DEFINES, QGC_USE_VLC) {
+        INCLUDEPATH += "libs/vlc/sdk/include"
+        LIBS += -L$${BASEDIR}/libs/vlc/sdk/lib
+        LIBS += -llibvlc
+    }
+
 }
 
 # If the user config file exists, it will be included.
