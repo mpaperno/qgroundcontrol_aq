@@ -23,13 +23,6 @@ namespace Ui {
 class QGCAutoquad;
 }
 
-namespace QGCAUTOQUAD {
-    const QString APP_NAME = "AutoQuad Widget";
-    const QString APP_ORG = "AutoQuad";
-    const QString APP_VERSION_TXT = "1.1.1";
-    const int APP_VERSION = 111; // 1.1.0
-}
-
 class QGCAutoquad : public QWidget
 {
     Q_OBJECT
