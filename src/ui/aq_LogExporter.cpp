@@ -231,9 +231,8 @@ void AQLogExporter::startExport() {
     QString appPath;
     QStringList appArgs;
     QString appName = "logDump";
-    QString platformPath = "unix";
     QString platformExt = "";
-    QString appWrkDir;
+    QString appWrkDir = QCoreApplication::applicationDirPath() % "/aq/bin";
     QString outfile;
     QString msg;
     QDir outDir;
@@ -241,10 +240,7 @@ void AQLogExporter::startExport() {
     int tmp_i;
 
     #if defined(Q_OS_WIN)
-        platformPath = "win";
         platformExt = ".exe";
-    #elif defined(Q_OS_MAC)
-        platformPath = "osx";
     #endif
 
     if (!validateForm(true)) return;
@@ -348,7 +344,6 @@ void AQLogExporter::startExport() {
 
     // End setting all arguments //
 
-    appWrkDir = QCoreApplication::applicationDirPath() % "/aq_" % platformPath;
     appPath = QDir::toNativeSeparators(appWrkDir % "/" % appName % platformExt);
 
     msg = "Starting logDump...<br/><br/><i>" % appPath % "</i> " % appArgs.join(" ");

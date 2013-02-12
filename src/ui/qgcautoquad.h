@@ -26,8 +26,8 @@ class QGCAutoquad;
 namespace QGCAUTOQUAD {
     const QString APP_NAME = "AutoQuad Widget";
     const QString APP_ORG = "AutoQuad";
-    const QString APP_VERSION_TXT = "1.1.0 (alpha 3)";
-    const int APP_VERSION = 110; // 1.1.0
+    const QString APP_VERSION_TXT = "1.1.1";
+    const int APP_VERSION = 111; // 1.1.0
 }
 
 class QGCAutoquad : public QWidget
@@ -180,6 +180,9 @@ public:
         int aqFirmwareRevision;
         int aqHardwareRevision;
         int aqBuildNumber;
+
+        QString aqBinFolderPath; // absolute path to AQ supporting utils
+        const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
 
 private:
         Ui::QGCAutoquad *ui;

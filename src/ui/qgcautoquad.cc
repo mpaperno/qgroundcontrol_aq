@@ -29,6 +29,13 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     aqFirmwareVersion(0.0),
     aqFirmwareRevision(0),
     aqHardwareRevision(0),
+    aqBuildNumber(0),
+    aqBinFolderPath(QCoreApplication::applicationDirPath() + "/aq/bin"),
+#if defined(Q_OS_WIN)
+    platformExeExt(".exe"),
+#else
+    platformExeExt(""),
+#endif
     ui(new Ui::QGCAutoquad)
 {
     ui->setupUi(this);
@@ -58,7 +65,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
 
-    ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " Version: " + QGCAUTOQUAD::APP_VERSION_TXT);
+    ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT + "\nBased on " + QGC_APPLICATION_NAME + " " + QGC_APPLICATION_VERSION);
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -1016,18 +1023,17 @@ void QGCAutoquad::selectFWToFlash()
 
 void QGCAutoquad::flashFW()
 {
-    QString AppPath = "";
-    #ifdef Q_OS_WIN
-        AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "stm32flash.exe");
-        #else
-         AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "stm32flash");
-    #endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "stm32flash" + platformExeExt);
 
+    QString msg = QString("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. \
+Make sure you have your generated parameters and custom settings saved.\n\n\
+Make sure you are disconnected from AutoQuad and that nothing else is currently using the %1 port.\n\n\
+There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n\
+Do you wish to continue flashing?").arg(portName);
 
-     QMessageBox msgBox;
-     msgBox.setText("Flashing firmware, takes some seconds. Please wait 20sec. bevor you retry!");
-     msgBox.exec();
-
+    QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
+    if (qrply == QMessageBox::Cancel)
+        return;
 
     QStringList Arguments;
     Arguments.append("-b 57600");
@@ -1258,8 +1264,9 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         aqFirmwareVersion = 0;
         aqFirmwareRevision = 0;
         aqHardwareRevision = 0;
+        aqBuildNumber = 0;
         ui->lbl_aq_fw_version->setText("Firmware Version: [unknown]");
-        uas->sendCommmandToAq(4, 1);
+        uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
 
         VisibleWidget = 2;
         aqTelemetryView->initChart(uas);
@@ -1539,43 +1546,31 @@ void QGCAutoquad::check_stop()
 }
 
 void QGCAutoquad::startcal1(){
-    QString AppPath = "";
-    #ifdef Q_OS_WIN
-        AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "cal.exe");
-        ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
-    #else
-        AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "cal");
-        ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_unix"));
-    #endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "cal" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
 
-        QStringList Arguments;
+    QStringList Arguments;
 
-        Arguments.append("--rate");
-        for ( int i = 0; i<StaticFiles.count(); i++) {
-            Arguments.append(StaticFiles.at(i));
-        }
-        Arguments.append(":");
+    Arguments.append("--rate");
+    for ( int i = 0; i<StaticFiles.count(); i++) {
+        Arguments.append(StaticFiles.at(i));
+    }
+    Arguments.append(":");
 
-        active_cal_mode = 1;
-        ui->textOutput_cal1->clear();
-        ui->pushButton_start_cal1->setEnabled(false);
-        ui->pushButton_abort_cal1->setEnabled(true);
-        ui->textOutput_cal1->append(AppPath);
-        for ( int i = 0; i<Arguments.count(); i++) {
-            ui->textOutput_cal1->append(Arguments.at(i));
-        }
-        ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    active_cal_mode = 1;
+    ui->textOutput_cal1->clear();
+    ui->pushButton_start_cal1->setEnabled(false);
+    ui->pushButton_abort_cal1->setEnabled(true);
+    ui->textOutput_cal1->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_cal1->append(Arguments.at(i));
+    }
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
 }
 
 void QGCAutoquad::startcal2(){
-    QString AppPath = "";
-#ifdef Q_OS_WIN
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "cal.exe");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
-#else
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "cal");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_unix"));
-#endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "cal" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
 
     QStringList Arguments;
 
@@ -1601,14 +1596,8 @@ void QGCAutoquad::startcal2(){
 }
 
 void QGCAutoquad::startcal3(){
-    QString AppPath = "";
-#ifdef Q_OS_WIN
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "cal.exe");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
-#else
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "cal");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_unix"));
-#endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "cal" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
 
     QStringList Arguments;
 
@@ -1639,17 +1628,9 @@ void QGCAutoquad::startcal3(){
 }
 
 void QGCAutoquad::startsim1(){
-    QString AppPath = "";
-    QString Sim3ParaPath = "";
-#ifdef Q_OS_WIN
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "sim3.exe");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\sim3.params");
-#else
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "sim3");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/sim3.params");
-#endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
 
     QStringList Arguments;
 
@@ -1682,17 +1663,9 @@ void QGCAutoquad::startsim1(){
 }
 
 void QGCAutoquad::startsim1b(){
-    QString AppPath = "";
-    QString Sim3ParaPath = "";
-#ifdef Q_OS_WIN
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "sim3.exe");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\sim3.params");
-#else
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "sim3");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/sim3.params");
-#endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
 
     QStringList Arguments;
 
@@ -1725,17 +1698,9 @@ void QGCAutoquad::startsim1b(){
 }
 
 void QGCAutoquad::startsim2(){
-    QString AppPath = "";
-    QString Sim3ParaPath = "";
-#ifdef Q_OS_WIN
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "sim3.exe");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\sim3.params");
-#else
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "sim3");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/sim3.params");
-#endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
 
     QStringList Arguments;
 
@@ -1769,17 +1734,9 @@ void QGCAutoquad::startsim2(){
 }
 
 void QGCAutoquad::startsim3(){
-    QString AppPath = "";
-    QString Sim3ParaPath = "";
-#ifdef Q_OS_WIN
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "sim3.exe");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "sim3.params");
-#else
-    AppPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/" + "sim3");
-    ps_master.setWorkingDirectory(QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix"));
-    Sim3ParaPath = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "aq_unix" + "/sim3.params");
-#endif
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
 
     QStringList Arguments;
 
