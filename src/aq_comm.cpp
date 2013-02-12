@@ -2590,10 +2590,56 @@ int AQEsc32::getEnumByName(QString Name)
     {
         return FET_BRAKING;
     }
+
+    if ( Name == "PNFAC")
+    {
+        return PNFAC;
+    }
+    if ( Name == "INFAC")
+    {
+        return INFAC;
+    }
+    if ( Name == "THR1TERM")
+    {
+        return THR1TERM;
+    }
+    if ( Name == "THR2TERM")
+    {
+        return THR2TERM;
+    }
+    if ( Name == "START_ALIGN_TIME")
+    {
+        return START_ALIGN_TIME;
+    }
+    if ( Name == "START_ALIGN_VOLTAGE")
+    {
+        return START_ALIGN_VOLTAGE;
+    }
+    if ( Name == "START_STEPS_NUM")
+    {
+        return START_STEPS_NUM;
+    }
+    if ( Name == "START_STEPS_PERIOD")
+    {
+        return START_STEPS_PERIOD;
+    }
+    if ( Name == "START_STEPS_ACCEL")
+    {
+        return START_STEPS_ACCEL;
+    }
+    if ( Name == "PWM_LOWPASS")
+    {
+        return PWM_LOWPASS;
+    }
+    if ( Name == "RPM_MEAS_LP")
+    {
+        return RPM_MEAS_LP;
+    }
     if ( Name == "CONFIG_NUM_PARAMS")
     {
         return CONFIG_NUM_PARAMS;
     }
+
     return 0;
 }
 
