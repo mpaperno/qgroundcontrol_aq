@@ -362,28 +362,6 @@ private:
     long PosOfCrcError;
     int CRCErrorCnt;
 };
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-class GPX_KMLParser: public QObject
-{
-    Q_OBJECT
-public:
-    explicit GPX_KMLParser();
-    ~GPX_KMLParser();
-    void startImport();
-
-private:
-    QProcess ps_import;
-    QString output;
-
-private slots:
-        void prtstexit(int);
-        void prtstdout();
-        void prtstderr();
-
-signals:
-    void ImportDone(int Error);
-};
-
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

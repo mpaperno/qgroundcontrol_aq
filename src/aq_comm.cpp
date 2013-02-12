@@ -2321,52 +2321,6 @@ void AQLogParser::loggerWriteDataL(FILE *fs, FILE *fd, int start1, int end1, int
         }
     }
 }
-//#######################################################################################################
-
-
-GPX_KMLParser::GPX_KMLParser()
-{
-    //Process Slots
-    ps_import.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&ps_import, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
-    connect(&ps_import, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
-    connect(&ps_import, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
-}
-
-GPX_KMLParser::~GPX_KMLParser()
-{
-    disconnect(&ps_import, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
-    disconnect(&ps_import, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
-    disconnect(&ps_import, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
-}
-
-
-void GPX_KMLParser::prtstderr() {
-    output = ps_import.readAllStandardError();
-}
-
-void GPX_KMLParser::prtstdout() {
-    output = ps_import.readAllStandardOutput();
-}
-
-void GPX_KMLParser::prtstexit(int) {
-}
-
-void GPX_KMLParser::startImport() {
-    QString AppPath = "";
-    #ifdef Q_OS_WIN
-        AppPath = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "\\" + "aq_win" + "\\" + "logDump.exe");
-        ps_import.setWorkingDirectory(QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "\\" + "aq_win"));
-    #else
-        return;
-    #endif
-
-    QStringList Arguments;
-
-    Arguments.append("");
-    ps_import.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
 
 //#######################################################################################################
 
