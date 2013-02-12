@@ -1132,7 +1132,7 @@
               <second>59</second>
               <year>3001</year>
               <month>1</month>
-              <day>23</day>
+              <day>24</day>
              </datetime>
             </property>
             <property name="minimumDateTime">
@@ -1247,7 +1247,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Radio channel number</string>
+             <string>Radio channel number  (enter zero to disable)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1848,13 +1848,13 @@ p, li { white-space: pre-wrap; }
   </property>
  </designerdata>
  <buttongroups>
-  <buttongroup name="buttonGroup_exportValues">
+  <buttongroup name="buttonGroup_trigChanValues"/>
+  <buttongroup name="buttonGroup_gpsExportVals">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroup_trigChanValues"/>
-  <buttongroup name="buttonGroup_gpsExportVals">
+  <buttongroup name="buttonGroup_exportValues">
    <property name="exclusive">
     <bool>false</bool>
    </property>
