@@ -65,7 +65,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     EventComesFromMavlink = false;
     somethingChangedInMotorConfig = 0;
 
-    ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT + "\nBased on " + QGC_APPLICATION_NAME + " " + QGC_APPLICATION_VERSION);
+    ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT);
+    ui->lbl_version2->setText(QString("Based on %1 %2").arg(QGC_APPLICATION_NAME).arg(QGC_APPLICATION_VERSION));
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));

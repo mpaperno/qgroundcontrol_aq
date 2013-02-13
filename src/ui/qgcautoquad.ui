@@ -1408,7 +1408,14 @@
              <string>AQ ground control software version</string>
             </property>
             <property name="text">
-             <string>AutoQuad Widget Version: </string>
+             <string>QGroundControl for AutoQuad v.  </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_version2">
+            <property name="text">
+             <string>Based on QGroundControl v.</string>
             </property>
            </widget>
           </item>
