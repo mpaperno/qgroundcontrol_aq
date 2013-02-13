@@ -56,7 +56,7 @@ public:
 
     void setImageSize(int width, int height, int depth, int channels);
     void resizeGL(int w, int h);
-    boolean VlcEnabledFlip;
+    bool VlcEnabledFlip;
 
 public slots:
     void initializeGL();

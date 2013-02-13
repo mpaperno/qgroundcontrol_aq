@@ -31,8 +31,9 @@ DEFINES += _TTY_NOWARN_
 # MAC OS X
 macx|macx-g++42|macx-g++|macx-llvm: {
 
-	CONFIG += x86_64 cocoa phonon
-	CONFIG -= x86
+        CONFIG += cocoa phonon
+#	CONFIG += x86_64 cocoa phonon
+#	CONFIG -= x86
 
 	# For release builds remove support for various Qt debugging macros.
 	CONFIG(release, debug|release) {
@@ -41,10 +42,10 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 
-	INCLUDEPATH += $$BASEDIR/libs/lib/Frameworks/SDL.framework/Headers
+        INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 
 	LIBS += -framework IOKit \
-		-F$$BASEDIR/libs/lib/Frameworks \
+#		-F$$BASEDIR/libs/lib/Frameworks \
 		-framework SDL \
 		-framework CoreFoundation \
 		-framework ApplicationServices \
@@ -53,7 +54,7 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	ICON = $$BASEDIR/files/images/icons/macx.icns
 
 	# Copy AQ files
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/aq/bin
+        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
         QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
 
 	# Copy google earth starter file
@@ -68,7 +69,7 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/mavlink $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy libraries
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/mac64/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
+        QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/mac32/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
 	# Copy frameworks
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
@@ -140,11 +141,11 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	# Include OpenSceneGraph libraries
 	INCLUDEPATH += -framework GLUT \
         -framework Cocoa \
-        $$BASEDIR/libs/lib/mac64/include
+        $$BASEDIR/libs/lib/mac32/include
 
 	LIBS += -framework GLUT \
         -framework Cocoa \
-        -L$$BASEDIR/libs/lib/mac64/lib \
+#        -L$$BASEDIR/libs/lib/mac64/lib \
         -L$$BASEDIR/libs/lib/mac32/lib \
         -lOpenThreads \
         -losg \
