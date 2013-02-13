@@ -1,5 +1,4 @@
-* { font-family: "Bitstream Vera Sans"; font: "Roman"; font-size: 12px; }
-QWidget#colorIcon {}
+* { font-family: "Bitstream Vera Sans"; font: "Roman"; font-size: 12px; outline: none; }
 
 /*
     QWidget (common for most elements)
