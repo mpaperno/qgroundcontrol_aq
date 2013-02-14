@@ -375,13 +375,13 @@ void MainWindow::buildCommonWidgets()
     mavlinkDecoder = new MAVLinkDecoder(mavlink, this);
 
     // Dock widgets
-    if (!controlDockWidget)
-    {
-        controlDockWidget = new QDockWidget(tr("Control"), this);
-        controlDockWidget->setObjectName("UNMANNED_SYSTEM_CONTROL_DOCKWIDGET");
-        controlDockWidget->setWidget( new UASControlWidget(this) );
-        addTool(controlDockWidget, tr("Control"), Qt::LeftDockWidgetArea);
-    }
+//    if (!controlDockWidget)
+//    {
+//        controlDockWidget = new QDockWidget(tr("Control"), this);
+//        controlDockWidget->setObjectName("UNMANNED_SYSTEM_CONTROL_DOCKWIDGET");
+//        controlDockWidget->setWidget( new UASControlWidget(this) );
+//        addTool(controlDockWidget, tr("Control"), Qt::LeftDockWidgetArea);
+//    }
 
     if (!listDockWidget)
     {
@@ -437,13 +437,13 @@ void MainWindow::buildCommonWidgets()
         addTool(mavlinkInspectorWidget, tr("MAVLink Inspector"), Qt::RightDockWidgetArea);
     }
 
-    if (!mavlinkSenderWidget)
-    {
+//    if (!mavlinkSenderWidget)
+//    {
 //        mavlinkSenderWidget = new QDockWidget(tr("MAVLink Message Sender"), this);
 //        mavlinkSenderWidget->setWidget( new QGCMAVLinkMessageSender(mavlink, this) );
 //        mavlinkSenderWidget->setObjectName("MAVLINK_SENDER_DOCKWIDGET");
 //        addTool(mavlinkSenderWidget, tr("MAVLink Sender"), Qt::RightDockWidgetArea);
-    }
+//    }
 
     //FIXME: memory of acceptList will never be freed again
     QStringList* acceptList = new QStringList();
@@ -507,29 +507,29 @@ void MainWindow::buildCommonWidgets()
         addTool(headUpDockWidget, tr("Head Up Display"), Qt::RightDockWidgetArea);
     }
 
-    if (!video1DockWidget)
-    {
-        video1DockWidget = new QDockWidget(tr("Video Stream 1"), this);
-        QGCRGBDView* video1 =  new QGCRGBDView(160, 120, this);
-        video1->enableHUDInstruments(false);
-        video1->enableVideo(false);
-        // FIXME select video stream as well
-        video1DockWidget->setWidget(video1);
-        video1DockWidget->setObjectName("VIDEO_STREAM_1_DOCK_WIDGET");
-        addTool(video1DockWidget, tr("Video Stream 1"), Qt::LeftDockWidgetArea);
-    }
+//    if (!video1DockWidget)
+//    {
+//        video1DockWidget = new QDockWidget(tr("Video Stream 1"), this);
+//        QGCRGBDView* video1 =  new QGCRGBDView(160, 120, this);
+//        video1->enableHUDInstruments(false);
+//        video1->enableVideo(false);
+//        // FIXME select video stream as well
+//        video1DockWidget->setWidget(video1);
+//        video1DockWidget->setObjectName("VIDEO_STREAM_1_DOCK_WIDGET");
+//        addTool(video1DockWidget, tr("Video Stream 1"), Qt::LeftDockWidgetArea);
+//    }
 
-    if (!video2DockWidget)
-    {
-        video2DockWidget = new QDockWidget(tr("Video Stream 2"), this);
-        QGCRGBDView* video2 =  new QGCRGBDView(160, 120, this);
-        video2->enableHUDInstruments(false);
-        video2->enableVideo(false);
-        // FIXME select video stream as well
-        video2DockWidget->setWidget(video2);
-        video2DockWidget->setObjectName("VIDEO_STREAM_2_DOCK_WIDGET");
-        addTool(video2DockWidget, tr("Video Stream 2"), Qt::LeftDockWidgetArea);
-    }
+//    if (!video2DockWidget)
+//    {
+//        video2DockWidget = new QDockWidget(tr("Video Stream 2"), this);
+//        QGCRGBDView* video2 =  new QGCRGBDView(160, 120, this);
+//        video2->enableHUDInstruments(false);
+//        video2->enableVideo(false);
+//        // FIXME select video stream as well
+//        video2DockWidget->setWidget(video2);
+//        video2DockWidget->setObjectName("VIDEO_STREAM_2_DOCK_WIDGET");
+//        addTool(video2DockWidget, tr("Video Stream 2"), Qt::LeftDockWidgetArea);
+//    }
 
 //    if (!rgbd1DockWidget) {
 //        rgbd1DockWidget = new QDockWidget(tr("Video Stream 1"), this);
@@ -581,17 +581,17 @@ void MainWindow::buildCommonWidgets()
         addCentralWidget(hudWidget, tr("Head Up Display"));
     }
 
-    if (!configWidget)
-    {
-        configWidget = new QGCVehicleConfig(this);
-        addCentralWidget(configWidget, tr("Vehicle Configuration"));
-    }
+//    if (!configWidget)
+//    {
+//        configWidget = new QGCVehicleConfig(this);
+//        addCentralWidget(configWidget, tr("Vehicle Configuration"));
+//    }
 
-    if (!dataplotWidget)
-    {
-        dataplotWidget    = new QGCDataPlot2D(this);
-        addCentralWidget(dataplotWidget, tr("Logfile Plot"));
-    }
+//    if (!dataplotWidget)
+//    {
+//        dataplotWidget    = new QGCDataPlot2D(this);
+//        addCentralWidget(dataplotWidget, tr("Logfile Plot"));
+//    }
 
 	if ( !autoquadWidget){
         autoquadWidget    = new QGCAutoquad(this);
@@ -1041,20 +1041,20 @@ void MainWindow::connectCommonActions()
     // Bind together the perspective actions
     QActionGroup* perspectives = new QActionGroup(ui.menuPerspectives);
     perspectives->addAction(ui.actionEngineersView);
-    perspectives->addAction(ui.actionMavlinkView);
+//    perspectives->addAction(ui.actionMavlinkView);
     perspectives->addAction(ui.actionPilotsView);
     perspectives->addAction(ui.actionOperatorsView);
-    perspectives->addAction(ui.actionFirmwareUpdateView);
-    perspectives->addAction(ui.actionUnconnectedView);
+//    perspectives->addAction(ui.actionFirmwareUpdateView);
+//    perspectives->addAction(ui.actionUnconnectedView);
     perspectives->setExclusive(true);
 
     // Mark the right one as selected
     if (currentView == VIEW_ENGINEER) ui.actionEngineersView->setChecked(true);
-    if (currentView == VIEW_MAVLINK) ui.actionMavlinkView->setChecked(true);
+//    if (currentView == VIEW_MAVLINK) ui.actionMavlinkView->setChecked(true);
     if (currentView == VIEW_PILOT) ui.actionPilotsView->setChecked(true);
     if (currentView == VIEW_OPERATOR) ui.actionOperatorsView->setChecked(true);
-    if (currentView == VIEW_FIRMWAREUPDATE) ui.actionFirmwareUpdateView->setChecked(true);
-    if (currentView == VIEW_UNCONNECTED) ui.actionUnconnectedView->setChecked(true);
+//    if (currentView == VIEW_FIRMWAREUPDATE) ui.actionFirmwareUpdateView->setChecked(true);
+//    if (currentView == VIEW_UNCONNECTED) ui.actionUnconnectedView->setChecked(true);
 
     // The UAS actions are not enabled without connection to system
     ui.actionLiftoff->setEnabled(false);
@@ -1082,10 +1082,10 @@ void MainWindow::connectCommonActions()
     connect(ui.actionPilotsView, SIGNAL(triggered()), this, SLOT(loadPilotView()));
     connect(ui.actionEngineersView, SIGNAL(triggered()), this, SLOT(loadEngineerView()));
     connect(ui.actionOperatorsView, SIGNAL(triggered()), this, SLOT(loadOperatorView()));
-    connect(ui.actionUnconnectedView, SIGNAL(triggered()), this, SLOT(loadUnconnectedView()));
+//    connect(ui.actionUnconnectedView, SIGNAL(triggered()), this, SLOT(loadUnconnectedView()));
 
-    connect(ui.actionFirmwareUpdateView, SIGNAL(triggered()), this, SLOT(loadFirmwareUpdateView()));
-    connect(ui.actionMavlinkView, SIGNAL(triggered()), this, SLOT(loadMAVLinkView()));
+//    connect(ui.actionFirmwareUpdateView, SIGNAL(triggered()), this, SLOT(loadFirmwareUpdateView()));
+//    connect(ui.actionMavlinkView, SIGNAL(triggered()), this, SLOT(loadMAVLinkView()));
 
     connect(ui.actionReloadStylesheet, SIGNAL(triggered()), this, SLOT(reloadStylesheet()));
     connect(ui.actionSelectStylesheet, SIGNAL(triggered()), this, SLOT(selectStylesheet()));
@@ -1251,7 +1251,7 @@ void MainWindow::setActiveUAS(UASInterface* uas)
 {
     // Enable and rename menu
     ui.menuUnmanned_System->setTitle(uas->getUASName());
-    if (!ui.menuUnmanned_System->isEnabled()) ui.menuUnmanned_System->setEnabled(true);
+//    if (!ui.menuUnmanned_System->isEnabled()) ui.menuUnmanned_System->setEnabled(true);
 }
 
 void MainWindow::UASSpecsChanged(int uas)
@@ -1469,7 +1469,7 @@ void MainWindow::UASCreated(UASInterface* uas)
     //}
 
     if (!ui.menuConnected_Systems->isEnabled()) ui.menuConnected_Systems->setEnabled(true);
-    if (!ui.menuUnmanned_System->isEnabled()) ui.menuUnmanned_System->setEnabled(true);
+//    if (!ui.menuUnmanned_System->isEnabled()) ui.menuUnmanned_System->setEnabled(true);
 
     // Reload view state in case new widgets were added
     loadViewState();
@@ -1683,13 +1683,13 @@ void MainWindow::loadOperatorView()
 
 void MainWindow::loadUnconnectedView()
 {
-    if (currentView != VIEW_UNCONNECTED)
-    {
-        storeViewState();
-        currentView = VIEW_UNCONNECTED;
-        ui.actionUnconnectedView->setChecked(true);
-        loadViewState();
-    }
+//    if (currentView != VIEW_UNCONNECTED)
+//    {
+//        storeViewState();
+//        currentView = VIEW_UNCONNECTED;
+//        ui.actionUnconnectedView->setChecked(true);
+//        loadViewState();
+//    }
 }
 
 void MainWindow::loadPilotView()
@@ -1705,24 +1705,24 @@ void MainWindow::loadPilotView()
 
 void MainWindow::loadMAVLinkView()
 {
-    if (currentView != VIEW_MAVLINK)
-    {
-        storeViewState();
-        currentView = VIEW_MAVLINK;
-        ui.actionMavlinkView->setChecked(true);
-        loadViewState();
-    }
+//    if (currentView != VIEW_MAVLINK)
+//    {
+//        storeViewState();
+//        currentView = VIEW_MAVLINK;
+//        ui.actionMavlinkView->setChecked(true);
+//        loadViewState();
+//    }
 }
 
 void MainWindow::loadFirmwareUpdateView()
 {
-    if (currentView != VIEW_FIRMWAREUPDATE)
-    {
-        storeViewState();
-        currentView = VIEW_FIRMWAREUPDATE;
-        ui.actionFirmwareUpdateView->setChecked(true);
-        loadViewState();
-    }
+//    if (currentView != VIEW_FIRMWAREUPDATE)
+//    {
+//        storeViewState();
+//        currentView = VIEW_FIRMWAREUPDATE;
+//        ui.actionFirmwareUpdateView->setChecked(true);
+//        loadViewState();
+//    }
 }
 
 

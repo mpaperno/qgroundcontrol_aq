@@ -129,10 +129,6 @@
     <addaction name="actionEngineersView"/>
     <addaction name="actionPilotsView"/>
     <addaction name="separator"/>
-    <addaction name="actionFirmwareUpdateView"/>
-    <addaction name="actionMavlinkView"/>
-    <addaction name="actionUnconnectedView"/>
-    <addaction name="separator"/>
     <addaction name="actionFullscreen"/>
     <addaction name="actionNormal"/>
    </widget>
@@ -344,21 +340,6 @@
     <string>Meta+E</string>
    </property>
   </action>
-  <action name="actionMavlinkView">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/devices/network-wired.svg</normaloff>:/files/images/devices/network-wired.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Mavlink</string>
-   </property>
-   <property name="shortcut">
-    <string>Meta+M</string>
-   </property>
-  </action>
   <action name="actionSelectStylesheet">
    <property name="icon">
     <iconset resource="../../qgroundcontrol.qrc">
@@ -406,21 +387,6 @@
    </property>
    <property name="text">
     <string>Mute Audio Output</string>
-   </property>
-  </action>
-  <action name="actionUnconnectedView">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/devices/network-wireless.svg</normaloff>:/files/images/devices/network-wireless.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Unconnected</string>
-   </property>
-   <property name="shortcut">
-    <string>Meta+U</string>
    </property>
   </action>
   <action name="actionShutdownMAV">
@@ -474,18 +440,6 @@
    </property>
    <property name="text">
     <string>Load Custom Widget File</string>
-   </property>
-  </action>
-  <action name="actionFirmwareUpdateView">
-   <property name="icon">
-    <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/status/software-update-available.svg</normaloff>:/files/images/status/software-update-available.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Firmware Update</string>
-   </property>
-   <property name="toolTip">
-    <string>Update the firmware of one of the connected autopilots</string>
    </property>
   </action>
  </widget>
