@@ -1517,11 +1517,13 @@ void MainWindow::loadViewState()
     // Restore center stack state
     int index = settings.value(getWindowStateKey()+"CENTER_WIDGET", -1).toInt();
     // The offline plot view is usually the consequence of a logging run, always show the realtime view first
+    /*
     if (centerStack->indexOf(dataplotWidget) == index)
     {
         // Rewrite to realtime plot
         index = centerStack->indexOf(linechartWidget);
     }
+    */
 
     if (index != -1)
     {
@@ -1538,7 +1540,7 @@ void MainWindow::loadViewState()
         {
         case VIEW_ENGINEER:
             centerStack->setCurrentWidget(linechartWidget);
-            controlDockWidget->hide();
+            //controlDockWidget->hide();
             listDockWidget->hide();
             waypointsDockWidget->hide();
             infoDockWidget->hide();
@@ -1552,12 +1554,12 @@ void MainWindow::loadViewState()
             headDown2DockWidget->hide();
             rcViewDockWidget->hide();
             headUpDockWidget->hide();
-            video1DockWidget->hide();
-            video2DockWidget->hide();
+            //video1DockWidget->hide();
+            //video2DockWidget->hide();
             break;
         case VIEW_PILOT:
             centerStack->setCurrentWidget(hudWidget);
-            controlDockWidget->hide();
+            //controlDockWidget->hide();
             listDockWidget->hide();
             waypointsDockWidget->hide();
             infoDockWidget->hide();
@@ -1570,12 +1572,12 @@ void MainWindow::loadViewState()
             headDown2DockWidget->show();
             rcViewDockWidget->hide();
             headUpDockWidget->hide();
-            video1DockWidget->hide();
-            video2DockWidget->hide();
+            //video1DockWidget->hide();
+            //video2DockWidget->hide();
             break;
         case VIEW_MAVLINK:
             centerStack->setCurrentWidget(protocolWidget);
-            controlDockWidget->hide();
+            //controlDockWidget->hide();
             listDockWidget->hide();
             waypointsDockWidget->hide();
             infoDockWidget->hide();
@@ -1589,12 +1591,12 @@ void MainWindow::loadViewState()
             headDown2DockWidget->hide();
             rcViewDockWidget->hide();
             headUpDockWidget->hide();
-            video1DockWidget->hide();
-            video2DockWidget->hide();
+            //video1DockWidget->hide();
+            //video2DockWidget->hide();
             break;
         case VIEW_FIRMWAREUPDATE:
             centerStack->setCurrentWidget(firmwareUpdateWidget);
-            controlDockWidget->hide();
+            //controlDockWidget->hide();
             listDockWidget->hide();
             waypointsDockWidget->hide();
             infoDockWidget->hide();
@@ -1608,12 +1610,12 @@ void MainWindow::loadViewState()
             headDown2DockWidget->hide();
             rcViewDockWidget->hide();
             headUpDockWidget->hide();
-            video1DockWidget->hide();
-            video2DockWidget->hide();
+            //video1DockWidget->hide();
+            //video2DockWidget->hide();
             break;
         case VIEW_OPERATOR:
             centerStack->setCurrentWidget(mapWidget);
-            controlDockWidget->hide();
+            //controlDockWidget->hide();
             listDockWidget->show();
             waypointsDockWidget->show();
             infoDockWidget->hide();
@@ -1625,15 +1627,15 @@ void MainWindow::loadViewState()
             headDown2DockWidget->hide();
             rcViewDockWidget->hide();
             headUpDockWidget->show();
-            video1DockWidget->hide();
-            video2DockWidget->hide();
+            //video1DockWidget->hide();
+            //video2DockWidget->hide();
             mavlinkInspectorWidget->hide();
             break;
         case VIEW_UNCONNECTED:
         case VIEW_FULL:
         default:
             centerStack->setCurrentWidget(mapWidget);
-            controlDockWidget->hide();
+            //controlDockWidget->hide();
             listDockWidget->show();
             waypointsDockWidget->hide();
             infoDockWidget->hide();
@@ -1645,8 +1647,8 @@ void MainWindow::loadViewState()
             headDown2DockWidget->hide();
             rcViewDockWidget->hide();
             headUpDockWidget->show();
-            video1DockWidget->hide();
-            video2DockWidget->hide();
+            //video1DockWidget->hide();
+            //video2DockWidget->hide();
             mavlinkInspectorWidget->show();
             break;
         }
@@ -1738,6 +1740,7 @@ void MainWindow::loadAQView()
 
 void MainWindow::loadDataView(QString fileName)
 {
+    /*
     // Plot is now selected, now load data from file
     if (dataplotWidget)
     {
@@ -1749,6 +1752,7 @@ void MainWindow::loadDataView(QString fileName)
         centerStack->setCurrentWidget(dataplotWidget);
         dataplotWidget->loadFile(fileName);
     }
+    */
 }
 
 
