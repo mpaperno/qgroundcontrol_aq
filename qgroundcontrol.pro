@@ -97,7 +97,7 @@ INCLUDEPATH += \
 win32-msvc2008|win32-msvc2010 {
     include(libs/QtSpeech/QtSpeech.pri)
 
-    DEFINES += QGC_USE_VLC
+#    DEFINES += QGC_USE_VLC
 
     contains(DEFINES, QGC_USE_VLC) {
         INCLUDEPATH += "libs/vlc/sdk/include"
