@@ -340,12 +340,11 @@ win32-msvc2008|win32-msvc2010 {
 
 	# Copy dependencies
         BASEDIR_WIN = $$replace(BASEDIR,"/","\\")
+        TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\release
+        QTLIBDLLSFX = "4.dll"
         CONFIG(debug, debug|release) {
             TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\debug
-            QTLIBDLLSFX = "d"
-        } else {
-            TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\release
-            QTLIBDLLSFX = ""
+            QTLIBDLLSFX = "d4.dll"
         }
 
         # Copy AQ files
@@ -369,18 +368,18 @@ win32-msvc2008|win32-msvc2010 {
 
         # Copy Qt DLLs
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins" "$$TARGETDIR_WIN" /E /I $$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\phonon$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtCore$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtGui$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtMultimedia$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtNetwork$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtOpenGL$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtSql$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtSvg$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtTest$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtWebKit$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtXml$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtXmlPatterns$$(QTLIBDLLSFX)4.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\phonon$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtCore$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtGui$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtMultimedia$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtNetwork$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtOpenGL$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtSql$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtSvg$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtTest$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtWebKit$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtXml$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtXmlPatterns$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 
         CONFIG(release, debug|release) {
             QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.exp"$$escape_expand(\\n))
