@@ -507,17 +507,17 @@ void MainWindow::buildCommonWidgets()
         addTool(headUpDockWidget, tr("Head Up Display"), Qt::RightDockWidgetArea);
     }
 
-    if (!video1DockWidget)
-    {
-        video1DockWidget = new QDockWidget(tr("Video Stream 1"), this);
-        QGCRGBDView* video1 =  new QGCRGBDView(160, 120, this);
-        video1->enableHUDInstruments(false);
-        video1->enableVideo(false);
-        // FIXME select video stream as well
-        video1DockWidget->setWidget(video1);
-        video1DockWidget->setObjectName("VIDEO_STREAM_1_DOCK_WIDGET");
-        addTool(video1DockWidget, tr("Video Stream 1"), Qt::LeftDockWidgetArea);
-    }
+//    if (!video1DockWidget)
+//    {
+//        video1DockWidget = new QDockWidget(tr("Video Stream 1"), this);
+//        QGCRGBDView* video1 =  new QGCRGBDView(160, 120, this);
+//        video1->enableHUDInstruments(false);
+//        video1->enableVideo(false);
+//        // FIXME select video stream as well
+//        video1DockWidget->setWidget(video1);
+//        video1DockWidget->setObjectName("VIDEO_STREAM_1_DOCK_WIDGET");
+//        addTool(video1DockWidget, tr("Video Stream 1"), Qt::LeftDockWidgetArea);
+//    }
 
 //    if (!video2DockWidget)
 //    {

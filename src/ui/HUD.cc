@@ -686,11 +686,11 @@ void HUD::paintHUD()
 
         if (dataStreamEnabled || videoEnabled)
         {
+            glRasterPos2i(0, 0);
+
             xImageFactor = width() / (float)glImage.width();
             yImageFactor = height() / (float)glImage.height();
             float imageFactor = qMin(xImageFactor, yImageFactor);
-            glRasterPos2i(0, 0);
-
             glPixelZoom(imageFactor, imageFactor);
             // Resize to correct size and fill with image
             glDrawPixels(glImage.width(), glImage.height(), GL_RGBA, GL_UNSIGNED_BYTE, glImage.bits());

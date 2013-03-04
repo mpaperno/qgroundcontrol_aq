@@ -4076,18 +4076,15 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
 void QGCAutoquad::pushButton_dev1(){
 //    QString audiostring = QString("Hello, welcome to AutoQuad");
 //    GAudioOutput::instance()->say(audiostring.toLower());
-    //float value = ui->lineEdit_13->text().toFloat();
 
-    uas->sendCommmandToAq(7, 1, 101.24272,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f);
-    uas->sendCommmandToAq(7, 1, 94.18703,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f);
-    uas->sendCommmandToAq(7, 1, 84.88085,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f);
-    uas->sendCommmandToAq(7, 1, 75.485374,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f);
-
+//    uas->sendCommmandToAq(4, 1);
 //    QEventLoop waiter;
 //    connect(uas, SIGNAL(textMessageReceived()), &waiter, SLOT(quit()));
 //    QTimer::singleShot(5000, &waiter, SLOT(quit()));
-//    ui->lineEdit_13->setText(QString::number(aqFirmwareVersion));
-//    ui->lineEdit_14->setText(QString::number(aqFirmwareRevision));
-//    ui->lineEdit_15->setText(QString::number(aqHardwareRevision));
+    ui->lineEdit_13->setText("");
+    ui->lineEdit_14->setText("");
+    ui->lineEdit_13->setText(QString::number(aqFirmwareVersion));
+    ui->lineEdit_14->setText(QString::number(aqFirmwareRevision));
+    ui->lineEdit_15->setText(QString::number(aqHardwareRevision));
 //    waiter.exec();
 }

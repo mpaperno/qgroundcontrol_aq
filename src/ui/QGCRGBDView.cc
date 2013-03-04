@@ -243,6 +243,7 @@ void QGCRGBDView::initVlcUI() {
     //resize( 600, 400);
 }
 
+
 void QGCRGBDView::openFile() {
     /* The basic file-select box */
     QString fileOpen = QFileDialog::getOpenFileName(this, tr("Load a file"), "~");

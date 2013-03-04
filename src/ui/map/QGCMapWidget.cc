@@ -576,7 +576,6 @@ void QGCMapWidget::updateWaypoint(int uas, Waypoint* wp)
  */
 void QGCMapWidget::updateWaypointList(int uas)
 {
-    qDebug() << "QGCMapWidget::updateWaypointList";
     qDebug() << "UPDATE WP LIST IN 2D MAP CALLED FOR UAS" << uas;
     // Currently only accept waypoint updates from the UAS in focus
     // this has to be changed to accept read-only updates from other systems as well.
