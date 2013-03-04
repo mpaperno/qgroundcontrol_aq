@@ -203,6 +203,7 @@ void WaypointList::loadWaypoints()
         showOfflineWarning = false;
     }
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load File"), ".", tr("Waypoint File (*.txt)"));
+    WPM->clearWaypointList();
     WPM->loadWaypoints(fileName);
 }
 
@@ -287,7 +288,6 @@ void WaypointList::addEditable()
         }
 
 }
-
 
 int WaypointList::addCurrentPositionWaypoint()
 {    
@@ -472,9 +472,10 @@ void WaypointList::waypointViewOnlyListChanged()
 
 }
 
-
 void WaypointList::waypointEditableListChanged()
 {
+    qDebug() << "WaypointList::waypointEditableListChanged";
+
     // Prevent updates to prevent visual flicker
     this->setUpdatesEnabled(false);
     const QVector<Waypoint *> &waypoints = WPM->getWaypointEditableList();

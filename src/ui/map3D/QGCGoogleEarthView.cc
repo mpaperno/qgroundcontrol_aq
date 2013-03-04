@@ -217,6 +217,7 @@ void QGCGoogleEarthView::addUAS(UASInterface* uas)
 
 void QGCGoogleEarthView::setActiveUAS(UASInterface* uas)
 {
+    qDebug() << "QGCGoogleEarthView::setActiveUAS";
     if (uas)
     {
         mav = uas;
@@ -260,6 +261,7 @@ void QGCGoogleEarthView::updateWaypoint(int uas, Waypoint* wp)
  */
 void QGCGoogleEarthView::updateWaypointList(int uas)
 {
+    qDebug() << "QGCGoogleEarthView::updateWaypointList";
     // Get already existing waypoints
     UASInterface* uasInstance = UASManager::instance()->getUASForId(uas);
     if (uasInstance)
