@@ -203,6 +203,7 @@ void WaypointList::loadWaypoints()
         showOfflineWarning = false;
     }
     QString fileName = QFileDialog::getOpenFileName(this, tr("Load File"), ".", tr("Waypoint File (*.txt)"));
+    clearWPWidget();
     WPM->loadWaypoints(fileName);
 }
 
