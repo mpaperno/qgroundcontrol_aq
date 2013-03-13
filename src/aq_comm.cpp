@@ -2358,21 +2358,41 @@ void AQEsc32::Connect(QString port)
     connect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
 }
 
-void AQEsc32::Disconnect()
+void AQEsc32::Disconnect(bool flashMode)
 {
-    seriallinkEsc32->setEsc32Mode(false);
-    SwitchFromBinaryToAscii();
-    SleepThread(2);
-    checkEsc32State->stop();
-    seriallinkEsc32->disconnect();
-    disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
-    disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
-    disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
-    disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
-    disconnect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
-    disconnect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
-    seriallinkEsc32 = NULL;
-    checkEsc32State = NULL;
+    if (!flashMode){
+        seriallinkEsc32->setEsc32Mode(false);
+        SwitchFromBinaryToAscii();
+        SleepThread(100);
+        checkEsc32State->stop();
+        seriallinkEsc32->setBaudRate(115200);
+        seriallinkEsc32->setFlowType(1);
+        seriallinkEsc32->disconnect();
+
+        disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+        disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+        disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+        disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+        disconnect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
+        disconnect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
+        seriallinkEsc32 = NULL;
+        checkEsc32State = NULL;
+    }
+    else {
+        seriallinkEsc32->setEsc32Mode(false);
+        checkEsc32State->stop();
+        seriallinkEsc32->setBaudRate(115200);
+        seriallinkEsc32->setFlowType(1);
+        seriallinkEsc32->disconnect();
+        disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
+        disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
+        disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
+        disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+        disconnect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
+        disconnect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
+        seriallinkEsc32 = NULL;
+        checkEsc32State = NULL;
+    }
 }
 
 void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
@@ -2679,7 +2699,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                     return;
                 }
 
-                if ( LIST_MessageFromEsc32.contains("FET_BRAKING")) {
+                if ( LIST_MessageFromEsc32.contains("RPM_MEAS_LP")) {
                     //decodeParameterFromEsc32(LIST_MessageFromEsc32);
                     emit ShowConfig(LIST_MessageFromEsc32);
                     qDebug() << LIST_MessageFromEsc32;
@@ -2785,14 +2805,34 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
 
             break;
 
+            case 5:
+            BootloaderMessage.append(QString(bytes));
+            if ( BootloaderMessage.contains("ESC armed, disarm first") ) {
+                emit NoBootModeArmed();
+                qDebug() << "ESC armed, disarm first";
+            }
+            if ( BootloaderMessage.contains("Rebooting in boot loader mode...") ) {
+                emit EnteredBootMode();
+                qDebug() << "Now in Bootmode";
+            }
+            break;
+
             default:
             break;
         }
     }
 }
 
-void AQEsc32::ReadConfigEsc32() {
+void AQEsc32::SetToBootMode() {
+    QByteArray transmit;
+    BootloaderMessage = "";
+    SleepThread(500);
+    StepMessageFromEsc32 = 5;
+    transmit.append("bootloader\n");
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+}
 
+void AQEsc32::ReadConfigEsc32() {
     QByteArray transmit;
     SleepThread(500);
     StepMessageFromEsc32 = 1;

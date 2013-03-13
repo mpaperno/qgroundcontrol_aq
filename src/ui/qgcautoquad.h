@@ -42,7 +42,6 @@ public slots:
 
 protected slots:
     void selectFWToFlash();
-    void handleConnectButton();
     void changeEvent(QEvent *e);
     void addUAS(UASInterface* uas_ext);
     void setActiveUAS(UASInterface* uas_ext);
@@ -59,6 +58,7 @@ private slots:
         void setPortNameEsc32(QString port);
         void flashFW();
         void btnConnectEsc32();
+        void flashFWEsc32();
         void startcal1();
         void startcal2();
         void startcal3();
@@ -121,6 +121,8 @@ private slots:
         void Esc32CaliGetCommand(int Command);
         void Esc32StartLogging();
         void Esc32CalibrationFinished(int mode);
+        void Esc32BootModOk();
+        void Esc32BootModFailure();
         void gmb_pitch_P1(bool value);
         void gmb_roll_P1(bool value);
 
@@ -192,7 +194,6 @@ private:
         QString portName;
         QString portNameEsc32;
         QProcess ps_master;
-        LinkInterface* currLink;
         SerialLink* seriallink;
         void setupPortList();
         QGCAQParamWidget* paramaq;
@@ -238,6 +239,8 @@ private:
         int devCommand;
         double lat,lon,alt;
         AQTelemetryView* aqTelemetryView;
+        QString FwFileForEsc32;
+        bool FlashEsc32Active;
 
 protected:
         void showEvent(QShowEvent* event);

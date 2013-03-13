@@ -504,12 +504,13 @@ public:
     AQEsc32();
     ~AQEsc32();
     void Connect(QString port);
-    void Disconnect();
+    void Disconnect(bool flashMode);
     void SavePara(QString ParaName, QVariant ParaValue);
     void SwitchFromBinaryToAscii();
     int SwitchFromAsciiToBinary();
     void sendCommand(int command, float Value1, float Value2, int num, bool withOutCheck);
     void ReadConfigEsc32();
+    void SetToBootMode();
     int GetEsc32State();
     SerialLink* getSerialLink();
     void StartCalibration(float MaxCurrent, QString LogFile);
@@ -541,6 +542,7 @@ private:
     int StepMessageFromEsc32;
     QString LIST_MessageFromEsc32;
     QString ParaNameLastSend;
+    QString BootloaderMessage;
     int ParaLastSend;
     QVariant LastParaValueSend1;
     QVariant LastParaValueSend2;
@@ -594,7 +596,8 @@ signals:
     void Esc32CommandWritten(int CommandName, QVariant V1, QVariant V2 );
     void getCommandBack(int Command);
     void finishedCalibration(int CalibrationMode);
-
+    void EnteredBootMode();
+    void NoBootModeArmed();
 };
 
 

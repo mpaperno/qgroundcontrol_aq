@@ -6023,6 +6023,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="flashfwEsc32">
+            <property name="text">
+             <string>flash fw</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="verticalSpacer_7">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -6228,58 +6235,80 @@
       <attribute name="title">
        <string>Development</string>
       </attribute>
-      <widget class="QPushButton" name="pushButton_dev1">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>30</y>
-         <width>75</width>
-         <height>23</height>
+         <y>10</y>
+         <width>160</width>
+         <height>213</height>
         </rect>
        </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_13">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>70</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_14">
-       <property name="geometry">
-        <rect>
-         <x>170</x>
-         <y>70</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_15">
-       <property name="geometry">
-        <rect>
-         <x>170</x>
-         <y>100</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="lineEdit_16">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>100</y>
-         <width>113</width>
-         <height>20</height>
-        </rect>
-       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_213">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_212">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Heading Absolut in ° (0.0-359.9)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_13"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_202">
+          <item>
+           <widget class="QLabel" name="label_111">
+            <property name="text">
+             <string>Free</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_14"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_201">
+          <item>
+           <widget class="QLabel" name="label_132">
+            <property name="text">
+             <string>Free</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_16"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_192">
+          <item>
+           <widget class="QLabel" name="label_134">
+            <property name="text">
+             <string>Free</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_15"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_dev1">
+          <property name="text">
+           <string>Send To Aq</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>

@@ -21,7 +21,6 @@
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
-    currLink(NULL),
     plot(new IncrementalPlot()),
     uas(NULL),
     paramaq(NULL),
@@ -47,11 +46,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     MarkerCut3  = NULL;
     MarkerCut4  = NULL;
     devCommand = 0;
-
+    FwFileForEsc32 = "";
     // load the Telemetry tab
     aqTelemetryView = new AQTelemetryView(this);
     ui->tabWidget->insertTab(5, aqTelemetryView, tr("Telemetry"));
-
+    FlashEsc32Active = false;
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
@@ -72,9 +71,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
+    connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+
 
     connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
     connect(ui->comboBox_port_esc32, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->flashfwEsc32, SIGNAL(clicked()), this, SLOT(flashFWEsc32()));
     connect(ui->pushButton_connect_to_esc32, SIGNAL(clicked()), this, SLOT(btnConnectEsc32()));
     connect(ui->pushButton_read_config, SIGNAL(clicked()),this, SLOT(btnReadConfigEsc32()));
     connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(btnSaveToEsc32()));
@@ -615,8 +617,155 @@ void QGCAutoquad::setPortNameEsc32(QString port)
     ui->label_portName_esc32->setText(portNameEsc32);
 }
 
+void QGCAutoquad::flashFWEsc32() {
+
+    QString msg = "";
+
+    msg = QString("WARNING: Flashing firmware will reset all ESC32 settings back to default values. \
+Make sure you have your custom settings saved.\n\n\
+Make sure you using the %1 port.\n\n\
+There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n\
+Do you wish to continue flashing?").arg(portName);
+
+    QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
+    if (qrply == QMessageBox::Cancel)
+        return;
+
+    FlashEsc32Active = true;
+    QString port = ui->label_portName_esc32->text();
+    if ( ui->pushButton_connect_to_esc32->text() == "connect esc32") {
+        esc32 = new AQEsc32();
+        connect(esc32,SIGNAL(ShowConfig(QString)),this,SLOT(showConfigEsc32(QString)));
+        connect(esc32, SIGNAL(Esc32ParaWritten(QString)),this,SLOT(ParaWrittenEsc32(QString)));
+        connect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)),this,SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
+        connect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
+        connect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
+        connect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
+        connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
+        connect(esc32, SIGNAL(EnteredBootMode()),this,SLOT(Esc32BootModOk()));
+        connect(esc32, SIGNAL(NoBootModeArmed()),this,SLOT(Esc32BootModFailure()));
+        ui->pushButton_connect_to_esc32->setText("disconnect");
+        esc32->Connect(port);
+    }
+}
+
+void QGCAutoquad::Esc32BootModOk() {
+    ui->tabWidget->setCurrentIndex(0);
+    QString port = ui->label_portName_esc32->text();
+    FlashEsc32Active = false;
+    QString msg = "";
+    if ( ui->pushButton_connect_to_esc32->text() != "connect esc32") {
+        disconnect(esc32,SIGNAL(ShowConfig(QString)),this,SLOT(showConfigEsc32(QString)));
+        disconnect(esc32, SIGNAL(Esc32ParaWritten(QString)),this,SLOT(ParaWrittenEsc32(QString)));
+        disconnect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)),this,SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
+        disconnect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
+        disconnect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
+        disconnect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
+        disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
+        disconnect(esc32, SIGNAL(EnteredBootMode()),this,SLOT(Esc32BootModOk()));
+        disconnect(esc32, SIGNAL(NoBootModeArmed()),this,SLOT(Esc32BootModFailure()));
+        ui->pushButton_connect_to_esc32->setText("connect esc32");
+        esc32->Disconnect(true);
+        esc32 = NULL;
+    }
+
+    if (QFile::exists(FwFileForEsc32)) {
+        msg = QString("Flashing the %1 file again?").arg(FwFileForEsc32);
+        QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+        if (qrply == QMessageBox::No)
+            FwFileForEsc32 = "";
+    }
+
+    if ( FwFileForEsc32 == "") {
+        QString dirPath;
+        if ( LastFilePath == "")
+            dirPath = QCoreApplication::applicationDirPath();
+        else
+            dirPath = LastFilePath;
+        QFileInfo dir(dirPath);
+        QFileDialog dialog;
+        dialog.setDirectory(dir.absoluteDir());
+        dialog.setFileMode(QFileDialog::AnyFile);
+        dialog.setFilter(tr("AQ hex (*.hex)"));
+        dialog.setViewMode(QFileDialog::Detail);
+        QStringList fileNames;
+        if (dialog.exec())
+        {
+            fileNames = dialog.selectedFiles();
+        }
+        if (fileNames.size() > 0)
+        {
+            QString fileNameLocale = QDir::toNativeSeparators(fileNames.first());
+            QFile file(fileNameLocale );
+            ui->fileLabel->setText(fileNameLocale );
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                QMessageBox msgBox;
+                msgBox.setText("Could not read hex file. Permission denied");
+                msgBox.exec();
+            }
+            FwFileForEsc32 = file.fileName();
+            LastFilePath = FwFileForEsc32;
+            file.close();
+        }
+    }
+
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "stm32flash" + platformExeExt);
+    QStringList Arguments;
+    Arguments.append("-b 57600");
+    Arguments.append("-w" );
+    Arguments.append(QDir::toNativeSeparators(FwFileForEsc32));
+    Arguments.append("-v");
+    Arguments.append(port);
+    active_cal_mode = 0;
+    ui->textFlashOutput->clear();
+    ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
+}
+
+void QGCAutoquad::Esc32BootModFailure() {
+    disconnect(esc32,SIGNAL(ShowConfig(QString)),this,SLOT(showConfigEsc32(QString)));
+    disconnect(esc32, SIGNAL(Esc32ParaWritten(QString)),this,SLOT(ParaWrittenEsc32(QString)));
+    disconnect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)),this,SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
+    disconnect(esc32, SIGNAL(Esc32Connected()),this,SLOT(Esc32Connected()));
+    disconnect(esc32, SIGNAL(ESc32Disconnected()),this,SLOT(ESc32Disconnected()));
+    disconnect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
+    disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
+    ui->pushButton_connect_to_esc32->setText("connect esc32");
+    esc32->Disconnect(false);
+    esc32 = NULL;
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Error");
+    msgBox.setInformativeText("Your Esc is armed, please disarm it at first!");
+    msgBox.setWindowModality(Qt::ApplicationModal);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.exec();
+}
+
 void QGCAutoquad::btnConnectEsc32()
 {
+    QString msg = "";
+    bool IsConnected = false;
+    for ( int i=0; i<uas->getLinks()->count(); i++) {
+        if ( uas->getLinks()->at(i)->isConnected() == true) {
+            IsConnected = true;
+        }
+    }
+
+    if ( IsConnected ) {
+        msg = QString("WARNING: You are already connected to AutoQuad, we now disconnecting! \
+        Do you wish to continue with connecting to ESC32?").arg(portName);
+        QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Disconnect AutoQuad"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
+        if (qrply == QMessageBox::Cancel)
+            return;
+        for ( int i=0; i<uas->getLinks()->count(); i++) {
+            if ( uas->getLinks()->at(i)->isConnected() == true) {
+                uas->getLinks()->at(i)->disconnect();
+            }
+        }
+    }
+
     QString port = ui->label_portName_esc32->text();
     if ( ui->pushButton_connect_to_esc32->text() == "connect esc32") {
         esc32 = new AQEsc32();
@@ -629,18 +778,6 @@ void QGCAutoquad::btnConnectEsc32()
         connect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
         ui->pushButton_connect_to_esc32->setText("disconnect");
         esc32->Connect(port);
-
-        /*
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
-        for ( int i = 0; i<edtList.count(); i++) {
-            QString ParaName = edtList.at(i)->objectName();
-            if (!ParaName.contains("DoubleMaxCurrent"))
-                //edtList.at(i)->setText("");
-            else
-                ParaName = ParaName;
-        }
-        */
-
     }
     else {
         disconnect(esc32,SIGNAL(ShowConfig(QString)),this,SLOT(showConfigEsc32(QString)));
@@ -651,7 +788,7 @@ void QGCAutoquad::btnConnectEsc32()
         disconnect(esc32 , SIGNAL(getCommandBack(int)),this,SLOT(Esc32CaliGetCommand(int)));
         disconnect(esc32, SIGNAL(finishedCalibration(int)),this,SLOT(Esc32CalibrationFinished(int)));
         ui->pushButton_connect_to_esc32->setText("connect esc32");
-        esc32->Disconnect();
+        esc32->Disconnect(false);
         esc32 = NULL;
     }
 }
@@ -715,11 +852,6 @@ void QGCAutoquad::btnSaveToEsc32() {
         if ((rettryToStore >= 3) && (something_gos_wrong))
             break;
     }
-
-
-
-    //comboBox_mode
-    //comboBox_in_mode
 
     if (( oneWritten ) && (!something_gos_wrong))
         saveEEpromEsc32();
@@ -833,7 +965,10 @@ void QGCAutoquad::saveEEpromEsc32()
 }
 
 void QGCAutoquad::Esc32Connected(){
-    esc32->ReadConfigEsc32();
+    if ( !FlashEsc32Active )
+        esc32->ReadConfigEsc32();
+    else
+        esc32->SetToBootMode();
 }
 
 void QGCAutoquad::ESc32Disconnected() {
@@ -1024,9 +1159,30 @@ void QGCAutoquad::selectFWToFlash()
 
 void QGCAutoquad::flashFW()
 {
+    QString msg = "";
+    bool IsConnected = false;
+    for ( int i=0; i<uas->getLinks()->count(); i++) {
+        if ( uas->getLinks()->at(i)->isConnected() == true) {
+            IsConnected = true;
+        }
+    }
+    if ( IsConnected ){
+        msg = QString("WARNING: You are already connected to AutoQuad, we now disconnecting! \
+        Do you wish to continue flashing?").arg(portName);
+        QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
+        if (qrply == QMessageBox::Cancel)
+            return;
+
+        for ( int i=0; i<uas->getLinks()->count(); i++) {
+            if ( uas->getLinks()->at(i)->isConnected() == true) {
+                uas->getLinks()->at(i)->disconnect();
+            }
+        }
+    }
+
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "stm32flash" + platformExeExt);
 
-    QString msg = QString("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. \
+    msg = QString("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. \
 Make sure you have your generated parameters and custom settings saved.\n\n\
 Make sure you are disconnected from AutoQuad and that nothing else is currently using the %1 port.\n\n\
 There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n\
@@ -1212,16 +1368,6 @@ void QGCAutoquad::prtstderr() {
     }
 }
 
-void QGCAutoquad::handleConnectButton()
-{
-    if (currLink) {
-        if (currLink->isConnected()) {
-            currLink->disconnect();
-        } else {
-            currLink->connect();
-        }
-    }
-}
 
 UASInterface* QGCAutoquad::getUAS()
 {
@@ -4076,15 +4222,15 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
 void QGCAutoquad::pushButton_dev1(){
 //    QString audiostring = QString("Hello, welcome to AutoQuad");
 //    GAudioOutput::instance()->say(audiostring.toLower());
-
-//    uas->sendCommmandToAq(4, 1);
+    float headingInDegree = ui->lineEdit_13->text().toFloat();
+    uas->sendCommmandToAq(7, 1, headingInDegree,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f);
 //    QEventLoop waiter;
 //    connect(uas, SIGNAL(textMessageReceived()), &waiter, SLOT(quit()));
 //    QTimer::singleShot(5000, &waiter, SLOT(quit()));
-    ui->lineEdit_13->setText("");
-    ui->lineEdit_14->setText("");
-    ui->lineEdit_13->setText(QString::number(aqFirmwareVersion));
-    ui->lineEdit_14->setText(QString::number(aqFirmwareRevision));
-    ui->lineEdit_15->setText(QString::number(aqHardwareRevision));
+//    ui->lineEdit_13->setText("");
+//    ui->lineEdit_14->setText("");
+//    ui->lineEdit_13->setText(QString::number(aqFirmwareVersion));
+//    ui->lineEdit_14->setText(QString::number(aqFirmwareRevision));
+//    ui->lineEdit_15->setText(QString::number(aqHardwareRevision));
 //    waiter.exec();
 }
