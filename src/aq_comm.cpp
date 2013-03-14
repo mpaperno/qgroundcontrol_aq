@@ -72,9 +72,7 @@ int AQLogParser::loggerReadHeader(FILE *fp)
                 createHeaderL();
                 return 0;
             }
-
         }
-
 
         count_channels = fgetc(fp);
         logHeader = (loggerFields_t*) calloc(count_channels , sizeof(loggerFields_t));

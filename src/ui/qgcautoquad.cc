@@ -747,9 +747,11 @@ void QGCAutoquad::btnConnectEsc32()
 {
     QString msg = "";
     bool IsConnected = false;
-    for ( int i=0; i<uas->getLinks()->count(); i++) {
-        if ( uas->getLinks()->at(i)->isConnected() == true) {
-            IsConnected = true;
+    if ( uas ) {
+        for ( int i=0; i<uas->getLinks()->count(); i++) {
+            if ( uas->getLinks()->at(i)->isConnected() == true) {
+                IsConnected = true;
+            }
         }
     }
 
