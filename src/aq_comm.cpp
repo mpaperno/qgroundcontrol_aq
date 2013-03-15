@@ -2693,7 +2693,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                 LIST_MessageFromEsc32.append(QString(bytes));
                 if ( LIST_MessageFromEsc32.contains("Command not found")) {
                     LIST_MessageFromEsc32 = "";
-                    qDebug() << LIST_MessageFromEsc32;
+                    qDebug() << "Command not found";
                     return;
                 }
 

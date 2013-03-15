@@ -71,7 +71,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
-    connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+    //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
 
     connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
@@ -1088,6 +1088,7 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
         ui->FF2TERM->setText(QString::number(esc32->getFF2Term()));
         ui->pushButton_start_calibration->setText("start calibration");
+        //Esc32LoggingFile
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with FF1Term and FF2Term!");
         InfomsgBox.exec();
