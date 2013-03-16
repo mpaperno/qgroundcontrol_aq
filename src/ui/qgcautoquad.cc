@@ -1176,6 +1176,7 @@ void QGCAutoquad::flashFW()
 
     msg += QString("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. \
 Make sure you have your generated parameters and custom settings saved.\n\n\
+Make sure AQ is connected to the %1 port.\n\n\
 There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n\
 Do you wish to continue flashing?").arg(portName);
 
