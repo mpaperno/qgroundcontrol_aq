@@ -72,9 +72,7 @@ int AQLogParser::loggerReadHeader(FILE *fp)
                 createHeaderL();
                 return 0;
             }
-
         }
-
 
         count_channels = fgetc(fp);
         logHeader = (loggerFields_t*) calloc(count_channels , sizeof(loggerFields_t));
@@ -2695,7 +2693,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                 LIST_MessageFromEsc32.append(QString(bytes));
                 if ( LIST_MessageFromEsc32.contains("Command not found")) {
                     LIST_MessageFromEsc32 = "";
-                    qDebug() << LIST_MessageFromEsc32;
+                    qDebug() << "Command not found";
                     return;
                 }
 
