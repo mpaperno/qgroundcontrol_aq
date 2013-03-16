@@ -71,7 +71,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
-    connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+    //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
 
     connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
@@ -623,9 +623,9 @@ void QGCAutoquad::flashFWEsc32() {
 
     msg = QString("WARNING: Flashing firmware will reset all ESC32 settings back to default values. \
 Make sure you have your custom settings saved.\n\n\
-Make sure you using the %1 port.\n\n\
+Make sure you are using the %1 port.\n\n\
 There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n\
-Do you wish to continue flashing?").arg(portName);
+Do you wish to continue flashing?").arg(portNameEsc32);
 
     QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
     if (qrply == QMessageBox::Cancel)
@@ -1086,6 +1086,7 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
         ui->FF2TERM->setText(QString::number(esc32->getFF2Term()));
         ui->pushButton_start_calibration->setText("start calibration");
+        //Esc32LoggingFile
         QMessageBox InfomsgBox;
         InfomsgBox.setText("Updated the fields with FF1Term and FF2Term!");
         InfomsgBox.exec();
@@ -1161,18 +1162,28 @@ void QGCAutoquad::flashFW()
 {
     QString msg = "";
     bool IsConnected = false;
-    for ( int i=0; i<uas->getLinks()->count(); i++) {
-        if ( uas->getLinks()->at(i)->isConnected() == true) {
-            IsConnected = true;
+    if ( uas ) {
+        for ( int i=0; i<uas->getLinks()->count(); i++) {
+            if ( uas->getLinks()->at(i)->isConnected() == true) {
+                IsConnected = true;
+                break;
+            }
         }
     }
-    if ( IsConnected ){
-        msg = QString("WARNING: You are already connected to AutoQuad, we now disconnecting! \
-        Do you wish to continue flashing?").arg(portName);
-        QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
-        if (qrply == QMessageBox::Cancel)
-            return;
 
+    if ( IsConnected )
+        msg = QString("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected.\n\n");
+
+    msg += QString("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. \
+Make sure you have your generated parameters and custom settings saved.\n\n\
+There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n\
+Do you wish to continue flashing?").arg(portName);
+
+    QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
+    if (qrply == QMessageBox::Cancel)
+        return;
+
+    if ( IsConnected ) {
         for ( int i=0; i<uas->getLinks()->count(); i++) {
             if ( uas->getLinks()->at(i)->isConnected() == true) {
                 uas->getLinks()->at(i)->disconnect();
@@ -1181,16 +1192,6 @@ void QGCAutoquad::flashFW()
     }
 
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "stm32flash" + platformExeExt);
-
-    msg = QString("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. \
-Make sure you have your generated parameters and custom settings saved.\n\n\
-Make sure you are disconnected from AutoQuad and that nothing else is currently using the %1 port.\n\n\
-There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n\
-Do you wish to continue flashing?").arg(portName);
-
-    QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
-    if (qrply == QMessageBox::Cancel)
-        return;
 
     QStringList Arguments;
     Arguments.append("-b 57600");
