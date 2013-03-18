@@ -246,7 +246,8 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/qgcautoquad.ui \
     src/ui/AQLinechart.ui \
     src/ui/aq_LogExporter.ui \
-    src/ui/aq_telemetryView.ui
+    src/ui/aq_telemetryView.ui \
+    src/ui/aq_pwmPortsConfig.ui
 
 INCLUDEPATH += src \
     src/ui \
@@ -395,7 +396,8 @@ HEADERS += src/MG.h \
     src/aq_comm.h \
     src/ui/linechart/aqlinechartwidget.h \
     src/ui/aq_LogExporter.h \
-    src/ui/aq_telemetryView.h
+    src/ui/aq_telemetryView.h \
+    src/ui/aq_pwmPortsConfig.h
 
 # Google Earth is only supported on Mac OS and Windows with Visual Studio Compiler
 macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::HEADERS += src/ui/map3D/QGCGoogleEarthView.h
@@ -562,7 +564,8 @@ SOURCES += src/main.cc \
     src/aq_comm.cpp \
     src/ui/linechart/aqlinechartwidget.cpp \
     src/ui/aq_LogExporter.cpp \
-    src/ui/aq_telemetryView.cpp
+    src/ui/aq_telemetryView.cpp \
+    src/ui/aq_pwmPortsConfig.cc
 
 # Enable Google Earth only on Mac OS and Windows with Visual Studio compiler
 macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::SOURCES += src/ui/map3D/QGCGoogleEarthView.cc
