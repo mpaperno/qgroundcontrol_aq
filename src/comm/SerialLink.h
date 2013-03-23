@@ -92,8 +92,6 @@ public:
     int getParityType();
     int getDataBitsType();
     int getStopBitsType();
-    unsigned char getRows();
-    unsigned char getCols();
 
     /* Extensive statistics for scientific purposes */
     qint64 getNominalDataRate();
@@ -114,6 +112,8 @@ public:
     int getLinkQuality();
     bool isFullDuplex();
     int getId();
+    QByteArray read(qint64 maxlen);
+    qint64 read(char *data, qint64 maxlen);
 
 public slots:
     bool setPortName(QString portName);

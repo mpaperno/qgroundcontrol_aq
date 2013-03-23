@@ -277,6 +277,8 @@ void WaypointEditableView::updateActionView(int action)
     case 1:
         if (!m_ui->aqformat->isChecked()) {
             m_ui->orbitSpinBox->hide();
+            m_ui->acceptanceSpinBox->setToolTip("Uncertainly radius in meters where to accept this waypoint as reached");
+            m_ui->acceptanceSpinBox->setStatusTip("Uncertainly radius in meters where to accept this waypoint as reached");
             m_ui->takeOffAngleSpinBox->hide();
             m_ui->turnsSpinBox->hide();
             m_ui->holdTimeSpinBox->show();
@@ -303,6 +305,8 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->yawSpinBox->show();
             m_ui->horizontalLayout->insertStretch(17, 1);
             m_ui->autoContinue->show();
+            m_ui->acceptanceSpinBox->setToolTip("Radius in meters for Orbit");
+            m_ui->acceptanceSpinBox->setStatusTip("Radius in meters for Orbit");
             wp->setPOIHeadingAQ(0);
         }
         break;
