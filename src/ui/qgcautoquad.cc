@@ -29,6 +29,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     aqHardwareRevision(0),
     aqBuildNumber(0),
     aqBinFolderPath(QCoreApplication::applicationDirPath() + "/aq/bin"),
+    aqMotorMixesPath(QCoreApplication::applicationDirPath() + "/aq/mixes"),
 #if defined(Q_OS_WIN)
     platformExeExt(".exe"),
 #else
@@ -3321,11 +3322,10 @@ void QGCAutoquad::WriteUsersParams() {
 
 void QGCAutoquad::LoadFrameFromFile() {
 
-    QString dirPath;
-    if ( LastFilePath == "")
-        dirPath = QCoreApplication::applicationDirPath();
-    else
-        dirPath = LastFilePath;
+    static QString dirPath;
+    if ( dirPath == "")
+        dirPath = aqMotorMixesPath + QString("/");
+
     QFileInfo dir(dirPath);
     QFileDialog dialog;
     dialog.setDirectory(dir.absoluteDir());
@@ -3342,6 +3342,7 @@ void QGCAutoquad::LoadFrameFromFile() {
     {
         QString fileName = fileNames.first();
         QFile file(fileName);
+        dirPath = fileName;
 
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
