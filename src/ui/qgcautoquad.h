@@ -171,7 +171,7 @@ private slots:
 public:
         QString LogFile;
         QString LastFilePath;
-        float aqFirmwareVersion;
+        QString aqFirmwareVersion;
         int aqFirmwareRevision;
         int aqHardwareRevision;
         int aqBuildNumber;
