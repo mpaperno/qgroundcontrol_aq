@@ -513,7 +513,7 @@ public:
     void SetToBootMode();
     int GetEsc32State();
     SerialLink* getSerialLink();
-    void StartCalibration(float MaxCurrent, QString LogFile);
+    void StartCalibration(float MaxCurrent, QString LogFile, QString ResFile);
     void StopCalibration(bool withEmergencyExit);
     void StartLogging();
     void SetCommandBack(int Command);
@@ -575,6 +575,9 @@ private:
     int calibrationMode;
     float maximum_Current;
     QString LoggingFile;
+    QString ResultFile;
+    FILE *calResultFile;
+
 
 private slots:
     void connectedEsc32();
@@ -599,6 +602,7 @@ signals:
     void EnteredBootMode();
     void NoBootModeArmed();
 };
+
 
 
 #endif // AQ_COMM_H

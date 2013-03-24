@@ -1011,6 +1011,7 @@ void QGCAutoquad::Esc32StartCalibration() {
         return;
 
     QString Esc32LoggingFile = "";
+    QString Esc32ResultFile = "";
 
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
         QMessageBox InfomsgBox;
@@ -1022,16 +1023,20 @@ void QGCAutoquad::Esc32StartCalibration() {
             Esc32CalibrationMode = 1;
             #ifdef Q_OS_WIN
                 Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "RPMTOVOLTAGE.txt");
+                Esc32ResultFile =  QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "RPMTOVOLTAGE_RESULT.txt");
             #else
-                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "RPMTOVOLTAGE.txt");
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "RPMTOVOLTAGE_RESULT.TXT");
+                Esc32ResultFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "RPMTOVOLTAGE_RESULT.TXT");
             #endif
         }
         else if ( ret == 1) {
             Esc32CalibrationMode = 2;
             #ifdef Q_OS_WIN
-                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "CURRENTLIMITER.txt");
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "CURRENTLIMITER.TXT");
+                Esc32ResultFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "CURRENTLIMITER_RESULT.TXT");
             #else
-                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "CURRENTLIMITER.txt");
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "CURRENTLIMITER.TXT");
+                Esc32ResultFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "CURRENTLIMITER_RESULT.TXT");
             #endif
         }
         else {
@@ -1043,6 +1048,8 @@ void QGCAutoquad::Esc32StartCalibration() {
 
         if (QFile::exists(Esc32LoggingFile))
             QFile::remove(Esc32LoggingFile);
+        if (QFile::exists(Esc32ResultFile))
+            QFile::remove(Esc32ResultFile);
 
         QMessageBox msgBox;
         msgBox.setWindowTitle("Information");
@@ -1054,7 +1061,7 @@ void QGCAutoquad::Esc32StartCalibration() {
             float maxAmps = ui->DoubleMaxCurrent->text().toFloat();
 
             esc32->SetCalibrationMode(this->Esc32CalibrationMode);
-            esc32->StartCalibration(maxAmps,Esc32LoggingFile);
+            esc32->StartCalibration(maxAmps,Esc32LoggingFile,Esc32ResultFile);
             ui->pushButton_start_calibration->setText("stop calibration");
         }
         else {
