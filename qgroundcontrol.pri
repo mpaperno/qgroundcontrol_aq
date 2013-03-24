@@ -56,6 +56,8 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	# Copy AQ files
         QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
         QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
+        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
+        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
 
 	# Copy google earth starter file
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/images/earth.html $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
@@ -251,6 +253,8 @@ linux-g++|linux-g++-64{
 	# Copy AQ files
         QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/bin
         QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_unix_all/* $$TARGETDIR/aq/bin
+        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/mixes
+        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/aq/mixes
         QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq/bin/*
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/data $$TARGETDIR
@@ -349,6 +353,7 @@ win32-msvc2008|win32-msvc2010 {
 
         # Copy AQ files
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\aq\\bin" /E /I $$escape_expand(\\n))
+        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\mixes\\*" "$$TARGETDIR_WIN\\aq\\mixes" /E /I $$escape_expand(\\n))
 
         # Copy VLC files
         contains(DEFINES, QGC_USE_VLC) {
