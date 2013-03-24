@@ -754,8 +754,8 @@ void QGCAutoquad::btnConnectEsc32()
     }
 
     if ( IsConnected ) {
-        msg = QString("WARNING: You are already connected to AutoQuad, we now disconnecting! \
-        Do you wish to continue with connecting to ESC32?").arg(portName);
+        msg = QString("WARNING: You are already connected to AutoQuad! If you continue, you will be disconnected.\n\n\
+Do you wish to continue connecting to ESC32?").arg(portName);
         QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Disconnect AutoQuad"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
         if (qrply == QMessageBox::Cancel)
             return;
@@ -858,7 +858,7 @@ void QGCAutoquad::btnSaveToEsc32() {
     else if (something_gos_wrong) {
         QMessageBox msgBox;
         msgBox.setWindowTitle("Error");
-        msgBox.setInformativeText("Something goes wrong with storing the values. Please retry!");
+        msgBox.setInformativeText("Something went wrong trying to store the values. Please retry!");
         msgBox.setWindowModality(Qt::ApplicationModal);
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
@@ -946,7 +946,7 @@ void QGCAutoquad::saveEEpromEsc32()
 {
     QMessageBox msgBox;
     msgBox.setWindowTitle("Question");
-    msgBox.setInformativeText("The values are transmitted to Esc32! Do you want to store the para into ROM?");
+    msgBox.setInformativeText("The values have been transmitted to Esc32! Do you want to store the parameters into permanent memory (ROM)?");
     msgBox.setWindowModality(Qt::ApplicationModal);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     int ret = msgBox.exec();
@@ -1015,7 +1015,9 @@ void QGCAutoquad::Esc32StartCalibration() {
 
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
         QMessageBox InfomsgBox;
-        InfomsgBox.setText("This is the calibration routine for esc32!\r\n Please be careful with the calibration function!\r\n The motor turn up to full throttle!\r\n Please fix the motor & prop!\r\n No guarantee about any damage or failures");
+        InfomsgBox.setText("This is the calibration routine for ESC32!\n\n\
+Please be careful with the calibration function! The motor will spin up to full throttle! Please stay clear of the motor & propeller!\n\n\
+Proceed at your own risk!  You will have one more chance to cancel before the procedure starts.");
         InfomsgBox.exec();
 
         int ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
@@ -1053,7 +1055,8 @@ void QGCAutoquad::Esc32StartCalibration() {
 
         QMessageBox msgBox;
         msgBox.setWindowTitle("Information");
-        msgBox.setInformativeText("Again be carful, you can abort with stop calibration!\r\n But the fastest stop is to pull the batery!\r\n If you want start the calibration procedure, press yes");
+        msgBox.setInformativeText("Again, be carful! You can abort using the Stop Calibration button, but the fastest stop is to pull the battery!\n\n\
+To start the calibration procedure, press Yes.  This is your final warning!");
         msgBox.setWindowModality(Qt::ApplicationModal);
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         ret = msgBox.exec();
@@ -2555,11 +2558,11 @@ void QGCAutoquad::ShowMessageForChangingMotorConfig(int Motor) {
     if ( EventComesFromMavlink == false) {
         AlreadyShowMessage = true;
         QString MessageInfo = QString();
-        MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port," );
+        MessageInfo.append("You have selected a Gimbal Port that was already defined as a Motor Port," );
         MessageInfo.append("\r\n");
         MessageInfo.append("or shares a hardware timer with a motor port!");
         MessageInfo.append("\r\n");
-        MessageInfo.append("Please check again your Motor configuration!");
+        MessageInfo.append("Please re-check your motor configuration!");
         QMessageBox::information(this, "Information", MessageInfo ,QMessageBox::Ok, 0 );
     }
 }
@@ -3590,7 +3593,8 @@ void QGCAutoquad::QuestionForROM()
 {
     QMessageBox msgBox;
     msgBox.setWindowTitle("Question");
-    msgBox.setInformativeText("The values are transmitted to AutoQuad! Do you want to store the para into ROM?");
+    msgBox.setInformativeText("The values have been transmitted to AutoQuad and will persist until the next restart.\n\n\
+Do you want to store all the current parameters into permanent on-board memory (ROM)?");
     msgBox.setWindowModality(Qt::ApplicationModal);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     int ret = msgBox.exec();
