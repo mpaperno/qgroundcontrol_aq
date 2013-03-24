@@ -2969,13 +2969,13 @@ void AQEsc32::StartLogging(){
         esc32dataLogger = new AQEsc32Logger();
         sendCommand(BINARY_COMMAND_NOP, 0.0f, 0.0f, 0, false);
         sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, false);
-        sendCommand(BINARY_COMMAND_TELEM_VALUE, 0.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
-        sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
-        sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
-
         //sendCommand(BINARY_COMMAND_TELEM_VALUE, 0.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
-        //sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_MOTOR, 2, false);
-        //sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_AMPS, 2, false);
+        //sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
+        //sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
+
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 0.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_MOTOR, 2, false);
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_AMPS, 2, false);
         sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, true);
         disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         esc32dataLogger->startLogging(this->seriallinkEsc32, "");
