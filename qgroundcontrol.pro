@@ -25,9 +25,10 @@ QT += network \
     opengl \
     svg \
     xml \
-#    phonon \
     webkit \
     sql
+
+!win32:QT += phonon
 
 TEMPLATE = app
 TARGET = qgroundcontrol
