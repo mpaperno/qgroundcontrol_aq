@@ -397,6 +397,11 @@ enum binaryValues {
     BINARY_VALUE_ADC_WINDOW,
     BINARY_VALUE_IDLE_PERCENT,
     BINARY_VALUE_STATE,
+    BINARY_VALUE_AVGA,
+    BINARY_VALUE_AVGB,
+    BINARY_VALUE_AVGC,
+    BINARY_VALUE_AVGCOMP,
+    BINARY_VALUE_FETSTEP,
     BINARY_VALUE_NUM
 };
 
@@ -493,7 +498,6 @@ private:
     QMutex dataMutex;
     SerialLink* seriallinkEsc32;
     FILE *telemOutFile;
-
 };
 
 #define MAX_TELEM_STORAGE	200000
@@ -577,7 +581,6 @@ private:
     QString LoggingFile;
     QString ResultFile;
     FILE *calResultFile;
-
 
 private slots:
     void connectedEsc32();

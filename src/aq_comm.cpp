@@ -2968,15 +2968,13 @@ void AQEsc32::StartLogging(){
         seriallinkEsc32->setEsc32Mode(false);
         esc32dataLogger = new AQEsc32Logger();
         sendCommand(BINARY_COMMAND_NOP, 0.0f, 0.0f, 0, false);
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, false);
-        //sendCommand(BINARY_COMMAND_TELEM_VALUE, 0.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
-        //sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
-        //sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
 
+        sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, false);
         sendCommand(BINARY_COMMAND_TELEM_VALUE, 0.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
-        sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_MOTOR, 2, false);
-        sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_AMPS, 2, false);
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, true);
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
+        sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
+
+        sendCommand(BINARY_COMMAND_TELEM_RATE, 10.0f, 0.0f, 1, true);
         disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         esc32dataLogger->startLogging(this->seriallinkEsc32, "");
         seriallinkEsc32->setEsc32Mode(true);
@@ -3135,7 +3133,6 @@ int i, j, k, z;
             break;
 
         if (esc32dataLogger->getTelemValueMaxs(2) > maxAmps && j == i+5) {
-            currentError = true;
             break;
         }
     }
@@ -3148,6 +3145,7 @@ int i, j, k, z;
     qDebug() << "Stopping";
 
     if ( esc32dataLogger->getTelemStorageNum() <= 0) {
+        qDebug() << "Aorted esc32dataLogger->getTelemStorageNum()";
         return true;
     }
 
@@ -3375,7 +3373,6 @@ void AQEsc32::checkEsc32StateTimeOut() {
     // Send Tele start to eSC32
     else if ( TimerState == 17 ) {
         CommandBack = -1;
-        qDebug() << "send BINARY_COMMAND_TELEM_RATE";
         esc32dataLogger = new AQEsc32Logger();
         disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         seriallinkEsc32->setEsc32Mode(true);
@@ -3383,7 +3380,7 @@ void AQEsc32::checkEsc32StateTimeOut() {
         esc32dataLogger->start();
 
         if ( calibrationMode == 1) {
-            sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, true);
+            sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0, 0.0, 1, false);
             TimerState = 18;
         }
         else if ( calibrationMode == 2) {
@@ -3482,30 +3479,31 @@ void AQEsc32Logger::run() {
     StepMessageFromEsc32 = 0;
     telemStorageNum = 0;
     qDebug() << "set serial into esc mode";
-
-
-    //TNX::QSerialPort * myPort = seriallinkEsc32->getPort();
-
-    const qint64 maxLength = 4096;
-    char data[maxLength];
+    unsigned char InSerial;
+    char InSerialArray[14];
 
     while ( true) {
         retry:
         if ( StopLogging == 1)
             break;
 
-        //if ( myPort->bytesAvailable() > 0 )
-        if ( 1 == 1)
+        if ( seriallinkEsc32->bytesAvailable() > 0 )
         {
-            seriallinkEsc32->read(data,1);
-            if ( data[0] != 'A')
+            InSerial = seriallinkEsc32->read();
+            if ( InSerial != 'A') {
+                QCoreApplication::processEvents();
                 goto retry;
-            seriallinkEsc32->read(data,1);
-            if ( data[0] != 'q')
+            }
+            InSerial = seriallinkEsc32->read();
+            if ( InSerial != 'q') {
+                QCoreApplication::processEvents();
                 goto retry;
-            seriallinkEsc32->read(data,1);
-            if ( data[0] != 'T')
+            }
+            InSerial = seriallinkEsc32->read();
+            if ( InSerial != 'T') {
+                QCoreApplication::processEvents();
                 goto retry;
+            }
 
             rows = 0;
             cols = 0;
@@ -3513,36 +3511,33 @@ void AQEsc32Logger::run() {
             checkInB = 0;
             int i, j;
 
-            seriallinkEsc32->read(data,2);
-            rows = data[0];
-            cols = data[1];
+            InSerial = seriallinkEsc32->read();
+            rows = InSerial;
+            InSerial = seriallinkEsc32->read();
+            cols = InSerial;
             esc32InChecksum(rows);
             esc32InChecksum(cols);
-            int length_array = (((cols*rows)*4)+2);
+            int length_array = (((cols*rows)*sizeof(float))+2);
             if ( length_array > 500) {
                 length_array  = 0;
-                if (length_array > maxLength)
-                    length_array = maxLength;
-                seriallinkEsc32->read(data,length_array);
                 goto retry;
             }
 
-            //seriallinkEsc32->read(data,length_array);
-
             for (i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    seriallinkEsc32->read(data,4);
-                    telemData[i][j] = esc32GetFloat(data,0);
+                    for ( int k =0; k < sizeof(float); k++) {
+                        InSerialArray[k] = seriallinkEsc32->read();
+                    }
+                    telemData[i][j] = esc32GetFloat(InSerialArray,0);
                 }
             }
 
-
-            seriallinkEsc32->read(data,2);
-            unsigned char tmp_A  = data[0];
-            unsigned char tmp_B  = data[1];
+            InSerial = seriallinkEsc32->read();
+            unsigned char tmp_A  = InSerial;
+            InSerial = seriallinkEsc32->read();
+            unsigned char tmp_B  = InSerial;
 
             if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
-                //qDebug() << "cheksum Ok, rows=" << rows << " cols" << cols;
                 // update averages
                 for (i = 0; i < rows; i++)
                     for (j = 0; j < cols; j++){
@@ -3562,7 +3557,7 @@ void AQEsc32Logger::run() {
                     telemStorageNum++;
                 }
 
-                /*
+
                 if (telemOutFile) {
                     for (i = 0; i < rows; i++) {
                         for (j = 0; j < cols; j++) {
@@ -3573,16 +3568,19 @@ void AQEsc32Logger::run() {
                         fprintf(telemOutFile, "\n");
                     }
                 }
-                */
+
 
             }
-            //else
-            //    qDebug() << "cheksum Not Ok, rows=" << rows << " cols" << cols;
         }
-
-        //fflush(telemOutFile);
-
+        else {
+            MG::SLEEP::msleep(1);
+            QCoreApplication::processEvents();
+        }
+        fflush(telemOutFile);
     }
+
+    if (telemOutFile)
+        fflush(telemOutFile);
 
     ParaWriten_MessageFromEsc32 = "";
     ResponseFromEsc32.clear();
@@ -3603,12 +3601,13 @@ unsigned short AQEsc32Logger::esc32GetShort(QByteArray data, int startIndex) {
 
 float AQEsc32Logger::esc32GetFloat(QByteArray data, int startIndex) {
     float f;
-    for ( int i =0; i< sizeof(float); i++) {
+    unsigned char *c = (unsigned char *)&f;
+    unsigned int i;
+
+    for (i = 0; i < sizeof(float); i++) {
         esc32InChecksum(data[startIndex+i]);
+        *c++ = data[startIndex+i];
     }
-    QByteArray b = data.mid(0,sizeof(float));
-    float * buf = (float *) b.data();
-    f = *buf;
     return f;
 }
 

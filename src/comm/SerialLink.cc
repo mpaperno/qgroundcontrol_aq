@@ -424,50 +424,20 @@ void SerialLink::run()
         port = NULL;
     }
 }
-QByteArray SerialLink::read(qint64 maxlen) {
-    dataMutex.lock();
-    if(port && port->isOpen()) {
 
-        char data[4000];
-        qint64 numBytes = port->bytesAvailable();
-        //qDebug() << "numBytes: " << numBytes;
-
-        if(numBytes > 0) {
-            /* Read as much data in buffer as possible without overflow */
-            if(maxlen < numBytes) numBytes = maxlen;
-
-            port->read(data, numBytes);
-            QByteArray b(data, numBytes);
-            bitsReceivedTotal += numBytes * 8;
-            return b;
-            dataMutex.unlock();
+unsigned char SerialLink::read() {
+    //dataMutex.lock();
+    if ( port->open()) {
+        retry:
+        if ( port->bytesAvailable() > 0)
+            port->read(SerialIn,1);
+        else {
+            MG::SLEEP::msleep(1);
+            goto retry;
         }
+        return SerialIn[0];
     }
-
-   dataMutex.unlock();
-   return NULL;
-}
-
-qint64 SerialLink::read(char *data, qint64 maxlen) {
-    dataMutex.lock();
-    if(port && port->isOpen()) {
-
-        //char data[maxlen];
-        qint64 numBytes = port->bytesAvailable();
-        //qDebug() << "numBytes: " << numBytes;
-
-        if(numBytes > 0) {
-            /* Read as much data in buffer as possible without overflow */
-            if(maxlen < numBytes) numBytes = maxlen;
-
-            port->read(data, numBytes);
-            //QByteArray b(data, numBytes);
-            //bitsReceivedTotal += numBytes * 8;
-        }
-    }
-    dataMutex.unlock();
-
-   return 0;
+    //dataMutex.unlock();
 }
 
 
@@ -577,6 +547,7 @@ TNX::QSerialPort * SerialLink::getPort() {
 void SerialLink::setEsc32Mode(bool mode) {
     mode_port = mode;
 }
+
 bool SerialLink::getEsc32Mode() {
     return mode_port;
 }

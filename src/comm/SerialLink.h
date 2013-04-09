@@ -112,8 +112,7 @@ public:
     int getLinkQuality();
     bool isFullDuplex();
     int getId();
-    QByteArray read(qint64 maxlen);
-    qint64 read(char *data, qint64 maxlen);
+    unsigned char read();
 
 public slots:
     bool setPortName(QString portName);
@@ -180,8 +179,8 @@ private:
     void setName(QString name);
     bool hardwareConnect();
     bool mode_port;
-    unsigned char rows;
-    unsigned char cols;
+    char SerialIn[1];
+    int countRetry;
 
 signals:
     void aboutToCloseFlag();

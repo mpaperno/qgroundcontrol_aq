@@ -747,9 +747,11 @@ void QGCAutoquad::btnConnectEsc32()
 {
     QString msg = "";
     bool IsConnected = false;
-    for ( int i=0; i<uas->getLinks()->count(); i++) {
-        if ( uas->getLinks()->at(i)->isConnected() == true) {
-            IsConnected = true;
+    if ( uas != NULL ) {
+        for ( int i=0; i<uas->getLinks()->count(); i++) {
+            if ( uas->getLinks()->at(i)->isConnected() == true) {
+                IsConnected = true;
+            }
         }
     }
 
@@ -933,8 +935,19 @@ void QGCAutoquad::btnSetRPM()
 {
     if (( ui->pushButton_esc32_read_start_stop->text() == "stop") &&( ui->pushButton_esc32_read_arm_disarm->text() == "disarm")) {
         float rpm = (float)ui->horizontalSlider_rpm->value();
-        ui->label_rpm->setText(QString::number(ui->horizontalSlider_rpm->value()));
-        esc32->sendCommand(BINARY_COMMAND_RPM,rpm, 0.0f, 1, false);
+        float ff1Term = ui->FF1TERM->text().toFloat();
+        if ( ff1Term == 0.0f) {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Error");
+            msgBox.setInformativeText("The Parameter FF1Term is 0.0, can't set the RPM!");
+            msgBox.setWindowModality(Qt::ApplicationModal);
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.exec();
+        }
+        else {
+            ui->label_rpm->setText(QString::number(ui->horizontalSlider_rpm->value()));
+            esc32->sendCommand(BINARY_COMMAND_RPM, rpm, 0.0f, 1, false);
+        }
     }
 }
 
