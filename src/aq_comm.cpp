@@ -3029,15 +3029,18 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     Eigen::MatrixXd c(2,1);
     Eigen::MatrixXd ab(2,1);
     Eigen::MatrixXd data(100, 3);
-    FF1Term = 0;
-    FF1Term = 0;
-    FF1Term = 0;
-    float f = 0;
-    int j = 0;
+    FF1Term;
+    FF2Term;
+    float f;
+    int j;
     int i;
-
+    FF1Term = 0;
+    FF2Term = 0;
+    f = 0;
+    j = 0;
+    i = 0;
     // reset max current
-    SleepThread(1000);
+    SleepThread(100);
     if ( ExitCalibration != 0)
         return true;
     esc32dataLogger->setTelemValueMaxs(2,0.0f);
@@ -3097,7 +3100,12 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     ab.setZero();
     data.setZero();
     qDebug() << "FF1Term =" << FF1Term;
-    qDebug() << "FF2Term =" << FF1Term;
+    qDebug() << "FF2Term =" << FF2Term;
+
+    fprintf(calResultFile, "FF1TERM\t%f\n", FF1Term);
+    fprintf(calResultFile, "FF2TERM\t%f\n", FF2Term);
+    fflush(calResultFile);
+
     return false;
 }
 
@@ -3118,7 +3126,7 @@ int i, j, k, z;
     if ( ExitCalibration != 0)
         return true;
 
-    for (i = 10; i <= 90; i += 10) {
+    for (i = 10; i <= 90; i += 5) {
         esc32dataLogger->setTelemValueMaxs(2,0.0f);
 
         for (j = i+5; j <= 100; j += 5) {
@@ -3145,7 +3153,7 @@ int i, j, k, z;
     qDebug() << "Stopping";
 
     if ( esc32dataLogger->getTelemStorageNum() <= 0) {
-        qDebug() << "Aorted esc32dataLogger->getTelemStorageNum()";
+        qDebug() << "Aborted esc32dataLogger->getTelemStorageNum()";
         return true;
     }
 
@@ -3353,7 +3361,6 @@ void AQEsc32::checkEsc32StateTimeOut() {
         }
     }
 
-
     // Send Tele duty to eSC32
     else if ( TimerState == 15 ) {
         CommandBack = -1;
@@ -3538,6 +3545,7 @@ void AQEsc32Logger::run() {
             unsigned char tmp_B  = InSerial;
 
             if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
+
                 // update averages
                 for (i = 0; i < rows; i++)
                     for (j = 0; j < cols; j++){

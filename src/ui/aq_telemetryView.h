@@ -24,12 +24,12 @@ private:
 //    typedef float (AQTelemetryView::*valueCallback)(int);
 
     struct telemFieldsMeta {
-        telemFieldsMeta(const QString label, QString unit, int valueIndex, int msgValueIndex = 0, telemDatasets dataSet = TELEM_DATASET_DEFAULT) :
+        telemFieldsMeta(QString label, QString unit, int valueIndex, int msgValueIndex = 0, telemDatasets dataSet = TELEM_DATASET_DEFAULT) :
             label(label), unit(unit), valueIndex(valueIndex), msgValueIndex(msgValueIndex), dataSet(dataSet) {}
         //valueCallback callback  callback(callback)
 
-        const QString label; // human-readable name of field
-        const QString unit; // value type (float|int)
+        QString label; // human-readable name of field
+        QString unit; // value type (float|int)
 //        valueCallback callback; // callback function to get value
         int valueIndex; // index of telemtry value in mavlink msg
         int msgValueIndex; // __mavlink_aq_telemetry_[f|i]_t.Index
