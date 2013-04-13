@@ -21,10 +21,6 @@
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
-    plot(new IncrementalPlot()),
-    uas(NULL),
-    paramaq(NULL),
-    esc32(NULL),
     aqFirmwareRevision(0),
     aqHardwareRevision(0),
     aqBuildNumber(0),
@@ -35,7 +31,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 #else
     platformExeExt(""),
 #endif
-    ui(new Ui::QGCAutoquad)
+    ui(new Ui::QGCAutoquad),
+    paramaq(NULL),
+    esc32(NULL),
+    plot(new IncrementalPlot()),
+    uas(NULL)
 {
     ui->setupUi(this);
     esc32 = NULL;
