@@ -397,6 +397,11 @@ enum binaryValues {
     BINARY_VALUE_ADC_WINDOW,
     BINARY_VALUE_IDLE_PERCENT,
     BINARY_VALUE_STATE,
+    BINARY_VALUE_AVGA,
+    BINARY_VALUE_AVGB,
+    BINARY_VALUE_AVGC,
+    BINARY_VALUE_AVGCOMP,
+    BINARY_VALUE_FETSTEP,
     BINARY_VALUE_NUM
 };
 
@@ -493,7 +498,6 @@ private:
     QMutex dataMutex;
     SerialLink* seriallinkEsc32;
     FILE *telemOutFile;
-
 };
 
 #define MAX_TELEM_STORAGE	200000
@@ -513,7 +517,7 @@ public:
     void SetToBootMode();
     int GetEsc32State();
     SerialLink* getSerialLink();
-    void StartCalibration(float MaxCurrent, QString LogFile);
+    void StartCalibration(float MaxCurrent, QString LogFile, QString ResFile);
     void StopCalibration(bool withEmergencyExit);
     void StartLogging();
     void SetCommandBack(int Command);
@@ -575,6 +579,8 @@ private:
     int calibrationMode;
     float maximum_Current;
     QString LoggingFile;
+    QString ResultFile;
+    FILE *calResultFile;
 
 private slots:
     void connectedEsc32();
@@ -599,6 +605,7 @@ signals:
     void EnteredBootMode();
     void NoBootModeArmed();
 };
+
 
 
 #endif // AQ_COMM_H

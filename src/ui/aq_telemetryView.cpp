@@ -4,10 +4,10 @@
 
 AQTelemetryView::AQTelemetryView(QWidget *parent) :
     QWidget(parent),
-    AqTeleChart(NULL),
-    currentDataSet(TELEM_DATASET_DEFAULT),
+    ui(new Ui::AQTelemetryView),
     telemetryRunning(false),
-    ui(new Ui::AQTelemetryView)
+    currentDataSet(TELEM_DATASET_DEFAULT),
+    AqTeleChart(NULL)
 {
 
     ui->setupUi(this);
@@ -67,8 +67,8 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDataFields.append(telemFieldsMeta("navData.holdTiltE", unit, 11, msgidx, dset));
 
     telemDataFields.append(telemFieldsMeta("super.flightTime", unit, 19, msgidx, dset));
-//    telemDataFields.append(telemFieldsMeta("Res", unit, 20, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("RADIO_QUALITY", unit, 15, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("RADIO_ERROR_COUNT", "int", 20, msgidx, dset));
 
     msgidx++; // new set of messages (INT msg types)
     unit = "int";

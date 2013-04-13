@@ -31,7 +31,7 @@ sudo apt-get install phonon libqt4-dev \
 
 cd directory
 
-git clone https://github.com/mavlink/qgroundcontrol.git
+git clone https://github.com/AutoQuad/qgroundcontrol.git
 
 go to libs/thirdParty -> libxbee 
 

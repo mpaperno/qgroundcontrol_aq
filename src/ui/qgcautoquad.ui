@@ -6123,7 +6123,7 @@
           <item>
            <widget class="QSlider" name="horizontalSlider_rpm">
             <property name="minimum">
-             <number>1000</number>
+             <number>100</number>
             </property>
             <property name="maximum">
              <number>10000</number>
@@ -6133,6 +6133,9 @@
             </property>
             <property name="pageStep">
              <number>1000</number>
+            </property>
+            <property name="value">
+             <number>2000</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -6190,7 +6193,7 @@
           <item>
            <widget class="QPushButton" name="pushButton_logging">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Start Log</string>

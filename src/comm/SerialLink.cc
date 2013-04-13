@@ -217,12 +217,11 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
 {
     // Setup settings
     this->porthandle = portname.trimmed();
-
     if (this->porthandle == "" && getCurrentPorts()->size() > 0)
     {
         this->porthandle = getCurrentPorts()->first().trimmed();
     }
-
+    mode_port = false;
 #ifdef _WIN32
     // Port names above 20 need the network path format - if the port name is not already in this format
     // catch this special case
@@ -263,7 +262,8 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     {
         name = portname.trimmed();
     }
-    loadSettings();
+    if (( name == this->getPortName() ) || ( name == "" ))
+        loadSettings();
 }
 
 SerialLink::~SerialLink()
@@ -359,6 +359,7 @@ QVector<QString>* SerialLink::getCurrentPorts()
 void SerialLink::loadSettings()
 {
     // Load defaults from settings
+    qDebug() << QGC::COMPANYNAME << QGC::APPNAME;
     QSettings settings(QGC::COMPANYNAME, QGC::APPNAME);
     settings.sync();
     if (settings.contains("SERIALLINK_COMM_PORT"))
@@ -407,11 +408,13 @@ void SerialLink::run()
             }
         }
         // Check if new bytes have arrived, if yes, emit the notification signal
-        checkForBytes();
-        /* Serial data isn't arriving that fast normally, this saves the thread
-                 * from consuming too much processing time
-                 */
-        MG::SLEEP::msleep(SerialLink::poll_interval);
+        if ( !mode_port ) {
+            checkForBytes();
+            /* Serial data isn't arriving that fast normally, this saves the thread
+                     * from consuming too much processing time
+                     */
+            MG::SLEEP::msleep(SerialLink::poll_interval);
+        }
     }
     if (port) {
         port->flushInBuffer();
@@ -420,6 +423,21 @@ void SerialLink::run()
         delete port;
         port = NULL;
     }
+}
+
+unsigned char SerialLink::read() {
+    //dataMutex.lock();
+    if ( port->open()) {
+        retry:
+        if ( port->bytesAvailable() > 0)
+            port->read(SerialIn,1);
+        else {
+            MG::SLEEP::msleep(1);
+            goto retry;
+        }
+        return SerialIn[0];
+    }
+    //dataMutex.unlock();
 }
 
 
@@ -434,13 +452,13 @@ void SerialLink::checkForBytes()
 
         if(available > 0)
         {
-                readBytes();
+            readBytes();
         }
         else if (available < 0) {
             /* Error, close port */
             port->close();
-        emit disconnected();
-        emit connected(false);
+            emit disconnected();
+            emit connected(false);
             emit communicationError(this->getName(), tr("Could not send data - link %1 is disconnected!").arg(this->getName()));
         }
     }
@@ -529,16 +547,11 @@ TNX::QSerialPort * SerialLink::getPort() {
 void SerialLink::setEsc32Mode(bool mode) {
     mode_port = mode;
 }
+
 bool SerialLink::getEsc32Mode() {
     return mode_port;
 }
 
-unsigned char SerialLink::getCols() {
-    return cols;
-}
-unsigned char SerialLink::getRows() {
-    return rows;
-}
 
 /**
  * @brief Get the number of bytes to read.

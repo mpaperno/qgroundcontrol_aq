@@ -21,20 +21,21 @@
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
-    plot(new IncrementalPlot()),
-    uas(NULL),
-    paramaq(NULL),
-    esc32(NULL),
     aqFirmwareRevision(0),
     aqHardwareRevision(0),
     aqBuildNumber(0),
     aqBinFolderPath(QCoreApplication::applicationDirPath() + "/aq/bin"),
+    aqMotorMixesPath(QCoreApplication::applicationDirPath() + "/aq/mixes"),
 #if defined(Q_OS_WIN)
     platformExeExt(".exe"),
 #else
     platformExeExt(""),
 #endif
-    ui(new Ui::QGCAutoquad)
+    ui(new Ui::QGCAutoquad),
+    paramaq(NULL),
+    esc32(NULL),
+    plot(new IncrementalPlot()),
+    uas(NULL)
 {
     ui->setupUi(this);
     esc32 = NULL;
@@ -746,15 +747,17 @@ void QGCAutoquad::btnConnectEsc32()
 {
     QString msg = "";
     bool IsConnected = false;
-    for ( int i=0; i<uas->getLinks()->count(); i++) {
-        if ( uas->getLinks()->at(i)->isConnected() == true) {
-            IsConnected = true;
+    if ( uas != NULL ) {
+        for ( int i=0; i<uas->getLinks()->count(); i++) {
+            if ( uas->getLinks()->at(i)->isConnected() == true) {
+                IsConnected = true;
+            }
         }
     }
 
     if ( IsConnected ) {
-        msg = QString("WARNING: You are already connected to AutoQuad, we now disconnecting! \
-        Do you wish to continue with connecting to ESC32?").arg(portName);
+        msg = QString("WARNING: You are already connected to AutoQuad! If you continue, you will be disconnected.\n\n\
+Do you wish to continue connecting to ESC32?").arg(portName);
         QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Disconnect AutoQuad"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
         if (qrply == QMessageBox::Cancel)
             return;
@@ -857,7 +860,7 @@ void QGCAutoquad::btnSaveToEsc32() {
     else if (something_gos_wrong) {
         QMessageBox msgBox;
         msgBox.setWindowTitle("Error");
-        msgBox.setInformativeText("Something goes wrong with storing the values. Please retry!");
+        msgBox.setInformativeText("Something went wrong trying to store the values. Please retry!");
         msgBox.setWindowModality(Qt::ApplicationModal);
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
@@ -932,8 +935,19 @@ void QGCAutoquad::btnSetRPM()
 {
     if (( ui->pushButton_esc32_read_start_stop->text() == "stop") &&( ui->pushButton_esc32_read_arm_disarm->text() == "disarm")) {
         float rpm = (float)ui->horizontalSlider_rpm->value();
-        ui->label_rpm->setText(QString::number(ui->horizontalSlider_rpm->value()));
-        esc32->sendCommand(BINARY_COMMAND_RPM,rpm, 0.0f, 1, false);
+        float ff1Term = ui->FF1TERM->text().toFloat();
+        if ( ff1Term == 0.0f) {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Error");
+            msgBox.setInformativeText("The Parameter FF1Term is 0.0, can't set the RPM!");
+            msgBox.setWindowModality(Qt::ApplicationModal);
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.exec();
+        }
+        else {
+            ui->label_rpm->setText(QString::number(ui->horizontalSlider_rpm->value()));
+            esc32->sendCommand(BINARY_COMMAND_RPM, rpm, 0.0f, 1, false);
+        }
     }
 }
 
@@ -945,7 +959,7 @@ void QGCAutoquad::saveEEpromEsc32()
 {
     QMessageBox msgBox;
     msgBox.setWindowTitle("Question");
-    msgBox.setInformativeText("The values are transmitted to Esc32! Do you want to store the para into ROM?");
+    msgBox.setInformativeText("The values have been transmitted to Esc32! Do you want to store the parameters into permanent memory (ROM)?");
     msgBox.setWindowModality(Qt::ApplicationModal);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     int ret = msgBox.exec();
@@ -1010,10 +1024,13 @@ void QGCAutoquad::Esc32StartCalibration() {
         return;
 
     QString Esc32LoggingFile = "";
+    QString Esc32ResultFile = "";
 
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
         QMessageBox InfomsgBox;
-        InfomsgBox.setText("This is the calibration routine for esc32!\r\n Please be careful with the calibration function!\r\n The motor turn up to full throttle!\r\n Please fix the motor & prop!\r\n No guarantee about any damage or failures");
+        InfomsgBox.setText("This is the calibration routine for ESC32!\n\n\
+Please be careful with the calibration function! The motor will spin up to full throttle! Please stay clear of the motor & propeller!\n\n\
+Proceed at your own risk!  You will have one more chance to cancel before the procedure starts.");
         InfomsgBox.exec();
 
         int ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
@@ -1021,16 +1038,20 @@ void QGCAutoquad::Esc32StartCalibration() {
             Esc32CalibrationMode = 1;
             #ifdef Q_OS_WIN
                 Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "RPMTOVOLTAGE.txt");
+                Esc32ResultFile =  QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "RPMTOVOLTAGE_RESULT.txt");
             #else
-                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "RPMTOVOLTAGE.txt");
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "RPMTOVOLTAGE_RESULT.TXT");
+                Esc32ResultFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "RPMTOVOLTAGE_RESULT.TXT");
             #endif
         }
         else if ( ret == 1) {
             Esc32CalibrationMode = 2;
             #ifdef Q_OS_WIN
-                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "CURRENTLIMITER.txt");
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "CURRENTLIMITER.TXT");
+                Esc32ResultFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "\\" + "CURRENTLIMITER_RESULT.TXT");
             #else
-                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "CURRENTLIMITER.txt");
+                Esc32LoggingFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "CURRENTLIMITER.TXT");
+                Esc32ResultFile = QDir::toNativeSeparators(QApplication::applicationDirPath() + "/" + "CURRENTLIMITER_RESULT.TXT");
             #endif
         }
         else {
@@ -1042,10 +1063,13 @@ void QGCAutoquad::Esc32StartCalibration() {
 
         if (QFile::exists(Esc32LoggingFile))
             QFile::remove(Esc32LoggingFile);
+        if (QFile::exists(Esc32ResultFile))
+            QFile::remove(Esc32ResultFile);
 
         QMessageBox msgBox;
         msgBox.setWindowTitle("Information");
-        msgBox.setInformativeText("Again be carful, you can abort with stop calibration!\r\n But the fastest stop is to pull the batery!\r\n If you want start the calibration procedure, press yes");
+        msgBox.setInformativeText("Again, be carful! You can abort using the Stop Calibration button, but the fastest stop is to pull the battery!\n\n\
+To start the calibration procedure, press Yes.  This is your final warning!");
         msgBox.setWindowModality(Qt::ApplicationModal);
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         ret = msgBox.exec();
@@ -1053,7 +1077,7 @@ void QGCAutoquad::Esc32StartCalibration() {
             float maxAmps = ui->DoubleMaxCurrent->text().toFloat();
 
             esc32->SetCalibrationMode(this->Esc32CalibrationMode);
-            esc32->StartCalibration(maxAmps,Esc32LoggingFile);
+            esc32->StartCalibration(maxAmps,Esc32LoggingFile,Esc32ResultFile);
             ui->pushButton_start_calibration->setText("stop calibration");
         }
         else {
@@ -2547,11 +2571,11 @@ void QGCAutoquad::ShowMessageForChangingMotorConfig(int Motor) {
     if ( EventComesFromMavlink == false) {
         AlreadyShowMessage = true;
         QString MessageInfo = QString();
-        MessageInfo.append("You have selected a Gimbal Port, that was already defined as a Motor Port," );
+        MessageInfo.append("You have selected a Gimbal Port that was already defined as a Motor Port," );
         MessageInfo.append("\r\n");
         MessageInfo.append("or shares a hardware timer with a motor port!");
         MessageInfo.append("\r\n");
-        MessageInfo.append("Please check again your Motor configuration!");
+        MessageInfo.append("Please re-check your motor configuration!");
         QMessageBox::information(this, "Information", MessageInfo ,QMessageBox::Ok, 0 );
     }
 }
@@ -3321,11 +3345,10 @@ void QGCAutoquad::WriteUsersParams() {
 
 void QGCAutoquad::LoadFrameFromFile() {
 
-    QString dirPath;
-    if ( LastFilePath == "")
-        dirPath = QCoreApplication::applicationDirPath();
-    else
-        dirPath = LastFilePath;
+    static QString dirPath;
+    if ( dirPath == "")
+        dirPath = aqMotorMixesPath + QString("/");
+
     QFileInfo dir(dirPath);
     QFileDialog dialog;
     dialog.setDirectory(dir.absoluteDir());
@@ -3342,6 +3365,7 @@ void QGCAutoquad::LoadFrameFromFile() {
     {
         QString fileName = fileNames.first();
         QFile file(fileName);
+        dirPath = fileName;
 
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
@@ -3582,7 +3606,8 @@ void QGCAutoquad::QuestionForROM()
 {
     QMessageBox msgBox;
     msgBox.setWindowTitle("Question");
-    msgBox.setInformativeText("The values are transmitted to AutoQuad! Do you want to store the para into ROM?");
+    msgBox.setInformativeText("The values have been transmitted to AutoQuad and will persist until the next restart.\n\n\
+Do you want to store all the current parameters into permanent on-board memory (ROM)?");
     msgBox.setWindowModality(Qt::ApplicationModal);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     int ret = msgBox.exec();

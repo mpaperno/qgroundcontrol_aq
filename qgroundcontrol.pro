@@ -25,9 +25,10 @@ QT += network \
     opengl \
     svg \
     xml \
-#    phonon \
     webkit \
     sql
+
+!win32:QT += phonon
 
 TEMPLATE = app
 TARGET = qgroundcontrol
@@ -698,4 +699,4 @@ win32-msvc2008|win32-msvc2010 {
     DEFINES += MOUSE_ENABLED_WIN
 }
 
-unix:!macx:!symbian: LIBS += -losg
+!unix:!macx:!symbian: LIBS += -losg

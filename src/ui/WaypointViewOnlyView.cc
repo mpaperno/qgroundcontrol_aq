@@ -366,6 +366,13 @@ void WaypointViewOnlyView::updateValues()
         m_ui->displayBar->setText(QString("Delay: %1 sec").arg(wp->getParam1()));
         break;
     }
+    case 1:
+    {
+        //m_ui->displayBar->setText(QString("Delay: %1 sec").arg(wp->getParam1()));
+        m_ui->displayBar->setText(QString("Orbit: Radius=%1 m").arg(wp->getParam1()));
+        break;
+    }
+
 #ifdef MAVLINK_ENABLED_PIXHAWK
     case MAV_CMD_DO_START_SEARCH:
     {
