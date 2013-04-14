@@ -21,21 +21,16 @@ private:
     enum telemDatasets { TELEM_DATASET_DEFAULT, TELEM_DATASET_GROUND, TELEM_DATASET_NUM };
     enum telemValueTypes { TELEM_VALUETYPE_FLOAT, TELEM_VALUETYPE_INT };
     enum telemValueDefs { TELEM_VALDEF_ACC_MAGNITUDE = 100, TELEM_VALDEF_MAG_MAGNITUDE };
-//    typedef float (AQTelemetryView::*valueCallback)(int);
 
     struct telemFieldsMeta {
         telemFieldsMeta(QString label, QString unit, int valueIndex, int msgValueIndex = 0, telemDatasets dataSet = TELEM_DATASET_DEFAULT) :
             label(label), unit(unit), valueIndex(valueIndex), msgValueIndex(msgValueIndex), dataSet(dataSet) {}
-        //valueCallback callback  callback(callback)
 
         QString label; // human-readable name of field
         QString unit; // value type (float|int)
-//        valueCallback callback; // callback function to get value
         int valueIndex; // index of telemtry value in mavlink msg
         int msgValueIndex; // __mavlink_aq_telemetry_[f|i]_t.Index
         telemDatasets dataSet;
-
-//        float getValue() { return (AQTelemetryView->*callback)(callbackParam); }
     };
 
     Ui::AQTelemetryView *ui;

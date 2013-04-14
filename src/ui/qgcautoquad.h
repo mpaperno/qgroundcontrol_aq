@@ -177,8 +177,8 @@ public:
         int aqBuildNumber;
 
         QString aqBinFolderPath;    // absolute path to AQ supporting utils
-        const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
         QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files
+        const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
 
 private:
         Ui::QGCAutoquad *ui;
