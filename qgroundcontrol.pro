@@ -694,6 +694,7 @@ win32-msvc2008|win32-msvc2010 {
                 src/input/Mouse6dofInput.h
     INCLUDEPATH += libs/thirdParty/3DMouse/win
     DEFINES += MOUSE_ENABLED_WIN
+
 }
 
-!unix:!macx:!symbian: LIBS += -losg
+#!unix:!macx:!symbian: LIBS += -losg
