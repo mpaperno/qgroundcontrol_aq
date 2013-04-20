@@ -51,12 +51,6 @@ private:
     void exportPDF(QString fileName);
     void exportSVG(QString fileName);
     void saveEEpromEsc32();
-    void setMotorPWMTimer(int pitch_port, int roll_port);
-    void setMotorEnable(int MotorIndex, bool value);
-    void CheckGimbal(int port, bool value);
-    void ShowMessageForChangingMotorConfig(int Motor);
-    void DisableEnableAllPitchGimbal(int selectedIndex, bool value);
-    void DisableEnableAllRollGimbal(int selectedIndex, bool value);
 
 signals:
     void visibilityChanged(bool visible);
@@ -106,12 +100,9 @@ private slots:
         void addDynamic();
         void delDynamic();
         void setRadio();
-        void setFrame();
         void setUsersParams();
         void CreateUsersParams();
         void WriteUsersParams();
-        void LoadFrameFromFile();
-        void SaveFrameToFile();
         void CalculatDeclination();
         void CalculatInclination();
         void CurveItemChanged(QStandardItem *item);
@@ -150,47 +141,6 @@ private slots:
         void Esc32CalibrationFinished(int mode);
         void Esc32BootModOk();
         void Esc32BootModFailure();
-        void gmb_pitch_P1(bool value);
-        void gmb_roll_P1(bool value);
-
-        void gmb_pitch_P2(bool value);
-        void gmb_roll_P2(bool value);
-
-        void gmb_pitch_P3(bool value);
-        void gmb_roll_P3(bool value);
-
-        void gmb_pitch_P4(bool value);
-        void gmb_roll_P4(bool value);
-
-        void gmb_pitch_P5(bool value);
-        void gmb_roll_P5(bool value);
-
-        void gmb_pitch_P6(bool value);
-        void gmb_roll_P6(bool value);
-
-        void gmb_pitch_P7(bool value);
-        void gmb_roll_P7(bool value);
-
-        void gmb_pitch_P8(bool value);
-        void gmb_roll_P8(bool value);
-
-        void gmb_pitch_P9(bool value);
-        void gmb_roll_P9(bool value);
-
-        void gmb_pitch_P10(bool value);
-        void gmb_roll_P10(bool value);
-
-        void gmb_pitch_P11(bool value);
-        void gmb_roll_P11(bool value);
-
-        void gmb_pitch_P12(bool value);
-        void gmb_roll_P12(bool value);
-
-        void gmb_pitch_P13(bool value);
-        void gmb_roll_P13(bool value);
-
-        void gmb_pitch_P14(bool value);
-        void gmb_roll_P14(bool value);
 
         void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
         void setHardwareInfo(int boardRev);
@@ -259,12 +209,7 @@ private:
         QwtPlotMarker *MarkerCut3;
         QwtPlotMarker *MarkerCut4;
         int Esc32CalibrationMode;
-        bool EventComesFromMavlink;
-        int somethingChangedInMotorConfig;
-        int port_nr_roll;
-        int port_nr_pitch;
         QColor DefaultColorMeasureChannels;
-        bool AlreadyShowMessage;
         QGridLayout* linLayoutPlot;
         int devCommand;
         double lat,lon,alt;
