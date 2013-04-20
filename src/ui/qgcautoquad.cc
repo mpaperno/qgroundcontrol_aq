@@ -73,11 +73,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->groupBox_Radio_Connection->hide(); // hide the radio diagram space for now, unused
 
     // load the port config UI
-//    aqPwmPortConfig = new AQPWMPortsConfig(this);
-//    ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Output Ports"));
+    aqPwmPortConfig = new AQPWMPortsConfig(this);
+    ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
     connect(ui->comboBox_Radio_Type, SIGNAL(currentIndexChanged(int)), this, SIGNAL(hardwareInfoUpdated()));
-//    connect(this, SIGNAL(hardwareInfoUpdated()), aqPwmPortConfig, SLOT(portNumbersModel_updated()));
+    connect(this, SIGNAL(hardwareInfoUpdated()), aqPwmPortConfig, SLOT(portNumbersModel_updated()));
 
 #ifdef QT_NO_DEBUG
     ui->tabWidget->removeTab(6); // hide devel tab
@@ -1463,7 +1463,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
             ui->gridLayout_paramAQ->addWidget(paramaq);
 
             connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
-//            connect(paramaq, SIGNAL(requestParameterRefreshed()), aqPwmPortConfig, SLOT(loadOnboardConfig()));
+            connect(paramaq, SIGNAL(requestParameterRefreshed()), aqPwmPortConfig, SLOT(loadOnboardConfig()));
             connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
 
             if ( LastFilePath == "")

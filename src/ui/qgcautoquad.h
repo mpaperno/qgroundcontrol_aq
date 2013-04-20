@@ -12,7 +12,7 @@
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
 #include "aq_telemetryView.h"
-//#include "aq_pwmPortsConfig.h"
+#include "aq_pwmPortsConfig.h"
 
 #include <QWidget>
 #include <QProcess>
@@ -226,7 +226,7 @@ protected:
         QGCAQParamWidget* paramaq;
         AQEsc32 *esc32;
         AQTelemetryView* aqTelemetryView;
-//        AQPWMPortsConfig* aqPwmPortConfig;
+        AQPWMPortsConfig* aqPwmPortConfig;
 
 private:
         QSettings settings;
