@@ -437,32 +437,8 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
     case LOG_RADIO_CHANNEL17:
         return "LOG_RADIO_CHANNEL17";
         break;
-    case LOG_STACK_FREE_INIT:
-        return "LOG_STACK_FREE_INIT";
-        break;
-    case LOG_STACK_FREE_FILER:
-        return "LOG_STACK_FREE_FILER";
-        break;
-    case LOG_STACK_FREE_SUPERVISOR:
-        return "LOG_STACK_FREE_SUPERVISOR";
-        break;
-    case LOG_STACK_FREE_MAVLINK:
-        return "LOG_STACK_FREE_MAVLINK";
-        break;
-    case LOG_STACK_FREE_ADC:
-        return "LOG_STACK_FREE_ADC";
-        break;
-    case LOG_STACK_FREE_RADIO:
-        return "LOG_STACK_FREE_RADIO";
-        break;
-    case LOG_STACK_FREE_CONTROL:
-        return "LOG_STACK_FREE_CONTROL";
-        break;
-    case LOG_STACK_FREE_GPS:
-        return "LOG_STACK_FREE_GPS";
-        break;
-    case LOG_STACK_FREE_RUN:
-        return "LOG_STACK_FREE_RUN";
+    case LOG_RADIO_ERRORS:
+        return "LOG_RADIO_ERRORS";
         break;
     case LOG_NUM_IDS:
         return "LOG_NUM_IDS";
@@ -787,32 +763,8 @@ void AQLogParser::GenerateChannelsCurve(bool isOld) {
                     case LOG_RADIO_CHANNEL17:
                         yValues.insert("LOG_RADIO_CHANNEL17", new QVector<double>());
                         break;
-                    case LOG_STACK_FREE_INIT:
-                        yValues.insert("LOG_STACK_FREE_INIT", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_FILER:
-                        yValues.insert("LOG_STACK_FREE_FILER", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_SUPERVISOR:
-                        yValues.insert("LOG_STACK_FREE_SUPERVISOR", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_MAVLINK:
-                        yValues.insert("LOG_STACK_FREE_MAVLINK", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_ADC:
-                        yValues.insert("LOG_STACK_FREE_ADC", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_RADIO:
-                        yValues.insert("LOG_STACK_FREE_RADIO", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_CONTROL:
-                        yValues.insert("LOG_STACK_FREE_CONTROL", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_GPS:
-                        yValues.insert("LOG_STACK_FREE_GPS", new QVector<double>());
-                        break;
-                    case LOG_STACK_FREE_RUN:
-                        yValues.insert("LOG_STACK_FREE_RUN", new QVector<double>());
+                    case LOG_RADIO_ERRORS:
+                        yValues.insert("LOG_RADIO_ERRORS", new QVector<double>());
                         break;
                     case LOG_NUM_IDS:
                         yValues.insert("LOG_NUM_IDS", new QVector<double>());

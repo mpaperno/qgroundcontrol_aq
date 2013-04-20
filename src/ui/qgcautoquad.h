@@ -105,7 +105,6 @@ private slots:
         void WriteUsersParams();
         void CalculatDeclination();
         void CalculatInclination();
-        void CurveItemChanged(QStandardItem *item);
         void CurveItemClicked(QModelIndex index);
         void deselectAllCurves(void);
         void openExportOptionsDlg();

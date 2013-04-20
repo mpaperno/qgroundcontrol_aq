@@ -237,10 +237,10 @@ void QGCAutoquad::SetupListView()
         QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
+        item->setData(false, Qt::UserRole);
         model->appendRow(item);
     }
     ui->listView_Curves->setModel(model);
-    connect(model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(CurveItemChanged(QStandardItem*)));
     connect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
 }
 
@@ -281,10 +281,6 @@ void QGCAutoquad::OpenLogFile(bool openFile)
 void QGCAutoquad::openExportOptionsDlg() {
     static QWeakPointer<AQLogExporter> dlg_;
 
-//    if (!LogFile.length()){
-//        OpenLogFile(false);
-//    }
-
     if (!dlg_)
         dlg_ = new AQLogExporter(this);
 
@@ -299,10 +295,14 @@ void QGCAutoquad::openExportOptionsDlg() {
     dlg->activateWindow();
 }
 
-void QGCAutoquad::CurveItemChanged(QStandardItem *item)
-{
-    if ( item->checkState() )
+
+void QGCAutoquad::CurveItemClicked(QModelIndex index) {
+    QStandardItem *item = model->itemFromIndex(index);
+
+    if (item->data(Qt::UserRole).toBool() == false)
     {
+        item->setCheckState(Qt::Checked);
+        item->setData(true, Qt::UserRole);
         for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
             QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
             if ( val_pair.first == item->text()) {
@@ -314,6 +314,8 @@ void QGCAutoquad::CurveItemChanged(QStandardItem *item)
     }
     else
     {
+        item->setCheckState(Qt::Unchecked);
+        item->setData(false, Qt::UserRole);
         for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
             QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
             if ( val_pair.first == item->text()) {
@@ -323,20 +325,13 @@ void QGCAutoquad::CurveItemChanged(QStandardItem *item)
             }
         }
     }
-
-}
-
-void QGCAutoquad::CurveItemClicked(QModelIndex index) {
-    QStandardItem *item = model->itemFromIndex(index);
-    if (item->checkState())
-        item->setCheckState(Qt::Unchecked);
-    else
-        item->setCheckState(Qt::Checked);
 }
 
 void QGCAutoquad::deselectAllCurves(void) {
-    for (int i=0; i < ui->listView_Curves->model()->rowCount(); ++i)
-        model->item(i)->setCheckState(Qt::Unchecked);
+    for (int i=0; i < ui->listView_Curves->model()->rowCount(); ++i){
+        if (model->item(i)->data(Qt::UserRole).toBool() == true)
+            CurveItemClicked(model->item(i)->index());
+    }
 }
 
 void QGCAutoquad::DecodeLogFile(QString fileName)
@@ -344,9 +339,10 @@ void QGCAutoquad::DecodeLogFile(QString fileName)
     plot->removeData();
     plot->clear();
     plot->setStyleText("lines");
-    if ( model)
-        disconnect(model, SIGNAL(itemChanged(QStandardItem*)), this,SLOT(CurveItemChanged(QStandardItem*)));
+
+    disconnect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
     ui->listView_Curves->reset();
+
     if ( parser.ParseLogHeader(fileName) == 0)
         SetupListView();
 
@@ -368,17 +364,12 @@ void QGCAutoquad::showChannels() {
     plot->setStyleText("lines");
     plot->updateScale();
     for ( int i = 0; i < model->rowCount(); i++) {
-        bool isChecked = model->item(i,0)->checkState();
         QStandardItem *item = model->item(i,0);
-        if ( isChecked ) {
-            if ( item) {
-                //item->setForeground(plot->getColorForCurve(item->text()));
-                item->setBackground(plot->getColorForCurve(item->text()));
-            }
-        }
-        else {
+        if ( item->data(Qt::UserRole).toBool() )
+            //item->setForeground(plot->getColorForCurve(item->text()));
+            item->setBackground(plot->getColorForCurve(item->text()));
+        else
             item->setBackground(DefaultColorMeasureChannels);
-        }
     }
 
 }
