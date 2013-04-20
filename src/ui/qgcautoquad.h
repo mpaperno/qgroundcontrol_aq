@@ -12,6 +12,7 @@
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
 #include "aq_telemetryView.h"
+//#include "aq_pwmPortsConfig.h"
 
 #include <QWidget>
 #include <QProcess>
@@ -30,12 +31,36 @@ class QGCAutoquad : public QWidget
 public:
     explicit QGCAutoquad(QWidget *parent = 0);
     ~QGCAutoquad();
+    QGCAQParamWidget* getParamHandler();
     UASInterface* getUAS();
+    QStringList getAvailablePwmPorts(void);
+    void QuestionForROM();
+
+protected:
+    void showEvent(QShowEvent* event);
+    void hideEvent(QHideEvent* event);
+    void SetupListView();
+
 private:
     double Round(double Zahl, unsigned int Stellen);
+    void setupPortList();
+    void loadSettings();
+    void writeSettings();
+    void ShowUsersParams(QString fileName);
+    void DecodeLogFile(QString fileName);
+    void exportPDF(QString fileName);
+    void exportSVG(QString fileName);
+    void saveEEpromEsc32();
+    void setMotorPWMTimer(int pitch_port, int roll_port);
+    void setMotorEnable(int MotorIndex, bool value);
+    void CheckGimbal(int port, bool value);
+    void ShowMessageForChangingMotorConfig(int Motor);
+    void DisableEnableAllPitchGimbal(int selectedIndex, bool value);
+    void DisableEnableAllRollGimbal(int selectedIndex, bool value);
 
 signals:
     void visibilityChanged(bool visible);
+    void hardwareInfoUpdated(void);
 
 public slots:
     void OpenLogFile(bool openFile=true);
@@ -90,6 +115,8 @@ private slots:
         void CalculatDeclination();
         void CalculatInclination();
         void CurveItemChanged(QStandardItem *item);
+        void CurveItemClicked(QModelIndex index);
+        void deselectAllCurves(void);
         void openExportOptionsDlg();
         void save_PID_toAQ1();
         void save_PID_toAQ2();
@@ -166,22 +193,42 @@ private slots:
         void gmb_roll_P14(bool value);
 
         void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
+        void setHardwareInfo(int boardRev);
+        void paramRequestTimeoutNotify(int readCount, int writeCount);
+
         void pushButton_dev1();
+
+
+/*
+ * Variables
+*/
 
 public:
         QString LogFile;
         QString LastFilePath;
+
         QString aqFirmwareVersion;
         int aqFirmwareRevision;
         int aqHardwareRevision;
         int aqBuildNumber;
-
+        uint8_t maxPwmPorts;        // total number of output ports on current hardware
+        QList<uint8_t> pwmPortTimers; // table of timers corresponding to ports
         QString aqBinFolderPath;    // absolute path to AQ supporting utils
         QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files
         const char *platformExeExt; // OS-specific executables suffix (.exe for Win)
 
-private:
+protected:
         Ui::QGCAutoquad *ui;
+        IncrementalPlot* plot;
+        AQLogParser parser;
+        UASInterface* uas;
+        SerialLink* seriallink;
+        QGCAQParamWidget* paramaq;
+        AQEsc32 *esc32;
+        AQTelemetryView* aqTelemetryView;
+//        AQPWMPortsConfig* aqPwmPortConfig;
+
+private:
         QSettings settings;
         QString output;
         QString output_cal1;
@@ -195,28 +242,16 @@ private:
         QString portName;
         QString portNameEsc32;
         QProcess ps_master;
-        SerialLink* seriallink;
-        void setupPortList();
-        QGCAQParamWidget* paramaq;
         int VisibleWidget;
-        void loadSettings();
-        void writeSettings();
         QStringList StaticFiles;
         QStringList DynamicFiles;
         quint32 active_cal_mode;
         QString UsersParamsFile;
-        void ShowUsersParams(QString fileName);
-        void DecodeLogFile(QString fileName);
-        void QuestionForROM();
-        void exportPDF(QString fileName);
-        void exportSVG(QString fileName);
-        AQEsc32 *esc32;
         QStandardItemModel *model;
         QMap<QString, QString> paramEsc32;
         QMap<QString, QString> paramEsc32Written;
         int WaitForParaWriten;
         QString ParaNameWritten;
-        void saveEEpromEsc32();
         int StepCuttingPlot;
         QwtPlotPicker* picker;
         QwtPlotMarker *MarkerCut1;
@@ -224,32 +259,19 @@ private:
         QwtPlotMarker *MarkerCut3;
         QwtPlotMarker *MarkerCut4;
         int Esc32CalibrationMode;
-        void setMotorPWMTimer(int pitch_port, int roll_port);
-        void setMotorEnable(int MotorIndex, bool value);
         bool EventComesFromMavlink;
         int somethingChangedInMotorConfig;
-        void CheckGimbal(int port, bool value);
-        void ShowMessageForChangingMotorConfig(int Motor);
         int port_nr_roll;
         int port_nr_pitch;
         QColor DefaultColorMeasureChannels;
         bool AlreadyShowMessage;
-        void DisableEnableAllPitchGimbal(int selectedIndex, bool value);
-        void DisableEnableAllRollGimbal(int selectedIndex, bool value);
         QGridLayout* linLayoutPlot;
         int devCommand;
         double lat,lon,alt;
-        AQTelemetryView* aqTelemetryView;
         QString FwFileForEsc32;
         bool FlashEsc32Active;
 
-protected:
-        void showEvent(QShowEvent* event);
-        void hideEvent(QHideEvent* event);
-        void SetupListView();
-        IncrementalPlot* plot;
-        AQLogParser parser;
-        UASInterface* uas;
+
 };
 
 #endif // QGCAUTOQUAD_H

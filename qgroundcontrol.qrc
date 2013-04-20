@@ -114,6 +114,15 @@
         <file>files/images/rc_stick.svg</file>
         <file>files/images/control/emergency-button.png</file>
         <file>files/images/contrib/aq_motormix_frame_background.png</file>
+        <file>files/images/actions/cross-small.png</file>
+        <file>files/images/actions/tick-small.png</file>
+        <file>files/images/actions/compile.png</file>
+        <file>files/images/actions/compile-error-up.png</file>
+        <file>files/images/actions/folder_image.png</file>
+        <file>files/images/actions/folder_table.png</file>
+        <file>files/images/actions/disk.png</file>
+        <file>files/images/contrib/AQ_logo_quad-only_112px.png</file>
+        <file>files/images/contrib/AQ_logo_quad-only_outlined_112px.png</file>
         <file>files/images/contrib/aq_ports_reference.png</file>
     </qresource>
     <qresource prefix="/general">

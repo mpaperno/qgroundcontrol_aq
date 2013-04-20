@@ -1,3 +1,4 @@
+#include "MainWindow.h"
 #include "qgcautoquad.h"
 #include "ui_qgcautoquad.h"
 #include "aq_LogExporter.h"
@@ -18,38 +19,52 @@
 #include <QSvgGenerator>
 #include "GAudioOutput.h"
 
-
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
-    aqFirmwareRevision(0),
-    aqHardwareRevision(0),
-    aqBuildNumber(0),
-    aqBinFolderPath(QCoreApplication::applicationDirPath() + "/aq/bin"),
-    aqMotorMixesPath(QCoreApplication::applicationDirPath() + "/aq/mixes"),
-#if defined(Q_OS_WIN)
-    platformExeExt(".exe"),
-#else
-    platformExeExt(""),
-#endif
     ui(new Ui::QGCAutoquad),
-    paramaq(NULL),
-    esc32(NULL),
     plot(new IncrementalPlot()),
-    uas(NULL)
+    uas(NULL),
+    paramaq(NULL),
+    esc32(NULL)
 {
-    ui->setupUi(this);
-    esc32 = NULL;
+
     model = NULL;
     picker = NULL;
     MarkerCut1  = NULL;
     MarkerCut2  = NULL;
     MarkerCut3  = NULL;
     MarkerCut4  = NULL;
+
     devCommand = 0;
     FwFileForEsc32 = "";
+    EventComesFromMavlink = false;
+    somethingChangedInMotorConfig = 0;
+
+    aqFirmwareVersion = "";
+    aqFirmwareRevision = 0;
+    aqHardwareRevision = 0;
+    aqBuildNumber = 0;
+
+    aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin";
+    aqMotorMixesPath = QCoreApplication::applicationDirPath() + "/aq/mixes";
+#if defined(Q_OS_WIN)
+    platformExeExt = ".exe";
+#else
+    platformExeExt = "";
+#endif
+
+    setHardwareInfo(aqHardwareRevision);  // populate hardware (AQ board) info with defaults
+
+    /*
+     * Start the UI
+    */
+
+    ui->setupUi(this);
+
     // load the Telemetry tab
     aqTelemetryView = new AQTelemetryView(this);
     ui->tabWidget->insertTab(5, aqTelemetryView, tr("Telemetry"));
+
     FlashEsc32Active = false;
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
@@ -57,12 +72,17 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->groupBox_Radio_Connection->hide(); // hide the radio diagram space for now, unused
 
+    // load the port config UI
+//    aqPwmPortConfig = new AQPWMPortsConfig(this);
+//    ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Output Ports"));
+
+    connect(ui->comboBox_Radio_Type, SIGNAL(currentIndexChanged(int)), this, SIGNAL(hardwareInfoUpdated()));
+//    connect(this, SIGNAL(hardwareInfoUpdated()), aqPwmPortConfig, SLOT(portNumbersModel_updated()));
+
 #ifdef QT_NO_DEBUG
     ui->tabWidget->removeTab(6); // hide devel tab
 #endif
 
-    EventComesFromMavlink = false;
-    somethingChangedInMotorConfig = 0;
 
     ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT);
     ui->lbl_version2->setText(QString("Based on %1 %2").arg(QGC_APPLICATION_NAME).arg(QGC_APPLICATION_VERSION));
@@ -110,6 +130,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
     connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
     connect(ui->pushButton_remove_marker, SIGNAL(clicked()),this,SLOT(removeMarker()));
+    connect(ui->pushButton_clearCurves, SIGNAL(clicked()),this,SLOT(deselectAllCurves()));
     //pushButton_remove_marker
     connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(save_PID_toAQ1()));
     connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
@@ -264,11 +285,12 @@ void QGCAutoquad::SetupListView()
         QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
         QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
         item->setCheckable(true);
-//        DefaultColorMeasureChannels = item->background().color();
+        item->setCheckState(Qt::Unchecked);
         model->appendRow(item);
     }
     ui->listView_Curves->setModel(model);
-    connect(model, SIGNAL(itemChanged(QStandardItem*)), this,SLOT(CurveItemChanged(QStandardItem*)));
+    connect(model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(CurveItemChanged(QStandardItem*)));
+    connect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
 }
 
 void QGCAutoquad::OpenLogFile(bool openFile)
@@ -351,6 +373,19 @@ void QGCAutoquad::CurveItemChanged(QStandardItem *item)
         }
     }
 
+}
+
+void QGCAutoquad::CurveItemClicked(QModelIndex index) {
+    QStandardItem *item = model->itemFromIndex(index);
+    if (item->checkState())
+        item->setCheckState(Qt::Unchecked);
+    else
+        item->setCheckState(Qt::Checked);
+}
+
+void QGCAutoquad::deselectAllCurves(void) {
+    for (int i=0; i < ui->listView_Curves->model()->rowCount(); ++i)
+        model->item(i)->setCheckState(Qt::Unchecked);
 }
 
 void QGCAutoquad::DecodeLogFile(QString fileName)
@@ -440,8 +475,10 @@ void QGCAutoquad::loadSettings()
     ui->lineEdit_insert_inclination->setText(settings.value("INCLINATION_SOURCE").toString());
     ui->lineEdit_cal_inclination->setText(settings.value("INCLINATION_CALC").toString());
 
-    if (settings.contains("AUTOQUAD_FW_FILE"))
+    if (settings.contains("AUTOQUAD_FW_FILE")) {
         ui->fileLabel->setText(settings.value("AUTOQUAD_FW_FILE").toString());
+        ui->fileLabel->setToolTip(settings.value("AUTOQUAD_FW_FILE").toString());
+    }
     if (settings.contains("USERS_PARAMS_FILE")) {
         UsersParamsFile = settings.value("USERS_PARAMS_FILE").toString();
         if (QFile::exists(UsersParamsFile))
@@ -1167,8 +1204,9 @@ void QGCAutoquad::selectFWToFlash()
     if (fileNames.size() > 0)
     {
         QString fileNameLocale = QDir::toNativeSeparators(fileNames.first());
-        QFile file(fileNameLocale );
-        ui->fileLabel->setText(fileNameLocale );
+        QFile file(fileNameLocale);
+        ui->fileLabel->setText(fileNameLocale);
+        ui->fileLabel->setToolTip(fileNameLocale);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
             QMessageBox msgBox;
@@ -1423,14 +1461,17 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         if ( !paramaq ) {
             paramaq = new QGCAQParamWidget(uas, this);
             ui->gridLayout_paramAQ->addWidget(paramaq);
+
             connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
+//            connect(paramaq, SIGNAL(requestParameterRefreshed()), aqPwmPortConfig, SLOT(loadOnboardConfig()));
+            connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
+
             if ( LastFilePath == "")
                 paramaq->setFilePath(QCoreApplication::applicationDirPath());
             else
                 paramaq->setFilePath(LastFilePath);
         }
         paramaq->loadParaAQ();
-        //getGUIpara();
 
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
@@ -1974,6 +2015,11 @@ void QGCAutoquad::abortsim2(){
 void QGCAutoquad::abortsim3(){
     if ( ps_master.Running)
         ps_master.close();
+}
+
+QGCAQParamWidget* QGCAutoquad::getParamHandler()
+{
+    return paramaq;
 }
 
 void QGCAutoquad::getGUIpara() {
@@ -4210,6 +4256,30 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
     this->alt = alt;
 }
 
+void QGCAutoquad::setHardwareInfo(int boardRev) {
+    switch (boardRev) {
+    default:
+        maxPwmPorts = 14;
+        pwmPortTimers.empty();
+        pwmPortTimers << 1 << 1 << 1 << 1 << 4 << 4 << 4 << 4 << 9 << 9 << 2 << 2 << 10 << 11;
+        break;
+    }
+    emit hardwareInfoUpdated();
+}
+
+QStringList QGCAutoquad::getAvailablePwmPorts(void) {
+    QStringList portsList;
+    unsigned short maxport = maxPwmPorts;
+
+    if (ui->comboBox_Radio_Type->currentIndex() == 3)
+        maxport--;
+
+    for (int i=1; i <= maxport; i++)
+        portsList.append(QString::number(i));
+
+    return portsList;
+}
+
 void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString text) {
     Q_UNUSED(severity);
     Q_UNUSED(compid);
@@ -4235,6 +4305,8 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
         if (vlist.at(5).length()) {
             aqHardwareRevision = vlist.at(5).toInt(&ok);
             if (!ok) aqHardwareRevision = 0;
+            else
+                setHardwareInfo(aqHardwareRevision);
         }
 
         if (aqFirmwareVersion.length()) {
@@ -4250,6 +4322,10 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
         } else
             ui->lbl_aq_fw_version->setText("AQ Firmware v. [unknown]");
     }
+}
+
+void QGCAutoquad::paramRequestTimeoutNotify(int readCount, int writeCount) {
+    MainWindow::instance()->showStatusMessage(tr("PARAMETER READ/WRITE TIMEOUT! Missing: %1 read, %2 write.").arg(readCount).arg(writeCount));
 }
 
 void QGCAutoquad::pushButton_dev1(){

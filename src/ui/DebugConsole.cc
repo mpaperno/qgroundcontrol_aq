@@ -264,32 +264,34 @@ void DebugConsole::setAutoHold(bool hold)
  */
 void DebugConsole::receiveTextMessage(int id, int component, int severity, QString text)
 {
+    Q_UNUSED(component);
     Q_UNUSED(severity);
     if (isVisible())
     {
         QString name = UASManager::instance()->getUASForId(id)->getUASName();
-        QString comp;
-        // Get a human readable name if possible
-        switch (component) {
-            // TODO: To be completed
-        case MAV_COMP_ID_IMU:
-            comp = tr("IMU");
-            break;
-        case MAV_COMP_ID_MAPPER:
-            comp = tr("MAPPER");
-            break;
-        case MAV_COMP_ID_MISSIONPLANNER:
-            comp = tr("MISSION");
-            break;
-        case MAV_COMP_ID_SYSTEM_CONTROL:
-            comp = tr("SYS-CONTROL");
-            break;
-        default:
-            comp = QString::number(component);
-            break;
-        }
+//        QString comp;
+//        // Get a human readable name if possible
+//        switch (component) {
+//            // TODO: To be completed
+//        case MAV_COMP_ID_IMU:
+//            comp = tr("IMU");
+//            break;
+//        case MAV_COMP_ID_MAPPER:
+//            comp = tr("MAPPER");
+//            break;
+//        case MAV_COMP_ID_MISSIONPLANNER:
+//            comp = tr("MISSION");
+//            break;
+//        case MAV_COMP_ID_SYSTEM_CONTROL:
+//            comp = tr("SYS-CONTROL");
+//            break;
+//        default:
+//            comp = QString::number(component);
+//            break;
+//        }
 
-        m_ui->receiveText->appendHtml(QString("<font color=\"%1\">(%2:%3) %4</font>\n").arg(UASManager::instance()->getUASForId(id)->getColor().name(), name, comp, text));
+//        m_ui->receiveText->appendHtml(QString("<font color=\"%1\">(%2:%3) %4</font>\n").arg(UASManager::instance()->getUASForId(id)->getColor().name(), name, comp, text));
+        m_ui->receiveText->appendHtml(QString("<font color=\"%1\">(%2) %4</font>\n").arg(UASManager::instance()->getUASForId(id)->getColor().name(), name, text));
         // Ensure text area scrolls correctly
         m_ui->receiveText->ensureCursorVisible();
     }

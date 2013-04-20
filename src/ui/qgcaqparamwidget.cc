@@ -861,7 +861,7 @@ void QGCAQParamWidget::loadParameters()
     QFileDialog dialog;
     dialog.setDirectory(dir.absoluteDir());
     dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Parameters (*.params);;Parameter file (*.txt)"));
+    dialog.setFilter(tr("Parameter Files (*.params *.txt)"));
     dialog.setViewMode(QFileDialog::Detail);
     QStringList fileNames;
     if (dialog.exec())
@@ -990,21 +990,21 @@ void QGCAQParamWidget::loadParameters()
                     }
                     */
 
-                    addParameter(mav->getUASID(), 190, parameterName,parameterValue);
+                    addParameter(mav->getUASID(), component, parameterName,parameterValue);
 
                     changed = true;
                     if (changed) {
 
                         // Create changed values data structure if necessary
                          if (!changedValues.contains(190)) {
-                            changedValues.insert(190, new QMap<QString, QVariant>());
+                            changedValues.insert(component, new QMap<QString, QVariant>());
                         }
 
-                        if (changedValues.value(190)->contains(parameterName)) {
-                            changedValues.value(190)->remove(parameterName);
+                        if (changedValues.value(component)->contains(parameterName)) {
+                            changedValues.value(component)->remove(parameterName);
                         }
 
-                        changedValues.value(190)->insert(parameterName, parameterValue);
+                        changedValues.value(component)->insert(parameterName, parameterValue);
                         qDebug() << "MARKING COMP" << 190 << "PARAM" << wpParams.at(1) << "VALUE" << (float)wpParams.at(2).toDouble() << "AS CHANGED";
                     }
                 }
@@ -1067,6 +1067,7 @@ void QGCAQParamWidget::retransmissionGuardTick()
                 transmissionMissingWriteAckPackets.value(component)->clear();
             }
             statusLabel->setText(tr("TIMEOUT! MISSING: %1 read, %2 write.").arg(missingReadCount).arg(missingWriteCount));
+            emit paramRequestTimeout(missingReadCount, missingWriteCount);
         }
 
         // Re-request at maximum retransmissionBurstRequestSize parameters at once

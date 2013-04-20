@@ -163,6 +163,18 @@ QTabWidget  {
  }
 
 /*
+    TableWidget
+*/
+/*QTableWidget {
+    background-color: #727272;
+    color: #DDDDDF;
+    alternate-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
+}*/
+QHeaderView::section, QHeaderView::section:checked, QHeaderView::section:hover {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
+}
+
+/*
     ToolTip
 */
 QToolTip {
@@ -313,24 +325,30 @@ QPushButton::menu-indicator {
     ToolButton
 */
 QToolButton {
-	min-height: 16px;
-	/*max-height: 20px;*/
-	border: 0px solid #4A4A4F;
-	border-radius: 2px;
+    min-height: 18px;
+    /*max-height: 20px;*/
+    icon-size: 18px;
+    border: 0px solid #4A4A4F;
+    border-radius: 2px;
     padding-left: 3px;
     padding-right: 3px;
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);
 }
-/*QToolButton[toolButtonStyle="2"] {
-    padding-left: 19px;
+
+/* *0=ToolButtonIconOnly*
+QToolButton[toolButtonStyle="0"] {
+    min-width: 18px;
 }*/
 QToolButton:disabled {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #585859, stop: 1 #313233);
 }
 QToolButton[autoRaise="true"] {
-    background-color: #050508;
-    border: 1px solid #050508;
+    /*background-color: #050508;*/
+    /*background-color: qlineargradient(spread:reflect, x1:0.500318, y1:0, x2:0, y2:0, stop:0.05 rgba(0, 0, 0, 30), stop:1 rgba(255, 255, 255, 30));*/
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 rgba(89, 102, 111, 60), stop: 1 rgba(65, 75, 82, 60));
+    border: 1px solid transparent;
 }
+
 QToolButton:checked {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
     border: 2px solid #379AC3;
@@ -392,6 +410,14 @@ QLabel {
 */
 QSplitter {
     color: #EEEEEE;
+    width: 3px;
+}
+
+/*
+    H/V Line
+*/
+QFrame[frameShape="4"], QFrame[frameShape="5"] {
+    color: #666666;
 }
 
 /*
@@ -403,14 +429,14 @@ QProgressBar {
 	text-align: center;
 	padding: 2px;
 	color: #DDDDDF;
-	background-color: #111118;
-    height: 10px;
+        background-color: #111118;
 }
 QProgressBar:horizontal {
-    height: 9px;
+    max-height: 13px;
+    min-height: 8px;
 }
 QProgressBar:vertical {
-    width: 9px;
+    max-width: 13px;
 }
 QProgressBar::chunk {
 	background-color: #3C7B9E;
