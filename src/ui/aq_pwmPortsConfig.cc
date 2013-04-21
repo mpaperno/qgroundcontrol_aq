@@ -181,7 +181,9 @@ QStringList AQPWMPortsConfig::getMixFileList(void) {
     QDir mixDir(aq->aqMotorMixesPath);
     mixDir.setFilter(QDir::Files | QDir::Readable);
     mixDir.setSorting(QDir::Name);
-    mixDir.setNameFilters(QStringList::QStringList("*.mix"));
+    QStringList MixFileFilter;
+    MixFileFilter.append(("*.mix"));
+    mixDir.setNameFilters(MixFileFilter);
 
     QStringList mixFiles = mixDir.entryList();
 
