@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1001</width>
-    <height>782</height>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>275</width>
+            <width>260</width>
             <height>0</height>
            </size>
           </property>
@@ -87,7 +87,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QTextBrowser" name="textFlashOutput"/>
+            <widget class="QTextBrowser" name="textFlashOutput">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>150</height>
+              </size>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="verticalSpacer">
@@ -97,7 +104,7 @@
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>300</height>
+               <height>40</height>
               </size>
              </property>
             </spacer>
@@ -159,86 +166,84 @@
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <widget class="QWidget" name="tab">
+          <widget class="QWidget" name="RadioSettings">
            <attribute name="title">
             <string>Radio</string>
            </attribute>
-           <layout class="QGridLayout" name="gridLayout_3" columnstretch="2,3">
-            <property name="topMargin">
-             <number>12</number>
-            </property>
+           <layout class="QGridLayout" name="gridLayout_16">
             <item row="0" column="0">
-             <layout class="QVBoxLayout" name="verticalLayout_9">
-              <item>
-               <widget class="QGroupBox" name="groupBox_Radio_Settings">
-                <property name="title">
+             <layout class="QGridLayout" name="gridLayout_15">
+              <property name="horizontalSpacing">
+               <number>15</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
                  <string>Radio Type</string>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <item>
-                  <widget class="QComboBox" name="comboBox_Radio_Type"/>
-                 </item>
-                </layout>
                </widget>
               </item>
-              <item>
-               <widget class="QGroupBox" name="groupBox_Radio_Connection">
-                <property name="title">
-                 <string>Connection Diagram</string>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_8">
-                 <item>
-                  <widget class="QGraphicsView" name="graphicsView"/>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_save_to_aq_radio">
-                <property name="text">
-                 <string>   Transmit to AQ</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../qgroundcontrol.qrc">
-                  <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>18</width>
-                  <height>18</height>
-                 </size>
+              <item row="0" column="1">
+               <widget class="QComboBox" name="RADIO_TYPE">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QCheckBox" name="checkBox_raw_value">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Show raw value from transmitter</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_2">
+              <item row="0" column="2">
+               <spacer name="horizontalSpacer_4">
                 <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>20</width>
+                  <width>40</width>
                   <height>20</height>
                  </size>
                 </property>
                </spacer>
               </item>
+              <item row="1" column="0" colspan="3">
+               <widget class="QLabel" name="label_radioChangeWarning">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgba(255, 0, 0, 200);
+font-weight: bold;</string>
+                </property>
+                <property name="text">
+                 <string>You must save to ROM after trasmitting to AQ, and then reboot the AQ for radio change to take effect!</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
-            <item row="0" column="1">
+            <item row="0" column="1" rowspan="5" alignment="Qt::AlignTop">
              <widget class="QGroupBox" name="groupBox_Radio_Values">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="title">
-               <string>Radio Value</string>
+               <string>Radio Values</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
                <property name="spacing">
@@ -721,14 +726,1171 @@
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>20</width>
-                   <height>117</height>
+                   <width>40</width>
+                   <height>10</height>
                   </size>
                  </property>
                 </spacer>
                </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_raw_value">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Show raw value from transmitter</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="groupBox_channelMapping">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="title">
+               <string>Controls Setup</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_3">
+               <property name="horizontalSpacing">
+                <number>15</number>
+               </property>
+               <property name="verticalSpacing">
+                <number>5</number>
+               </property>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_radioPitch">
+                 <property name="toolTip">
+                  <string>Elevator / Nick</string>
+                 </property>
+                 <property name="text">
+                  <string>Pitch</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2" alignment="Qt::AlignRight">
+                <widget class="QDoubleSpinBox" name="CTRL_FACT_RUDD">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.050000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.000400000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="1">
+                <widget class="QComboBox" name="RADIO_FLAP_CH">
+                 <property name="currentIndex">
+                  <number>5</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_radioAux1">
+                 <property name="toolTip">
+                  <string>aka Flaps/Aux 1. Switch between manual / position hold / mission modes.</string>
+                 </property>
+                 <property name="text">
+                  <string>Flight Mode</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0">
+                <widget class="QLabel" name="label_radioAux2">
+                 <property name="toolTip">
+                  <string>aka Aux 2. Switch to set home position and activate Return to Home function</string>
+                 </property>
+                 <property name="text">
+                  <string>Set/Return Home</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_radioThrottle">
+                 <property name="toolTip">
+                  <string>Gas</string>
+                 </property>
+                 <property name="text">
+                  <string>Throttle</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="0">
+                <widget class="QLabel" name="label_radioAux3">
+                 <property name="toolTip">
+                  <string>aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function</string>
+                 </property>
+                 <property name="text">
+                  <string>Gimbal Tilt/P-thru</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2" alignment="Qt::AlignRight">
+                <widget class="QDoubleSpinBox" name="CTRL_FACT_ROLL">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.050000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.050000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="1">
+                <widget class="QComboBox" name="RADIO_AUX3_CH">
+                 <property name="currentIndex">
+                  <number>7</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QComboBox" name="RADIO_RUDD_CH">
+                 <property name="currentIndex">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="3" rowspan="2">
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>33</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="2" rowspan="2" alignment="Qt::AlignRight">
+                <widget class="QDoubleSpinBox" name="CTRL_FACT_THRO">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.050000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.700000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QComboBox" name="RADIO_GEAR_CH">
+                 <property name="currentIndex">
+                  <number>4</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_radioRoll">
+                 <property name="toolTip">
+                  <string>Aileron</string>
+                 </property>
+                 <property name="text">
+                  <string>Roll</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2" alignment="Qt::AlignRight">
+                <widget class="QDoubleSpinBox" name="CTRL_FACT_PITC">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.050000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.050000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_radioYaw">
+                 <property name="toolTip">
+                  <string>Rudder</string>
+                 </property>
+                 <property name="text">
+                  <string>Yaw</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_8">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 6px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                 </property>
+                 <property name="text">
+                  <string>Scale Factor</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_radioGear">
+                 <property name="toolTip">
+                  <string>aka Gear/Aux1. Camera trigger port, or use as passthrough for any other Tx-controlled function.</string>
+                 </property>
+                 <property name="text">
+                  <string>Cam. Trig/P-thru</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="RADIO_ROLL_CH">
+                 <property name="currentIndex">
+                  <number>1</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 6px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                 </property>
+                 <property name="text">
+                  <string>Control</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="1">
+                <widget class="QComboBox" name="RADIO_AUX2_CH">
+                 <property name="currentIndex">
+                  <number>6</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QComboBox" name="RADIO_PITC_CH">
+                 <property name="currentIndex">
+                  <number>2</number>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="1" column="1" rowspan="2">
+                <widget class="QComboBox" name="RADIO_THRO_CH">
+                 <item>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">2</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">3</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">4</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">5</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">6</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">7</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">8</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">9</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">10</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">11</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">12</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">13</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">14</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">15</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string notr="true">16</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_6">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 6px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                 </property>
+                 <property name="text">
+                  <string>Rx Channel</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QGroupBox" name="groupBox_ppmOptions">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="title">
+               <string>PPM Settings</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_14">
+               <property name="horizontalSpacing">
+                <number>15</number>
+               </property>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="PPM_SCALER">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Amount to divide pulse value by to arrive at acceptable AQ value.  Default of 3 is good for FrSky, Graupner, possibly others.</string>
+                 </property>
+                 <property name="decimals">
+                  <number>2</number>
+                 </property>
+                 <property name="maximum">
+                  <double>10.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.500000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>3.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_ppmThrotLow">
+                 <property name="toolTip">
+                  <string>Pulse value at at lowest stick position (affects throttle only)</string>
+                 </property>
+                 <property name="text">
+                  <string>Throttle Low Value</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_ppmMidpoint">
+                 <property name="toolTip">
+                  <string>Pulse value at middle stick/switch position (affects all channels except throttle)</string>
+                 </property>
+                 <property name="text">
+                  <string>Channel Midpiont</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_ppmScaler">
+                 <property name="toolTip">
+                  <string>Amount to divide pulse value by to arrive at acceptable AQ value.  Default of 3 is good for FrSky, Graupner, possibly others.</string>
+                 </property>
+                 <property name="text">
+                  <string>Scaler</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="PPM_THROT_LOW">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Pulse value at at lowest stick position (affects throttle only)</string>
+                 </property>
+                 <property name="minimum">
+                  <number>750</number>
+                 </property>
+                 <property name="maximum">
+                  <number>2200</number>
+                 </property>
+                 <property name="value">
+                  <number>1090</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="PPM_CHAN_MID">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Pulse value at middle stick/switch position (affects all channels except throttle)</string>
+                 </property>
+                 <property name="minimum">
+                  <number>750</number>
+                 </property>
+                 <property name="maximum">
+                  <number>2200</number>
+                 </property>
+                 <property name="value">
+                  <number>1512</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>168</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_save_to_aq_radio">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>   Transmit to AQ</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../qgroundcontrol.qrc">
+                  <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>18</width>
+                  <height>18</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="4" column="0">
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>134</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -1388,6 +2550,12 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
         <widget class="QSplitter" name="splitter_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -1396,14 +2564,14 @@
          </property>
          <widget class="QGroupBox" name="groupBox_All_Parameter">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <horstretch>1</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>300</width>
+            <width>280</width>
             <height>0</height>
            </size>
           </property>
@@ -1420,6 +2588,12 @@
           </layout>
          </widget>
          <widget class="QTabWidget" name="tabWidget_para_edit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>3</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
@@ -2929,7 +4103,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="CMB_SPVR_FS_RAD_ST1"/>
+                    <widget class="QComboBox" name="SPVR_FS_RAD_ST1"/>
                    </item>
                   </layout>
                  </item>
@@ -2946,7 +4120,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="CMB_SPVR_FS_RAD_ST2"/>
+                    <widget class="QComboBox" name="SPVR_FS_RAD_ST2"/>
                    </item>
                   </layout>
                  </item>
@@ -3291,12 +4465,12 @@
                    <item>
                     <widget class="QLabel" name="label_69">
                      <property name="text">
-                      <string>Factor Throttle</string>
+                      <string>Throttle Scale Factor</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="CTRL_FACT_THRO"/>
+                    <widget class="QLineEdit" name="CTRL_FACT_THRO___N2"/>
                    </item>
                   </layout>
                  </item>
@@ -3314,7 +4488,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>Factor Pitch</string>
+                      <string>Pitch Scale Factor</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -3322,7 +4496,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="CTRL_FACT_PITC"/>
+                    <widget class="QLineEdit" name="CTRL_FACT_PITC___N2"/>
                    </item>
                   </layout>
                  </item>
@@ -3334,12 +4508,12 @@
                    <item>
                     <widget class="QLabel" name="label_62">
                      <property name="text">
-                      <string>Factor Roll</string>
+                      <string>Roll Scale Factor</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="CTRL_FACT_ROLL"/>
+                    <widget class="QLineEdit" name="CTRL_FACT_ROLL___N2"/>
                    </item>
                   </layout>
                  </item>
@@ -3351,12 +4525,12 @@
                    <item>
                     <widget class="QLabel" name="label_91">
                      <property name="text">
-                      <string>Factor Rudder</string>
+                      <string>Rudder Scale Factor</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="CTRL_FACT_RUDD"/>
+                    <widget class="QLineEdit" name="CTRL_FACT_RUDD___N2"/>
                    </item>
                   </layout>
                  </item>
@@ -3374,13 +4548,20 @@
                    </property>
                    <item>
                     <widget class="QLabel" name="label_74">
+                     <property name="toolTip">
+                      <string>Deadband is only active in altitude/position hold modes.</string>
+                     </property>
                      <property name="text">
                       <string>Throttle Stick Deadband</string>
                      </property>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="CTRL_DBAND_THRO"/>
+                    <widget class="QLineEdit" name="CTRL_DBAND_THRO">
+                     <property name="toolTip">
+                      <string>Deadband is only active in altitude/position hold modes.</string>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </item>
@@ -3391,6 +4572,9 @@
                    </property>
                    <item>
                     <widget class="QLabel" name="label_1000">
+                     <property name="toolTip">
+                      <string>Deadband is only active in position hold mode.</string>
+                     </property>
                      <property name="text">
                       <string>Pitch/Roll Stick Deadband</string>
                      </property>
@@ -3400,6 +4584,9 @@
                     <widget class="QLineEdit" name="CTRL_DEAD_BAND">
                      <property name="enabled">
                       <bool>true</bool>
+                     </property>
+                     <property name="toolTip">
+                      <string>Deadband is only active in position hold mode.</string>
                      </property>
                     </widget>
                    </item>
@@ -3656,745 +4843,741 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
-             <layout class="QGridLayout" name="gridLayout_13">
-              <item row="0" column="0">
-               <widget class="QGroupBox" name="gimbal1">
-                <property name="title">
-                 <string>Gimbal</string>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_59">
-                 <property name="topMargin">
-                  <number>12</number>
+             <widget class="QGroupBox" name="gimbal1">
+              <property name="title">
+               <string>Gimbal</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_59">
+               <property name="topMargin">
+                <number>12</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_227">
+                 <property name="spacing">
+                  <number>15</number>
                  </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_227">
+                  <layout class="QVBoxLayout" name="verticalLayout_228">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_228">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="label_177">
+                     <property name="text">
+                      <string>Gimbal PWM Max Roll</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_177">
-                       <property name="text">
-                        <string>Gimbal PWM Max Roll</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_PWM_MAX_RL"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_229">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="labelGMBL_PWM_MAX_PT">
-                       <property name="text">
-                        <string>Gimbal PWM Max Pitch</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_PWM_MAX_PT"/>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_230">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_179">
-                       <property name="text">
-                        <string>Gimbal Neutral Roll</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_NTRL_ROLL">
-                       <property name="enabled">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_231">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_180">
-                       <property name="text">
-                        <string>Gimbal Scale Roll</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_SCAL_ROLL">
-                       <property name="enabled">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    <widget class="QLineEdit" name="GMBL_PWM_MAX_RL"/>
                    </item>
                   </layout>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_232">
+                  <layout class="QVBoxLayout" name="verticalLayout_229">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_233">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="labelGMBL_PWM_MAX_PT">
+                     <property name="text">
+                      <string>Gimbal PWM Max Pitch</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_181">
-                       <property name="text">
-                        <string>Gimbal PWM Min Roll</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_PWM_MIN_RL"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_234">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="GMBL_PWM_MAX_PT"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_230">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_179">
+                     <property name="text">
+                      <string>Gimbal Neutral Roll</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_182">
-                       <property name="text">
-                        <string>Gimbal PWM Min Pitch</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_PWM_MIN_PT">
-                       <property name="enabled">
-                        <bool>true</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_235">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="GMBL_NTRL_ROLL">
+                     <property name="enabled">
+                      <bool>true</bool>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_183">
-                       <property name="text">
-                        <string>Gimbal Neutral Pitch</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_NTRL_PITCH"/>
-                     </item>
-                    </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_231">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_180">
+                     <property name="text">
+                      <string>Gimbal Scale Roll</string>
+                     </property>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_236">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="GMBL_SCAL_ROLL">
+                     <property name="enabled">
+                      <bool>true</bool>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_184">
-                       <property name="text">
-                        <string>Gimbal Scale Pitch</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_SCAL_PITCH"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                   </layout>
                  </item>
                 </layout>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QGroupBox" name="res1">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="title">
-                 <string>Res.</string>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_61">
-                 <property name="topMargin">
-                  <number>12</number>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_232">
+                 <property name="spacing">
+                  <number>15</number>
                  </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_247">
+                  <layout class="QVBoxLayout" name="verticalLayout_233">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_248">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="label_181">
+                     <property name="text">
+                      <string>Gimbal PWM Min Roll</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_193">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res10"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_249">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_194">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res15"/>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_250">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_195">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res16"/>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_251">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_196">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res17"/>
-                     </item>
-                    </layout>
+                    <widget class="QLineEdit" name="GMBL_PWM_MIN_RL"/>
                    </item>
                   </layout>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_252">
+                  <layout class="QVBoxLayout" name="verticalLayout_234">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_253">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="label_182">
+                     <property name="text">
+                      <string>Gimbal PWM Min Pitch</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_197">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res11"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_254">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="GMBL_PWM_MIN_PT">
+                     <property name="enabled">
+                      <bool>true</bool>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_198">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res12"/>
-                     </item>
-                    </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_235">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_183">
+                     <property name="text">
+                      <string>Gimbal Neutral Pitch</string>
+                     </property>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_255">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="GMBL_NTRL_PITCH"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_236">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_184">
+                     <property name="text">
+                      <string>Gimbal Scale Pitch</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_199">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res13"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_256">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_201">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res14">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    <widget class="QLineEdit" name="GMBL_SCAL_PITCH"/>
                    </item>
                   </layout>
                  </item>
                 </layout>
-               </widget>
-              </item>
-              <item row="2" column="0" colspan="2">
-               <widget class="QPushButton" name="pushButton_save_to_aq_pid4">
-                <property name="text">
-                 <string>   Transmit to AQ</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../qgroundcontrol.qrc">
-                  <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>18</width>
-                  <height>18</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QGroupBox" name="gimbal2">
-                <property name="title">
-                 <string>Gimbal</string>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_62">
-                 <property name="topMargin">
-                  <number>12</number>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QGroupBox" name="res1">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="title">
+               <string>Res.</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_61">
+               <property name="topMargin">
+                <number>12</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_247">
+                 <property name="spacing">
+                  <number>15</number>
                  </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_257">
+                  <layout class="QVBoxLayout" name="verticalLayout_248">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_258">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="label_193">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_200">
-                       <property name="text">
-                        <string>Gimbal Slew Rate</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_SLEW_RATE"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_259">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="lbl_GMBL_ROLL_EXPO">
-                       <property name="text">
-                        <string>Gimbal Roll Expo</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_ROLL_EXPO"/>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_266">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_207">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res35">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_261">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_203">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res32">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    <widget class="QLineEdit" name="Res10"/>
                    </item>
                   </layout>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_262">
+                  <layout class="QVBoxLayout" name="verticalLayout_249">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_263">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="label_194">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_204">
-                       <property name="text">
-                        <string>Servo PWM Frequency</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="GMBL_PWM_FREQ"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_22">
-                     <property name="leftMargin">
-                      <number>6</number>
+                    <widget class="QLineEdit" name="Res15"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_250">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_195">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <property name="topMargin">
-                      <number>13</number>
-                     </property>
-                     <item>
-                      <widget class="QCheckBox" name="reverse_gimbal_roll">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Reverse Gimbal Roll</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_21">
-                     <property name="leftMargin">
-                      <number>6</number>
+                    <widget class="QLineEdit" name="Res16"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_251">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_196">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <property name="topMargin">
-                      <number>13</number>
-                     </property>
-                     <item>
-                      <widget class="QCheckBox" name="reverse_gimbal_pitch">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Reverse Gimbal Pitch</string>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_264">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_205">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res33">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    <widget class="QLineEdit" name="Res17"/>
                    </item>
                   </layout>
                  </item>
                 </layout>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QGroupBox" name="res2">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="title">
-                 <string>Res.</string>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_60">
-                 <property name="topMargin">
-                  <number>12</number>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_252">
+                 <property name="spacing">
+                  <number>15</number>
                  </property>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_237">
+                  <layout class="QVBoxLayout" name="verticalLayout_253">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_238">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="label_197">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_185">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res18"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_239">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_186">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res20"/>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_240">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_187">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res22"/>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_241">
-                     <property name="spacing">
-                      <number>3</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="label_188">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res24"/>
-                     </item>
-                    </layout>
+                    <widget class="QLineEdit" name="Res11"/>
                    </item>
                   </layout>
                  </item>
                  <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_242">
+                  <layout class="QVBoxLayout" name="verticalLayout_254">
                    <property name="spacing">
-                    <number>15</number>
+                    <number>3</number>
                    </property>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_243">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLabel" name="label_198">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_189">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res19"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_244">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="Res12"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_255">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_199">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_190">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res21"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_245">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="Res13"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_256">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_201">
+                     <property name="text">
+                      <string>Res.</string>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_191">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res23"/>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_246">
-                     <property name="spacing">
-                      <number>3</number>
+                    <widget class="QLineEdit" name="Res14">
+                     <property name="enabled">
+                      <bool>false</bool>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_192">
-                       <property name="text">
-                        <string>Res.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLineEdit" name="Res25">
-                       <property name="enabled">
-                        <bool>false</bool>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
+                    </widget>
                    </item>
                   </layout>
                  </item>
                 </layout>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <spacer name="verticalSpacer_12">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QGroupBox" name="gimbal2">
+              <property name="title">
+               <string>Gimbal</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_62">
+               <property name="topMargin">
+                <number>12</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_257">
+                 <property name="spacing">
+                  <number>15</number>
+                 </property>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_258">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_200">
+                     <property name="text">
+                      <string>Gimbal Slew Rate</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="GMBL_SLEW_RATE"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_259">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="lbl_GMBL_ROLL_EXPO">
+                     <property name="text">
+                      <string>Gimbal Roll Expo</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="GMBL_ROLL_EXPO"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_266">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_207">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res35">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_261">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_203">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res32">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_262">
+                 <property name="spacing">
+                  <number>15</number>
+                 </property>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_263">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_204">
+                     <property name="text">
+                      <string>Servo PWM Frequency</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="GMBL_PWM_FREQ"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_22">
+                   <property name="leftMargin">
+                    <number>6</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>13</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="reverse_gimbal_roll">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Reverse Gimbal Roll</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_21">
+                   <property name="leftMargin">
+                    <number>6</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>13</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="reverse_gimbal_pitch">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Reverse Gimbal Pitch</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_264">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_205">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res33">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QGroupBox" name="res2">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="title">
+               <string>Res.</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_60">
+               <property name="topMargin">
+                <number>12</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_237">
+                 <property name="spacing">
+                  <number>15</number>
+                 </property>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_238">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_185">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res18"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_239">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_186">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res20"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_240">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_187">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res22"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_241">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_188">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res24"/>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_242">
+                 <property name="spacing">
+                  <number>15</number>
+                 </property>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_243">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_189">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res19"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_244">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_190">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res21"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_245">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_191">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res23"/>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_246">
+                   <property name="spacing">
+                    <number>3</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="label_192">
+                     <property name="text">
+                      <string>Res.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="Res25">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <spacer name="verticalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>81</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="2" column="0" colspan="2">
+             <widget class="QPushButton" name="pushButton_save_to_aq_pid4">
+              <property name="text">
+               <string>   Transmit to AQ</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -4653,6 +5836,459 @@
        <string>Esc32 Settings</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_12">
+       <item row="0" column="0" rowspan="2">
+        <widget class="QGroupBox" name="groupBox_connect_esc32">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="title">
+          <string>link esc32</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QComboBox" name="comboBox_port_esc32"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_portName_esc32">
+            <property name="text">
+             <string>Port:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_connect_to_esc32">
+            <property name="text">
+             <string>connect esc32</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="flashfwEsc32">
+            <property name="text">
+             <string>flash fw</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_read_config">
+            <property name="text">
+             <string>read config</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_read_load_def">
+            <property name="text">
+             <string>load default</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_send_to_esc32">
+            <property name="text">
+             <string>write config</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_reload_conf">
+            <property name="text">
+             <string>reload config</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_esc32_read_arm_disarm">
+            <property name="text">
+             <string>arm</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_esc32_read_start_stop">
+            <property name="text">
+             <string>start</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_rpm">
+            <property name="text">
+             <string>1000</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="horizontalSlider_rpm">
+            <property name="minimum">
+             <number>100</number>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+            <property name="singleStep">
+             <number>100</number>
+            </property>
+            <property name="pageStep">
+             <number>1000</number>
+            </property>
+            <property name="value">
+             <number>2000</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_send_rpm">
+            <property name="text">
+             <string>set rpm</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="DoubleMaxCurrent">
+            <property name="toolTip">
+             <string notr="true">Max Current</string>
+            </property>
+            <property name="statusTip">
+             <string notr="true">Max Current</string>
+            </property>
+            <property name="specialValueText">
+             <string notr="true"/>
+            </property>
+            <property name="keyboardTracking">
+             <bool>false</bool>
+            </property>
+            <property name="prefix">
+             <string notr="true"/>
+            </property>
+            <property name="suffix">
+             <string notr="true"/>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>30.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>30.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_start_calibration">
+            <property name="text">
+             <string>start calibration</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_logging">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Start Log</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_16">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QGroupBox" name="groupBox_esc_setting_1">
+         <property name="title">
+          <string>Esc32</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <property name="topMargin">
+           <number>12</number>
+          </property>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_134">
+            <property name="spacing">
+             <number>15</number>
+            </property>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_176">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_147">
+                <property name="text">
+                 <string>Esc32 P</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PTERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_177">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_148">
+                <property name="text">
+                 <string>Esc32 I</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="ITERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_178">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_149">
+                <property name="text">
+                 <string>FF1 Term</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="FF1TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_179">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_150">
+                <property name="text">
+                 <string>FF2 Term</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="FF2TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_204">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_165">
+                <property name="text">
+                 <string>THR 1 Term</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="THR1TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_207">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_215">
+                <property name="text">
+                 <string>PWM Low Pass</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PWM_LOWPASS"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_135">
+            <property name="spacing">
+             <number>15</number>
+            </property>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_180">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_157">
+                <property name="text">
+                 <string>PNFAC</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="PNFAC"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_203">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_161">
+                <property name="text">
+                 <string>INFAC</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="INFAC"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_181">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_151">
+                <property name="text">
+                 <string>Current limiter 1</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="CL1TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_182">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_152">
+                <property name="text">
+                 <string>Current limiter 2</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="CL2TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_205">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_169">
+                <property name="text">
+                 <string>THR 2 Term</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="THR2TERM"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_208">
+              <property name="spacing">
+               <number>3</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="label_219">
+                <property name="text">
+                 <string>RPM Meas Lp</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="RPM_MEAS_LP"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="0" column="2">
         <widget class="QGroupBox" name="groupBox_esc_setting_2">
          <property name="title">
@@ -5052,236 +6688,6 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QGroupBox" name="groupBox_esc_setting_1">
-         <property name="title">
-          <string>Esc32</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_18">
-          <property name="topMargin">
-           <number>12</number>
-          </property>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_134">
-            <property name="spacing">
-             <number>15</number>
-            </property>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_176">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_147">
-                <property name="text">
-                 <string>Esc32 P</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="PTERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_177">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_148">
-                <property name="text">
-                 <string>Esc32 I</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="ITERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_178">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_149">
-                <property name="text">
-                 <string>FF1 Term</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="FF1TERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_179">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_150">
-                <property name="text">
-                 <string>FF2 Term</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="FF2TERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_204">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_165">
-                <property name="text">
-                 <string>THR 1 Term</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="THR1TERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_207">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_215">
-                <property name="text">
-                 <string>PWM Low Pass</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="PWM_LOWPASS"/>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_135">
-            <property name="spacing">
-             <number>15</number>
-            </property>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_180">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_157">
-                <property name="text">
-                 <string>PNFAC</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="PNFAC"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_203">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_161">
-                <property name="text">
-                 <string>INFAC</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="INFAC"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_181">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_151">
-                <property name="text">
-                 <string>Current limiter 1</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="CL1TERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_182">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_152">
-                <property name="text">
-                 <string>Current limiter 2</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="CL2TERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_205">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_169">
-                <property name="text">
-                 <string>THR 2 Term</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="THR2TERM"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_208">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="label_219">
-                <property name="text">
-                 <string>RPM Meas Lp</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="RPM_MEAS_LP"/>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
        <item row="1" column="2">
         <widget class="QGroupBox" name="groupBox_esc_setting_4">
          <property name="title">
@@ -5474,229 +6880,6 @@
              </layout>
             </item>
            </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="0" column="0" rowspan="2">
-        <widget class="QGroupBox" name="groupBox_connect_esc32">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title">
-          <string>link esc32</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
-          <item>
-           <widget class="QComboBox" name="comboBox_port_esc32"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_portName_esc32">
-            <property name="text">
-             <string>Port:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_connect_to_esc32">
-            <property name="text">
-             <string>connect esc32</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="flashfwEsc32">
-            <property name="text">
-             <string>flash fw</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_read_config">
-            <property name="text">
-             <string>read config</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_read_load_def">
-            <property name="text">
-             <string>load default</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_send_to_esc32">
-            <property name="text">
-             <string>write config</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_reload_conf">
-            <property name="text">
-             <string>reload config</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_esc32_read_arm_disarm">
-            <property name="text">
-             <string>arm</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_esc32_read_start_stop">
-            <property name="text">
-             <string>start</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_9">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_rpm">
-            <property name="text">
-             <string>1000</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSlider" name="horizontalSlider_rpm">
-            <property name="minimum">
-             <number>100</number>
-            </property>
-            <property name="maximum">
-             <number>10000</number>
-            </property>
-            <property name="singleStep">
-             <number>100</number>
-            </property>
-            <property name="pageStep">
-             <number>1000</number>
-            </property>
-            <property name="value">
-             <number>2000</number>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_send_rpm">
-            <property name="text">
-             <string>set rpm</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="DoubleMaxCurrent">
-            <property name="toolTip">
-             <string notr="true">Max Current</string>
-            </property>
-            <property name="statusTip">
-             <string notr="true">Max Current</string>
-            </property>
-            <property name="specialValueText">
-             <string notr="true"/>
-            </property>
-            <property name="keyboardTracking">
-             <bool>false</bool>
-            </property>
-            <property name="prefix">
-             <string notr="true"/>
-            </property>
-            <property name="suffix">
-             <string notr="true"/>
-            </property>
-            <property name="decimals">
-             <number>1</number>
-            </property>
-            <property name="minimum">
-             <double>1.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>30.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>30.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_start_calibration">
-            <property name="text">
-             <string>start calibration</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_logging">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Start Log</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_16">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -5934,13 +7117,13 @@
   <tabstop>SPVR_LOW_BAT1</tabstop>
   <tabstop>IMU_MAG_DECL</tabstop>
   <tabstop>SPVR_LOW_BAT2</tabstop>
-  <tabstop>CTRL_FACT_THRO</tabstop>
+  <tabstop>CTRL_FACT_THRO___N2</tabstop>
   <tabstop>CTRL_DBAND_THRO</tabstop>
-  <tabstop>CTRL_FACT_PITC</tabstop>
+  <tabstop>CTRL_FACT_PITC___N2</tabstop>
   <tabstop>CTRL_MIN_THROT</tabstop>
-  <tabstop>CTRL_FACT_ROLL</tabstop>
+  <tabstop>CTRL_FACT_ROLL___N2</tabstop>
   <tabstop>CTRL_MAX</tabstop>
-  <tabstop>CTRL_FACT_RUDD</tabstop>
+  <tabstop>CTRL_FACT_RUDD___N2</tabstop>
   <tabstop>CTRL_DEAD_BAND</tabstop>
   <tabstop>MOT_START</tabstop>
   <tabstop>MOT_EXP_FACT</tabstop>
@@ -6010,8 +7193,7 @@
   <tabstop>PWM_HI_VALUE</tabstop>
   <tabstop>FET_BRAKING</tabstop>
   <tabstop>pushButton_start_cal1</tabstop>
-  <tabstop>graphicsView</tabstop>
-  <tabstop>comboBox_Radio_Type</tabstop>
+  <tabstop>RADIO_TYPE</tabstop>
   <tabstop>checkBox_raw_value</tabstop>
   <tabstop>pushButton_abort_cal1</tabstop>
   <tabstop>pushButton_save_to_aq_radio</tabstop>

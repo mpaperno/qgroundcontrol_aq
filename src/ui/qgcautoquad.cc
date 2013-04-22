@@ -28,14 +28,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     esc32(NULL)
 {
 
+    VisibleWidget = 0;
+
     model = NULL;
     picker = NULL;
     MarkerCut1  = NULL;
     MarkerCut2  = NULL;
     MarkerCut3  = NULL;
     MarkerCut4  = NULL;
-
-    devCommand = 0;
     FwFileForEsc32 = "";
 
     aqFirmwareVersion = "";
@@ -43,13 +43,17 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     aqHardwareRevision = 0;
     aqBuildNumber = 0;
 
-    aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin";
-    aqMotorMixesPath = QCoreApplication::applicationDirPath() + "/aq/mixes";
+    aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin/";
+    aqMotorMixesPath = QCoreApplication::applicationDirPath() + "/aq/mixes/";
 #if defined(Q_OS_WIN)
     platformExeExt = ".exe";
 #else
     platformExeExt = "";
 #endif
+
+    // these regexes are used for matching field names to AQ params
+    fldnameRx.setPattern("^(CTRL|NAV|GMBL|MOT|RADIO|SPVR|IMU|DOWNLINK|GPS|PPM|UKF|SIG|L1|VN100)_[A-Z0-9_]+$"); // strict field name matching
+    dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
 
     setHardwareInfo(aqHardwareRevision);  // populate hardware (AQ board) info with defaults
 
@@ -68,129 +72,27 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     layout->addWidget(plot);
     ui->plotFrame->setLayout(layout);
 
-    ui->groupBox_Radio_Connection->hide(); // hide the radio diagram space for now, unused
-
     // load the port config UI
     aqPwmPortConfig = new AQPWMPortsConfig(this);
     ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
-    connect(ui->comboBox_Radio_Type, SIGNAL(currentIndexChanged(int)), this, SIGNAL(hardwareInfoUpdated()));
     connect(this, SIGNAL(hardwareInfoUpdated()), aqPwmPortConfig, SLOT(portNumbersModel_updated()));
 
 #ifdef QT_NO_DEBUG
     ui->tabWidget->removeTab(6); // hide devel tab
 #endif
 
-
     ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT);
     ui->lbl_version2->setText(QString("Based on %1 %2").arg(QGC_APPLICATION_NAME).arg(QGC_APPLICATION_VERSION));
 
-    //GUI slots
-    connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
-    connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
-    connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
-    //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+    ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
+    ui->SPVR_FS_RAD_ST2->addItem("slow decent", 0);
+    ui->SPVR_FS_RAD_ST2->addItem("RTH and slow decent", 1);
 
-
-    connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
-    connect(ui->comboBox_port_esc32, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
-    connect(ui->flashfwEsc32, SIGNAL(clicked()), this, SLOT(flashFWEsc32()));
-    connect(ui->pushButton_connect_to_esc32, SIGNAL(clicked()), this, SLOT(btnConnectEsc32()));
-    connect(ui->pushButton_read_config, SIGNAL(clicked()),this, SLOT(btnReadConfigEsc32()));
-    connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(btnSaveToEsc32()));
-    connect(ui->pushButton_esc32_read_arm_disarm, SIGNAL(clicked()),this,SLOT(btnArmEsc32()));
-    connect(ui->pushButton_esc32_read_start_stop, SIGNAL(clicked()),this,SLOT(btnStartStopEsc32()));
-    connect(ui->pushButton_send_rpm, SIGNAL(clicked()),this,SLOT(btnSetRPM()));
-    connect(ui->horizontalSlider_rpm, SIGNAL(valueChanged(int)),this,SLOT(Esc32RpmSlider(int)));
-
-    connect(ui->pushButton_start_calibration, SIGNAL(clicked()),this,SLOT(Esc32StartCalibration()));
-    connect(ui->pushButton_logging, SIGNAL(clicked()),this,SLOT(Esc32StartLogging()));
-    //pushButton_logging
-    connect(ui->pushButton_read_load_def, SIGNAL(clicked()),this,SLOT(Esc32ReadConf()));
-    connect(ui->pushButton_reload_conf, SIGNAL(clicked()),this,SLOT(Esc32ReLoadConf()));
-
-
-    connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
-    connect(ui->pushButton_Add_Static, SIGNAL(clicked()),this,SLOT(addStatic()));
-    connect(ui->pushButton_Remov_Static, SIGNAL(clicked()),this,SLOT(delStatic()));
-    connect(ui->pushButton_Add_Dynamic, SIGNAL(clicked()),this,SLOT(addDynamic()));
-    connect(ui->pushButton_Remove_Dynamic, SIGNAL(clicked()),this,SLOT(delDynamic()));
-    connect(ui->pushButton_save_to_aq_radio, SIGNAL(clicked()),this,SLOT(setRadio()));
-    connect(ui->pushButton_Sel_params_file_user, SIGNAL(clicked()),this,SLOT(setUsersParams()));
-    connect(ui->pushButton_Create_params_file_user, SIGNAL(clicked()),this,SLOT(CreateUsersParams()));
-    connect(ui->pushButton_save, SIGNAL(clicked()),this,SLOT(WriteUsersParams()));
-    connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
-    connect(ui->pushButton_Export_Log, SIGNAL(clicked()),this,SLOT(openExportOptionsDlg()));
-    connect(ui->pushButton_Open_Log_file, SIGNAL(clicked()),this,SLOT(OpenLogFile()));
-    connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
-    connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
-    connect(ui->pushButton_remove_marker, SIGNAL(clicked()),this,SLOT(removeMarker()));
-    connect(ui->pushButton_clearCurves, SIGNAL(clicked()),this,SLOT(deselectAllCurves()));
-    //pushButton_remove_marker
-    connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(save_PID_toAQ1()));
-    connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(save_PID_toAQ2()));
-    connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(save_PID_toAQ3()));
-    connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(save_PID_toAQ4()));
-    connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
-    connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
-
-    connect(ui->comboBox_marker, SIGNAL(currentIndexChanged(int)),this,SLOT(CuttingItemChanged(int)));
-
-    connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
-    connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
-    connect(ui->pushButton_start_cal3, SIGNAL(clicked()),this,SLOT(startcal3()));
-    connect(ui->pushButton_start_sim1, SIGNAL(clicked()),this,SLOT(startsim1()));
-    connect(ui->pushButton_start_sim1_2, SIGNAL(clicked()),this,SLOT(startsim1b()));
-    connect(ui->pushButton_start_sim2, SIGNAL(clicked()),this,SLOT(startsim2()));
-    connect(ui->pushButton_start_sim3, SIGNAL(clicked()),this,SLOT(startsim3()));
-    connect(ui->pushButton_abort_cal1, SIGNAL(clicked()),this,SLOT(abortcal1()));
-    connect(ui->pushButton_abort_cal2, SIGNAL(clicked()),this,SLOT(abortcal2()));
-    connect(ui->pushButton_abort_cal3, SIGNAL(clicked()),this,SLOT(abortcal3()));
-    connect(ui->pushButton_abort_sim1, SIGNAL(clicked()),this,SLOT(abortsim1()));
-    connect(ui->pushButton_abort_sim1_2, SIGNAL(clicked()),this,SLOT(abortsim1b()));
-    connect(ui->pushButton_abort_sim2, SIGNAL(clicked()),this,SLOT(abortsim2()));
-    connect(ui->pushButton_abort_sim3, SIGNAL(clicked()),this,SLOT(abortsim3()));
-    connect(ui->checkBox_sim3_4_var_1, SIGNAL(clicked()),this,SLOT(check_var()));
-    connect(ui->checkBox_sim3_4_stop_1, SIGNAL(clicked()),this,SLOT(check_stop()));
-    connect(ui->checkBox_sim3_4_var_2, SIGNAL(clicked()),this,SLOT(check_var()));
-    connect(ui->checkBox_sim3_4_stop_2, SIGNAL(clicked()),this,SLOT(check_stop()));
-    connect(ui->checkBox_sim3_5_var, SIGNAL(clicked()),this,SLOT(check_var()));
-    connect(ui->checkBox_sim3_5_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
-    connect(ui->checkBox_sim3_6_var, SIGNAL(clicked()),this,SLOT(check_var()));
-    connect(ui->checkBox_sim3_6_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
-    connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(raw_transmitter_view()));
-
-#ifndef QT_NO_DEBUG
-    connect(ui->pushButton_dev1, SIGNAL(clicked()),this, SLOT(pushButton_dev1()));
-#endif
-
-    ui->CMB_SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
-
-    ui->CMB_SPVR_FS_RAD_ST2->addItem("slow decent", 0);
-    ui->CMB_SPVR_FS_RAD_ST2->addItem("RTH and slow decent", 1);
-
-    //Process Slots
-    ps_master.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&ps_master, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
-    connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
-    connect(&ps_master, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
-
-
-    // UAS slots
-    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
-    QList<UASInterface*> mavs = UASManager::instance()->getUASList();
-    foreach (UASInterface* currMav, mavs) {
-        addUAS(currMav);
-    }
-    setActiveUAS(UASManager::instance()->getActiveUAS());
-    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
-    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)), Qt::UniqueConnection);
-
-    VisibleWidget = 0;
-    ui->comboBox_Radio_Type->addItem("Spektrum 11Bit", 0);
-    ui->comboBox_Radio_Type->addItem("Spektrum 10Bit", 1);
-    ui->comboBox_Radio_Type->addItem("Futaba", 2);
-    ui->comboBox_Radio_Type->addItem("PPM", 3);
+    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
+    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
+    ui->RADIO_TYPE->addItem("Futaba", 2);
+    ui->RADIO_TYPE->addItem("PPM", 3);
 
     ui->comboBox_marker->clear();
     ui->comboBox_marker->addItem("Start & End 1s", 0);
@@ -213,6 +115,108 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->DoubleMaxCurrent->setValue(30.0);
 
+    ui->label_radioChangeWarning->hide();
+    ui->groupBox_ppmOptions->hide();
+
+    // save this for easy iteration later
+    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("RADIO_.+")));
+
+    //GUI slots
+    connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
+    connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
+    connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
+    connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
+    //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+
+    connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->comboBox_port_esc32, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->flashfwEsc32, SIGNAL(clicked()), this, SLOT(flashFWEsc32()));
+    connect(ui->pushButton_connect_to_esc32, SIGNAL(clicked()), this, SLOT(btnConnectEsc32()));
+    connect(ui->pushButton_read_config, SIGNAL(clicked()),this, SLOT(btnReadConfigEsc32()));
+    connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(btnSaveToEsc32()));
+    connect(ui->pushButton_esc32_read_arm_disarm, SIGNAL(clicked()),this,SLOT(btnArmEsc32()));
+    connect(ui->pushButton_esc32_read_start_stop, SIGNAL(clicked()),this,SLOT(btnStartStopEsc32()));
+    connect(ui->pushButton_send_rpm, SIGNAL(clicked()),this,SLOT(btnSetRPM()));
+    connect(ui->horizontalSlider_rpm, SIGNAL(valueChanged(int)),this,SLOT(Esc32RpmSlider(int)));
+    connect(ui->pushButton_start_calibration, SIGNAL(clicked()),this,SLOT(Esc32StartCalibration()));
+    connect(ui->pushButton_logging, SIGNAL(clicked()),this,SLOT(Esc32StartLogging()));
+    connect(ui->pushButton_read_load_def, SIGNAL(clicked()),this,SLOT(Esc32ReadConf()));
+    connect(ui->pushButton_reload_conf, SIGNAL(clicked()),this,SLOT(Esc32ReLoadConf()));
+
+    connect(ui->pushButton_Add_Static, SIGNAL(clicked()),this,SLOT(addStatic()));
+    connect(ui->pushButton_Remov_Static, SIGNAL(clicked()),this,SLOT(delStatic()));
+    connect(ui->pushButton_Add_Dynamic, SIGNAL(clicked()),this,SLOT(addDynamic()));
+    connect(ui->pushButton_Remove_Dynamic, SIGNAL(clicked()),this,SLOT(delDynamic()));
+    connect(ui->pushButton_Sel_params_file_user, SIGNAL(clicked()),this,SLOT(setUsersParams()));
+    connect(ui->pushButton_Create_params_file_user, SIGNAL(clicked()),this,SLOT(CreateUsersParams()));
+    connect(ui->pushButton_save, SIGNAL(clicked()),this,SLOT(WriteUsersParams()));
+    connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
+
+    connect(ui->pushButton_Export_Log, SIGNAL(clicked()),this,SLOT(openExportOptionsDlg()));
+    connect(ui->pushButton_Open_Log_file, SIGNAL(clicked()),this,SLOT(OpenLogFile()));
+    connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
+    connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
+    connect(ui->pushButton_remove_marker, SIGNAL(clicked()),this,SLOT(removeMarker()));
+    connect(ui->pushButton_clearCurves, SIGNAL(clicked()),this,SLOT(deselectAllCurves()));
+    connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
+    connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
+    connect(ui->comboBox_marker, SIGNAL(currentIndexChanged(int)),this,SLOT(CuttingItemChanged(int)));
+
+    connect(ui->pushButton_save_to_aq_radio, SIGNAL(clicked()),this,SLOT(saveRadioSettings()));
+    connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(saveAttitudePIDs()));
+    connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(saveNavigationPIDs()));
+    connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(saveSpecialSettings()));
+    connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(saveGimbalSettings()));
+
+    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+    connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(raw_transmitter_view()));
+    foreach (QComboBox* cb, allRadioChanCombos)
+        connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
+
+    connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
+    connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
+    connect(ui->pushButton_start_cal3, SIGNAL(clicked()),this,SLOT(startcal3()));
+    connect(ui->pushButton_start_sim1, SIGNAL(clicked()),this,SLOT(startsim1()));
+    connect(ui->pushButton_start_sim1_2, SIGNAL(clicked()),this,SLOT(startsim1b()));
+    connect(ui->pushButton_start_sim2, SIGNAL(clicked()),this,SLOT(startsim2()));
+    connect(ui->pushButton_start_sim3, SIGNAL(clicked()),this,SLOT(startsim3()));
+    connect(ui->pushButton_abort_cal1, SIGNAL(clicked()),this,SLOT(abortcalc()));
+    connect(ui->pushButton_abort_cal2, SIGNAL(clicked()),this,SLOT(abortcalc()));
+    connect(ui->pushButton_abort_cal3, SIGNAL(clicked()),this,SLOT(abortcalc()));
+    connect(ui->pushButton_abort_sim1, SIGNAL(clicked()),this,SLOT(abortcalc()));
+    connect(ui->pushButton_abort_sim1_2, SIGNAL(clicked()),this,SLOT(abortcalc()));
+    connect(ui->pushButton_abort_sim2, SIGNAL(clicked()),this,SLOT(abortcalc()));
+    connect(ui->pushButton_abort_sim3, SIGNAL(clicked()),this,SLOT(abortcalc()));
+    connect(ui->checkBox_sim3_4_var_1, SIGNAL(clicked()),this,SLOT(check_var()));
+    connect(ui->checkBox_sim3_4_stop_1, SIGNAL(clicked()),this,SLOT(check_stop()));
+    connect(ui->checkBox_sim3_4_var_2, SIGNAL(clicked()),this,SLOT(check_var()));
+    connect(ui->checkBox_sim3_4_stop_2, SIGNAL(clicked()),this,SLOT(check_stop()));
+    connect(ui->checkBox_sim3_5_var, SIGNAL(clicked()),this,SLOT(check_var()));
+    connect(ui->checkBox_sim3_5_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
+    connect(ui->checkBox_sim3_6_var, SIGNAL(clicked()),this,SLOT(check_var()));
+    connect(ui->checkBox_sim3_6_stop, SIGNAL(clicked()),this,SLOT(check_stop()));
+
+#ifndef QT_NO_DEBUG
+    connect(ui->pushButton_dev1, SIGNAL(clicked()),this, SLOT(pushButton_dev1()));
+#endif
+
+    //Process Slots
+    ps_master.setProcessChannelMode(QProcess::MergedChannels);
+    connect(&ps_master, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
+    connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
+    connect(&ps_master, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
+
+
+    // UAS slots
+    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
+    QList<UASInterface*> mavs = UASManager::instance()->getUASList();
+    foreach (UASInterface* currMav, mavs) {
+        addUAS(currMav);
+    }
+    setActiveUAS(UASManager::instance()->getActiveUAS());
+    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
+    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)), Qt::UniqueConnection);
+
     setupPortList();
     loadSettings();
 
@@ -226,152 +230,42 @@ QGCAutoquad::~QGCAutoquad()
     delete ui;
 }
 
-void QGCAutoquad::SetupListView()
+void QGCAutoquad::changeEvent(QEvent *e)
 {
-    ui->listView_Curves->setAutoFillBackground(true);
-    QPalette p =  ui->listView_Curves->palette();
-    DefaultColorMeasureChannels = p.color(QPalette::Window);
-    model = new QStandardItemModel(this); //listView_curves
-    for ( int i=0; i<parser.LogChannelsStruct.count(); i++ ) {
-        QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
-        QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
-        item->setCheckable(true);
-        item->setCheckState(Qt::Unchecked);
-        item->setData(false, Qt::UserRole);
-        model->appendRow(item);
+    QWidget::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
     }
-    ui->listView_Curves->setModel(model);
-    connect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
 }
 
-void QGCAutoquad::OpenLogFile(bool openFile)
+void QGCAutoquad::hideEvent(QHideEvent* event)
 {
-    QString dirPath;
-    if ( LastFilePath == "")
-        dirPath = QCoreApplication::applicationDirPath();
-    else
-        dirPath = LastFilePath;
-    QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ log file (*.LOG)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
+    if ( VisibleWidget <= 1)
+        VisibleWidget = 0;
+    QWidget::hideEvent(event);
+    emit visibilityChanged(false);
+}
 
-    if (fileNames.size() > 0)
-    {
-        QFile file(fileNames.first());
-        LogFile = QDir::toNativeSeparators(file.fileName());
-        LastFilePath = LogFile;
-        if (openFile && !file.open(QIODevice::ReadOnly | QIODevice::Text))
+void QGCAutoquad::showEvent(QShowEvent* event)
+{
+    // React only to internal (pre-display)
+    // events
+    if ( VisibleWidget <= 1)
+        VisibleWidget = 1;
+
+    if ( VisibleWidget == 1) {
+        if ( uas != NULL)
         {
-            QMessageBox msgBox;
-            msgBox.setText("Could not read Log file. Permission denied");
-            msgBox.exec();
-        } else if (openFile)
-            DecodeLogFile(LogFile);
-    }
-}
-
-void QGCAutoquad::openExportOptionsDlg() {
-    static QWeakPointer<AQLogExporter> dlg_;
-
-    if (!dlg_)
-        dlg_ = new AQLogExporter(this);
-
-    AQLogExporter *dlg = dlg_.data();
-
-    if (LogFile.length())
-        dlg->setLogFile(LogFile);
-
-    dlg->setAttribute(Qt::WA_DeleteOnClose);
-    dlg->show();
-    dlg->raise();
-    dlg->activateWindow();
-}
-
-
-void QGCAutoquad::CurveItemClicked(QModelIndex index) {
-    QStandardItem *item = model->itemFromIndex(index);
-
-    if (item->data(Qt::UserRole).toBool() == false)
-    {
-        item->setCheckState(Qt::Checked);
-        item->setData(true, Qt::UserRole);
-        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
-            if ( val_pair.first == item->text()) {
-                val_pair.second.fieldActive = 1;
-                parser.LogChannelsStruct.replace(i,val_pair);
-                break;
-            }
+            setActiveUAS(uas);
+            VisibleWidget = 2;
         }
     }
-    else
-    {
-        item->setCheckState(Qt::Unchecked);
-        item->setData(false, Qt::UserRole);
-        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
-            if ( val_pair.first == item->text()) {
-                val_pair.second.fieldActive = 0;
-                parser.LogChannelsStruct.replace(i,val_pair);
-                break;
-            }
-        }
-    }
-}
-
-void QGCAutoquad::deselectAllCurves(void) {
-    for (int i=0; i < ui->listView_Curves->model()->rowCount(); ++i){
-        if (model->item(i)->data(Qt::UserRole).toBool() == true)
-            CurveItemClicked(model->item(i)->index());
-    }
-}
-
-void QGCAutoquad::DecodeLogFile(QString fileName)
-{
-    plot->removeData();
-    plot->clear();
-    plot->setStyleText("lines");
-
-    disconnect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
-    ui->listView_Curves->reset();
-
-    if ( parser.ParseLogHeader(fileName) == 0)
-        SetupListView();
-
-}
-
-void QGCAutoquad::showChannels() {
-
-    parser.ShowCurves();
-    plot->removeData();
-    plot->clear();
-    plot->ResetColor();
-    if (!QFile::exists(LogFile))
-        return;
-
-    for (int i = 0; i < parser.yValues.count(); i++) {
-        plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
-    }
-
-    plot->setStyleText("lines");
-    plot->updateScale();
-    for ( int i = 0; i < model->rowCount(); i++) {
-        QStandardItem *item = model->item(i,0);
-        if ( item->data(Qt::UserRole).toBool() )
-            //item->setForeground(plot->getColorForCurve(item->text()));
-            item->setBackground(plot->getColorForCurve(item->text()));
-        else
-            item->setBackground(DefaultColorMeasureChannels);
-    }
-
+    QWidget::showEvent(event);
+    emit visibilityChanged(true);
 }
 
 void QGCAutoquad::loadSettings()
@@ -483,6 +377,11 @@ void QGCAutoquad::writeSettings()
     settings.endGroup();
 }
 
+
+//
+// Calibration
+//
+
 void QGCAutoquad::addStatic()
 {
     QString dirPath;
@@ -564,27 +463,480 @@ void QGCAutoquad::delDynamic()
     }
 }
 
-void QGCAutoquad::changeEvent(QEvent *e)
-{
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
+
+void QGCAutoquad::setUsersParams() {
+    QString dirPath = QDir::toNativeSeparators(UsersParamsFile);
+    QFileInfo dir(dirPath);
+    QFileDialog dialog;
+    dialog.setDirectory(dir.absoluteDir());
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("AQ Parameters (*.params)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+    }
+
+    if (fileNames.size() > 0)
+    {
+        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
     }
 }
 
-void QGCAutoquad::setPortName(QString port)
-{
-#ifdef Q_OS_WIN
-    port = port.split("-").first();
-#endif
-    port = port.remove(" ");
-    portName = port;
-    ui->ComPortLabel->setText(portName);
+void QGCAutoquad::ShowUsersParams(QString fileName) {
+    QFile file(fileName);
+    UsersParamsFile = file.fileName();
+    ui->lineEdit_user_param_file->setText(QDir::toNativeSeparators(UsersParamsFile));
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    ui->textOutput_Users_Params->setText(file.readAll());
+    file.close();
 }
+
+void QGCAutoquad::CreateUsersParams() {
+    QString dirPath = UsersParamsFile ;
+    QFileInfo dir(dirPath);
+    QFileDialog dialog;
+    dialog.setDirectory(dir.absoluteDir());
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("AQ Parameter-File (*.params)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+    }
+
+    if (fileNames.size() > 0)
+    {
+        UsersParamsFile = fileNames.at(0);
+    }
+    if (!UsersParamsFile.endsWith(".params") )
+        UsersParamsFile += ".params";
+
+    UsersParamsFile = QDir::toNativeSeparators(UsersParamsFile);
+    QFile file( UsersParamsFile );
+    if ( file.exists())
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Question");
+        msgBox.setInformativeText("file already exists, Overwrite?");
+        msgBox.setWindowModality(Qt::ApplicationModal);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        int ret = msgBox.exec();
+        switch (ret) {
+            case QMessageBox::Yes:
+            {
+                file.close();
+                QFile::remove(UsersParamsFile );
+            }
+            break;
+            case QMessageBox::No:
+            // ok was clicked
+            break;
+            default:
+            // should never be reached
+            break;
+        }
+    }
+
+    if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
+    {
+      return;
+    }
+    QDataStream stream( &file );
+    stream << "";
+    file.close();
+    ui->lineEdit_user_param_file->setText(QDir::toNativeSeparators(UsersParamsFile));
+}
+
+void QGCAutoquad::WriteUsersParams() {
+    QString message = ui->textOutput_Users_Params->toPlainText();
+    QFile file(UsersParamsFile);
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
+        return;
+    }
+    QTextStream out(&file);
+    out << message;
+    file.close();
+}
+
+void QGCAutoquad::CalculatDeclination() {
+
+    QString dec_source = ui->lineEdit_insert_declination->text();
+    if ( !dec_source.contains(".")) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    /*
+    if ( !dec_source.startsWith("-")) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    if ( dec_source.length() != 6 ) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    */
+    QStringList HoursMinutes = dec_source.split(".");
+
+    if ( HoursMinutes.count() != 2 ) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    qint32 secounds = HoursMinutes.at(1).toInt();
+    float secounds_calc = (100.0f/60.0f) * secounds;
+    // Set together
+    QString recalculated;
+    recalculated.append("#define");
+    recalculated.append(' ');
+    recalculated.append("IMU_MAG_INCL");
+    recalculated.append(' ');
+    recalculated.append(HoursMinutes.at(0));
+    recalculated.append(".");
+    recalculated.append( QString::number(secounds_calc,'f',0));
+
+    ui->lineEdit_cal_declination->setText(recalculated);
+    CalculatInclination();
+}
+
+double QGCAutoquad::Round(double Zahl, unsigned int Stellen)
+{
+    Zahl *= pow((double)10, (double)Stellen);
+    if (Zahl >= 0)
+        floor(Zahl + 0.5);
+    else
+        ceil(Zahl - 0.5);
+    Zahl /= pow((double)10, (double)Stellen);
+    return Zahl;
+}
+
+void QGCAutoquad::CalculatInclination() {
+
+    QString inc_source = ui->lineEdit_insert_inclination->text();
+    if ( !inc_source.contains(".")) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic inclination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    if ( inc_source.length() < 3 ) {
+        QMessageBox::information(this, "Error", "Wrong format for magnetic inclination!",QMessageBox::Ok, 0 );
+        return;
+    }
+    QStringList HoursMinutes = inc_source.split('.');
+
+    qint32 secounds = HoursMinutes.at(1).toInt();
+    float secounds_calc =  (100.0f/60.0f) * secounds;
+    //secounds_calc = Round(secounds_calc, 0);
+    // Set together
+    QString recalculated;
+    recalculated.append(HoursMinutes.at(0));
+    recalculated.append(".");
+    recalculated.append( QString::number(secounds_calc,'f',0));
+    ui->lineEdit_cal_inclination->setText(recalculated);
+
+}
+
+
+void QGCAutoquad::check_var()
+{
+    if ( ui->checkBox_sim3_4_var_1->checkState()) {
+        ui->sim3_4_var_1->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_4_var_1->checkState()) {
+        ui->sim3_4_var_1->setEnabled(false);
+    }
+
+    if ( ui->checkBox_sim3_4_var_2->checkState()) {
+        ui->sim3_4_var_2->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_4_var_2->checkState()) {
+        ui->sim3_4_var_2->setEnabled(false);
+    }
+
+    if ( ui->checkBox_sim3_5_var->checkState()) {
+        ui->sim3_5_var->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_5_var->checkState()) {
+        ui->sim3_5_var->setEnabled(false);
+    }
+
+    if ( ui->checkBox_sim3_6_var->checkState()) {
+        ui->sim3_6_var->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_6_var->checkState()) {
+        ui->sim3_6_var->setEnabled(false);
+    }
+
+}
+
+void QGCAutoquad::check_stop()
+{
+    if ( ui->checkBox_sim3_4_stop_1->checkState()) {
+        ui->sim3_4_stop_1->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_4_stop_1->checkState()) {
+        ui->sim3_4_stop_1->setEnabled(false);
+    }
+
+    if ( ui->checkBox_sim3_4_stop_2->checkState()) {
+        ui->sim3_4_stop_2->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_4_stop_2->checkState()) {
+        ui->sim3_4_stop_2->setEnabled(false);
+    }
+
+    if ( ui->checkBox_sim3_5_stop->checkState()) {
+        ui->sim3_5_stop->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_5_stop->checkState()) {
+        ui->sim3_5_stop->setEnabled(false);
+    }
+
+    if ( ui->checkBox_sim3_6_stop->checkState()) {
+        ui->sim3_6_stop->setEnabled(true);
+    }
+    else if  ( !ui->checkBox_sim3_6_stop->checkState()) {
+        ui->sim3_6_stop->setEnabled(false);
+    }
+
+
+}
+
+void QGCAutoquad::startcal1(){
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "cal" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+
+    QStringList Arguments;
+
+    Arguments.append("--rate");
+    for ( int i = 0; i<StaticFiles.count(); i++) {
+        Arguments.append(StaticFiles.at(i));
+    }
+    Arguments.append(":");
+
+    active_cal_mode = 1;
+    ui->textOutput_cal1->clear();
+    ui->pushButton_start_cal1->setEnabled(false);
+    ui->pushButton_abort_cal1->setEnabled(true);
+    ui->textOutput_cal1->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_cal1->append(Arguments.at(i));
+    }
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::startcal2(){
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "cal" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+
+    QStringList Arguments;
+
+    Arguments.append("--acc");
+    for ( int i = 0; i<StaticFiles.count(); i++) {
+        Arguments.append(StaticFiles.at(i));
+    }
+    Arguments.append(":");
+
+    for ( int i = 0; i<DynamicFiles.count(); i++) {
+        Arguments.append(DynamicFiles.at(i));
+    }
+
+    active_cal_mode = 2;
+    ui->textOutput_cal2->clear();
+    ui->pushButton_start_cal2->setEnabled(false);
+    ui->pushButton_abort_cal2->setEnabled(true);
+    ui->textOutput_cal2->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_cal2->append(Arguments.at(i));
+    }
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::startcal3(){
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "cal" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+
+    QStringList Arguments;
+
+    Arguments.append("--mag");
+
+    for ( int i = 0; i<StaticFiles.count(); i++) {
+        Arguments.append(StaticFiles.at(i));
+    }
+    Arguments.append(":");
+
+    for ( int i = 0; i<DynamicFiles.count(); i++) {
+        Arguments.append(DynamicFiles.at(i));
+    }
+
+    Arguments.append("-p");
+    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+
+    active_cal_mode = 3;
+    ui->textOutput_cal3->clear();
+    ui->pushButton_start_cal3->setEnabled(false);
+    ui->pushButton_abort_cal3->setEnabled(true);
+    ui->textOutput_cal3->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_cal3->append(Arguments.at(i));
+    }
+
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::startsim1(){
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+
+    QStringList Arguments;
+
+    Arguments.append("--gyo");
+    Arguments.append("-p");
+    Arguments.append(Sim3ParaPath);
+    Arguments.append("-p");
+    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+
+    if ( ui->checkBox_sim3_4_var_1->checkState() ) {
+        Arguments.append("--var=" + ui->sim3_4_var_1->text());
+    }
+    if ( ui->checkBox_sim3_4_stop_1->checkState() ) {
+        Arguments.append("--stop=" + ui->sim3_4_stop_1->text());
+    }
+
+    for ( int i = 0; i<DynamicFiles.count(); i++) {
+        Arguments.append(DynamicFiles.at(i));
+    }
+
+    active_cal_mode = 4;
+    ui->textOutput_sim1->clear();
+    ui->pushButton_start_sim1->setEnabled(false);
+    ui->pushButton_abort_sim1->setEnabled(true);
+    ui->textOutput_sim1->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_sim1->append(Arguments.at(i));
+    }
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::startsim1b(){
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+
+    QStringList Arguments;
+
+    Arguments.append("--acc");
+    Arguments.append("-p");
+    Arguments.append(Sim3ParaPath);
+    Arguments.append("-p");
+    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+
+    if ( ui->checkBox_sim3_4_var_2->checkState() ) {
+        Arguments.append("--var=" + ui->sim3_4_var_2->text());
+    }
+    if ( ui->checkBox_sim3_4_stop_2->checkState() ) {
+        Arguments.append("--stop=" + ui->sim3_4_var_2->text());
+    }
+
+    for ( int i = 0; i<DynamicFiles.count(); i++) {
+        Arguments.append(DynamicFiles.at(i));
+    }
+
+    active_cal_mode = 41;
+    ui->textOutput_sim1_2->clear();
+    ui->pushButton_start_sim1_2->setEnabled(false);
+    ui->pushButton_abort_sim1_2->setEnabled(true);
+    ui->textOutput_sim1_2->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_sim1_2->append(Arguments.at(i));
+    }
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::startsim2(){
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+
+    QStringList Arguments;
+
+    Arguments.append("--acc");
+    Arguments.append("--gyo");
+    Arguments.append("-p");
+    Arguments.append(Sim3ParaPath);
+    Arguments.append("-p");
+    Arguments.append( QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+
+    if ( ui->checkBox_sim3_5_var->checkState() ) {
+        Arguments.append("--var=" + ui->sim3_5_var->text());
+    }
+    if ( ui->checkBox_sim3_5_stop->checkState() ) {
+        Arguments.append("--stop=" + ui->sim3_5_stop->text());
+    }
+
+    for ( int i = 0; i<DynamicFiles.count(); i++) {
+        Arguments.append(DynamicFiles.at(i));
+    }
+
+    active_cal_mode = 5;
+    ui->textOutput_sim2->clear();
+    ui->pushButton_start_sim2->setEnabled(false);
+    ui->pushButton_abort_sim2->setEnabled(true);
+    ui->textOutput_sim2->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_sim2->append(Arguments.at(i));
+    }
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::startsim3(){
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+
+    QStringList Arguments;
+
+    Arguments.append("--mag");
+    Arguments.append("--incl");
+    Arguments.append("-p");
+    Arguments.append(Sim3ParaPath);
+    Arguments.append("-p");
+    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+
+    if ( ui->checkBox_sim3_6_var->checkState() ) {
+        Arguments.append("--var=" + ui->sim3_6_var->text());
+    }
+    if ( ui->checkBox_sim3_6_stop->checkState() ) {
+        Arguments.append("--stop=" + ui->sim3_6_var->text());
+    }
+
+    for ( int i = 0; i<DynamicFiles.count(); i++) {
+        Arguments.append(DynamicFiles.at(i));
+    }
+
+    active_cal_mode = 6;
+    ui->textOutput_sim3->clear();
+    ui->pushButton_start_sim3->setEnabled(false);
+    ui->pushButton_abort_sim3->setEnabled(true);
+    ui->textOutput_sim3->append(AppPath);
+    for ( int i = 0; i<Arguments.count(); i++) {
+        ui->textOutput_sim3->append(Arguments.at(i));
+    }
+    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::abortcalc(){
+    if ( ps_master.Running)
+        ps_master.close();
+}
+
+
+//
+// ESC32
+//
 
 void QGCAutoquad::setPortNameEsc32(QString port)
 {
@@ -690,7 +1042,7 @@ void QGCAutoquad::Esc32BootModOk() {
     }
 
     ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "stm32flash" + platformExeExt);
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
     QStringList Arguments;
     Arguments.append("-b 57600");
     Arguments.append("-w" );
@@ -966,34 +1318,6 @@ void QGCAutoquad::Esc32Connected(){
 void QGCAutoquad::ESc32Disconnected() {
 }
 
-void QGCAutoquad::setupPortList()
-{
-    ui->portName->clear();
-    ui->portName->clearEditText();
-
-    ui->comboBox_port_esc32->clear();
-    ui->comboBox_port_esc32->clearEditText();
-    // Get the ports available on this system
-    seriallink = new SerialLink();
-    QVector<QString>* ports = seriallink->getCurrentPorts();
-
-    // Add the ports in reverse order, because we prepend them to the list
-    for (int i = ports->size() - 1; i >= 0; --i)
-    {
-        // Prepend newly found port to the list
-        if (ui->portName->findText(ports->at(i)) == -1)
-        {
-            ui->portName->insertItem(0, ports->at(i));
-        }
-        if (ui->comboBox_port_esc32->findText(ports->at(i)) == -1)
-        {
-            ui->comboBox_port_esc32->insertItem(0, ports->at(i));
-        }
-    }
-    ui->portName->setEditText(seriallink->getPortName());
-    ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
-}
-
 void QGCAutoquad::Esc32StartLogging() {
     esc32->StartLogging();
 }
@@ -1124,6 +1448,50 @@ void QGCAutoquad::Esc32CaliGetCommand(int Command){
     esc32->SetCommandBack(Command);
 }
 
+
+//
+// FW Flashing
+//
+
+void QGCAutoquad::setPortName(QString port)
+{
+#ifdef Q_OS_WIN
+    port = port.split("-").first();
+#endif
+    port = port.remove(" ");
+    portName = port;
+    ui->ComPortLabel->setText(portName);
+}
+
+void QGCAutoquad::setupPortList()
+{
+    ui->portName->clear();
+    ui->portName->clearEditText();
+
+    ui->comboBox_port_esc32->clear();
+    ui->comboBox_port_esc32->clearEditText();
+    // Get the ports available on this system
+    seriallink = new SerialLink();
+    QVector<QString>* ports = seriallink->getCurrentPorts();
+
+    // Add the ports in reverse order, because we prepend them to the list
+    for (int i = ports->size() - 1; i >= 0; --i)
+    {
+        // Prepend newly found port to the list
+        if (ui->portName->findText(ports->at(i)) == -1)
+        {
+            ui->portName->insertItem(0, ports->at(i));
+        }
+        if (ui->comboBox_port_esc32->findText(ports->at(i)) == -1)
+        {
+            ui->comboBox_port_esc32->insertItem(0, ports->at(i));
+        }
+    }
+    ui->portName->setEditText(seriallink->getPortName());
+    ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
+}
+
+
 void QGCAutoquad::selectFWToFlash()
 {
     QString dirPath;
@@ -1195,7 +1563,7 @@ Do you wish to continue flashing?").arg(portName);
         }
     }
 
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "stm32flash" + platformExeExt);
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
 
     QStringList Arguments;
     Arguments.append("-b 57600");
@@ -1208,317 +1576,80 @@ Do you wish to continue flashing?").arg(portName);
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
 }
 
-void QGCAutoquad::prtstexit(int) {
-    if ( active_cal_mode == 0 ) {
-        ui->flashButton->setEnabled(true);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 1 ) {
-        ui->pushButton_start_cal1->setEnabled(true);
-        ui->pushButton_abort_cal1->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 2 ) {
-        ui->pushButton_start_cal2->setEnabled(true);
-        ui->pushButton_abort_cal2->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 3 ) {
-        ui->pushButton_start_cal3->setEnabled(true);
-        ui->pushButton_abort_cal3->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 4 ) {
-        ui->pushButton_start_sim1->setEnabled(true);
-        ui->pushButton_abort_sim1->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 41 ) {
-        ui->pushButton_start_sim1_2->setEnabled(true);
-        ui->pushButton_abort_sim1_2->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 5 ) {
-        ui->pushButton_start_sim2->setEnabled(true);
-        ui->pushButton_abort_sim2->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 6 ) {
-        ui->pushButton_start_sim3->setEnabled(true);
-        ui->pushButton_abort_sim3->setEnabled(false);
-        active_cal_mode = 0;
-    }
-}
 
-void QGCAutoquad::prtstdout() {
-        if ( active_cal_mode == 0 ) {
-            output = ps_master.readAllStandardOutput();
-            if ( output.contains("[uWrote")) {
-                output = output.right(output.length()-3);
-                ui->textFlashOutput->clear();
-            }
-            ui->textFlashOutput->append(output);
-        }
-        if ( active_cal_mode == 1 ) {
-            output_cal1 = ps_master.readAllStandardOutput();
-            if ( output_cal1.contains("[H") ) {
-                ui->textOutput_cal1->clear();
-                output = output.right(output.length()-2);
-            }
+//
+// Radio view
+//
 
-            ui->textOutput_cal1->append(output_cal1);
-        }
-        if ( active_cal_mode == 2 ) {
-            output_cal2 = ps_master.readAllStandardOutput();
-            if ( output_cal2.contains("[H") ) {
-                ui->textOutput_cal2->clear();
-                output = output.right(output.length()-2);
-            }
+void QGCAutoquad::radioType_changed(int idx) {
+    emit hardwareInfoUpdated();
 
-            ui->textOutput_cal2->append(output_cal2);
-        }
-        if ( active_cal_mode == 3 ) {
-            output_cal3 = ps_master.readAllStandardOutput();
-            if ( output_cal3.contains("[H") ) {
-                ui->textOutput_cal3->clear();
-                output = output.right(output.length()-2);
-            }
+    if (ui->RADIO_TYPE->currentText() == "PPM")
+        ui->groupBox_ppmOptions->show();
+    else
+        ui->groupBox_ppmOptions->hide();
 
-            ui->textOutput_cal3->append(output_cal3);
-        }
-        if ( active_cal_mode == 4 ) {
-            output_sim1 = ps_master.readAllStandardOutput();
-            if ( output_sim1.contains("[H") ) {
-                ui->textOutput_sim1->clear();
-                output = output.right(output.length()-2);
-            }
+    if (!paramaq)
+        return;
 
-            ui->textOutput_sim1->append(output_sim1);
-        }
-        if ( active_cal_mode == 41 ) {
-            output_sim1b = ps_master.readAllStandardOutput();
-            if ( output_sim1b.contains("[H") ) {
-                ui->textOutput_sim1_2->clear();
-                output = output.right(output.length()-2);
-            }
+    bool ok;
+    int prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
 
-            ui->textOutput_sim1_2->append(output_sim1b);
-        }
-        if ( active_cal_mode == 5 ) {
-            output_sim2 = ps_master.readAllStandardOutput();
-            if ( output_sim2.contains("[H") ) {
-                ui->textOutput_sim2->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_sim2->append(output_sim2);
-        }
-        if ( active_cal_mode == 6 ) {
-            output_sim3 = ps_master.readAllStandardOutput();
-            if ( output_sim3.contains("[H") ) {
-                ui->textOutput_sim3->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_sim3->append(output_sim3);
-        }
-}
-
-void QGCAutoquad::prtstderr() {
-    if ( active_cal_mode == 0 ) {
-        output = ps_master.readAllStandardError();
-    ui->textFlashOutput->append(output);
-    }
-    if ( active_cal_mode == 1 ) {
-            output_cal1 = ps_master.readAllStandardError();
-            if ( output_cal1.contains("[") )
-                    ui->textOutput_cal1->clear();
-            ui->textOutput_cal1->append(output_cal1);
-    }
-    if ( active_cal_mode == 2 ) {
-            output_cal2 = ps_master.readAllStandardError();
-            if ( output_cal2.contains("[") )
-                    ui->textOutput_cal2->clear();
-            ui->textOutput_cal2->append(output_cal2);
-    }
-    if ( active_cal_mode == 3 ) {
-            output_cal3 = ps_master.readAllStandardError();
-            if ( output_cal3.contains("[") )
-                    ui->textOutput_cal3->clear();
-            ui->textOutput_cal3->append(output_cal3);
-    }
-    if ( active_cal_mode == 4 ) {
-            output_sim1 = ps_master.readAllStandardError();
-            if ( output_sim1.contains("[") )
-                    ui->textOutput_sim1->clear();
-            ui->textOutput_sim1->append(output_sim1);
-    }
-    if ( active_cal_mode == 41 ) {
-            output_sim1b = ps_master.readAllStandardError();
-            if ( output_sim1b.contains("[") )
-                    ui->textOutput_sim1_2->clear();
-            ui->textOutput_sim1_2->append(output_sim1b);
-    }
-    if ( active_cal_mode == 5 ) {
-            output_sim2 = ps_master.readAllStandardError();
-            if ( output_sim2.contains("[") )
-                    ui->textOutput_sim2->clear();
-            ui->textOutput_sim2->append(output_sim2);
-    }
-    if ( active_cal_mode == 6 ) {
-            output_sim3 = ps_master.readAllStandardError();
-            if ( output_sim3.contains("[") )
-                    ui->textOutput_sim3->clear();
-            ui->textOutput_sim3->append(output_sim3);
-    }
-}
-
-
-UASInterface* QGCAutoquad::getUAS()
-{
-    return uas;
-}
-
-void QGCAutoquad::addUAS(UASInterface* uas_ext)
-{
-    QString uasColor = uas_ext->getColor().name().remove(0, 1);
+    if (ok && idx != prevRadioValue)
+        ui->label_radioChangeWarning->show();
+    else
+        ui->label_radioChangeWarning->hide();
 
 }
 
-void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
-{
-    if (uas_ext)
-    {
-        if (uas) {
-            disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
-            disconnect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
-            disconnect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
-        }
-//        if (paramaq)
-//            disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
-
-        uas = uas_ext;
-        connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
-        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
-        if ( !paramaq ) {
-            paramaq = new QGCAQParamWidget(uas, this);
-            ui->gridLayout_paramAQ->addWidget(paramaq);
-
-            connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
-            connect(paramaq, SIGNAL(requestParameterRefreshed()), aqPwmPortConfig, SLOT(loadOnboardConfig()));
-            connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
-
-            if ( LastFilePath == "")
-                paramaq->setFilePath(QCoreApplication::applicationDirPath());
-            else
-                paramaq->setFilePath(LastFilePath);
-        }
-        paramaq->loadParaAQ();
-
-        // get firmware version of this AQ
-        aqFirmwareVersion = QString("");
-        aqFirmwareRevision = 0;
-        aqHardwareRevision = 0;
-        aqBuildNumber = 0;
-        ui->lbl_aq_fw_version->setText("AQ Firmware v. [unknown]");
-        uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
-
-        VisibleWidget = 2;
-        aqTelemetryView->initChart(uas);
-        ui->checkBox_raw_value->setChecked(true);
-        raw_transmitter_view();
+bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
+    QList<int> portsUsed, conflictPorts;
+    foreach (QComboBox* cb, allRadioChanCombos) {
+        if (portsUsed.contains(cb->currentIndex()))
+            conflictPorts.append(cb->currentIndex());
+        portsUsed.append(cb->currentIndex());
     }
+    foreach (QComboBox* cb, allRadioChanCombos) {
+        if (conflictPorts.contains(cb->currentIndex()))
+            cb->setStyleSheet("background-color: rgba(255, 0, 0, 200)");
+        else
+            cb->setStyleSheet("");
+    }
+
+    if (conflictPorts.size())
+        return false;
+
+    return true;
 }
 
 void QGCAutoquad::raw_transmitter_view() {
+    int min, max, tmin, tmax;
+
     if ( ui->checkBox_raw_value->checkState() ){
-
-         disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
-
-         ui->progressBar_Throttle->setMaximum(+1500);
-         ui->progressBar_Throttle->setMinimum(-100);
-
-         ui->progressBar_Roll->setMaximum(1024);
-         ui->progressBar_Roll->setMinimum(-1024);
-
-         ui->progressBar_Pitch->setMaximum(1024);
-         ui->progressBar_Pitch->setMinimum(-1024);
-
-         ui->progressBar_Rudd->setMaximum(1024);
-         ui->progressBar_Rudd->setMinimum(-1024);
-
-         ui->progressBar_Gear->setMaximum(1024);
-         ui->progressBar_Gear->setMinimum(-1024);
-
-         ui->progressBar_Flaps->setMaximum(1024);
-         ui->progressBar_Flaps->setMinimum(-1024);
-
-         ui->progressBar_Aux2->setMaximum(1024);
-         ui->progressBar_Aux2->setMinimum(-1024);
-
-         ui->progressBar_Aux3->setMaximum(1024);
-         ui->progressBar_Aux3->setMinimum(-1024);
-
-         connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
-
-    }
-    else
-    {
+        tmax = 1500;
+        tmin = -100;
+        max = 1024;
+        min = -1024;
+        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+        connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
+    } else {
+        tmax = 1500;
+        tmin = -100;
+        max = 1024;
+        min = -1024;
         disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
-
-        ui->progressBar_Throttle->setMaximum(-500);
-        ui->progressBar_Throttle->setMinimum(1500);
-
-        ui->progressBar_Roll->setMaximum(-1500);
-        ui->progressBar_Roll->setMinimum(1500);
-
-        ui->progressBar_Pitch->setMaximum(-1500);
-        ui->progressBar_Pitch->setMinimum(1500);
-
-        ui->progressBar_Rudd->setMaximum(-1500);
-        ui->progressBar_Rudd->setMinimum(1500);
-
-        ui->progressBar_Gear->setMaximum(-1500);
-        ui->progressBar_Gear->setMinimum(1500);
-
-        ui->progressBar_Flaps->setMaximum(-1500);
-        ui->progressBar_Flaps->setMinimum(1500);
-
-        ui->progressBar_Aux2->setMaximum(-1500);
-        ui->progressBar_Aux2->setMinimum(1500);
-
-        ui->progressBar_Aux3->setMaximum(-1500);
-        ui->progressBar_Aux3->setMinimum(1500);
-
         connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
     }
-}
 
-void QGCAutoquad::hideEvent(QHideEvent* event)
-{
-    if ( VisibleWidget <= 1)
-        VisibleWidget = 0;
-    QWidget::hideEvent(event);
-    emit visibilityChanged(false);
-}
-
-void QGCAutoquad::showEvent(QShowEvent* event)
-{
-    // React only to internal (pre-display)
-    // events
-    if ( VisibleWidget <= 1)
-        VisibleWidget = 1;
-
-    if ( VisibleWidget == 1) {
-        if ( uas != NULL)
-        {
-            paramaq = new QGCAQParamWidget(uas, this);
-            ui->gridLayout_paramAQ->addWidget(paramaq);
-            VisibleWidget = 2;
+    foreach (QProgressBar* pb, ui->RadioSettings->findChildren<QProgressBar* >(QRegExp("progressBar_.+"))) {
+        if (pb->objectName().contains("Throttle")) {
+            pb->setMaximum(tmax);
+            pb->setMinimum(tmin);
+        } else {
+            pb->setMaximum(max);
+            pb->setMinimum(min);
         }
     }
-    QWidget::showEvent(event);
-    emit visibilityChanged(true);
 }
 
 void QGCAutoquad::setChannelScaled(int channelId, float normalized)
@@ -1635,328 +1766,65 @@ void QGCAutoquad::setChannelRaw(int channelId, float normalized)
 
 }
 
-void QGCAutoquad::check_var()
+
+//
+// UAS Interfaces
+//
+
+void QGCAutoquad::addUAS(UASInterface* uas_ext)
 {
-    if ( ui->checkBox_sim3_4_var_1->checkState()) {
-        ui->sim3_4_var_1->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_4_var_1->checkState()) {
-        ui->sim3_4_var_1->setEnabled(false);
-    }
-
-    if ( ui->checkBox_sim3_4_var_2->checkState()) {
-        ui->sim3_4_var_2->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_4_var_2->checkState()) {
-        ui->sim3_4_var_2->setEnabled(false);
-    }
-
-    if ( ui->checkBox_sim3_5_var->checkState()) {
-        ui->sim3_5_var->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_5_var->checkState()) {
-        ui->sim3_5_var->setEnabled(false);
-    }
-
-    if ( ui->checkBox_sim3_6_var->checkState()) {
-        ui->sim3_6_var->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_6_var->checkState()) {
-        ui->sim3_6_var->setEnabled(false);
-    }
+    QString uasColor = uas_ext->getColor().name().remove(0, 1);
 
 }
 
-void QGCAutoquad::check_stop()
+void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
-    if ( ui->checkBox_sim3_4_stop_1->checkState()) {
-        ui->sim3_4_stop_1->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_4_stop_1->checkState()) {
-        ui->sim3_4_stop_1->setEnabled(false);
-    }
+    if (uas_ext)
+    {
+        if (uas) {
+            disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+            disconnect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
+            disconnect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
+        }
+//        if (paramaq)
+//            disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
 
-    if ( ui->checkBox_sim3_4_stop_2->checkState()) {
-        ui->sim3_4_stop_2->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_4_stop_2->checkState()) {
-        ui->sim3_4_stop_2->setEnabled(false);
-    }
+        uas = uas_ext;
+        connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
+        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
+        if ( !paramaq ) {
+            paramaq = new QGCAQParamWidget(uas, this);
+            ui->gridLayout_paramAQ->addWidget(paramaq);
 
-    if ( ui->checkBox_sim3_5_stop->checkState()) {
-        ui->sim3_5_stop->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_5_stop->checkState()) {
-        ui->sim3_5_stop->setEnabled(false);
-    }
+            connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+            connect(paramaq, SIGNAL(requestParameterRefreshed()), aqPwmPortConfig, SLOT(loadOnboardConfig()));
+            connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
 
-    if ( ui->checkBox_sim3_6_stop->checkState()) {
-        ui->sim3_6_stop->setEnabled(true);
-    }
-    else if  ( !ui->checkBox_sim3_6_stop->checkState()) {
-        ui->sim3_6_stop->setEnabled(false);
-    }
+            if ( LastFilePath == "")
+                paramaq->setFilePath(QCoreApplication::applicationDirPath());
+            else
+                paramaq->setFilePath(LastFilePath);
+        }
+        paramaq->loadParaAQ();
 
+        // get firmware version of this AQ
+        aqFirmwareVersion = QString("");
+        aqFirmwareRevision = 0;
+        aqHardwareRevision = 0;
+        aqBuildNumber = 0;
+        ui->lbl_aq_fw_version->setText("AQ Firmware v. [unknown]");
+        uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
 
+        VisibleWidget = 2;
+        aqTelemetryView->initChart(uas);
+        ui->checkBox_raw_value->setChecked(true);
+        raw_transmitter_view();
+    }
 }
 
-void QGCAutoquad::startcal1(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "cal" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-
-    QStringList Arguments;
-
-    Arguments.append("--rate");
-    for ( int i = 0; i<StaticFiles.count(); i++) {
-        Arguments.append(StaticFiles.at(i));
-    }
-    Arguments.append(":");
-
-    active_cal_mode = 1;
-    ui->textOutput_cal1->clear();
-    ui->pushButton_start_cal1->setEnabled(false);
-    ui->pushButton_abort_cal1->setEnabled(true);
-    ui->textOutput_cal1->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_cal1->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::startcal2(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "cal" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-
-    QStringList Arguments;
-
-    Arguments.append("--acc");
-    for ( int i = 0; i<StaticFiles.count(); i++) {
-        Arguments.append(StaticFiles.at(i));
-    }
-    Arguments.append(":");
-
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
-
-    active_cal_mode = 2;
-    ui->textOutput_cal2->clear();
-    ui->pushButton_start_cal2->setEnabled(false);
-    ui->pushButton_abort_cal2->setEnabled(true);
-    ui->textOutput_cal2->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_cal2->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::startcal3(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "cal" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-
-    QStringList Arguments;
-
-    Arguments.append("--mag");
-
-    for ( int i = 0; i<StaticFiles.count(); i++) {
-        Arguments.append(StaticFiles.at(i));
-    }
-    Arguments.append(":");
-
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
-
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
-
-    active_cal_mode = 3;
-    ui->textOutput_cal3->clear();
-    ui->pushButton_start_cal3->setEnabled(false);
-    ui->pushButton_abort_cal3->setEnabled(true);
-    ui->textOutput_cal3->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_cal3->append(Arguments.at(i));
-    }
-
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::startsim1(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
-
-    QStringList Arguments;
-
-    Arguments.append("--gyo");
-    Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
-
-    if ( ui->checkBox_sim3_4_var_1->checkState() ) {
-        Arguments.append("--var=" + ui->sim3_4_var_1->text());
-    }
-    if ( ui->checkBox_sim3_4_stop_1->checkState() ) {
-        Arguments.append("--stop=" + ui->sim3_4_stop_1->text());
-    }
-
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
-
-    active_cal_mode = 4;
-    ui->textOutput_sim1->clear();
-    ui->pushButton_start_sim1->setEnabled(false);
-    ui->pushButton_abort_sim1->setEnabled(true);
-    ui->textOutput_sim1->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim1->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::startsim1b(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
-
-    QStringList Arguments;
-
-    Arguments.append("--acc");
-    Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
-
-    if ( ui->checkBox_sim3_4_var_2->checkState() ) {
-        Arguments.append("--var=" + ui->sim3_4_var_2->text());
-    }
-    if ( ui->checkBox_sim3_4_stop_2->checkState() ) {
-        Arguments.append("--stop=" + ui->sim3_4_var_2->text());
-    }
-
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
-
-    active_cal_mode = 41;
-    ui->textOutput_sim1_2->clear();
-    ui->pushButton_start_sim1_2->setEnabled(false);
-    ui->pushButton_abort_sim1_2->setEnabled(true);
-    ui->textOutput_sim1_2->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim1_2->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::startsim2(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
-
-    QStringList Arguments;
-
-    Arguments.append("--acc");
-    Arguments.append("--gyo");
-    Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
-    Arguments.append("-p");
-    Arguments.append( QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
-
-    if ( ui->checkBox_sim3_5_var->checkState() ) {
-        Arguments.append("--var=" + ui->sim3_5_var->text());
-    }
-    if ( ui->checkBox_sim3_5_stop->checkState() ) {
-        Arguments.append("--stop=" + ui->sim3_5_stop->text());
-    }
-
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
-
-    active_cal_mode = 5;
-    ui->textOutput_sim2->clear();
-    ui->pushButton_start_sim2->setEnabled(false);
-    ui->pushButton_abort_sim2->setEnabled(true);
-    ui->textOutput_sim2->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim2->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::startsim3(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "/" + "sim3.params");
-
-    QStringList Arguments;
-
-    Arguments.append("--mag");
-    Arguments.append("--incl");
-    Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
-
-    if ( ui->checkBox_sim3_6_var->checkState() ) {
-        Arguments.append("--var=" + ui->sim3_6_var->text());
-    }
-    if ( ui->checkBox_sim3_6_stop->checkState() ) {
-        Arguments.append("--stop=" + ui->sim3_6_var->text());
-    }
-
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
-
-    active_cal_mode = 6;
-    ui->textOutput_sim3->clear();
-    ui->pushButton_start_sim3->setEnabled(false);
-    ui->pushButton_abort_sim3->setEnabled(true);
-    ui->textOutput_sim3->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim3->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::abortcal1(){
-    if ( ps_master.Running)
-        ps_master.close();
-}
-
-void QGCAutoquad::abortcal2(){
-    if ( ps_master.Running)
-        ps_master.close();
-}
-
-void QGCAutoquad::abortcal3(){
-    if ( ps_master.Running)
-        ps_master.close();
-}
-
-void QGCAutoquad::abortsim1(){
-    if ( ps_master.Running)
-        ps_master.close();
-}
-
-void QGCAutoquad::abortsim1b(){
-    if ( ps_master.Running)
-        ps_master.close();
-}
-
-void QGCAutoquad::abortsim2(){
-    if ( ps_master.Running)
-        ps_master.close();
-}
-
-void QGCAutoquad::abortsim3(){
-    if ( ps_master.Running)
-        ps_master.close();
+UASInterface* QGCAutoquad::getUAS()
+{
+    return uas;
 }
 
 QGCAQParamWidget* QGCAutoquad::getParamHandler()
@@ -1964,225 +1832,65 @@ QGCAQParamWidget* QGCAutoquad::getParamHandler()
     return paramaq;
 }
 
-void QGCAutoquad::getGUIpara() {
-    if ( !paramaq)
+
+//
+// Parameter handling to/from AQ
+//
+
+void QGCAutoquad::getGUIpara(QWidget *parent) {
+    if ( !paramaq || !parent)
         return;
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( this );
-    for ( int i = 0; i<edtList.count(); i++) {
-        QString ParaName = edtList.at(i)->objectName();
-        if ( ParaName.startsWith("CTRL") || ParaName.startsWith("NAV") || ParaName.startsWith("GMBL") || ParaName.startsWith("SPVR") || ParaName.startsWith("MOT") ) {
-            if (ParaName == "GMBL_SCAL_PITCH" || ParaName == "GMBL_SCAL_ROLL") {
-                float dummy_value = fabs(paramaq->getParaAQ(ParaName).toFloat());
-                edtList.at(i)->setText(QString::number(dummy_value));
-            } else {
-                edtList.at(i)->setText(paramaq->getParaAQ(ParaName).toString());
-            }
+    bool ok;
+    int precision;
+    QString paraName, valstr;
+    QVariant val;
+
+    QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
+    foreach (QWidget* w, wdgtList) {
+        paraName = w->objectName().replace(dupeFldnameRx, "");
+        if (!paramaq->paramExistsAQ(paraName)) {
+            w->setEnabled(false);
+            continue;
         }
+        ok = true;
+        precision = 6;
+        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT"){
+            val = fabs(paramaq->getParaAQ(paraName).toFloat());
+            precision = 8;
+        }  else
+            val = paramaq->getParaAQ(paraName);
+
+        if (QLineEdit* le = qobject_cast<QLineEdit *>(w)){
+            valstr.setNum(val.toFloat(), 'g', precision);
+            le->setText(valstr);
+        } else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
+            cb->setCurrentIndex(val.toInt(&ok));
+        else if (QDoubleSpinBox* dsb = qobject_cast<QDoubleSpinBox *>(w))
+            dsb->setValue(val.toDouble(&ok));
+        else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
+            sb->setValue(val.toInt(&ok));
+
+        if (ok)
+            w->setEnabled(true);
+        else
+            w->setEnabled(false);
+            // TODO: notify the user, or something...
     }
 
-    int radio_type = paramaq->getParaAQ("RADIO_TYPE").toInt();
-    ui->comboBox_Radio_Type->setCurrentIndex(radio_type);
-    ui->IMU_ROT->setText(paramaq->getParaAQ("IMU_ROT").toString());
-    ui->IMU_MAG_DECL->setText(paramaq->getParaAQ("IMU_MAG_DECL").toString());
-    ui->IMU_MAG_INCL->setText(paramaq->getParaAQ("IMU_MAG_INCL").toString());
-    ui->IMU_PRESS_SENSE->setText(paramaq->getParaAQ("IMU_PRESS_SENSE").toString());
-    ui->DOWNLINK_BAUD->setText(paramaq->getParaAQ("DOWNLINK_BAUD").toString());
+    if (qobject_cast<QGCAutoquad *>(parent)) {
+        // gimbal pitch/roll revese checkboxes
+        float f_pitch_direction = paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat();
+        float f_roll_direction = paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat();
+        ui->reverse_gimbal_pitch->setChecked(f_pitch_direction < 0);
+        ui->reverse_gimbal_roll->setChecked(f_roll_direction < 0);
+    }
 
-    float f_pitch_direction = paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat();
-    float f_roll_direction = paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat();
-    ui->reverse_gimbal_pitch->setChecked(f_pitch_direction < 0);
-    ui->reverse_gimbal_roll->setChecked(f_roll_direction < 0);
-
-    int failsaveStage1 = paramaq->getParaAQ("SPVR_FS_RAD_ST1").toInt();
-    int failsaveStage2 = paramaq->getParaAQ("SPVR_FS_RAD_ST2").toInt();
-
-    ui->CMB_SPVR_FS_RAD_ST1->setCurrentIndex(failsaveStage1);
-    ui->CMB_SPVR_FS_RAD_ST2->setCurrentIndex(failsaveStage2);
 
 }
 
-void QGCAutoquad::setRadio() {
-
-    if ( !paramaq)
-            return;
-    paramaq->setParameter(190,"RADIO_TYPE",ui->comboBox_Radio_Type->currentIndex());
-    QuestionForROM();
-
-}
-
-void QGCAutoquad::setUsersParams() {
-    QString dirPath = QDir::toNativeSeparators(UsersParamsFile);
-    QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Parameters (*.params)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
-
-    if (fileNames.size() > 0)
-    {
-        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
-    }
-}
-
-void QGCAutoquad::ShowUsersParams(QString fileName) {
-    QFile file(fileName);
-    UsersParamsFile = file.fileName();
-    ui->lineEdit_user_param_file->setText(QDir::toNativeSeparators(UsersParamsFile));
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    ui->textOutput_Users_Params->setText(file.readAll());
-    file.close();
-}
-
-void QGCAutoquad::CreateUsersParams() {
-    QString dirPath = UsersParamsFile ;
-    QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Parameter-File (*.params)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
-
-    if (fileNames.size() > 0)
-    {
-        UsersParamsFile = fileNames.at(0);
-    }
-    if (!UsersParamsFile.endsWith(".params") )
-        UsersParamsFile += ".params";
-
-    UsersParamsFile = QDir::toNativeSeparators(UsersParamsFile);
-    QFile file( UsersParamsFile );
-    if ( file.exists())
-    {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Question");
-        msgBox.setInformativeText("file already exists, Overwrite?");
-        msgBox.setWindowModality(Qt::ApplicationModal);
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int ret = msgBox.exec();
-        switch (ret) {
-            case QMessageBox::Yes:
-            {
-                file.close();
-                QFile::remove(UsersParamsFile );
-            }
-            break;
-            case QMessageBox::No:
-            // ok was clicked
-            break;
-            default:
-            // should never be reached
-            break;
-        }
-    }
-
-    if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
-    {
-      return;
-    }
-    QDataStream stream( &file );
-    stream << "";
-    file.close();
-    ui->lineEdit_user_param_file->setText(QDir::toNativeSeparators(UsersParamsFile));
-}
-
-void QGCAutoquad::WriteUsersParams() {
-    QString message = ui->textOutput_Users_Params->toPlainText();
-    QFile file(UsersParamsFile);
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        QMessageBox::information(this, tr("Unable to open file"), file.errorString());
-        return;
-    }
-    QTextStream out(&file);
-    out << message;
-    file.close();
-}
-
-void QGCAutoquad::CalculatDeclination() {
-
-    QString dec_source = ui->lineEdit_insert_declination->text();
-    if ( !dec_source.contains(".")) {
-        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
-        return;
-    }
-    /*
-    if ( !dec_source.startsWith("-")) {
-        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
-        return;
-    }
-    if ( dec_source.length() != 6 ) {
-        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
-        return;
-    }
-    */
-    QStringList HoursMinutes = dec_source.split(".");
-
-    if ( HoursMinutes.count() != 2 ) {
-        QMessageBox::information(this, "Error", "Wrong format for magnetic declination!",QMessageBox::Ok, 0 );
-        return;
-    }
-    qint32 secounds = HoursMinutes.at(1).toInt();
-    float secounds_calc = (100.0f/60.0f) * secounds;
-    // Set together
-    QString recalculated;
-    recalculated.append("#define");
-    recalculated.append(' ');
-    recalculated.append("IMU_MAG_INCL");
-    recalculated.append(' ');
-    recalculated.append(HoursMinutes.at(0));
-    recalculated.append(".");
-    recalculated.append( QString::number(secounds_calc,'f',0));
-
-    ui->lineEdit_cal_declination->setText(recalculated);
-    CalculatInclination();
-}
-
-double QGCAutoquad::Round(double Zahl, unsigned int Stellen)
-{
-    Zahl *= pow((double)10, (double)Stellen);
-    if (Zahl >= 0)
-        floor(Zahl + 0.5);
-    else
-        ceil(Zahl - 0.5);
-    Zahl /= pow((double)10, (double)Stellen);
-    return Zahl;
-}
-
-void QGCAutoquad::CalculatInclination() {
-
-    QString inc_source = ui->lineEdit_insert_inclination->text();
-    if ( !inc_source.contains(".")) {
-        QMessageBox::information(this, "Error", "Wrong format for magnetic inclination!",QMessageBox::Ok, 0 );
-        return;
-    }
-    if ( inc_source.length() < 3 ) {
-        QMessageBox::information(this, "Error", "Wrong format for magnetic inclination!",QMessageBox::Ok, 0 );
-        return;
-    }
-    QStringList HoursMinutes = inc_source.split('.');
-
-    qint32 secounds = HoursMinutes.at(1).toInt();
-    float secounds_calc =  (100.0f/60.0f) * secounds;
-    //secounds_calc = Round(secounds_calc, 0);
-    // Set together
-    QString recalculated;
-    recalculated.append(HoursMinutes.at(0));
-    recalculated.append(".");
-    recalculated.append( QString::number(secounds_calc,'f',0));
-    ui->lineEdit_cal_inclination->setText(recalculated);
-
+void QGCAutoquad::loadParametersToUI() {
+    getGUIpara(this);
 }
 
 void QGCAutoquad::QuestionForROM()
@@ -2208,142 +1916,251 @@ Do you want to store all the current parameters into permanent on-board memory (
     }
 }
 
-void QGCAutoquad::save_PID_toAQ1()
+bool QGCAutoquad::checkAqConnected(bool interactive) {
+
+    if ( !paramaq || !uas || uas->getCommunicationStatus() != uas->COMM_CONNECTED ) {
+        if (interactive)
+            MainWindow::instance()->showCriticalMessage("Error", "No AutoQuad connected!");
+        return false;
+    } else
+        return true;
+}
+
+bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 {
-QVariant val_uas;
-QVariant val_local;
-bool changed;
+    float val_uas, val_local;
+    QString paraName;
+    bool changed=false, ok, chkstate;
 
-    if ( !paramaq)
+    if ( !checkAqConnected(interactive) )
+        return false;
+
+    QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
+    foreach (QWidget* w, wdgtList) {
+        paraName = w->objectName().replace(dupeFldnameRx, "");
+        if (!paramaq->paramExistsAQ(paraName))
+            continue;
+
+        ok = true;
+        val_uas = paramaq->getParaAQ(paraName).toFloat(&ok);
+
+        if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
+            val_local = le->text().toFloat(&ok);
+        else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
+            val_local = static_cast<float>(cb->currentIndex());
+        else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
+            val_local = sb->text().replace(QRegExp("[^0-9\\.]"), "").toFloat(&ok);
+
+        if (!ok)
+            continue;
+            // TODO: Notify the user!
+
+        // special case for reversing gimbal servo direction
+        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT") {
+            if (paraName == "GMBL_SCAL_PITCH")
+                chkstate = parent->findChild<QCheckBox *>("reverse_gimbal_pitch")->checkState();
+            else if (paraName == "GMBL_SCAL_ROLL")
+                chkstate = parent->findChild<QCheckBox *>("reverse_gimbal_roll")->checkState();
+            else if (paraName == "SIG_BEEP_PRT")
+                chkstate = parent->findChild<QCheckBox *>("checkBox_useSpeaker")->checkState();
+            if (chkstate)
+                val_local = 0.0f - val_local;
+        }
+
+        if (val_uas != val_local){
+            paramaq->setParaAQ(paraName, val_local);
+            changed = true;
+        }
+    }
+
+    if ( changed ) {
+        if (interactive)
+            QuestionForROM();
+        return true;
+    }
+    else{
+        if (interactive)
+            MainWindow::instance()->showInfoMessage("Warning", "No changed parameters detected.  Nothing saved.");
+        return false;
+    }
+}
+
+void QGCAutoquad::saveRadioSettings() {
+    if (!validateRadioSettings(0)) {
+        MainWindow::instance()->showCriticalMessage("Error", "You have the same port assigned to multiple controls!");
         return;
+    }
+    saveSettingsToAq(ui->RadioSettings);
+}
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->TiltYawPID );
-    for ( int i = 0; i<edtList.count(); i++) {
-        QString ParaName = edtList.at(i)->objectName();
-        // Hier alle NAV von PID Page 1
-        if ( ParaName.startsWith("CTRL_",Qt::CaseSensitive)) {
-            if ( paramaq->getParameterValue(190,ParaName,val_uas) )
-            {
-                val_local = edtList.at(i)->text().toFloat();
-                if ( val_uas != val_local) {
-                    paramaq->setParameter(190,ParaName,val_local);
-                    changed = true;
-                }
+void QGCAutoquad::saveAttitudePIDs() {
+    saveSettingsToAq(ui->TiltYawPID);
+}
+
+void QGCAutoquad::saveNavigationPIDs() {
+    saveSettingsToAq(ui->NavigationPID);
+}
+
+void QGCAutoquad::saveSpecialSettings() {
+    saveSettingsToAq(ui->SpecialSettings);
+}
+
+void QGCAutoquad::saveGimbalSettings() {
+    saveSettingsToAq(ui->Gimbal);
+}
+
+
+//
+// Log Viewer
+//
+
+
+void QGCAutoquad::SetupListView()
+{
+    ui->listView_Curves->setAutoFillBackground(true);
+    QPalette p =  ui->listView_Curves->palette();
+    DefaultColorMeasureChannels = p.color(QPalette::Window);
+    model = new QStandardItemModel(this); //listView_curves
+    for ( int i=0; i<parser.LogChannelsStruct.count(); i++ ) {
+        QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+        QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
+        item->setCheckable(true);
+        item->setCheckState(Qt::Unchecked);
+        item->setData(false, Qt::UserRole);
+        model->appendRow(item);
+    }
+    ui->listView_Curves->setModel(model);
+    connect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
+}
+
+void QGCAutoquad::OpenLogFile(bool openFile)
+{
+    QString dirPath;
+    if ( LastFilePath == "")
+        dirPath = QCoreApplication::applicationDirPath();
+    else
+        dirPath = LastFilePath;
+    QFileInfo dir(dirPath);
+    QFileDialog dialog;
+    dialog.setDirectory(dir.absoluteDir());
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setFilter(tr("AQ log file (*.LOG)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+    }
+
+    if (fileNames.size() > 0)
+    {
+        QFile file(fileNames.first());
+        LogFile = QDir::toNativeSeparators(file.fileName());
+        LastFilePath = LogFile;
+        if (openFile && !file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Could not read Log file. Permission denied");
+            msgBox.exec();
+        } else if (openFile)
+            DecodeLogFile(LogFile);
+    }
+}
+
+void QGCAutoquad::openExportOptionsDlg() {
+    static QWeakPointer<AQLogExporter> dlg_;
+
+    if (!dlg_)
+        dlg_ = new AQLogExporter(this);
+
+    AQLogExporter *dlg = dlg_.data();
+
+    if (LogFile.length())
+        dlg->setLogFile(LogFile);
+
+    dlg->setAttribute(Qt::WA_DeleteOnClose);
+    dlg->show();
+    dlg->raise();
+    dlg->activateWindow();
+}
+
+
+void QGCAutoquad::CurveItemClicked(QModelIndex index) {
+    QStandardItem *item = model->itemFromIndex(index);
+
+    if (item->data(Qt::UserRole).toBool() == false)
+    {
+        item->setCheckState(Qt::Checked);
+        item->setData(true, Qt::UserRole);
+        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
+            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+            if ( val_pair.first == item->text()) {
+                val_pair.second.fieldActive = 1;
+                parser.LogChannelsStruct.replace(i,val_pair);
+                break;
             }
         }
     }
-    if ( changed )
-        QuestionForROM();
+    else
+    {
+        item->setCheckState(Qt::Unchecked);
+        item->setData(false, Qt::UserRole);
+        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
+            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+            if ( val_pair.first == item->text()) {
+                val_pair.second.fieldActive = 0;
+                parser.LogChannelsStruct.replace(i,val_pair);
+                break;
+            }
+        }
+    }
+}
+
+void QGCAutoquad::deselectAllCurves(void) {
+    for (int i=0; i < ui->listView_Curves->model()->rowCount(); ++i){
+        if (model->item(i)->data(Qt::UserRole).toBool() == true)
+            CurveItemClicked(model->item(i)->index());
+    }
+}
+
+void QGCAutoquad::DecodeLogFile(QString fileName)
+{
+    plot->removeData();
+    plot->clear();
+    plot->setStyleText("lines");
+
+    disconnect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
+    ui->listView_Curves->reset();
+
+    if ( parser.ParseLogHeader(fileName) == 0)
+        SetupListView();
 
 }
 
-void QGCAutoquad::save_PID_toAQ2()
-{
-    QVariant val_uas;
-    QVariant val_local;
-    bool changed;
+void QGCAutoquad::showChannels() {
 
-        if ( !paramaq)
-            return;
+    parser.ShowCurves();
+    plot->removeData();
+    plot->clear();
+    plot->ResetColor();
+    if (!QFile::exists(LogFile))
+        return;
 
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->NavigationPID );
-        for ( int i = 0; i<edtList.count(); i++) {
-            QString ParaName = edtList.at(i)->objectName();
-            // Hier alle CTRL von PID Page 2
-            if ( ParaName.startsWith("NAV_",Qt::CaseSensitive)) {
-                if ( paramaq->getParameterValue(190,ParaName,val_uas) )
-                {
-                    val_local = edtList.at(i)->text().toFloat();
-                    if ( val_uas != val_local) {
-                        paramaq->setParameter(190,ParaName,val_local);
-                        changed = true;
-                    }
-                }
-            }
-        }
-        if ( changed )
-            QuestionForROM();
+    for (int i = 0; i < parser.yValues.count(); i++) {
+        plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
+    }
 
-}
+    plot->setStyleText("lines");
+    plot->updateScale();
+    for ( int i = 0; i < model->rowCount(); i++) {
+        QStandardItem *item = model->item(i,0);
+        if ( item->data(Qt::UserRole).toBool() )
+            //item->setForeground(plot->getColorForCurve(item->text()));
+            item->setBackground(plot->getColorForCurve(item->text()));
+        else
+            item->setBackground(DefaultColorMeasureChannels);
+    }
 
-void QGCAutoquad::save_PID_toAQ3()
-{
-    QVariant val_uas;
-    QVariant val_local;
-    bool changed;
-
-        if ( !paramaq)
-            return;
-
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->SpecialSettings );
-        for ( int i = 0; i<edtList.count(); i++) {
-            QString ParaName = edtList.at(i)->objectName();
-            // Hier alle CTRL von PID Page 3
-            if ( paramaq->getParameterValue(190,ParaName,val_uas) )
-            {
-                val_local = edtList.at(i)->text().toFloat();
-                if ( val_uas != val_local) {
-                    paramaq->setParameter(190,ParaName,val_local);
-                    changed = true;
-                }
-            }
-        }
-
-        paramaq->setParameter(190,"SPVR_FS_RAD_ST1",ui->CMB_SPVR_FS_RAD_ST1->currentIndex());
-        paramaq->setParameter(190,"SPVR_FS_RAD_ST2",ui->CMB_SPVR_FS_RAD_ST2->currentIndex());
-
-        if ( changed )
-            QuestionForROM();
-}
-
-
-void QGCAutoquad::save_PID_toAQ4()
-{
-    QVariant val_uas;
-    QVariant val_local;
-    bool changed;
-
-        if ( !paramaq)
-            return;
-
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->Gimbal );
-        for ( int i = 0; i<edtList.count(); i++) {
-            QString ParaName = edtList.at(i)->objectName();
-            // Hier alle CTRL von PID Page 3
-            if ( paramaq->getParameterValue(190,ParaName,val_uas) )
-            {
-                val_local = edtList.at(i)->text().toFloat();
-                if ( val_uas != val_local) {
-                    if (( ParaName != "GMBL_SCAL_PITCH") && ( ParaName != "GMBL_SCAL_ROLL"))
-                        paramaq->setParameter(190,ParaName,val_local);
-                    changed = true;
-                }
-            }
-        }
-
-        float abs_value;
-        QVariant value_scal_pitch = 0.0f;
-        paramaq->getParameterValue(190,"GMBL_SCAL_PITCH",value_scal_pitch);
-        abs_value = fabs(value_scal_pitch.toFloat());
-        if ( ui->reverse_gimbal_pitch->checkState()) {
-            paramaq->setParameter(190,"GMBL_SCAL_PITCH",0-abs_value);
-        }
-        else {
-            paramaq->setParameter(190,"GMBL_SCAL_PITCH",abs_value);
-        }
-
-        QVariant value_scal_roll = 0.0f;
-        paramaq->getParameterValue(190,"GMBL_SCAL_ROLL",value_scal_roll);
-        abs_value = fabs(value_scal_roll.toFloat());
-        if ( ui->reverse_gimbal_roll->checkState()) {
-            paramaq->setParameter(190,"GMBL_SCAL_ROLL",0-abs_value);
-        }
-        else {
-            paramaq->setParameter(190,"GMBL_SCAL_ROLL",abs_value);
-        }
-
-        if ( changed )
-            QuestionForROM();
 }
 
 
@@ -2784,6 +2601,178 @@ void QGCAutoquad::CuttingItemChanged(int itemIndex) {
     removeMarker();
 }
 
+
+//
+// Miscellaneous
+//
+
+
+void QGCAutoquad::prtstexit(int) {
+    if ( active_cal_mode == 0 ) {
+        ui->flashButton->setEnabled(true);
+        active_cal_mode = 0;
+    }
+    if ( active_cal_mode == 1 ) {
+        ui->pushButton_start_cal1->setEnabled(true);
+        ui->pushButton_abort_cal1->setEnabled(false);
+        active_cal_mode = 0;
+    }
+    if ( active_cal_mode == 2 ) {
+        ui->pushButton_start_cal2->setEnabled(true);
+        ui->pushButton_abort_cal2->setEnabled(false);
+        active_cal_mode = 0;
+    }
+    if ( active_cal_mode == 3 ) {
+        ui->pushButton_start_cal3->setEnabled(true);
+        ui->pushButton_abort_cal3->setEnabled(false);
+        active_cal_mode = 0;
+    }
+    if ( active_cal_mode == 4 ) {
+        ui->pushButton_start_sim1->setEnabled(true);
+        ui->pushButton_abort_sim1->setEnabled(false);
+        active_cal_mode = 0;
+    }
+    if ( active_cal_mode == 41 ) {
+        ui->pushButton_start_sim1_2->setEnabled(true);
+        ui->pushButton_abort_sim1_2->setEnabled(false);
+        active_cal_mode = 0;
+    }
+    if ( active_cal_mode == 5 ) {
+        ui->pushButton_start_sim2->setEnabled(true);
+        ui->pushButton_abort_sim2->setEnabled(false);
+        active_cal_mode = 0;
+    }
+    if ( active_cal_mode == 6 ) {
+        ui->pushButton_start_sim3->setEnabled(true);
+        ui->pushButton_abort_sim3->setEnabled(false);
+        active_cal_mode = 0;
+    }
+}
+
+void QGCAutoquad::prtstdout() {
+        if ( active_cal_mode == 0 ) {
+            output = ps_master.readAllStandardOutput();
+            if ( output.contains("[uWrote")) {
+                output = output.right(output.length()-3);
+                ui->textFlashOutput->clear();
+            }
+            ui->textFlashOutput->append(output);
+        }
+        if ( active_cal_mode == 1 ) {
+            output_cal1 = ps_master.readAllStandardOutput();
+            if ( output_cal1.contains("[H") ) {
+                ui->textOutput_cal1->clear();
+                output = output.right(output.length()-2);
+            }
+
+            ui->textOutput_cal1->append(output_cal1);
+        }
+        if ( active_cal_mode == 2 ) {
+            output_cal2 = ps_master.readAllStandardOutput();
+            if ( output_cal2.contains("[H") ) {
+                ui->textOutput_cal2->clear();
+                output = output.right(output.length()-2);
+            }
+
+            ui->textOutput_cal2->append(output_cal2);
+        }
+        if ( active_cal_mode == 3 ) {
+            output_cal3 = ps_master.readAllStandardOutput();
+            if ( output_cal3.contains("[H") ) {
+                ui->textOutput_cal3->clear();
+                output = output.right(output.length()-2);
+            }
+
+            ui->textOutput_cal3->append(output_cal3);
+        }
+        if ( active_cal_mode == 4 ) {
+            output_sim1 = ps_master.readAllStandardOutput();
+            if ( output_sim1.contains("[H") ) {
+                ui->textOutput_sim1->clear();
+                output = output.right(output.length()-2);
+            }
+
+            ui->textOutput_sim1->append(output_sim1);
+        }
+        if ( active_cal_mode == 41 ) {
+            output_sim1b = ps_master.readAllStandardOutput();
+            if ( output_sim1b.contains("[H") ) {
+                ui->textOutput_sim1_2->clear();
+                output = output.right(output.length()-2);
+            }
+
+            ui->textOutput_sim1_2->append(output_sim1b);
+        }
+        if ( active_cal_mode == 5 ) {
+            output_sim2 = ps_master.readAllStandardOutput();
+            if ( output_sim2.contains("[H") ) {
+                ui->textOutput_sim2->clear();
+                output = output.right(output.length()-2);
+            }
+
+            ui->textOutput_sim2->append(output_sim2);
+        }
+        if ( active_cal_mode == 6 ) {
+            output_sim3 = ps_master.readAllStandardOutput();
+            if ( output_sim3.contains("[H") ) {
+                ui->textOutput_sim3->clear();
+                output = output.right(output.length()-2);
+            }
+
+            ui->textOutput_sim3->append(output_sim3);
+        }
+}
+
+void QGCAutoquad::prtstderr() {
+    if ( active_cal_mode == 0 ) {
+        output = ps_master.readAllStandardError();
+    ui->textFlashOutput->append(output);
+    }
+    if ( active_cal_mode == 1 ) {
+            output_cal1 = ps_master.readAllStandardError();
+            if ( output_cal1.contains("[") )
+                    ui->textOutput_cal1->clear();
+            ui->textOutput_cal1->append(output_cal1);
+    }
+    if ( active_cal_mode == 2 ) {
+            output_cal2 = ps_master.readAllStandardError();
+            if ( output_cal2.contains("[") )
+                    ui->textOutput_cal2->clear();
+            ui->textOutput_cal2->append(output_cal2);
+    }
+    if ( active_cal_mode == 3 ) {
+            output_cal3 = ps_master.readAllStandardError();
+            if ( output_cal3.contains("[") )
+                    ui->textOutput_cal3->clear();
+            ui->textOutput_cal3->append(output_cal3);
+    }
+    if ( active_cal_mode == 4 ) {
+            output_sim1 = ps_master.readAllStandardError();
+            if ( output_sim1.contains("[") )
+                    ui->textOutput_sim1->clear();
+            ui->textOutput_sim1->append(output_sim1);
+    }
+    if ( active_cal_mode == 41 ) {
+            output_sim1b = ps_master.readAllStandardError();
+            if ( output_sim1b.contains("[") )
+                    ui->textOutput_sim1_2->clear();
+            ui->textOutput_sim1_2->append(output_sim1b);
+    }
+    if ( active_cal_mode == 5 ) {
+            output_sim2 = ps_master.readAllStandardError();
+            if ( output_sim2.contains("[") )
+                    ui->textOutput_sim2->clear();
+            ui->textOutput_sim2->append(output_sim2);
+    }
+    if ( active_cal_mode == 6 ) {
+            output_sim3 = ps_master.readAllStandardError();
+            if ( output_sim3.contains("[") )
+                    ui->textOutput_sim3->clear();
+            ui->textOutput_sim3->append(output_sim3);
+    }
+}
+
+
 void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time){
     Q_UNUSED(time);
     if ( !uas)
@@ -2795,6 +2784,8 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
 
 void QGCAutoquad::setHardwareInfo(int boardRev) {
     switch (boardRev) {
+    case 1:
+    case 2:
     default:
         maxPwmPorts = 14;
         pwmPortTimers.empty();
@@ -2808,7 +2799,7 @@ QStringList QGCAutoquad::getAvailablePwmPorts(void) {
     QStringList portsList;
     unsigned short maxport = maxPwmPorts;
 
-    if (ui->comboBox_Radio_Type->currentIndex() == 3)
+    if (ui->RADIO_TYPE->currentIndex() == 3)
         maxport--;
 
     for (int i=1; i <= maxport; i++)
