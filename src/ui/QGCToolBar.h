@@ -85,8 +85,8 @@ protected:
     QLabel* toolBarSafetyLabel;
     QLabel* toolBarModeLabel;
     QLabel* toolBarStateLabel;
-    QLabel* toolBarWpLabel;
-    QLabel* toolBarDistLabel;
+//    QLabel* toolBarWpLabel;
+//    QLabel* toolBarDistLabel;
     QLabel* toolBarMessageLabel;
     QProgressBar* toolBarBatteryBar;
     QLabel* toolBarBatteryVoltageLabel;

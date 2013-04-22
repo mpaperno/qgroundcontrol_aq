@@ -62,9 +62,9 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
 	toolBarNameLabel->setToolTip(tr("Currently controlled vehicle"));
     addWidget(toolBarNameLabel);
 
-    toolBarTimeoutLabel = new QLabel("UNCONNECTED", this);
-    toolBarTimeoutLabel->setToolTip(tr("System timed out, interval since last message"));
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 14px; color: %1; background-color: %2; }").arg(QGC::colorDarkWhite.name()).arg(QGC::colorMagenta.name()));
+    toolBarTimeoutLabel = new QLabel("NOT CONNECTED", this);
+    toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px 0px 4px; font: 14px; color: %1; background-color: %2; }").arg(QGC::colorDarkWhite.name()).arg(QGC::colorMagenta.name()));
     addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel("SAFE", this);
@@ -96,14 +96,14 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
 	toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     addWidget(toolBarBatteryVoltageLabel);
 
-    toolBarWpLabel = new QLabel("WP--", this);
-    toolBarWpLabel->setStyleSheet("QLabel { margin: 0px 2px; font: 18px; color: #3C7B9E; }");
-	toolBarWpLabel->setToolTip(tr("Current mission"));
-    addWidget(toolBarWpLabel);
+//    toolBarWpLabel = new QLabel("WP--", this);
+//    toolBarWpLabel->setStyleSheet("QLabel { margin: 0px 2px; font: 18px; color: #3C7B9E; }");
+//	toolBarWpLabel->setToolTip(tr("Current mission"));
+//    addWidget(toolBarWpLabel);
 
-    toolBarDistLabel = new QLabel("--- ---- m", this);
-	toolBarDistLabel->setToolTip(tr("Distance to current mission"));
-    addWidget(toolBarDistLabel);
+//    toolBarDistLabel = new QLabel("--- ---- m", this);
+//	toolBarDistLabel->setToolTip(tr("Distance to current mission"));
+//    addWidget(toolBarDistLabel);
 
     toolBarMessageLabel = new QLabel("No system messages.", this);
     toolBarMessageLabel->setStyleSheet("QLabel { margin: 0px 4px; font: 12px; font-style: italic; color: #3C7B9E; }");
@@ -123,6 +123,22 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
 
 void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
 {
+    if (ms > 10000) {
+        bool isConnected = false;
+        for ( int i=0; i<mav->getLinks()->count(); i++) {
+            if ( mav->getLinks()->at(i)->isConnected() == true) {
+                isConnected = true;
+                break;
+            }
+        }
+
+        if (!isConnected) {
+            toolBarTimeoutLabel->setText("DISCONNECTED");
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { margin: 0px 2px; font: 14px; color: %1; background-color: %2; }").arg(QGC::colorDarkWhite.name()).arg(QGC::colorMagenta.dark(250).name()));
+            return;
+        }
+    }
+
     // set timeout label visible
     if (timeout)
     {
@@ -297,8 +313,8 @@ void QGCToolBar::updateArmingState(bool armed)
 void QGCToolBar::updateView()
 {
     if (!changed) return;
-    toolBarDistLabel->setText(tr("%1 m").arg(wpDistance, 6, 'f', 2, '0'));
-    toolBarWpLabel->setText(tr("WP%1").arg(wpId));
+//    toolBarDistLabel->setText(tr("%1 m").arg(wpDistance, 6, 'f', 2, '0'));
+//    toolBarWpLabel->setText(tr("WP%1").arg(wpId));
     toolBarBatteryBar->setValue(batteryPercent);
     toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
     toolBarStateLabel->setText(tr("%1").arg(state));
