@@ -209,6 +209,7 @@ void UAS::updateState()
     if (!connectionLost && (heartbeatInterval > timeoutIntervalHeartbeat))
     {
         connectionLost = true;
+        commStatus = COMM_TIMEDOUT;
         QString audiostring = QString("Link lost %1").arg(audioSystemName);
         GAudioOutput::instance()->say(audiostring.toLower());
     }
@@ -218,7 +219,8 @@ void UAS::updateState()
     {
         connectionLossTime = heartbeatInterval;
         emit heartbeatTimeout(true, heartbeatInterval/1000);
-    }
+    } else
+        commStatus = COMM_CONNECTED;
 
     // Connection gained
     if (connectionLost && (heartbeatInterval < timeoutIntervalHeartbeat))
@@ -244,33 +246,6 @@ void UAS::updateState()
         }
     }
 
-//#define MAVLINK_OFFBOARD_CONTROL_MODE_NONE 0
-//#define MAVLINK_OFFBOARD_CONTROL_MODE_RATES 1
-//#define MAVLINK_OFFBOARD_CONTROL_MODE_ATTITUDE 2
-//#define MAVLINK_OFFBOARD_CONTROL_MODE_VELOCITY 3
-//#define MAVLINK_OFFBOARD_CONTROL_MODE_POSITION 4
-//#define MAVLINK_OFFBOARD_CONTROL_FLAG_ARMED 0x10
-
-//#warning THIS IS A HUGE HACK AND SHOULD NEVER SHOW UP IN ANY GIT REPOSITORY
-//    mavlink_message_t message;
-
-//            mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t sp;
-
-//            sp.group = 0;
-
-//            /* set rate mode, set zero rates and 20% throttle */
-//            sp.mode = MAVLINK_OFFBOARD_CONTROL_MODE_RATES | MAVLINK_OFFBOARD_CONTROL_FLAG_ARMED;
-
-//            sp.roll[0] = INT16_MAX * 0.0f;
-//            sp.pitch[0] = INT16_MAX * 0.0f;
-//            sp.yaw[0] = INT16_MAX * 0.0f;
-//            sp.thrust[0] = UINT16_MAX * 0.3f;
-
-
-//            /* send from system 200 and component 0 */
-//            mavlink_msg_set_quad_swarm_roll_pitch_yaw_thrust_encode(200, 0, &message, &sp);
-
-//            sendMessage(message);
 }
 
 /**
@@ -2995,6 +2970,8 @@ void UAS::addLink(LinkInterface* link)
     {
         links->append(link);
         connect(link, SIGNAL(destroyed(QObject*)), this, SLOT(removeLink(QObject*)));
+//        if (getLinks()->size() == 1)
+//            emit connected();
     }
 }
 
@@ -3004,6 +2981,10 @@ void UAS::removeLink(QObject* object)
     if (link)
     {
         links->removeAt(links->indexOf(link));
+    }
+    if (!getLinks()->size()) {
+        commStatus = COMM_DISCONNECTED;
+        //emit disconnected();
     }
 }
 
