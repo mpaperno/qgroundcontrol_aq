@@ -1797,7 +1797,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
             ui->gridLayout_paramAQ->addWidget(paramaq);
 
             connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-            connect(paramaq, SIGNAL(requestParameterRefreshed()), aqPwmPortConfig, SLOT(loadOnboardConfig()));
             connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
 
             if ( LastFilePath == "")
@@ -1890,7 +1889,9 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
 }
 
 void QGCAutoquad::loadParametersToUI() {
-    getGUIpara(this);
+    getGUIpara(ui->RadioSettings);
+    getGUIpara(ui->tab_aq_edit_para);
+    aqPwmPortConfig->loadOnboardConfig();
 }
 
 void QGCAutoquad::QuestionForROM()

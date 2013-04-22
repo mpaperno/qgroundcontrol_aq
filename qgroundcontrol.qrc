@@ -103,11 +103,7 @@
         <file>files/images/splash.png</file>
         <file>files/audio/alert.wav</file>
         <file>demo-log.txt</file>
-        <file>files/images/mapproviders/openstreetmap.png</file>
-        <file>files/images/mapproviders/google.png</file>
-        <file>files/images/mapproviders/yahoo.png</file>
         <file>files/images/earth.html</file>
-        <file>files/images/mapproviders/googleearth.svg</file>
         <file>files/images/contrib/slugs.png</file>
         <file>files/styles/style-outdoor.css</file>
         <file>files/images/patterns/lenna.jpg</file>
@@ -116,12 +112,9 @@
         <file>files/images/contrib/aq_motormix_frame_background.png</file>
         <file>files/images/actions/cross-small.png</file>
         <file>files/images/actions/tick-small.png</file>
-        <file>files/images/actions/compile.png</file>
-        <file>files/images/actions/compile-error-up.png</file>
         <file>files/images/actions/folder_image.png</file>
         <file>files/images/actions/folder_table.png</file>
         <file>files/images/actions/disk.png</file>
-        <file>files/images/contrib/AQ_logo_quad-only_112px.png</file>
         <file>files/images/contrib/AQ_logo_quad-only_outlined_112px.png</file>
         <file>files/images/contrib/aq_ports_reference.png</file>
     </qresource>
