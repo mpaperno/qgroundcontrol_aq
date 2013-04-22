@@ -98,6 +98,8 @@ private:
     QList<QComboBox *> allPortSelectors;
     QStringList motorConfigErrors;
     QString portOrder2Param;
+    QString mixFilesPath;
+    QString mixImagesPath;
     bool mtx_portModelIsUpdating;
     bool errorInMotorConfig;
     bool errorInMotorConfigTotals;
@@ -107,9 +109,9 @@ private:
 };
 
 
-/* ---------------------------------------------- */
-/* Combo Box Delegate
-/* ---------------------------------------------- */
+// ----------------------------------------------
+// Combo Box Delegate
+// ----------------------------------------------
 class PwmPortsComboBoxDelegate : public QStyledItemDelegate
 {
     Q_OBJECT

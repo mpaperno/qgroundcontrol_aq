@@ -20,6 +20,8 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
 
     // other defaults
     portOrder2Param = "TELEMETRY_RATE";
+    mixFilesPath = aq->aqMotorMixesPath;
+    mixImagesPath = mixFilesPath % "images/";
 
     ui->setupUi(this);
 
@@ -55,8 +57,8 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     ui->comboBox_numOfMotors->setCurrentIndex(0);
 
     // list of all port selector combo boxes, for easy traversal
-    allPortSelectors << ui->comboBox_gimbalRoll << ui->comboBox_gimbalPitch << ui->comboBox_gimbalTrigger << ui->comboBox_gimbalPthru
-                     << ui->comboBox_led_1 << ui->comboBox_led_2 << ui->comboBox_beeper;
+    allPortSelectors.append(ui->groupBox_gimbal->findChildren<QComboBox *>());
+    allPortSelectors.append(ui->groupBox_signaling->findChildren<QComboBox *>());
 
     // set up a simple item model for port number selector boxes
     model_portNumbers = new QStringListModel(this);
@@ -138,7 +140,7 @@ void AQPWMPortsConfig::changeMixType(void) {
         ui->comboBox_numOfMotors->hide();
 
         if (ui->comboBox_mixSelector->currentIndex()) {
-            QString file = QDir::toNativeSeparators(aq->aqMotorMixesPath % "/" % ui->comboBox_mixSelector->itemData(ui->comboBox_mixSelector->currentIndex()).toString());
+            QString file = QDir::toNativeSeparators(mixFilesPath % "/" % ui->comboBox_mixSelector->itemData(ui->comboBox_mixSelector->currentIndex()).toString());
             QFileInfo fInfo(file);
             if (fInfo.exists() && fInfo.isReadable()) {
                 QSettings mixSettings(file, QSettings::IniFormat);
@@ -162,7 +164,7 @@ void AQPWMPortsConfig::setFrameImage(QString file) {
 
     if (file.length()) {
         if (file.contains(".mix", Qt::CaseInsensitive))
-            file = aq->aqMotorMixesPath % "/images/" % file.replace(".mix", ".png", Qt::CaseInsensitive);
+            file = mixImagesPath % file.replace(".mix", ".png", Qt::CaseInsensitive);
 
         QFileInfo fInfo(file);
         if (fInfo.exists() && fInfo.isReadable() && fInfo.size() < 5*1024*1024) {
@@ -178,7 +180,7 @@ void AQPWMPortsConfig::setFrameImage(QString file) {
 
 
 QStringList AQPWMPortsConfig::getMixFileList(void) {
-    QDir mixDir(aq->aqMotorMixesPath);
+    QDir mixDir(mixFilesPath);
     mixDir.setFilter(QDir::Files | QDir::Readable);
     mixDir.setSorting(QDir::Name);
     QStringList MixFileFilter;
@@ -196,7 +198,7 @@ QString AQPWMPortsConfig::getMixFileByConfigId(int configId) {
     QStringList mixFiles = getMixFileList();
     int cid = 0;
     for (int i = 0; i < mixFiles.size(); ++i) {
-        mixFile = QDir::toNativeSeparators(aq->aqMotorMixesPath % "/" % mixFiles.at(i));
+        mixFile = QDir::toNativeSeparators(mixFilesPath % "/" % mixFiles.at(i));
         QSettings mixSettings(mixFile, QSettings::IniFormat);
         cid = mixSettings.value("META/ConfigId", 0).toInt();
         if (cid == configId) {
@@ -497,33 +499,38 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
     changeMixType();
     // motorTableConnections(true);
 
-    val = paramHandler->getParaAQ("GMBL_ROLL_PORT").toFloat();
-    ui->comboBox_gimbalRoll->setCurrentIndex(ui->comboBox_gimbalRoll->findText((val == 0) ? "off" : QString::number(val)));
-    val = paramHandler->getParaAQ("GMBL_PITCH_PORT").toFloat();
-    ui->comboBox_gimbalPitch->setCurrentIndex(ui->comboBox_gimbalPitch->findText((val == 0) ? "off" : QString::number(val)));
-    val = paramHandler->getParaAQ("GMBL_TRIG_PORT").toFloat();
-    ui->comboBox_gimbalTrigger->setCurrentIndex(ui->comboBox_gimbalTrigger->findText((val == 0) ? "off" : QString::number(val)));
-    val = paramHandler->getParaAQ("GMBL_PTHR_PORT").toFloat();
-    ui->comboBox_gimbalPthru->setCurrentIndex(ui->comboBox_gimbalPthru->findText((val == 0) ? "off" : QString::number(val)));
-    val = paramHandler->getParaAQ("SIG_LED_1_PRT").toFloat();
-    ui->comboBox_led_1->setCurrentIndex(ui->comboBox_led_1->findText((val == 0) ? "off" : QString::number(val)));
-    val = paramHandler->getParaAQ("SIG_LED_2_PRT").toFloat();
-    ui->comboBox_led_2->setCurrentIndex(ui->comboBox_led_2->findText((val == 0) ? "off" : QString::number(val)));
-    val = paramHandler->getParaAQ("SIG_BEEP_PRT").toFloat();
-    ui->comboBox_beeper->setCurrentIndex(ui->comboBox_beeper->findText((val == 0) ? "off" : QString::number(abs(val))));
-    ui->checkBox_useSpeaker->setChecked(val < 0);
+//    val = paramHandler->getParaAQ("GMBL_ROLL_PORT").toFloat();
+//    ui->comboBox_gimbalRoll->setCurrentIndex(ui->comboBox_gimbalRoll->findText((val == 0) ? "off" : QString::number(val)));
+//    val = paramHandler->getParaAQ("GMBL_PITCH_PORT").toFloat();
+//    ui->comboBox_gimbalPitch->setCurrentIndex(ui->comboBox_gimbalPitch->findText((val == 0) ? "off" : QString::number(val)));
+//    val = paramHandler->getParaAQ("GMBL_TRIG_PORT").toFloat();
+//    ui->comboBox_gimbalTrigger->setCurrentIndex(ui->comboBox_gimbalTrigger->findText((val == 0) ? "off" : QString::number(val)));
+//    val = paramHandler->getParaAQ("GMBL_PTHR_PORT").toFloat();
+//    ui->comboBox_gimbalPthru->setCurrentIndex(ui->comboBox_gimbalPthru->findText((val == 0) ? "off" : QString::number(val)));
+//    val = paramHandler->getParaAQ("SIG_LED_1_PRT").toFloat();
+//    ui->comboBox_led_1->setCurrentIndex(ui->comboBox_led_1->findText((val == 0) ? "off" : QString::number(val)));
+//    val = paramHandler->getParaAQ("SIG_LED_2_PRT").toFloat();
+//    ui->comboBox_led_2->setCurrentIndex(ui->comboBox_led_2->findText((val == 0) ? "off" : QString::number(val)));
+//    val = paramHandler->getParaAQ("SIG_BEEP_PRT").toFloat();
+//    ui->comboBox_beeper->setCurrentIndex(ui->comboBox_beeper->findText((val == 0) ? "off" : QString::number(abs(val))));
 
-    ui->groupBox_signaling->setEnabled(paramHandler->paramExistsAQ("SIG_LED_1_PRT"));
-    ui->comboBox_gimbalTrigger->setEnabled(paramHandler->paramExistsAQ("GMBL_TRIG_PORT"));
-    ui->comboBox_gimbalPthru->setEnabled(paramHandler->paramExistsAQ("GMBL_PTHR_PORT"));
+    aq->getGUIpara(ui->groupBox_gimbal);
+    aq->getGUIpara(ui->groupBox_signaling);
 
-    ui->label_gimbalTrigger->setEnabled(ui->comboBox_gimbalTrigger->isEnabled());
-    ui->label_gimbalPthru->setEnabled(ui->comboBox_gimbalPthru->isEnabled());
+    ui->checkBox_useSpeaker->setChecked(paramHandler->getParaAQ("SIG_BEEP_PRT").toFloat() < 0);
+
+    ui->groupBox_signaling->setEnabled(ui->SIG_LED_1_PRT->isEnabled());
+    ui->label_gimbalTrigger->setEnabled(ui->GMBL_TRIG_PORT->isEnabled());
+    ui->label_gimbalPthru->setEnabled(ui->GMBL_PTHR_PORT->isEnabled());
 
 }
 
 
 void AQPWMPortsConfig::saveOnboardConfig(void) {
+
+    if (!aq->checkAqConnected(true))
+        return;
+
     paramHandler = aq->getParamHandler();
 
     QString pname; //, porder;
@@ -578,17 +585,14 @@ void AQPWMPortsConfig::saveOnboardConfig(void) {
 
 //  qDebug() << qSetRealNumberPrecision(20) << portOrder << portOrder2;
 
-    configMap.insert("GMBL_ROLL_PORT", ui->comboBox_gimbalRoll->currentText().toFloat());
-    configMap.insert("GMBL_PITCH_PORT", ui->comboBox_gimbalPitch->currentText().toFloat());
-    configMap.insert("GMBL_TRIG_PORT", ui->comboBox_gimbalTrigger->currentText().toFloat());
-    configMap.insert("GMBL_PTHR_PORT", ui->comboBox_gimbalPthru->currentText().toFloat());
-    configMap.insert("SIG_LED_1_PRT", ui->comboBox_led_1->currentText().toFloat());
-    configMap.insert("SIG_LED_2_PRT", ui->comboBox_led_2->currentText().toFloat());
-    val = ui->comboBox_beeper->currentText().toFloat();
-    configMap.insert("SIG_BEEP_PRT", (ui->checkBox_useSpeaker->isChecked()) ? 0.0f - val : val);
-
-    if (!paramHandler)
-        return;
+//    configMap.insert("GMBL_ROLL_PORT", ui->comboBox_gimbalRoll->currentText().toFloat());
+//    configMap.insert("GMBL_PITCH_PORT", ui->comboBox_gimbalPitch->currentText().toFloat());
+//    configMap.insert("GMBL_TRIG_PORT", ui->comboBox_gimbalTrigger->currentText().toFloat());
+//    configMap.insert("GMBL_PTHR_PORT", ui->comboBox_gimbalPthru->currentText().toFloat());
+//    configMap.insert("SIG_LED_1_PRT", ui->comboBox_led_1->currentText().toFloat());
+//    configMap.insert("SIG_LED_2_PRT", ui->comboBox_led_2->currentText().toFloat());
+//    val = ui->comboBox_beeper->currentText().toFloat();
+//    configMap.insert("SIG_BEEP_PRT", (ui->checkBox_useSpeaker->isChecked()) ? 0.0f - val : val);
 
     QMapIterator<QString, float> mi(configMap);
     while (mi.hasNext()) {
@@ -599,10 +603,16 @@ void AQPWMPortsConfig::saveOnboardConfig(void) {
         }
     }
 
+    if (aq->saveSettingsToAq(ui->groupBox_gimbal, false))
+        configChanged = true;
+
+    if (aq->saveSettingsToAq(ui->groupBox_signaling, false))
+        configChanged = true;
+
     if (configChanged)
         aq->QuestionForROM();
     else
-        MainWindow::instance()->showStatusMessage(tr("No changed parameters detected... nothing to save!"));
+        MainWindow::instance()->showInfoMessage("Warning", "No changed parameters detected.  Nothing saved.");
 
 }
 
@@ -697,7 +707,7 @@ bool AQPWMPortsConfig::validateForm(void) {
                     timConflictPorts.append(port);
                 }
                 // save this timer as used to compare to trigger timer
-                if (cb->objectName() != "comboBox_gimbalTrigger") {
+                if (cb->objectName() != "GMBL_TRIG_PORT") {
                     if (!gimbalUsedTimers.contains(tim))
                         gimbalUsedTimers.insert(tim, QStringList(port));
                     else {
@@ -712,8 +722,8 @@ bool AQPWMPortsConfig::validateForm(void) {
     }
 
     // validate the trigger port timer against used gimbal ports (this is fixed at 50hz)
-    if ( ui->comboBox_gimbalTrigger->currentIndex() && (!paramHandler || paramHandler->getParaAQ("GMBL_PWM_FREQ") != 50.0f) ) {
-        port = ui->comboBox_gimbalTrigger->currentText();
+    if ( ui->GMBL_TRIG_PORT->currentIndex() && (!paramHandler || paramHandler->getParaAQ("GMBL_PWM_FREQ") != 50.0f) ) {
+        port = ui->GMBL_TRIG_PORT->currentText();
         tim = aq->pwmPortTimers.at(port.toUInt()-1);
         if (gimbalUsedTimers.contains(tim)) {
             timConflictPorts.append(gimbalUsedTimers.value(tim));
@@ -845,7 +855,7 @@ void AQPWMPortsConfig::motorMix_buttonClicked(int btn) {
 void AQPWMPortsConfig::mixSelector_currentIndexChanged(int index) {
     QString file = ui->comboBox_mixSelector->itemData(index).toString();
     if (file.length())
-        loadFileConfig(QDir::toNativeSeparators(aq->aqMotorMixesPath % "/" % file));
+        loadFileConfig(QDir::toNativeSeparators(mixFilesPath % "/" % file));
 }
 
 
@@ -865,7 +875,7 @@ void AQPWMPortsConfig::loadFile_clicked() {
 
     static QString dirPath;
     if ( dirPath == "")
-        dirPath = aq->aqMotorMixesPath + QString("/");
+        dirPath = mixFilesPath + QString("/");
 
     QFileInfo dir(dirPath);
     QFileDialog dialog;
@@ -895,7 +905,7 @@ void AQPWMPortsConfig::saveFile_clicked() {
 
     static QString dirPath;
     if ( dirPath == "")
-        dirPath = aq->aqMotorMixesPath + QString("/motorMixing.mix");
+        dirPath = mixFilesPath + QString("/motorMixing.mix");
 
     if (!motorPortsConfig.size()) {
         MainWindow::instance()->showCriticalMessage("Error", "There is nothing to save...");
@@ -916,7 +926,7 @@ void AQPWMPortsConfig::loadImage_clicked() {
 
     static QString dirPath;
     if ( dirPath == "")
-        dirPath = aq->aqMotorMixesPath + QString("/images/");
+        dirPath = mixImagesPath;
 
     QFileInfo dir(dirPath);
     QFileDialog dialog;
@@ -994,9 +1004,9 @@ void AQPWMPortsConfig::saveToAQ_clicked(void) {
 }
 
 
-/* ---------------------------------------------- */
-/* ComboBoxDelegate
-/* ---------------------------------------------- */
+// ----------------------------------------------
+// Combo Box Delegate
+// ----------------------------------------------
 
 PwmPortsComboBoxDelegate::PwmPortsComboBoxDelegate(QObject *parent, AQPWMPortsConfig *aqPwmPortConfig) :
     QStyledItemDelegate(parent), aqPwmPortConfig(aqPwmPortConfig) {}
