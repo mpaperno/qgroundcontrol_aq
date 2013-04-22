@@ -701,19 +701,22 @@ bool AQPWMPortsConfig::validateForm(void) {
                 dupePorts.append(port);
             else {
                 usedPorts.append(port);
+
                 // check if this timer conflicts with any motor ports
-                if (motorUsedTimers.contains(tim)) {
-                    timConflictPorts.append(motorUsedTimers.value(tim));
-                    timConflictPorts.append(port);
-                }
-                // save this timer as used to compare to trigger timer
-                if (cb->objectName() != "GMBL_TRIG_PORT") {
-                    if (!gimbalUsedTimers.contains(tim))
-                        gimbalUsedTimers.insert(tim, QStringList(port));
-                    else {
-                        QStringList pl = gimbalUsedTimers.value(tim);
-                        pl.append(port);
-                        gimbalUsedTimers.insert(tim, pl);
+                if (cb->objectName().startsWith("GMBL_")){
+                    if (motorUsedTimers.contains(tim)) {
+                        timConflictPorts.append(motorUsedTimers.value(tim));
+                        timConflictPorts.append(port);
+                    }
+                    // save this timer as used to compare to trigger timer
+                    if (cb->objectName() != "GMBL_TRIG_PORT") {
+                        if (!gimbalUsedTimers.contains(tim))
+                            gimbalUsedTimers.insert(tim, QStringList(port));
+                        else {
+                            QStringList pl = gimbalUsedTimers.value(tim);
+                            pl.append(port);
+                            gimbalUsedTimers.insert(tim, pl);
+                        }
                     }
                 }
 

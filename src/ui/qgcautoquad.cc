@@ -2117,9 +2117,11 @@ void QGCAutoquad::CurveItemClicked(QModelIndex index) {
 }
 
 void QGCAutoquad::deselectAllCurves(void) {
-    for (int i=0; i < ui->listView_Curves->model()->rowCount(); ++i){
-        if (model->item(i)->data(Qt::UserRole).toBool() == true)
-            CurveItemClicked(model->item(i)->index());
+    if (model) {
+        for (int i=0; i < model->rowCount(); ++i){
+            if (model->item(i)->data(Qt::UserRole).toBool() == true)
+                CurveItemClicked(model->item(i)->index());
+        }
     }
 }
 
