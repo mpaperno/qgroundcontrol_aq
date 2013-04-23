@@ -117,6 +117,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->label_radioChangeWarning->hide();
     ui->groupBox_ppmOptions->hide();
+    ui->conatiner_radioGraphValues->setEnabled(false);
+    ui->checkBox_raw_value->hide();
+
+    delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
     // save this for easy iteration later
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("RADIO_.+")));
@@ -168,8 +172,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(saveSpecialSettings()));
     connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(saveGimbalSettings()));
 
+    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
-    connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(raw_transmitter_view()));
+    connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
+    connect(ui->pushButton_toggleRadioGraph, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
+    connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq(int)));
     foreach (QComboBox* cb, allRadioChanCombos)
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
 
@@ -332,6 +339,9 @@ void QGCAutoquad::loadSettings()
     ui->sim3_6_stop->setText(settings.value("AUTOQUAD_STOP4").toString());
 
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
+
+    ui->pushButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
+
     settings.endGroup();
     settings.sync();
 }
@@ -372,6 +382,8 @@ void QGCAutoquad::writeSettings()
     settings.setValue("AUTOQUAD_STOP4", ui->sim3_5_stop->text());
 
     settings.setValue("AUTOQUAD_LAST_PATH", LastFilePath);
+
+    settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->pushButton_toggleRadioGraph->isChecked());
 
     settings.sync();
     settings.endGroup();
@@ -1533,17 +1545,19 @@ void QGCAutoquad::flashFW()
 {
     QString msg = "";
     bool IsConnected = false;
+    connectedLink = NULL;
     if ( uas ) {
         for ( int i=0; i<uas->getLinks()->count(); i++) {
             if ( uas->getLinks()->at(i)->isConnected() == true) {
                 IsConnected = true;
+                connectedLink = uas->getLinks()->at(i);
                 break;
             }
         }
     }
 
     if ( IsConnected )
-        msg = QString("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected.\n\n");
+        msg = QString("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected and then re-connected afterwards.\n\n");
 
     msg += QString("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. \
 Make sure you have your generated parameters and custom settings saved.\n\n\
@@ -1622,27 +1636,40 @@ bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
     return true;
 }
 
-void QGCAutoquad::raw_transmitter_view() {
-    int min, max, tmin, tmax;
-
-    if ( ui->checkBox_raw_value->checkState() ){
-        tmax = 1500;
-        tmin = -100;
-        max = 1024;
-        min = -1024;
-        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
-        connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
-    } else {
-        tmax = 1500;
-        tmin = -100;
-        max = 1024;
-        min = -1024;
-        disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
-        connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+void QGCAutoquad::toggleRadioValuesUpdate() {
+    if (!uas) {
+        ui->pushButton_toggleRadioGraph->setChecked(false);
+        return;
     }
 
-    foreach (QProgressBar* pb, ui->RadioSettings->findChildren<QProgressBar* >(QRegExp("progressBar_.+"))) {
-        if (pb->objectName().contains("Throttle")) {
+    if (!ui->pushButton_toggleRadioGraph->isChecked()) {
+        disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+        //ui->pushButton_toggleRadioGraph->setText("Start Updating");
+        ui->conatiner_radioGraphValues->setEnabled(false);
+        return;
+    }
+
+    int min, max, tmin, tmax;
+
+    if ( ui->checkBox_raw_value->isChecked() ){
+        tmax = 1500;
+        tmin = -100;
+        max = 1024;
+        min = -1024;
+        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+        connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+    } else {
+        tmax = -500;
+        tmin = 1500;
+        max = -1500;
+        min = 1500;
+        disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+        connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+    }
+
+    foreach (QProgressBar* pb, ui->RadioSettings->findChildren<QProgressBar* >(QRegExp("progressBar_chan_[0-9]"))) {
+        if (pb->objectName().contains("chan_0")) {
             pb->setMaximum(tmax);
             pb->setMinimum(tmin);
         } else {
@@ -1650,120 +1677,53 @@ void QGCAutoquad::raw_transmitter_view() {
             pb->setMinimum(min);
         }
     }
-}
 
-void QGCAutoquad::setChannelScaled(int channelId, float normalized)
-{
-    if (channelId == 0 )
-    {
-        qint32 val = (qint32)((normalized*10000.0f)/13)+750;
-        ui->progressBar_Throttle->setValue(val);
-        ui->label_chan_1_M->setText(QString::number(val));
-    }
-    if (channelId == 1 )
-    {
-        int val = (int)((normalized*10000.0f)/13);
-        ui->progressBar_Roll->setValue(val);
-        ui->label_chan_2_M->setText(QString::number(val));
-    }
-    if (channelId == 2 )
-    {
-        int val = (int)((normalized*10000.0f)/13);
-        ui->progressBar_Pitch->setValue(val);
-        ui->label_chan_3_M->setText(QString::number(val));
-    }
-    if (channelId == 3 )
-    {
-        int val = (int)((normalized*10000.0f)/13);
-        ui->progressBar_Rudd->setValue(val);
-        ui->label_chan_4_M->setText(QString::number(val));
-    }
-    if (channelId == 4 )
-    {
-        int val = (int)((normalized*10000.0f)/13);
-        ui->progressBar_Gear->setValue(val);
-        ui->label_chan_5_M->setText(QString::number(val));
-    }
-    if (channelId == 5 )
-    {
-        int val = (int)((normalized*10000.0f)/13);
-        ui->progressBar_Flaps->setValue(val);
-        ui->label_chan_6_M->setText(QString::number(val));
-    }
-    if (channelId == 6 )
-    {
-        int val = (int)((normalized*10000.0f)/13);
-        ui->progressBar_Aux2->setValue(val);
-        ui->label_chan_7_M->setText(QString::number(val));
-    }
-    if (channelId == 7 )
-    {
-        int val = (int)((normalized*10000.0f)/13);
-        ui->progressBar_Aux3->setValue(val);
-        ui->label_chan_8_M->setText(QString::number(val));
-    }
+    //ui->pushButton_toggleRadioGraph->setText("Stop Updating");
+    ui->conatiner_radioGraphValues->setEnabled(true);
 
 }
 
-void QGCAutoquad::setChannelRaw(int channelId, float normalized)
+void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
 {
-    if (channelId == 0 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Throttle->maximum()) || ( val > ui->progressBar_Throttle->minimum()))
-            ui->progressBar_Throttle->setValue(val);
-        ui->label_chan_1_M->setText(QString::number(val));
-    }
-    if (channelId == 1 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Roll->maximum()) || ( val > ui->progressBar_Roll->minimum()))
-            ui->progressBar_Roll->setValue(val);
-        ui->label_chan_2_M->setText(QString::number(val));
-    }
-    if (channelId == 2 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Pitch->maximum()) || ( val > ui->progressBar_Pitch->minimum()))
-            ui->progressBar_Pitch->setValue(val);
-        ui->label_chan_3_M->setText(QString::number(val));
-    }
-    if (channelId == 3 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Rudd->maximum()) || ( val > ui->progressBar_Rudd->minimum()))
-            ui->progressBar_Rudd->setValue(val);
-        ui->label_chan_4_M->setText(QString::number(val));
-    }
-    if (channelId == 4 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Gear->maximum()) || ( val > ui->progressBar_Gear->minimum()))
-            ui->progressBar_Gear->setValue(val);
-        ui->label_chan_5_M->setText(QString::number(val));
-    }
-    if (channelId == 5 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Flaps->maximum()) || ( val > ui->progressBar_Flaps->minimum()))
-            ui->progressBar_Flaps->setValue(val);
-        ui->label_chan_6_M->setText(QString::number(val));
-    }
-    if (channelId == 6 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Aux2->maximum()) || ( val > ui->progressBar_Aux2->minimum()))
-            ui->progressBar_Aux2->setValue(val);
-        ui->label_chan_7_M->setText(QString::number(val));
-    }
-    if (channelId == 7 )
-    {
-        int val = (int)((normalized-1024));
-        if (( val < ui->progressBar_Aux3->maximum()) || ( val > ui->progressBar_Aux3->minimum()))
-            ui->progressBar_Aux3->setValue(val);
-        ui->label_chan_8_M->setText(QString::number(val));
+    int val;
+    bool raw = ui->checkBox_raw_value->isChecked();
+    QProgressBar* bar = ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(channelId));
+    QLabel* lbl = ui->groupBox_Radio_Values->findChild<QLabel *>(QString("label_chanValue_%1").arg(channelId));
+
+    if (raw)        // Raw values
+        val = (int)(normalized-1024);
+    else {    // Scaled values
+        val = (int)((normalized*10000.0f)/13);
+        if (channelId == 0)
+            val += 750;
     }
 
+    if (bar && val <= bar->maximum() && val >= bar->minimum())
+        bar->setValue(val);
+    if (lbl)
+        lbl->setText(QString::number(val));
+}
+
+void QGCAutoquad::setRssiDisplayValue(float normalized) {
+    QProgressBar* bar = ui->progressBar_rssi;
+    int val = (int)(normalized * 255.0f);
+
+    if (bar && val <= bar->maximum() && val >= bar->minimum())
+        bar->setValue(val);
+}
+
+void QGCAutoquad::delayedSendRcRefreshFreq(int rate)
+{
+    Q_UNUSED(rate);
+    delayedSendRCTimer.start();
+}
+
+void QGCAutoquad::sendRcRefreshFreq()
+{
+    delayedSendRCTimer.stop();
+    if (!uas)
+        return;
+    uas->enableRCChannelDataTransmission(ui->spinBox_rcGraphRefreshFreq->value());
 }
 
 
@@ -1782,9 +1742,11 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     if (uas_ext)
     {
         if (uas) {
-            disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+            disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+            disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
             disconnect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
             disconnect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
+            disconnect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
         }
 //        if (paramaq)
 //            disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
@@ -1792,6 +1754,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         uas = uas_ext;
         connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
         connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
+        connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
         if ( !paramaq ) {
             paramaq = new QGCAQParamWidget(uas, this);
             ui->gridLayout_paramAQ->addWidget(paramaq);
@@ -1806,6 +1769,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         }
         paramaq->loadParaAQ();
 
+
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
         aqFirmwareRevision = 0;
@@ -1817,7 +1781,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         VisibleWidget = 2;
         aqTelemetryView->initChart(uas);
         ui->checkBox_raw_value->setChecked(true);
-        raw_transmitter_view();
+        toggleRadioValuesUpdate();
     }
 }
 
@@ -1869,6 +1833,8 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             dsb->setValue(val.toDouble(&ok));
         else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
             sb->setValue(val.toInt(&ok));
+        else
+            continue;
 
         if (ok)
             w->setEnabled(true);
@@ -1951,6 +1917,8 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             val_local = static_cast<float>(cb->currentIndex());
         else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
             val_local = sb->text().replace(QRegExp("[^0-9\\.]"), "").toFloat(&ok);
+        else
+            continue;
 
         if (!ok)
             continue;
@@ -1964,6 +1932,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
                 chkstate = parent->findChild<QCheckBox *>("reverse_gimbal_roll")->checkState();
             else if (paraName == "SIG_BEEP_PRT")
                 chkstate = parent->findChild<QCheckBox *>("checkBox_useSpeaker")->checkState();
+
             if (chkstate)
                 val_local = 0.0f - val_local;
         }
@@ -1978,8 +1947,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         if (interactive)
             QuestionForROM();
         return true;
-    }
-    else{
+    } else {
         if (interactive)
             MainWindow::instance()->showInfoMessage("Warning", "No changed parameters detected.  Nothing saved.");
         return false;
@@ -2613,7 +2581,9 @@ void QGCAutoquad::CuttingItemChanged(int itemIndex) {
 void QGCAutoquad::prtstexit(int) {
     if ( active_cal_mode == 0 ) {
         ui->flashButton->setEnabled(true);
-        active_cal_mode = 0;
+        if (connectedLink) {
+            connectedLink->connect();
+        }
     }
     if ( active_cal_mode == 1 ) {
         ui->pushButton_start_cal1->setEnabled(true);

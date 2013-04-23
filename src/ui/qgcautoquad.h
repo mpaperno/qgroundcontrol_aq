@@ -97,9 +97,11 @@ private slots:
     // Radio setup
     void radioType_changed(int idx);
     bool validateRadioSettings(int);
-    void raw_transmitter_view();
-    void setChannelScaled(int channelId, float normalized);
-    void setChannelRaw(int channelId, float normalized);
+    void toggleRadioValuesUpdate();
+    void setRadioChannelDisplayValue(int channelId, float normalized);
+    void setRssiDisplayValue(float normalized);
+    void sendRcRefreshFreq();
+    void delayedSendRcRefreshFreq(int rate);
 
     // Log viewer
     void OpenLogFile(bool openFile=true);
@@ -202,6 +204,7 @@ private:
     // FW flashing
     QString fileToFlash;
     QString portName;
+    LinkInterface* connectedLink;
 
     // ESC32
     int WaitForParaWriten;
@@ -212,6 +215,9 @@ private:
     QString ParaNameWritten;
     QMap<QString, QString> paramEsc32;
     QMap<QString, QString> paramEsc32Written;
+
+    // Radio
+    QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
 
     // AQ settings
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
