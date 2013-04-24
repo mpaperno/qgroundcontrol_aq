@@ -902,10 +902,6 @@ font-weight: bold;</string>
                 </layout>
                </item>
               </layout>
-              <zorder>conatiner_radioGraphValues</zorder>
-              <zorder>checkBox_raw_value</zorder>
-              <zorder>pushButton_toggleRadioGraph</zorder>
-              <zorder>checkBox_raw_value</zorder>
              </widget>
             </item>
             <item row="1" column="0">
@@ -2199,6 +2195,13 @@ padding: 1px 5px;</string>
            </item>
            <item>
             <widget class="QLineEdit" name="lineEdit_cal_inclination"/>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBox_DIMU">
+             <property name="text">
+              <string>using DIMU</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QLabel" name="label_2">
