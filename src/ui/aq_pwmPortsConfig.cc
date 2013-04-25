@@ -292,7 +292,7 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
     ui->table_motMix->item(lastRow, COL_ROLL)->setData(Qt::DisplayRole, roll);
     ui->table_motMix->item(lastRow, COL_YAW)->setData(Qt::DisplayRole, yaw);
 
-    ui->table_motMix->item(lastRow, COL_THROT)->setIcon((ok = throt > 100) ? icnGood : icnBad);
+    ui->table_motMix->item(lastRow, COL_THROT)->setIcon((ok = throt > 0) ? icnGood : icnBad);
     if (!ok) errorInMotorConfigTotals = true;
     ui->table_motMix->item(lastRow, COL_PITCH)->setIcon((ok = pitch == 0) ? icnGood : icnBad);
     if (!ok) errorInMotorConfigTotals = true;
