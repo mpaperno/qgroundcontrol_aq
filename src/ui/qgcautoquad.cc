@@ -117,8 +117,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->label_radioChangeWarning->hide();
     ui->groupBox_ppmOptions->hide();
+    ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     ui->conatiner_radioGraphValues->setEnabled(false);
     ui->checkBox_raw_value->hide();
+
+    ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
@@ -1343,12 +1346,18 @@ void QGCAutoquad::Esc32StartCalibration() {
 
     if ( ui->pushButton_start_calibration->text() == "start calibration") {
         QMessageBox InfomsgBox;
-        InfomsgBox.setText("This is the calibration routine for ESC32!\n\n\
-Please be careful with the calibration function! The motor will spin up to full throttle! Please stay clear of the motor & propeller!\n\n\
-Proceed at your own risk!  You will have one more chance to cancel before the procedure starts.");
-        InfomsgBox.exec();
+        InfomsgBox.setText("<p style='color: red; font-weight: bold;'>WARNING!! EXPERIMENTAL FEATURE! BETTER TO USE Linux/OS-X COMMAND-LINE TOOLS!</p> \
+<p>This is the calibration routine for ESC32!</p> \
+<p>Please be careful with the calibration function! The motor will spin up to full throttle! Please stay clear of the motor & propeller!</p> \
+<p><b style='color: red;'>Proceed at your own risk!</b>  You will have one more chance to cancel before the procedure starts.</p>");
+        InfomsgBox.setWindowModality(Qt::ApplicationModal);
+        InfomsgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        InfomsgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = InfomsgBox.exec();
+        if (ret == QMessageBox::Cancel)
+            return;
 
-        int ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
+        ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
         if ( ret == 0) {
             Esc32CalibrationMode = 1;
             #ifdef Q_OS_WIN
@@ -1382,21 +1391,21 @@ Proceed at your own risk!  You will have one more chance to cancel before the pr
             QFile::remove(Esc32ResultFile);
 
         QMessageBox msgBox;
-        msgBox.setWindowTitle("Information");
-        msgBox.setInformativeText("Again, be carful! You can abort using the Stop Calibration button, but the fastest stop is to pull the battery!\n\n\
-To start the calibration procedure, press Yes.  This is your final warning!");
+        msgBox.setText("<p style='font-weight: bold;'>Again, be carful! You can abort using the Stop Calibration button, but the fastest stop is to pull the battery!</p> \
+<p style='font-weight: bold;'>To start the calibration procedure, press Yes.</p><p style='color: red; font-weight: bold;'>This is your final warning!</p>");
         msgBox.setWindowModality(Qt::ApplicationModal);
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
         ret = msgBox.exec();
+        if ( ret == QMessageBox::Cancel)
+            return;
+
         if ( ret == QMessageBox::Yes) {
             float maxAmps = ui->DoubleMaxCurrent->text().toFloat();
 
             esc32->SetCalibrationMode(this->Esc32CalibrationMode);
             esc32->StartCalibration(maxAmps,Esc32LoggingFile,Esc32ResultFile);
             ui->pushButton_start_calibration->setText("stop calibration");
-        }
-        else {
-            return;
         }
     }
     else if ( ui->pushButton_start_calibration->text() == "stop calibration")
@@ -1598,10 +1607,13 @@ Do you wish to continue flashing?").arg(portName);
 void QGCAutoquad::radioType_changed(int idx) {
     emit hardwareInfoUpdated();
 
-    if (ui->RADIO_TYPE->currentText() == "PPM")
+    if (ui->RADIO_TYPE->currentText() == "PPM") {
         ui->groupBox_ppmOptions->show();
-    else
+        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    } else {
         ui->groupBox_ppmOptions->hide();
+        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
+    }
 
     if (!paramaq)
         return;
