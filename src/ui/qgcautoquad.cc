@@ -775,12 +775,23 @@ void QGCAutoquad::startcal3(){
 
     QStringList Arguments;
 
-    Arguments.append("--mag");
+    if ( !ui->checkBox_DIMU->isChecked()) {
+        Arguments.append("--mag");
 
-    for ( int i = 0; i<StaticFiles.count(); i++) {
-        Arguments.append(StaticFiles.at(i));
+        for ( int i = 0; i<StaticFiles.count(); i++) {
+            Arguments.append(StaticFiles.at(i));
+        }
+        Arguments.append(":");
     }
-    Arguments.append(":");
+    else {
+        Arguments.append("-b");
+        Arguments.append("--mag");
+
+        for ( int i = 0; i<StaticFiles.count(); i++) {
+            Arguments.append(StaticFiles.at(i));
+        }
+        Arguments.append(":");
+    }
 
     for ( int i = 0; i<DynamicFiles.count(); i++) {
         Arguments.append(DynamicFiles.at(i));
@@ -802,9 +813,18 @@ void QGCAutoquad::startcal3(){
 }
 
 void QGCAutoquad::startsim1(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    QString AppPath;
+    QString Sim3ParaPath;
+    if ( !ui->checkBox_DIMU->isChecked()) {
+        AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
+        ps_master.setWorkingDirectory(aqBinFolderPath);
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    }
+    else {
+        AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
+        ps_master.setWorkingDirectory(aqBinFolderPath);
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
+    }
 
     QStringList Arguments;
 
@@ -839,7 +859,11 @@ void QGCAutoquad::startsim1(){
 void QGCAutoquad::startsim1b(){
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
     ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    QString Sim3ParaPath;
+    if ( !ui->checkBox_DIMU->isChecked())
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    else
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
 
     QStringList Arguments;
 
@@ -874,7 +898,11 @@ void QGCAutoquad::startsim1b(){
 void QGCAutoquad::startsim2(){
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
     ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    QString Sim3ParaPath;
+    if ( !ui->checkBox_DIMU->isChecked())
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    else
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
 
     QStringList Arguments;
 
@@ -910,11 +938,17 @@ void QGCAutoquad::startsim2(){
 void QGCAutoquad::startsim3(){
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
     ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    QString Sim3ParaPath;
+    if ( !ui->checkBox_DIMU->isChecked())
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
+    else
+        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
 
     QStringList Arguments;
 
     Arguments.append("--mag");
+    if ( ui->checkBox_DIMU->isChecked())
+        Arguments.append("-b");
     Arguments.append("--incl");
     Arguments.append("-p");
     Arguments.append(Sim3ParaPath);

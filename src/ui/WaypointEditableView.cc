@@ -155,6 +155,9 @@ void WaypointEditableView::updateActionView(int action)
     m_ui->horizontalLayout->takeAt(17);
     // expose ui based on action
 
+    m_ui->acceptanceSpinBox->setToolTip("Uncertainly radius in meters where to accept this waypoint as reached");
+    m_ui->acceptanceSpinBox->setStatusTip("Uncertainly radius in meters where to accept this waypoint as reached");
+
     switch(action) {
     case MAV_CMD_NAV_TAKEOFF:
 
@@ -277,8 +280,6 @@ void WaypointEditableView::updateActionView(int action)
     case 1:
         if (!m_ui->aqformat->isChecked()) {
             m_ui->orbitSpinBox->hide();
-            m_ui->acceptanceSpinBox->setToolTip("Uncertainly radius in meters where to accept this waypoint as reached");
-            m_ui->acceptanceSpinBox->setStatusTip("Uncertainly radius in meters where to accept this waypoint as reached");
             m_ui->takeOffAngleSpinBox->hide();
             m_ui->turnsSpinBox->hide();
             m_ui->holdTimeSpinBox->show();
