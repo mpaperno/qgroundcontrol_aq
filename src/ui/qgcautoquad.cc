@@ -1537,7 +1537,6 @@ void QGCAutoquad::setupPortList()
     ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
 }
 
-
 void QGCAutoquad::selectFWToFlash()
 {
     QString dirPath;
@@ -1863,8 +1862,9 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             le->setText(valstr);
         } else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
             cb->setCurrentIndex(val.toInt(&ok));
-        else if (QDoubleSpinBox* dsb = qobject_cast<QDoubleSpinBox *>(w))
+        else if (QDoubleSpinBox* dsb = qobject_cast<QDoubleSpinBox *>(w)) {
             dsb->setValue(val.toDouble(&ok));
+        }
         else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
             sb->setValue(val.toInt(&ok));
         else
@@ -1949,14 +1949,23 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             val_local = le->text().toFloat(&ok);
         else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
             val_local = static_cast<float>(cb->currentIndex());
-        else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
-            val_local = sb->text().replace(QRegExp("[^0-9\\.]"), "").toFloat(&ok);
+        //else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
+        else if (QDoubleSpinBox* sb = qobject_cast<QDoubleSpinBox *>(w))
+            val_local = sb->text().replace(QRegExp("[^0-9\\.\\,]"), "").toFloat(&ok);
         else
             continue;
 
-        if (!ok)
+        if (!ok){
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setText("Error in converting a number");
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            // Abort if cancelled
+            msgBox.exec();
             continue;
             // TODO: Notify the user!
+        }
 
         // special case for reversing gimbal servo direction
         if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT") {

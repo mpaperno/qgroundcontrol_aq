@@ -2926,7 +2926,7 @@ void AQEsc32::StartLogging(){
         sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
         sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
 
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 10.0f, 0.0f, 1, true);
+        sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, true);
         disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         esc32dataLogger->startLogging(this->seriallinkEsc32, "");
         seriallinkEsc32->setEsc32Mode(true);
@@ -3082,7 +3082,9 @@ int i, j, k, z;
         esc32dataLogger->setTelemValueMaxs(2,0.0f);
 
         for (j = i+5; j <= 100; j += 5) {
+
             stepUp((float)i, (float)j);
+
             if (esc32dataLogger->getTelemValueMaxs(2) > maxAmps) {
                 break;
             }
