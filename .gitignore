@@ -1,7 +1,5 @@
 *.swp
 *.nfs
-CMakeFiles
-*Makefile*
 tags
 build*/
 Info.plist
@@ -10,9 +8,6 @@ obj
 *.log
 *~
 *~.skp
-bin/*.exe
-bin/*.txt
-bin/mac
 *pro.user*
 qrc_*.cpp
 *.Debug
