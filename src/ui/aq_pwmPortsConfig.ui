@@ -111,6 +111,9 @@
           <property name="margin">
            <number>4</number>
           </property>
+          <property name="buddy">
+           <cstring>comboBox_mixSelector</cstring>
+          </property>
          </widget>
         </item>
         <item row="0" column="2">
@@ -148,6 +151,9 @@
           </property>
           <property name="margin">
            <number>4</number>
+          </property>
+          <property name="buddy">
+           <cstring>comboBox_numOfMotors</cstring>
           </property>
          </widget>
         </item>
@@ -358,6 +364,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="toolTip">
+      <string>Any disabled items mean this option is not available in the currently-connected AQ firmware version.</string>
+     </property>
      <property name="title">
       <string>Gimbal Ports</string>
      </property>
@@ -369,6 +378,9 @@
           <width>50</width>
           <height>0</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Camera pitch/tilt compensation control. If pitch passthrough port is not set, then manual and POI tilt is directed to this port as well.</string>
         </property>
         <property name="maxVisibleItems">
          <number>15</number>
@@ -392,8 +404,14 @@
           <height>0</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Camera roll compensation control</string>
+        </property>
         <property name="text">
          <string>Roll</string>
+        </property>
+        <property name="buddy">
+         <cstring>GMBL_ROLL_PORT</cstring>
         </property>
        </widget>
       </item>
@@ -404,6 +422,9 @@
           <width>50</width>
           <height>0</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Camera roll compensation control</string>
         </property>
         <property name="maxVisibleItems">
          <number>15</number>
@@ -427,6 +448,9 @@
           <height>0</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Camera/remote trigger port and Gear channel passthrough.</string>
+        </property>
         <property name="maxVisibleItems">
          <number>15</number>
         </property>
@@ -449,8 +473,14 @@
           <height>0</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
+        </property>
         <property name="text">
-         <string>Passthrough</string>
+         <string>Pitch P-thru</string>
+        </property>
+        <property name="buddy">
+         <cstring>GMBL_PTHR_PORT</cstring>
         </property>
        </widget>
       </item>
@@ -461,6 +491,9 @@
           <width>50</width>
           <height>0</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
         </property>
         <property name="maxVisibleItems">
          <number>15</number>
@@ -484,8 +517,14 @@
           <height>0</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Camera/remote trigger port and Gear channel passthrough.</string>
+        </property>
         <property name="text">
          <string>Trigger</string>
+        </property>
+        <property name="buddy">
+         <cstring>GMBL_TRIG_PORT</cstring>
         </property>
        </widget>
       </item>
@@ -503,8 +542,14 @@
           <height>0</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>Camera pitch/tilt compensation control. If pitch passthrough port is not set, then manual and POI tilt is directed to this port as well.</string>
+        </property>
         <property name="text">
          <string>Pitch</string>
+        </property>
+        <property name="buddy">
+         <cstring>GMBL_PITCH_PORT</cstring>
         </property>
        </widget>
       </item>
@@ -551,6 +596,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="toolTip">
+      <string>Any disabled items mean this option is not available in the currently-connected AQ firmware version.</string>
+     </property>
      <property name="title">
       <string>Signaling Ports</string>
      </property>
@@ -578,6 +626,9 @@
           <width>50</width>
           <height>0</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>See documentation for proper LED hookup!</string>
         </property>
         <property name="maxVisibleItems">
          <number>15</number>
@@ -620,6 +671,9 @@
         <property name="text">
          <string>Beeper</string>
         </property>
+        <property name="buddy">
+         <cstring>SIG_BEEP_PRT</cstring>
+        </property>
        </widget>
       </item>
       <item row="0" column="3">
@@ -636,8 +690,14 @@
           <height>0</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>See documentation for proper LED hookup!</string>
+        </property>
         <property name="text">
          <string>LED 2</string>
+        </property>
+        <property name="buddy">
+         <cstring>SIG_LED_2_PRT</cstring>
         </property>
        </widget>
       </item>
@@ -671,8 +731,14 @@
           <height>0</height>
          </size>
         </property>
+        <property name="toolTip">
+         <string>See documentation for proper LED hookup!</string>
+        </property>
         <property name="text">
          <string>LED 1</string>
+        </property>
+        <property name="buddy">
+         <cstring>SIG_LED_1_PRT</cstring>
         </property>
        </widget>
       </item>
@@ -683,6 +749,9 @@
           <width>50</width>
           <height>0</height>
          </size>
+        </property>
+        <property name="toolTip">
+         <string>See documentation for proper LED hookup!</string>
         </property>
         <property name="maxVisibleItems">
          <number>15</number>
@@ -877,7 +946,7 @@
         <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>15</number>
+        <number>8</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>

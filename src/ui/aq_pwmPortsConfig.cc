@@ -308,6 +308,8 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
 void AQPWMPortsConfig::loadFileConfig(QString file) {
     QString mot;
     float throt, pitch, roll, yaw;
+    QStringList pOrder;
+    QList<motorPortSettings> fileConfig;
 
     QFileInfo fInfo(file);
 
@@ -319,6 +321,7 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
     QSettings mixSettings(file, QSettings::IniFormat);
 
     mixConfigId = mixSettings.value("META/ConfigId", 0).toUInt();
+    pOrder = mixSettings.value("META/PortOrder").toStringList();
 
     motorTableConnections(false);
 
@@ -331,9 +334,23 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
         yaw = mixSettings.value("Yaw/Motor" % mot, 0).toFloat();
 
         if (throt || pitch || roll || yaw) {
-            motorPortsConfig.append(motorPortSettings(i, throt, pitch, roll, yaw));
+            fileConfig.append(motorPortSettings(i, throt, pitch, roll, yaw));
         }
     }
+
+    if (!pOrder.size())
+        motorPortsConfig.append(fileConfig);
+    else {
+        for (int i=0; i < pOrder.size(); ++i) {
+            for (int ii=0; ii < fileConfig.size(); ++ii) {
+                if (fileConfig.at(ii).port == pOrder.at(i).toInt()) {
+                    motorPortsConfig.append(fileConfig.takeAt(ii));
+                    break;
+                }
+            }
+        }
+    }
+
     drawMotorsTable();
 
     if (mixConfigId) {
@@ -361,6 +378,7 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
 void AQPWMPortsConfig::saveConfigFile(QString file) {
     QString pname;
     motorPortSettings pconfig, mot;
+    QStringList pOrder;
 
     QFile f(file);
     if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -371,8 +389,13 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
 
     QSettings mixSettings(file, QSettings::IniFormat);
 
+    // determine port order
+    for (int ii=0; ii < motorPortsConfig.size(); ++ii)
+        pOrder.append(QString::number(motorPortsConfig.at(ii).port));
+
     mixSettings.setValue("META/ConfigId", 0);
     mixSettings.setValue("META/Motors", motorPortsConfig.size());
+    mixSettings.setValue("META/PortOrder", pOrder);
     if (frameImageFile.length())
         mixSettings.setValue("META/ImageFile", frameImageFile);
 
@@ -470,15 +493,14 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
                 mot = onboardConfig.at(ii);
                 if (mot.port == po.at(i)) {
                     motorPortsConfig.append(mot);
-                    onboardConfig.takeAt(ii);
+                    onboardConfig.removeAt(ii);
+                    break;
                 }
             }
         }
         if (onboardConfig.size()) {
-            while (onboardConfig.size()) {
-                motorPortsConfig.append(onboardConfig.at(0));
-                onboardConfig.takeAt(0);
-            }
+            while (onboardConfig.size())
+                motorPortsConfig.append(onboardConfig.takeAt(0));
         }
     }
 
