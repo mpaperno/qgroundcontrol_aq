@@ -592,3 +592,18 @@ QFrame#frame_toolbarButtons {
     border: 1px solid #66666B;
     border-radius: 5px;
 }
+
+/* channel value labels on radio output progress bar graph (AQ->Setup->Radio) */
+QLabel#label_chanValue_0,
+QLabel#label_chanValue_1,
+QLabel#label_chanValue_2,
+QLabel#label_chanValue_3,
+QLabel#label_chanValue_4,
+QLabel#label_chanValue_5,
+QLabel#label_chanValue_6,
+QLabel#label_chanValue_7 {
+    color: #4CBBFF;
+    font-weight: bold;
+    font-size: 13px;
+}
+
