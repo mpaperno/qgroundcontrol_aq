@@ -127,6 +127,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // save this for easy iteration later
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("RADIO_.+")));
+    allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
+    allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -1713,7 +1715,7 @@ void QGCAutoquad::toggleRadioValuesUpdate() {
         connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     }
 
-    foreach (QProgressBar* pb, ui->RadioSettings->findChildren<QProgressBar* >(QRegExp("progressBar_chan_[0-9]"))) {
+    foreach (QProgressBar* pb, allRadioChanProgressBars) {
         if (pb->objectName().contains("chan_0")) {
             pb->setMaximum(tmax);
             pb->setMinimum(tmin);
@@ -1732,8 +1734,51 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
 {
     int val;
     bool raw = ui->checkBox_raw_value->isChecked();
-    QProgressBar* bar = ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(channelId));
-    QLabel* lbl = ui->groupBox_Radio_Values->findChild<QLabel *>(QString("label_chanValue_%1").arg(channelId));
+    QString lblTxt;
+
+    // three methods to find the right progress bar...
+    // tested on a CoreDuo 3.3GHz at 1-10Hz mavlink refresh, seems to be no practical difference in CPU consumption (~40% ~10Hz)
+    QProgressBar* bar = allRadioChanProgressBars.at(channelId);
+    QLabel* lbl = allRadioChanValueLabels.at(channelId);
+//    QProgressBar* bar = ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(channelId));
+//    QLabel* lbl = ui->groupBox_Radio_Values->findChild<QLabel *>(QString("label_chanValue_%1").arg(channelId));
+//    QProgressBar* bar = NULL;
+//    QLabel* lbl = NULL;
+
+//    switch (channelId) {
+//    case 0:
+//        bar = ui->progressBar_chan_0;
+//        lbl = ui->label_chanValue_0;
+//        break;
+//    case 1:
+//        bar = ui->progressBar_chan_1;
+//        lbl = ui->label_chanValue_1;
+//        break;
+//    case 2:
+//        bar = ui->progressBar_chan_2;
+//        lbl = ui->label_chanValue_2;
+//        break;
+//    case 3:
+//        bar = ui->progressBar_chan_3;
+//        lbl = ui->label_chanValue_3;
+//        break;
+//    case 4:
+//        bar = ui->progressBar_chan_4;
+//        lbl = ui->label_chanValue_4;
+//        break;
+//    case 5:
+//        bar = ui->progressBar_chan_5;
+//        lbl = ui->label_chanValue_5;
+//        break;
+//    case 6:
+//        bar = ui->progressBar_chan_6;
+//        lbl = ui->label_chanValue_6;
+//        break;
+//    case 7:
+//        bar = ui->progressBar_chan_7;
+//        lbl = ui->label_chanValue_7;
+//        break;
+//    }
 
     if (raw)        // Raw values
         val = (int)(normalized-1024);
@@ -1743,10 +1788,17 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
             val += 750;
     }
 
-    if (bar && val <= bar->maximum() && val >= bar->minimum())
+    if (lbl) {
+        lblTxt.sprintf("%+d", val);
+        lbl->setText(lblTxt);
+    }
+    if (bar) {
+        if (val > bar->maximum())
+            val = bar->maximum();
+        if (val < bar->minimum())
+            val = bar->minimum();
         bar->setValue(val);
-    if (lbl)
-        lbl->setText(QString::number(val));
+    }
 }
 
 void QGCAutoquad::setRssiDisplayValue(float normalized) {
@@ -1943,6 +1995,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 {
     float val_uas, val_local;
     QString paraName;
+    QStringList errors;
     bool changed=false, ok, chkstate;
 
     if ( !checkAqConnected(interactive) )
@@ -1961,22 +2014,14 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             val_local = le->text().toFloat(&ok);
         else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
             val_local = static_cast<float>(cb->currentIndex());
-        //else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
-        else if (QDoubleSpinBox* sb = qobject_cast<QDoubleSpinBox *>(w))
-            val_local = sb->text().replace(QRegExp("[^0-9\\.\\,]"), "").toFloat(&ok);
+        else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
+            val_local = sb->text().replace(QRegExp("[^0-9,\\.]"), "").toFloat(&ok);
         else
             continue;
 
         if (!ok){
-            QMessageBox msgBox;
-            msgBox.setIcon(QMessageBox::Critical);
-            msgBox.setText("Error in converting a number");
-            msgBox.setStandardButtons(QMessageBox::Ok);
-            msgBox.setDefaultButton(QMessageBox::Ok);
-            // Abort if cancelled
-            msgBox.exec();
+            errors.append(paraName);
             continue;
-            // TODO: Notify the user!
         }
 
         // special case for reversing gimbal servo direction
@@ -1996,6 +2041,12 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             paramaq->setParaAQ(paraName, val_local);
             changed = true;
         }
+    }
+
+    if (errors.size()) {
+        QString msg = "One or more parameter(s) could not be saved:\n\n";
+        msg += errors.join("\n");
+        MainWindow::instance()->showCriticalMessage("Error Saving Parameters!", msg);
     }
 
     if ( changed ) {

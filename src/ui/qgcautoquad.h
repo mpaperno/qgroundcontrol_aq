@@ -20,6 +20,9 @@
 #include <QStandardItemModel>
 #include <QSettings>
 
+class QProgressBar;
+class QLabel;
+
 namespace Ui {
 class QGCAutoquad;
 }
@@ -218,6 +221,8 @@ private:
 
     // Radio
     QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
+    QList<QProgressBar *> allRadioChanProgressBars;
+    QList<QLabel *> allRadioChanValueLabels;
 
     // AQ settings
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params

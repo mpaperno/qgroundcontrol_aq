@@ -856,7 +856,7 @@ padding: 1px 5px;</string>
                   <item row="6" column="0">
                    <widget class="QLabel" name="label_radioGear">
                     <property name="toolTip">
-                     <string>aka Gear/Aux1. Camera trigger port, or use as passthrough for any other Tx-controlled function.</string>
+                     <string>aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.</string>
                     </property>
                     <property name="text">
                      <string>Cam. Trig/P-thru</string>
@@ -1483,7 +1483,7 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_1_L">
+                     <widget class="QLabel" name="label_chan_0">
                       <property name="text">
                        <string>Throttle</string>
                       </property>
@@ -1496,13 +1496,6 @@ padding: 1px 5px;</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="label_chan_1_H">
-                      <property name="text">
-                       <string/>
                       </property>
                      </widget>
                     </item>
@@ -1519,6 +1512,19 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_0">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>0 / +700 / +1400</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                   <item>
@@ -1527,7 +1533,7 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_2_L">
+                     <widget class="QLabel" name="label_chan_1">
                       <property name="text">
                        <string>Roll</string>
                       </property>
@@ -1540,13 +1546,6 @@ padding: 1px 5px;</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="label_chan_2_H">
-                      <property name="text">
-                       <string/>
                       </property>
                      </widget>
                     </item>
@@ -1563,6 +1562,19 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_1">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>-700 / 0 / +700</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                   <item>
@@ -1571,7 +1583,7 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_3_L">
+                     <widget class="QLabel" name="label_chan_2">
                       <property name="text">
                        <string>Pitch</string>
                       </property>
@@ -1584,13 +1596,6 @@ padding: 1px 5px;</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="label_chan_3_H">
-                      <property name="text">
-                       <string/>
                       </property>
                      </widget>
                     </item>
@@ -1607,6 +1612,19 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_2">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>-700 / 0 / +700</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                   <item>
@@ -1615,9 +1633,9 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_4_L">
+                     <widget class="QLabel" name="label_chan_3">
                       <property name="text">
-                       <string>Rudd</string>
+                       <string>Yaw</string>
                       </property>
                      </widget>
                     </item>
@@ -1628,13 +1646,6 @@ padding: 1px 5px;</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="label_chan_4_H">
-                      <property name="text">
-                       <string/>
                       </property>
                      </widget>
                     </item>
@@ -1651,6 +1662,19 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_3">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>-700 / 0 / +700</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                   <item>
@@ -1659,7 +1683,7 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_5_L">
+                     <widget class="QLabel" name="label_chan_4">
                       <property name="text">
                        <string>Gear</string>
                       </property>
@@ -1672,13 +1696,6 @@ padding: 1px 5px;</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignCenter</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="label_chan_5_H">
-                      <property name="text">
-                       <string/>
                       </property>
                      </widget>
                     </item>
@@ -1695,6 +1712,19 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_4">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>any</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                   <item>
@@ -1703,7 +1733,7 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_6_L">
+                     <widget class="QLabel" name="label_chan_5">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1714,7 +1744,7 @@ padding: 1px 5px;</string>
                        <string>Posiotion Hold &gt; -250</string>
                       </property>
                       <property name="text">
-                       <string>Flaps/Aux 1</string>
+                       <string>Flight Mode</string>
                       </property>
                      </widget>
                     </item>
@@ -1735,7 +1765,7 @@ padding: 1px 5px;</string>
                      </widget>
                     </item>
                     <item row="2" column="2">
-                     <widget class="QLabel" name="label_chan_6_H">
+                     <widget class="QLabel" name="label_chanPos_H_5">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1754,7 +1784,7 @@ padding: 1px 5px;</string>
                      </widget>
                     </item>
                     <item row="2" column="1">
-                     <widget class="QLabel" name="label_234">
+                     <widget class="QLabel" name="label_chanPos_M_5">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1770,7 +1800,7 @@ padding: 1px 5px;</string>
                      </widget>
                     </item>
                     <item row="2" column="0">
-                     <widget class="QLabel" name="label_233">
+                     <widget class="QLabel" name="label_chanPos_L_5">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1795,6 +1825,19 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_5">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>&lt; -300 / 0 / &gt; +300</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                   <item>
@@ -1803,7 +1846,7 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_7_L">
+                     <widget class="QLabel" name="label_chan_6">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1814,7 +1857,7 @@ padding: 1px 5px;</string>
                        <string>Return to Launch &gt; -250</string>
                       </property>
                       <property name="text">
-                       <string>Aux2</string>
+                       <string>Set/Return Home</string>
                       </property>
                      </widget>
                     </item>
@@ -1835,7 +1878,7 @@ padding: 1px 5px;</string>
                      </widget>
                     </item>
                     <item row="2" column="0">
-                     <widget class="QLabel" name="label_231">
+                     <widget class="QLabel" name="label_chanPos_L_6">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1848,7 +1891,7 @@ padding: 1px 5px;</string>
                      </widget>
                     </item>
                     <item row="2" column="2">
-                     <widget class="QLabel" name="label_chan_7_H">
+                     <widget class="QLabel" name="label_chanPos_H_6">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1867,7 +1910,7 @@ padding: 1px 5px;</string>
                      </widget>
                     </item>
                     <item row="2" column="1">
-                     <widget class="QLabel" name="label_235">
+                     <widget class="QLabel" name="label_chanPos_M_6">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1895,6 +1938,19 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_6">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>&lt; -300 / 0 / &gt; +300</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                   <item>
@@ -1903,7 +1959,7 @@ padding: 1px 5px;</string>
                      <number>3</number>
                     </property>
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_chan_8_L">
+                     <widget class="QLabel" name="label_chan_7">
                       <property name="text">
                        <string>Aux3</string>
                       </property>
@@ -1919,13 +1975,6 @@ padding: 1px 5px;</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="2">
-                     <widget class="QLabel" name="label_chan_8_H">
-                      <property name="text">
-                       <string/>
-                      </property>
-                     </widget>
-                    </item>
                     <item row="1" column="0" colspan="3">
                      <widget class="QProgressBar" name="progressBar_chan_7">
                       <property name="minimum">
@@ -1936,6 +1985,19 @@ padding: 1px 5px;</string>
                       </property>
                       <property name="value">
                        <number>0</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="2">
+                     <widget class="QLabel" name="label_chanRange_7">
+                      <property name="toolTip">
+                       <string>Recommended low/mid/high values.</string>
+                      </property>
+                      <property name="text">
+                       <string>any</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                       </property>
                      </widget>
                     </item>
@@ -2032,7 +2094,7 @@ padding: 1px 5px;</string>
                     </sizepolicy>
                    </property>
                    <property name="toolTip">
-                    <string>Refresh frequency of channels graph</string>
+                    <string>Refresh frequency of channels graph (higher frequencies consume more computer CPU power)</string>
                    </property>
                    <property name="text">
                     <string>Freq:</string>
@@ -2051,7 +2113,7 @@ padding: 1px 5px;</string>
                     </sizepolicy>
                    </property>
                    <property name="toolTip">
-                    <string>Refresh frequency of channels graph</string>
+                    <string>Refresh frequency of channels graph (higher frequencies consume more computer CPU power)</string>
                    </property>
                    <property name="suffix">
                     <string> Hz</string>
