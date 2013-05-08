@@ -1335,7 +1335,7 @@ QVariant QGCAQParamWidget::getParaAQ(QString parameterName)
 
 void QGCAQParamWidget::setParaAQ(QString parameterName, QVariant value)
 {
-        setParameter(190, parameterName, value);
+    setParameter(190, parameterName, value);
 }
 
 void QGCAQParamWidget::loadParaAQ()
