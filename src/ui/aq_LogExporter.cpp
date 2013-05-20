@@ -9,7 +9,7 @@
 #include <QDate>
 
 /**
- * @brief GUI launcher for the AutoQuad LogDump program for exporting log data.
+ * @brief GUI launcher for the AutoQuad logDump log exporter CLI utility.
  * @param parent Parent widget.
  */
 AQLogExporter::AQLogExporter(QWidget *parent) :
@@ -53,6 +53,9 @@ AQLogExporter::AQLogExporter(QWidget *parent) :
     foreach (QAbstractButton *curBtn, ui->buttonGroup_trigChanValues->buttons())
         ui->buttonGroup_trigChanValues->setId(curBtn, curBtn->objectName().replace(QRegExp("[^\\d]*"), "").toInt());
 
+    // set IDs for the altitude options radio buttons
+    foreach (QAbstractButton *curBtn, ui->buttonGroup_altOptions->buttons())
+        ui->buttonGroup_altOptions->setId(curBtn, curBtn->objectName().replace(QRegExp("[^\\d]*"), "").toInt());
 
     // find QGCAutoquad class to see if a log file is already selected and use its log file selection dialog
 //    aq = qobject_cast<QGCAutoquad *>(parent);
@@ -315,9 +318,17 @@ void AQLogExporter::startExport() {
             else
                 appArgs += "-wo";
         }
-        // H accuracy
+        // H/V accuracy
         appArgs += QString("-a%1").arg(ui->doubleSpinBox_minHAcc->value());
         appArgs += QString("-v%1").arg(ui->doubleSpinBox_minVAcc->value());
+
+        // altitude type
+        if (ui->radioButton_altType_opt02->isChecked())
+            appArgs += QString("-Au");
+        else if (ui->radioButton_altType_opt03->isChecked())
+            appArgs += QString("-Ap");
+        // altitude offset
+        appArgs += QString("-O%1").arg(ui->doubleSpinBox_altOffset->value());
     }
 
     // values to export (don't bother if XML output format)
@@ -379,9 +390,6 @@ void AQLogExporter::toggleGPSTrackOpts(bool enable) {
         if (ui->spinBox_outputFreq->value() == 200) {
             ui->spinBox_outputFreq->setValue(5);
         }
-        // select all gps values in the list
-        for (i=0; i < gpsTrackFlds.size(); i++)
-            gpsTrackFlds.at(i)->setChecked(true);
 
         // enable timestamp option
         ui->checkBox_timestamp->setChecked(true);
@@ -390,16 +398,28 @@ void AQLogExporter::toggleGPSTrackOpts(bool enable) {
     // enable/disable min H/V accuracy fields
     ui->doubleSpinBox_minHAcc->setEnabled(enable);
     ui->doubleSpinBox_minVAcc->setEnabled(enable);
+    ui->doubleSpinBox_altOffset->setEnabled(enable && isXtyp);
     ui->label_gpsAccH->setEnabled(enable);
     ui->label_gpsAccV->setEnabled(enable);
+    ui->label_altOffset->setEnabled(enable && isXtyp);
+    ui->label_altSource->setEnabled(enable && isXtyp);
 
     // enable/disable column headers option
     ui->checkBox_colHeaders->setEnabled(!enable);
     // enable/disable timestamp option
     ui->checkBox_timestamp->setEnabled(!enable);
+
     // enable/disable all the gps track values in the list
-    for (i=0; i < gpsTrackFlds.size(); i++)
+    for (i=0; i < gpsTrackFlds.size(); i++) {
         gpsTrackFlds.at(i)->setEnabled(!enable);
+        if (enable)
+            // select all gps values in the list
+            gpsTrackFlds.at(i)->setChecked(true);
+    }
+
+    // enable/disable altitude option radios
+    foreach (QAbstractButton *curBtn, ui->buttonGroup_altOptions->buttons())
+        curBtn->setEnabled(enable && isXtyp);
 
     emit formValidRecheck();
 }
@@ -457,6 +477,8 @@ void AQLogExporter::readSettings() {
         ui->checkBox_gpsWaypoints->setChecked(settings.value("GPSWaypoints", false).toBool());
         ui->doubleSpinBox_minHAcc->setValue(settings.value("GPSMinHAcc", 2.5).toFloat());
         ui->doubleSpinBox_minVAcc->setValue(settings.value("GPSMinVAcc", 2.5).toFloat());
+        ui->buttonGroup_altOptions->button(settings.value("GPSAltOption", 1).toInt())->setChecked(true);
+        ui->doubleSpinBox_altOffset->setValue(settings.value("GPSAltOffset", 0).toFloat());
         ui->checkBox_timestamp->setChecked(settings.value("Timestamp", false).toBool());
         ui->checkBox_localtime->setChecked(settings.value("Localtime", false).toBool());
         ui->checkBox_triggerOnly->setChecked(settings.value("TriggeredOnly", false).toBool());
@@ -499,6 +521,8 @@ void AQLogExporter::writeSettings() {
     settings.setValue("GPSWaypoints", ui->checkBox_gpsWaypoints->isChecked());
     settings.setValue("GPSMinHAcc", ui->doubleSpinBox_minHAcc->value());
     settings.setValue("GPSMinVAcc", ui->doubleSpinBox_minVAcc->value());
+    settings.setValue("GPSAltOption", ui->buttonGroup_altOptions->checkedId());
+    settings.setValue("GPSAltOffset", ui->doubleSpinBox_altOffset->value());
     settings.setValue("Timestamp", ui->checkBox_timestamp->isChecked());
     settings.setValue("Localtime", ui->checkBox_localtime->isChecked());
     settings.setValue("TriggerChannel", ui->spinBox_triggerChannel->value());
