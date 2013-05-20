@@ -64,7 +64,6 @@ public slots:
     void loadFrameTypes(void);
     bool validateForm(void);
     void portNumbersModel_updated(void);
-    void setPWMLight(bool Enabled);
 
 private slots:
     void motorTableConnections(bool enable);

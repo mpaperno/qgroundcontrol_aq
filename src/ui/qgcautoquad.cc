@@ -1915,14 +1915,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         }
         ok = true;
         precision = 6;
-        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT" || paraName == "SIG_LED_1_PRT"){
-            if ( paraName == "SIG_LED_1_PRT") {
-                if ( paramaq->getParaAQ(paraName).toFloat() < 0.0f ) {
-                    aqPwmPortConfig->setPWMLight(true);
-                }
-                else
-                    aqPwmPortConfig->setPWMLight(false);
-            }
+        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT"){
             val = fabs(paramaq->getParaAQ(paraName).toFloat());
             precision = 8;
         }  else
@@ -2016,8 +2009,6 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
         ok = true;
         val_uas = paramaq->getParaAQ(paraName).toFloat(&ok);
-
-
 
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
             val_local = le->text().toFloat(&ok);

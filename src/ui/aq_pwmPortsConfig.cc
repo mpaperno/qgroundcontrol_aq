@@ -83,7 +83,6 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     connect(ui->toolButton_saveFile, SIGNAL(clicked()), this, SLOT(saveFile_clicked()));
     connect(ui->toolButton_loadImage, SIGNAL(clicked()), this, SLOT(loadImage_clicked()));
     connect(ui->pushButton_saveToAQ, SIGNAL(clicked()), this, SLOT(saveToAQ_clicked()));
-    connect(ui->checkBox_usePWMLight, SIGNAL(clicked(bool)), this, SLOT(setPWMLight(bool)));
 }
 
 AQPWMPortsConfig::~AQPWMPortsConfig()
@@ -193,12 +192,6 @@ QStringList AQPWMPortsConfig::getMixFileList(void) {
     return mixFiles;
 }
 
-void AQPWMPortsConfig::setPWMLight(bool Enabled){
-    ui->checkBox_usePWMLight->setChecked(Enabled);
-    ui->SIG_LED_2_PRT->setEnabled(!Enabled);
-    ui->SIG_BEEP_PRT->setEnabled(!Enabled);
-    ui->checkBox_useSpeaker->setEnabled(!Enabled);
-}
 
 QString AQPWMPortsConfig::getMixFileByConfigId(int configId) {
     QString mixFile, file;
@@ -635,12 +628,8 @@ void AQPWMPortsConfig::saveOnboardConfig(void) {
     if (aq->saveSettingsToAq(ui->groupBox_gimbal, false))
         configChanged = true;
 
-    if (aq->saveSettingsToAq(ui->groupBox_signaling, false)){
-        if ( ui->checkBox_usePWMLight->checkState()) {
-            paramHandler->setParaAQ("SIG_LED_1_PRT",0-ui->SIG_LED_1_PRT->currentText().toFloat());
-        }
+    if (aq->saveSettingsToAq(ui->groupBox_signaling, false))
         configChanged = true;
-    }
 
     if (configChanged)
         aq->QuestionForROM();
