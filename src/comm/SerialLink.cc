@@ -429,10 +429,11 @@ unsigned char SerialLink::read() {
     //dataMutex.lock();
     if ( port->open()) {
         retry:
+        SerialIn[0] = 0;
         if ( port->bytesAvailable() > 0)
             port->read(SerialIn,1);
         else {
-            MG::SLEEP::msleep(1);
+            //MG::SLEEP::msleep(1);
             goto retry;
         }
         return SerialIn[0];

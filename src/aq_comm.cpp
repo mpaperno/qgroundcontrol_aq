@@ -3441,7 +3441,7 @@ void AQEsc32Logger::run() {
     telemStorageNum = 0;
     qDebug() << "set serial into esc mode";
     unsigned char InSerial;
-    char InSerialArray[14];
+    char InSerialArray[4096];
 
     while ( true) {
         retry:
@@ -3488,6 +3488,7 @@ void AQEsc32Logger::run() {
                 for (int j = 0; j < cols; j++) {
                     for ( int k =0; k < sizeof(float); k++) {
                         InSerialArray[k] = seriallinkEsc32->read();
+                        seriallinkEsc32->readBytes();
                     }
                     telemData[i][j] = esc32GetFloat(InSerialArray,0);
                 }
@@ -3499,23 +3500,27 @@ void AQEsc32Logger::run() {
             unsigned char tmp_B  = InSerial;
 
             if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
-
                 // update averages
-                for (i = 0; i < rows; i++)
+                for (i = 0; i < rows; i++){
                     for (j = 0; j < cols; j++){
                         telemValueAvgs[j] -= (telemValueAvgs[j] - telemData[i][j]) * 0.01;
                     }
+                }
+                qDebug() << "Rows=" << rows << "Cols" << cols;
 
                 // update max values
-                for (i = 0; i < rows; i++)
-                    for (j = 0; j < cols; j++)
+                for (i = 0; i < rows; i++) {
+                    for (j = 0; j < cols; j++) {
                         if (telemValueMaxs[j] < telemData[i][j])
                             telemValueMaxs[j] = telemData[i][j];
+                    }
+                }
 
                 // save to memory
                 for (i = 0; i < rows; i++) {
-                    for (j = 0; j < cols; j++)
+                    for (j = 0; j < cols; j++) {
                         telemStorage[MAX_TELEM_STORAGE*j + telemStorageNum] = telemData[i][j];
+                    }
                     telemStorageNum++;
                 }
 
@@ -3605,7 +3610,6 @@ float AQEsc32Logger::getTelemValueMaxs(int index){
 float AQEsc32Logger::getTelemStorage(int index) {
     dataMutex.lock();
     float ret = telemStorage[index];
-    //float ret = telemStorage[MAX_TELEM_STORAGE*col + row];
     dataMutex.unlock();
     return ret;
 }
