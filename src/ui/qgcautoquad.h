@@ -154,7 +154,7 @@ private slots:
     void prtstderr();
     void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
     void handleStatusText(int uasId, int compid, int severity, QString text);
-    void setHardwareInfo(int boardRev);
+    void setHardwareInfo(int boardVer);
     void paramRequestTimeoutNotify(int readCount, int writeCount);
     void pushButton_dev1();
 
@@ -165,6 +165,7 @@ private slots:
 
 public:
     int aqFirmwareRevision;
+    int aqHardwareVersion;
     int aqHardwareRevision;
     int aqBuildNumber;
     QString aqFirmwareVersion;

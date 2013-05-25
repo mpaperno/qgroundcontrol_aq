@@ -40,6 +40,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     aqFirmwareVersion = "";
     aqFirmwareRevision = 0;
+    aqHardwareVersion = 6;
     aqHardwareRevision = 0;
     aqBuildNumber = 0;
 
@@ -55,7 +56,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     fldnameRx.setPattern("^(CTRL|NAV|GMBL|MOT|RADIO|SPVR|IMU|DOWNLINK|GPS|PPM|UKF|SIG|L1|VN100)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
 
-    setHardwareInfo(aqHardwareRevision);  // populate hardware (AQ board) info with defaults
+    setHardwareInfo(aqHardwareVersion);  // populate hardware (AQ board) info with defaults
 
     /*
      * Start the UI
@@ -2861,10 +2862,14 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
     this->alt = alt;
 }
 
-void QGCAutoquad::setHardwareInfo(int boardRev) {
-    switch (boardRev) {
-    case 1:
-    case 2:
+void QGCAutoquad::setHardwareInfo(int boardVer) {
+    switch (boardVer) {
+    case 7:
+        maxPwmPorts = 9;
+        pwmPortTimers.empty();
+        pwmPortTimers << 1 << 1 << 1 << 1 << 4 << 4 << 9 << 9 << 11;
+        break;
+    case 6:
     default:
         maxPwmPorts = 14;
         pwmPortTimers.empty();
@@ -2890,7 +2895,7 @@ QStringList QGCAutoquad::getAvailablePwmPorts(void) {
 void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString text) {
     Q_UNUSED(severity);
     Q_UNUSED(compid);
-    QRegExp versionRe("^(?:AutoQuad.*: )?(\\d+\\.\\d+(?:\\.\\d+)?)([\\s\\-A-Z]*)(?:r(\\d{1,5}))?(?: b(\\d+))?(?: hwrev(\\d))?\n?$");
+    QRegExp versionRe("^(?:A.*Q.*: )?(\\d+\\.\\d+(?:\\.\\d+)?)([\\s\\-A-Z]*)(?:r(?:ev)?(\\d{1,5}))?(?: b(\\d+))?,?(?: (?:HW ver: (\\d) )?(?:hw)?rev(\\d))?\n?$");
     QString aqFirmwareVersionQualifier;
     bool ok;
 
@@ -2910,20 +2915,25 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
             if (!ok) aqBuildNumber = 0;
         }
         if (vlist.at(5).length()) {
-            aqHardwareRevision = vlist.at(5).toInt(&ok);
+            aqHardwareVersion = vlist.at(5).toInt(&ok);
             if (!ok) aqHardwareRevision = 0;
             else
-                setHardwareInfo(aqHardwareRevision);
+                setHardwareInfo(aqHardwareVersion);
+        }
+        if (vlist.at(6).length()) {
+            aqHardwareRevision = vlist.at(6).toInt(&ok);
+            if (!ok) aqHardwareRevision = -1;
         }
 
         if (aqFirmwareVersion.length()) {
-            QString verStr = QString("AQ Firmware v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
+            QString verStr = QString("AQ FW v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
             if (aqFirmwareRevision > 0)
                 verStr += QString(" r%1").arg(QString::number(aqFirmwareRevision));
             if (aqBuildNumber > 0)
                 verStr += QString(" b%1").arg(QString::number(aqBuildNumber));
-            if (aqHardwareRevision > 0)
-                verStr += QString(" hw-rev:%1").arg(QString::number(aqHardwareRevision));
+            verStr += QString(" HW v. %1").arg(QString::number(aqHardwareVersion));
+            if (aqHardwareRevision > -1)
+                verStr += QString(" r%1").arg(QString::number(aqHardwareRevision));
 
             ui->lbl_aq_fw_version->setText(verStr);
         } else
