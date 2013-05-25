@@ -51,9 +51,6 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     // number of motors selector for custom type
     ui->comboBox_numOfMotors->addItem("Select...");
     ui->comboBox_numOfMotors->addItems(aq->getAvailablePwmPorts());
-    ui->comboBox_numOfMotors->removeItem(1);
-    ui->comboBox_numOfMotors->removeItem(1);
-    ui->comboBox_numOfMotors->removeItem(1);
     ui->comboBox_numOfMotors->setCurrentIndex(0);
 
     // list of all port selector combo boxes, for easy traversal
