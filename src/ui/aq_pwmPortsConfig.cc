@@ -72,6 +72,9 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     motorMixType = 1;
     changeMixType();
 
+    // connect to hardware info update signal
+    connect(aq, SIGNAL(hardwareInfoUpdated()), this, SLOT(portNumbersModel_updated()));
+
     // connect GUI controls related to motor table
     motorTableConnections(true);
 

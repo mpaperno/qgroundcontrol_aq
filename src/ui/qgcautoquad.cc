@@ -53,7 +53,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 #endif
 
     // these regexes are used for matching field names to AQ params
-    fldnameRx.setPattern("^(CTRL|NAV|GMBL|MOT|RADIO|SPVR|IMU|DOWNLINK|GPS|PPM|UKF|SIG|L1|VN100)_[A-Z0-9_]+$"); // strict field name matching
+    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
 
     setHardwareInfo(aqHardwareVersion);  // populate hardware (AQ board) info with defaults
@@ -77,14 +77,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     aqPwmPortConfig = new AQPWMPortsConfig(this);
     ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
-    connect(this, SIGNAL(hardwareInfoUpdated()), aqPwmPortConfig, SLOT(portNumbersModel_updated()));
-
 #ifdef QT_NO_DEBUG
     ui->tabWidget->removeTab(6); // hide devel tab
 #endif
 
     ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT);
     ui->lbl_version2->setText(QString("Based on %1 %2").arg(QGC_APPLICATION_NAME).arg(QGC_APPLICATION_VERSION));
+
+    // populate field values
 
     ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
     ui->SPVR_FS_RAD_ST2->addItem("slow decent", 0);
@@ -116,11 +116,41 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->DoubleMaxCurrent->setValue(30.0);
 
+    // populate COMM stream types
+    QList<QButtonGroup *> commStreamTypBtns = this->findChildren<QButtonGroup *>(QRegExp("COMM_STREAM_TYP[\\d]$"));
+    foreach (QButtonGroup* g, commStreamTypBtns) {
+        foreach (QAbstractButton* abtn, g->buttons()) {
+            QString ctyp = abtn->objectName().replace(QRegExp("[\\w]+_[\\w]+_"), "");
+            if (ctyp == "multiplex")
+                g->setId(abtn, COMM_TYPE_MULTIPLEX);
+            else if (ctyp == "mavlink")
+                g->setId(abtn, COMM_TYPE_MAVLINK);
+            else if (ctyp == "telemetry")
+                g->setId(abtn, COMM_TYPE_TELEMETRY);
+            else if (ctyp == "gps")
+                g->setId(abtn, COMM_TYPE_GPS);
+            else if (ctyp == "file")
+                g->setId(abtn, COMM_TYPE_FILEIO);
+            else if (ctyp == "cli")
+                g->setId(abtn, COMM_TYPE_CLI);
+            else if (ctyp == "omapConsole")
+                g->setId(abtn, COMM_TYPE_OMAP_CONSOLE);
+            else if (ctyp == "omapPpp")
+                g->setId(abtn, COMM_TYPE_OMAP_PPP);
+            else
+                g->setId(abtn, COMM_TYPE_NONE);
+        }
+    }
+
+    // Final UI tweaks
+
     ui->label_radioChangeWarning->hide();
     ui->groupBox_ppmOptions->hide();
     ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     ui->conatiner_radioGraphValues->setEnabled(false);
     ui->checkBox_raw_value->hide();
+
+    adjustUiForHardware();
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
@@ -130,6 +160,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("RADIO_.+")));
     allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
     allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
+
+
+    // Signal handlers
+
+    connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -1898,6 +1933,11 @@ QGCAQParamWidget* QGCAutoquad::getParamHandler()
 // Parameter handling to/from AQ
 //
 
+void QGCAutoquad::adjustUiForHardware() {
+    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
+    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+}
+
 void QGCAutoquad::getGUIpara(QWidget *parent) {
     if ( !paramaq || !parent)
         return;
@@ -1907,6 +1947,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     QString paraName, valstr;
     QVariant val;
 
+    // handle all input widgets
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     foreach (QWidget* w, wdgtList) {
         paraName = w->objectName().replace(dupeFldnameRx, "");
@@ -1953,9 +1994,37 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
 
 }
 
+void QGCAutoquad::populateButtonGroups(QObject *parent) {
+    QString paraName;
+    QVariant val;
+
+    // handle any button groups
+    QList<QButtonGroup *> grpList = parent->findChildren<QButtonGroup *>(fldnameRx);
+    foreach (QButtonGroup* g, grpList) {
+        paraName = g->objectName().replace(dupeFldnameRx, "");
+        val = paramaq->getParaAQ(paraName);
+
+        foreach (QAbstractButton* abtn, g->buttons()) {
+            if (paramaq->paramExistsAQ(paraName)) {
+                abtn->setEnabled(true);
+                if (g->exclusive()) { // individual values
+                    abtn->setChecked(val.toInt() == g->id(abtn));
+                } else { // bitmask
+                    abtn->setChecked((val.toInt() & g->id(abtn)));
+                }
+            } else {
+                abtn->setEnabled(false);
+            }
+        }
+    }
+
+
+}
+
 void QGCAutoquad::loadParametersToUI() {
     getGUIpara(ui->RadioSettings);
     getGUIpara(ui->tab_aq_edit_para);
+    populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
 }
 

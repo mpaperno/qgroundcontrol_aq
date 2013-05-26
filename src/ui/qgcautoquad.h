@@ -38,6 +38,7 @@ public:
     UASInterface* getUAS();
     QStringList getAvailablePwmPorts(void);
     void getGUIpara(QWidget* parent = NULL);
+    void populateButtonGroups(QObject *parent);
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
     void QuestionForROM();
     bool checkAqConnected(bool interactive = false);
@@ -90,6 +91,7 @@ private slots:
     void setActiveUAS(UASInterface* uas_ext);
 
     // AQ Settings
+    void adjustUiForHardware();
     void loadParametersToUI();
     void saveRadioSettings();
     void saveAttitudePIDs();
@@ -187,6 +189,18 @@ protected:
     AQEsc32 *esc32;
     AQTelemetryView* aqTelemetryView;
     AQPWMPortsConfig* aqPwmPortConfig;
+
+    enum commStreamTypes {
+        COMM_TYPE_NONE          = 0,
+        COMM_TYPE_MULTIPLEX	    = (1<<0),
+        COMM_TYPE_MAVLINK	    = (1<<1),
+        COMM_TYPE_TELEMETRY	    = (1<<2),
+        COMM_TYPE_GPS           = (1<<3),
+        COMM_TYPE_FILEIO	    = (1<<4),
+        COMM_TYPE_CLI           = (1<<5),
+        COMM_TYPE_OMAP_CONSOLE  = (1<<6),
+        COMM_TYPE_OMAP_PPP	    = (1<<7)
+    };
 
 private:
     QSettings settings;
