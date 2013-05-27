@@ -3485,7 +3485,7 @@ void AQEsc32Logger::teleDataReceived(QByteArray data, int rows, int cols){
     if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
         bitsReceivedTotal++;
         if (( MG::TIME::getGroundTimeNow() - connectionStartTime) > 1000) {
-            qDebug() << "get " << bitsReceivedTotal << "Messages " << rows << " " << cols;
+            //qDebug() << "get " << bitsReceivedTotal << "Messages " << rows << " " << cols;
             bitsReceivedTotal = 0;
             connectionStartTime = MG::TIME::getGroundTimeNow();
         }
@@ -3505,10 +3505,6 @@ void AQEsc32Logger::teleDataReceived(QByteArray data, int rows, int cols){
                 //Max
                 if (TelemValueMaxs[j] < TelemData[i][j]){
                     TelemValueMaxs[j] = TelemData[i][j];
-
-                    if (( j == 2))
-                        qDebug() << "new Max" << TelemValueMaxs[2];
-
                 }
             }
         }

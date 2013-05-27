@@ -3186,20 +3186,34 @@ void QGCAutoquad::sendTracking(){
         float Ndev, Edev;
         float PIXEL_SIZE = 7e-6f;
         float FOCAL_LENGTH = 0.02f;
-        h = 0.47;//-UKF_POSD; //Check sign
+        QString Info;
+        h = 0.78;//-UKF_POSD; //Check sign
+        Info.append(QString::number(h) + "\t");
         yaw = 0 + 0; //AQ_YAW + CAMERA_YAW_OFFSET;
-        pitch = 0 + 0.7854; //AQ_PITCH + CAMERA_PITCH_OFFSET;
+        Info.append(QString::number(yaw) + "\t");
+        pitch = 0 + 1.5707963267949;//0.7854; //AQ_PITCH + CAMERA_PITCH_OFFSET;
+        Info.append(QString::number(pitch) + "\t");
         sinp = std::max(sin(pitch), 0.001f);//safety
+        Info.append(QString::number(sinp) + "\t");
         cotp = std::min(1/tan(pitch), 100.0f);//safety
+        Info.append(QString::number(cotp) + "\t");
         l1 = h/sinp;
+        Info.append(QString::number(l1) + "\t");
         l2 = h*cotp;
+        Info.append(QString::number(l2) + "\t");
 
         Ndev = TrackingMoveX*PIXEL_SIZE*l1/FOCAL_LENGTH;
+        Info.append(QString::number(Ndev) + "\t");
+        Info.append(QString::number(TrackingMoveX) + "\t");
         Edev = TrackingMoveY*PIXEL_SIZE*l1/FOCAL_LENGTH;
+        Info.append(QString::number(TrackingMoveY) + "\t");
+        Info.append(QString::number(Edev) + "\t");
 
         res1 = l2*cos(yaw) + Ndev;
+        Info.append(QString::number(res1) + "\t");
         res2 = l2*sin(yaw) + Edev;
-        qDebug() << "res1=" << res1 << " " << TrackingMoveX << " res2=" << res2 << TrackingMoveY;
+        Info.append(QString::number(res2) + "\t");
+        qDebug() << Info;
     }
 }
 

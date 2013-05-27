@@ -14,7 +14,6 @@
 #include <QMutexLocker>
 #include "SerialLink.h"
 #include "LinkManager.h"
-#include "QCoreApplication.h"
 #include "QGC.h"
 #include <MG.h>
 #include <iostream>
@@ -588,7 +587,6 @@ void SerialLink::readEsc32Tele(){
             numBytes = port->bytesAvailable();
             if ( numBytes > 0)
                 break;
-            QCoreApplication::processEvents();
             MG::SLEEP::msleep(1);
             if (( !port->open() ) || ( !mode_port ))
                 break;
@@ -608,7 +606,6 @@ void SerialLink::readEsc32Tele(){
             numBytes = port->bytesAvailable();
             if ( numBytes > 0)
                 break;
-            QCoreApplication::processEvents();
             MG::SLEEP::msleep(1);
             if (( !port->open() ) || ( !mode_port ))
                 break;
@@ -629,7 +626,6 @@ void SerialLink::readEsc32Tele(){
             numBytes = port->bytesAvailable();
             if ( numBytes >= 2)
                 break;
-            QCoreApplication::processEvents();
             MG::SLEEP::msleep(1);
             if (( !port->open() ) || ( !mode_port ))
                 break;
@@ -648,7 +644,6 @@ void SerialLink::readEsc32Tele(){
             numBytes = port->bytesAvailable();
             if ( numBytes >= length_array)
                 break;
-            QCoreApplication::processEvents();
             MG::SLEEP::msleep(1);
             if (( !port->open() ) || ( !mode_port ))
                 break;
