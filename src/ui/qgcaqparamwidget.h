@@ -22,7 +22,7 @@ public:
 	void setParaAQ(QString parameterName, QVariant value);
 	void loadParaAQ();
     void setFilePath(QString fileName);
-    bool paramExistsAQ(const QString& param) { return parameters.value(190)->contains(param); }
+    bool paramExistsAQ(QString param);
     bool isParamMinKnown(const QString& param) { return paramMin.contains(param); }
     bool isParamMaxKnown(const QString& param) { return paramMax.contains(param); }
     bool isParamDefaultKnown(const QString& param) { return paramDefault.contains(param); }

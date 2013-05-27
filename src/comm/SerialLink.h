@@ -112,7 +112,7 @@ public:
     int getLinkQuality();
     bool isFullDuplex();
     int getId();
-    unsigned char read();
+    //unsigned char read();
 
 public slots:
     bool setPortName(QString portName);
@@ -134,6 +134,7 @@ public slots:
     TNX::QSerialPort *getPort();
     void setEsc32Mode(bool mode);
     bool getEsc32Mode();
+    void readEsc32Tele();
     /**
      * @brief Write a number of bytes to the interface.
      *
@@ -179,8 +180,14 @@ private:
     void setName(QString name);
     bool hardwareConnect();
     bool mode_port;
-    char SerialIn[1];
+    //char SerialIn[1];
     int countRetry;
+    int maxLength;
+    char data[4096];
+    int rows;
+    int cols;
+    int firstRead;
+
 
 signals:
     void aboutToCloseFlag();

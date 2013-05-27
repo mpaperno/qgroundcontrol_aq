@@ -209,6 +209,8 @@ signals:
      */
     void bytesReceived(LinkInterface* link, QByteArray data);
 
+    void teleReceived(QByteArray data, int rows, int cols);
+
     /**
      * @brief This signal is emitted instantly when the link is connected
      **/

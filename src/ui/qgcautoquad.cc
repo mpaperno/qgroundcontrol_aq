@@ -210,6 +210,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
 #ifndef QT_NO_DEBUG
     connect(ui->pushButton_dev1, SIGNAL(clicked()),this, SLOT(pushButton_dev1()));
+    connect(ui->pushButton_ObjectTracking, SIGNAL(clicked()),this, SLOT(pushButton_tracking()));
+    connect(ui->pushButton_ObjectTracking_File, SIGNAL(clicked()),this, SLOT(pushButton_tracking_file()));
 #endif
 
     //Process Slots
@@ -218,6 +220,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
     connect(&ps_master, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
 
+    //Process Slots for tracking
+    ps_tracking.setProcessChannelMode(QProcess::MergedChannels);
+    connect(&ps_tracking, SIGNAL(finished(int)), this, SLOT(prtstexitTR(int)));
+    connect(&ps_tracking, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdoutTR()));
+    connect(&ps_tracking, SIGNAL(readyReadStandardError()), this, SLOT(prtstderrTR()));
+    TrackingIsrunning = 0;
 
     // UAS slots
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
@@ -1100,7 +1108,7 @@ void QGCAutoquad::Esc32BootModOk() {
     Arguments.append(QDir::toNativeSeparators(FwFileForEsc32));
     Arguments.append("-v");
     Arguments.append(port);
-    active_cal_mode = 0;
+    active_cal_mode = 7;
     ui->textFlashOutput->clear();
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
 }
@@ -1855,7 +1863,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         if ( !paramaq ) {
             paramaq = new QGCAQParamWidget(uas, this);
             ui->gridLayout_paramAQ->addWidget(paramaq);
-
             connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
             connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
 
@@ -1866,7 +1873,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         }
         paramaq->loadParaAQ();
 
-
+        /*
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
         aqFirmwareRevision = 0;
@@ -1879,6 +1886,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         aqTelemetryView->initChart(uas);
         ui->checkBox_raw_value->setChecked(true);
         toggleRadioValuesUpdate();
+        */
     }
 }
 
@@ -1963,6 +1971,20 @@ void QGCAutoquad::loadParametersToUI() {
     getGUIpara(ui->RadioSettings);
     getGUIpara(ui->tab_aq_edit_para);
     aqPwmPortConfig->loadOnboardConfig();
+
+    // get firmware version of this AQ
+    aqFirmwareVersion = QString("");
+    aqFirmwareRevision = 0;
+    aqHardwareRevision = 0;
+    aqBuildNumber = 0;
+    ui->lbl_aq_fw_version->setText("AQ Firmware v. [unknown]");
+    uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
+
+    VisibleWidget = 2;
+    aqTelemetryView->initChart(uas);
+    ui->checkBox_raw_value->setChecked(true);
+    toggleRadioValuesUpdate();
+
 }
 
 void QGCAutoquad::QuestionForROM()
@@ -2735,6 +2757,16 @@ void QGCAutoquad::prtstexit(int) {
         ui->pushButton_abort_sim3->setEnabled(false);
         active_cal_mode = 0;
     }
+    if ( active_cal_mode == 7 ) {
+        ui->flashButton->setEnabled(true);
+        active_cal_mode = 0;
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Hint");
+        msgBox.setInformativeText("Please reboot the esc32 by Power off/on!");
+        msgBox.setWindowModality(Qt::ApplicationModal);
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+    }
 }
 
 void QGCAutoquad::prtstdout() {
@@ -2809,12 +2841,20 @@ void QGCAutoquad::prtstdout() {
 
             ui->textOutput_sim3->append(output_sim3);
         }
+        if ( active_cal_mode == 7 ) {
+            output = ps_master.readAllStandardOutput();
+            if ( output.contains("[uWrote")) {
+                output = output.right(output.length()-3);
+                ui->textFlashOutput->clear();
+            }
+            ui->textFlashOutput->append(output);
+        }
 }
 
 void QGCAutoquad::prtstderr() {
     if ( active_cal_mode == 0 ) {
         output = ps_master.readAllStandardError();
-    ui->textFlashOutput->append(output);
+        ui->textFlashOutput->append(output);
     }
     if ( active_cal_mode == 1 ) {
             output_cal1 = ps_master.readAllStandardError();
@@ -2857,6 +2897,10 @@ void QGCAutoquad::prtstderr() {
             if ( output_sim3.contains("[") )
                     ui->textOutput_sim3->clear();
             ui->textOutput_sim3->append(output_sim3);
+    }
+    if ( active_cal_mode == 7 ) {
+        output = ps_master.readAllStandardError();
+        ui->textFlashOutput->append(output);
     }
 }
 
@@ -2944,6 +2988,154 @@ void QGCAutoquad::paramRequestTimeoutNotify(int readCount, int writeCount) {
     MainWindow::instance()->showStatusMessage(tr("PARAMETER READ/WRITE TIMEOUT! Missing: %1 read, %2 write.").arg(readCount).arg(writeCount));
 }
 
+void QGCAutoquad::pushButton_tracking() {
+    if ( TrackingIsrunning == 0) {
+        QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "opentld" + platformExeExt);
+        QStringList Arguments;
+
+        if ( this->uas == NULL) {
+            //qDebug() << "no UAS connected";
+            //return;
+        }
+        OldTrackingMoveX = 0;
+        OldTrackingMoveY = 0;
+
+        //globalPositionChanged
+        // For video cam
+        if ( FileNameForTracking == "" ) {
+            Arguments.append("-d CAM");
+            Arguments.append("-n " + ui->lineEdit_21->text());
+            Arguments.append(aqBinFolderPath + "config.cfg");
+        }
+        // for Files
+        else {
+            Arguments.append("-d VID");
+            Arguments.append("-i " + FileNameForTracking);
+        }
+        focal_lenght = ui->lineEdit_20->text().toFloat();
+        camera_yaw_offset = ui->lineEdit_19->text().toFloat();
+        camera_pitch_offset = ui->lineEdit_18->text().toFloat();
+        pixel_size = ui->lineEdit_17->text().toFloat();
+        pixelFilterX = ui->lineEdit_22->text().toFloat();
+        pixelFilterY = ui->lineEdit_23->text().toFloat();
+        currentPosN = 10.75571;
+        currentPosE = 48.18003;
+        ps_tracking.setWorkingDirectory(aqBinFolderPath);
+        ps_tracking.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+        TrackingIsrunning = 1;
+     }
+     else {
+        OldTrackingMoveX = 0;
+        OldTrackingMoveY = 0;
+
+        ps_tracking.kill();
+        TrackingIsrunning = 0;
+     }
+
+}
+
+void QGCAutoquad::pushButton_tracking_file() {
+    QString dirPath = UsersParamsFile ;
+    QFileInfo dir(dirPath);
+    QFileDialog dialog;
+    dialog.setDirectory(dir.absoluteDir());
+    dialog.setFileMode(QFileDialog::AnyFile);
+    //dialog.setFilter(tr("AQ Parameter-File (*.params)"));
+    dialog.setViewMode(QFileDialog::Detail);
+    QStringList fileNames;
+    if (dialog.exec())
+    {
+        fileNames = dialog.selectedFiles();
+    }
+
+    if (fileNames.size() > 0)
+    {
+        UsersParamsFile = fileNames.at(0);
+    }
+
+    FileNameForTracking = QDir::toNativeSeparators(UsersParamsFile);
+    QFile file( FileNameForTracking );
+}
+
+void QGCAutoquad::prtstexitTR(int) {
+    qDebug() << ps_tracking.readAll();
+}
+
+void QGCAutoquad::prtstdoutTR() {
+    QString stdout_TR = ps_tracking.readAllStandardOutput();
+    QStringList stdout_TR_Array = stdout_TR.split("\r\n",QString::SkipEmptyParts);
+    for (int i=0; i < stdout_TR_Array.length(); i++) {
+        //qDebug() << stdout_TR_Array.at(i);
+        if (stdout_TR_Array.at(i).contains("RESOLUTION=")) {
+            int posResolution = stdout_TR_Array.at(i).indexOf("RESOLUTION",0,Qt::CaseSensitive);
+            if ( posResolution >= 0) {
+                posResolution += 11;
+                int posEndOfResolution = stdout_TR_Array.at(i).indexOf("\"",0,Qt::CaseSensitive);
+                QString resString = stdout_TR_Array.at(i).mid(posResolution, posEndOfResolution-posResolution);
+                SplitRes = resString.split(' ',QString::SkipEmptyParts);
+                TrackingResX = SplitRes[0].toInt();
+                TrackingResY = SplitRes[1].toInt();
+            }
+        }
+        else if (stdout_TR_Array.at(i).contains("POS=")) {
+            int posXMove = stdout_TR_Array.at(i).indexOf("POS=",0,Qt::CaseSensitive);
+            if ( posXMove >= 0) {
+                posXMove += 4;
+                int posEndOfPOS = stdout_TR_Array.at(i).indexOf("\"",0,Qt::CaseSensitive);
+                QString resString = stdout_TR_Array.at(i).mid(posXMove, posEndOfPOS-posXMove);
+                SplitRes = resString.split(' ',QString::SkipEmptyParts);
+                TrackingMoveX = SplitRes[0].toInt();
+                TrackingMoveY = SplitRes[1].toInt();
+                int DiffX = abs(OldTrackingMoveX - TrackingMoveX);
+                int DiffY = abs(OldTrackingMoveY - TrackingMoveY);
+                if ((  DiffX > pixelFilterX) || ( DiffY > pixelFilterY)) {
+                    OldTrackingMoveX = TrackingMoveX;
+                    OldTrackingMoveY = TrackingMoveY;
+                    sendTracking();
+                    QString output_tracking;
+                    output_tracking.append("Xdiff=");
+                    output_tracking.append(QString::number(DiffX));
+                    output_tracking.append("Ydiff=");
+                    output_tracking.append(QString::number(DiffY));
+                    //qDebug() << output_tracking;
+                    ui->lineEdit_24->setText(output_tracking);
+                }
+
+            }
+        }
+    }
+}
+
+void QGCAutoquad::sendTracking(){
+    if ( uas != NULL) {
+        uas->sendCommmandToAq(9, 1, TrackingMoveX,TrackingMoveY,focal_lenght ,camera_yaw_offset,camera_pitch_offset,pixel_size,0.0f);
+    }
+    else {
+        float yaw, pitch, l1, l2, h, sinp, cotp;
+        float Ndev, Edev;
+        float PIXEL_SIZE = 7e-6f;
+        float FOCAL_LENGTH = 0.02f;
+        h = 0.47;//-UKF_POSD; //Check sign
+        yaw = 0 + 0; //AQ_YAW + CAMERA_YAW_OFFSET;
+        pitch = 0 + 0.7854; //AQ_PITCH + CAMERA_PITCH_OFFSET;
+        sinp = std::max(sin(pitch), 0.001f);//safety
+        cotp = std::min(1/tan(pitch), 100.0f);//safety
+        l1 = h/sinp;
+        l2 = h*cotp;
+
+        Ndev = TrackingMoveX*PIXEL_SIZE*l1/FOCAL_LENGTH;
+        Edev = TrackingMoveY*PIXEL_SIZE*l1/FOCAL_LENGTH;
+
+        res1 = l2*cos(yaw) + Ndev;
+        res2 = l2*sin(yaw) + Edev;
+        qDebug() << "res1=" << res1 << " " << TrackingMoveX << " res2=" << res2 << TrackingMoveY;
+    }
+}
+
+void QGCAutoquad::prtstderrTR() {
+    qDebug() << ps_tracking.readAllStandardError();
+}
+
 void QGCAutoquad::pushButton_dev1(){
 //    QString audiostring = QString("Hello, welcome to AutoQuad");
 //    GAudioOutput::instance()->say(audiostring.toLower());
@@ -2959,3 +3151,4 @@ void QGCAutoquad::pushButton_dev1(){
 //    ui->lineEdit_15->setText(QString::number(aqHardwareRevision));
 //    waiter.exec();
 }
+

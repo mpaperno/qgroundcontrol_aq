@@ -157,7 +157,12 @@ private slots:
     void setHardwareInfo(int boardRev);
     void paramRequestTimeoutNotify(int readCount, int writeCount);
     void pushButton_dev1();
-
+    void pushButton_tracking();
+    void pushButton_tracking_file();
+    void prtstexitTR(int);
+    void prtstdoutTR();
+    void prtstderrTR();
+    void sendTracking();
 
 /*
  * Variables
@@ -247,7 +252,24 @@ private:
     int devCommand;
     double lat,lon,alt;
     QProcess ps_master;
-
+    QProcess ps_tracking;
+    int TrackingIsrunning;
+    QString FileNameForTracking;
+    int TrackingResX;
+    int TrackingResY;
+    int TrackingMoveX;
+    int TrackingMoveY;
+    int OldTrackingMoveX;
+    int OldTrackingMoveY;
+    float focal_lenght;
+    float camera_yaw_offset;
+    float camera_pitch_offset;
+    float pixel_size;
+    int pixelFilterX;
+    int pixelFilterY;
+    float res1,res2;
+    QStringList SplitRes;
+    float currentPosN, currentPosE;
 };
 
 #endif // QGCAUTOQUAD_H

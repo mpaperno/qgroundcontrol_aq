@@ -447,6 +447,8 @@ enum configParameters {
 #define EIGEN_DONT_PARALLELIZE
 
 #include <QThread>
+#define MAX_TELEM_STORAGE	200000
+
 class AQEsc32Logger : public QThread
 {
     Q_OBJECT
@@ -455,44 +457,40 @@ public:
     ~AQEsc32Logger();
     void run();
     bool isFinished();
-    void startLogging(SerialLink* seriallinkEsc, QString FileName);
-    void stopLogging();
     float getTelemValueAvgs(int index);
     void setTelemValueMaxs(int index, float value);
     float getTelemValueMaxs(int index);
     float getTelemStorage(int index);
     int getTelemStorageNum();
-    float *telemStorage;
+    void StartStopDecoding(bool Start);
+    void startLoggingTelemetry(SerialLink *link, QString FileName);
+    void stopLoggingTelemetry();
 
 private:
-    volatile float telemData[256][BINARY_VALUE_NUM];
-    volatile float telemValueAvgs[BINARY_VALUE_NUM];
-    volatile float telemValueMaxs[BINARY_VALUE_NUM];
-    volatile int telemStorageNum;
-
-    QString ParaWriten_MessageFromEsc32;
-    QByteArray ResponseFromEsc32;
-    int StopLogging;
-    int StepMessageFromEsc32;
-    unsigned char commandSeqIdBack;
-    unsigned char commandBack;
-    unsigned char commandLengthBack;
-    unsigned char command_ACK_NACK;
-    unsigned char rows;
-    unsigned char cols;
-    int indexOfAqT;
-    QString ParaNameLastSend;
-    int ParaLastSend;
     void esc32InChecksum(unsigned char c);
+    volatile float TelemData[256][BINARY_VALUE_NUM];
+    volatile float TelemValueAvgs[BINARY_VALUE_NUM];
+    volatile float TelemValueMaxs[BINARY_VALUE_NUM];
+    volatile qint64 TelemStorageNum;
+    float *TelemStorage;
     unsigned char checkInA, checkInB;
     unsigned short esc32GetShort(QByteArray data, int startIndex);
     float esc32GetFloat(QByteArray data, int startIndex);
+    unsigned char rows;
+    unsigned char cols;
+    qint64 bitsReceivedTotal;
+    qint64 connectionStartTime;
+    FILE *TelemOutFile;
     QMutex dataMutex;
+    bool StartStop;
+public slots:
+    void teleDataReceived(QByteArray data, int rows, int cols);
+
+protected:
     SerialLink* seriallinkEsc32;
-    FILE *telemOutFile;
+
 };
 
-#define MAX_TELEM_STORAGE	200000
 class AQEsc32 : public QObject {
     Q_OBJECT
 
@@ -515,6 +513,7 @@ public:
     void SetCommandBack(int Command);
     bool currentError;
     int ExitCalibration;
+    float TelemetryFrequenzy;
     void SetCalibrationMode(int mode);
     float getFF1Term();
     float getFF2Term();
@@ -528,6 +527,7 @@ private:
     int esc32SendCommand(unsigned char command, float param1, float param2, int n);
     int esc32state;
     int TimerState;
+    unsigned char checkInA, checkInB;
     int getEnumByName(QString Name);
     void SleepThread(int msec);
     unsigned short commandSeqId;
@@ -553,7 +553,6 @@ private:
     void esc32OutChecksum(unsigned char c);
     void esc32InChecksum(unsigned char c);
     unsigned char checkOutA, checkOutB;
-    unsigned char checkInA, checkInB;
     int indexOfAqC;
     bool RpmToVoltage(float maxAmps);
     bool CurrentLimiter(float maxAmps);
@@ -573,6 +572,7 @@ private:
     QString LoggingFile;
     QString ResultFile;
     FILE *calResultFile;
+    bool fastSend;
 
 private slots:
     void connectedEsc32();

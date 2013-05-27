@@ -79,6 +79,7 @@ bool QSerialPortNative::open_impl()
   if ( INVALID_HANDLE_VALUE == fileDescriptor_ )
     return false;
 
+
   readNotifier_ = new QWinCommEvtNotifier(fileDescriptor_, this);
 
   Q_CHECK_PTR(readNotifier_);
@@ -88,6 +89,7 @@ bool QSerialPortNative::open_impl()
     qWarning() << QString("QSerialPort::open(%1) failed when connecting to read notifier")
                     .arg(portName_);
   }
+
   
   // Create a dcb helper object
 

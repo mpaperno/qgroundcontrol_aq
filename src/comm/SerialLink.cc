@@ -14,6 +14,7 @@
 #include <QMutexLocker>
 #include "SerialLink.h"
 #include "LinkManager.h"
+#include "QCoreApplication.h"
 #include "QGC.h"
 #include <MG.h>
 #include <iostream>
@@ -399,22 +400,26 @@ void SerialLink::run()
     // Qt way to make clear what a while(1) loop does
     forever
     {
-        {
-            QMutexLocker locker(&this->m_stoppMutex);
-            if(this->m_stopp)
-            {
-                this->m_stopp = false;
-                break;
-            }
-        }
-        // Check if new bytes have arrived, if yes, emit the notification signal
         if ( !mode_port ) {
+            {
+                QMutexLocker locker(&this->m_stoppMutex);
+                if(this->m_stopp)
+                {
+                    this->m_stopp = false;
+                    break;
+                }
+            }
+            // Check if new bytes have arrived, if yes, emit the notification signal
             checkForBytes();
             /* Serial data isn't arriving that fast normally, this saves the thread
                      * from consuming too much processing time
                      */
             MG::SLEEP::msleep(SerialLink::poll_interval);
-        }
+       }
+       else {
+            readEsc32Tele();
+            MG::SLEEP::msleep(SerialLink::poll_interval);
+       }
     }
     if (port) {
         port->flushInBuffer();
@@ -425,6 +430,7 @@ void SerialLink::run()
     }
 }
 
+/*
 unsigned char SerialLink::read() {
     //dataMutex.lock();
     if ( port->open()) {
@@ -440,7 +446,7 @@ unsigned char SerialLink::read() {
     }
     //dataMutex.unlock();
 }
-
+*/
 
 void SerialLink::checkForBytes()
 {
@@ -535,6 +541,130 @@ void SerialLink::readBytes()
     dataMutex.unlock();
 }
 
+void SerialLink::readEsc32Tele(){
+    //dataMutex.lock();
+    qint64 numBytes = 0;
+
+    if(port && port->isOpen()) {
+        // Clear up the input Buffer
+        if ( this->firstRead == 1) {
+            while(true) {
+                port->read(data,1);
+                if (data[0] == 'A') {
+                    break;
+                }
+            }
+            this->firstRead = 2;
+        }
+        retryA:
+        if (( !port->open() ) || ( !mode_port ))
+            return;
+
+        while( true) {
+            numBytes = port->bytesAvailable();
+            if ( numBytes > 0)
+                break;
+            MG::SLEEP::msleep(1);
+            if (( !port->open() ) || ( !mode_port ))
+                break;
+        }
+        if ( this->firstRead == 0) {
+            numBytes = port->read(data,1);
+            if ( numBytes  >= 1 ) {
+                if ( data[0] != 'A') {
+                    goto retryA;
+                }
+            }
+            else if (numBytes <= 0){
+                MG::SLEEP::msleep(5);
+                goto retryA;
+            }
+        }
+        else {
+             this->firstRead = 0;
+        }
+
+        while( true) {
+            numBytes = port->bytesAvailable();
+            if ( numBytes > 0)
+                break;
+            QCoreApplication::processEvents();
+            MG::SLEEP::msleep(1);
+            if (( !port->open() ) || ( !mode_port ))
+                break;
+        }
+        numBytes = port->read(data,1);
+        if ( numBytes  == 1 ) {
+            if ( data[0] != 'q') {
+                goto retryA;
+            }
+        }
+        else if (numBytes <= 0){
+            MG::SLEEP::msleep(5);
+            goto retryA;
+        }
+
+        while( true) {
+            numBytes = port->bytesAvailable();
+            if ( numBytes > 0)
+                break;
+            QCoreApplication::processEvents();
+            MG::SLEEP::msleep(1);
+            if (( !port->open() ) || ( !mode_port ))
+                break;
+        }
+        numBytes = port->read(data,1);
+        if ( numBytes  == 1 ) {
+            if ( data[0] != 'T') {
+                MG::SLEEP::msleep(5);
+                goto retryA;
+            }
+        }
+        else if (numBytes <= 0){
+            MG::SLEEP::msleep(5);
+            goto retryA;
+        }
+
+        while( true) {
+            numBytes = port->bytesAvailable();
+            if ( numBytes >= 2)
+                break;
+            QCoreApplication::processEvents();
+            MG::SLEEP::msleep(1);
+            if (( !port->open() ) || ( !mode_port ))
+                break;
+        }
+        port->read(data,2);
+        rows = 0;
+        cols = 0;
+        rows = data[0];
+        cols = data[1];
+        int length_array = (((cols*rows)*sizeof(float))+2);
+        if ( length_array > 300) {
+            qDebug() << "bad col " << cols << " rows " << rows;
+            goto retryA;
+        }
+        while( true) {
+            numBytes = port->bytesAvailable();
+            if ( numBytes >= length_array)
+                break;
+            QCoreApplication::processEvents();
+            MG::SLEEP::msleep(1);
+            if (( !port->open() ) || ( !mode_port ))
+                break;
+        }
+        //qDebug() << "avalible" << numBytes;
+        numBytes = port->read(data,length_array);
+        if (numBytes == length_array ){
+            QByteArray b(data, numBytes);
+            emit teleReceived(b, rows, cols);
+        }
+
+        goto retryA;
+    }
+    //dataMutex.unlock();
+}
+
 /**
  * @brief Read a number of bytes from the interface.
  *
@@ -547,6 +677,11 @@ TNX::QSerialPort * SerialLink::getPort() {
 
 void SerialLink::setEsc32Mode(bool mode) {
     mode_port = mode;
+    if ( mode_port ) {
+        this->rows = 0;
+        this->cols = 0;
+        firstRead = 1;
+    }
 }
 
 bool SerialLink::getEsc32Mode() {

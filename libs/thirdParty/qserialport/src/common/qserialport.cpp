@@ -308,8 +308,8 @@ qint64 QSerialPort::readData(char *data, qint64 maxlen)
     pendingByteCount_ = (pendingByteCount_ - bytesRead) < 0LL ? 0LL :
                           (pendingByteCount_ - bytesRead);
   }
-
-  readNotifier_->setEnabled(true);
+   //XXXX
+  //readNotifier_->setEnabled(true);
   return bytesRead;
 }
 

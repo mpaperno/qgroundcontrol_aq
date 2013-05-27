@@ -532,6 +532,14 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
     }
 }
 
+bool QGCAQParamWidget::paramExistsAQ(QString param)
+{
+    if ( parameters.contains(190))
+        return parameters.value(190)->contains(param);
+    else
+        return FALSE;
+}
+
 /**
  * @param uas System which has the component
  * @param component id of the component

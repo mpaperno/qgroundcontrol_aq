@@ -42,8 +42,8 @@ FileName = fileName;
     if (lf) {
         LogChannelsStruct.clear();
         if (loggerReadHeader(lf) == 0 ) {
-            return 0;
             fclose(lf);
+            return 0;
         }
     }
     fclose(lf);
@@ -96,7 +96,7 @@ int AQLogParser::loggerReadHeader(FILE *fp)
             fieldsInfo.fieldType = logHeader[i].fieldType;
             fieldsInfo.fieldName = GetChannelsName(logHeader[i].fieldId);
             LogChannelsStruct.append(qMakePair(GetChannelsName(fieldsInfo.fieldId), fieldsInfo));
-            //qDebug() << "FieldID=" << logHeader[i].fieldId << " Name" << GetChannelsName(logHeader[i].fieldId) << " Type" << logHeader[i].fieldType << " list" << LogChannelsStruct.count();
+            qDebug() << "FieldID=" << logHeader[i].fieldId << " Name" << GetChannelsName(logHeader[i].fieldId) << " Type" << logHeader[i].fieldType << " list" << LogChannelsStruct.count();
 
             switch (logHeader[i].fieldType) {
                 case LOG_TYPE_DOUBLE:
@@ -277,12 +277,14 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
     case LOG_ADC_TEMP0:
         return "LOG_ADC_TEMP0";
         break;
+
     case LOG_ADC_TEMP1:
         return "LOG_ADC_TEMP1";
         break;
     case LOG_ADC_TEMP2:
         return "LOG_ADC_TEMP2";
         break;
+
     case LOG_ADC_VIN:
         return "LOG_ADC_VIN";
         break;
@@ -602,6 +604,7 @@ void AQLogParser::GenerateChannelsCurve(bool isOld) {
                     case LOG_ADC_TEMP0:
                         yValues.insert("LOG_ADC_TEMP0", new QVector<double>());
                         break;
+
                     case LOG_ADC_TEMP1:
                         yValues.insert("LOG_ADC_TEMP1", new QVector<double>());
                         break;
@@ -1406,6 +1409,7 @@ void AQLogParser::SetChannelsStruct()
     fieldsInfo.fieldName = "TEMP1";
     LogChannelsStruct.append(qMakePair(fieldsInfo.fieldName, fieldsInfo));
 
+
     fieldsInfo.fieldActive = false;
     fieldsInfo.fieldId = TEMP2;
     fieldsInfo.fieldType = LOG_TYPE_FLOAT;
@@ -1417,6 +1421,7 @@ void AQLogParser::SetChannelsStruct()
     fieldsInfo.fieldType = LOG_TYPE_FLOAT;
     fieldsInfo.fieldName = "TEMP3";
     LogChannelsStruct.append(qMakePair(fieldsInfo.fieldName, fieldsInfo));
+
 
     fieldsInfo.fieldActive = false;
     fieldsInfo.fieldId = TEMP4;
@@ -2279,9 +2284,11 @@ void AQLogParser::loggerWriteDataL(FILE *fs, FILE *fd, int start1, int end1, int
 
 AQEsc32::AQEsc32()
 {
+    fastSend = false;
     esc32BinaryMode = 0;
     esc32DoCommand = 0;
     StepMessageFromEsc32 = 1;
+    TelemetryFrequenzy = 1000;
     esc32state = 0;
     esc32dataLogger = NULL;
 }
@@ -2293,10 +2300,13 @@ AQEsc32::~AQEsc32()
 void AQEsc32::Connect(QString port)
 {
     TimerState = 0;
+    ExitCalibration = 0;
+    fastSend = false;
     currentError = false;
     seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
     seriallinkEsc32->setBaudRate(230400);
     seriallinkEsc32->setFlowType(0);
+    seriallinkEsc32->setDataBits(1);
     seriallinkEsc32->setEsc32Mode(false);
     connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
     connect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
@@ -2308,18 +2318,21 @@ void AQEsc32::Connect(QString port)
     checkEsc32State->setInterval(10);
     checkEsc32State->stop();
     connect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
+    if ( !esc32dataLogger )
+        esc32dataLogger = new AQEsc32Logger();
 }
 
 void AQEsc32::Disconnect(bool flashMode)
 {
     if (!flashMode){
         seriallinkEsc32->setEsc32Mode(false);
+        SleepThread(500);
         SwitchFromBinaryToAscii();
-        SleepThread(100);
+        SleepThread(500);
         checkEsc32State->stop();
+        seriallinkEsc32->disconnect();
         seriallinkEsc32->setBaudRate(115200);
         seriallinkEsc32->setFlowType(1);
-        seriallinkEsc32->disconnect();
 
         disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
         disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
@@ -2327,6 +2340,8 @@ void AQEsc32::Disconnect(bool flashMode)
         disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         disconnect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
         disconnect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
+        if ( esc32dataLogger )
+            esc32dataLogger = NULL;
         seriallinkEsc32 = NULL;
         checkEsc32State = NULL;
     }
@@ -2336,6 +2351,8 @@ void AQEsc32::Disconnect(bool flashMode)
         seriallinkEsc32->setBaudRate(115200);
         seriallinkEsc32->setFlowType(1);
         seriallinkEsc32->disconnect();
+        if ( esc32dataLogger )
+            esc32dataLogger = NULL;
         disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
         disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
         disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
@@ -2358,14 +2375,15 @@ void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
         ParaLastSend = BINARY_COMMAND_SET;
         int paraToWrite =  getEnumByName(ParaName);
         float valueToWrite = ParaValue.toFloat();
+        command_ACK_NACK = 0;
         esc32SendCommand(BINARY_COMMAND_SET,paraToWrite,valueToWrite,2);
 
         TimeOutWaiting = 0;
         while ( command_ACK_NACK != 250) {
             QCoreApplication::processEvents();
-            SleepThread(1);
+            SleepThread(5);
             TimeOutWaiting++;
-            if (TimeOutWaiting > 500 ) {
+            if (TimeOutWaiting > 100 ) {
                 qDebug() << "Timeout " << i+1 << "of 5";
                 break;
             }
@@ -2404,7 +2422,6 @@ void AQEsc32::sendCommand(int command, float Value1, float Value2, int num, bool
         if ( !withOutCheck ) {
             TimeOutWaiting = 0;
             while ( command_ACK_NACK != 250) {
-                QCoreApplication::processEvents();
                 SleepThread(1);
                 TimeOutWaiting++;
                 if (TimeOutWaiting > 500 ) {
@@ -2415,10 +2432,11 @@ void AQEsc32::sendCommand(int command, float Value1, float Value2, int num, bool
         }
         else {
             command_ACK_NACK = 250;
+            break;
         }
 
         if (command_ACK_NACK == 250 ){
-            //qDebug() << "command ACK = 250";
+            qDebug() << "command ACK = 250";
             break;
         }
     }
@@ -2652,7 +2670,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                     return;
                 }
 
-                if ( LIST_MessageFromEsc32.contains("RPM_MEAS_LP")) {
+                if ( LIST_MessageFromEsc32.contains("\r\n\r\n")) {
                     //decodeParameterFromEsc32(LIST_MessageFromEsc32);
                     emit ShowConfig(LIST_MessageFromEsc32);
                     qDebug() << LIST_MessageFromEsc32;
@@ -2844,6 +2862,7 @@ int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2,
     transmit.append(checkOutA);
     transmit.append(checkOutB);
     seriallinkEsc32->writeBytes(transmit,transmit.size());
+
     return (commandSeqId - 1);
 }
 
@@ -2886,8 +2905,13 @@ SerialLink *AQEsc32::getSerialLink(){
 
 void AQEsc32::StartCalibration(float MaxCurrent, QString LogFile, QString ResFile) {
 
-    LoggingFile = LogFile;
+    LoggingFile = ""; //LogFile
     ResultFile = ResFile;
+    maximum_Current = MaxCurrent;
+    CommandBack = -1;
+    TimerState = -2;
+    ExitCalibration = 0;
+
 
     if ( ResultFile != "" )     {
         ResultFile = QDir::toNativeSeparators(ResultFile);
@@ -2898,10 +2922,6 @@ void AQEsc32::StartCalibration(float MaxCurrent, QString LogFile, QString ResFil
         #endif
     }
 
-    maximum_Current = MaxCurrent;
-    CommandBack = -1;
-    TimerState = -2;
-    ExitCalibration = 0;
     //Timer starten
     checkEsc32State->start();
 }
@@ -2916,9 +2936,9 @@ void AQEsc32::StopCalibration(bool withEmergencyExit) {
 }
 
 void AQEsc32::StartLogging(){
-    if (!esc32dataLogger) {
+
+    if (!seriallinkEsc32->getEsc32Mode()) {
         seriallinkEsc32->setEsc32Mode(false);
-        esc32dataLogger = new AQEsc32Logger();
         sendCommand(BINARY_COMMAND_NOP, 0.0f, 0.0f, 0, false);
 
         sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, false);
@@ -2926,20 +2946,24 @@ void AQEsc32::StartLogging(){
         sendCommand(BINARY_COMMAND_TELEM_VALUE, 1.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
         sendCommand(BINARY_COMMAND_TELEM_VALUE, 2.0f, BINARY_VALUE_VOLTS_BAT, 2, false);
 
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, true);
-        disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
-        esc32dataLogger->startLogging(this->seriallinkEsc32, "");
-        seriallinkEsc32->setEsc32Mode(true);
-        esc32dataLogger->start();
+        if ( esc32dataLogger ) {
+            disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+            float freq = 1000;
+            esc32dataLogger->startLoggingTelemetry(seriallinkEsc32,"");
+            seriallinkEsc32->setEsc32Mode(true);
+            sendCommand(BINARY_COMMAND_TELEM_RATE, freq, 0.0f, 1, true);
+            esc32dataLogger->StartStopDecoding(true);
+        }
+
     }
     else {
-        seriallinkEsc32->setEsc32Mode(false);
         sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, true);
         SleepThread(1000);
-        connect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
-        esc32dataLogger->stopLogging();
+        esc32dataLogger->StartStopDecoding(false);
+        seriallinkEsc32->setEsc32Mode(false);
+        esc32dataLogger->stopLoggingTelemetry();
         SleepThread(1000);
-        esc32dataLogger = NULL;
+        connect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
     }
 
 }
@@ -2995,10 +3019,15 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     SleepThread(100);
     if ( ExitCalibration != 0)
         return true;
-    esc32dataLogger->setTelemValueMaxs(2,0.0f);
+    // reset Max Current
+    esc32dataLogger->setTelemValueMaxs(0, 0.0f);
+    esc32dataLogger->setTelemValueMaxs(1, 0.0f);
+    esc32dataLogger->setTelemValueMaxs(2, 0.0f);
     currentError = false;
 
     printf("\n%5s %5s %5s\n", "RPM", "VOLTS", "AMPS");
+    fprintf(calResultFile, "\n%5s %5s %5s\n", "RPM", "VOLTS", "AMPS");
+    esc32dataLogger->StartStopDecoding(true);
     for (f = 4; f <= 100.0; f += 2.0) {
         sendCommand(BINARY_COMMAND_DUTY, f, 0.0f, 1, true);
 
@@ -3009,6 +3038,7 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
         data(j,1) = esc32dataLogger->getTelemValueAvgs(1);
         data(j,2) = esc32dataLogger->getTelemValueAvgs(2);
         printf("%5.0f %5.2f %5.2f\n", data(j,0), data(j,1), data(j,2));
+        fprintf(calResultFile, "%5.0f %5.2f %5.2f\n", data(j,0), data(j,1), data(j,2));
 
         j++;
 
@@ -3021,12 +3051,14 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
 
     sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0, 0.0, 1, true);
     SleepThread(1000);
+    esc32dataLogger->StartStopDecoding(false);
     sendCommand(BINARY_COMMAND_STOP, 0.0, 0.0, 0, true);
     SleepThread(1000);
     sendCommand(BINARY_COMMAND_DISARM, 0.0, 0.0, 0, true);
     qDebug() << "Stopping";
 
     if ( esc32dataLogger->getTelemStorageNum() <= 0) {
+        qDebug() << "No new Value in TelemStorage";
         return true;
     }
 
@@ -3057,7 +3089,8 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     fprintf(calResultFile, "FF1TERM\t%f\n", FF1Term);
     fprintf(calResultFile, "FF2TERM\t%f\n", FF2Term);
     fflush(calResultFile);
-
+    fclose(calResultFile);
+    calResultFile = NULL;
     return false;
 }
 
@@ -3079,17 +3112,18 @@ int i, j, k, z;
         return true;
 
     for (i = 10; i <= 90; i += 5) {
-        esc32dataLogger->setTelemValueMaxs(2,0.0f);
-
+        qDebug() << "reset maxCurrent";
+        esc32dataLogger->setTelemValueMaxs(2, 0.0f);
         for (j = i+5; j <= 100; j += 5) {
-
+            esc32dataLogger->setTelemValueMaxs(2, 0.0f);
             stepUp((float)i, (float)j);
-
+            printf("Duty %d to %d, MAX current = %f\n", i, j, esc32dataLogger->getTelemValueMaxs(2));
+            fprintf(calResultFile, "Duty %d to %d, MAX current = %f\n", i, j, esc32dataLogger->getTelemValueMaxs(2));
+            if ( ExitCalibration != 0)
+                break;
             if (esc32dataLogger->getTelemValueMaxs(2) > maxAmps) {
                 break;
             }
-            if ( ExitCalibration != 0)
-                break;
         }
         if ( ExitCalibration != 0)
             break;
@@ -3119,10 +3153,10 @@ int i, j, k, z;
 
     for (k = 0; k < n; k++) {
         X(k, 0) = 1.0;
-        X(k, 1) = esc32dataLogger->telemStorage[MAX_TELEM_STORAGE*0 + k];
-        X(k, 2) = esc32dataLogger->telemStorage[MAX_TELEM_STORAGE*2 + k];
-        X(k, 3) = esc32dataLogger->telemStorage[MAX_TELEM_STORAGE*0 + k]*sqrt(fabs(esc32dataLogger->telemStorage[MAX_TELEM_STORAGE*2 + k]));
-        X(k, 4) = sqrt(fabs(esc32dataLogger->telemStorage[MAX_TELEM_STORAGE*2 + k]));
+        X(k, 1) = esc32dataLogger->getTelemStorage(MAX_TELEM_STORAGE*0 + k);
+        X(k, 2) = esc32dataLogger->getTelemStorage(MAX_TELEM_STORAGE*2 + k);
+        X(k, 3) = esc32dataLogger->getTelemStorage(MAX_TELEM_STORAGE*0 + k)*sqrt(fabs(esc32dataLogger->getTelemStorage(MAX_TELEM_STORAGE*2 + k)));
+        X(k, 4) = sqrt(fabs(esc32dataLogger->getTelemStorage(MAX_TELEM_STORAGE*2 + k)));
     }
 
     for (i = 0; i < m; i++) {
@@ -3131,7 +3165,7 @@ int i, j, k, z;
                 A(i, j) += X(k, i) * X(k, j);
 
         for (k = 0; k < n; k++)
-            c(i, 0) += X(k, i) * esc32dataLogger->telemStorage[MAX_TELEM_STORAGE*1 + k];
+            c(i, 0) += X(k, i) * esc32dataLogger->getTelemStorage(MAX_TELEM_STORAGE*1 + k);
     }
 
     ab = A.inverse() * c;
@@ -3148,7 +3182,8 @@ int i, j, k, z;
     fprintf(calResultFile, "CL4\t%f\n", CurrentLimiter4);
     fprintf(calResultFile, "CL5\t%f\n", CurrentLimiter5);
     fflush(calResultFile);
-
+    fclose(calResultFile);
+    calResultFile = NULL;
     A.setZero();
     c.setZero();
     ab.setZero();
@@ -3157,22 +3192,25 @@ int i, j, k, z;
 }
 
 void AQEsc32::stepUp(float start, float end) {
-        sendCommand(BINARY_COMMAND_DUTY, start, 0.0f, 1.0f, true);
-        SleepThread(2000);
-        if ( ExitCalibration != 0)
-            return;
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0f, 0.0f, 1, true);
-        SleepThread(1);
-        if ( ExitCalibration != 0)
-            return;
-        sendCommand(BINARY_COMMAND_DUTY, end, 0.0f, 1.0f, true);
-        SleepThread(200);
-        if ( ExitCalibration != 0)
-            return;
-        sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0f, 0.0f, 1, true);
-        SleepThread(250);
-        if ( ExitCalibration != 0)
-            return;
+
+    sendCommand(BINARY_COMMAND_DUTY, start, 0.0f, 1.0f, true);
+    SleepThread(1500);
+    if ( ExitCalibration != 0)
+        return;
+    sendCommand(BINARY_COMMAND_TELEM_RATE, TelemetryFrequenzy, 0.0f, 1, true);
+    SleepThread(500);
+    if ( ExitCalibration != 0)
+        return;
+    sendCommand(BINARY_COMMAND_DUTY, end, 0.0f, 1.0f, true);
+    esc32dataLogger->StartStopDecoding(true);
+    SleepThread(200);
+    if ( ExitCalibration != 0)
+        return;
+    sendCommand(BINARY_COMMAND_TELEM_RATE, 0.0f, 0.0f, 1, true);
+    SleepThread(500);
+    esc32dataLogger->StartStopDecoding(false);
+    if ( ExitCalibration != 0)
+        return;
 }
 
 void AQEsc32::checkEsc32StateTimeOut() {
@@ -3334,14 +3372,11 @@ void AQEsc32::checkEsc32StateTimeOut() {
     // Send Tele start to eSC32
     else if ( TimerState == 17 ) {
         CommandBack = -1;
-        esc32dataLogger = new AQEsc32Logger();
         disconnect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
+        esc32dataLogger->startLoggingTelemetry(this->seriallinkEsc32, "");
         seriallinkEsc32->setEsc32Mode(true);
-        esc32dataLogger->startLogging(this->seriallinkEsc32,LoggingFile);
-        esc32dataLogger->start();
-
         if ( calibrationMode == 1) {
-            sendCommand(BINARY_COMMAND_TELEM_RATE, 1000.0, 0.0, 1, false);
+            sendCommand(BINARY_COMMAND_TELEM_RATE, TelemetryFrequenzy, 0.0, 1, true);
             TimerState = 18;
         }
         else if ( calibrationMode == 2) {
@@ -3369,9 +3404,8 @@ void AQEsc32::checkEsc32StateTimeOut() {
         checkEsc32State->stop();
         seriallinkEsc32->setEsc32Mode(false);
         SleepThread(1000);
-        esc32dataLogger->stopLogging();
+        esc32dataLogger->stopLoggingTelemetry();
         SleepThread(1000);
-        esc32dataLogger = NULL;
         connect(this->seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
         if ( ExitCalibration != 0)
             emit finishedCalibration(ExitCalibration);
@@ -3402,157 +3436,104 @@ void AQEsc32::SleepThread(int msec) {
 
 
 AQEsc32Logger::AQEsc32Logger() {
-    StopLogging = 0;
-    StepMessageFromEsc32 = 0;
 }
 
 AQEsc32Logger::~AQEsc32Logger() {
-    StopLogging = 1;
-    StepMessageFromEsc32 = 0;
+    free(TelemStorage);
 }
 
-void AQEsc32Logger::startLogging(SerialLink *seriallinkEsc, QString FileName) {
-    StopLogging = 0;
-    StepMessageFromEsc32 = 0;
-    this->seriallinkEsc32 = seriallinkEsc;
-    telemStorage = (float *)calloc(MAX_TELEM_STORAGE, sizeof(float)*3);
-    telemOutFile = NULL;
+void AQEsc32Logger::startLoggingTelemetry(SerialLink *link, QString FileName) {
+    TelemStorage = (float *)calloc(MAX_TELEM_STORAGE, sizeof(float)*3);
+    seriallinkEsc32 = link;
+    TelemStorageNum = 0;
+    bitsReceivedTotal = 0;
+    StartStop = false;
+    TelemOutFile = NULL;
     if ( FileName != "" )     {
         FileName = QDir::toNativeSeparators(FileName);
         #ifdef Q_OS_WIN
-            telemOutFile = fopen(FileName.toLocal8Bit().constData(),"w+");
+            TelemOutFile = fopen(FileName.toLocal8Bit().constData(),"w+");
         #else
-            telemOutFile = fopen(FileName.toLocal8Bit().constData(),"w+");
+            TelemOutFile = fopen(FileName.toLocal8Bit().constData(),"w+");
         #endif
+    }
+    connect(seriallinkEsc32, SIGNAL(teleReceived(QByteArray,int,int)), this, SLOT(teleDataReceived(QByteArray,int,int)));
+}
+
+void AQEsc32Logger::StartStopDecoding(bool Start) {
+    dataMutex.lock();
+    this->StartStop = Start;
+    dataMutex.unlock();
+}
+
+void AQEsc32Logger::teleDataReceived(QByteArray data, int rows, int cols){
+    checkInA =  0;
+    checkInB = 0;
+    int i,j;
+    esc32InChecksum(rows);
+    esc32InChecksum(cols);
+    int count_For_measuring = 0;
+    for (i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            TelemData[i][j] = esc32GetFloat(data,count_For_measuring);
+            count_For_measuring += sizeof(float);
+        }
+    }
+    unsigned char tmp_A  = data[count_For_measuring+0];
+    unsigned char tmp_B  = data[count_For_measuring+1];
+
+    if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
+        bitsReceivedTotal++;
+        if (( MG::TIME::getGroundTimeNow() - connectionStartTime) > 1000) {
+            qDebug() << "get " << bitsReceivedTotal << "Messages " << rows << " " << cols;
+            bitsReceivedTotal = 0;
+            connectionStartTime = MG::TIME::getGroundTimeNow();
+        }
+        if (!StartStop)
+            return;
+
+        // update averages
+        for (i = 0; i < rows; i++){
+            for (j = 0; j < cols; j++){
+                //Average
+                TelemValueAvgs[j] -= (TelemValueAvgs[j] - TelemData[i][j]) * 0.01;
+            }
+        }
+        // update Max
+        for (i = 0; i < rows; i++){
+            for (j = 0; j < cols; j++){
+                //Max
+                if (TelemValueMaxs[j] < TelemData[i][j]){
+                    TelemValueMaxs[j] = TelemData[i][j];
+
+                    if (( j == 2))
+                        qDebug() << "new Max" << TelemValueMaxs[2];
+
+                }
+            }
+        }
+        // save to memory
+        for (i = 0; i < rows; i++) {
+            for (j = 0; j < cols; j++) {
+                TelemStorage[MAX_TELEM_STORAGE*j + TelemStorageNum] = TelemData[i][j];
+            }
+            if ( TelemStorageNum < MAX_TELEM_STORAGE)
+                TelemStorageNum++;
+            else
+                TelemStorageNum = MAX_TELEM_STORAGE;
+        }
+
     }
 }
 
-void AQEsc32Logger::stopLogging() {
-    StopLogging = 1;
-    if (telemOutFile)
-        fclose(telemOutFile);
+void AQEsc32Logger::stopLoggingTelemetry() {
+    disconnect(seriallinkEsc32, SIGNAL(teleReceived(QByteArray,int,int)), this, SLOT(teleDataReceived(QByteArray,int,int)));
+    if (TelemOutFile) {
+        fclose(TelemOutFile);
+    }
 }
 
 void AQEsc32Logger::run() {
-
-    ParaWriten_MessageFromEsc32 = "";
-    ResponseFromEsc32.clear();
-    StepMessageFromEsc32 = 0;
-    telemStorageNum = 0;
-    qDebug() << "set serial into esc mode";
-    unsigned char InSerial;
-    char InSerialArray[4096];
-
-    while ( true) {
-        retry:
-        if ( StopLogging == 1)
-            break;
-
-        if ( seriallinkEsc32->bytesAvailable() > 0 )
-        {
-            InSerial = seriallinkEsc32->read();
-            if ( InSerial != 'A') {
-                QCoreApplication::processEvents();
-                goto retry;
-            }
-            InSerial = seriallinkEsc32->read();
-            if ( InSerial != 'q') {
-                QCoreApplication::processEvents();
-                goto retry;
-            }
-            InSerial = seriallinkEsc32->read();
-            if ( InSerial != 'T') {
-                QCoreApplication::processEvents();
-                goto retry;
-            }
-
-            rows = 0;
-            cols = 0;
-            checkInA =  0;
-            checkInB = 0;
-            int i, j;
-
-            InSerial = seriallinkEsc32->read();
-            rows = InSerial;
-            InSerial = seriallinkEsc32->read();
-            cols = InSerial;
-            esc32InChecksum(rows);
-            esc32InChecksum(cols);
-            int length_array = (((cols*rows)*sizeof(float))+2);
-            if ( length_array > 500) {
-                length_array  = 0;
-                goto retry;
-            }
-
-            for (i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    for ( int k =0; k < sizeof(float); k++) {
-                        InSerialArray[k] = seriallinkEsc32->read();
-                        seriallinkEsc32->readBytes();
-                    }
-                    telemData[i][j] = esc32GetFloat(InSerialArray,0);
-                }
-            }
-
-            InSerial = seriallinkEsc32->read();
-            unsigned char tmp_A  = InSerial;
-            InSerial = seriallinkEsc32->read();
-            unsigned char tmp_B  = InSerial;
-
-            if ((checkInA == tmp_A ) && (checkInB == tmp_B)) {
-                // update averages
-                for (i = 0; i < rows; i++){
-                    for (j = 0; j < cols; j++){
-                        telemValueAvgs[j] -= (telemValueAvgs[j] - telemData[i][j]) * 0.01;
-                    }
-                }
-                qDebug() << "Rows=" << rows << "Cols" << cols;
-
-                // update max values
-                for (i = 0; i < rows; i++) {
-                    for (j = 0; j < cols; j++) {
-                        if (telemValueMaxs[j] < telemData[i][j])
-                            telemValueMaxs[j] = telemData[i][j];
-                    }
-                }
-
-                // save to memory
-                for (i = 0; i < rows; i++) {
-                    for (j = 0; j < cols; j++) {
-                        telemStorage[MAX_TELEM_STORAGE*j + telemStorageNum] = telemData[i][j];
-                    }
-                    telemStorageNum++;
-                }
-
-
-                if (telemOutFile) {
-                    for (i = 0; i < rows; i++) {
-                        for (j = 0; j < cols; j++) {
-                            if (j != 0)
-                                fprintf(telemOutFile, ", ");
-                            fprintf(telemOutFile, "%f", telemData[i][j]);
-                        }
-                        fprintf(telemOutFile, "\n");
-                    }
-                }
-
-
-            }
-        }
-        else {
-            MG::SLEEP::msleep(1);
-            QCoreApplication::processEvents();
-        }
-        fflush(telemOutFile);
-    }
-
-    if (telemOutFile)
-        fflush(telemOutFile);
-
-    ParaWriten_MessageFromEsc32 = "";
-    ResponseFromEsc32.clear();
-    free(telemStorage);
-    qDebug() << "set serial back to normal mode";
 }
 
 unsigned short AQEsc32Logger::esc32GetShort(QByteArray data, int startIndex) {
@@ -3567,6 +3548,7 @@ unsigned short AQEsc32Logger::esc32GetShort(QByteArray data, int startIndex) {
 }
 
 float AQEsc32Logger::esc32GetFloat(QByteArray data, int startIndex) {
+
     float f;
     unsigned char *c = (unsigned char *)&f;
     unsigned int i;
@@ -3586,8 +3568,8 @@ void AQEsc32Logger::esc32InChecksum(unsigned char c) {
 float AQEsc32Logger::getTelemValueAvgs(int index){
     dataMutex.lock();
     float ret;
-    if ( telemValueAvgs)
-        ret = telemValueAvgs[index];
+    if ( TelemValueAvgs)
+        ret = TelemValueAvgs[index];
     else
         ret = 0.0;
     dataMutex.unlock();
@@ -3596,25 +3578,24 @@ float AQEsc32Logger::getTelemValueAvgs(int index){
 
 void AQEsc32Logger::setTelemValueMaxs(int index ,float value) {
     dataMutex.lock();
-    telemValueMaxs[index] = value;
+    TelemValueMaxs[index] = value;
     dataMutex.unlock();
 }
 
 float AQEsc32Logger::getTelemValueMaxs(int index){
     dataMutex.lock();
-    float ret = telemValueMaxs[index];
+    float ret = TelemValueMaxs[index];
     dataMutex.unlock();
     return ret;
 }
 
 float AQEsc32Logger::getTelemStorage(int index) {
     dataMutex.lock();
-    float ret = telemStorage[index];
+    float ret = TelemStorage[index];
     dataMutex.unlock();
     return ret;
 }
 
 int AQEsc32Logger::getTelemStorageNum() {
-    return telemStorageNum;
+    return TelemStorageNum;
 }
-

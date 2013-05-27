@@ -6711,7 +6711,11 @@ padding: 1px 5px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_mode"/>
+               <widget class="QComboBox" name="comboBox_mode">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -6728,7 +6732,11 @@ padding: 1px 5px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_in_mode"/>
+               <widget class="QComboBox" name="comboBox_in_mode">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -7276,6 +7284,168 @@ padding: 1px 5px;</string>
          <widget class="QPushButton" name="pushButton_dev1">
           <property name="text">
            <string>Send To Aq</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>12</y>
+         <width>161</width>
+         <height>411</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_187">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QLabel" name="label_155">
+            <property name="text">
+             <string>Focal Length in mtrs.</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_20">
+            <property name="text">
+             <string>0.01</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_138">
+            <property name="text">
+             <string>Yaw Offset [radians]</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_19">
+            <property name="text">
+             <string>0.0</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <widget class="QLabel" name="label_136">
+            <property name="text">
+             <string>Pitch Offset [radians]</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_18">
+            <property name="text">
+             <string>0.7854</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_135">
+            <property name="text">
+             <string>Pixel Size</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_17">
+            <property name="text">
+             <string>7e-6</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QLabel" name="label_156">
+            <property name="text">
+             <string>Camera number</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_21">
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_189">
+            <item>
+             <widget class="QLabel" name="label_158">
+              <property name="text">
+               <string>X-min changes [pix]</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_22">
+              <property name="text">
+               <string>15</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_188">
+          <item>
+           <widget class="QLabel" name="label_159">
+            <property name="text">
+             <string>Y-min changes [pix]</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_23">
+            <property name="text">
+             <string>15</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_24">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_ObjectTracking_File">
+          <property name="text">
+           <string>Select File</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_ObjectTracking">
+          <property name="text">
+           <string>Start Object Tracking</string>
           </property>
          </widget>
         </item>
