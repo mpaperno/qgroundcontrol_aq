@@ -92,7 +92,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
     ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
-    ui->RADIO_TYPE->addItem("Futaba", 2);
+    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
+    ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
     ui->RADIO_TYPE->addItem("PPM", 3);
 
     ui->comboBox_marker->clear();
