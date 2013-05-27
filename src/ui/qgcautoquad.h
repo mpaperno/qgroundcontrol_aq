@@ -38,6 +38,7 @@ public:
     UASInterface* getUAS();
     QStringList getAvailablePwmPorts(void);
     void getGUIpara(QWidget* parent = NULL);
+    void populateButtonGroups(QObject *parent);
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
     void QuestionForROM();
     bool checkAqConnected(bool interactive = false);
@@ -90,6 +91,7 @@ private slots:
     void setActiveUAS(UASInterface* uas_ext);
 
     // AQ Settings
+    void adjustUiForHardware();
     void loadParametersToUI();
     void saveRadioSettings();
     void saveAttitudePIDs();
@@ -154,7 +156,7 @@ private slots:
     void prtstderr();
     void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
     void handleStatusText(int uasId, int compid, int severity, QString text);
-    void setHardwareInfo(int boardRev);
+    void setHardwareInfo(int boardVer);
     void paramRequestTimeoutNotify(int readCount, int writeCount);
     void pushButton_dev1();
     void pushButton_tracking();
@@ -170,6 +172,7 @@ private slots:
 
 public:
     int aqFirmwareRevision;
+    int aqHardwareVersion;
     int aqHardwareRevision;
     int aqBuildNumber;
     QString aqFirmwareVersion;
@@ -191,6 +194,18 @@ protected:
     AQEsc32 *esc32;
     AQTelemetryView* aqTelemetryView;
     AQPWMPortsConfig* aqPwmPortConfig;
+
+    enum commStreamTypes {
+        COMM_TYPE_NONE          = 0,
+        COMM_TYPE_MULTIPLEX	    = (1<<0),
+        COMM_TYPE_MAVLINK	    = (1<<1),
+        COMM_TYPE_TELEMETRY	    = (1<<2),
+        COMM_TYPE_GPS           = (1<<3),
+        COMM_TYPE_FILEIO	    = (1<<4),
+        COMM_TYPE_CLI           = (1<<5),
+        COMM_TYPE_OMAP_CONSOLE  = (1<<6),
+        COMM_TYPE_OMAP_PPP	    = (1<<7)
+    };
 
 private:
     QSettings settings;

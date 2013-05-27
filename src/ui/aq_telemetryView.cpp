@@ -16,6 +16,10 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     ui->Frequenz_Telemetry->addItem("10 Hz", 100000);
     ui->Frequenz_Telemetry->addItem("25 Hz", 50000);
     ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
+    ui->Frequenz_Telemetry->addItem("75 Hz", 13333);
+    ui->Frequenz_Telemetry->addItem("100 Hz", 10000);
+    ui->Frequenz_Telemetry->addItem("150 Hz", 6666);
+    ui->Frequenz_Telemetry->addItem("200 Hz", 5000);
     ui->Frequenz_Telemetry->setCurrentIndex(2);
 
     // define all data fields

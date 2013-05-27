@@ -40,6 +40,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     aqFirmwareVersion = "";
     aqFirmwareRevision = 0;
+    aqHardwareVersion = 6;
     aqHardwareRevision = 0;
     aqBuildNumber = 0;
 
@@ -52,10 +53,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 #endif
 
     // these regexes are used for matching field names to AQ params
-    fldnameRx.setPattern("^(CTRL|NAV|GMBL|MOT|RADIO|SPVR|IMU|DOWNLINK|GPS|PPM|UKF|SIG|L1|VN100)_[A-Z0-9_]+$"); // strict field name matching
+    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
 
-    setHardwareInfo(aqHardwareRevision);  // populate hardware (AQ board) info with defaults
+    setHardwareInfo(aqHardwareVersion);  // populate hardware (AQ board) info with defaults
 
     /*
      * Start the UI
@@ -76,8 +77,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     aqPwmPortConfig = new AQPWMPortsConfig(this);
     ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
-    connect(this, SIGNAL(hardwareInfoUpdated()), aqPwmPortConfig, SLOT(portNumbersModel_updated()));
-
 #ifdef QT_NO_DEBUG
     ui->tabWidget->removeTab(6); // hide devel tab
 #endif
@@ -85,13 +84,16 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT);
     ui->lbl_version2->setText(QString("Based on %1 %2").arg(QGC_APPLICATION_NAME).arg(QGC_APPLICATION_VERSION));
 
+    // populate field values
+
     ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
     ui->SPVR_FS_RAD_ST2->addItem("slow decent", 0);
     ui->SPVR_FS_RAD_ST2->addItem("RTH and slow decent", 1);
 
     ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
     ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
-    ui->RADIO_TYPE->addItem("Futaba", 2);
+    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
+    ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
     ui->RADIO_TYPE->addItem("PPM", 3);
 
     ui->comboBox_marker->clear();
@@ -115,11 +117,41 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->DoubleMaxCurrent->setValue(30.0);
 
+    // populate COMM stream types
+    QList<QButtonGroup *> commStreamTypBtns = this->findChildren<QButtonGroup *>(QRegExp("COMM_STREAM_TYP[\\d]$"));
+    foreach (QButtonGroup* g, commStreamTypBtns) {
+        foreach (QAbstractButton* abtn, g->buttons()) {
+            QString ctyp = abtn->objectName().replace(QRegExp("[\\w]+_[\\w]+_"), "");
+            if (ctyp == "multiplex")
+                g->setId(abtn, COMM_TYPE_MULTIPLEX);
+            else if (ctyp == "mavlink")
+                g->setId(abtn, COMM_TYPE_MAVLINK);
+            else if (ctyp == "telemetry")
+                g->setId(abtn, COMM_TYPE_TELEMETRY);
+            else if (ctyp == "gps")
+                g->setId(abtn, COMM_TYPE_GPS);
+            else if (ctyp == "file")
+                g->setId(abtn, COMM_TYPE_FILEIO);
+            else if (ctyp == "cli")
+                g->setId(abtn, COMM_TYPE_CLI);
+            else if (ctyp == "omapConsole")
+                g->setId(abtn, COMM_TYPE_OMAP_CONSOLE);
+            else if (ctyp == "omapPpp")
+                g->setId(abtn, COMM_TYPE_OMAP_PPP);
+            else
+                g->setId(abtn, COMM_TYPE_NONE);
+        }
+    }
+
+    // Final UI tweaks
+
     ui->label_radioChangeWarning->hide();
     ui->groupBox_ppmOptions->hide();
     ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     ui->conatiner_radioGraphValues->setEnabled(false);
     ui->checkBox_raw_value->hide();
+
+    adjustUiForHardware();
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
@@ -129,6 +161,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("RADIO_.+")));
     allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
     allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
+
+
+    // Signal handlers
+
+    connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -1905,6 +1942,11 @@ QGCAQParamWidget* QGCAutoquad::getParamHandler()
 // Parameter handling to/from AQ
 //
 
+void QGCAutoquad::adjustUiForHardware() {
+    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
+    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+}
+
 void QGCAutoquad::getGUIpara(QWidget *parent) {
     if ( !paramaq || !parent)
         return;
@@ -1914,6 +1956,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     QString paraName, valstr;
     QVariant val;
 
+    // handle all input widgets
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     foreach (QWidget* w, wdgtList) {
         paraName = w->objectName().replace(dupeFldnameRx, "");
@@ -1923,14 +1966,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         }
         ok = true;
         precision = 6;
-        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT" || paraName == "SIG_LED_1_PRT"){
-            if ( paraName == "SIG_LED_1_PRT") {
-                if ( paramaq->getParaAQ(paraName).toFloat() < 0.0f ) {
-                    aqPwmPortConfig->setPWMLight(true);
-                }
-                else
-                    aqPwmPortConfig->setPWMLight(false);
-            }
+        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT"){
             val = fabs(paramaq->getParaAQ(paraName).toFloat());
             precision = 8;
         }  else
@@ -1967,9 +2003,37 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
 
 }
 
+void QGCAutoquad::populateButtonGroups(QObject *parent) {
+    QString paraName;
+    QVariant val;
+
+    // handle any button groups
+    QList<QButtonGroup *> grpList = parent->findChildren<QButtonGroup *>(fldnameRx);
+    foreach (QButtonGroup* g, grpList) {
+        paraName = g->objectName().replace(dupeFldnameRx, "");
+        val = paramaq->getParaAQ(paraName);
+
+        foreach (QAbstractButton* abtn, g->buttons()) {
+            if (paramaq->paramExistsAQ(paraName)) {
+                abtn->setEnabled(true);
+                if (g->exclusive()) { // individual values
+                    abtn->setChecked(val.toInt() == g->id(abtn));
+                } else { // bitmask
+                    abtn->setChecked((val.toInt() & g->id(abtn)));
+                }
+            } else {
+                abtn->setEnabled(false);
+            }
+        }
+    }
+
+
+}
+
 void QGCAutoquad::loadParametersToUI() {
     getGUIpara(ui->RadioSettings);
     getGUIpara(ui->tab_aq_edit_para);
+    populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
 
     // get firmware version of this AQ
@@ -2038,8 +2102,6 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
         ok = true;
         val_uas = paramaq->getParaAQ(paraName).toFloat(&ok);
-
-
 
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
             val_local = le->text().toFloat(&ok);
@@ -2914,10 +2976,14 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
     this->alt = alt;
 }
 
-void QGCAutoquad::setHardwareInfo(int boardRev) {
-    switch (boardRev) {
-    case 1:
-    case 2:
+void QGCAutoquad::setHardwareInfo(int boardVer) {
+    switch (boardVer) {
+    case 7:
+        maxPwmPorts = 9;
+        pwmPortTimers.empty();
+        pwmPortTimers << 1 << 1 << 1 << 1 << 4 << 4 << 9 << 9 << 11;
+        break;
+    case 6:
     default:
         maxPwmPorts = 14;
         pwmPortTimers.empty();
@@ -2943,7 +3009,7 @@ QStringList QGCAutoquad::getAvailablePwmPorts(void) {
 void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString text) {
     Q_UNUSED(severity);
     Q_UNUSED(compid);
-    QRegExp versionRe("^(?:AutoQuad.*: )?(\\d+\\.\\d+(?:\\.\\d+)?)([\\s\\-A-Z]*)(?:r(\\d{1,5}))?(?: b(\\d+))?(?: hwrev(\\d))?\n?$");
+    QRegExp versionRe("^(?:A.*Q.*: )?(\\d+\\.\\d+(?:\\.\\d+)?)([\\s\\-A-Z]*)(?:r(?:ev)?(\\d{1,5}))?(?: b(\\d+))?,?(?: (?:HW ver: (\\d) )?(?:hw)?rev(\\d))?\n?$");
     QString aqFirmwareVersionQualifier;
     bool ok;
 
@@ -2963,20 +3029,25 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
             if (!ok) aqBuildNumber = 0;
         }
         if (vlist.at(5).length()) {
-            aqHardwareRevision = vlist.at(5).toInt(&ok);
+            aqHardwareVersion = vlist.at(5).toInt(&ok);
             if (!ok) aqHardwareRevision = 0;
             else
-                setHardwareInfo(aqHardwareRevision);
+                setHardwareInfo(aqHardwareVersion);
+        }
+        if (vlist.at(6).length()) {
+            aqHardwareRevision = vlist.at(6).toInt(&ok);
+            if (!ok) aqHardwareRevision = -1;
         }
 
         if (aqFirmwareVersion.length()) {
-            QString verStr = QString("AQ Firmware v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
+            QString verStr = QString("AQ FW v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
             if (aqFirmwareRevision > 0)
                 verStr += QString(" r%1").arg(QString::number(aqFirmwareRevision));
             if (aqBuildNumber > 0)
                 verStr += QString(" b%1").arg(QString::number(aqBuildNumber));
-            if (aqHardwareRevision > 0)
-                verStr += QString(" hw-rev:%1").arg(QString::number(aqHardwareRevision));
+            verStr += QString(" HW v. %1").arg(QString::number(aqHardwareVersion));
+            if (aqHardwareRevision > -1)
+                verStr += QString(" r%1").arg(QString::number(aqHardwareRevision));
 
             ui->lbl_aq_fw_version->setText(verStr);
         } else
