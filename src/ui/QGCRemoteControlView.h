@@ -60,7 +60,7 @@ public slots:
     void redraw();
 
 protected slots:
-    void appendChannelWidget(int channelId);
+    void appendChannelWidget(int channelId, bool valType);
 
 protected:
     void changeEvent(QEvent *e);
