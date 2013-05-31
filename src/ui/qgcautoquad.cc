@@ -87,14 +87,15 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // populate field values
 
     ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
-    ui->SPVR_FS_RAD_ST2->addItem("slow decent", 0);
-    ui->SPVR_FS_RAD_ST2->addItem("RTH and slow decent", 1);
+    ui->SPVR_FS_RAD_ST2->addItem("Land", 0);
+    ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
+    ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
 
     ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
     ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
     ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
-    ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
     ui->RADIO_TYPE->addItem("PPM", 3);
+    ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
 
     ui->comboBox_marker->clear();
     ui->comboBox_marker->addItem("Start & End 1s", 0);
@@ -1910,7 +1911,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         }
         paramaq->loadParaAQ();
 
-        /*
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
         aqFirmwareRevision = 0;
@@ -1923,7 +1923,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         aqTelemetryView->initChart(uas);
         ui->checkBox_raw_value->setChecked(true);
         toggleRadioValuesUpdate();
-        */
     }
 }
 
@@ -1955,15 +1954,23 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     int precision;
     QString paraName, valstr;
     QVariant val;
+    QLabel *paraLabel;
 
     // handle all input widgets
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     foreach (QWidget* w, wdgtList) {
         paraName = w->objectName().replace(dupeFldnameRx, "");
+        paraLabel = parent->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
         if (!paramaq->paramExistsAQ(paraName)) {
-            w->setEnabled(false);
+            w->hide();
+            if (paraLabel)
+                paraLabel->hide();
             continue;
         }
+
+        w->show();
+        if (paraLabel)
+            paraLabel->show();
         ok = true;
         precision = 6;
         if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT"){
@@ -2012,6 +2019,7 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
     foreach (QButtonGroup* g, grpList) {
         paraName = g->objectName().replace(dupeFldnameRx, "");
         val = paramaq->getParaAQ(paraName);
+//        qDebug() << paraName << val;
 
         foreach (QAbstractButton* abtn, g->buttons()) {
             if (paramaq->paramExistsAQ(paraName)) {
@@ -2026,8 +2034,6 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
             }
         }
     }
-
-
 }
 
 void QGCAutoquad::loadParametersToUI() {
@@ -2035,20 +2041,6 @@ void QGCAutoquad::loadParametersToUI() {
     getGUIpara(ui->tab_aq_edit_para);
     populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
-
-    // get firmware version of this AQ
-    aqFirmwareVersion = QString("");
-    aqFirmwareRevision = 0;
-    aqHardwareRevision = 0;
-    aqBuildNumber = 0;
-    ui->lbl_aq_fw_version->setText("AQ Firmware v. [unknown]");
-    uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
-
-    VisibleWidget = 2;
-    aqTelemetryView->initChart(uas);
-    ui->checkBox_raw_value->setChecked(true);
-    toggleRadioValuesUpdate();
-
 }
 
 void QGCAutoquad::QuestionForROM()
@@ -2095,7 +2087,13 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         return false;
 
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
-    foreach (QWidget* w, wdgtList) {
+    QList<QObject*> objList = *reinterpret_cast<QList<QObject *>*>(&wdgtList);
+    if (!QString::compare(parent->objectName(), "Gimbal")) {
+        QList<QButtonGroup *> grpList = this->findChildren<QButtonGroup *>(fldnameRx);
+        objList.append(*reinterpret_cast<QList<QObject *>*>(&grpList));
+    }
+
+    foreach (QObject* w, objList) {
         paraName = w->objectName().replace(dupeFldnameRx, "");
         if (!paramaq->paramExistsAQ(paraName))
             continue;
@@ -2109,6 +2107,18 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             val_local = static_cast<float>(cb->currentIndex());
         else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
             val_local = sb->text().replace(QRegExp("[^0-9,\\.]"), "").toFloat(&ok);
+        else if (QButtonGroup* bg = qobject_cast<QButtonGroup *>(w)) {
+            val_local = 0;
+            foreach (QAbstractButton* abtn, bg->buttons()) {
+                if (abtn->isChecked()) {
+                    if (bg->exclusive()) {
+                        val_local = bg->id(abtn);
+                        break;
+                    } else
+                        val_local += bg->id(abtn);
+                }
+            }
+        }
         else
             continue;
 
@@ -3086,7 +3096,7 @@ void QGCAutoquad::pushButton_tracking() {
         focal_lenght = ui->lineEdit_20->text().toFloat();
         camera_yaw_offset = ui->lineEdit_19->text().toFloat();
         camera_pitch_offset = ui->lineEdit_18->text().toFloat();
-        pixel_size = ui->lineEdit_17->text().toFloat();
+        pixel_size = ui->lineEdit_171->text().toFloat();
         pixelFilterX = ui->lineEdit_22->text().toFloat();
         pixelFilterY = ui->lineEdit_23->text().toFloat();
         currentPosN = 10.75571;
