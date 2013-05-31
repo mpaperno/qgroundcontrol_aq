@@ -7,15 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>364</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="2,8,0,0,0">
-   <property name="margin">
-    <number>6</number>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="bottomMargin">
+    <number>0</number>
    </property>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
@@ -27,15 +27,15 @@
    <item row="0" column="1">
     <widget class="QComboBox" name="systemComboBox"/>
    </item>
-   <item row="0" column="3">
-    <widget class="QComboBox" name="componentComboBox"/>
-   </item>
    <item row="0" column="2">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>Component</string>
      </property>
     </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QComboBox" name="componentComboBox"/>
    </item>
    <item row="0" column="4">
     <widget class="QPushButton" name="clearButton">
@@ -44,13 +44,26 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="5">
+   <item row="1" column="0" colspan="5">
     <widget class="QTreeWidget" name="treeWidget">
      <column>
       <property name="text">
        <string notr="true">1</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="5">
+    <widget class="QStackedWidget" name="sensorSettings">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
     </widget>
    </item>
   </layout>

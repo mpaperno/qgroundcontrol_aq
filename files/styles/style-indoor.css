@@ -48,15 +48,21 @@ QGroupBox {
     padding: 8px 0px 0px 0px;
     margin-top: 2ex; /* leave space at the top for the title */
 }
+QGroupBox:flat {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-radius: 0;
+}
 QGroupBox::title {
      subcontrol-origin: margin;
      /* subcontrol-position: top left; position at the top left */
-	top: -3px;
+    /*top: 0px;*/
     left: 10px;
-    margin: 2px 3px 0px 3px;
+    margin: 0 3px 0px 3px;
     padding: 0 3px 0px 0px;
     font-weight: bold;
-	font-size: 8px;
+    font-size: 8px;
     color: #DDDDDF;
 }
 QWidget::title:disabled {
