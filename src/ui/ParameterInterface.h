@@ -36,7 +36,7 @@ This file is part of the QGROUNDCONTROL project
 
 #include "ui_ParameterInterface.h"
 #include "UASInterface.h"
-#include "QGCParamWidget.h"
+#include "QGCAQParamWidget.h"
 
 namespace Ui
 {
@@ -61,7 +61,7 @@ public slots:
 
 protected:
     virtual void changeEvent(QEvent *e);
-    QMap<int, QGCParamWidget*>* paramWidgets;
+    QMap<int, QGCAQParamWidget*>* paramWidgets;
     int curr;
 
 private:

@@ -19,24 +19,20 @@ This file is part of the QGROUNDCONTROL project
     You should have received a copy of the GNU General Public License
     along with QGROUNDCONTROL. If not, see <http://www.gnu.org/licenses/>.
 
-
-
-QGCAQParamWidget::QGCAQParamWidget()
-{
-}
-
 ======================================================================*/
 /**
  * @file
  *   @brief Implementation of class QGCParamWidget
  *   @author Lorenz Meier <mail@qgroundcontrol.org>
  */
-
+#include <cmath>
+#include <float.h>
 #include <QGridLayout>
 #include <QPushButton>
 #include <QFileDialog>
 #include <QFile>
 #include <QList>
+#include <QTime>
 #include <QSettings>
 #include <QMessageBox>
 #include <QApplication>
@@ -44,6 +40,7 @@ QGCAQParamWidget::QGCAQParamWidget()
 
 #include "qgcaqparamwidget.h"
 #include "UASInterface.h"
+#include "MainWindow.h"
 #include <QDebug>
 #include "QGC.h"
 
@@ -66,7 +63,8 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     tree = new QTreeWidget(this);
     statusLabel = new QLabel();
     statusLabel->setAutoFillBackground(true);
-    tree->setColumnWidth(0, 150);
+    tree->header()->resizeSection(0, 175);
+    tree->setItemDelegateForColumn(0, new NoEditDelegate(this));
 
     // Set tree widget as widget onto this component
     QGridLayout* horizontalLayout;
@@ -77,11 +75,11 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
 
     // Parameter tree
-    horizontalLayout->addWidget(tree, 0, 0, 1, 3);
+    horizontalLayout->addWidget(tree, 0, 0, 1, 4);
 
     // Status line
     statusLabel->setText(tr("Click refresh to download parameters"));
-    horizontalLayout->addWidget(statusLabel, 1, 0, 1, 3);
+    horizontalLayout->addWidget(statusLabel, 1, 0, 1, 4);
 
 
     // BUTTONS
@@ -95,13 +93,13 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     setButton->setToolTip(tr("Set current parameters in non-permanent onboard memory"));
     setButton->setWhatsThis(tr("Set current parameters in non-permanent onboard memory"));
     connect(setButton, SIGNAL(clicked()), this, SLOT(setParameters()));
-    horizontalLayout->addWidget(setButton, 2, 1);
+    horizontalLayout->addWidget(setButton, 2, 1, 1, 2);
 
     QPushButton* writeButton = new QPushButton(tr("Write (ROM)"));
     writeButton->setToolTip(tr("Copy current parameters in non-permanent memory of the aircraft to permanent memory. Transmit your parameters first to write these."));
     writeButton->setWhatsThis(tr("Copy current parameters in non-permanent memory of the aircraft to permanent memory. Transmit your parameters first to write these."));
     connect(writeButton, SIGNAL(clicked()), this, SLOT(writeParameters()));
-    horizontalLayout->addWidget(writeButton, 2, 2);
+    horizontalLayout->addWidget(writeButton, 2, 3);
 
 
     QPushButton* loadFileButton = new QPushButton(tr("Load File"));
@@ -114,41 +112,45 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     saveFileButton->setToolTip(tr("Save parameters in this view to a file on this computer."));
     saveFileButton->setWhatsThis(tr("Save parameters in this view to a file on this computer."));
     connect(saveFileButton, SIGNAL(clicked()), this, SLOT(saveParameters()));
-    horizontalLayout->addWidget(saveFileButton, 3, 1);
+    horizontalLayout->addWidget(saveFileButton, 3, 1, 1, 2);
 
     QPushButton* readButton = new QPushButton(tr("Read (ROM)"));
     readButton->setToolTip(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
     readButton->setWhatsThis(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
     connect(readButton, SIGNAL(clicked()), this, SLOT(readParameters()));
-    horizontalLayout->addWidget(readButton, 3, 2);
+    horizontalLayout->addWidget(readButton, 3, 3);
 
 
 
-    QPushButton* loadParaFromSDButton = new QPushButton(tr("Para from SD"));
-    loadParaFromSDButton->setToolTip(tr("Load parameters from a file on the SD-Card. This parameter now in the aircraft"));
-    loadParaFromSDButton->setWhatsThis(tr("Load parameters from a file on the SD-Card. This parameter now in the aircraft"));
+    QPushButton* loadParaFromSDButton = new QPushButton(tr("Load from SD"));
+    loadParaFromSDButton->setToolTip(tr("Load parameters from a file on the SD card. These parameters will be in the aircraft non-permanent memory."));
+    loadParaFromSDButton->setWhatsThis(tr("Load parameters from a file on the SD card. These parameters will be in the aircraft non-permanent memory."));
     connect(loadParaFromSDButton, SIGNAL(clicked()), this, SLOT(loadParaFromSD()));
-    horizontalLayout->addWidget(loadParaFromSDButton, 4, 0);
+    horizontalLayout->addWidget(loadParaFromSDButton, 4, 0, 1, 2);
 
-    QPushButton* saveParaToSDButton = new QPushButton(tr("Para to SD"));
-    saveParaToSDButton->setToolTip(tr("Save parameters in this view to a file on this computer."));
-    saveParaToSDButton->setWhatsThis(tr("Save parameters in this view to a file on this computer."));
+    QPushButton* saveParaToSDButton = new QPushButton(tr("Save to SD"));
+    saveParaToSDButton->setToolTip(tr("Save parameters in this view to a file on the on-board SD card."));
+    saveParaToSDButton->setWhatsThis(tr("Save parameters in this view to a file on the on-board SD card."));
     connect(saveParaToSDButton, SIGNAL(clicked()), this, SLOT(saveParaToSD()));
-    horizontalLayout->addWidget(saveParaToSDButton, 4, 1);
+    horizontalLayout->addWidget(saveParaToSDButton, 4, 2, 1, 2);
 
-    QPushButton* wpFromSDButton = new QPushButton(tr("WP from SD"));
-    wpFromSDButton->setToolTip(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
-    wpFromSDButton->setWhatsThis(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
-    connect(wpFromSDButton, SIGNAL(clicked()), this, SLOT(wpFromSD()));
-    horizontalLayout->addWidget(wpFromSDButton, 5, 0);
+//    QPushButton* wpFromSDButton = new QPushButton(tr("WP from SD"));
+//    wpFromSDButton->setToolTip(tr("Load mission plan from on-board SD card."));
+//    wpFromSDButton->setWhatsThis(tr("Load mission plan from on-board SD card."));
+//    connect(wpFromSDButton, SIGNAL(clicked()), this, SLOT(wpFromSD()));
+//    horizontalLayout->addWidget(wpFromSDButton, 5, 0);
 
-    QPushButton* wpToSDButton = new QPushButton(tr("WP to SD"));
-    wpToSDButton->setToolTip(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
-    wpToSDButton->setWhatsThis(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
-    connect(wpToSDButton, SIGNAL(clicked()), this, SLOT(wpToSD()));
-    horizontalLayout->addWidget(wpToSDButton, 5, 1);
+//    QPushButton* wpToSDButton = new QPushButton(tr("WP to SD"));
+//    wpToSDButton->setToolTip(tr("Save on-board mission plan to a file on the on-board SD card."));
+//    wpToSDButton->setWhatsThis(tr("Save on-board mission plan to a file on the on-board SD card."));
+//    connect(wpToSDButton, SIGNAL(clicked()), this, SLOT(wpToSD()));
+//    horizontalLayout->addWidget(wpToSDButton, 5, 1);
 
 
+    horizontalLayout->setColumnStretch(0, 2);
+    horizontalLayout->setColumnStretch(1, 1);
+    horizontalLayout->setColumnStretch(2, 1);
+    horizontalLayout->setColumnStretch(3, 2);
 
     // Set layout
     this->setLayout(horizontalLayout);
@@ -172,8 +174,10 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     connect(this, SIGNAL(requestParameter(int,QString)), uas_ext, SLOT(requestParameter(int,QString)));
     connect(this, SIGNAL(requestParameter(int,int)), uas_ext, SLOT(requestParameter(int,int)));
     connect(&retransmissionTimer, SIGNAL(timeout()), this, SLOT(retransmissionGuardTick()));
-}
 
+    // Get parameters
+    //if (uas_ext) requestParameterList();
+}
 
 void QGCAQParamWidget::loadSettings()
 {
@@ -189,15 +193,19 @@ void QGCAQParamWidget::loadSettings()
 
 void QGCAQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QString& airframe)
 {
+    Q_UNUSED(airframe);
     QDir appDir = QApplication::applicationDirPath();
     appDir.cd("files");
-    QString fileName = QString("%1/%2/%3/parameter_tooltips/tooltips.txt").arg(appDir.canonicalPath()).arg(autopilot.toLower()).arg(airframe.toLower());
+    QString fileName = QString("%1/%2/parameter_tooltips/tooltips.txt").arg(appDir.canonicalPath()).arg(autopilot.toLower());
     QFile paramMetaFile(fileName);
+
+    qDebug() << "AUTOPILOT:" << autopilot;
+    qDebug() << "FILENAME: " << fileName;
 
     // Load CSV data
     if (!paramMetaFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "COULD NOT OPEN PARAM META INFO FILE:" << fileName;
+        //qDebug() << "COULD NOT OPEN PARAM META INFO FILE:" << fileName;
         return;
     }
 
@@ -213,7 +221,8 @@ void QGCAQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QStr
     QString header = in.readLine();
 
     // Ignore top-level comment lines
-    while (header.startsWith('#') || header.startsWith('/') || header.startsWith('='))
+    while (header.startsWith('#') || header.startsWith('/')
+           || header.startsWith('=') || header.startsWith('^'))
     {
         header = in.readLine();
     }
@@ -262,7 +271,7 @@ void QGCAQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QStr
 
     QString out = separator;
     out.replace("\t", "<tab>");
-    qDebug() << " Separator: \"" << out << "\"";
+    //qDebug() << " Separator: \"" << out << "\"";
     //qDebug() << "READING CSV:" << header;
 
 
@@ -290,23 +299,24 @@ void QGCAQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QStr
         if (parts.count() > 1)
         {
             // min
-            paramMin.insert(parts.at(0), parts.at(1).toDouble());
+            paramMin.insert(parts.at(0).trimmed(), parts.at(1).toDouble());
         }
         if (parts.count() > 2)
         {
             // max
-            paramMax.insert(parts.at(0), parts.at(2).toDouble());
+            paramMax.insert(parts.at(0).trimmed(), parts.at(2).toDouble());
         }
         if (parts.count() > 3)
         {
             // default
-            paramDefault.insert(parts.at(0), parts.at(3).toDouble());
+            paramDefault.insert(parts.at(0).trimmed(), parts.at(3).toDouble());
         }
         // IGNORING 4 and 5 for now
         if (parts.count() > 6)
         {
             // tooltip
-            paramToolTips.insert(parts.at(0), parts.at(6).trimmed());
+            paramToolTips.insert(parts.at(0).trimmed(), parts.at(6).trimmed());
+            qDebug() << "PARAM META:" << parts.at(0).trimmed();
         }
     }
 }
@@ -390,7 +400,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
             // There is only one transmission timeout for all components
             // since components do not manage their transmission,
             // the longest timeout is safe for all components.
-            quint64 thisTransmissionTimeout = QGC::groundTimeMilliseconds() + ((paramCount/retransmissionBurstRequestSize+5)*retransmissionTimeout);
+            quint64 thisTransmissionTimeout = QGC::groundTimeMilliseconds() + ((paramCount)*retransmissionTimeout);
             if (thisTransmissionTimeout > transmissionTimeout)
             {
                 transmissionTimeout = thisTransmissionTimeout;
@@ -415,53 +425,11 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
     if (map && map->contains(parameterName))
     {
         justWritten = true;
-        writeMismatch = false;
-        switch (map->value(parameterName).type())
+        if (map->value(parameterName) != value)
         {
-            case QVariant::Int:
-                {
-                    int val1 = value.toInt();
-                    int val2 = map->value(parameterName).toInt();
-                    if ( val1 != val2)
-                        writeMismatch = true;
-                    else
-                        map->remove(parameterName);
-                }
-                break;
-            case QVariant::UInt:
-                {
-                    uint val1 = value.toUInt();
-                    uint val2 = map->value(parameterName).toUInt();
-                    if ( val1 != val2)
-                        writeMismatch = true;
-                    else
-                        map->remove(parameterName);
-                }
-                break;
-            case QMetaType::Float:
-                {
-                    float val1 = value.toFloat();
-                    float val2 = map->value(parameterName).toFloat();
-                    if ( val1 != val2)
-                        writeMismatch = true;
-                    else
-                        map->remove(parameterName);
-                }
-                break;
-            case QMetaType::Double:
-                {
-                    double val1 = value.toDouble();
-                    double val2 = map->value(parameterName).toDouble();
-                    if ( val1 != val2)
-                        writeMismatch = true;
-                    else
-                        map->remove(parameterName);
-                }
-                break;
-            default:
-                qCritical() << "ABORTED PARAM UPDATE, NO VALID QVARIANT TYPE";
-                return;
+                writeMismatch = true;
         }
+        map->remove(parameterName);
     }
 
     int missCount = 0;
@@ -511,11 +479,20 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
             pal.setColor(backgroundRole(), QGC::colorGreen);
             statusLabel->setPalette(pal);
         }
-        statusLabel->setText(tr("Got %2 (#%1/%5): %3 (%4 missing)").arg(paramId+1).arg(parameterName).arg(value.toDouble()).arg(missCount).arg(paramCount));
-        /*
-        if ((paramId+1) == paramCount )
-            emit requestParameterRefreshed();
-            */
+        QString val = QString("%1").arg(value.toFloat(), 5, 'f', 1, QChar(' '));
+        //statusLabel->setText(tr("OK: %1 %2 #%3/%4, %5 miss").arg(parameterName).arg(val).arg(paramId+1).arg(paramCount).arg(missCount));
+        if (missCount == 0)
+        {
+            // Transmission done
+            QTime time = QTime::currentTime();
+            QString timeString = time.toString();
+            statusLabel->setText(tr("All received. (updated at %1)").arg(timeString));
+        }
+        else
+        {
+            // Transmission in progress
+            statusLabel->setText(tr("OK: %1 %2 (%3/%4)").arg(parameterName).arg(val).arg(paramCount-missCount).arg(paramCount));
+        }
     }
 
     // Check if last parameter was received
@@ -529,15 +506,10 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
             transmissionMissingPackets.value(key)->clear();
         }
         emit requestParameterRefreshed();
-    }
-}
 
-bool QGCAQParamWidget::paramExistsAQ(QString param)
-{
-    if ( parameters.contains(190))
-        return parameters.value(190)->contains(param);
-    else
-        return FALSE;
+        // Expand visual tree
+        tree->expandItem(tree->topLevelItem(0));
+    }
 }
 
 /**
@@ -547,7 +519,7 @@ bool QGCAQParamWidget::paramExistsAQ(QString param)
  */
 void QGCAQParamWidget::addParameter(int uas, int component, QString parameterName, QVariant value)
 {
-    qDebug() << "PARAM WIDGET GOT PARAM AQ:" << parameterName << value;
+    //qDebug() << "PARAM WIDGET GOT PARAM AQ:" << parameterName << value;
     Q_UNUSED(uas);
     // Reference to item in tree
     QTreeWidgetItem* parameterItem = NULL;
@@ -593,6 +565,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             QStringList glist;
             glist.append(parent);
             QTreeWidgetItem* item = new QTreeWidgetItem(glist);
+            item->setFirstColumnSpanned(true);
             compParamGroups->insert(parent, item);
             components->value(component)->addChild(item);
         }
@@ -625,8 +598,6 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             compParamGroups->value(parent)->addChild(parameterItem);
             if ( !parent.contains("IMU"))
                 parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
-            else
-                parameterItem->setFlags(parameterItem->flags());
         }
     }
     else
@@ -659,8 +630,6 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             components->value(component)->addChild(parameterItem);
             if ( !parameterName.contains("IMU_"))
                 parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
-            else
-                parameterItem->setFlags(parameterItem->flags());
 
         }
         //tree->expandAll();
@@ -668,7 +637,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
     // Reset background color
     if ( OverrideCheckValue == 0 )
     {
-        parameterItem->setBackground(0, QBrush(QColor(0, 0, 0)));
+        parameterItem->setBackground(0, Qt::NoBrush);
         parameterItem->setBackground(1, Qt::NoBrush);
     }
     else if ( OverrideCheckValue == 1) {
@@ -727,7 +696,6 @@ void QGCAQParamWidget::requestParameterList()
     // Set status text
     statusLabel->setText(tr("Requested param list.. waiting"));
 
-    // Request twice as mean of forward error correction
     mav->requestParameters();
 }
 
@@ -747,7 +715,6 @@ void QGCAQParamWidget::parameterItemChanged(QTreeWidgetItem* current, int column
         if (map) {
             QString str = current->data(0, Qt::DisplayRole).toString();
             QVariant value = current->data(1, Qt::DisplayRole);
-            qDebug() << "CHANGED PARAM AQ:" << value;
             // Set parameter on changed list to be transmitted to MAV
             statusLabel->setText(tr("Changed Param %1:%2: %3").arg(key).arg(str).arg(value.toDouble()));
             //qDebug() << "PARAM CHANGED: COMP:" << key << "KEY:" << str << "VALUE:" << value;
@@ -757,16 +724,11 @@ void QGCAQParamWidget::parameterItemChanged(QTreeWidgetItem* current, int column
             map->insert(str, value);
 
             // Check if the value was numerically changed
-            if ( OverrideCheckValue==1 ||   !parameters.value(key)->contains(str) || parameters.value(key)->value(str, value.toDouble()-1) != value) {
+            if ( OverrideCheckValue==1 ||
+                 !parameters.value(key)->contains(str) || parameters.value(key)->value(str, value.toDouble()-1) != value) {
                 current->setBackground(0, QBrush(QColor(QGC::colorOrange)));
                 current->setBackground(1, QBrush(QColor(QGC::colorOrange)));
             }
-            /*
-            if ( OverrideCheckValue == 1) {
-                current->setBackground(0, QBrush(QColor(QGC::colorOrange)));
-                current->setBackground(1, QBrush(QColor(QGC::colorOrange)));
-            }
-            */
 
             switch (parameters.value(key)->value(str).type())
             {
@@ -833,19 +795,19 @@ void QGCAQParamWidget::saveParameters()
                 {
                 case QVariant::Int:
                     paramValue = paramValue.arg(j.value().toInt());
-                    paramType = paramType.arg(MAVLINK_TYPE_INT32_T);
+                    paramType = paramType.arg(MAV_PARAM_TYPE_INT32);
                     break;
                 case QVariant::UInt:
                     paramValue = paramValue.arg(j.value().toUInt());
-                    paramType = paramType.arg(MAVLINK_TYPE_UINT32_T);
+                    paramType = paramType.arg(MAV_PARAM_TYPE_UINT32);
                     break;
                 case QMetaType::Float:
                     paramValue = paramValue.arg(j.value().toDouble(), 25, 'g', 12);
-                    paramType = paramType.arg(MAVLINK_TYPE_FLOAT);
+                    paramType = paramType.arg(MAV_PARAM_TYPE_REAL32);
                     break;
                 case QMetaType::Double:
                     paramValue = paramValue.arg(j.value().toDouble(), 25, 'g', 12);
-                    paramType = paramType.arg(MAVLINK_TYPE_DOUBLE);
+                    paramType = paramType.arg(MAV_PARAM_TYPE_REAL64);
                     break;
                 default:
                     qCritical() << "ABORTED PARAM WRITE TO FILE, NO VALID QVARIANT TYPE" << j.value();
@@ -889,8 +851,7 @@ void QGCAQParamWidget::loadParameters()
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
 
-        // Clear list
-        clear();
+        bool userWarned = false;
 
         QTextStream in(&file);
         while (!in.atEnd()) {
@@ -901,54 +862,66 @@ void QGCAQParamWidget::loadParameters()
                 QStringList wpParams = line.split("\t");
                 if (wpParams.size() == 5) {
                     // Only load parameters for right mav
-                    if (mav->getUASID() == wpParams.at(0).toInt()) {
-
-                        bool changed = false;
-                        int component = wpParams.at(1).toInt();
-                        /*
-                        if ( wpParams.at(2).startsWith("DEFAULT_",Qt::CaseSensitive) ) {
-                            wpParams.at(2) = wpParams.at(2).mid(8,-1);
-                        }
-                        */
-                        QString parameterName = wpParams.at(2);
-                        if (!parameters.contains(component) || parameters.value(component)->value(parameterName, wpParams.at(3).toDouble()-3.0f) != (float)wpParams.at(3).toDouble()) {
-                            changed = true;
-                        }
-
-                        // Set parameter value
-                        addParameter(wpParams.at(0).toInt(), wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toDouble());
-
-                        if (changed) {
-                            // Create changed values data structure if necessary
-                            if (!changedValues.contains(wpParams.at(1).toInt())) {
-                                changedValues.insert(wpParams.at(1).toInt(), new QMap<QString, QVariant>());
-                            }
-
-                            // Add to changed values
-                            if (changedValues.value(wpParams.at(1).toInt())->contains(wpParams.at(2))) {
-                                changedValues.value(wpParams.at(1).toInt())->remove(wpParams.at(2));
-                            }
-
-                            switch (wpParams.at(3).toUInt())
-                            {
-                            case MAVLINK_TYPE_FLOAT:
-                                changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toFloat());
-                                break;
-                            case MAVLINK_TYPE_UINT32_T:
-                                changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toUInt());
-                                break;
-                            case MAVLINK_TYPE_INT32_T:
-                                changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toInt());
-                                break;
-                            }
-
-                            qDebug() << "MARKING COMP" << wpParams.at(1).toInt() << "PARAM" << wpParams.at(2) << "VALUE" << (float)wpParams.at(3).toDouble() << "AS CHANGED";
-
-                            // Mark in UI
-
-
-                        }
+                    if (!userWarned && (mav->getUASID() != wpParams.at(0).toInt())) {
+                        MainWindow::instance()->showCriticalMessage(tr("Parameter loading warning"), tr("The parameters from the file %1 have been saved from system %2, but the currently selected system has the ID %3. If this is unintentional, please click on <READ> to revert to the parameters that are currently onboard").arg(fileName).arg(wpParams.at(0).toInt()).arg(mav->getUASID()));
+                        userWarned = true;
                     }
+
+                    bool changed = false;
+                    int component = wpParams.at(1).toInt();
+                    /*
+                    if ( wpParams.at(2).startsWith("DEFAULT_",Qt::CaseSensitive) ) {
+                        wpParams.at(2) = wpParams.at(2).mid(8,-1);
+                    }
+                    */
+                    QString parameterName = wpParams.at(2);
+                    if (!parameters.contains(component) ||
+                            fabs((static_cast<float>(parameters.value(component)->value(parameterName, wpParams.at(3).toDouble()).toDouble())) - (wpParams.at(3).toDouble())) > 2.0f * FLT_EPSILON) {
+                        changed = true;
+                        qDebug() << "Changed" << parameterName << "VAL" << wpParams.at(3).toDouble();
+                    }
+
+                    // Set parameter value
+
+                    // Create changed values data structure if necessary
+                    if (changed && !changedValues.contains(wpParams.at(1).toInt())) {
+                        changedValues.insert(wpParams.at(1).toInt(), new QMap<QString, QVariant>());
+                    }
+
+                    // Add to changed values
+                    if (changed && changedValues.value(wpParams.at(1).toInt())->contains(wpParams.at(2))) {
+                        changedValues.value(wpParams.at(1).toInt())->remove(wpParams.at(2));
+                    }
+
+                    switch (wpParams.at(4).toUInt())
+                    {
+                    case (int)MAV_PARAM_TYPE_REAL32:
+                        addParameter(wpParams.at(0).toInt(), wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toFloat());
+                        if (changed) {
+                            changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toFloat());
+                            setParameter(wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toFloat());
+                            qDebug() << "FLOAT PARAM CHANGED";
+                        }
+                        break;
+                    case (int)MAV_PARAM_TYPE_UINT32:
+                        addParameter(wpParams.at(0).toInt(), wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toUInt());
+                        if (changed) {
+                            changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toUInt());
+                            setParameter(wpParams.at(1).toInt(), wpParams.at(2), QVariant(wpParams.at(3).toUInt()));
+                        }
+                        break;
+                    case (int)MAV_PARAM_TYPE_INT32:
+                        addParameter(wpParams.at(0).toInt(), wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toInt());
+                        if (changed) {
+                            changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toInt());
+                            setParameter(wpParams.at(1).toInt(), wpParams.at(2), QVariant(wpParams.at(3).toInt()));
+                        }
+                        break;
+                    default:
+                        qDebug() << "FAILED LOADING PARAM" << wpParams.at(2) << "NO KNOWN DATA TYPE";
+                    }
+
+                    //qDebug() << "MARKING COMP" << wpParams.at(1).toInt() << "PARAM" << wpParams.at(2) << "VALUE" << (float)wpParams.at(3).toDouble() << "AS CHANGED";
                 }
             }
         }
@@ -1050,7 +1023,7 @@ void QGCAQParamWidget::setRetransmissionGuardEnabled(bool enabled)
 void QGCAQParamWidget::retransmissionGuardTick()
 {
     if (transmissionActive) {
-        qDebug() << __FILE__ << __LINE__ << "RETRANSMISSION GUARD ACTIVE, CHECKING FOR DROPS..";
+        //qDebug() << __FILE__ << __LINE__ << "RETRANSMISSION GUARD ACTIVE, CHECKING FOR DROPS..";
 
         // Check for timeout
         // stop retransmission attempts on timeout
@@ -1090,7 +1063,7 @@ void QGCAQParamWidget::retransmissionGuardTick()
                 int count = 0;
                 foreach (int id, *paramList) {
                     if (count < retransmissionBurstRequestSize) {
-                        qDebug() << __FILE__ << __LINE__ << "RETRANSMISSION GUARD REQUESTS RETRANSMISSION OF PARAM #" << id << "FROM COMPONENT #" << component;
+                        //qDebug() << __FILE__ << __LINE__ << "RETRANSMISSION GUARD REQUESTS RETRANSMISSION OF PARAM #" << id << "FROM COMPONENT #" << component;
                         emit requestParameter(component, id);
                         statusLabel->setText(tr("Requested retransmission of #%1").arg(id+1));
                         count++;
@@ -1139,7 +1112,7 @@ void QGCAQParamWidget::retransmissionGuardTick()
                         }
                         break;
                     default:
-                        qCritical() << "ABORTED PARAM RETRANSMISSION, NO VALID QVARIANT TYPE";
+                        //qCritical() << "ABORTED PARAM RETRANSMISSION, NO VALID QVARIANT TYPE";
                         return;
                     }
                     statusLabel->setText(tr("Requested rewrite of: %1: %2").arg(key).arg(missingParams->value(key).toDouble()));
@@ -1150,7 +1123,7 @@ void QGCAQParamWidget::retransmissionGuardTick()
             }
         }
     } else {
-        qDebug() << __FILE__ << __LINE__ << "STOPPING RETRANSMISSION GUARD GRACEFULLY";
+        //qDebug() << __FILE__ << __LINE__ << "STOPPING RETRANSMISSION GUARD GRACEFULLY";
         setRetransmissionGuardEnabled(false);
     }
 }
@@ -1189,21 +1162,21 @@ void QGCAQParamWidget::setParameter(int component, QString parameterName, QVaria
             {
                 QVariant fixedValue(value.toInt());
                 emit parameterChanged(component, parameterName, fixedValue);
-                qDebug() << "PARAM WIDGET SENT AQ:" << parameterName << fixedValue;
+                //qDebug() << "PARAM WIDGET SENT AQ:" << parameterName << fixedValue;
             }
             break;
         case QVariant::UInt:
             {
                 QVariant fixedValue(value.toUInt());
                 emit parameterChanged(component, parameterName, fixedValue);
-                qDebug() << "PARAM WIDGET SENT AQ:" << parameterName <<  fixedValue;
+                //qDebug() << "PARAM WIDGET SENT AQ:" << parameterName <<  fixedValue;
             }
             break;
         case QMetaType::Float:
             {
                 QVariant fixedValue(value.toFloat());
                 emit parameterChanged(component, parameterName, fixedValue);
-                qDebug() << "PARAM WIDGET SENT AQ:" << parameterName << fixedValue;
+                //qDebug() << "PARAM WIDGET SENT AQ:" << parameterName << fixedValue;
             }
             break;
         case QMetaType::Double:
@@ -1229,11 +1202,20 @@ void QGCAQParamWidget::setParameter(int component, QString parameterName, QVaria
     transmissionMissingWriteAckPackets.value(component)->insert(parameterName, value);
 
     // Set timeouts
-    transmissionActive = true;
-    quint64 newTransmissionTimeout = QGC::groundTimeMilliseconds() + 5*rewriteTimeout;
-    if (newTransmissionTimeout > transmissionTimeout) {
-        transmissionTimeout = newTransmissionTimeout;
+    if (transmissionActive)
+    {
+        transmissionTimeout += rewriteTimeout;
     }
+    else
+    {
+        quint64 newTransmissionTimeout = QGC::groundTimeMilliseconds() + rewriteTimeout;
+        if (newTransmissionTimeout > transmissionTimeout)
+        {
+            transmissionTimeout = newTransmissionTimeout;
+        }
+        transmissionActive = true;
+    }
+
     // Enable guard / reset timeouts
     setRetransmissionGuardEnabled(true);
 }
@@ -1258,7 +1240,7 @@ void QGCAQParamWidget::setParameters()
             }
         }
     }
-    qDebug() << "Send Parameters out" << QString::number(parametersSent);
+    //qDebug() << "Send Parameters out" << QString::number(parametersSent);
 
     // Change transmission status if necessary
     if (parametersSent == 0) {
@@ -1266,10 +1248,17 @@ void QGCAQParamWidget::setParameters()
     } else {
         statusLabel->setText(tr("Transmitting %1 parameters.").arg(parametersSent));
         // Set timeouts
+        if (transmissionActive)
+        {
+            transmissionTimeout += parametersSent*rewriteTimeout;
+        }
+        else
+        {
         transmissionActive = true;
-        quint64 newTransmissionTimeout = QGC::groundTimeMilliseconds() + (parametersSent/retransmissionBurstRequestSize+5)*rewriteTimeout;
+        quint64 newTransmissionTimeout = QGC::groundTimeMilliseconds() + parametersSent*rewriteTimeout;
         if (newTransmissionTimeout > transmissionTimeout) {
             transmissionTimeout = newTransmissionTimeout;
+        }
         }
         // Enable guard
         setRetransmissionGuardEnabled(true);

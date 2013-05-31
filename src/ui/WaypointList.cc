@@ -78,6 +78,13 @@ WaypointList::WaypointList(QWidget *parent, UASInterface* uas) :
     // REQUEST WAYPOINTS
     connect(m_ui->readButton, SIGNAL(clicked()), this, SLOT(read()));
 
+    // WAYPOINTS to/from SD
+    connect(m_ui->button_loadFromSD, SIGNAL(clicked()), this, SLOT(wpFromSD()));
+    connect(m_ui->button_saveToSD, SIGNAL(clicked()), this, SLOT(wpToSD()));
+    // TODO: show them once function exists in AQ
+    m_ui->button_loadFromSD->hide();
+    m_ui->button_saveToSD->hide();
+
     // SAVE/LOAD WAYPOINTS
     connect(m_ui->saveButton, SIGNAL(clicked()), this, SLOT(saveWaypoints()));
     connect(m_ui->loadButton, SIGNAL(clicked()), this, SLOT(loadWaypoints()));
@@ -228,6 +235,22 @@ void WaypointList::refresh()
     if (uas)
     {
         WPM->readWaypoints(false);
+    }
+}
+
+void WaypointList::wpFromSD()
+{
+    if (uas)
+    {
+        uas->readWaypointsFromSDAQ();
+    }
+}
+
+void WaypointList::wpToSD()
+{
+    if (uas)
+    {
+        uas->writeWaypointsToSDAQ();
     }
 }
 
