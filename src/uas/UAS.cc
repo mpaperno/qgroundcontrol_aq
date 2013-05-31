@@ -823,14 +823,14 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             mavlink_rc_channels_raw_t channels;
             mavlink_msg_rc_channels_raw_decode(&message, &channels);
             emit remoteControlRSSIChanged(channels.rssi/255.0f);
-            emit remoteControlChannelRawChanged(0, channels.chan1_raw);
-            emit remoteControlChannelRawChanged(1, channels.chan2_raw);
-            emit remoteControlChannelRawChanged(2, channels.chan3_raw);
-            emit remoteControlChannelRawChanged(3, channels.chan4_raw);
-            emit remoteControlChannelRawChanged(4, channels.chan5_raw);
-            emit remoteControlChannelRawChanged(5, channels.chan6_raw);
-            emit remoteControlChannelRawChanged(6, channels.chan7_raw);
-            emit remoteControlChannelRawChanged(7, channels.chan8_raw);
+            emit remoteControlChannelRawChanged(0 + (channels.port * 8), channels.chan1_raw);
+            emit remoteControlChannelRawChanged(1 + (channels.port * 8), channels.chan2_raw);
+            emit remoteControlChannelRawChanged(2 + (channels.port * 8), channels.chan3_raw);
+            emit remoteControlChannelRawChanged(3 + (channels.port * 8), channels.chan4_raw);
+            emit remoteControlChannelRawChanged(4 + (channels.port * 8), channels.chan5_raw);
+            emit remoteControlChannelRawChanged(5 + (channels.port * 8), channels.chan6_raw);
+            emit remoteControlChannelRawChanged(6 + (channels.port * 8), channels.chan7_raw);
+            emit remoteControlChannelRawChanged(7 + (channels.port * 8), channels.chan8_raw);
         }
             break;
         case MAVLINK_MSG_ID_RC_CHANNELS_SCALED:
@@ -838,14 +838,14 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             mavlink_rc_channels_scaled_t channels;
             mavlink_msg_rc_channels_scaled_decode(&message, &channels);
             emit remoteControlRSSIChanged(channels.rssi/255.0f);
-            emit remoteControlChannelScaledChanged(0, channels.chan1_scaled/10000.0f);
-            emit remoteControlChannelScaledChanged(1, channels.chan2_scaled/10000.0f);
-            emit remoteControlChannelScaledChanged(2, channels.chan3_scaled/10000.0f);
-            emit remoteControlChannelScaledChanged(3, channels.chan4_scaled/10000.0f);
-            emit remoteControlChannelScaledChanged(4, channels.chan5_scaled/10000.0f);
-            emit remoteControlChannelScaledChanged(5, channels.chan6_scaled/10000.0f);
-            emit remoteControlChannelScaledChanged(6, channels.chan7_scaled/10000.0f);
-            emit remoteControlChannelScaledChanged(7, channels.chan8_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(0 + (channels.port * 8), channels.chan1_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(1 + (channels.port * 8), channels.chan2_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(2 + (channels.port * 8), channels.chan3_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(3 + (channels.port * 8), channels.chan4_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(4 + (channels.port * 8), channels.chan5_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(5 + (channels.port * 8), channels.chan6_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(6 + (channels.port * 8), channels.chan7_scaled/10000.0f);
+            emit remoteControlChannelScaledChanged(7 + (channels.port * 8), channels.chan8_scaled/10000.0f);
         }
             break;
         case MAVLINK_MSG_ID_PARAM_VALUE:
@@ -856,6 +856,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             // Construct a string stopping at the first NUL (0) character, else copy the whole
             // byte array (max MAVLINK_MSG_PARAM_VALUE_FIELD_PARAM_ID_LEN, so safe)
             QString parameterName(bytes);
+            QVariant param;
             int component = message.compid;
             mavlink_param_union_t val;
             val.param_float = value.param_value;
@@ -874,41 +875,24 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             switch (value.param_type)
             {
             case MAV_PARAM_TYPE_REAL32:
-            {
-                // Variant
-                QVariant param(val.param_float);
-                parameters.value(component)->insert(parameterName, param);
-                // Emit change
-                emit parameterChanged(uasId, message.compid, parameterName, param);
-                emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
-//                qDebug() << "RECEIVED PARAM:" << param;
-            }
+                param = QVariant(val.param_float);
                 break;
             case MAV_PARAM_TYPE_UINT32:
-            {
-                // Variant
-                QVariant param(val.param_uint32);
-                parameters.value(component)->insert(parameterName, param);
-                // Emit change
-                emit parameterChanged(uasId, message.compid, parameterName, param);
-                emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
-//                qDebug() << "RECEIVED PARAM:" << param;
-            }
+                param = QVariant(val.param_uint32);
                 break;
             case MAV_PARAM_TYPE_INT32:
-            {
-                // Variant
-                QVariant param(val.param_int32);
-                parameters.value(component)->insert(parameterName, param);
-                // Emit change
-                emit parameterChanged(uasId, message.compid, parameterName, param);
-                emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
-//                qDebug() << "RECEIVED PARAM:" << param;
-            }
+                param = QVariant(val.param_int32);
                 break;
             default:
                 qCritical() << "INVALID DATA TYPE USED AS PARAMETER VALUE: " << value.param_type;
+                return;
             }
+
+            parameters.value(component)->insert(parameterName, param);
+            // Emit change
+            emit parameterChanged(uasId, message.compid, parameterName, param);
+            emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
+//          qDebug() << "RECEIVED PARAM:" << param;
         }
             break;
         case MAVLINK_MSG_ID_COMMAND_ACK:
