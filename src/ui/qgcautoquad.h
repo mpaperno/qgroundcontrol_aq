@@ -53,6 +53,9 @@ signals:
     void hardwareInfoUpdated(void);
 
 private slots:
+    void adjustUiForHardware();
+    void adjustUiForFirmware();
+
     // program settings
     void loadSettings();
     void writeSettings();
@@ -91,7 +94,6 @@ private slots:
     void setActiveUAS(UASInterface* uas_ext);
 
     // AQ Settings
-    void adjustUiForHardware();
     void loadParametersToUI();
     void saveRadioSettings();
     void saveAttitudePIDs();

@@ -86,16 +86,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // populate field values
 
-    ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
-    ui->SPVR_FS_RAD_ST2->addItem("Land", 0);
-    ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
-    ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
+    ui->checkBox_raw_value->setChecked(true);
 
-    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
-    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
-    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
-    ui->RADIO_TYPE->addItem("PPM", 3);
-    ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
+    ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
 
     ui->comboBox_marker->clear();
     ui->comboBox_marker->addItem("Start & End 1s", 0);
@@ -153,6 +146,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->checkBox_raw_value->hide();
 
     adjustUiForHardware();
+    adjustUiForFirmware();
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
@@ -167,6 +161,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // Signal handlers
 
     connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
+    connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForFirmware()));
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -216,7 +211,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(saveGimbalSettings()));
 
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
-    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
     connect(ui->pushButton_toggleRadioGraph, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
     connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq(int)));
@@ -324,6 +318,39 @@ void QGCAutoquad::showEvent(QShowEvent* event)
     }
     QWidget::showEvent(event);
     emit visibilityChanged(true);
+}
+
+void QGCAutoquad::adjustUiForHardware() {
+    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
+    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+}
+
+void QGCAutoquad::adjustUiForFirmware() {
+    uint8_t idx;
+
+    disconnect(ui->RADIO_TYPE, 0, this, 0);
+    idx = ui->RADIO_TYPE->currentIndex();
+    ui->RADIO_TYPE->clear();
+    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
+    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
+    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
+    ui->RADIO_TYPE->addItem("PPM", 3);
+    if (!aqFirmwareRevision || aqFirmwareRevision >= 128)
+        ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
+    if (idx <= ui->RADIO_TYPE->count())
+        ui->RADIO_TYPE->setCurrentIndex(idx);
+    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+
+    idx = ui->SPVR_FS_RAD_ST2->currentIndex();
+    ui->SPVR_FS_RAD_ST2->clear();
+    ui->SPVR_FS_RAD_ST2->addItem("Land", 0);
+    ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
+    if (!aqFirmwareRevision || aqFirmwareRevision > 172)
+        ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
+    if (idx <= ui->SPVR_FS_RAD_ST2->count())
+        ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
+
+    ui->groupBox_commPorts->setVisible(!aqFirmwareRevision || aqFirmwareRevision >= 133);
 }
 
 void QGCAutoquad::loadSettings()
@@ -1884,31 +1911,28 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
     if (uas_ext)
     {
-        if (uas) {
-            disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-            disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-            disconnect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
-            disconnect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
-            disconnect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
+        if (uas)
+            disconnect(uas, 0, this, 0);
+        if (paramaq) {
+            disconnect(paramaq, 0, this, 0);
+            ui->gridLayout_paramAQ->removeWidget(paramaq);
+            delete paramaq;
         }
-//        if (paramaq)
-//            disconnect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(getGUIpara()));
 
         uas = uas_ext;
         connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
         connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
         connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
-        if ( !paramaq ) {
-            paramaq = new QGCAQParamWidget(uas, this);
-            ui->gridLayout_paramAQ->addWidget(paramaq);
-            connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-            connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
 
-            if ( LastFilePath == "")
-                paramaq->setFilePath(QCoreApplication::applicationDirPath());
-            else
-                paramaq->setFilePath(LastFilePath);
-        }
+        paramaq = new QGCAQParamWidget(uas, this);
+        ui->gridLayout_paramAQ->addWidget(paramaq);
+        connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+        connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
+        if ( LastFilePath == "")
+            paramaq->setFilePath(QCoreApplication::applicationDirPath());
+        else
+            paramaq->setFilePath(LastFilePath);
+
         paramaq->loadParaAQ();
 
         // get firmware version of this AQ
@@ -1921,7 +1945,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 
         VisibleWidget = 2;
         aqTelemetryView->initChart(uas);
-        ui->checkBox_raw_value->setChecked(true);
         toggleRadioValuesUpdate();
     }
 }
@@ -1940,11 +1963,6 @@ QGCAQParamWidget* QGCAutoquad::getParamHandler()
 //
 // Parameter handling to/from AQ
 //
-
-void QGCAutoquad::adjustUiForHardware() {
-    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
-    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
-}
 
 void QGCAutoquad::getGUIpara(QWidget *parent) {
     if ( !paramaq || !parent)
@@ -2054,15 +2072,12 @@ Do you want to store all the current parameters into permanent on-board memory (
     int ret = msgBox.exec();
     switch (ret) {
         case QMessageBox::Yes:
-        {
             uas->writeParametersToStorageAQ();
-        }
-        break;
+            ui->label_radioChangeWarning->hide();
+            break;
         case QMessageBox::No:
-        break;
         default:
-        // should never be reached
-        break;
+            return;
     }
 }
 
