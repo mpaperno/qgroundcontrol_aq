@@ -39,11 +39,13 @@ This file is part of the QGROUNDCONTROL project
 
 ParameterInterface::ParameterInterface(QWidget *parent) :
     QWidget(parent),
-    paramWidgets(new QMap<int, QGCParamWidget*>()),
+    paramWidgets(new QMap<int, QGCAQParamWidget*>()),
     curr(-1),
     m_ui(new Ui::parameterWidget)
 {
     m_ui->setupUi(this);
+
+//    m_ui->sensorSettings->hide();
 
     // Get current MAV list
     QList<UASInterface*> systems = UASManager::instance()->getUASList();
@@ -67,7 +69,7 @@ ParameterInterface::~ParameterInterface()
 void ParameterInterface::selectUAS(int index)
 {
     m_ui->stackedWidget->setCurrentIndex(index);
-    m_ui->sensorSettings->setCurrentIndex(index);
+//    m_ui->sensorSettings->setCurrentIndex(index);
     curr = index;
 }
 
@@ -77,18 +79,18 @@ void ParameterInterface::selectUAS(int index)
  */
 void ParameterInterface::addUAS(UASInterface* uas)
 {
-    QGCParamWidget* param = new QGCParamWidget(uas, this);
+    QGCAQParamWidget* param = new QGCAQParamWidget(uas, this);
     paramWidgets->insert(uas->getUASID(), param);
     m_ui->stackedWidget->addWidget(param);
 
 
-    QGCSensorSettingsWidget* sensor = new QGCSensorSettingsWidget(uas, this);
-    m_ui->sensorSettings->addWidget(sensor);
+//    QGCSensorSettingsWidget* sensor = new QGCSensorSettingsWidget(uas, this);
+//    m_ui->sensorSettings->addWidget(sensor);
 
     // Set widgets as default
     if (curr == -1) {
         // Clear
-        m_ui->sensorSettings->setCurrentWidget(sensor);
+//        m_ui->sensorSettings->setCurrentWidget(sensor);
         m_ui->stackedWidget->setCurrentWidget(param);
         curr = 0;
     }

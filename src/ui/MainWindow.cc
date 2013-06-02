@@ -1539,13 +1539,13 @@ void MainWindow::loadViewState()
         switch (currentView)
         {
         case VIEW_ENGINEER:
-            centerStack->setCurrentWidget(linechartWidget);
+            centerStack->setCurrentWidget(autoquadWidget);
             //controlDockWidget->hide();
             listDockWidget->hide();
             waypointsDockWidget->hide();
             infoDockWidget->hide();
             debugConsoleDockWidget->show();
-            logPlayerDockWidget->show();
+            logPlayerDockWidget->hide();
             mavlinkInspectorWidget->show();
             //mavlinkSenderWidget->show();
             parametersDockWidget->show();

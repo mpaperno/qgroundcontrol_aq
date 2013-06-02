@@ -150,6 +150,8 @@ private:
 
 private slots:
     void on_clearWPListButton_clicked();
+    void wpFromSD();
+    void wpToSD();
 
 };
 

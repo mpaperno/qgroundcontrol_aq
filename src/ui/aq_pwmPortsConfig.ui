@@ -371,7 +371,7 @@
       <string>Gimbal Ports</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="1" column="1">
+      <item row="1" column="1" alignment="Qt::AlignLeft">
        <widget class="QComboBox" name="GMBL_PITCH_PORT">
         <property name="minimumSize">
          <size>
@@ -390,8 +390,93 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_gimbalRoll">
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>15</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="4" alignment="Qt::AlignLeft">
+       <widget class="QComboBox" name="GMBL_PTHR_PORT">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
+        </property>
+        <property name="maxVisibleItems">
+         <number>15</number>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3" alignment="Qt::AlignLeft">
+       <widget class="QLabel" name="label_GMBL_PTHR_PORT">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>65</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
+        </property>
+        <property name="text">
+         <string>Pitch P-thru:</string>
+        </property>
+        <property name="buddy">
+         <cstring>GMBL_PTHR_PORT</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3" alignment="Qt::AlignLeft">
+       <widget class="QLabel" name="label_GMBL_TRIG_PORT">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>65</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Camera/remote trigger port and Gear channel passthrough.</string>
+        </property>
+        <property name="text">
+         <string>Trigger:</string>
+        </property>
+        <property name="buddy">
+         <cstring>GMBL_TRIG_PORT</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" alignment="Qt::AlignLeft">
+       <widget class="QLabel" name="label_GMBL_PITCH_PORT">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -405,36 +490,17 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Camera roll compensation control</string>
+         <string>Camera pitch/tilt compensation control. If pitch passthrough port is not set, then manual and POI tilt is directed to this port as well.</string>
         </property>
         <property name="text">
-         <string>Roll</string>
+         <string>Pitch:</string>
         </property>
         <property name="buddy">
-         <cstring>GMBL_ROLL_PORT</cstring>
+         <cstring>GMBL_PITCH_PORT</cstring>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="GMBL_ROLL_PORT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Camera roll compensation control</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
+      <item row="0" column="4" alignment="Qt::AlignLeft">
        <widget class="QComboBox" name="GMBL_TRIG_PORT">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -459,8 +525,8 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QLabel" name="label_gimbalPthru">
+      <item row="0" column="0" alignment="Qt::AlignLeft">
+       <widget class="QLabel" name="label_GMBL_ROLL_PORT">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -469,23 +535,23 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>65</width>
+          <width>50</width>
           <height>0</height>
          </size>
         </property>
         <property name="toolTip">
-         <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
+         <string>Camera roll compensation control</string>
         </property>
         <property name="text">
-         <string>Pitch P-thru</string>
+         <string>Roll:</string>
         </property>
         <property name="buddy">
-         <cstring>GMBL_PTHR_PORT</cstring>
+         <cstring>GMBL_ROLL_PORT</cstring>
         </property>
        </widget>
       </item>
-      <item row="1" column="4">
-       <widget class="QComboBox" name="GMBL_PTHR_PORT">
+      <item row="0" column="1" alignment="Qt::AlignLeft">
+       <widget class="QComboBox" name="GMBL_ROLL_PORT">
         <property name="minimumSize">
          <size>
           <width>50</width>
@@ -493,7 +559,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
+         <string>Camera roll compensation control</string>
         </property>
         <property name="maxVisibleItems">
          <number>15</number>
@@ -503,83 +569,14 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="label_gimbalTrigger">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>65</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Camera/remote trigger port and Gear channel passthrough.</string>
-        </property>
-        <property name="text">
-         <string>Trigger</string>
-        </property>
-        <property name="buddy">
-         <cstring>GMBL_TRIG_PORT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_gimbalPitch">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Camera pitch/tilt compensation control. If pitch passthrough port is not set, then manual and POI tilt is directed to this port as well.</string>
-        </property>
-        <property name="text">
-         <string>Pitch</string>
-        </property>
-        <property name="buddy">
-         <cstring>GMBL_PITCH_PORT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="5">
+      <item row="0" column="5">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::MinimumExpanding</enum>
-        </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
           <height>20</height>
          </size>
         </property>
@@ -603,7 +600,7 @@
       <string>Signaling Ports</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="1" column="2" colspan="3">
+      <item row="1" column="5" colspan="2" alignment="Qt::AlignLeft">
        <widget class="QCheckBox" name="checkBox_useSpeaker">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -616,6 +613,44 @@
         </property>
         <property name="text">
          <string>Use piezo speaker</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="label_SIG_BEEP_PRT">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>65</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Beeper:</string>
+        </property>
+        <property name="buddy">
+         <cstring>SIG_BEEP_PRT</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4" alignment="Qt::AlignLeft">
+       <widget class="QComboBox" name="SIG_BEEP_PRT">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maxVisibleItems">
+         <number>15</number>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
         </property>
        </widget>
       </item>
@@ -638,111 +673,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="5">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::MinimumExpanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_beeper">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Beeper</string>
-        </property>
-        <property name="buddy">
-         <cstring>SIG_BEEP_PRT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="label_led_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>65</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>See documentation for proper LED hookup!</string>
-        </property>
-        <property name="text">
-         <string>LED 2</string>
-        </property>
-        <property name="buddy">
-         <cstring>SIG_LED_2_PRT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="SIG_BEEP_PRT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_led_1">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>See documentation for proper LED hookup!</string>
-        </property>
-        <property name="text">
-         <string>LED 1</string>
-        </property>
-        <property name="buddy">
-         <cstring>SIG_LED_1_PRT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
+      <item row="0" column="4" alignment="Qt::AlignLeft">
        <widget class="QComboBox" name="SIG_LED_2_PRT">
         <property name="minimumSize">
          <size>
@@ -752,6 +683,25 @@
         </property>
         <property name="toolTip">
          <string>See documentation for proper LED hookup!</string>
+        </property>
+        <property name="maxVisibleItems">
+         <number>15</number>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="SIG_PWM_PRT">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Use a custom ESC/MCU to convert PWM pulses to lighting patterns.</string>
         </property>
         <property name="maxVisibleItems">
          <number>15</number>
@@ -772,6 +722,110 @@
         <property name="sizeHint" stdset="0">
          <size>
           <width>15</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="2">
+       <spacer name="horizontalSpacer_9">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>15</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_SIG_PWM_PRT">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>See documentation for proper LED hookup!</string>
+        </property>
+        <property name="text">
+         <string>PWM:</string>
+        </property>
+        <property name="buddy">
+         <cstring>SIG_LED_2_PRT</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_SIG_LED_2_PRT">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>65</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>See documentation for proper LED hookup!</string>
+        </property>
+        <property name="text">
+         <string>LED 2:</string>
+        </property>
+        <property name="buddy">
+         <cstring>SIG_LED_2_PRT</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_SIG_LED_1_PRT">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>See documentation for proper LED hookup!</string>
+        </property>
+        <property name="text">
+         <string>LED 1:</string>
+        </property>
+        <property name="buddy">
+         <cstring>SIG_LED_1_PRT</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="6">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -925,8 +979,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>287</width>
-        <height>557</height>
+        <width>279</width>
+        <height>542</height>
        </rect>
       </property>
       <property name="sizePolicy">

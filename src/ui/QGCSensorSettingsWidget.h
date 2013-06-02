@@ -78,6 +78,9 @@ protected slots:
     void sendExtra2();
     void sendExtra3();
 
+private slots:
+    void on_groupBox_toggled(bool arg1);
+
 private:
     Ui::QGCSensorSettingsWidget *ui;
 };

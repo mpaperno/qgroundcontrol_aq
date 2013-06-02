@@ -542,8 +542,6 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
     ui->checkBox_useSpeaker->setChecked(paramHandler->getParaAQ("SIG_BEEP_PRT").toFloat() < 0);
 
     ui->groupBox_signaling->setEnabled(ui->SIG_LED_1_PRT->isEnabled());
-    ui->label_gimbalTrigger->setEnabled(ui->GMBL_TRIG_PORT->isEnabled());
-    ui->label_gimbalPthru->setEnabled(ui->GMBL_PTHR_PORT->isEnabled());
 
 }
 

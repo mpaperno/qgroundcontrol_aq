@@ -139,11 +139,12 @@ void QGCRemoteControlView::setUASId(int id)
 void QGCRemoteControlView::setChannelRaw(int channelId, float raw)
 {
 
+    raw -= 1024;
     if (this->raw.size() <= channelId) {
         // This is a new channel, append it
         this->raw.append(raw);
         //this->normalized.append(0);
-        appendChannelWidget(channelId);
+        appendChannelWidget(channelId, 0);
         updated = true;
     } else {
         // This is an existing channel, aupdate it
@@ -154,11 +155,12 @@ void QGCRemoteControlView::setChannelRaw(int channelId, float raw)
 
 void QGCRemoteControlView::setChannelScaled(int channelId, float normalized)
 {
+    normalized = (normalized * 10000.0f) / 13;
     if (this->normalized.size() <= channelId) // using raw vector as size indicator
     {
         // This is a new channel, append it
         this->normalized.append(normalized);
-        appendChannelWidget(channelId);
+        appendChannelWidget(channelId, 1);
         updated = true;
     }
     else
@@ -175,7 +177,7 @@ void QGCRemoteControlView::setRemoteRSSI(float rssiNormalized)
     rssi = rssiNormalized;
 }
 
-void QGCRemoteControlView::appendChannelWidget(int channelId)
+void QGCRemoteControlView::appendChannelWidget(int channelId, bool valType)
 {
     // Create new layout
     QHBoxLayout* layout = new QHBoxLayout();
@@ -188,9 +190,19 @@ void QGCRemoteControlView::appendChannelWidget(int channelId)
     layout->addWidget(raw);
     // Append progress bar
     QProgressBar* normalized = new QProgressBar(this);
-    normalized->setMinimum(-100);
-    normalized->setMaximum(100);
-    normalized->setFormat("%v%");
+    int min = -1024;
+    int max = 1024;
+    if (channelId == 0) {
+        min = -100;
+        max = 1500;
+    }
+    if (valType) { // scaled
+        min = -1500;
+        max = 1500;
+    }
+    normalized->setMinimum(min);
+    normalized->setMaximum(max);
+    normalized->setFormat("%p%");
     progressBars.append(normalized);
     layout->addWidget(normalized);
     channelLayout->addLayout(layout);
@@ -210,9 +222,13 @@ void QGCRemoteControlView::redraw()
         for(int i = 0; i < progressBars.count(); i++)
         {
             rawLabels.at(i)->setText(QString("%1 us").arg(raw.at(i), 4, 10, QChar('0')));
-            int vv = normalized.at(i)*100.0f;
+            //int vv = normalized.at(i)*1.0f;
             //progressBars.at(i)->setValue(vv);
-//            int vv = raw.at(i)*1.0f;
+            int vv = raw.at(i)*1.0f;
+            if (vv > progressBars.at(i)->maximum())
+                vv = progressBars.at(i)->maximum();
+            if (vv < progressBars.at(i)->minimum())
+                vv = progressBars.at(i)->minimum();
             progressBars.at(i)->setValue(vv);
         }
         // Update RSSI

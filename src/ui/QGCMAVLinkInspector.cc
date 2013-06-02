@@ -3,6 +3,7 @@
 #include "QGCMAVLink.h"
 #include "QGCMAVLinkInspector.h"
 #include "UASManager.h"
+#include "QGCSensorSettingsWidget.h"
 #include "ui_QGCMAVLinkInspector.h"
 
 #include <QDebug>
@@ -19,7 +20,7 @@ QGCMAVLinkInspector::QGCMAVLinkInspector(MAVLinkProtocol* protocol, QWidget *par
     ui->setupUi(this);
 
     // Make sure "All" is an option for both the system and components
-    ui->systemComboBox->addItem(tr("All"), 0);
+    //ui->systemComboBox->addItem(tr("All"), 0);
     ui->componentComboBox->addItem(tr("All"), 0);
 
 	// Store metadata for all MAVLink messages.
@@ -53,11 +54,17 @@ QGCMAVLinkInspector::QGCMAVLinkInspector(MAVLinkProtocol* protocol, QWidget *par
 void QGCMAVLinkInspector::addSystem(UASInterface* uas)
 {
     ui->systemComboBox->addItem(uas->getUASName(), uas->getUASID());
+
+    QGCSensorSettingsWidget* sensor = new QGCSensorSettingsWidget(uas, this);
+
+    ui->sensorSettings->addWidget(sensor);
+    ui->sensorSettings->setCurrentIndex(ui->systemComboBox->currentIndex());
 }
 
 void QGCMAVLinkInspector::selectDropDownMenuSystem(int dropdownid)
 {
     selectedSystemID = ui->systemComboBox->itemData(dropdownid).toInt();
+    ui->sensorSettings->setCurrentIndex(dropdownid);
     rebuildComponentList();
 }
 

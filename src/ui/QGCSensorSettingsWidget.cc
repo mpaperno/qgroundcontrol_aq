@@ -72,6 +72,8 @@ QGCSensorSettingsWidget::QGCSensorSettingsWidget(UASInterface* uas, QWidget *par
     connect(ui->pressureCalButton, SIGNAL(clicked()), mav, SLOT(startPressureCalibration()));
     connect(ui->gyroCalButton, SIGNAL(clicked()), mav, SLOT(startGyroscopeCalibration()));
 
+    ui->widget_rates->setVisible(ui->groupBox->isChecked());
+
     // Hide the calibration stuff - done in custom widgets anyway
     ui->groupBox_3->hide();
 }
@@ -187,4 +189,9 @@ void QGCSensorSettingsWidget::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void QGCSensorSettingsWidget::on_groupBox_toggled(bool arg1)
+{
+    ui->widget_rates->setVisible(arg1);
 }

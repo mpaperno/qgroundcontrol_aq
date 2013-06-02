@@ -96,7 +96,7 @@ int AQLogParser::loggerReadHeader(FILE *fp)
             fieldsInfo.fieldType = logHeader[i].fieldType;
             fieldsInfo.fieldName = GetChannelsName(logHeader[i].fieldId);
             LogChannelsStruct.append(qMakePair(GetChannelsName(fieldsInfo.fieldId), fieldsInfo));
-            qDebug() << "FieldID=" << logHeader[i].fieldId << " Name" << GetChannelsName(logHeader[i].fieldId) << " Type" << logHeader[i].fieldType << " list" << LogChannelsStruct.count();
+//            qDebug() << "FieldID=" << logHeader[i].fieldId << " Name" << GetChannelsName(logHeader[i].fieldId) << " Type" << logHeader[i].fieldType << " list" << LogChannelsStruct.count();
 
             switch (logHeader[i].fieldType) {
                 case LOG_TYPE_DOUBLE:

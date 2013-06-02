@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QLabel>
 #include <QTimer>
+#include <QStyledItemDelegate>
 
 #include "QGCUASParamManager.h"
 #include "UASInterface.h"
@@ -22,14 +23,14 @@ public:
 	void setParaAQ(QString parameterName, QVariant value);
 	void loadParaAQ();
     void setFilePath(QString fileName);
-    bool paramExistsAQ(QString param);
+    bool paramExistsAQ(const QString& param) { return parameters.contains(190) && parameters.value(190)->contains(param); }
     bool isParamMinKnown(const QString& param) { return paramMin.contains(param); }
     bool isParamMaxKnown(const QString& param) { return paramMax.contains(param); }
     bool isParamDefaultKnown(const QString& param) { return paramDefault.contains(param); }
     double getParamMin(const QString& param) { return paramMin.value(param, 0.0f); }
     double getParamMax(const QString& param) { return paramMax.value(param, 0.0f); }
     double getParamDefault(const QString& param) { return paramDefault.value(param, 0.0f); }
-    QString getParamInfo(const QString& param) { return param; }
+    QString getParamInfo(const QString& param) { return paramToolTips.value(param, ""); }
 
 signals:
     /** @brief A parameter was changed in the widget, NOT onboard */
@@ -103,6 +104,16 @@ protected:
     QString fileNameFromMaster;
 
 
+};
+class NoEditDelegate: public QStyledItemDelegate {
+public:
+    NoEditDelegate(QObject* parent=0): QStyledItemDelegate(parent) {}
+    virtual QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+        Q_UNUSED(parent);
+        Q_UNUSED(option);
+        Q_UNUSED(index);
+        return 0;
+    }
 };
 
 #endif // QGCAQPARAMWIDGET_H
