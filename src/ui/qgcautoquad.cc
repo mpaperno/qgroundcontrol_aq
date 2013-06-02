@@ -1991,7 +1991,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             paraLabel->show();
         ok = true;
         precision = 6;
-        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT"){
+        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL"){
             val = fabs(paramaq->getParaAQ(paraName).toFloat());
             precision = 8;
         }  else
@@ -2001,10 +2001,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             valstr.setNum(val.toFloat(), 'g', precision);
             le->setText(valstr);
         } else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
-            if ( val.toInt() >= 0)
-                cb->setCurrentIndex(val.toInt(&ok));
-            else
-                cb->setCurrentIndex(abs(val.toInt(&ok)));
+            cb->setCurrentIndex(abs(val.toInt(&ok)));
         else if (QDoubleSpinBox* dsb = qobject_cast<QDoubleSpinBox *>(w)) {
             dsb->setValue(val.toDouble(&ok));
         }
