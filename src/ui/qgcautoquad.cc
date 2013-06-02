@@ -1976,7 +1976,10 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             valstr.setNum(val.toFloat(), 'g', precision);
             le->setText(valstr);
         } else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
-            cb->setCurrentIndex(val.toInt(&ok));
+            if ( val.toInt() >= 0)
+                cb->setCurrentIndex(val.toInt(&ok));
+            else
+                cb->setCurrentIndex(abs(val.toInt(&ok)));
         else if (QDoubleSpinBox* dsb = qobject_cast<QDoubleSpinBox *>(w)) {
             dsb->setValue(val.toDouble(&ok));
         }
