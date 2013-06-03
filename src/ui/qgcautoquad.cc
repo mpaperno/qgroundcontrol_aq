@@ -1809,6 +1809,9 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
     bool raw = ui->checkBox_raw_value->isChecked();
     QString lblTxt;
 
+    if (channelId >= allRadioChanProgressBars.size())
+        return;
+
     // three methods to find the right progress bar...
     // tested on a CoreDuo 3.3GHz at 1-10Hz mavlink refresh, seems to be no practical difference in CPU consumption (~40% ~10Hz)
     QProgressBar* bar = allRadioChanProgressBars.at(channelId);
