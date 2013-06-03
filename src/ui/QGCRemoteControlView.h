@@ -57,9 +57,11 @@ public slots:
     void setChannelRaw(int channelId, float raw);
     void setChannelScaled(int channelId, float normalized);
     void setRemoteRSSI(float rssiNormalized);
-    void redraw();
+    void redraw(int channelId);
+    void redrawRssi();
 
 protected slots:
+    QMap<QLabel*, QProgressBar*> *drawDataDisplay(int min, int max, QString label);
     void appendChannelWidget(int channelId, bool valType);
 
 protected:
