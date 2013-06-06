@@ -29,6 +29,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QToolButton>
 #include <QLabel>
 #include <QProgressBar>
+#include <QHBoxLayout>
 #include "UASInterface.h"
 #include "QGCMAVLinkLogPlayer.h"
 
@@ -39,6 +40,7 @@ class QGCToolBar : public QToolBar
 public:
     explicit QGCToolBar(QWidget* parent = 0);
     void addPerspectiveChangeAction(QAction* action);
+    void setPerspectiveChangeActions(const QList<QAction *> &actions);
     ~QGCToolBar();
 
 public slots:
@@ -75,11 +77,13 @@ public slots:
 
 protected:
     void createCustomWidgets();
+    void createUI();
 
     QAction* toggleLoggingAction;
     QAction* logReplayAction;
     UASInterface* mav;
-    QToolButton* symbolButton;
+    QHBoxLayout* hlayout;
+    QLabel* symbolLabel;
     QLabel* toolBarNameLabel;
     QLabel* toolBarTimeoutLabel;
     QLabel* toolBarSafetyLabel;
@@ -102,6 +106,8 @@ protected:
     QString lastSystemMessage;
     QTimer updateViewTimer;
     bool systemArmed;
+    QButtonGroup *group;
+
 };
 
 #endif // QGCTOOLBAR_H

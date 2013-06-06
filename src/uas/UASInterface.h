@@ -176,25 +176,29 @@ public:
     static QColor getNextColor() {
         /* Create color map */
         static QList<QColor> colors = QList<QColor>()
-        << QColor(231,72,28)
-        << QColor(104,64,240)
-        << QColor(203,254,121)
-        << QColor(161,252,116)
-                << QColor(232,33,47)
-        << QColor(116,251,110)
-        << QColor(234,38,107)
-        << QColor(104,250,138)
-                << QColor(235,43,165)
-        << QColor(98,248,176)
-        << QColor(236,48,221)
-        << QColor(92,247,217)
-                << QColor(200,54,238)
-        << QColor(87,231,246)
-        << QColor(151,59,239)
-        << QColor(81,183,244)
-                << QColor(75,133,243)
-        << QColor(242,255,128)
-        << QColor(230,126,23);
+            << QColor(215,75,6)  // burnt orange
+            << QColor(66,35,174) // dk blue/purple
+            << QColor(43,144,38) // dk green
+            << QColor(125,7,107) // dk eggplant
+            << QColor(232,33,47)
+            << QColor(116,251,110)
+            << QColor(234,38,107)
+            << QColor(104,250,138)
+            << QColor(235,43,165)
+            << QColor(98,248,176)
+            << QColor(236,48,221)
+            << QColor(92,247,217)
+            << QColor(200,54,238)
+            << QColor(87,231,246)
+            << QColor(151,59,239)
+            << QColor(81,183,244)
+            << QColor(75,133,243)
+            << QColor(242,255,128)
+            << QColor(230,126,23)
+            << QColor(231,72,28)
+            << QColor(104,64,240)
+            << QColor(203,254,121)
+            << QColor(161,252,116);
 
         static int nextColor = -1;
         if(nextColor == 18){//if at the end of the list

@@ -93,8 +93,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>393</width>
-           <height>154</height>
+           <width>397</width>
+           <height>164</height>
           </rect>
          </property>
         </widget>
@@ -125,8 +125,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>393</width>
-           <height>154</height>
+           <width>397</width>
+           <height>163</height>
           </rect>
          </property>
         </widget>
@@ -164,6 +164,9 @@
        <property name="checkable">
         <bool>false</bool>
        </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -179,7 +182,7 @@
         <string>Close</string>
        </property>
        <property name="default">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>

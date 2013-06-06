@@ -59,7 +59,7 @@ This file is part of the QGROUNDCONTROL project
 #endif // MOUSE_ENABLED_WIN
 #include "DebugConsole.h"
 #include "ParameterInterface.h"
-#include "XMLCommProtocolWidget.h"
+//#include "XMLCommProtocolWidget.h"
 #include "HDDisplay.h"
 #include "WatchdogControl.h"
 #include "HSIDisplay.h"
@@ -141,7 +141,7 @@ public slots:
     /** @brief Add a communication link */
     void addLink();
     void addLink(LinkInterface* link);
-    void configure();
+//    void configure();
     /** @brief Set the currently controlled UAS */
     void setActiveUAS(UASInterface* uas);
 
@@ -156,7 +156,7 @@ public slots:
     void saveScreen();
 
     /** @brief Load default view when no MAV is connected */
-    void loadUnconnectedView();
+//    void loadUnconnectedView();
     /** @brief Load view for pilot */
     void loadPilotView();
     /** @brief Load view for engineer */
@@ -164,18 +164,18 @@ public slots:
     /** @brief Load view for operator */
     void loadOperatorView();
     /** @brief Load MAVLink XML generator view */
-    void loadMAVLinkView();
+//    void loadMAVLinkView();
     /** @brief Load firmware update view */
-    void loadFirmwareUpdateView();
+//    void loadFirmwareUpdateView();
     /** @brief Load aq view */
-    void loadAQView();
+//    void loadAQView();
 
     /** @brief Show the online help for users */
     void showHelp();
     /** @brief Show the authors / credits */
     void showCredits();
     /** @brief Show the project roadmap */
-    void showRoadMap();
+//    void showRoadMap();
 
     /** @brief Reload the CSS style sheet */
     void reloadStylesheet();
@@ -207,12 +207,12 @@ public slots:
     void loadCustomWidgetsFromDefaults(const QString& systemType, const QString& autopilotType);
 
     /** @brief Loads and shows the HIL Configuration Widget for the given UAS*/
-    void showHILConfigurationWidget(UASInterface *uas);
+//    void showHILConfigurationWidget(UASInterface *uas);
 
     void closeEvent(QCloseEvent* event);
 
     /** @brief Load data view, allowing to plot flight data */
-    void loadDataView(QString fileName);
+//    void loadDataView(QString fileName);
 
     /**
      * @brief Shows a Docked Widget based on the action sender
@@ -329,10 +329,10 @@ protected:
     // Center widgets
     QPointer<Linecharts> linechartWidget;
     QPointer<HUD> hudWidget;
-    QPointer<QGCVehicleConfig> configWidget;
+//    QPointer<QGCVehicleConfig> configWidget;
     QPointer<QGCMapTool> mapWidget;
-    QPointer<XMLCommProtocolWidget> protocolWidget;
-    QPointer<QGCDataPlot2D> dataplotWidget;
+//    QPointer<XMLCommProtocolWidget> protocolWidget;
+//    QPointer<QGCDataPlot2D> dataplotWidget;
 	QPointer<QGCAutoquad> autoquadWidget;
 #ifdef QGC_OSG_ENABLED
     QPointer<QWidget> _3DWidget;
@@ -340,35 +340,35 @@ protected:
 #if (defined _MSC_VER) || (defined Q_OS_MAC)
     QPointer<QGCGoogleEarthView> gEarthWidget;
 #endif
-    QPointer<QGCFirmwareUpdate> firmwareUpdateWidget;
+//    QPointer<QGCFirmwareUpdate> firmwareUpdateWidget;
 
     // Dock widgets
-    QPointer<QDockWidget> controlDockWidget;
-    QPointer<QDockWidget> controlParameterWidget;
+//    QPointer<QDockWidget> controlDockWidget;
+//    QPointer<QDockWidget> controlParameterWidget;
     QPointer<QDockWidget> infoDockWidget;
-    QPointer<QDockWidget> cameraDockWidget;
+//    QPointer<QDockWidget> cameraDockWidget;
     QPointer<QDockWidget> listDockWidget;
     QPointer<QDockWidget> waypointsDockWidget;
-    QPointer<QDockWidget> detectionDockWidget;
+//    QPointer<QDockWidget> detectionDockWidget;
     QPointer<QDockWidget> debugConsoleDockWidget;
     QPointer<QDockWidget> parametersDockWidget;
     QPointer<QDockWidget> headDown1DockWidget;
-    QPointer<QDockWidget> headDown2DockWidget;
-    QPointer<QDockWidget> watchdogControlDockWidget;
+//    QPointer<QDockWidget> headDown2DockWidget;
+//    QPointer<QDockWidget> watchdogControlDockWidget;
 
     QPointer<QDockWidget> headUpDockWidget;
-    QPointer<QDockWidget> video1DockWidget;
-    QPointer<QDockWidget> video2DockWidget;
-    QPointer<QDockWidget> rgbd1DockWidget;
-    QPointer<QDockWidget> rgbd2DockWidget;
+//    QPointer<QDockWidget> video1DockWidget;
+//    QPointer<QDockWidget> video2DockWidget;
+//    QPointer<QDockWidget> rgbd1DockWidget;
+//    QPointer<QDockWidget> rgbd2DockWidget;
     QPointer<QDockWidget> logPlayerDockWidget;
 
     QPointer<QDockWidget> hsiDockWidget;
     QPointer<QDockWidget> rcViewDockWidget;
     QPointer<QDockWidget> hudDockWidget;
-    QPointer<QDockWidget> slugsDataWidget;
-    QPointer<QDockWidget> slugsHilSimWidget;
-    QPointer<QDockWidget> slugsCamControlWidget;
+//    QPointer<QDockWidget> slugsDataWidget;
+//    QPointer<QDockWidget> slugsHilSimWidget;
+//    QPointer<QDockWidget> slugsCamControlWidget;
 
     QPointer<QGCToolBar> toolBar;
 
@@ -378,9 +378,9 @@ protected:
     QGCMAVLinkLogPlayer* logPlayer;
 
     // Popup widgets
-    JoystickWidget* joystickWidget;
+//    JoystickWidget* joystickWidget;
 
-    JoystickInput* joystick;
+//    JoystickInput* joystick;
 
 #ifdef MOUSE_ENABLED_WIN
     /** @brief 3d Mouse support (WIN only) */

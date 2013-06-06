@@ -12,14 +12,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>780</width>
     <height>500</height>
    </size>
   </property>
   <property name="baseSize">
    <size>
-    <width>1100</width>
-    <height>800</height>
+    <width>1020</width>
+    <height>600</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -27,9 +27,6 @@
   </property>
   <property name="windowTitle">
    <string>MGMainWindow</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -65,11 +62,9 @@
      <addaction name="actionSelectStylesheet"/>
      <addaction name="actionReloadStylesheet"/>
     </widget>
-    <addaction name="actionJoystick_Settings"/>
     <addaction name="actionSimulate"/>
     <addaction name="separator"/>
     <addaction name="actionMuteAudioOutput"/>
-    <addaction name="actionJoystickSettings"/>
     <addaction name="actionSettings"/>
     <addaction name="menuPreferences"/>
     <addaction name="separator"/>
@@ -118,7 +113,6 @@
      <string>Help</string>
     </property>
     <addaction name="actionOnline_Documentation"/>
-    <addaction name="actionProject_Roadmap_2"/>
     <addaction name="actionDeveloper_Credits"/>
    </widget>
    <widget class="QMenu" name="menuPerspectives">
@@ -137,14 +131,6 @@
      <string>Main Widget</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menuPlugins">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="title">
-     <string>Plugins</string>
-    </property>
-   </widget>
    <addaction name="menuMGround"/>
    <addaction name="menuNetwork"/>
    <addaction name="menuConnected_Systems"/>
@@ -152,7 +138,6 @@
    <addaction name="menuPerspectives"/>
    <addaction name="menuMain"/>
    <addaction name="menuTools"/>
-   <addaction name="menuPlugins"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -235,18 +220,6 @@
     <string>Open UAS Preferences</string>
    </property>
   </action>
-  <action name="actionJoystickSettings">
-   <property name="icon">
-    <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/devices/input-gaming.svg</normaloff>:/files/images/devices/input-gaming.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Joystick Test</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-  </action>
   <action name="actionSimulate">
    <property name="checkable">
     <bool>true</bool>
@@ -269,18 +242,6 @@
    </property>
    <property name="text">
     <string>Show Slugs View</string>
-   </property>
-  </action>
-  <action name="actionJoystick_Settings">
-   <property name="icon">
-    <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/devices/input-gaming.svg</normaloff>:/files/images/devices/input-gaming.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Joystick Settings</string>
-   </property>
-   <property name="visible">
-    <bool>false</bool>
    </property>
   </action>
   <action name="actionOnline_Documentation">
@@ -316,10 +277,13 @@
    </property>
    <property name="icon">
     <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/status/weather-overcast.svg</normaloff>:/files/images/status/weather-overcast.svg</iconset>
+     <normaloff>:/files/images/categories/applications-internet.svg</normaloff>:/files/images/categories/applications-internet.svg</iconset>
    </property>
    <property name="text">
-    <string>Operator</string>
+    <string>Mission</string>
+   </property>
+   <property name="toolTip">
+    <string>Mission Planning and MAV Tracking</string>
    </property>
    <property name="shortcut">
     <string>Meta+O</string>
@@ -331,10 +295,13 @@
    </property>
    <property name="icon">
     <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/apps/utilities-system-monitor.svg</normaloff>:/files/images/apps/utilities-system-monitor.svg</iconset>
+     <normaloff>:/files/images/categories/applications-system.svg</normaloff>:/files/images/categories/applications-system.svg</iconset>
    </property>
    <property name="text">
-    <string>Engineer</string>
+    <string>Config</string>
+   </property>
+   <property name="toolTip">
+    <string>MAV Configuration</string>
    </property>
    <property name="shortcut">
     <string>Meta+E</string>
@@ -355,10 +322,13 @@
    </property>
    <property name="icon">
     <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/status/network-wireless-encrypted.svg</normaloff>:/files/images/status/network-wireless-encrypted.svg</iconset>
+     <normaloff>:/files/images/devices/input-gaming.svg</normaloff>:/files/images/devices/input-gaming.svg</iconset>
    </property>
    <property name="text">
     <string>Pilot</string>
+   </property>
+   <property name="toolTip">
+    <string>Pilot's view (HUD, moving map, etc)</string>
    </property>
    <property name="shortcut">
     <string>Meta+P</string>

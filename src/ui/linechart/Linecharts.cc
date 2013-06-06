@@ -22,8 +22,8 @@ Linecharts::Linecharts(QWidget *parent) :
             this, SLOT(addSystem(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(activeUASSet(int)),
             this, SLOT(selectSystem(int)));
-    connect(this, SIGNAL(logfileWritten(QString)),
-            MainWindow::instance(), SLOT(loadDataView(QString)));
+//    connect(this, SIGNAL(logfileWritten(QString)),
+//            MainWindow::instance(), SLOT(loadDataView(QString)));
 }
 
 void Linecharts::showEvent(QShowEvent* event)

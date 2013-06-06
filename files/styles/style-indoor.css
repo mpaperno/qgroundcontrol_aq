@@ -85,6 +85,7 @@ QDockWidget::title {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #3F556A, stop: 1 #293645);
     color: #EDEDED;
     padding: 1px 30px 1px 10px;
+    margin-top: 4px;
     height: 13px;
     border-radius: 2px;
     /*border-bottom: 1px solid #1B1F22;*/
@@ -94,6 +95,7 @@ QDockWidget::close-button, QDockWidget::float-button {
     border: 1px solid transparent;
     background: none;
     padding: 0px;
+    margin-top: 4px;
 }
 QDockWidget::close-button:hover, QDockWidget::float-button:hover {
     background-color: #506B84;
@@ -105,6 +107,9 @@ QDockWidget::close-button:pressed, QDockWidget::float-button:pressed {
 /*
     MenuBar
 */
+QMenuBar::item {
+    padding: 4px 0px 4px 14px;
+}
 QMenuBar::item:disabled {
     border: none;
     background: none;
@@ -166,6 +171,7 @@ QTabWidget  {
  }
  QTabBar::tab:selected, QTabBar::tab:hover {
     border: 2px solid #379AC3;
+    background-color: #353535;
  }
 
 /*
@@ -311,6 +317,9 @@ QPushButton {
 	padding-left: 8px;
 	padding-right: 8px;
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);
+}
+QPushButton:focus {
+    border-color: #999999;
 }
 QPushButton:checked, QPushButton:hover {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
@@ -492,38 +501,47 @@ QCalendarWidget QTableView  {
 /*
     Main application toolbar styling (Operator/Engineer/Pilot/Logging/Replay buttons and battery level bar)
 */
+QToolBar#QGC_TOOLBAR {
+    max-height: 36px;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #484848;
+    border-top: 1px solid #969696;
+    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #8B8B8B, stop:0.3 #808080, stop:0.34 #747474, stop:1 #484848);
+    padding: 0;
+}
 QToolBar#QGC_TOOLBAR QToolButton  {
     font-weight: bold;
-    min-height: 16px;
-    max-height: 22px;
+    height: 16px;
     min-width: 24px;
     border: 1px solid #BBBBBB;
-    border-bottom: 0px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    margin-top: 4px;
-    margin-left: 2px;
-    margin-bottom: 0px;
-    margin-right: 2px;
+    border-radius: 0px;
+    margin: 4px 0px;
+    padding: 0;
     background-color: #222222;
+}
+QToolBar#QGC_TOOLBAR QToolButton#actionOperatorsView {
+    margin-left: 8px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
+    margin-right: 8px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 QToolBar#QGC_TOOLBAR QToolButton:hover {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
 }
 QToolBar#QGC_TOOLBAR QToolButton:checked {
-    background-color: #000000;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
     border-color: #379AC3;
-    border-width: 2px;
+    border-width: 1px;
 }
 QToolBar#QGC_TOOLBAR QToolButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
     border-color: #379AC3;
-    border-width: 2px;
 }
-QToolBar#QGC_TOOLBAR #mavSymbolButton { border: 0; margin-left: 30px; background: inherit; }
-
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
     margin: 0px 4px 0px 0px;
     border: 1px solid #4A4A4F;
@@ -539,6 +557,41 @@ QToolBar#QGC_TOOLBAR QProgressBar:horizontal QLabel {
 QToolBar#QGC_TOOLBAR QProgressBar::chunk {
     background-color: green;
 }
+QToolBar#QGC_TOOLBAR QLabel {
+    max-height: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    margin: 1px 3px;
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
+    border-radius: 4px;
+    padding: 0 3px;
+/*    max-height: 18px;
+    margin: 2px 2px 2px 4px;
+    font: 14px;*/
+}
+QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
+    padding: 0 5px;
+    margin: -4px 0 0 8px;
+    max-height: 34px;
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
+    margin-left: 0;
+    font-size: 14px;
+    color: #3C7B9E;
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
+    /*font: 12px;*/
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
+    /*font: 12px;*/
+    color: yellow;
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
+    font-size: 11px;
+    /*font-style: italic;*/
+}
+
 
 
 /* Custom pushbuttons */
@@ -573,23 +626,6 @@ QPushButton#controlButton:checked {
 
 
 /* Custom labels */
-QLabel#toolBarNameLabel {
-	font: bold 16px;
-	color: #3C7B9E;
-}
-QLabel#toolBarModeLabel {
-	font: 12px;
-}
-QLabel#toolBarStateLabel {
-	font: 12px;
-	color: #3C7B9E;
-}
-QLabel#toolBarMessageLabel {
-	font: 12px;
-    font-style: italic;
-	color: #3C7B9E;
-}
-
 
 /* Button container frame */
 QFrame#frame_toolbarButtons {
