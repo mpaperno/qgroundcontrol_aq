@@ -82,7 +82,6 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     connect(ui->toolButton_loadFile, SIGNAL(clicked()), this, SLOT(loadFile_clicked()));
     connect(ui->toolButton_saveFile, SIGNAL(clicked()), this, SLOT(saveFile_clicked()));
     connect(ui->toolButton_loadImage, SIGNAL(clicked()), this, SLOT(loadImage_clicked()));
-    connect(ui->pushButton_saveToAQ, SIGNAL(clicked()), this, SLOT(saveToAQ_clicked()));
 }
 
 AQPWMPortsConfig::~AQPWMPortsConfig()
@@ -439,7 +438,7 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
         return;
 
     QString pname;
-    float throt, pitch, roll, yaw, motConfig, motConfig2, val;
+    float throt, pitch, roll, yaw, motConfig, motConfig2;
     bool orderType = 0; // 0=param order (1-14), 1=order from onboard config bitmask
     uint32_t portOrder=0, portOrder2=0;
     QList<motorPortSettings> onboardConfig;
@@ -546,19 +545,42 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
 }
 
 
-void AQPWMPortsConfig::saveOnboardConfig(void) {
+quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeList, QStringList *errors) {
 
     if (!aq->checkAqConnected(true))
-        return;
+        return 2;
 
     paramHandler = aq->getParamHandler();
 
     QString pname; //, porder;
-    float val;
-    bool configChanged = false;
+    float val, val_uas;
     uint32_t portOrder=0, portOrder2=0;
     motorPortSettings mot, pconfig;
     QMap<QString, float> configMap;
+    QList<float> changeVals;
+    quint8 err = 0; // 0=no error, 1=soft error, 2=fatal error
+
+    validateForm();
+
+    if (errorInMotorConfigTotals) {
+        errors->append(tr("There is an unbalanced total value in one or more of the motor configuration columns. This may lead to upredictable behavior."));
+        err = 1;
+    }
+    if (errorInMotorConfig) {
+        errors->append(tr("You have invalid values in the motor configuration table."));
+        err = 2;
+    }
+    if (errorInPortConfig) {
+        errors->append(tr("You have selected the same port for multiple outputs."));
+        err = 2;
+    }
+    if (errorInTimerConfig) {
+        errors->append(tr("You have selected motor and gimbal ports, or gimbal roll/pitch and trigger ports, which use the same hardware timers. Please check the port number chart image for a reference."));
+        err = 2;
+    }
+
+    if (err > 1)
+        return err;
 
     for (int i=1; i <= 14; ++i) {
         pconfig = motorPortSettings(i);
@@ -605,35 +627,24 @@ void AQPWMPortsConfig::saveOnboardConfig(void) {
 
 //  qDebug() << qSetRealNumberPrecision(20) << portOrder << portOrder2;
 
-//    configMap.insert("GMBL_ROLL_PORT", ui->comboBox_gimbalRoll->currentText().toFloat());
-//    configMap.insert("GMBL_PITCH_PORT", ui->comboBox_gimbalPitch->currentText().toFloat());
-//    configMap.insert("GMBL_TRIG_PORT", ui->comboBox_gimbalTrigger->currentText().toFloat());
-//    configMap.insert("GMBL_PTHR_PORT", ui->comboBox_gimbalPthru->currentText().toFloat());
-//    configMap.insert("SIG_LED_1_PRT", ui->comboBox_led_1->currentText().toFloat());
-//    configMap.insert("SIG_LED_2_PRT", ui->comboBox_led_2->currentText().toFloat());
-//    val = ui->comboBox_beeper->currentText().toFloat();
-//    configMap.insert("SIG_BEEP_PRT", (ui->checkBox_useSpeaker->isChecked()) ? 0.0f - val : val);
-
     QMapIterator<QString, float> mi(configMap);
     while (mi.hasNext()) {
         mi.next();
-        if (paramHandler->paramExistsAQ(mi.key()) && paramHandler->getParaAQ(mi.key()).toFloat() != mi.value()) {
-            paramHandler->setParaAQ(mi.key(), mi.value());
-            configChanged = true;
+        if (paramHandler->paramExistsAQ(mi.key())) {
+            val_uas = paramHandler->getParaAQ(mi.key()).toFloat();
+            if (val_uas != mi.value()) {
+                changeVals.clear();
+                changeVals.append(val_uas);
+                changeVals.append(mi.value());
+                changeList->insert(mi.key(), changeVals);
+            }
+        } else {
+            errors->append(mi.key());
+            err = 1;
         }
     }
 
-    if (aq->saveSettingsToAq(ui->groupBox_gimbal, false))
-        configChanged = true;
-
-    if (aq->saveSettingsToAq(ui->groupBox_signaling, false))
-        configChanged = true;
-
-    if (configChanged)
-        aq->QuestionForROM();
-    else
-        MainWindow::instance()->showInfoMessage("Warning", "No changed parameters detected.  Nothing saved.");
-
+    return err;
 }
 
 
@@ -714,33 +725,37 @@ bool AQPWMPortsConfig::validateForm(void) {
     }
     // loop over each port number combo box to check for more duplicates
     foreach (QComboBox* cb, allPortSelectors) {
-        if (cb->currentIndex()){
-            port = cb->currentText();
-            tim = aq->pwmPortTimers.at(port.toUInt()-1);
-            if (usedPorts.contains(port))
-                dupePorts.append(port);
-            else {
-                usedPorts.append(port);
+        if (cb->currentIndex() <= 0)
+            continue;
 
-                // check if this timer conflicts with any motor ports
-                if (cb->objectName().startsWith("GMBL_")){
-                    if (motorUsedTimers.contains(tim)) {
-                        timConflictPorts.append(motorUsedTimers.value(tim));
-                        timConflictPorts.append(port);
-                    }
-                    // save this timer as used to compare to trigger timer
-                    if (cb->objectName() != "GMBL_TRIG_PORT") {
-                        if (!gimbalUsedTimers.contains(tim))
-                            gimbalUsedTimers.insert(tim, QStringList(port));
-                        else {
-                            QStringList pl = gimbalUsedTimers.value(tim);
-                            pl.append(port);
-                            gimbalUsedTimers.insert(tim, pl);
-                        }
+        port = cb->currentText();
+        if (port.toInt() > aq->pwmPortTimers.size())
+            continue;
+
+        tim = aq->pwmPortTimers.at(port.toUInt()-1);
+        if (usedPorts.contains(port))
+            dupePorts.append(port);
+        else {
+            usedPorts.append(port);
+
+            // check if this timer conflicts with any motor ports
+            if (cb->objectName().startsWith("GMBL_")){
+                if (motorUsedTimers.contains(tim)) {
+                    timConflictPorts.append(motorUsedTimers.value(tim));
+                    timConflictPorts.append(port);
+                }
+                // save this timer as used to compare to trigger timer
+                if (cb->objectName() != "GMBL_TRIG_PORT") {
+                    if (!gimbalUsedTimers.contains(tim))
+                        gimbalUsedTimers.insert(tim, QStringList(port));
+                    else {
+                        QStringList pl = gimbalUsedTimers.value(tim);
+                        pl.append(port);
+                        gimbalUsedTimers.insert(tim, pl);
                     }
                 }
-
             }
+
         }
     }
 
@@ -977,54 +992,6 @@ void AQPWMPortsConfig::loadImage_clicked() {
     }
 }
 
-
-void AQPWMPortsConfig::saveToAQ_clicked(void) {
-    QStringList msg;
-    uint8_t err = 0; // 0=no error, 1=soft error, 2=fatal error
-
-    validateForm();
-
-    if (errorInMotorConfigTotals) {
-        msg.append("There is an unbalanced total value in one or more of the motor configuration columns. This may lead to upredictable behavior.");
-        err = 1;
-    }
-    if (errorInMotorConfig) {
-        msg.append("You have invalid values in the motor configuration table.");
-        err = 2;
-    }
-    if (errorInPortConfig) {
-        msg.append("You have selected the same port for multiple outputs.");
-        err = 2;
-    }
-    if (errorInTimerConfig) {
-        msg.append("You have selected motor and gimbal ports, or gimbal roll/pitch and trigger ports, which use the same hardware timers. Please check the port number chart image for a reference.");
-        err = 2;
-    }
-
-    if (err) {
-        QMessageBox msgBox;
-        if (err > 1){
-            msgBox.setText("Cannot save due to error(s):");
-            msgBox.setStandardButtons(QMessageBox::Close);
-            msgBox.setDefaultButton(QMessageBox::Close);
-            msgBox.setIcon(QMessageBox::Critical);
-        } else {
-            msgBox.setText("Possible problem(s) exist:");
-            msg.append("Do you wish to ignore the warning and continue?");
-            msgBox.setStandardButtons(QMessageBox::Ignore | QMessageBox::Cancel);
-            msgBox.setDefaultButton(QMessageBox::Cancel);
-            msgBox.setIcon(QMessageBox::Warning);
-        }
-        msgBox.setInformativeText(msg.join("\n\n"));
-
-        int ret = msgBox.exec();
-        if (err > 1 || ret == QMessageBox::Cancel)
-            return;
-
-    }
-
-    saveOnboardConfig();
-}
 
 
 // ----------------------------------------------

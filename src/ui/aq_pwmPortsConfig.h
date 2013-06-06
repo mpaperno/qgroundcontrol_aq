@@ -60,7 +60,7 @@ public slots:
     void saveConfigFile(QString file);
     void loadCustomConfig(int numMotors);
     void loadOnboardConfig(void);
-    void saveOnboardConfig(void);
+    quint8 saveOnboardConfig(QMap<QString, QList<float> > *changeList, QStringList *errors);
     void loadFrameTypes(void);
     bool validateForm(void);
     void portNumbersModel_updated(void);
@@ -79,7 +79,6 @@ private slots:
     void loadFile_clicked();
     void saveFile_clicked();
     void loadImage_clicked();
-    void saveToAQ_clicked();
 
 public:
     bool motorMixType;    // configuration type selected: 0 = custom; 1 = predefined;

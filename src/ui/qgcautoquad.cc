@@ -4,6 +4,7 @@
 #include "aq_LogExporter.h"
 #include "LinkManager.h"
 #include "UASManager.h"
+#include "MG.h"
 #include <SerialLinkInterface.h>
 #include <SerialLink.h>
 #include <qstringlist.h>
@@ -25,7 +26,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     plot(new IncrementalPlot()),
     uas(NULL),
     paramaq(NULL),
-    esc32(NULL)
+    esc32(NULL),
+    mtx_paramsAreLoading(false)
 {
 
     VisibleWidget = 0;
@@ -66,7 +68,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // load the Telemetry tab
     aqTelemetryView = new AQTelemetryView(this);
-    ui->tabWidget->insertTab(5, aqTelemetryView, tr("Telemetry"));
+    ui->tabLayout_telemetry->addWidget(aqTelemetryView);
+    //ui->tabWidget->insertTab(5, aqTelemetryView, tr("Telemetry"));
 
     FlashEsc32Active = false;
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
@@ -75,10 +78,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // load the port config UI
     aqPwmPortConfig = new AQPWMPortsConfig(this);
-    ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
+    ui->tabLayout_aqMixingOutput->addWidget(aqPwmPortConfig);
+    //ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
 #ifdef QT_NO_DEBUG
-    ui->tabWidget->removeTab(6); // hide devel tab
+    ui->tabWidget->removeTab(ui->tabWidget->count()-1); // hide devel tab
 #endif
 
     ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT);
@@ -89,6 +93,21 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->checkBox_raw_value->setChecked(true);
 
     ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
+
+    ui->CTRL_HF_ON_POS->addItem("High", 250);
+    ui->CTRL_HF_ON_POS->addItem("Mid", 0);
+    ui->CTRL_HF_ON_POS->addItem("Low", -250);
+    ui->CTRL_HF_ON_POS->setCurrentIndex(2);
+
+    ui->CTRL_HF_SET_POS->addItem("High", 250);
+    ui->CTRL_HF_SET_POS->addItem("Mid", 0);
+    ui->CTRL_HF_SET_POS->addItem("Low", -250);
+    ui->CTRL_HF_SET_POS->setCurrentIndex(0);
+
+    ui->CTRL_HF_MODE->addItem("Switch-Controlled", 1);
+    ui->CTRL_HF_MODE->addItem("Locked", 2);
+    ui->CTRL_HF_MODE->addItem("Dynamic", 3);
+    ui->CTRL_HF_MODE->setCurrentIndex(0);
 
     ui->comboBox_marker->clear();
     ui->comboBox_marker->addItem("Start & End 1s", 0);
@@ -110,6 +129,20 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_in_mode->addItem("OW", 4);
 
     ui->DoubleMaxCurrent->setValue(30.0);
+
+    // baud rates
+
+    QList<int> availableBaudRates = MG::SERIAL::getBaudRates();
+    QStringList baudRates;
+    for (int i=0; i < availableBaudRates.length(); ++i)
+        baudRates.append(QString::number(availableBaudRates[i]));
+
+    ui->DOWNLINK_BAUD->addItems(baudRates);
+    ui->COMM_BAUD1->addItems(baudRates);
+    ui->COMM_BAUD2->addItems(baudRates);
+    ui->COMM_BAUD3->addItems(baudRates);
+    ui->COMM_BAUD4->addItems(baudRates);
+
 
     // populate COMM stream types
     QList<QButtonGroup *> commStreamTypBtns = this->findChildren<QButtonGroup *>(QRegExp("COMM_STREAM_TYP[\\d]$"));
@@ -144,16 +177,22 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     ui->conatiner_radioGraphValues->setEnabled(false);
     ui->checkBox_raw_value->hide();
+    ui->form_mot_exponent_settings->hide();
+    ui->DOWNLINK_BAUD->hide();
+    ui->label_DOWNLINK_BAUD->hide();
+    ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
+//    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
 
     adjustUiForHardware();
     adjustUiForFirmware();
+    adjustUiForHeadFreeMode(0);
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
     // save this for easy iteration later
-    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("RADIO_.+")));
+    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO_|CTRL_HF_).+_CH")));
     allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
     allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
 
@@ -204,11 +243,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
     connect(ui->comboBox_marker, SIGNAL(currentIndexChanged(int)),this,SLOT(CuttingItemChanged(int)));
 
-    connect(ui->pushButton_save_to_aq_radio, SIGNAL(clicked()),this,SLOT(saveRadioSettings()));
-    connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(saveAttitudePIDs()));
-    connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(saveNavigationPIDs()));
-    connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(saveSpecialSettings()));
-    connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(saveGimbalSettings()));
+    connect(ui->pushButton_save_to_aq, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
+//    connect(ui->pushButton_save_to_aq_radio, SIGNAL(clicked()),this,SLOT(saveRadioSettings()));
+//    connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(saveAttitudePIDs()));
+//    connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(saveNavigationPIDs()));
+//    connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(saveSpecialSettings()));
+//    connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(saveGimbalSettings()));
 
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
@@ -216,6 +256,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq(int)));
     foreach (QComboBox* cb, allRadioChanCombos)
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
+
+    connect(ui->CTRL_HF_ON_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
+    connect(ui->CTRL_HF_SET_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
+    connect(ui->CTRL_HF_ON_POS, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
+    connect(ui->CTRL_HF_SET_POS, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
 
     connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
     connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
@@ -318,39 +363,6 @@ void QGCAutoquad::showEvent(QShowEvent* event)
     }
     QWidget::showEvent(event);
     emit visibilityChanged(true);
-}
-
-void QGCAutoquad::adjustUiForHardware() {
-    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
-    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
-}
-
-void QGCAutoquad::adjustUiForFirmware() {
-    uint8_t idx;
-
-    disconnect(ui->RADIO_TYPE, 0, this, 0);
-    idx = ui->RADIO_TYPE->currentIndex();
-    ui->RADIO_TYPE->clear();
-    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
-    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
-    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
-    ui->RADIO_TYPE->addItem("PPM", 3);
-    if (!aqFirmwareRevision || aqFirmwareRevision >= 128)
-        ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
-    if (idx <= ui->RADIO_TYPE->count())
-        ui->RADIO_TYPE->setCurrentIndex(idx);
-    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
-
-    idx = ui->SPVR_FS_RAD_ST2->currentIndex();
-    ui->SPVR_FS_RAD_ST2->clear();
-    ui->SPVR_FS_RAD_ST2->addItem("Land", 0);
-    ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
-    if (!aqFirmwareRevision || aqFirmwareRevision > 172)
-        ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
-    if (idx <= ui->SPVR_FS_RAD_ST2->count())
-        ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
-
-    ui->groupBox_commPorts->setVisible(!aqFirmwareRevision || aqFirmwareRevision >= 133);
 }
 
 void QGCAutoquad::loadSettings()
@@ -466,6 +478,105 @@ void QGCAutoquad::writeSettings()
     settings.sync();
     settings.endGroup();
 }
+
+
+//
+// UI handlers
+//
+
+void QGCAutoquad::adjustUiForHardware() {
+    ui->groupBox_commSerial2->setVisible(aqHardwareVersion == 6);
+    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
+    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+}
+
+void QGCAutoquad::adjustUiForFirmware() {
+    uint8_t idx;
+
+    disconnect(ui->RADIO_TYPE, 0, this, 0);
+    idx = ui->RADIO_TYPE->currentIndex();
+    ui->RADIO_TYPE->clear();
+    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
+    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
+    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
+    ui->RADIO_TYPE->addItem("PPM", 3);
+    if (!aqFirmwareRevision || aqFirmwareRevision >= 128)
+        ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
+    if (idx > -1 && idx <= ui->RADIO_TYPE->count())
+        ui->RADIO_TYPE->setCurrentIndex(idx);
+    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+
+    idx = ui->SPVR_FS_RAD_ST2->currentIndex();
+    ui->SPVR_FS_RAD_ST2->clear();
+    ui->SPVR_FS_RAD_ST2->addItem("Land", 0);
+    ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
+    if (!paramaq || paramaq->paramExistsAQ("SPVR_FS_ADD_ALT"))
+        ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
+    if (idx > -1 && idx <= ui->SPVR_FS_RAD_ST2->count())
+        ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
+
+    ui->groupBox_commPorts->setVisible(!aqFirmwareRevision || aqFirmwareRevision >= 133);
+}
+
+void QGCAutoquad::adjustUiForHeadFreeMode(int idx)
+{
+    Q_UNUSED(idx);
+
+    if (mtx_paramsAreLoading)
+        return;
+
+    QModelIndex midx;
+    int onChan = ui->CTRL_HF_ON_CH->currentIndex();
+    int setChan = ui->CTRL_HF_SET_CH->currentIndex();
+
+
+    ui->CTRL_HF_ON_POS->setEnabled(onChan);
+    ui->label_CTRL_HF_SET_CH->setEnabled(onChan);
+    ui->CTRL_HF_SET_CH->setEnabled(onChan);
+    ui->CTRL_HF_SET_POS->setEnabled(onChan && setChan);
+    ui->widget_headFreeSettings->setVisible(false);
+
+    // enable the switch-control option
+    midx = ui->CTRL_HF_MODE->model()->index(0, 0);
+    ui->CTRL_HF_MODE->model()->setData(midx, 33, Qt::UserRole - 1);
+
+    if (onChan) {
+        if (setChan && (setChan != onChan || ui->CTRL_HF_ON_POS->currentIndex() != ui->CTRL_HF_SET_POS->currentIndex())) {
+            ui->CTRL_HF_MODE->setEnabled(false);
+            ui->CTRL_HF_MODE->setCurrentIndex(0);
+        } else {
+            ui->CTRL_HF_MODE->setEnabled(true);
+            ui->widget_headFreeSettings->setVisible(true);
+            // disable the switch-control option
+            midx = ui->CTRL_HF_MODE->model()->index(0, 0);
+            ui->CTRL_HF_MODE->model()->setData(midx, 0, Qt::UserRole - 1);
+            if (!ui->CTRL_HF_MODE->currentIndex())
+                ui->CTRL_HF_MODE->setCurrentIndex(1);
+        }
+    } else {
+        disconnect(ui->CTRL_HF_SET_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
+        ui->CTRL_HF_SET_CH->setCurrentIndex(0);
+        connect(ui->CTRL_HF_SET_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
+    }
+
+}
+
+void QGCAutoquad::on_groupBox_controlAdvancedSettings_toggled(bool arg1)
+{
+    ui->widget_controlAdvancedSettings->setVisible(arg1);
+}
+
+
+void QGCAutoquad::on_SPVR_FS_RAD_ST2_currentIndexChanged(int index)
+{
+    ui->label_SPVR_FS_ADD_ALT->setVisible(index == 2);
+    ui->SPVR_FS_ADD_ALT->setVisible(index == 2);
+}
+
+//void QGCAutoquad::on_groupBox_ppmOptions_toggled(bool arg1)
+//{
+//    ui->widget_ppmOptions->setVisible(arg1);
+//}
 
 
 //
@@ -1737,14 +1848,30 @@ void QGCAutoquad::radioType_changed(int idx) {
 }
 
 bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
-    QList<int> portsUsed, conflictPorts;
+    QList<QString> conflictPorts, portsUsed, essentialPorts;
+    QString cbname, cbtxt;
+
     foreach (QComboBox* cb, allRadioChanCombos) {
-        if (portsUsed.contains(cb->currentIndex()))
-            conflictPorts.append(cb->currentIndex());
-        portsUsed.append(cb->currentIndex());
+        cbname = cb->objectName();
+        cbtxt = cb->currentText();
+        if (cbname.contains(QRegExp("^CTRL_HF_.+")))
+            continue;
+        if (portsUsed.contains(cbtxt))
+            conflictPorts.append(cbtxt);
+        if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP)_CH")))
+            essentialPorts.append(cbtxt);
+        portsUsed.append(cbtxt);
     }
+    // validate heading-free controls
+    QString hfOnChan = ui->CTRL_HF_ON_CH->currentText();
+    QString hfSetChan = ui->CTRL_HF_SET_CH->currentText();
+    if (ui->CTRL_HF_ON_CH->currentIndex() && essentialPorts.contains(hfOnChan))
+        conflictPorts.append(hfOnChan);
+    if (ui->CTRL_HF_SET_CH->currentIndex() && essentialPorts.contains(hfSetChan))
+        conflictPorts.append(hfSetChan);
+
     foreach (QComboBox* cb, allRadioChanCombos) {
-        if (conflictPorts.contains(cb->currentIndex()))
+        if (conflictPorts.contains(cb->currentText()))
             cb->setStyleSheet("background-color: rgba(255, 0, 0, 200)");
         else
             cb->setStyleSheet("");
@@ -1918,7 +2045,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
             disconnect(uas, 0, this, 0);
         if (paramaq) {
             disconnect(paramaq, 0, this, 0);
-            ui->gridLayout_paramAQ->removeWidget(paramaq);
+            ui->tabLayout_paramHandler->removeWidget(paramaq);
             delete paramaq;
         }
 
@@ -1928,7 +2055,8 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
 
         paramaq = new QGCAQParamWidget(uas, this);
-        ui->gridLayout_paramAQ->addWidget(paramaq);
+        ui->label_params_no_aq->hide();
+        ui->tabLayout_paramHandler->addWidget(paramaq);
         connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
         connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
         if ( LastFilePath == "")
@@ -1972,7 +2100,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         return;
 
     bool ok;
-    int precision;
+    int precision, tmp;
     QString paraName, valstr;
     QVariant val;
     QLabel *paraLabel;
@@ -2003,9 +2131,20 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w)){
             valstr.setNum(val.toFloat(), 'g', precision);
             le->setText(valstr);
-        } else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
-            cb->setCurrentIndex(abs(val.toInt(&ok)));
-        else if (QDoubleSpinBox* dsb = qobject_cast<QDoubleSpinBox *>(w)) {
+        } else if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
+            if (cb->isEditable()) {
+                if ((tmp = cb->findText(val.toString())) > -1)
+                    cb->setCurrentIndex(tmp);
+                else {
+                    cb->insertItem(0, val.toString());
+                    cb->setCurrentIndex(0);
+                }
+            }
+            else if ((tmp = cb->findData(val)) > -1)
+                cb->setCurrentIndex(tmp);
+            else
+                cb->setCurrentIndex(abs(val.toInt(&ok)));
+        } else if (QDoubleSpinBox* dsb = qobject_cast<QDoubleSpinBox *>(w)) {
             dsb->setValue(val.toDouble(&ok));
         }
         else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
@@ -2022,12 +2161,9 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
 
     if (qobject_cast<QGCAutoquad *>(parent)) {
         // gimbal pitch/roll revese checkboxes
-        float f_pitch_direction = paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat();
-        float f_roll_direction = paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat();
-        ui->reverse_gimbal_pitch->setChecked(f_pitch_direction < 0);
-        ui->reverse_gimbal_roll->setChecked(f_roll_direction < 0);
+        ui->reverse_gimbal_pitch->setChecked(paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat() < 0);
+        ui->reverse_gimbal_roll->setChecked(paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat() < 0);
     }
-
 
 }
 
@@ -2058,30 +2194,12 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
 }
 
 void QGCAutoquad::loadParametersToUI() {
-    getGUIpara(ui->RadioSettings);
-    getGUIpara(ui->tab_aq_edit_para);
+    mtx_paramsAreLoading = true;
+    getGUIpara(ui->tab_aq_settings);
     populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
-}
-
-void QGCAutoquad::QuestionForROM()
-{
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("Question");
-    msgBox.setInformativeText("The values have been transmitted to AutoQuad and will persist until the next restart.\n\n\
-Do you want to store all the current parameters into permanent on-board memory (ROM)?");
-    msgBox.setWindowModality(Qt::ApplicationModal);
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    int ret = msgBox.exec();
-    switch (ret) {
-        case QMessageBox::Yes:
-            uas->writeParametersToStorageAQ();
-            ui->label_radioChangeWarning->hide();
-            break;
-        case QMessageBox::No:
-        default:
-            return;
-    }
+    mtx_paramsAreLoading = false;
+    adjustUiForHeadFreeMode(0);
 }
 
 bool QGCAutoquad::checkAqConnected(bool interactive) {
@@ -2097,16 +2215,21 @@ bool QGCAutoquad::checkAqConnected(bool interactive) {
 bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 {
     float val_uas, val_local;
-    QString paraName;
+    QString paraName, msg;
     QStringList errors;
-    bool changed=false, ok, chkstate;
+    bool ok, chkstate;
+    quint8 errLevel = 0;  // 0=no error; 1=soft error; 2=hard error
+    QList<float> changeVals;
+    QMap<QString, QList<float> > changeList; // param name, old val, new val
+    QMessageBox msgBox;
+    QVariant tmp;
 
     if ( !checkAqConnected(interactive) )
         return false;
 
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     QList<QObject*> objList = *reinterpret_cast<QList<QObject *>*>(&wdgtList);
-    if (!QString::compare(parent->objectName(), "Gimbal")) {
+    if (!QString::compare(parent->objectName(), "tab_aq_settings")) {
         QList<QButtonGroup *> grpList = this->findChildren<QButtonGroup *>(fldnameRx);
         objList.append(*reinterpret_cast<QList<QObject *>*>(&grpList));
     }
@@ -2121,10 +2244,19 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w))
             val_local = le->text().toFloat(&ok);
-        else if (QComboBox* cb = qobject_cast<QComboBox *>(w))
-            val_local = static_cast<float>(cb->currentIndex());
-        else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
-            val_local = sb->text().replace(QRegExp("[^0-9,\\.]"), "").toFloat(&ok);
+        else if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
+            if (cb->isEditable()) {
+                val_local = cb->currentText().toFloat(&ok);
+            }
+            else {
+                tmp = cb->itemData(cb->currentIndex());
+                if (tmp.isValid())
+                    val_local = tmp.toFloat(&ok);
+                else
+                    val_local = static_cast<float>(cb->currentIndex());
+            }
+        } else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
+            val_local = sb->text().replace(QRegExp("[^0-9,\\.-]"), "").toFloat(&ok);
         else if (QButtonGroup* bg = qobject_cast<QButtonGroup *>(w)) {
             val_local = 0;
             foreach (QAbstractButton* abtn, bg->buttons()) {
@@ -2158,21 +2290,106 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
                 val_local = 0.0f - val_local;
         }
 
-        if (val_uas != val_local){
-            paramaq->setParaAQ(paraName, val_local);
-            changed = true;
+        // FIXME with a real float comparator
+        if (val_uas != val_local) {
+            changeVals.clear();
+            changeVals.append(val_uas);
+            changeVals.append(val_local);
+            changeList.insert(paraName, changeVals);
         }
     }
 
     if (errors.size()) {
-        QString msg = "One or more parameter(s) could not be saved:\n\n";
-        msg += errors.join("\n");
-        MainWindow::instance()->showCriticalMessage("Error Saving Parameters!", msg);
+        errors.insert(0, tr("One or more parameter(s) could not be saved:"));
+        if (errors.size() >= changeList.size())
+            errLevel = 2;
+        else
+            errLevel = 1;
     }
 
-    if ( changed ) {
-        if (interactive)
-            QuestionForROM();
+    errLevel = aqPwmPortConfig->saveOnboardConfig(&changeList, &errors);
+
+    if (errLevel) {
+
+        if (errLevel > 1){
+            msgBox.setText(tr("Cannot save due to error(s):"));
+            msgBox.setStandardButtons(QMessageBox::Close);
+            msgBox.setDefaultButton(QMessageBox::Close);
+            msgBox.setIcon(QMessageBox::Critical);
+        } else {
+            msgBox.setText(tr("Possible problem(s) exist:"));
+            errors.append(tr("Do you wish to ignore this and continue saving?"));
+            msgBox.setStandardButtons(QMessageBox::Ignore | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Cancel);
+            msgBox.setIcon(QMessageBox::Warning);
+        }
+        msgBox.setInformativeText(errors.join("\n\n"));
+
+        int ret = msgBox.exec();
+        if (errLevel > 1 || ret == QMessageBox::Cancel)
+            return false;
+
+    }
+
+    if ( changeList.size() ) {
+        quint8 saveType = 1;  // save to volatile
+
+        if (interactive) {
+            QString msgBoxText;
+            msg = "";
+            if (changeList.size() < 50) {
+                msgBoxText = tr("The following parameter%1 %2 been modified:\n").arg((changeList.size() > 1) ? "s" : "").arg((changeList.size() > 1) ? tr("have") : tr("has"));
+                msg = "<table cellspacing=\"6\" border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n";
+                QMapIterator<QString, QList<float> > i(changeList);
+                QString val1, val2;
+                while (i.hasNext()) {
+                    i.next();
+                    val1.setNum(i.value().at(0), 'g', 8);
+                    val2.setNum(i.value().at(1), 'g', 8);
+                    msg += QString("<tr><td>%1</td><td>%2</td><td>%3</td></tr>\n").arg(i.key()).arg(val1).arg(val2);
+                }
+                msg += "</tbody></table>\n";
+            }
+            else {
+                msgBoxText = tr("Warning: Over 50 parameters have been detected as modified.");
+            }
+            msg += tr("<p>Do you wish to continue?</p>");
+
+            msgBox.setText(msgBoxText);
+            msgBox.setInformativeText(msg);
+            msgBox.setWindowModality(Qt::ApplicationModal);
+            msgBox.setIcon(QMessageBox::Question);
+            msgBox.setStandardButtons(QMessageBox::NoButton);
+
+            QPushButton *btn_saveToRam = msgBox.addButton(tr("Save to Volatile Memory"), QMessageBox::YesRole);
+            btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
+            QPushButton *btn_saveToRom = msgBox.addButton(tr("Save to Permanent Memory"), QMessageBox::YesRole);
+            btn_saveToRom->setToolTip(tr("The settings will be immediately active and persist AFTER flight controller is restarted."));
+            QPushButton *btn_cancel = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+            btn_cancel->setToolTip(tr("Do not save any settings."));
+            msgBox.setDefaultButton(btn_cancel);
+
+            msgBox.exec();
+
+            if (msgBox.clickedButton() == btn_saveToRam)
+                saveType = 1;
+            else if (msgBox.clickedButton() == btn_saveToRom)
+                saveType = 2;
+            else
+                return false;
+        }
+
+        QMapIterator<QString, QList<float> > i(changeList);
+        while (i.hasNext()) {
+            i.next();
+            paramaq->setParaAQ(i.key(), i.value().at(1));
+        }
+
+        if (saveType == 2) {
+            uas->writeParametersToStorageAQ();
+            ui->label_radioChangeWarning->hide();
+        }
+
         return true;
     } else {
         if (interactive)
@@ -2181,29 +2398,37 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
     }
 }
 
-void QGCAutoquad::saveRadioSettings() {
+void QGCAutoquad::saveAQSettings() {
     if (!validateRadioSettings(0)) {
         MainWindow::instance()->showCriticalMessage("Error", "You have the same port assigned to multiple controls!");
         return;
     }
-    saveSettingsToAq(ui->RadioSettings);
+    saveSettingsToAq(ui->tab_aq_settings);
 }
 
-void QGCAutoquad::saveAttitudePIDs() {
-    saveSettingsToAq(ui->TiltYawPID);
-}
+//void QGCAutoquad::saveRadioSettings() {
+//    if (!validateRadioSettings(0)) {
+//        MainWindow::instance()->showCriticalMessage("Error", "You have the same port assigned to multiple controls!");
+//        return;
+//    }
+//    saveSettingsToAq(ui->RadioSettings);
+//}
 
-void QGCAutoquad::saveNavigationPIDs() {
-    saveSettingsToAq(ui->NavigationPID);
-}
+//void QGCAutoquad::saveAttitudePIDs() {
+//    saveSettingsToAq(ui->TiltYawPID);
+//}
 
-void QGCAutoquad::saveSpecialSettings() {
-    saveSettingsToAq(ui->SpecialSettings);
-}
+//void QGCAutoquad::saveNavigationPIDs() {
+//    saveSettingsToAq(ui->NavigationPID);
+//}
 
-void QGCAutoquad::saveGimbalSettings() {
-    saveSettingsToAq(ui->Gimbal);
-}
+//void QGCAutoquad::saveSpecialSettings() {
+//    saveSettingsToAq(ui->SpecialSettings);
+//}
+
+//void QGCAutoquad::saveGimbalSettings() {
+//    saveSettingsToAq(ui->Gimbal);
+//}
 
 
 //
@@ -3068,12 +3293,12 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
         }
 
         if (aqFirmwareVersion.length()) {
-            QString verStr = QString("AQ FW v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
+            QString verStr = QString("AQ FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
             if (aqFirmwareRevision > 0)
                 verStr += QString(" r%1").arg(QString::number(aqFirmwareRevision));
             if (aqBuildNumber > 0)
                 verStr += QString(" b%1").arg(QString::number(aqBuildNumber));
-            verStr += QString(" HW v. %1").arg(QString::number(aqHardwareVersion));
+            verStr += QString(" HW: v. %1").arg(QString::number(aqHardwareVersion));
             if (aqHardwareRevision > -1)
                 verStr += QString(" r%1").arg(QString::number(aqHardwareRevision));
 
@@ -3264,4 +3489,3 @@ void QGCAutoquad::pushButton_dev1(){
 //    ui->lineEdit_15->setText(QString::number(aqHardwareRevision));
 //    waiter.exec();
 }
-

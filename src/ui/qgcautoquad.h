@@ -22,6 +22,7 @@
 
 class QProgressBar;
 class QLabel;
+class QGCAQParamWidget;
 
 namespace Ui {
 class QGCAutoquad;
@@ -40,7 +41,6 @@ public:
     void getGUIpara(QWidget* parent = NULL);
     void populateButtonGroups(QObject *parent);
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
-    void QuestionForROM();
     bool checkAqConnected(bool interactive = false);
 
 protected:
@@ -53,12 +53,18 @@ signals:
     void hardwareInfoUpdated(void);
 
 private slots:
-    void adjustUiForHardware();
-    void adjustUiForFirmware();
 
     // program settings
     void loadSettings();
     void writeSettings();
+
+    // UI handlers
+    void adjustUiForHardware();
+    void adjustUiForFirmware();
+    void adjustUiForHeadFreeMode(int idx);
+    void on_groupBox_controlAdvancedSettings_toggled(bool arg1);
+    void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
+//  void on_groupBox_ppmOptions_toggled(bool arg1);
 
     // AQ FW flashing
     void setupPortList();
@@ -95,11 +101,7 @@ private slots:
 
     // AQ Settings
     void loadParametersToUI();
-    void saveRadioSettings();
-    void saveAttitudePIDs();
-    void saveNavigationPIDs();
-    void saveSpecialSettings();
-    void saveGimbalSettings();
+    void saveAQSettings();
 
     // Radio setup
     void radioType_changed(int idx);
@@ -161,6 +163,8 @@ private slots:
     void setHardwareInfo(int boardVer);
     void paramRequestTimeoutNotify(int readCount, int writeCount);
     void pushButton_dev1();
+
+    // Tracking
     void pushButton_tracking();
     void pushButton_tracking_file();
     void prtstexitTR(int);
@@ -171,7 +175,6 @@ private slots:
 /*
  * Variables
 */
-
 public:
     int aqFirmwareRevision;
     int aqHardwareVersion;
@@ -264,11 +267,8 @@ private:
     QwtPlotMarker *MarkerCut4;
     QColor DefaultColorMeasureChannels;
 
-    // Misc
-    int VisibleWidget;
-    int devCommand;
+    // Tracking
     double lat,lon,alt;
-    QProcess ps_master;
     QProcess ps_tracking;
     int TrackingIsrunning;
     QString FileNameForTracking;
@@ -287,6 +287,12 @@ private:
     float res1,res2;
     QStringList SplitRes;
     float currentPosN, currentPosE;
+
+    // Misc
+    int VisibleWidget;
+    int devCommand;
+    QProcess ps_master;
+    bool mtx_paramsAreLoading;
 };
 
 #endif // QGCAUTOQUAD_H
