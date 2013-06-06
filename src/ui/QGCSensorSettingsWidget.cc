@@ -38,22 +38,22 @@ QGCSensorSettingsWidget::QGCSensorSettingsWidget(UASInterface* uas, QWidget *par
 {
     ui->setupUi(this);
     // Set up delay timers
-     delayedSendRawSensorTimer.setInterval(800);
-     delayedSendControllerTimer.setInterval(800);
-     delayedSendExtendedTimer.setInterval(800);
-     delayedSendRCTimer.setInterval(800);
-     delayedSendPositionTimer.setInterval(800);
-     delayedSendExtra1Timer.setInterval(800);
-     delayedSendExtra2Timer.setInterval(800);
-     delayedSendExtra3Timer.setInterval(800);
+    delayedSendRawSensorTimer.setInterval(800);
+    delayedSendControllerTimer.setInterval(800);
+    delayedSendExtendedTimer.setInterval(800);
+    delayedSendRCTimer.setInterval(800);
+    delayedSendPositionTimer.setInterval(800);
+    delayedSendExtra1Timer.setInterval(800);
+    delayedSendExtra2Timer.setInterval(800);
+    delayedSendExtra3Timer.setInterval(800);
 
-     connect(&delayedSendRawSensorTimer, SIGNAL(timeout()), this, SLOT(sendRawSensor()));
-     connect(&delayedSendControllerTimer, SIGNAL(timeout()), this, SLOT(sendController()));
-     connect(&delayedSendExtendedTimer, SIGNAL(timeout()), this, SLOT(sendExtended()));
-     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRC()));
-     connect(&delayedSendPositionTimer, SIGNAL(timeout()), this, SLOT(sendPosition()));
-     connect(&delayedSendExtra1Timer, SIGNAL(timeout()), this, SLOT(sendExtra1()));
-     connect(&delayedSendExtra2Timer, SIGNAL(timeout()), this, SLOT(sendExtra2()));
+    connect(&delayedSendRawSensorTimer, SIGNAL(timeout()), this, SLOT(sendRawSensor()));
+    connect(&delayedSendControllerTimer, SIGNAL(timeout()), this, SLOT(sendController()));
+    connect(&delayedSendExtendedTimer, SIGNAL(timeout()), this, SLOT(sendExtended()));
+    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRC()));
+    connect(&delayedSendPositionTimer, SIGNAL(timeout()), this, SLOT(sendPosition()));
+    connect(&delayedSendExtra1Timer, SIGNAL(timeout()), this, SLOT(sendExtra1()));
+    connect(&delayedSendExtra2Timer, SIGNAL(timeout()), this, SLOT(sendExtra2()));
     connect(&delayedSendExtra3Timer, SIGNAL(timeout()), this, SLOT(sendExtra3()));
 
     // Connect UI
@@ -66,16 +66,8 @@ QGCSensorSettingsWidget::QGCSensorSettingsWidget(UASInterface* uas, QWidget *par
     connect(ui->spinBox_extra2, SIGNAL(valueChanged(int)), this, SLOT(delayedSendExtra2(int)));
     connect(ui->spinBox_extra3, SIGNAL(valueChanged(int)), this, SLOT(delayedSendExtra3(int)));
 
-    // Calibration
-    connect(ui->rcCalButton, SIGNAL(clicked()), mav, SLOT(startRadioControlCalibration()));
-    connect(ui->magCalButton, SIGNAL(clicked()), mav, SLOT(startMagnetometerCalibration()));
-    connect(ui->pressureCalButton, SIGNAL(clicked()), mav, SLOT(startPressureCalibration()));
-    connect(ui->gyroCalButton, SIGNAL(clicked()), mav, SLOT(startGyroscopeCalibration()));
-
     ui->widget_rates->setVisible(ui->groupBox->isChecked());
 
-    // Hide the calibration stuff - done in custom widgets anyway
-    ui->groupBox_3->hide();
 }
 
 void QGCSensorSettingsWidget::delayedSendRawSensor(int rate)

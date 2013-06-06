@@ -49,9 +49,11 @@ QGCRemoteControlView::QGCRemoteControlView(QWidget *parent) :
 {
     ui->setupUi(this);
     QGridLayout* layout = new QGridLayout(this);
-    layout->addLayout(channelLayout, 1, 0, 1, 2);
+    layout->addLayout(channelLayout, 1, 0, 1, 2, Qt::AlignTop);
     nameLabel = new QLabel(this);
-    layout->addWidget(nameLabel, 0, 0, 1, 2);
+    layout->addWidget(nameLabel, 0, 0, 1, 2, Qt::AlignTop);
+    QSpacerItem* spacer = new QSpacerItem(20, 40, QSizePolicy::Fixed, QSizePolicy::Expanding);
+    layout->addItem(spacer, 2, 0, 1, 2, Qt::AlignTop);
 
     this->setVisible(false);
     //setVisible(false);
