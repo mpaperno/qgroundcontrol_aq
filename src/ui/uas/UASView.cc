@@ -69,7 +69,7 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
         removeAction(new QAction("Delete this system", this)),
         renameAction(new QAction("Rename..", this)),
         selectAction(new QAction("Control this system", this )),
-        hilAction(new QAction("HIL - Hardware in the Loop", this )),
+//        hilAction(new QAction("HIL - Hardware in the Loop", this )),
         selectAirframeAction(new QAction("Choose Airframe", this)),
         setBatterySpecsAction(new QAction("Set Battery Options", this)),
         lowPowerModeEnabled(true),
@@ -80,9 +80,14 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     // FIXME XXX
     lowPowerModeEnabled = MainWindow::instance()->lowPowerModeEnabled();
 
-    hilAction->setCheckable(true);
+//    hilAction->setCheckable(true);
 
     m_ui->setupUi(this);
+
+    // hide all the control buttons for AQ
+    QList<QPushButton *> btns = m_ui->uasViewFrame->findChildren<QPushButton *>(QRegExp(".+Button"));
+    foreach (QPushButton *btn, btns)
+        btn->hide();
 
     // Setup communication
     //connect(uas, SIGNAL(valueChanged(int,QString,double,quint64)), this, SLOT(receiveValue(int,QString,double,quint64)));
@@ -119,7 +124,7 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     connect(removeAction, SIGNAL(triggered()), this, SLOT(deleteLater()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(selectAction, SIGNAL(triggered()), uas, SLOT(setSelected()));
-    connect(hilAction, SIGNAL(triggered(bool)), this, SLOT(showHILUi()));
+//    connect(hilAction, SIGNAL(triggered(bool)), this, SLOT(showHILUi()));
     connect(selectAirframeAction, SIGNAL(triggered()), this, SLOT(selectAirframe()));
     connect(setBatterySpecsAction, SIGNAL(triggered()), this, SLOT(setBatterySpecs()));
     connect(uas, SIGNAL(systemRemoved()), this, SLOT(deleteLater()));
@@ -499,7 +504,7 @@ void UASView::contextMenuEvent (QContextMenuEvent* event)
     {
         menu.addAction(removeAction);
     }
-    menu.addAction(hilAction);
+//    menu.addAction(hilAction);
     menu.addAction(selectAirframeAction);
     menu.addAction(setBatterySpecsAction);
     menu.exec(event->globalPos());
@@ -566,7 +571,7 @@ void UASView::selectAirframe()
 
 void UASView::showHILUi()
 {
-     MainWindow::instance()->showHILConfigurationWidget(uas);
+     // MainWindow::instance()->showHILConfigurationWidget(uas);
 }
 
 void UASView::refresh()
@@ -689,23 +694,23 @@ void UASView::refresh()
             borderColor = "#FA4A4F";
         }
 
-        if (iconIsRed)
-        {
+//        if (iconIsRed)
+//        {
             QColor warnColor(Qt::red);
             m_ui->heartbeatIcon->setStyleSheet(colorstyle.arg(warnColor.name()));
             QString style = QString("QGroupBox { border-radius: 12px; padding: 0px; margin: 0px; border: 2px solid %1; background-color: %2; }").arg(borderColor, warnColor.name());
             m_ui->uasViewFrame->setStyleSheet(style);
-        }
-        else
-        {
-            QColor warnColor(Qt::black);
-            m_ui->heartbeatIcon->setStyleSheet(colorstyle.arg(warnColor.name()));
-            QString style = QString("QGroupBox { border-radius: 12px; padding: 0px; margin: 0px; border: 2px solid %1; background-color: %2; }").arg(borderColor, warnColor.name());
-            m_ui->uasViewFrame->setStyleSheet(style);
+//        }
+//        else
+//        {
+//            QColor warnColor(Qt::black);
+//            m_ui->heartbeatIcon->setStyleSheet(colorstyle.arg(warnColor.name()));
+//            QString style = QString("QGroupBox { border-radius: 12px; padding: 0px; margin: 0px; border: 2px solid %1; background-color: %2; }").arg(borderColor, warnColor.name());
+//            m_ui->uasViewFrame->setStyleSheet(style);
 
-            refreshTimer->setInterval(errorUpdateInterval);
-            refreshTimer->start();
-        }
+//            refreshTimer->setInterval(errorUpdateInterval);
+//            refreshTimer->start();
+//        }
         iconIsRed = !iconIsRed;
     }
     else
