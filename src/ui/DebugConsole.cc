@@ -86,6 +86,8 @@ DebugConsole::DebugConsole(QWidget *parent) :
     //lineBufferTimer.start();
     loadSettings();
 
+    on_checkBox_simpleView_toggled(m_ui->checkBox_simpleView->isChecked());
+
     // Enable traffic measurements
     connect(&snapShotTimer, SIGNAL(timeout()), this, SLOT(updateTrafficMeasurements()));
     snapShotTimer.setInterval(snapShotInterval);
@@ -133,6 +135,12 @@ DebugConsole::~DebugConsole()
     delete m_ui;
 }
 
+void DebugConsole::dockEvent(Qt::DockWidgetArea area)
+{
+    if ((area & (Qt::RightDockWidgetArea | Qt::LeftDockWidgetArea)))
+        m_ui->checkBox_simpleView->setChecked(true);
+}
+
 void DebugConsole::loadSettings()
 {
     // Load defaults from settings
@@ -141,6 +149,7 @@ void DebugConsole::loadSettings()
     settings.beginGroup("QGC_DEBUG_CONSOLE");
     m_ui->specialComboBox->setCurrentIndex(settings.value("SPECIAL_SYMBOL", m_ui->specialComboBox->currentIndex()).toInt());
     m_ui->specialCheckBox->setChecked(settings.value("SPECIAL_SYMBOL_CHECKBOX_STATE", m_ui->specialCheckBox->isChecked()).toBool());
+    m_ui->checkBox_simpleView->setChecked(settings.value("VIEW_MODE_SIMPLE", m_ui->checkBox_simpleView->isChecked()).toBool());
     hexModeEnabled(settings.value("HEX_MODE_ENABLED", m_ui->hexCheckBox->isChecked()).toBool());
     MAVLINKfilterEnabled(settings.value("MAVLINK_FILTER_ENABLED", filterMAVLINK).toBool());
     setAutoHold(settings.value("AUTO_HOLD_ENABLED", autoHold).toBool());
@@ -162,6 +171,7 @@ void DebugConsole::storeSettings()
     settings.setValue("SPECIAL_SYMBOL", m_ui->specialComboBox->currentIndex());
     settings.setValue("SPECIAL_SYMBOL_CHECKBOX_STATE", m_ui->specialCheckBox->isChecked());
     settings.setValue("HEX_MODE_ENABLED", m_ui->hexCheckBox->isChecked());
+    settings.setValue("VIEW_MODE_SIMPLE", m_ui->checkBox_simpleView->isChecked());
     settings.setValue("MAVLINK_FILTER_ENABLED", filterMAVLINK);
     settings.setValue("AUTO_HOLD_ENABLED", autoHold);
     settings.endGroup();
@@ -854,6 +864,21 @@ void DebugConsole::cycleCommandHistory(bool up)
         if (commandIndex < 0) commandIndex = 0;
         if (commandIndex > commandHistory.length()) commandIndex = commandHistory.length();
     }
+}
+
+void DebugConsole::on_checkBox_simpleView_toggled(bool checked)
+{
+    m_ui->addSymbolButton->setVisible(!checked);
+    m_ui->hexCheckBox->setVisible(!checked);
+    m_ui->holdButton->setVisible(!checked);
+    m_ui->holdCheckBox->setVisible(!checked);
+    m_ui->mavlinkCheckBox->setVisible(!checked);
+    m_ui->sendText->setVisible(!checked);
+    m_ui->specialCheckBox->setVisible(!checked);
+    m_ui->specialComboBox->setVisible(!checked);
+    m_ui->transmitButton->setVisible(!checked);
+    if (!checked)
+        m_ui->sentText->setVisible(false); // this would be re-shown if needed automatically
 }
 
 void DebugConsole::changeEvent(QEvent *e)

@@ -59,6 +59,8 @@ public:
     ~DebugConsole();
 
 public slots:
+    /** @brief Docking location changed */
+    void dockEvent(Qt::DockWidgetArea area);
     /** @brief Add a link to the list of monitored links */
     void addLink(LinkInterface* link);
     /** @brief Remove a link from the list */
@@ -91,6 +93,8 @@ public slots:
     void appendSpecialSymbol();
     /** @brief A new special symbol is selected */
     void specialSymbolSelected(const QString& text);
+    /** @brief Change view type from compact to full */
+    void on_checkBox_simpleView_toggled(bool checked);
 
 protected slots:
     /** @brief Draw information overlay */
