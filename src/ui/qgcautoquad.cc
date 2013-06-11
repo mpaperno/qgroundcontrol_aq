@@ -140,6 +140,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->COMM_BAUD3->addItems(baudRates);
     ui->COMM_BAUD4->addItems(baudRates);
 
+    QStringList flashBaudRates;
+    flashBaudRates << "38400" <<  "57600" << "115200";
+    ui->comboBox_fwPortSpeed->addItems(flashBaudRates);
+
 
     // populate COMM stream types
     QList<QButtonGroup *> commStreamTypBtns = this->findChildren<QButtonGroup *>(QRegExp("COMM_STREAM_TYP[\\d]$"));
@@ -201,8 +205,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
-    connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
+//    connect(ui->portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
+    connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
@@ -409,6 +414,8 @@ void QGCAutoquad::loadSettings()
         ui->fileLabel->setText(settings.value("AUTOQUAD_FW_FILE").toString());
         ui->fileLabel->setToolTip(settings.value("AUTOQUAD_FW_FILE").toString());
     }
+    ui->comboBox_fwPortSpeed->setCurrentIndex(ui->comboBox_fwPortSpeed->findText(settings.value("FW_FLASH_BAUD_RATE", 57600).toString()));
+
     if (settings.contains("USERS_PARAMS_FILE")) {
         UsersParamsFile = settings.value("USERS_PARAMS_FILE").toString();
         if (QFile::exists(UsersParamsFile))
@@ -457,6 +464,7 @@ void QGCAutoquad::writeSettings()
     settings.setValue("USERS_PARAMS_FILE", UsersParamsFile);
 
     settings.setValue("AUTOQUAD_FW_FILE", ui->fileLabel->text());
+    settings.setValue("FW_FLASH_BAUD_RATE", ui->comboBox_fwPortSpeed->currentText());
 
     settings.setValue("AUTOQUAD_VARIANCE1", ui->sim3_4_var_1->text());
     settings.setValue("AUTOQUAD_VARIANCE2", ui->sim3_4_var_2->text());
@@ -511,8 +519,6 @@ void QGCAutoquad::adjustUiForFirmware() {
         ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
     if (idx > -1 && idx <= ui->SPVR_FS_RAD_ST2->count())
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
-
-    ui->groupBox_commPorts->setVisible(!aqFirmwareRevision || aqFirmwareRevision >= 133);
 }
 
 void QGCAutoquad::adjustUiForHeadFreeMode(int idx)
@@ -1700,14 +1706,18 @@ void QGCAutoquad::Esc32CaliGetCommand(int Command){
 // FW Flashing
 //
 
-void QGCAutoquad::setPortName(QString port)
+void QGCAutoquad::setPortName(QString str)
 {
+    Q_UNUSED(str);
+
+    QString port = ui->portName->currentText();
 #ifdef Q_OS_WIN
     port = port.split("-").first();
 #endif
     port = port.remove(" ");
     portName = port;
-    ui->ComPortLabel->setText(portName);
+    QString portSpeed = ui->comboBox_fwPortSpeed->currentText();
+    ui->ComPortLabel->setText(QString("%1 @ %2 bps").arg(portName).arg(portSpeed));
 }
 
 void QGCAutoquad::setupPortList()
@@ -1814,7 +1824,7 @@ Do you wish to continue flashing?").arg(portName);
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
 
     QStringList Arguments;
-    Arguments.append("-b 57600");
+    Arguments.append(QString("-b %1").arg(ui->comboBox_fwPortSpeed->currentText()));
     Arguments.append("-w" );
     Arguments.append(QDir::toNativeSeparators(ui->fileLabel->text()));
     Arguments.append("-v");
@@ -2169,6 +2179,8 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         // gimbal pitch/roll revese checkboxes
         ui->reverse_gimbal_pitch->setChecked(paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat() < 0);
         ui->reverse_gimbal_roll->setChecked(paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat() < 0);
+
+        on_SPVR_FS_RAD_ST2_currentIndexChanged(ui->SPVR_FS_RAD_ST2->currentIndex());
     }
 
 }

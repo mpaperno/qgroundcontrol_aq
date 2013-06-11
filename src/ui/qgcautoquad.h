@@ -68,7 +68,7 @@ private slots:
 
     // AQ FW flashing
     void setupPortList();
-    void setPortName(QString port);
+    void setPortName(QString str);
     void selectFWToFlash();
     void flashFW();
 

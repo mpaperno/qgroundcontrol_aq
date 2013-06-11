@@ -142,7 +142,7 @@
                <item>
                 <widget class="QPushButton" name="SelectFirmwareButton">
                  <property name="text">
-                  <string>Select Firmware</string>
+                  <string>Select Firmware File</string>
                  </property>
                 </widget>
                </item>
@@ -154,7 +154,51 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="portName"/>
+                <layout class="QFormLayout" name="formLayout_35">
+                 <property name="horizontalSpacing">
+                  <number>8</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>Port:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="portName">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="sizeAdjustPolicy">
+                    <enum>QComboBox::AdjustToContents</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QComboBox" name="comboBox_fwPortSpeed">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="sizeAdjustPolicy">
+                    <enum>QComboBox::AdjustToContents</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_11">
+                   <property name="text">
+                    <string>Speed:</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
                 <widget class="QLabel" name="ComPortLabel">
@@ -8640,7 +8684,6 @@ padding: 1px 5px;</string>
  </widget>
  <tabstops>
   <tabstop>SelectFirmwareButton</tabstop>
-  <tabstop>portName</tabstop>
   <tabstop>flashButton</tabstop>
   <tabstop>textFlashOutput</tabstop>
   <tabstop>pushButton_Add_Static</tabstop>
