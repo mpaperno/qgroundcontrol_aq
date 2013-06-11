@@ -523,6 +523,14 @@ void MainWindow::buildCommonWidgets()
         addTool(headUpDockWidget, tr("Head Up Display"), Qt::RightDockWidgetArea);
     }
 
+    if (!pfdDockWidget)
+    {
+        pfdDockWidget = new QDockWidget(tr("Primary Flight Display"), this);
+        pfdDockWidget->setWidget( new PrimaryFlightDisplay(320, 240, this));
+        pfdDockWidget->setObjectName("PRIMART_FLIGHT_DISPLAY_DOCK_WIDGET");
+        addTool(pfdDockWidget, tr("Primary Flight Display"), Qt::RightDockWidgetArea);
+    }
+
 //    if (!video1DockWidget)
 //    {
 //        video1DockWidget = new QDockWidget(tr("Video Stream 1"), this);
@@ -1070,7 +1078,7 @@ void MainWindow::connectCommonActions()
     if (currentView == VIEW_ENGINEER) ui.actionEngineersView->setChecked(true);
 //    if (currentView == VIEW_MAVLINK) ui.actionMavlinkView->setChecked(true);
     if (currentView == VIEW_PILOT) ui.actionPilotsView->setChecked(true);
-    if (currentView == VIEW_OPERATOR) ui.actionOperatorsView->setChecked(true);
+    if (currentView == VIEW_OPERATOR || currentView == VIEW_UNCONNECTED) ui.actionOperatorsView->setChecked(true);
 //    if (currentView == VIEW_FIRMWAREUPDATE) ui.actionFirmwareUpdateView->setChecked(true);
 //    if (currentView == VIEW_UNCONNECTED) ui.actionUnconnectedView->setChecked(true);
 
@@ -1573,6 +1581,7 @@ void MainWindow::loadViewState()
             //headDown2DockWidget->hide();
             rcViewDockWidget->hide();
             headUpDockWidget->hide();
+            pfdDockWidget->hide();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
             break;
@@ -1591,6 +1600,7 @@ void MainWindow::loadViewState()
             //headDown2DockWidget->show();
             rcViewDockWidget->hide();
             headUpDockWidget->show();
+            pfdDockWidget->hide();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
             break;
@@ -1633,6 +1643,9 @@ void MainWindow::loadViewState()
 //            //video2DockWidget->hide();
 //            break;
         case VIEW_OPERATOR:
+        case VIEW_UNCONNECTED:
+        case VIEW_FULL:
+        default:
             centerStack->setCurrentWidget(mapWidget);
             //controlDockWidget->hide();
             listDockWidget->show();
@@ -1646,26 +1659,7 @@ void MainWindow::loadViewState()
             //headDown2DockWidget->hide();
             rcViewDockWidget->hide();
             headUpDockWidget->show();
-            //video1DockWidget->hide();
-            //video2DockWidget->hide();
-            mavlinkInspectorWidget->hide();
-            break;
-        case VIEW_UNCONNECTED:
-        case VIEW_FULL:
-        default:
-            centerStack->setCurrentWidget(mapWidget);
-            //controlDockWidget->hide();
-            listDockWidget->show();
-            waypointsDockWidget->hide();
-            infoDockWidget->hide();
-            debugConsoleDockWidget->show();
-            logPlayerDockWidget->show();
-            parametersDockWidget->hide();
-            hsiDockWidget->hide();
-            headDown1DockWidget->hide();
-            //headDown2DockWidget->hide();
-            rcViewDockWidget->hide();
-            headUpDockWidget->show();
+            pfdDockWidget->hide();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
             mavlinkInspectorWidget->show();
