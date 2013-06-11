@@ -267,7 +267,7 @@ void HSIDisplay::renderOverlay()
     {
         float radius = (vwidth - (topMargin + bottomMargin)*0.3f) / (1.35f * i+1) / 2.0f - bottomMargin / 2.0f;
         drawCircle(xCenterPos, yCenterPos, radius, 1.0f, ringColor, &painter);
-        paintText(tr("%1 m").arg(refToMetric(radius), 5, 'f', 1, ' '), QGC::colorCyan, 1.6f, vwidth/2-4, vheight/2+radius+2.2, &painter);
+        paintText(tr("%1 m").arg(refToMetric(radius), 5, 'f', 1, ' '), QGC::colorCyan, 3.6f, vwidth/2-8, vheight/2+radius+7, &painter);
     }
 
     // Draw orientation labels
@@ -371,23 +371,23 @@ void HSIDisplay::renderOverlay()
     drawStatusFlag(33, 16, tr("VCN"), viconON, viconKnown, viconOK, painter);
 
     // Draw speed to top left
-    paintText(tr("SPEED"), QGC::colorCyan, 2.2f, 2, topMargin+2, &painter);
-    paintText(tr("%1 m/s").arg(speed, 5, 'f', 2, '0'), Qt::white, 2.2f, 12, topMargin+2, &painter);
+    paintText(tr("SPEED"), QGC::colorCyan, 3.2f, 2, topMargin+3, &painter);
+    paintText(tr("%1 m/s").arg(speed, 5, 'f', 2, '0'), Qt::white, 3.4f, 18, topMargin+3, &painter);
 
     // Draw crosstrack error to top right
     float crossTrackError = 0;
-    paintText(tr("XTRACK"), QGC::colorCyan, 2.2f, 54, topMargin+2, &painter);
-    paintText(tr("%1 m").arg(crossTrackError, 5, 'f', 2, '0'), Qt::white, 2.2f, 67, topMargin+2, &painter);
+    paintText(tr("XTRACK"), QGC::colorCyan, 3.2f, 54, topMargin+3, &painter);
+    paintText(tr("%1 m").arg(crossTrackError, 5, 'f', 2, '0'), Qt::white, 3.4f, 72, topMargin+3, &painter);
 
     // Draw position to bottom left
     if (localAvailable > 0)
     {
         // Position
         QString str;
-        float offset = (globalAvailable > 0) ? -3.0f : 0.0f;
+        float offset = (globalAvailable > 0) ? -4.0f : 0.0f;
         str.sprintf("%05.2f %05.2f %05.2f m", x, y, z);
-        paintText(tr("POS"), QGC::colorCyan, 2.6f, 2, vheight - offset - 2.0f, &painter);
-        paintText(str, Qt::white, 2.6f, 10, vheight - offset - 2.0f, &painter);
+        paintText(tr("POS"), QGC::colorCyan, 2.6f, 2, vheight - offset - 5.0f, &painter);
+        paintText(str, Qt::white, 2.6f, 10, vheight - offset - 5.0f, &painter);
     }
 
     if (globalAvailable > 0)
@@ -395,8 +395,8 @@ void HSIDisplay::renderOverlay()
         // Position
         QString str;
         str.sprintf("lat: %05.2f lon: %06.2f alt: %06.2f", lat, lon, alt);
-        paintText(tr("GPS"), QGC::colorCyan, 2.6f, 2, vheight- 2.0f, &painter);
-        paintText(str, Qt::white, 2.6f, 10, vheight - 2.0f, &painter);
+        paintText(tr("GPS"), QGC::colorCyan, 2.6f, 2, vheight- 5.0f, &painter);
+        paintText(str, Qt::white, 2.6f, 10, vheight - 5.0f, &painter);
     }
 
     // Draw Safety
