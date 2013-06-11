@@ -43,7 +43,7 @@ This file is part of the QGROUNDCONTROL project
 DebugConsole::DebugConsole(QWidget *parent) :
     QWidget(parent),
     currLink(NULL),
-    holdOn(false),
+    holdOn(true),
     convertToAscii(true),
     filterMAVLINK(false),
     autoHold(true),
@@ -85,6 +85,8 @@ DebugConsole::DebugConsole(QWidget *parent) :
     //lineBufferTimer.setInterval(100); // 100 Hz
     //lineBufferTimer.start();
     loadSettings();
+
+    m_ui->holdButton->setChecked(holdOn);
 
     on_checkBox_simpleView_toggled(m_ui->checkBox_simpleView->isChecked());
 
@@ -152,6 +154,7 @@ void DebugConsole::loadSettings()
     m_ui->checkBox_simpleView->setChecked(settings.value("VIEW_MODE_SIMPLE", m_ui->checkBox_simpleView->isChecked()).toBool());
     hexModeEnabled(settings.value("HEX_MODE_ENABLED", m_ui->hexCheckBox->isChecked()).toBool());
     MAVLINKfilterEnabled(settings.value("MAVLINK_FILTER_ENABLED", filterMAVLINK).toBool());
+    holdOn = settings.value("HOLD_ENABLED", holdOn).toBool();
     setAutoHold(settings.value("AUTO_HOLD_ENABLED", autoHold).toBool());
     settings.endGroup();
 
@@ -174,6 +177,7 @@ void DebugConsole::storeSettings()
     settings.setValue("VIEW_MODE_SIMPLE", m_ui->checkBox_simpleView->isChecked());
     settings.setValue("MAVLINK_FILTER_ENABLED", filterMAVLINK);
     settings.setValue("AUTO_HOLD_ENABLED", autoHold);
+    settings.setValue("HOLD_ENABLED", holdOn);
     settings.endGroup();
     settings.sync();
     //qDebug() << "Storing settings!";
