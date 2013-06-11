@@ -790,9 +790,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
                 if (vel < 1000000 && !isnan(vel) && !isinf(vel))
                 {
-                    // FIXME REMOVE LATER emit valueChanged(uasId, "speed", "m/s", vel, time);
-                    //qDebug() << "GOT GPS RAW";
-                    // emit speedChanged(this, (double)pos.v, 0.0, 0.0, time);
+                    emit speedChanged(this, vel, 0.0, 0.0, time);
                 }
                 else
                 {

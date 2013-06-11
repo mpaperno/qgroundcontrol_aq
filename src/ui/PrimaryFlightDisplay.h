@@ -19,11 +19,12 @@ public slots:
     void updateAttitude(UASInterface* uas, int component, double roll, double pitch, double yaw, quint64 timestamp);
 
     void updatePrimarySpeed(UASInterface* uas, double speed, quint64 timstamp);
-    void updateGPSSpeed(UASInterface* uas, double speed, quint64 timstamp);
+    void updateGPSSpeed(UASInterface* uas, double speed, double y, double z, quint64 timstamp);
     void updateClimbRate(UASInterface* uas, double altitude, quint64 timestamp);
     void updatePrimaryAltitude(UASInterface* uas, double altitude, quint64 timestamp);
-    void updateGPSAltitude(UASInterface* uas, double altitude, quint64 timestamp);
+    void updateGPSAltitude(UASInterface* uas, double altitude/*, quint64 timestamp*/);
     void updateNavigationControllerErrors(UASInterface* uas, double altitudeError, double speedError, double xtrackError);
+    void updateGlobalPosition(UASInterface *uas, double lat, double lon, double altitude, quint64 timestamp);
 
     /** @brief Set the currently monitored UAS */
     virtual void setActiveUAS(UASInterface* uas);
@@ -174,9 +175,7 @@ private:
 
 
 signals:
-    
-public slots:
-    
+
 };
 
 #endif // PRIMARYFLIGHTDISPLAY_H
