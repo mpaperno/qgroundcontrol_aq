@@ -522,6 +522,15 @@ void QGCAutoquad::adjustUiForHeadFreeMode(int idx)
     if (mtx_paramsAreLoading)
         return;
 
+    // TODO: fix once HF mode is finalized. Hide everything for now. If params exist they'll be re-displayed when loaded.
+    ui->label_CTRL_HF_ON_CH->setVisible(false);
+    ui->CTRL_HF_ON_CH->setVisible(false);
+    ui->CTRL_HF_ON_POS->setVisible(false);
+    ui->label_CTRL_HF_SET_CH->setVisible(false);
+    ui->CTRL_HF_SET_CH->setVisible(false);
+    ui->CTRL_HF_SET_POS->setVisible(false);
+    ui->label_ctrl_chan_pos->setVisible(false);
+
     QModelIndex midx;
     int onChan = ui->CTRL_HF_ON_CH->currentIndex();
     int setChan = ui->CTRL_HF_SET_CH->currentIndex();

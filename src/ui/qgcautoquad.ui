@@ -1171,7 +1171,7 @@ padding: 1px 5px;</string>
                        </widget>
                       </item>
                       <item row="0" column="5">
-                       <widget class="QLabel" name="label_11">
+                       <widget class="QLabel" name="label_ctrl_chan_pos">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
