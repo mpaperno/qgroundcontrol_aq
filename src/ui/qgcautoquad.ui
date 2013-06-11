@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1041</width>
-    <height>704</height>
+    <height>725</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -87,6 +87,35 @@
           <property name="currentIndex">
            <number>0</number>
           </property>
+          <widget class="QWidget" name="tab_paramHandler">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="title">
+            <string>Onboard Parameters</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="tabLayout_paramHandler">
+            <item alignment="Qt::AlignTop">
+             <widget class="QLabel" name="label_params_no_aq">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>No parameters loaded, please connect to an AutoQuad.</string>
+              </property>
+              <property name="wordWrap">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
           <widget class="QWidget" name="tab_firmware">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -95,7 +124,7 @@
             </sizepolicy>
            </property>
            <attribute name="title">
-            <string>Firmware</string>
+            <string>Firmware Update</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_12">
             <item>
@@ -164,81 +193,7 @@
                  </property>
                 </spacer>
                </item>
-               <item>
-                <widget class="QLabel" name="lbl_version">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>AQ ground control software version</string>
-                 </property>
-                 <property name="statusTip">
-                  <string>AQ ground control software version</string>
-                 </property>
-                 <property name="text">
-                  <string>QGroundControl for AutoQuad v.  </string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_version2">
-                 <property name="text">
-                  <string>Based on QGroundControl v.</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="lbl_aq_fw_version">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>AutoQuad firmware version</string>
-                 </property>
-                 <property name="statusTip">
-                  <string>AutoQuad firmware version</string>
-                 </property>
-                 <property name="text">
-                  <string>AutoQuad Firmware Version: [not connected]</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_paramHandler">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <attribute name="title">
-            <string>Onboard Parameters</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="tabLayout_paramHandler">
-            <item alignment="Qt::AlignTop">
-             <widget class="QLabel" name="label_params_no_aq">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>No parameters loaded, please connect to an AutoQuad.</string>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
              </widget>
             </item>
            </layout>
@@ -252,22 +207,16 @@
            </sizepolicy>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <property name="leftMargin">
-            <number>4</number>
-           </property>
-           <property name="topMargin">
+           <property name="horizontalSpacing">
             <number>0</number>
            </property>
-           <property name="rightMargin">
-            <number>4</number>
+           <property name="verticalSpacing">
+            <number>7</number>
            </property>
-           <property name="bottomMargin">
-            <number>4</number>
+           <property name="margin">
+            <number>0</number>
            </property>
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <item row="3" column="0" alignment="Qt::AlignRight">
+           <item row="1" column="1" alignment="Qt::AlignRight|Qt::AlignTop">
             <widget class="QPushButton" name="pushButton_save_to_aq">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -290,7 +239,35 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="0" alignment="Qt::AlignTop">
+           <item row="1" column="0">
+            <widget class="QLabel" name="lbl_aq_fw_version">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>AutoQuad firmware version</string>
+             </property>
+             <property name="statusTip">
+              <string>AutoQuad firmware version</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="text">
+              <string>AutoQuad Firmware Version: [not connected]</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+             </property>
+             <property name="margin">
+              <number>5</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
             <widget class="QTabWidget" name="tab_aq_settings">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -334,8 +311,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>416</width>
-                    <height>546</height>
+                    <width>424</width>
+                    <height>570</height>
                    </rect>
                   </property>
                   <property name="autoFillBackground">
@@ -1949,7 +1926,7 @@ padding: 1px 5px;</string>
                       </sizepolicy>
                      </property>
                      <property name="title">
-                      <string>Advanced Control Settings</string>
+                      <string>Additional Control Settings</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -5146,14 +5123,14 @@ padding: 1px 5px;</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="0">
+                     <item row="4" column="0">
                       <widget class="QLabel" name="label_NAV_CEILING">
                        <property name="text">
                         <string>Ceiling Altitude</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="1">
+                     <item row="4" column="1">
                       <widget class="QSpinBox" name="NAV_CEILING">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -5178,6 +5155,44 @@ padding: 1px 5px;</string>
                        </property>
                        <property name="singleStep">
                         <number>10</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QDoubleSpinBox" name="NAV_LANDING_VEL">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>75</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>Default velocity for mission landing leg when none is specified in mission plan.  Used as landing descent rate during failsafe activation.</string>
+                       </property>
+                       <property name="suffix">
+                        <string> m/s</string>
+                       </property>
+                       <property name="decimals">
+                        <number>2</number>
+                       </property>
+                       <property name="maximum">
+                        <double>99.989999999999995</double>
+                       </property>
+                       <property name="value">
+                        <double>1.500000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="label_NAV_LANDING_VEL">
+                       <property name="text">
+                        <string>Dflt. Landing Rate</string>
                        </property>
                       </widget>
                      </item>
@@ -6124,7 +6139,7 @@ padding: 1px 5px;</string>
                         </size>
                        </property>
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Land: Immediately start descent and disarm at landing.  &lt;/p&gt;&lt;p&gt;RTH, Land: First return to home position and altitude (if set), then start descent.&lt;/p&gt;&lt;p&gt;Ascend, RTH, Land: If below home position altitude, then first ascend to that altitude, then return to home position, then descend.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Land: Immediately start descent and disarm at landing. &lt;/p&gt;&lt;p&gt;RTH, Land: First return to home position and altitude (if set), then start descent.&lt;/p&gt;&lt;p&gt;Ascend, RTH, Land: If below home position altitude, then first ascend to that altitude, then return to home position, then descend.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NOTE&lt;/span&gt;: Landing velocity is determined by the NAV_LANDING_VEL parameter (aka Dflt. Landing Rate on this settings screen).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                       </widget>
                      </item>
@@ -6272,6 +6287,10 @@ padding: 1px 5px;</string>
             </widget>
            </item>
           </layout>
+          <zorder>tab_aq_settings</zorder>
+          <zorder>lbl_aq_fw_version</zorder>
+          <zorder></zorder>
+          <zorder>lbl_aq_fw_version</zorder>
          </widget>
         </widget>
        </item>
@@ -6279,7 +6298,7 @@ padding: 1px 5px;</string>
      </widget>
      <widget class="QWidget" name="tab_aq_chart">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -6290,6 +6309,12 @@ padding: 1px 5px;</string>
       <layout class="QGridLayout" name="gridLayout_11">
        <item row="0" column="0">
         <widget class="QSplitter" name="splitter_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -6524,7 +6549,7 @@ padding: 1px 5px;</string>
      </widget>
      <widget class="QWidget" name="tab_telemetry">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>

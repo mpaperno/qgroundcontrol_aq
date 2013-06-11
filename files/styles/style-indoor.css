@@ -23,9 +23,9 @@ QWidget:disabled {
 */
  QMainWindow::separator {
      background: #1A1A33;
-     width: 2px; /* when vertical */
-     height: 2px; /* when horizontal */
-     margin: 2px;
+     width: 4px; /* when vertical */
+     height: 5px; /* when horizontal */
+     margin: 3px;
 }
  QMainWindow::separator:hover {
      background: white;

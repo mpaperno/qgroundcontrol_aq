@@ -85,9 +85,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->tabWidget->removeTab(ui->tabWidget->count()-1); // hide devel tab
 #endif
 
-    ui->lbl_version->setText(QGCAUTOQUAD::APP_NAME + " v. " + QGCAUTOQUAD::APP_VERSION_TXT);
-    ui->lbl_version2->setText(QString("Based on %1 %2").arg(QGC_APPLICATION_NAME).arg(QGC_APPLICATION_VERSION));
-
     // populate field values
 
     ui->checkBox_raw_value->setChecked(true);
@@ -2071,7 +2068,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         aqFirmwareRevision = 0;
         aqHardwareRevision = 0;
         aqBuildNumber = 0;
-        ui->lbl_aq_fw_version->setText("AQ Firmware v. [unknown]");
+        ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
         uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
 
         VisibleWidget = 2;
@@ -3293,7 +3290,7 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
         }
 
         if (aqFirmwareVersion.length()) {
-            QString verStr = QString("AQ FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
+            QString verStr = QString("AutoQuad FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
             if (aqFirmwareRevision > 0)
                 verStr += QString(" r%1").arg(QString::number(aqFirmwareRevision));
             if (aqBuildNumber > 0)
@@ -3304,7 +3301,7 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
 
             ui->lbl_aq_fw_version->setText(verStr);
         } else
-            ui->lbl_aq_fw_version->setText("AQ Firmware v. [unknown]");
+            ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
     }
 }
 
