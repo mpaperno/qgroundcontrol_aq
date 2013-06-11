@@ -435,6 +435,7 @@ void QGCAutoquad::loadSettings()
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
     ui->pushButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
+    ui->groupBox_controlAdvancedSettings->setChecked(settings.value("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked()).toBool());
 
     settings.endGroup();
     settings.sync();
@@ -479,6 +480,7 @@ void QGCAutoquad::writeSettings()
     settings.setValue("AUTOQUAD_LAST_PATH", LastFilePath);
 
     settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->pushButton_toggleRadioGraph->isChecked());
+    settings.setValue("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked());
 
     settings.sync();
     settings.endGroup();

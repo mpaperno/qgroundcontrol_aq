@@ -2760,7 +2760,7 @@ padding: 1px 5px;</string>
                       <bool>true</bool>
                      </property>
                      <property name="checked">
-                      <bool>false</bool>
+                      <bool>true</bool>
                      </property>
                      <layout class="QGridLayout" name="gridLayout_28">
                       <property name="margin">
@@ -6423,8 +6423,7 @@ padding: 1px 5px;</string>
            </item>
           </layout>
           <zorder>tab_aq_settings</zorder>
-          <zorder>lbl_aq_fw_version</zorder>
-          <zorder></zorder>
+          <zorder>pushButton_save_to_aq</zorder>
           <zorder>lbl_aq_fw_version</zorder>
          </widget>
         </widget>
