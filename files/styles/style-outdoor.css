@@ -61,6 +61,12 @@ QGroupBox {
     padding: 8px 0px 0px 0px;
     margin-top: 2ex; /* leave space at the top for the title */
 }
+QGroupBox:flat {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-radius: 0;
+}
  QGroupBox::title {
      subcontrol-origin: margin;
      /* subcontrol-position: top left; position at the top left */
@@ -72,6 +78,10 @@ QGroupBox {
 	font-size: 8px;
     color: #000000;
  }
+QWidget::title:disabled {
+    color: #d5d5d5;
+    font-weight: normal;
+}
 
 /*
     DockWidget
@@ -335,12 +345,12 @@ QToolBar#QGC_TOOLBAR QToolButton  {
     background-color: #222222;
     color: #DDDDDF;
 }
-QToolBar#QGC_TOOLBAR QToolButton#actionOperatorsView {
+QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
     margin-left: 8px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
+QToolBar#QGC_TOOLBAR QToolButton#actionEngineersView {
     margin-right: 8px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -358,7 +368,7 @@ QToolBar#QGC_TOOLBAR QToolButton:pressed {
     border-color: #379AC3;
 }
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
-    margin: 0px 4px 0px 0px;
+    margin: 0px 0px 0px 4px;
     border: 1px solid #4A4A4F;
     border-radius: 4px;
     text-align: center;
@@ -408,6 +418,9 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
 QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
     font-size: 11px;
     /*font-style: italic;*/
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel {
+    margin-left: 0;
 }
 
 

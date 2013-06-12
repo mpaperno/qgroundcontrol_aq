@@ -520,12 +520,12 @@ QToolBar#QGC_TOOLBAR QToolButton  {
     padding: 0;
     background-color: #222222;
 }
-QToolBar#QGC_TOOLBAR QToolButton#actionOperatorsView {
+QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
     margin-left: 8px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
+QToolBar#QGC_TOOLBAR QToolButton#actionEngineersView {
     margin-right: 8px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;

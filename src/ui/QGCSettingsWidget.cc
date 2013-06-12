@@ -54,10 +54,14 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
     case MainWindow::QGC_MAINWINDOW_STYLE_OUTDOOR:
         ui->outdoorStyle->setChecked(true);
         break;
+    case MainWindow::QGC_MAINWINDOW_STYLE_PLASTIQUE:
+        ui->plastiqueStyle->setChecked(true);
+        break;
     }
     connect(ui->nativeStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadNativeStyle()));
     connect(ui->indoorStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadIndoorStyle()));
     connect(ui->outdoorStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadOutdoorStyle()));
+    connect(ui->plastiqueStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadPlastiqueStyle()));
 
     // Close / destroy
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(deleteLater()));

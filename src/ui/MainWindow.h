@@ -104,7 +104,8 @@ public:
     {
         QGC_MAINWINDOW_STYLE_NATIVE,
         QGC_MAINWINDOW_STYLE_INDOOR,
-        QGC_MAINWINDOW_STYLE_OUTDOOR
+        QGC_MAINWINDOW_STYLE_OUTDOOR,
+        QGC_MAINWINDOW_STYLE_PLASTIQUE
     };
 
     /** @brief Get current visual style */
@@ -192,6 +193,8 @@ public slots:
     void loadIndoorStyle();
     /** @brief Switch to outdoor mission style */
     void loadOutdoorStyle();
+    /** @brief Switch to Qt application style */
+    void loadPlastiqueStyle();
     /** @brief Load a specific style */
     void loadStyle(QGC_MAINWINDOW_STYLE style);
 

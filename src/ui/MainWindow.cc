@@ -161,9 +161,9 @@ MainWindow::MainWindow(QWidget *parent):
     ui.actionPilotsView->setObjectName("actionPilotsView");
 
     QList<QAction*> actions;
+    actions << ui.actionPilotsView;
     actions << ui.actionOperatorsView;
     actions << ui.actionEngineersView;
-    actions << ui.actionPilotsView;
     toolBar->setPerspectiveChangeActions(actions);
 
     // Add actions
@@ -936,6 +936,11 @@ void MainWindow::loadOutdoorStyle()
     loadStyle(QGC_MAINWINDOW_STYLE_OUTDOOR);
 }
 
+void MainWindow::loadPlastiqueStyle()
+{
+    loadStyle(QGC_MAINWINDOW_STYLE_PLASTIQUE);
+}
+
 void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
 {
     switch (style) {
@@ -960,6 +965,12 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
     case QGC_MAINWINDOW_STYLE_OUTDOOR:
         qApp->setStyle("plastique");
         styleFileName = ":files/styles/style-outdoor.css";
+        reloadStylesheet();
+        break;
+    case QGC_MAINWINDOW_STYLE_PLASTIQUE:
+        qApp->setStyleSheet("");
+        qApp->setStyle("plastique");
+        styleFileName = ":files/styles/style-default.css";
         reloadStylesheet();
         break;
     }

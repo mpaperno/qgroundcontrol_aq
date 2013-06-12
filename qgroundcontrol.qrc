@@ -118,6 +118,7 @@
         <file>files/images/contrib/AQ_logo_quad-only_outlined_112px.png</file>
         <file>files/images/contrib/aq_ports_reference.png</file>
         <file>files/styles/style-native.css</file>
+        <file>files/styles/style-default.css</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/styles/Vera.ttf</file>
