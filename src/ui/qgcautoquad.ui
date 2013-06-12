@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1041</width>
+    <width>1049</width>
     <height>725</height>
    </rect>
   </property>
@@ -1102,7 +1102,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>417</width>
+                    <width>425</width>
                     <height>576</height>
                    </rect>
                   </property>
@@ -1232,8 +1232,8 @@ font-weight: bold;</string>
                       <property name="verticalSpacing">
                        <number>7</number>
                       </property>
-                      <item row="4" column="1">
-                       <widget class="QComboBox" name="RADIO_RUDD_CH">
+                      <item row="2" column="1">
+                       <widget class="QComboBox" name="RADIO_ROLL_CH">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -1247,7 +1247,7 @@ font-weight: bold;</string>
                          </size>
                         </property>
                         <property name="currentIndex">
-                         <number>3</number>
+                         <number>1</number>
                         </property>
                         <item>
                          <property name="text">
@@ -1331,6 +1331,25 @@ font-weight: bold;</string>
                         </item>
                        </widget>
                       </item>
+                      <item row="0" column="0">
+                       <widget class="QLabel" name="label_5">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                        </property>
+                        <property name="text">
+                         <string>Control</string>
+                        </property>
+                       </widget>
+                      </item>
                       <item row="0" column="6" rowspan="2">
                        <spacer name="horizontalSpacer">
                         <property name="orientation">
@@ -1344,17 +1363,17 @@ font-weight: bold;</string>
                         </property>
                        </spacer>
                       </item>
-                      <item row="4" column="0">
-                       <widget class="QLabel" name="label_RADIO_RUDD_CH">
+                      <item row="6" column="3">
+                       <widget class="QLabel" name="label_CTRL_HF_SET_CH">
                         <property name="toolTip">
-                         <string>Rudder</string>
+                         <string/>
                         </property>
                         <property name="text">
-                         <string>Yaw</string>
+                         <string>HF Set Ref.</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="5" column="4">
+                      <item row="6" column="4">
                        <widget class="QComboBox" name="CTRL_HF_SET_CH">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -1461,132 +1480,14 @@ font-weight: bold;</string>
                         </item>
                        </widget>
                       </item>
-                      <item row="5" column="3">
-                       <widget class="QLabel" name="label_CTRL_HF_SET_CH">
+                      <item row="1" column="0">
+                       <widget class="QLabel" name="label_RADIO_THRO_CH">
                         <property name="toolTip">
-                         <string/>
+                         <string>Gas</string>
                         </property>
                         <property name="text">
-                         <string>HF Set Ref.</string>
+                         <string>Throttle</string>
                         </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="0">
-                       <widget class="QLabel" name="label_5">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
-border-radius: 3px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
-padding: 1px 5px;</string>
-                        </property>
-                        <property name="text">
-                         <string>Control</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="2" column="1">
-                       <widget class="QComboBox" name="RADIO_ROLL_CH">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>50</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="currentIndex">
-                         <number>1</number>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string notr="true">1</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">2</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">3</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">4</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">5</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">6</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">7</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">8</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">9</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">10</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">11</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">12</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">13</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">14</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">15</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">16</string>
-                         </property>
-                        </item>
                        </widget>
                       </item>
                       <item row="2" column="0">
@@ -1599,127 +1500,8 @@ padding: 1px 5px;</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="0">
-                       <widget class="QLabel" name="label_RADIO_THRO_CH">
-                        <property name="toolTip">
-                         <string>Gas</string>
-                        </property>
-                        <property name="text">
-                         <string>Throttle</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="3" column="4">
-                       <widget class="QComboBox" name="RADIO_GEAR_CH">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>50</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="currentIndex">
-                         <number>4</number>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string notr="true">1</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">2</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">3</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">4</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">5</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">6</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">7</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">8</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">9</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">10</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">11</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">12</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">13</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">14</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">15</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">16</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                      <item row="3" column="0">
-                       <widget class="QLabel" name="label_RADIO_PITC_CH">
-                        <property name="toolTip">
-                         <string>Elevator / Nick</string>
-                        </property>
-                        <property name="text">
-                         <string>Pitch</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="5" column="5" colspan="2" alignment="Qt::AlignLeft">
-                       <widget class="QComboBox" name="CTRL_HF_SET_POS">
+                      <item row="5" column="5" alignment="Qt::AlignLeft">
+                       <widget class="QComboBox" name="CTRL_HF_ON_POS">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -1737,27 +1519,8 @@ padding: 1px 5px;</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="0" column="1">
-                       <widget class="QLabel" name="label_6">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
-border-radius: 3px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
-padding: 1px 5px;</string>
-                        </property>
-                        <property name="text">
-                         <string>Chan.</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="3" column="1">
-                       <widget class="QComboBox" name="RADIO_PITC_CH">
+                      <item row="5" column="4">
+                       <widget class="QComboBox" name="CTRL_HF_ON_CH">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -1770,12 +1533,20 @@ padding: 1px 5px;</string>
                           <height>0</height>
                          </size>
                         </property>
+                        <property name="toolTip">
+                         <string>Channel for controlling Heading Free mode on/off.  Can be same channel as HF Set Heading if position values are different.</string>
+                        </property>
                         <property name="currentIndex">
-                         <number>2</number>
+                         <number>0</number>
                         </property>
                         <item>
                          <property name="text">
-                          <string notr="true">1</string>
+                          <string>Off</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>1</string>
                          </property>
                         </item>
                         <item>
@@ -1970,25 +1741,6 @@ padding: 1px 5px;</string>
                         </item>
                        </widget>
                       </item>
-                      <item row="0" column="5">
-                       <widget class="QLabel" name="label_ctrl_chan_pos">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
-border-radius: 3px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
-padding: 1px 5px;</string>
-                        </property>
-                        <property name="text">
-                         <string>Pos.</string>
-                        </property>
-                       </widget>
-                      </item>
                       <item row="0" column="3">
                        <widget class="QLabel" name="label_8">
                         <property name="sizePolicy">
@@ -2008,114 +1760,7 @@ padding: 1px 5px;</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="4" column="4">
-                       <widget class="QComboBox" name="CTRL_HF_ON_CH">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>50</width>
-                          <height>0</height>
-                         </size>
-                        </property>
-                        <property name="toolTip">
-                         <string>Channel for controlling Heading Free mode on/off.  Can be same channel as HF Set Heading if position values are different.</string>
-                        </property>
-                        <property name="currentIndex">
-                         <number>0</number>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string>Off</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>1</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">2</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">3</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">4</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">5</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">6</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">7</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">8</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">9</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">10</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">11</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">12</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">13</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">14</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">15</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string notr="true">16</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                      <item row="4" column="3">
+                      <item row="5" column="3">
                        <widget class="QLabel" name="label_CTRL_HF_ON_CH">
                         <property name="toolTip">
                          <string/>
@@ -2141,8 +1786,37 @@ padding: 1px 5px;</string>
                         </property>
                        </spacer>
                       </item>
-                      <item row="2" column="4">
-                       <widget class="QComboBox" name="RADIO_AUX2_CH">
+                      <item row="3" column="0">
+                       <widget class="QLabel" name="label_RADIO_PITC_CH">
+                        <property name="toolTip">
+                         <string>Elevator / Nick</string>
+                        </property>
+                        <property name="text">
+                         <string>Pitch</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QLabel" name="label_6">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                        </property>
+                        <property name="text">
+                         <string>Chan.</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="3" column="1">
+                       <widget class="QComboBox" name="RADIO_PITC_CH">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -2156,7 +1830,7 @@ padding: 1px 5px;</string>
                          </size>
                         </property>
                         <property name="currentIndex">
-                         <number>6</number>
+                         <number>2</number>
                         </property>
                         <item>
                          <property name="text">
@@ -2240,7 +1914,154 @@ padding: 1px 5px;</string>
                         </item>
                        </widget>
                       </item>
-                      <item row="5" column="0">
+                      <item row="6" column="5" colspan="2" alignment="Qt::AlignLeft">
+                       <widget class="QComboBox" name="CTRL_HF_SET_POS">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>50</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="toolTip">
+                         <string>Channel value/position at which the control is active. High is &amp;gt;250, Low is &amp;lt;-250, and zero is 0 +/- CTRL_DEAD_BAND.</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="5">
+                       <widget class="QLabel" name="label_ctrl_chan_pos">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                        </property>
+                        <property name="text">
+                         <string>Pos.</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="4" column="0">
+                       <widget class="QLabel" name="label_RADIO_RUDD_CH">
+                        <property name="toolTip">
+                         <string>Rudder</string>
+                        </property>
+                        <property name="text">
+                         <string>Yaw</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="4" column="1">
+                       <widget class="QComboBox" name="RADIO_RUDD_CH">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>50</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="currentIndex">
+                         <number>3</number>
+                        </property>
+                        <item>
+                         <property name="text">
+                          <string notr="true">1</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">2</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">3</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">4</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">5</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">6</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">7</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">8</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">9</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">10</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">11</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">12</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">13</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">14</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">15</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">16</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
+                      <item row="4" column="3">
                        <widget class="QLabel" name="label_RADIO_AUX3_CH">
                         <property name="toolTip">
                          <string>aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function</string>
@@ -2250,17 +2071,7 @@ padding: 1px 5px;</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="3">
-                       <widget class="QLabel" name="label_RADIO_FLAP_CH">
-                        <property name="toolTip">
-                         <string>aka Flaps/Aux 1. Switch between manual / position hold / mission modes.</string>
-                        </property>
-                        <property name="text">
-                         <string>Flight Mode</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="5" column="1">
+                      <item row="4" column="4">
                        <widget class="QComboBox" name="RADIO_AUX3_CH">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -2359,7 +2170,106 @@ padding: 1px 5px;</string>
                         </item>
                        </widget>
                       </item>
-                      <item row="2" column="3">
+                      <item row="3" column="4">
+                       <widget class="QComboBox" name="RADIO_AUX2_CH">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>50</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="currentIndex">
+                         <number>6</number>
+                        </property>
+                        <item>
+                         <property name="text">
+                          <string notr="true">1</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">2</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">3</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">4</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">5</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">6</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">7</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">8</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">9</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">10</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">11</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">12</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">13</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">14</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">15</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">16</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
+                      <item row="3" column="3">
                        <widget class="QLabel" name="label_RADIO_AUX2_CH">
                         <property name="toolTip">
                          <string>aka Aux 2. Switch to set home position and activate Return to Home function</string>
@@ -2369,17 +2279,17 @@ padding: 1px 5px;</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="3" column="3">
-                       <widget class="QLabel" name="label_RADIO_GEAR_CH">
+                      <item row="2" column="3">
+                       <widget class="QLabel" name="label_RADIO_FLAP_CH">
                         <property name="toolTip">
-                         <string>aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.</string>
+                         <string>aka Flaps/Aux 1. Switch between manual / position hold / mission modes.</string>
                         </property>
                         <property name="text">
-                         <string>Cam. Trig</string>
+                         <string>Flight Mode</string>
                         </property>
                        </widget>
                       </item>
-                      <item row="1" column="4">
+                      <item row="2" column="4">
                        <widget class="QComboBox" name="RADIO_FLAP_CH">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -2478,8 +2388,8 @@ padding: 1px 5px;</string>
                         </item>
                        </widget>
                       </item>
-                      <item row="4" column="5" alignment="Qt::AlignLeft">
-                       <widget class="QComboBox" name="CTRL_HF_ON_POS">
+                      <item row="1" column="4">
+                       <widget class="QComboBox" name="RADIO_GEAR_CH">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -2492,8 +2402,98 @@ padding: 1px 5px;</string>
                           <height>0</height>
                          </size>
                         </property>
+                        <property name="currentIndex">
+                         <number>4</number>
+                        </property>
+                        <item>
+                         <property name="text">
+                          <string notr="true">1</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">2</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">3</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">4</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">5</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">6</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">7</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">8</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">9</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">10</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">11</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">12</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">13</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">14</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">15</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string notr="true">16</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
+                      <item row="1" column="3">
+                       <widget class="QLabel" name="label_RADIO_GEAR_CH">
                         <property name="toolTip">
-                         <string>Channel value/position at which the control is active. High is &amp;gt;250, Low is &amp;lt;-250, and zero is 0 +/- CTRL_DEAD_BAND.</string>
+                         <string>aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.</string>
+                        </property>
+                        <property name="text">
+                         <string>Cam. Trig</string>
                         </property>
                        </widget>
                       </item>
@@ -2583,7 +2583,7 @@ padding: 1px 5px;</string>
                       <property name="margin">
                        <number>0</number>
                       </property>
-                      <item alignment="Qt::AlignTop">
+                      <item alignment="Qt::AlignLeft|Qt::AlignTop">
                        <widget class="QWidget" name="widget_ppmOptions" native="true">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2725,9 +2725,12 @@ padding: 1px 5px;</string>
                            <property name="orientation">
                             <enum>Qt::Horizontal</enum>
                            </property>
+                           <property name="sizeType">
+                            <enum>QSizePolicy::MinimumExpanding</enum>
+                           </property>
                            <property name="sizeHint" stdset="0">
                             <size>
-                             <width>40</width>
+                             <width>0</width>
                              <height>20</height>
                             </size>
                            </property>
@@ -2769,7 +2772,7 @@ padding: 1px 5px;</string>
                       <property name="spacing">
                        <number>0</number>
                       </property>
-                      <item row="0" column="0" colspan="2" alignment="Qt::AlignTop">
+                      <item row="0" column="0" colspan="2" alignment="Qt::AlignLeft|Qt::AlignTop">
                        <widget class="QWidget" name="widget_controlAdvancedSettings" native="true">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -3092,9 +3095,12 @@ padding: 1px 5px;</string>
                            <property name="orientation">
                             <enum>Qt::Horizontal</enum>
                            </property>
+                           <property name="sizeType">
+                            <enum>QSizePolicy::Minimum</enum>
+                           </property>
                            <property name="sizeHint" stdset="0">
                             <size>
-                             <width>40</width>
+                             <width>0</width>
                              <height>20</height>
                             </size>
                            </property>

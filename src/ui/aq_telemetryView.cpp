@@ -5,6 +5,7 @@
 AQTelemetryView::AQTelemetryView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AQTelemetryView),
+    datasetFieldsSetup(-1),
     telemetryRunning(false),
     currentDataSet(TELEM_DATASET_DEFAULT),
     AqTeleChart(NULL)

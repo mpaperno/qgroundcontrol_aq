@@ -507,7 +507,7 @@ void QGCAutoquad::adjustUiForFirmware() {
     ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
     ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
     ui->RADIO_TYPE->addItem("PPM", 3);
-    if (!aqFirmwareRevision || aqFirmwareRevision >= 128)
+    if (!aqBuildNumber || aqBuildNumber >= 1149)
         ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
     if (idx > -1 && idx <= ui->RADIO_TYPE->count())
         ui->RADIO_TYPE->setCurrentIndex(idx);
@@ -517,9 +517,9 @@ void QGCAutoquad::adjustUiForFirmware() {
     ui->SPVR_FS_RAD_ST2->clear();
     ui->SPVR_FS_RAD_ST2->addItem("Land", 0);
     ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
-    if (!paramaq || paramaq->paramExistsAQ("SPVR_FS_ADD_ALT"))
+    if (!aqBuildNumber || aqBuildNumber >= 1304)
         ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
-    if (idx > -1 && idx <= ui->SPVR_FS_RAD_ST2->count())
+    if (idx > -1 && idx < ui->SPVR_FS_RAD_ST2->count())
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
 }
 
@@ -2082,8 +2082,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         else
             paramaq->setFilePath(LastFilePath);
 
-        paramaq->loadParaAQ();
-
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
         aqFirmwareRevision = 0;
@@ -2091,6 +2089,8 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         aqBuildNumber = 0;
         ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
         uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
+
+        paramaq->loadParaAQ();
 
         VisibleWidget = 2;
         aqTelemetryView->initChart(uas);
@@ -3303,7 +3303,7 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
         }
         if (vlist.at(5).length()) {
             aqHardwareVersion = vlist.at(5).toInt(&ok);
-            if (!ok) aqHardwareRevision = 0;
+            if (!ok) aqHardwareVersion = 0;
             else
                 setHardwareInfo(aqHardwareVersion);
         }
