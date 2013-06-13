@@ -171,7 +171,12 @@ bool LinkManager::removeLink(LinkInterface* link)
         {
             protocolLinks.remove(proto, link);
         }
+
+        // Emit removal of link
+        emit linkRemoved(link);
+
         return true;
+
     }
     return false;
 }

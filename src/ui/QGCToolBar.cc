@@ -38,7 +38,8 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
     batteryVoltage(0),
     wpId(0),
     wpDistance(0),
-    systemArmed(false)
+    systemArmed(false),
+    currentLink(NULL)
 {
     setObjectName("QGC_TOOLBAR");
 
@@ -47,15 +48,7 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
 void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
 {
     if (ms > 10000) {
-        bool isConnected = false;
-        for ( int i=0; i<mav->getLinks()->count(); i++) {
-            if ( mav->getLinks()->at(i)->isConnected() == true) {
-                isConnected = true;
-                break;
-            }
-        }
-
-        if (!isConnected) {
+        if (!currentLink || !currentLink->isConnected()) {
             toolBarTimeoutLabel->setText("DISCONNECTED");
             toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
             return;
@@ -166,6 +159,11 @@ void QGCToolBar::createUI() {
     // Configure the toolbar for the current default UAS
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+
+    if (LinkManager::instance()->getLinks().count() > 1)
+        addLink(LinkManager::instance()->getLinks().last());
+    connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
+    connect(LinkManager::instance(), SIGNAL(linkRemoved(LinkInterface*)), this, SLOT(removeLink(LinkInterface*)));
 
     // Set the toolbar to be updated every 2s
     connect(&updateViewTimer, SIGNAL(timeout()), this, SLOT(updateView()));
@@ -305,18 +303,10 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
     if (mav)
     {
         // Disconnect old system
-        disconnect(mav, SIGNAL(statusChanged(UASInterface*,QString,QString)), this, SLOT(updateState(UASInterface*,QString,QString)));
-        disconnect(mav, SIGNAL(modeChanged(int,QString,QString)), this, SLOT(updateMode(int,QString,QString)));
-        disconnect(mav, SIGNAL(nameChanged(QString)), this, SLOT(updateName(QString)));
-        disconnect(mav, SIGNAL(systemTypeSet(UASInterface*,uint)), this, SLOT(setSystemType(UASInterface*,uint)));
-        disconnect(mav, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(receiveTextMessage(int,int,int,QString)));
-        disconnect(mav, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBatteryRemaining(UASInterface*,double,double,int)));
-        disconnect(mav, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
-        disconnect(mav, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool,unsigned int)));
+        disconnect(mav, 0, this, 0);
         if (mav->getWaypointManager())
         {
-            disconnect(mav->getWaypointManager(), SIGNAL(currentWaypointChanged(quint16)), this, SLOT(updateCurrentWaypoint(quint16)));
-            disconnect(mav->getWaypointManager(), SIGNAL(waypointDistanceChanged(double)), this, SLOT(updateWaypointDistance(double)));
+            disconnect(mav->getWaypointManager(), 0, this, 0);
         }
     }
 
@@ -520,6 +510,31 @@ void QGCToolBar::receiveTextMessage(int uasid, int componentid, int severity, QS
     text = text.trimmed();
     if (lastSystemMessage != text) changed = true;
     lastSystemMessage = text;
+}
+
+void QGCToolBar::addLink(LinkInterface* link)
+{
+    // XXX magic number
+    if (LinkManager::instance()->getLinks().count() > 1) {
+        currentLink = link;
+//        connect(currentLink, SIGNAL(connected(bool)), this, SLOT(updateLinkState(bool)));
+//        updateLinkState(link->isConnected());
+    }
+}
+
+void QGCToolBar::removeLink(LinkInterface* link)
+{
+    if (link == currentLink) {
+        currentLink = NULL;
+        // XXX magic number
+        if (LinkManager::instance()->getLinks().count() > 1) {
+            currentLink = LinkManager::instance()->getLinks().last();
+//            updateLinkState(currentLink->isConnected());
+        }
+//        else {
+//            connectButton->setText(tr("New Link"));
+//        }
+    }
 }
 
 QGCToolBar::~QGCToolBar()

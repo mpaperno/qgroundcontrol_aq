@@ -91,6 +91,7 @@ private:
 
 signals:
     void newLink(LinkInterface* link);
+    void linkRemoved(LinkInterface* link);
 
 };
 
