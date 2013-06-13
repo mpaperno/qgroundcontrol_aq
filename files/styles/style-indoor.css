@@ -425,7 +425,7 @@ QLabel {
 */
 QSplitter {
     color: #EEEEEE;
-    width: 3px;
+    width: 7px;
 }
 
 /*
@@ -512,21 +512,26 @@ QToolBar#QGC_TOOLBAR {
 }
 QToolBar#QGC_TOOLBAR QToolButton  {
     font-weight: bold;
+    color: #DDDDDF;
     height: 16px;
     min-width: 24px;
     border: 1px solid #BBBBBB;
+    border-right-width: 0;
+    border-left-width: 0;
     border-radius: 0px;
     margin: 4px 0px;
-    padding: 0;
+    padding: 0 1px;
     background-color: #222222;
 }
 QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
-    margin-left: 8px;
+    margin-left: 10px;
+    border-left-width: 1px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-QToolBar#QGC_TOOLBAR QToolButton#actionEngineersView {
+QToolBar#QGC_TOOLBAR QToolButton#actionDataView {
     margin-right: 8px;
+    border-right-width: 1px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -534,9 +539,8 @@ QToolBar#QGC_TOOLBAR QToolButton:hover {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
 }
 QToolBar#QGC_TOOLBAR QToolButton:checked {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2c2c2c, stop: 1 #808080);
     border-color: #379AC3;
-    border-width: 1px;
 }
 QToolBar#QGC_TOOLBAR QToolButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);

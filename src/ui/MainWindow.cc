@@ -118,7 +118,9 @@ MainWindow::MainWindow(QWidget *parent):
         if (currentViewCandidate != VIEW_ENGINEER &&
                 currentViewCandidate != VIEW_OPERATOR &&
                 currentViewCandidate != VIEW_PILOT &&
-                currentViewCandidate != VIEW_FULL)
+                currentViewCandidate != VIEW_FULL &&
+                currentViewCandidate != VIEW_DATA &&
+                currentViewCandidate != VIEW_AQ)
         {
             currentView = currentViewCandidate;
         }
@@ -159,18 +161,17 @@ MainWindow::MainWindow(QWidget *parent):
     ui.actionOperatorsView->setObjectName("actionOperatorsView");
     ui.actionEngineersView->setObjectName("actionEngineersView");
     ui.actionPilotsView->setObjectName("actionPilotsView");
+    ui.actionDataView->setObjectName("actionDataView");
 
     QList<QAction*> actions;
     actions << ui.actionPilotsView;
     actions << ui.actionOperatorsView;
     actions << ui.actionEngineersView;
+    actions << ui.actionDataView;
     toolBar->setPerspectiveChangeActions(actions);
 
-    // Add actions
-//    toolBar->addPerspectiveChangeAction(ui.actionOperatorsView);
-//    toolBar->addPerspectiveChangeAction(ui.actionEngineersView);
-//    toolBar->addPerspectiveChangeAction(ui.actionPilotsView);
-
+    // hide system menu for now since it's not useful
+    ui.menuUnmanned_System->menuAction()->setVisible(false);
 
     emit initStatusChanged("Building common widgets.");
 
@@ -622,6 +623,12 @@ void MainWindow::buildCommonWidgets()
         addCentralWidget(autoquadWidget, tr("AutoQuad"));
 	}
 
+    if ( !dataViewWidget){
+        dataViewWidget    = new QGCDataViewWidget(this);
+        dataViewWidget->addSource(mavlinkDecoder);
+        addCentralWidget(dataViewWidget, tr("Log Analysis && Telemetry"));
+    }
+
 
 #ifdef QGC_OSG_ENABLED
     if (!_3DWidget)
@@ -842,7 +849,7 @@ void MainWindow::storeSettings()
         settings.setValue(getWindowGeometryKey(), saveGeometry());
         // Save the last current view in any case
         settings.setValue("CURRENT_VIEW", currentView);
-        // Save the current window state, but only if a system is connected (else no real number of widgets would be present)
+        // Save the current window state, but only if a system is connected (else no number of widgets would be present)
         if (UASManager::instance()->getUASList().length() > 0) settings.setValue(getWindowStateKey(), saveState(QGC::applicationVersion()));
         // Save the current view only if a UAS is connected
         if (UASManager::instance()->getUASList().length() > 0) settings.setValue("CURRENT_VIEW_WITH_UAS_CONNECTED", currentView);
@@ -1077,10 +1084,11 @@ void MainWindow::connectCommonActions()
 {
     // Bind together the perspective actions
     QActionGroup* perspectives = new QActionGroup(ui.menuPerspectives);
-    perspectives->addAction(ui.actionEngineersView);
 //    perspectives->addAction(ui.actionMavlinkView);
     perspectives->addAction(ui.actionPilotsView);
     perspectives->addAction(ui.actionOperatorsView);
+    perspectives->addAction(ui.actionEngineersView);
+    perspectives->addAction(ui.actionDataView);
 //    perspectives->addAction(ui.actionFirmwareUpdateView);
 //    perspectives->addAction(ui.actionUnconnectedView);
     perspectives->setExclusive(true);
@@ -1090,6 +1098,7 @@ void MainWindow::connectCommonActions()
 //    if (currentView == VIEW_MAVLINK) ui.actionMavlinkView->setChecked(true);
     if (currentView == VIEW_PILOT) ui.actionPilotsView->setChecked(true);
     if (currentView == VIEW_OPERATOR || currentView == VIEW_UNCONNECTED) ui.actionOperatorsView->setChecked(true);
+    if (currentView == VIEW_DATA) ui.actionDataView->setChecked(true);
 //    if (currentView == VIEW_FIRMWAREUPDATE) ui.actionFirmwareUpdateView->setChecked(true);
 //    if (currentView == VIEW_UNCONNECTED) ui.actionUnconnectedView->setChecked(true);
 
@@ -1119,6 +1128,7 @@ void MainWindow::connectCommonActions()
     connect(ui.actionPilotsView, SIGNAL(triggered()), this, SLOT(loadPilotView()));
     connect(ui.actionEngineersView, SIGNAL(triggered()), this, SLOT(loadEngineerView()));
     connect(ui.actionOperatorsView, SIGNAL(triggered()), this, SLOT(loadOperatorView()));
+    connect(ui.actionDataView, SIGNAL(triggered()), this, SLOT(loadDataView()));
 //    connect(ui.actionUnconnectedView, SIGNAL(triggered()), this, SLOT(loadUnconnectedView()));
 
 //    connect(ui.actionFirmwareUpdateView, SIGNAL(triggered()), this, SLOT(loadFirmwareUpdateView()));
@@ -1320,6 +1330,7 @@ void MainWindow::UASCreated(UASInterface* uas)
         ui.actionPilotsView->setEnabled(true);
         ui.actionOperatorsView->setEnabled(true);
         ui.actionEngineersView->setEnabled(true);
+        ui.actionDataView->setEnabled(true);
         // The UAS actions are not enabled without connection to system
         ui.actionLiftoff->setEnabled(true);
         ui.actionLand->setEnabled(true);
@@ -1429,13 +1440,13 @@ void MainWindow::UASCreated(UASInterface* uas)
         }
 
         // Line chart
-        if (!linechartWidget)
-        {
-            // Center widgets
-            linechartWidget = new Linecharts(this);
-            linechartWidget->addSource(mavlinkDecoder);
-            addCentralWidget(linechartWidget, tr("Realtime Plot"));
-        }
+//        if (!linechartWidget)
+//        {
+//            // Center widgets
+//            linechartWidget = new Linecharts(this);
+//            linechartWidget->addSource(mavlinkDecoder);
+//            addCentralWidget(linechartWidget, tr("Realtime Plot"));
+//        }
 
         // Load default custom widgets for this autopilot type
         loadCustomWidgetsFromDefaults(uas->getSystemTypeName(), uas->getAutopilotTypeName());
@@ -1491,6 +1502,9 @@ void MainWindow::UASCreated(UASInterface* uas)
 //                case VIEW_UNCONNECTED:
 //                    loadUnconnectedView();
 //                    break;
+                case VIEW_DATA:
+                    loadDataView();
+                    break;
                 case VIEW_OPERATOR:
                 default:
                     loadOperatorView();
@@ -1611,6 +1625,25 @@ void MainWindow::loadViewState()
             //headDown2DockWidget->show();
             rcViewDockWidget->hide();
             headUpDockWidget->show();
+            pfdDockWidget->hide();
+            //video1DockWidget->hide();
+            //video2DockWidget->hide();
+            break;
+        case VIEW_DATA:
+            centerStack->setCurrentWidget(dataViewWidget);
+            //controlDockWidget->hide();
+            listDockWidget->hide();
+            waypointsDockWidget->hide();
+            infoDockWidget->hide();
+            debugConsoleDockWidget->hide();
+            logPlayerDockWidget->hide();
+            mavlinkInspectorWidget->hide();
+            parametersDockWidget->hide();
+            hsiDockWidget->hide();
+            headDown1DockWidget->hide();
+            //headDown2DockWidget->show();
+            rcViewDockWidget->hide();
+            headUpDockWidget->hide();
             pfdDockWidget->hide();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
@@ -1767,22 +1800,17 @@ void MainWindow::loadPilotView()
 //}
 
 
-//void MainWindow::loadDataView(QString fileName)
-//{
-    /*
-    // Plot is now selected, now load data from file
-    if (dataplotWidget)
+void MainWindow::loadDataView()
+{
+    if (currentView != VIEW_DATA)
     {
-        dataplotWidget->loadFile(fileName);
+        storeViewState();
+        currentView = VIEW_DATA;
+        ui.actionDataView->setChecked(true);
+        ui.actionDataView->trigger();
+        loadViewState();
     }
-    QStackedWidget *centerStack = dynamic_cast<QStackedWidget*>(centralWidget());
-    if (centerStack)
-    {
-        centerStack->setCurrentWidget(dataplotWidget);
-        dataplotWidget->loadFile(fileName);
-    }
-    */
-//}
+}
 
 
 QList<QAction*> MainWindow::listLinkMenuActions(void)

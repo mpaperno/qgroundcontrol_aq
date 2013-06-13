@@ -296,6 +296,35 @@ QRadioButton::indicator:disabled {
 /* Non-editable elements */
 
 /*
+    Splitter
+*/
+QSplitter {
+    width: 7px;
+}
+
+/*
+    ProgressBar
+*/
+QProgressBar {
+        border: 1px solid #4A4A4F;
+        border-radius: 4px;
+        text-align: center;
+        padding: 2px;
+        color: #DDDDDF;
+        background-color: #7b7b7e;
+}
+QProgressBar:horizontal {
+    max-height: 11px;
+    min-height: 6px;
+}
+QProgressBar:vertical {
+    max-width: 11px;
+}
+QProgressBar::chunk {
+    background-color: #3C7B9E;
+}
+
+/*
     CalendarWidget
 */
 QCalendarWidget QTableView {
@@ -350,7 +379,7 @@ QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-QToolBar#QGC_TOOLBAR QToolButton#actionEngineersView {
+QToolBar#QGC_TOOLBAR QToolButton#actionDataView {
     margin-right: 8px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;

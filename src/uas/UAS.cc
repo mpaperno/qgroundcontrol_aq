@@ -97,7 +97,7 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     paramManager(NULL),
     attitudeStamped(false),
     lastAttitude(0),
-    simulation(0),
+//    simulation(0),
     isLocalPositionKnown(false),
     isGlobalPositionKnown(false),
     systemIsArmed(false),
@@ -137,7 +137,7 @@ UAS::~UAS()
     writeSettings();
     delete links;
     delete statusTimeout;
-    delete simulation;
+//    delete simulation;
 }
 
 /**
@@ -2651,26 +2651,26 @@ bool UAS::emergencyKILL()
 */
 void UAS::enableHilFlightGear(bool enable, QString options)
 {
-    QGCFlightGearLink* link = dynamic_cast<QGCFlightGearLink*>(simulation);
-    if (!link || !simulation) {
-        // Delete wrong sim
-        if (simulation) {
-            stopHil();
-            delete simulation;
-        }
-        simulation = new QGCFlightGearLink(this, options);
-    }
-    // Connect Flight Gear Link
-    link = dynamic_cast<QGCFlightGearLink*>(simulation);
-    link->setStartupArguments(options);
-    if (enable)
-    {
-        startHil();
-    }
-    else
-    {
-        stopHil();
-    }
+//    QGCFlightGearLink* link = dynamic_cast<QGCFlightGearLink*>(simulation);
+//    if (!link || !simulation) {
+//        // Delete wrong sim
+//        if (simulation) {
+//            stopHil();
+//            delete simulation;
+//        }
+//        simulation = new QGCFlightGearLink(this, options);
+//    }
+//    // Connect Flight Gear Link
+//    link = dynamic_cast<QGCFlightGearLink*>(simulation);
+//    link->setStartupArguments(options);
+//    if (enable)
+//    {
+//        startHil();
+//    }
+//    else
+//    {
+//        stopHil();
+//    }
 }
 
 /**
@@ -2678,24 +2678,24 @@ void UAS::enableHilFlightGear(bool enable, QString options)
 */
 void UAS::enableHilXPlane(bool enable)
 {
-    QGCXPlaneLink* link = dynamic_cast<QGCXPlaneLink*>(simulation);
-    if (!link || !simulation) {
-        if (simulation) {
-            stopHil();
-            delete simulation;
-        }
-        qDebug() << "CREATED NEW XPLANE LINK";
-        simulation = new QGCXPlaneLink(this);
-    }
-    // Connect X-Plane Link
-    if (enable)
-    {
-        startHil();
-    }
-    else
-    {
-        stopHil();
-    }
+//    QGCXPlaneLink* link = dynamic_cast<QGCXPlaneLink*>(simulation);
+//    if (!link || !simulation) {
+//        if (simulation) {
+//            stopHil();
+//            delete simulation;
+//        }
+//        qDebug() << "CREATED NEW XPLANE LINK";
+//        simulation = new QGCXPlaneLink(this);
+//    }
+//    // Connect X-Plane Link
+//    if (enable)
+//    {
+//        startHil();
+//    }
+//    else
+//    {
+//        stopHil();
+//    }
 }
 
 /**
@@ -2743,13 +2743,13 @@ void UAS::sendHilState(uint64_t time_us, float roll, float pitch, float yaw, flo
 **/
 void UAS::startHil()
 {
-    if (hilEnabled) return;
-    hilEnabled = true;
-    mavlink_message_t msg;
-    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode | MAV_MODE_FLAG_HIL_ENABLED, navMode);
-    sendMessage(msg);
-    // Connect HIL simulation link
-    simulation->connectSimulation();
+//    if (hilEnabled) return;
+//    hilEnabled = true;
+//    mavlink_message_t msg;
+//    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode | MAV_MODE_FLAG_HIL_ENABLED, navMode);
+//    sendMessage(msg);
+//    // Connect HIL simulation link
+//    simulation->connectSimulation();
 }
 
 /**
@@ -2757,11 +2757,11 @@ void UAS::startHil()
 */
 void UAS::stopHil()
 {
-    if (simulation) simulation->disconnectSimulation();
-    mavlink_message_t msg;
-    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode & !MAV_MODE_FLAG_HIL_ENABLED, navMode);
-    sendMessage(msg);
-    hilEnabled = false;
+//    if (simulation) simulation->disconnectSimulation();
+//    mavlink_message_t msg;
+//    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode & !MAV_MODE_FLAG_HIL_ENABLED, navMode);
+//    sendMessage(msg);
+//    hilEnabled = false;
 }
 
 void UAS::shutdown()

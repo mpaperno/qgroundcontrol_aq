@@ -122,6 +122,7 @@
     <addaction name="actionOperatorsView"/>
     <addaction name="actionEngineersView"/>
     <addaction name="actionPilotsView"/>
+    <addaction name="actionDataView"/>
     <addaction name="separator"/>
     <addaction name="actionFullscreen"/>
     <addaction name="actionNormal"/>
@@ -150,7 +151,7 @@
     <string>Exit</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Q</string>
+    <string>Alt+Q</string>
    </property>
   </action>
   <action name="actionLiftoff">
@@ -206,6 +207,9 @@
    </property>
    <property name="text">
     <string>Add Link</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+A</string>
    </property>
   </action>
   <action name="actionConfiguration">
@@ -286,7 +290,7 @@
     <string>Mission Planning and MAV Tracking</string>
    </property>
    <property name="shortcut">
-    <string>Meta+O</string>
+    <string>Alt+M</string>
    </property>
   </action>
   <action name="actionEngineersView">
@@ -304,7 +308,7 @@
     <string>MAV Configuration</string>
    </property>
    <property name="shortcut">
-    <string>Meta+E</string>
+    <string>Alt+C</string>
    </property>
   </action>
   <action name="actionSelectStylesheet">
@@ -331,7 +335,7 @@
     <string>Pilot's view (HUD, moving map, etc)</string>
    </property>
    <property name="shortcut">
-    <string>Meta+P</string>
+    <string>Alt+P</string>
    </property>
   </action>
   <action name="actionNewCustomWidget">
@@ -379,7 +383,7 @@
     <string>Reload Stylesheet</string>
    </property>
    <property name="shortcut">
-    <string>Meta+R</string>
+    <string>Alt+R</string>
    </property>
   </action>
   <action name="actionSettings">
@@ -392,7 +396,7 @@
     <string>Fullscreen</string>
    </property>
    <property name="shortcut">
-    <string>Meta+Return</string>
+    <string>Alt+Return</string>
    </property>
   </action>
   <action name="actionNormal">
@@ -410,6 +414,24 @@
    </property>
    <property name="text">
     <string>Load Custom Widget File</string>
+   </property>
+  </action>
+  <action name="actionDataView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../qgroundcontrol.qrc">
+     <normaloff>:/files/images/apps/utilities-system-monitor.svg</normaloff>:/files/images/apps/utilities-system-monitor.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Data</string>
+   </property>
+   <property name="toolTip">
+    <string>Log viewing and export, live telemetry views, and other diagnostic tools.</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+D</string>
    </property>
   </action>
  </widget>

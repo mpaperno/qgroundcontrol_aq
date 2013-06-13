@@ -73,6 +73,7 @@ This file is part of the QGROUNDCONTROL project
 #include "QGCToolBar.h"
 //#include "SlugsDataSensorView.h"
 #include "LogCompressor.h"
+#include "QGCDataViewWidget.h"
 
 //#include "SlugsHilSim.h"
 
@@ -171,6 +172,9 @@ public slots:
 //    void loadFirmwareUpdateView();
     /** @brief Load aq view */
 //    void loadAQView();
+    /** @brief Load data/log/telemetry view */
+    void loadDataView();
+
 
     /** @brief Show the online help for users */
     void showHelp();
@@ -214,9 +218,6 @@ public slots:
 //    void showHILConfigurationWidget(UASInterface *uas);
 
     void closeEvent(QCloseEvent* event);
-
-    /** @brief Load data view, allowing to plot flight data */
-//    void loadDataView(QString fileName);
 
     /**
      * @brief Shows a Docked Widget based on the action sender
@@ -270,7 +271,8 @@ protected:
         VIEW_FIRMWAREUPDATE,
         VIEW_UNCONNECTED,    ///< View in unconnected mode, when no UAS is available
         VIEW_FULL,            ///< All widgets shown at once
-		VIEW_AQ
+        VIEW_AQ,
+        VIEW_DATA
     } VIEW_SECTIONS;
 
     /**
@@ -331,13 +333,14 @@ protected:
     QActionGroup* centerStackActionGroup;
 
     // Center widgets
-    QPointer<Linecharts> linechartWidget;
+//    QPointer<Linecharts> linechartWidget;
     QPointer<HUD> hudWidget;
 //    QPointer<QGCVehicleConfig> configWidget;
     QPointer<QGCMapTool> mapWidget;
 //    QPointer<XMLCommProtocolWidget> protocolWidget;
 //    QPointer<QGCDataPlot2D> dataplotWidget;
 	QPointer<QGCAutoquad> autoquadWidget;
+    QPointer<QGCDataViewWidget> dataViewWidget;
 #ifdef QGC_OSG_ENABLED
     QPointer<QWidget> _3DWidget;
 #endif
@@ -416,7 +419,7 @@ protected:
     bool autoReconnect;
     Qt::WindowStates windowStateVal;
     bool lowPowerMode; ///< If enabled, QGC reduces the update rates of all widgets
-    QGCFlightGearLink* fgLink;
+//    QGCFlightGearLink* fgLink;
     QTimer windowNameUpdateTimer;
 
 private:
