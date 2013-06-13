@@ -15,7 +15,6 @@ class AQTelemetryView : public QWidget
 public:
     explicit AQTelemetryView(QWidget *parent = 0);
     ~AQTelemetryView();
-    void initChart(UASInterface *uav);
     
 private:
     enum telemDatasets { TELEM_DATASET_DEFAULT, TELEM_DATASET_GROUND, TELEM_DATASET_NUM };
@@ -47,6 +46,10 @@ private:
     void setupDataFields();
     void setupCurves();
     float getTelemValue(const int idx);
+
+public slots:
+    void initChart(UASInterface *uav);
+
 
 private slots:
     void getNewTelemetry(int uasId, int valIdx);

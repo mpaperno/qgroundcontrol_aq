@@ -1,5 +1,6 @@
 #include "aq_telemetryView.h"
 #include "ui_aq_telemetryView.h"
+#include "UASManager.h"
 #include <QLineEdit>
 
 AQTelemetryView::AQTelemetryView(QWidget *parent) :
@@ -8,7 +9,8 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     datasetFieldsSetup(-1),
     telemetryRunning(false),
     currentDataSet(TELEM_DATASET_DEFAULT),
-    AqTeleChart(NULL)
+    AqTeleChart(NULL),
+    uas(NULL)
 {
 
     ui->setupUi(this);
@@ -109,6 +111,8 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     connect(ui->pushButton_start_tel_grid, SIGNAL(clicked()),this, SLOT(teleValuesToggle()));
     connect(ui->Frequenz_Telemetry, SIGNAL(activated(int)),this, SLOT(frequencyChanged(int)));
 
+    initChart(UASManager::instance()->getActiveUAS());
+    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(initChart(UASInterface*)), Qt::UniqueConnection);
 }
 
 AQTelemetryView::~AQTelemetryView()
