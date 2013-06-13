@@ -90,7 +90,7 @@ void AQLogViewer::SetupListView()
     DefaultColorMeasureChannels = p.color(QPalette::Window);
     model = new QStandardItemModel(this); //listView_curves
     for ( int i=0; i<parser.LogChannelsStruct.count(); i++ ) {
-        QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+        QPair<QString, AQLogParser::loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
         QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
@@ -161,7 +161,7 @@ void AQLogViewer::CurveItemClicked(QModelIndex index) {
         item->setCheckState(Qt::Checked);
         item->setData(true, Qt::UserRole);
         for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+            QPair<QString, AQLogParser::loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
             if ( val_pair.first == item->text()) {
                 val_pair.second.fieldActive = 1;
                 parser.LogChannelsStruct.replace(i,val_pair);
@@ -174,7 +174,7 @@ void AQLogViewer::CurveItemClicked(QModelIndex index) {
         item->setCheckState(Qt::Unchecked);
         item->setData(false, Qt::UserRole);
         for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
+            QPair<QString, AQLogParser::loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
             if ( val_pair.first == item->text()) {
                 val_pair.second.fieldActive = 0;
                 parser.LogChannelsStruct.replace(i,val_pair);

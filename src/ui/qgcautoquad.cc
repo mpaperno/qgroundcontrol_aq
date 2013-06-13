@@ -62,7 +62,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     //ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
 #ifdef QT_NO_DEBUG
-    ui->tabWidget->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
+    ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
 #endif
 
     // populate field values
