@@ -14,16 +14,12 @@
 #include <QFileDialog>
 #include <QTextBrowser>
 #include <QMessageBox>
-#include <QDesktopServices>
-#include <QStandardItemModel>
 #include <QSignalMapper>
-#include <QSvgGenerator>
 #include "GAudioOutput.h"
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QGCAutoquad),
-    plot(new IncrementalPlot()),
     uas(NULL),
     paramaq(NULL),
     esc32(NULL),
@@ -31,14 +27,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 {
 
     VisibleWidget = 0;
-
-    model = NULL;
-    picker = NULL;
-    MarkerCut1  = NULL;
-    MarkerCut2  = NULL;
-    MarkerCut3  = NULL;
-    MarkerCut4  = NULL;
     FwFileForEsc32 = "";
+    FlashEsc32Active = false;
 
     aqFirmwareVersion = "";
     aqFirmwareRevision = 0;
@@ -66,23 +56,13 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->setupUi(this);
 
-    // load the Telemetry tab
-    aqTelemetryView = new AQTelemetryView(this);
-    ui->tabLayout_telemetry->addWidget(aqTelemetryView);
-    //ui->tabWidget->insertTab(5, aqTelemetryView, tr("Telemetry"));
-
-    FlashEsc32Active = false;
-    QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
-    layout->addWidget(plot);
-    ui->plotFrame->setLayout(layout);
-
     // load the port config UI
     aqPwmPortConfig = new AQPWMPortsConfig(this);
     ui->tabLayout_aqMixingOutput->addWidget(aqPwmPortConfig);
     //ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
 #ifdef QT_NO_DEBUG
-    ui->tabWidget->removeTab(ui->tabWidget->count()-1); // hide devel tab
+    ui->tabWidget->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
 #endif
 
     // populate field values
@@ -105,15 +85,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->CTRL_HF_MODE->addItem("Locked", 2);
     ui->CTRL_HF_MODE->addItem("Dynamic", 3);
     ui->CTRL_HF_MODE->setCurrentIndex(0);
-
-    ui->comboBox_marker->clear();
-    ui->comboBox_marker->addItem("Start & End 1s", 0);
-    ui->comboBox_marker->addItem("Start & End 2s", 1);
-    ui->comboBox_marker->addItem("Start & End 3s", 2);
-    ui->comboBox_marker->addItem("Start & End 5s", 3);
-    ui->comboBox_marker->addItem("Start & End 10s", 4);
-    ui->comboBox_marker->addItem("Start & End 15s", 5);
-    ui->comboBox_marker->addItem("manual", 6);
 
     ui->comboBox_mode->addItem("RPM",0);
     ui->comboBox_mode->addItem("Open Loop",1);
@@ -235,16 +206,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_save, SIGNAL(clicked()),this,SLOT(WriteUsersParams()));
     connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
 
-    connect(ui->pushButton_Export_Log, SIGNAL(clicked()),this,SLOT(openExportOptionsDlg()));
-    connect(ui->pushButton_Open_Log_file, SIGNAL(clicked()),this,SLOT(OpenLogFile()));
-    connect(ui->pushButton_set_marker, SIGNAL(clicked()),this,SLOT(startSetMarker()));
-    connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
-    connect(ui->pushButton_remove_marker, SIGNAL(clicked()),this,SLOT(removeMarker()));
-    connect(ui->pushButton_clearCurves, SIGNAL(clicked()),this,SLOT(deselectAllCurves()));
-    connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
-    connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
-    connect(ui->comboBox_marker, SIGNAL(currentIndexChanged(int)),this,SLOT(CuttingItemChanged(int)));
-
     connect(ui->pushButton_save_to_aq, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
 //    connect(ui->pushButton_save_to_aq_radio, SIGNAL(clicked()),this,SLOT(saveRadioSettings()));
 //    connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(saveAttitudePIDs()));
@@ -306,8 +267,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(&ps_tracking, SIGNAL(readyReadStandardError()), this, SLOT(prtstderrTR()));
     TrackingIsrunning = 0;
 
+    setupPortList();
+    loadSettings();
+
     // UAS slots
-    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
     QList<UASInterface*> mavs = UASManager::instance()->getUASList();
     foreach (UASInterface* currMav, mavs) {
         addUAS(currMav);
@@ -315,9 +278,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)), Qt::UniqueConnection);
-
-    setupPortList();
-    loadSettings();
 
 }
 
@@ -434,6 +394,10 @@ void QGCAutoquad::loadSettings()
 
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
+    if (settings.contains("SETTINGS_SPLITTER_SIZES"))
+        ui->splitter->restoreState(settings.value("SETTINGS_SPLITTER_SIZES").toByteArray());
+
+    ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
     ui->pushButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
     ui->groupBox_controlAdvancedSettings->setChecked(settings.value("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked()).toBool());
 
@@ -479,6 +443,8 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("AUTOQUAD_LAST_PATH", LastFilePath);
 
+    settings.setValue("SETTINGS_SPLITTER_SIZES", ui->splitter->saveState());
+    settings.setValue("SETTING_SELECTED_LEFT_TAB", ui->tabWidget_aq_left->currentIndex());
     settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->pushButton_toggleRadioGraph->isChecked());
     settings.setValue("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked());
 
@@ -573,6 +539,13 @@ void QGCAutoquad::adjustUiForHeadFreeMode(int idx)
         connect(ui->CTRL_HF_SET_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
     }
 
+}
+
+void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
+{
+    bool vis = !(arg1->objectName() == "tab_aq_esc32" || arg1->objectName() == "tab_aq_generate_para");
+    ui->lbl_aq_fw_version->setVisible(vis);
+    ui->pushButton_save_to_aq->setVisible(vis);
 }
 
 void QGCAutoquad::on_groupBox_controlAdvancedSettings_toggled(bool arg1)
@@ -1230,7 +1203,7 @@ Do you wish to continue flashing?").arg(portNameEsc32);
 }
 
 void QGCAutoquad::Esc32BootModOk() {
-    ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget_aq_left->setCurrentWidget(ui->tab_firmware);
     QString port = ui->label_portName_esc32->text();
     FlashEsc32Active = false;
     QString msg = "";
@@ -1403,7 +1376,7 @@ void QGCAutoquad::btnSaveToEsc32() {
     bool oneWritten = false;
     bool something_gos_wrong = false;
     int rettryToStore = 0;
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tabWidget );
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
     for ( int i = 0; i<edtList.count(); i++) {
         QString ParaName = edtList.at(i)->objectName();
         QString valueText = edtList.at(i)->text();
@@ -1449,7 +1422,7 @@ void QGCAutoquad::btnSaveToEsc32() {
 }
 
 void QGCAutoquad::btnReadConfigEsc32() {
-    esc32->sendCommand(BINARY_COMMAND_CONFIG,0.0f, 0.0f, 0, false);
+    esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,0.0f, 0.0f, 0, false);
     esc32->ReadConfigEsc32();
 }
 
@@ -1458,9 +1431,9 @@ void QGCAutoquad::btnArmEsc32()
     if ( !esc32)
         return;
     if ( ui->pushButton_esc32_read_arm_disarm->text() == "arm")
-        esc32->sendCommand(BINARY_COMMAND_ARM,0.0f, 0.0f, 0, false);
+        esc32->sendCommand(esc32->BINARY_COMMAND_ARM,0.0f, 0.0f, 0, false);
     else if ( ui->pushButton_esc32_read_arm_disarm->text() == "disarm")
-        esc32->sendCommand(BINARY_COMMAND_DISARM,0.0f, 0.0f, 0, false);
+        esc32->sendCommand(esc32->BINARY_COMMAND_DISARM,0.0f, 0.0f, 0, false);
 
 }
 
@@ -1469,9 +1442,9 @@ void QGCAutoquad::btnStartStopEsc32()
     if ( !esc32)
         return;
     if ( ui->pushButton_esc32_read_start_stop->text() == "start")
-        esc32->sendCommand(BINARY_COMMAND_START,0.0f, 0.0f, 0, false);
+        esc32->sendCommand(esc32->BINARY_COMMAND_START,0.0f, 0.0f, 0, false);
     else if ( ui->pushButton_esc32_read_start_stop->text() == "stop")
-        esc32->sendCommand(BINARY_COMMAND_STOP,0.0f, 0.0f, 0, false);
+        esc32->sendCommand(esc32->BINARY_COMMAND_STOP,0.0f, 0.0f, 0, false);
 }
 
 void QGCAutoquad::ParaWrittenEsc32(QString ParaName) {
@@ -1494,19 +1467,19 @@ void QGCAutoquad::ParaWrittenEsc32(QString ParaName) {
 }
 
 void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2) {
-    if ( CommandName == BINARY_COMMAND_ARM) {
+    if ( CommandName == esc32->BINARY_COMMAND_ARM) {
         ui->pushButton_esc32_read_arm_disarm->setText("disarm");
     }
-    if ( CommandName == BINARY_COMMAND_DISARM) {
+    if ( CommandName == esc32->BINARY_COMMAND_DISARM) {
         ui->pushButton_esc32_read_arm_disarm->setText("arm");
     }
-    if ( CommandName == BINARY_COMMAND_START) {
+    if ( CommandName == esc32->BINARY_COMMAND_START) {
         ui->pushButton_esc32_read_start_stop->setText("stop");
     }
-    if ( CommandName == BINARY_COMMAND_STOP) {
+    if ( CommandName == esc32->BINARY_COMMAND_STOP) {
         ui->pushButton_esc32_read_start_stop->setText("start");
     }
-    if ( CommandName == BINARY_COMMAND_RPM) {
+    if ( CommandName == esc32->BINARY_COMMAND_RPM) {
         ui->label_rpm->setText(V1.toString());
     }
 }
@@ -1526,7 +1499,7 @@ void QGCAutoquad::btnSetRPM()
         }
         else {
             ui->label_rpm->setText(QString::number(ui->horizontalSlider_rpm->value()));
-            esc32->sendCommand(BINARY_COMMAND_RPM, rpm, 0.0f, 1, false);
+            esc32->sendCommand(esc32->BINARY_COMMAND_RPM, rpm, 0.0f, 1, false);
         }
     }
 }
@@ -1546,7 +1519,7 @@ void QGCAutoquad::saveEEpromEsc32()
     switch (ret) {
         case QMessageBox::Yes:
         {
-            esc32->sendCommand(BINARY_COMMAND_CONFIG,1.0f, 0.0f, 1, false);
+            esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,1.0f, 0.0f, 1, false);
         }
         break;
         case QMessageBox::No:
@@ -1688,13 +1661,13 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
 }
 
 void QGCAutoquad::Esc32ReadConf() {
-    esc32->sendCommand(BINARY_COMMAND_CONFIG,2.0f, 0.0f, 1, false);
+    esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,2.0f, 0.0f, 1, false);
     esc32->SwitchFromBinaryToAscii();
     esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::Esc32ReLoadConf() {
-    esc32->sendCommand(BINARY_COMMAND_CONFIG,0.0f, 0.0f, 1, false);
+    esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,0.0f, 0.0f, 1, false);
     esc32->SwitchFromBinaryToAscii();
     esc32->ReadConfigEsc32();
 }
@@ -2085,6 +2058,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
         aqFirmwareRevision = 0;
+        aqHardwareVersion = 0;
         aqHardwareRevision = 0;
         aqBuildNumber = 0;
         ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
@@ -2093,7 +2067,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         paramaq->loadParaAQ();
 
         VisibleWidget = 2;
-        aqTelemetryView->initChart(uas);
+//        aqTelemetryView->initChart(uas);
         toggleRadioValuesUpdate();
     }
 }
@@ -2449,600 +2423,6 @@ void QGCAutoquad::saveAQSettings() {
 //void QGCAutoquad::saveGimbalSettings() {
 //    saveSettingsToAq(ui->Gimbal);
 //}
-
-
-//
-// Log Viewer
-//
-
-
-void QGCAutoquad::SetupListView()
-{
-    ui->listView_Curves->setAutoFillBackground(true);
-    QPalette p =  ui->listView_Curves->palette();
-    DefaultColorMeasureChannels = p.color(QPalette::Window);
-    model = new QStandardItemModel(this); //listView_curves
-    for ( int i=0; i<parser.LogChannelsStruct.count(); i++ ) {
-        QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
-        QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
-        item->setCheckable(true);
-        item->setCheckState(Qt::Unchecked);
-        item->setData(false, Qt::UserRole);
-        model->appendRow(item);
-    }
-    ui->listView_Curves->setModel(model);
-    connect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
-}
-
-void QGCAutoquad::OpenLogFile(bool openFile)
-{
-    QString dirPath;
-    if ( LastFilePath == "")
-        dirPath = QCoreApplication::applicationDirPath();
-    else
-        dirPath = LastFilePath;
-    QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ log file (*.LOG)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
-
-    if (fileNames.size() > 0)
-    {
-        QFile file(fileNames.first());
-        LogFile = QDir::toNativeSeparators(file.fileName());
-        LastFilePath = LogFile;
-        if (openFile && !file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QMessageBox msgBox;
-            msgBox.setText("Could not read Log file. Permission denied");
-            msgBox.exec();
-        } else if (openFile)
-            DecodeLogFile(LogFile);
-    }
-}
-
-void QGCAutoquad::openExportOptionsDlg() {
-    static QWeakPointer<AQLogExporter> dlg_;
-
-    if (!dlg_)
-        dlg_ = new AQLogExporter(this);
-
-    AQLogExporter *dlg = dlg_.data();
-
-    if (LogFile.length())
-        dlg->setLogFile(LogFile);
-
-    dlg->setAttribute(Qt::WA_DeleteOnClose);
-    dlg->show();
-    dlg->raise();
-    dlg->activateWindow();
-}
-
-
-void QGCAutoquad::CurveItemClicked(QModelIndex index) {
-    QStandardItem *item = model->itemFromIndex(index);
-
-    if (item->data(Qt::UserRole).toBool() == false)
-    {
-        item->setCheckState(Qt::Checked);
-        item->setData(true, Qt::UserRole);
-        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
-            if ( val_pair.first == item->text()) {
-                val_pair.second.fieldActive = 1;
-                parser.LogChannelsStruct.replace(i,val_pair);
-                break;
-            }
-        }
-    }
-    else
-    {
-        item->setCheckState(Qt::Unchecked);
-        item->setData(false, Qt::UserRole);
-        for ( int i = 0; i<parser.LogChannelsStruct.count(); i++) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
-            if ( val_pair.first == item->text()) {
-                val_pair.second.fieldActive = 0;
-                parser.LogChannelsStruct.replace(i,val_pair);
-                break;
-            }
-        }
-    }
-}
-
-void QGCAutoquad::deselectAllCurves(void) {
-    if (model) {
-        for (int i=0; i < model->rowCount(); ++i){
-            if (model->item(i)->data(Qt::UserRole).toBool() == true)
-                CurveItemClicked(model->item(i)->index());
-        }
-    }
-}
-
-void QGCAutoquad::DecodeLogFile(QString fileName)
-{
-    plot->removeData();
-    plot->clear();
-    plot->setStyleText("lines");
-
-    disconnect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
-    ui->listView_Curves->reset();
-
-    if ( parser.ParseLogHeader(fileName) == 0)
-        SetupListView();
-
-}
-
-void QGCAutoquad::showChannels() {
-
-    parser.ShowCurves();
-    plot->removeData();
-    plot->clear();
-    plot->ResetColor();
-    if (!QFile::exists(LogFile))
-        return;
-
-    for (int i = 0; i < parser.yValues.count(); i++) {
-        plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
-    }
-
-    plot->setStyleText("lines");
-    plot->updateScale();
-    for ( int i = 0; i < model->rowCount(); i++) {
-        QStandardItem *item = model->item(i,0);
-        if ( item->data(Qt::UserRole).toBool() )
-            //item->setForeground(plot->getColorForCurve(item->text()));
-            item->setBackground(plot->getColorForCurve(item->text()));
-        else
-            item->setBackground(DefaultColorMeasureChannels);
-    }
-
-}
-
-
-void QGCAutoquad::save_plot_image(){
-    QString fileName = "plot.svg";
-    fileName = QFileDialog::getSaveFileName(this, "Export File Name", \
-                                            QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), \
-                                            "SVG Images (*.svg)"); // ;;PDF Documents (*.pdf)
-
-    if (!fileName.contains(".")) {
-        // .svg is default extension
-        fileName.append(".svg");
-    }
-
-    while(!(fileName.endsWith(".svg") || fileName.endsWith(".pdf"))) {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setText("Unsuitable file extension for PDF or SVG");
-        msgBox.setInformativeText("Please choose .pdf or .svg as file extension. Click OK to change the file extension, cancel to not save the file.");
-        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        // Abort if cancelled
-        if(msgBox.exec() == QMessageBox::Cancel) return;
-        fileName = QFileDialog::getSaveFileName(
-                       this, "Export File Name", QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
-                       "PDF Documents (*.pdf);;SVG Images (*.svg)");
-    }
-
-    if (fileName.endsWith(".svg")) {
-        exportSVG(fileName);
-    } else if (fileName.endsWith(".pdf")) {
-        exportPDF(fileName);
-    }}
-
-void QGCAutoquad::exportPDF(QString fileName)
-{
-    /*
-    QPrinter printer;
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(fileName);
-    //printer.setFullPage(true);
-    printer.setPageMargins(10.0, 10.0, 10.0, 10.0, QPrinter::Millimeter);
-    printer.setPageSize(QPrinter::A4);
-
-    QString docName = plot->title().text();
-    if ( !docName.isEmpty() ) {
-        docName.replace (QRegExp (QString::fromLatin1 ("\n")), tr (" -- "));
-        printer.setDocName (docName);
-    }
-
-    printer.setCreator("QGroundControl");
-    printer.setOrientation(QPrinter::Landscape);
-
-    plot->setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; background-clip: border; font-size: 10pt;}");
-    //        plot->setCanvasBackground(Qt::white);
-    //        QwtPlotPrintFilter filter;
-    //        filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
-    //        filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
-    //        filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
-    //        filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
-    //        filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
-    //        if ( printer.colorMode() == QPrinter::GrayScale )
-    //        {
-    //            int options = QwtPlotPrintFilter::PrintAll;
-    //            options &= ~QwtPlotPrintFilter::PrintBackground;
-    //            options |= QwtPlotPrintFilter::PrintFrameWithScales;
-    //            filter.setOptions(options);
-    //        }
-    plot->print(printer);//, filter);
-    plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
-    //plot->setCanvasBackground(QColor(5, 5, 8));
-
-    */
-}
-
-void QGCAutoquad::exportSVG(QString fileName)
-{
-    if ( !fileName.isEmpty() ) {
-        plot->setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; background-clip: border; font-size: 10pt;}");
-        //plot->setCanvasBackground(Qt::white);
-        QSvgGenerator generator;
-        generator.setFileName(fileName);
-        generator.setSize(QSize(800, 600));
-
-        QwtPlotPrintFilter filter;
-        filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
-        filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
-        filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
-
-        plot->print(generator, filter);
-        plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
-    }
-}
-
-void QGCAutoquad::startSetMarker() {
-
-    if ( parser.xValues.count() <= 0)
-        return;
-    if ( parser.yValues.count() <= 0)
-        return;
-    removeMarker();
-
-    if ( picker == NULL ) {
-        if ( ui->comboBox_marker->currentIndex() == 6) {
-            if ( MarkerCut1 != NULL) {
-                MarkerCut1->setVisible(false);
-                MarkerCut1->detach();
-                MarkerCut1 = NULL;
-            }
-            if ( MarkerCut2 != NULL) {
-                MarkerCut2->setVisible(false);
-                MarkerCut2->detach();
-                MarkerCut2 = NULL;
-            }
-            if ( MarkerCut3 != NULL) {
-                MarkerCut3->setVisible(false);
-                MarkerCut3->detach();
-                MarkerCut3 = NULL;
-            }
-            if ( MarkerCut4 != NULL) {
-                MarkerCut4->setVisible(false);
-                MarkerCut4->detach();
-                MarkerCut4 = NULL;
-            }
-            ui->pushButton_cut->setEnabled(false);
-            QMessageBox::information(this, "Information", "Please select the start point of the frame!",QMessageBox::Ok, 0 );
-            picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,QwtPicker::PointSelection,
-                         QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOff,
-                         plot->canvas());
-            picker->setRubberBand(QwtPicker::CrossRubberBand);
-            connect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-            StepCuttingPlot = 0;
-        }
-        else {
-            if ( MarkerCut1 != NULL) {
-                MarkerCut1->setVisible(false);
-                MarkerCut1->detach();
-                MarkerCut1 = NULL;
-            }
-            if ( MarkerCut2 != NULL) {
-                MarkerCut2->setVisible(false);
-                MarkerCut2->detach();
-                MarkerCut2 = NULL;
-            }
-            if ( MarkerCut3 != NULL) {
-                MarkerCut3->setVisible(false);
-                MarkerCut3->detach();
-                MarkerCut3 = NULL;
-            }
-            if ( MarkerCut4 != NULL) {
-                MarkerCut4->setVisible(false);
-                MarkerCut4->detach();
-                MarkerCut4 = NULL;
-            }
-            ui->pushButton_cut->setEnabled(false);
-
-            double x1,x2,y1,y2 = 0;
-            int time_count = 0;
-            //200 Hz
-            if ( ui->comboBox_marker->currentIndex() == 0)
-                time_count = 200 * 1;
-            if ( ui->comboBox_marker->currentIndex() == 1)
-                time_count = 200 * 2;
-            if ( ui->comboBox_marker->currentIndex() == 2)
-                time_count = 200 * 3;
-            if ( ui->comboBox_marker->currentIndex() == 3)
-                time_count = 200 * 5;
-            if ( ui->comboBox_marker->currentIndex() == 4)
-                time_count = 200 * 10;
-            if ( ui->comboBox_marker->currentIndex() == 5)
-                time_count = 200 * 15;
-
-            MarkerCut1 = new QwtPlotMarker();
-            MarkerCut1->setLabel(QString::fromLatin1("sp1"));
-            MarkerCut1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-            MarkerCut1->setLineStyle(QwtPlotMarker::VLine);
-            x1 = parser.xValues.value("XVALUES")->value(0);
-            y1 = parser.yValues.values().at(0)->value(0);
-            MarkerCut1->setValue(x1,y1);
-            MarkerCut1->setLinePen(QPen(QColor(QString("red"))));
-            MarkerCut1->setVisible(true);
-            MarkerCut1->attach(plot);
-
-            MarkerCut2 = new QwtPlotMarker();
-            MarkerCut2->setLabel(QString::fromLatin1("ep1"));
-            MarkerCut2->setLabelAlignment(Qt::AlignRight|Qt::AlignBottom);
-            MarkerCut2->setLineStyle(QwtPlotMarker::VLine);
-            if ( parser.getOldLog()) {
-                x2 = parser.xValues.value("XVALUES")->value(time_count-1);
-                y2 = parser.yValues.values().at(0)->value(time_count-1);
-            }
-            else {
-                x2 = parser.xValues.value("XVALUES")->value(time_count);
-                y2 = parser.yValues.values().at(0)->value(time_count);
-            }
-            MarkerCut2->setValue(x2,y2);
-            MarkerCut2->setLinePen(QPen(QColor(QString("red"))));
-            MarkerCut2->setVisible(true);
-            MarkerCut2->attach(plot);
-
-            MarkerCut3 = new QwtPlotMarker();
-            MarkerCut3->setLabel(QString::fromLatin1("sp2"));
-            MarkerCut3->setLabelAlignment(Qt::AlignLeft|Qt::AlignTop);
-            MarkerCut3->setLineStyle(QwtPlotMarker::VLine);
-            if ( parser.getOldLog()) {
-                x1 = (parser.xValues.values().at(0)->count()) - time_count;
-                y1 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count())- time_count);
-            }
-            else {
-                x1 = (parser.xValues.values().at(0)->count()-1) - time_count;
-                y1 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()-1)- time_count);
-            }
-            MarkerCut3->setValue(x1,y1);
-            MarkerCut3->setLinePen(QPen(QColor(QString("blue"))));
-            MarkerCut3->setVisible(true);
-            MarkerCut3->attach(plot);
-
-            MarkerCut4 = new QwtPlotMarker();
-            MarkerCut4->setLabel(QString::fromLatin1("ep2"));
-            MarkerCut4->setLabelAlignment(Qt::AlignLeft|Qt::AlignBottom);
-            MarkerCut4->setLineStyle(QwtPlotMarker::VLine);
-            if ( parser.getOldLog()) {
-                x2 = (parser.xValues.values().at(0)->count());
-                y2 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()));
-            }
-            else {
-                x2 = (parser.xValues.values().at(0)->count()-1);
-                y2 = parser.yValues.values().at(0)->value((parser.xValues.values().at(0)->count()-1));
-            }
-            MarkerCut4->setValue(x2,y2);
-            MarkerCut4->setLinePen(QPen(QColor(QString("blue"))));
-            MarkerCut4->setVisible(true);
-            MarkerCut4->attach(plot);
-            plot->replot();
-            ui->pushButton_cut->setEnabled(true);
-        }
-    }
-    else {
-        if ( picker){
-            disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-            picker->setEnabled(false);
-            picker = NULL;
-        }
-    }
-
-}
-
-void QGCAutoquad::setPoint1(const QwtDoublePoint &pos) {
-
-    if ( StepCuttingPlot == 0) {
-        ui->pushButton_cut->setEnabled(false);
-
-        MarkerCut1 = new QwtPlotMarker();
-        MarkerCut1->setLabel(QString::fromLatin1("sp1"));
-        MarkerCut1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-        MarkerCut1->setLineStyle(QwtPlotMarker::VLine);
-        MarkerCut1->setValue((int)pos.x(),pos.y());
-        MarkerCut1->setLinePen(QPen(QColor(QString("red"))));
-        MarkerCut1->setVisible(true);
-        MarkerCut1->attach(plot);
-        StepCuttingPlot = 1;
-        plot->replot();
-        QMessageBox::information(this, "Information", "Please select the end point of the frame!",QMessageBox::Ok, 0 );
-    }
-    else if ( StepCuttingPlot == 1 ) {
-        MarkerCut2 = new QwtPlotMarker();
-        MarkerCut2->setLabel(QString::fromLatin1("ep1"));
-        MarkerCut2->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-        MarkerCut2->setLineStyle(QwtPlotMarker::VLine);
-        MarkerCut2->setValue((int)pos.x(),pos.y());
-        MarkerCut2->setLinePen(QPen(QColor(QString("red"))));
-        MarkerCut2->setVisible(true);
-        MarkerCut2->attach(plot);
-        StepCuttingPlot = 2;
-        plot->replot();
-        ui->pushButton_cut->setEnabled(true);
-
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Question");
-        msgBox.setInformativeText("Select one more cutting area?");
-        msgBox.setWindowModality(Qt::ApplicationModal);
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        int ret = msgBox.exec();
-        switch (ret) {
-            case QMessageBox::Yes:
-            {
-                StepCuttingPlot = 3;
-                QMessageBox::information(this, "Information", "Please select the start point of the frame!",QMessageBox::Ok, 0 );
-            }
-            break;
-            case QMessageBox::No:
-            {
-                if ( MarkerCut3 != NULL) {
-                    MarkerCut3->setVisible(false);
-                    MarkerCut3->detach();
-                    MarkerCut3 = NULL;
-                }
-                if ( MarkerCut4 != NULL) {
-                    MarkerCut4->setVisible(false);
-                    MarkerCut4->detach();
-                    MarkerCut4 = NULL;
-                }
-                disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-                picker->setEnabled(false);
-                picker = NULL;
-            }
-            break;
-
-            default:
-            break;
-        }
-
-    }
-    else if ( StepCuttingPlot == 3 ) {
-        MarkerCut3 = new QwtPlotMarker();
-        MarkerCut3->setLabel(QString::fromLatin1("sp2"));
-        MarkerCut3->setLabelAlignment(Qt::AlignLeft|Qt::AlignTop);
-        MarkerCut3->setLineStyle(QwtPlotMarker::VLine);
-        MarkerCut3->setValue((int)pos.x(),pos.y());
-        MarkerCut3->setLinePen(QPen(QColor(QString("blue"))));
-        MarkerCut3->setVisible(true);
-        MarkerCut3->attach(plot);
-        StepCuttingPlot = 4;
-        plot->replot();
-        QMessageBox::information(this, "Information", "Please select the end point of the frame!",QMessageBox::Ok, 0 );
-    }
-    else if ( StepCuttingPlot == 4 ) {
-        MarkerCut4 = new QwtPlotMarker();
-        MarkerCut4->setLabel(QString::fromLatin1("ep2"));
-        MarkerCut4->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
-        MarkerCut4->setLineStyle(QwtPlotMarker::VLine);
-        MarkerCut4->setValue((int)pos.x(),pos.y());
-        MarkerCut4->setLinePen(QPen(QColor(QString("blue"))));
-        MarkerCut4->setVisible(true);
-        MarkerCut4->attach(plot);
-        StepCuttingPlot = 5;
-        plot->replot();
-        ui->pushButton_cut->setEnabled(true);
-
-        disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-        picker->setEnabled(false);
-        picker = NULL;
-
-    }
-}
-
-void QGCAutoquad::startCutting() {
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("Question");
-    msgBox.setInformativeText("Delete the selected frames from the file?");
-    msgBox.setWindowModality(Qt::ApplicationModal);
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    int ret = msgBox.exec();
-    switch (ret) {
-        case QMessageBox::Yes:
-        {
-            //LogFile
-            QString newFileName = LogFile+".orig";
-            if (!QFile::exists(newFileName)) {
-                QFile::copy(LogFile,newFileName);
-            }
-            else
-            {
-                if (QFile::exists(newFileName))
-                    QFile::remove(newFileName);
-                QFile::copy(LogFile,newFileName);
-            }
-
-            if (QFile::exists(LogFile))
-                QFile::remove(LogFile);
-
-            QFile file(LogFile);
-            file.write("");
-            file.close();
-
-
-            if ( ui->comboBox_marker->currentIndex() == 6) {
-                if ( !MarkerCut3 )
-                    parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),-1,-1);
-                else
-                    parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
-            } else {
-                parser.ReWriteFile(newFileName,LogFile,MarkerCut1->xValue(),MarkerCut2->xValue(),MarkerCut3->xValue(),MarkerCut4->xValue());
-            }
-            removeMarker();
-            plot->removeData();
-            plot->clear();
-            plot->updateScale();
-            DecodeLogFile(LogFile);
-            ui->pushButton_cut->setEnabled(false);
-        }
-        break;
-        case QMessageBox::No:
-            removeMarker();
-        break;
-
-        default:
-        break;
-    }
-}
-
-void QGCAutoquad::removeMarker() {
-    bool needRedraw = false;
-    if ( MarkerCut1 != NULL) {
-        MarkerCut1->setVisible(false);
-        MarkerCut1->detach();
-        MarkerCut1 = NULL;
-        needRedraw = true;
-    }
-    if ( MarkerCut2 != NULL) {
-        MarkerCut2->setVisible(false);
-        MarkerCut2->detach();
-        MarkerCut2 = NULL;
-        needRedraw = true;
-    }
-    if ( MarkerCut3 != NULL) {
-        MarkerCut3->setVisible(false);
-        MarkerCut3->detach();
-        MarkerCut3 = NULL;
-        needRedraw = true;
-    }
-    if ( MarkerCut4 != NULL) {
-        MarkerCut4->setVisible(false);
-        MarkerCut4->detach();
-        MarkerCut4 = NULL;
-        needRedraw = true;
-    }
-    if ( needRedraw)
-        plot->replot();
-
-    ui->pushButton_cut->setEnabled(false);
-}
-
-void QGCAutoquad::CuttingItemChanged(int itemIndex) {
-    Q_UNUSED(itemIndex);
-    removeMarker();
-}
 
 
 //

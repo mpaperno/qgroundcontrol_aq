@@ -8,16 +8,11 @@
 #include "QGCUASParamManager.h"
 #include "UASInterface.h"
 #include "qgcaqparamwidget.h"
-#include "Linecharts.h"
-#include "IncrementalPlot.h"
-#include "qwt_plot_marker.h"
-#include "aq_telemetryView.h"
 #include "aq_pwmPortsConfig.h"
 
 #include <QWidget>
 #include <QProcess>
 #include <QMap>
-#include <QStandardItemModel>
 #include <QSettings>
 
 class QProgressBar;
@@ -62,6 +57,7 @@ private slots:
     void adjustUiForHardware();
     void adjustUiForFirmware();
     void adjustUiForHeadFreeMode(int idx);
+    void on_tab_aq_settings_currentChanged(QWidget *arg1);
     void on_groupBox_controlAdvancedSettings_toggled(bool arg1);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
 //  void on_groupBox_ppmOptions_toggled(bool arg1);
@@ -111,23 +107,6 @@ private slots:
     void setRssiDisplayValue(float normalized);
     void sendRcRefreshFreq();
     void delayedSendRcRefreshFreq(int rate);
-
-    // Log viewer
-    void OpenLogFile(bool openFile=true);
-    void SetupListView();
-    void DecodeLogFile(QString fileName);
-    void CurveItemClicked(QModelIndex index);
-    void deselectAllCurves(void);
-    void openExportOptionsDlg();
-    void save_plot_image();
-    void showChannels();
-    void startSetMarker();
-    void setPoint1(const QwtDoublePoint &pos);
-    void startCutting();
-    void removeMarker();
-    void CuttingItemChanged(int itemIndex);
-    void exportPDF(QString fileName);
-    void exportSVG(QString fileName);
 
     // ESC32
     void setPortNameEsc32(QString port);
@@ -191,13 +170,10 @@ public:
 
 protected:
     Ui::QGCAutoquad *ui;
-    IncrementalPlot* plot;
-    AQLogParser parser;
     UASInterface* uas;
     SerialLink* seriallink;
     QGCAQParamWidget* paramaq;
     AQEsc32 *esc32;
-    AQTelemetryView* aqTelemetryView;
     AQPWMPortsConfig* aqPwmPortConfig;
 
     enum commStreamTypes {
@@ -254,19 +230,6 @@ private:
     QRegExp dupeFldnameRx;
     QList<QComboBox *> allRadioChanCombos;
 
-    // Log viewer
-    int StepCuttingPlot;
-    QString LogFile;
-    QString LastFilePath;
-    QGridLayout* linLayoutPlot;
-    QStandardItemModel *model;
-    QwtPlotPicker* picker;
-    QwtPlotMarker *MarkerCut1;
-    QwtPlotMarker *MarkerCut2;
-    QwtPlotMarker *MarkerCut3;
-    QwtPlotMarker *MarkerCut4;
-    QColor DefaultColorMeasureChannels;
-
     // Tracking
     double lat,lon,alt;
     QProcess ps_tracking;
@@ -290,6 +253,7 @@ private:
 
     // Misc
     int VisibleWidget;
+    QString LastFilePath;
     int devCommand;
     QProcess ps_master;
     bool mtx_paramsAreLoading;

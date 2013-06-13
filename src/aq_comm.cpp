@@ -29,14 +29,10 @@ void AQLogParser::ResetLog()
 
 int AQLogParser::ParseLogHeader(QString fileName)
 {
-FILE *lf;
-fileName = QDir::toNativeSeparators(fileName);
-FileName = fileName;
-#ifdef Q_OS_WIN
+    FILE *lf;
+    fileName = QDir::toNativeSeparators(fileName);
+    FileName = fileName;
     lf = fopen(fileName.toLocal8Bit().constData(),"rb");
-#else
-    lf = fopen(fileName.toLocal8Bit().constData(),"rb");
-#endif
     oldLog = false;
     xAxisCount = 0;
     if (lf) {
@@ -453,591 +449,16 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
 
 }
 
-void AQLogParser::GenerateChannelsCurve(bool isOld) {
+void AQLogParser::GenerateChannelsCurve() {
 
     if ( !xValues.contains("XVALUES") )
         xValues.insert("XVALUES", new QVector<double>());
 
-    if ( !isOld ) {
-        for ( int i=0; i<LogChannelsStruct.count(); i++ ) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = LogChannelsStruct.at(i);
-            loggerFieldsAndActive_t val  = val_pair.second;
-            if ( val.fieldActive == 1 ) {
-
-                switch (val.fieldId) {
-                    case LOG_LASTUPDATE:
-                        yValues.insert("LOG_LASTUPDATE", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE0:
-                        yValues.insert("LOG_VOLTAGE0", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE1:
-                        yValues.insert("LOG_VOLTAGE1", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE2:
-                        yValues.insert("LOG_VOLTAGE2", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE3:
-                        yValues.insert("LOG_VOLTAGE3", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE4:
-                        yValues.insert("LOG_VOLTAGE4", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE5:
-                        yValues.insert("LOG_VOLTAGE5", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE6:
-                        yValues.insert("LOG_VOLTAGE6", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE7:
-                        yValues.insert("LOG_VOLTAGE7", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE8:
-                        yValues.insert("LOG_VOLTAGE8", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE9:
-                        yValues.insert("LOG_VOLTAGE9", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE10:
-                        yValues.insert("LOG_VOLTAGE10", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE11:
-                        yValues.insert("LOG_VOLTAGE11", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE12:
-                        yValues.insert("LOG_VOLTAGE12", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE13:
-                        yValues.insert("LOG_VOLTAGE13", new QVector<double>());
-                    break;
-                    case LOG_VOLTAGE14:
-                        yValues.insert("LOG_VOLTAGE14", new QVector<double>());
-                    break;
-                    case LOG_IMU_RATEX:
-                        yValues.insert("LOG_IMU_RATEX", new QVector<double>());
-                    break;
-                    case LOG_IMU_RATEY:
-                        yValues.insert("LOG_IMU_RATEY", new QVector<double>());
-                    break;
-                    case LOG_IMU_RATEZ:
-                        yValues.insert("LOG_IMU_RATEZ", new QVector<double>());
-                    break;
-                    case LOG_IMU_ACCX:
-                        yValues.insert("LOG_IMU_ACCX", new QVector<double>());
-                    break;
-                    case LOG_IMU_ACCY:
-                        yValues.insert("LOG_IMU_ACCY", new QVector<double>());
-                    break;
-                    case LOG_IMU_ACCZ:
-                        yValues.insert("LOG_IMU_ACCZ", new QVector<double>());
-                    break;
-                    case LOG_IMU_MAGX:
-                        yValues.insert("LOG_IMU_MAGX", new QVector<double>());
-                    break;
-                    case LOG_IMU_MAGY:
-                        yValues.insert("LOG_IMU_MAGY", new QVector<double>());
-                    break;
-                    case LOG_IMU_MAGZ:
-                        yValues.insert("LOG_IMU_MAGZ", new QVector<double>());
-                    break;
-                    case LOG_GPS_PDOP:
-                        yValues.insert("LOG_GPS_PDOP", new QVector<double>());
-                    break;
-                    case LOG_GPS_HDOP:
-                        yValues.insert("LOG_GPS_HDOP", new QVector<double>());
-                    break;
-                    case LOG_GPS_VDOP:
-                        yValues.insert("LOG_GPS_VDOP", new QVector<double>());
-                    break;
-                    case LOG_GPS_TDOP:
-                        yValues.insert("LOG_GPS_TDOP", new QVector<double>());
-                    break;
-                    case LOG_GPS_NDOP:
-                        yValues.insert("LOG_GPS_NDOP", new QVector<double>());
-                    break;
-                    case LOG_GPS_EDOP:
-                        yValues.insert("LOG_GPS_EDOP", new QVector<double>());
-                    break;
-                    case LOG_GPS_ITOW:
-                        yValues.insert("LOG_GPS_ITOW", new QVector<double>());
-                    break;
-                    case LOG_GPS_POS_UPDATE:
-                        yValues.insert("LOG_GPS_POS_UPDATE", new QVector<double>());
-                    break;
-                    case LOG_GPS_LAT:
-                        yValues.insert("LOG_GPS_LAT", new QVector<double>());
-                    break;
-                    case LOG_GPS_LON:
-                        yValues.insert("LOG_GPS_LON", new QVector<double>());
-                    break;
-                    case LOG_GPS_HEIGHT:
-                        yValues.insert("LOG_GPS_HEIGHT", new QVector<double>());
-                    break;
-                    case LOG_GPS_HACC:
-                        yValues.insert("LOG_GPS_HACC", new QVector<double>());
-                    break;
-                    case LOG_GPS_VACC:
-                        yValues.insert("LOG_GPS_VACC", new QVector<double>());
-                    break;
-                    case LOG_GPS_VEL_UPDATE:
-                        yValues.insert("LOG_GPS_VEL_UPDATE", new QVector<double>());
-                    break;
-                    case LOG_GPS_VELN:
-                        yValues.insert("LOG_GPS_VELN", new QVector<double>());
-                    break;
-                    case LOG_GPS_VELE:
-                        yValues.insert("LOG_GPS_VELE", new QVector<double>());
-                    break;
-                    case LOG_GPS_VELD:
-                        yValues.insert("LOG_GPS_VELD", new QVector<double>());
-                    break;
-                    case LOG_GPS_SACC:
-                        yValues.insert("LOG_GPS_SACC", new QVector<double>());
-                    break;
-
-                    case LOG_ADC_PRESSURE1:
-                        yValues.insert("LOG_ADC_PRESSURE1", new QVector<double>());
-                        break;
-                    case LOG_ADC_PRESSURE2:
-                        yValues.insert("LOG_ADC_PRESSURE2", new QVector<double>());
-                        break;
-                    case LOG_ADC_TEMP0:
-                        yValues.insert("LOG_ADC_TEMP0", new QVector<double>());
-                        break;
-
-                    case LOG_ADC_TEMP1:
-                        yValues.insert("LOG_ADC_TEMP1", new QVector<double>());
-                        break;
-                    case LOG_ADC_TEMP2:
-                        yValues.insert("LOG_ADC_TEMP2", new QVector<double>());
-                        break;
-
-
-                    case LOG_ADC_VIN:
-                        yValues.insert("LOG_ADC_VIN", new QVector<double>());
-                        break;
-                    case LOG_ADC_MAG_SIGN:
-                        yValues.insert("LOG_ADC_MAG_SIGN", new QVector<double>());
-                        break;
-                    case LOG_UKF_Q1:
-                        yValues.insert("LOG_UKF_Q1", new QVector<double>());
-                        break;
-                    case LOG_UKF_Q2:
-                        yValues.insert("LOG_UKF_Q2", new QVector<double>());
-                        break;
-                    case LOG_UKF_Q3:
-                        yValues.insert("LOG_UKF_Q3", new QVector<double>());
-                        break;
-                    case LOG_UKF_Q4:
-                        yValues.insert("LOG_UKF_Q4", new QVector<double>());
-                        break;
-                    case LOG_UKF_POSN:
-                        yValues.insert("LOG_UKF_POSN", new QVector<double>());
-                        break;
-                    case LOG_UKF_POSE:
-                        yValues.insert("LOG_UKF_POSE", new QVector<double>());
-                        break;
-                    case LOG_UKF_POSD:
-                        yValues.insert("LOG_UKF_POSD", new QVector<double>());
-                        break;
-                    case LOG_UKF_PRES_ALT:
-                        yValues.insert("LOG_UKF_PRES_ALT", new QVector<double>());
-                        break;
-                    case LOG_UKF_ALT:
-                        yValues.insert("LOG_UKF_ALT", new QVector<double>());
-                        break;
-                    case LOG_UKF_VELN:
-                        yValues.insert("LOG_UKF_VELN", new QVector<double>());
-                        break;
-                    case LOG_UKF_VELE:
-                        yValues.insert("LOG_UKF_VELE", new QVector<double>());
-                        break;
-                    case LOG_UKF_VELD:
-                        yValues.insert("LOG_UKF_VELD", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR0:
-                        yValues.insert("LOG_MOT_MOTOR0", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR1:
-                        yValues.insert("LOG_MOT_MOTOR1", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR2:
-                        yValues.insert("LOG_MOT_MOTOR2", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR3:
-                        yValues.insert("LOG_MOT_MOTOR3", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR4:
-                        yValues.insert("LOG_MOT_MOTOR4", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR5:
-                        yValues.insert("LOG_MOT_MOTOR5", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR6:
-                        yValues.insert("LOG_MOT_MOTOR6", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR7:
-                        yValues.insert("LOG_MOT_MOTOR7", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR8:
-                        yValues.insert("LOG_MOT_MOTOR8", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR9:
-                        yValues.insert("LOG_MOT_MOTOR9", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR10:
-                        yValues.insert("LOG_MOT_MOTOR10", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR11:
-                        yValues.insert("LOG_MOT_MOTOR11", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR12:
-                        yValues.insert("LOG_MOT_MOTOR12", new QVector<double>());
-                        break;
-                    case LOG_MOT_MOTOR13:
-                        yValues.insert("LOG_MOT_MOTOR13", new QVector<double>());
-                        break;
-                    case LOG_MOT_THROTTLE:
-                        yValues.insert("LOG_MOT_THROTTLE", new QVector<double>());
-                        break;
-                    case LOG_MOT_PITCH:
-                        yValues.insert("LOG_MOT_PITCH", new QVector<double>());
-                        break;
-                    case LOG_MOT_ROLL:
-                        yValues.insert("LOG_MOT_ROLL", new QVector<double>());
-                        break;
-                    case LOG_MOT_YAW:
-                        yValues.insert("LOG_MOT_YAW", new QVector<double>());
-                        break;
-                    case LOG_RADIO_QUALITY:
-                        yValues.insert("LOG_RADIO_QUALITY", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL0:
-                        yValues.insert("LOG_RADIO_CHANNEL0", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL1:
-                        yValues.insert("LOG_RADIO_CHANNEL1", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL2:
-                        yValues.insert("LOG_RADIO_CHANNEL2", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL3:
-                        yValues.insert("LOG_RADIO_CHANNEL3", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL4:
-                        yValues.insert("LOG_RADIO_CHANNEL4", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL5:
-                        yValues.insert("LOG_RADIO_CHANNEL5", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL6:
-                        yValues.insert("LOG_RADIO_CHANNEL6", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL7:
-                        yValues.insert("LOG_RADIO_CHANNEL7", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL8:
-                        yValues.insert("LOG_RADIO_CHANNEL8", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL9:
-                        yValues.insert("LOG_RADIO_CHANNEL9", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL10:
-                        yValues.insert("LOG_RADIO_CHANNEL10", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL11:
-                        yValues.insert("LOG_RADIO_CHANNEL11", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL12:
-                        yValues.insert("LOG_RADIO_CHANNEL12", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL13:
-                        yValues.insert("LOG_RADIO_CHANNEL13", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL14:
-                        yValues.insert("LOG_RADIO_CHANNEL14", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL15:
-                        yValues.insert("LOG_RADIO_CHANNEL15", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL16:
-                        yValues.insert("LOG_RADIO_CHANNEL16", new QVector<double>());
-                        break;
-                    case LOG_RADIO_CHANNEL17:
-                        yValues.insert("LOG_RADIO_CHANNEL17", new QVector<double>());
-                        break;
-                    case LOG_RADIO_ERRORS:
-                        yValues.insert("LOG_RADIO_ERRORS", new QVector<double>());
-                        break;
-                    case LOG_NUM_IDS:
-                        yValues.insert("LOG_NUM_IDS", new QVector<double>());
-                        break;
-                    default:
-                    break;
-
-                }
-        }
-    }
-    }
-    else {
-        for ( int i=0; i<LogChannelsStruct.count(); i++ ) {
-            QPair<QString,loggerFieldsAndActive_t> val_pair = LogChannelsStruct.at(i);
-            loggerFieldsAndActive_t val  = val_pair.second;
-            if ( val.fieldActive == 1 ) {
-
-                switch (val.fieldId) {
-                    case MICROS:
-                        yValues.insert("LOG_LASTUPDATE", new QVector<double>());
-                    break;
-                    case VOLTAGE1:
-                        yValues.insert("VOLTAGE1", new QVector<double>());
-                    break;
-                    case VOLTAGE2:
-                        yValues.insert("VOLTAGE2", new QVector<double>());
-                    break;
-                    case VOLTAGE3:
-                        yValues.insert("VOLTAGE3", new QVector<double>());
-                    break;
-                    case VOLTAGE4:
-                        yValues.insert("VOLTAGE4", new QVector<double>());
-                    break;
-                    case VOLTAGE5:
-                        yValues.insert("VOLTAGE5", new QVector<double>());
-                    break;
-                    case VOLTAGE6:
-                        yValues.insert("VOLTAGE6", new QVector<double>());
-                    break;
-                    case VOLTAGE7:
-                        yValues.insert("VOLTAGE7", new QVector<double>());
-                    break;
-                    case VOLTAGE8:
-                        yValues.insert("VOLTAGE8", new QVector<double>());
-                    break;
-                    case VOLTAGE9:
-                        yValues.insert("VOLTAGE9", new QVector<double>());
-                    break;
-                    case VOLTAGE10:
-                        yValues.insert("VOLTAGE10", new QVector<double>());
-                    break;
-                    case VOLTAGE11:
-                        yValues.insert("VOLTAGE11", new QVector<double>());
-                    break;
-                    case VOLTAGE12:
-                        yValues.insert("VOLTAGE12", new QVector<double>());
-                    break;
-                    case VOLTAGE13:
-                        yValues.insert("VOLTAGE13", new QVector<double>());
-                    break;
-                    case VOLTAGE14:
-                        yValues.insert("VOLTAGE14", new QVector<double>());
-                    break;
-                    case VOLTAGE15:
-                        yValues.insert("VOLTAGE14", new QVector<double>());
-                    break;
-                    case RATEX:
-                        yValues.insert("RATEX", new QVector<double>());
-                    break;
-                    case RATEY:
-                        yValues.insert("RATEY", new QVector<double>());
-                    break;
-                    case RATEZ:
-                        yValues.insert("RATEZ", new QVector<double>());
-                    break;
-                    case ACCX:
-                        yValues.insert("ACCX", new QVector<double>());
-                    break;
-                    case ACCY:
-                        yValues.insert("ACCY", new QVector<double>());
-                    break;
-                    case ACCZ:
-                        yValues.insert("ACCZ", new QVector<double>());
-                    break;
-                    case MAGX:
-                        yValues.insert("MAGX", new QVector<double>());
-                    break;
-                    case MAGY:
-                        yValues.insert("MAGY", new QVector<double>());
-                    break;
-                    case MAGZ:
-                        yValues.insert("MAGZ", new QVector<double>());
-                    break;
-                    case PRESSURE1:
-                        yValues.insert("PRESSURE1", new QVector<double>());
-                    break;
-                    case PRESSURE2:
-                        yValues.insert("PRESSURE2", new QVector<double>());
-                    break;
-                    case TEMP1:
-                        yValues.insert("TEMP1", new QVector<double>());
-                    break;
-                    case TEMP2:
-                        yValues.insert("TEMP2", new QVector<double>());
-                    break;
-                    case TEMP3:
-                        yValues.insert("TEMP3", new QVector<double>());
-                    break;
-                    case TEMP4:
-                        yValues.insert("TEMP4", new QVector<double>());
-                    break;
-                    case AUX_RATEX:
-                        yValues.insert("AUX_RATEX", new QVector<double>());
-                    break;
-                    case AUX_RATEY:
-                        yValues.insert("AUX_RATEY", new QVector<double>());
-                    break;
-                    case AUX_RATEZ:
-                        yValues.insert("AUX_RATEZ", new QVector<double>());
-                    break;
-                    case AUX_ACCX:
-                        yValues.insert("AUX_ACCX", new QVector<double>());
-                    break;
-                    case AUX_ACCY:
-                        yValues.insert("AUX_ACCY", new QVector<double>());
-                    break;
-                    case AUX_ACCZ:
-                        yValues.insert("AUX_ACCZ", new QVector<double>());
-                    break;
-                    case AUX_MAGX:
-                        yValues.insert("AUX_MAGX", new QVector<double>());
-                    break;
-                    case AUX_MAGY:
-                        yValues.insert("AUX_MAGY", new QVector<double>());
-                    break;
-                    case AUX_MAGZ:
-                        yValues.insert("AUX_MAGZ", new QVector<double>());
-                    break;
-                    case VIN:
-                        yValues.insert("VIN", new QVector<double>());
-                    break;
-                    case GPS_POS_UPDATE:
-                        yValues.insert("GPS_POS_UPDATE", new QVector<double>());
-                    break;
-                    case LAT:
-                        yValues.insert("LAT", new QVector<double>());
-                    break;
-
-                    case LON:
-                        yValues.insert("LON", new QVector<double>());
-                        break;
-                    case GPS_ALT:
-                        yValues.insert("GPS_ALT", new QVector<double>());
-                        break;
-                    case GPS_POS_ACC:
-                        yValues.insert("GPS_POS_ACC", new QVector<double>());
-                        break;
-                    case GPS_VEL_UPDATE:
-                        yValues.insert("GPS_VEL_UPDATE", new QVector<double>());
-                        break;
-                    case GPS_VELN:
-                        yValues.insert("GPS_VELN", new QVector<double>());
-                        break;
-
-
-                    case GPS_VELE:
-                        yValues.insert("GPS_VELE", new QVector<double>());
-                        break;
-                    case GPS_VELD:
-                        yValues.insert("GPS_VELD", new QVector<double>());
-                        break;
-                    case GPS_VEL_ACC:
-                        yValues.insert("GPS_VEL_ACC", new QVector<double>());
-                        break;
-                    case POSN:
-                        yValues.insert("POSN", new QVector<double>());
-                        break;
-                    case POSE:
-                        yValues.insert("POSE", new QVector<double>());
-                        break;
-                    case POSD:
-                        yValues.insert("POSD", new QVector<double>());
-                        break;
-                    case VELN:
-                        yValues.insert("VELN", new QVector<double>());
-                        break;
-                    case VELE:
-                        yValues.insert("VELE", new QVector<double>());
-                        break;
-                    case VELD:
-                        yValues.insert("VELD", new QVector<double>());
-                        break;
-                    case QUAT0:
-                        yValues.insert("QUAT0", new QVector<double>());
-                        break;
-                    case QUAT1:
-                        yValues.insert("QUAT1", new QVector<double>());
-                        break;
-                    case QUAT2:
-                        yValues.insert("QUAT2", new QVector<double>());
-                        break;
-                    case QUAT3:
-                        yValues.insert("QUAT3", new QVector<double>());
-                        break;
-                    case MOTOR1:
-                        yValues.insert("MOTOR1", new QVector<double>());
-                        break;
-                    case MOTOR2:
-                        yValues.insert("MOTOR2", new QVector<double>());
-                        break;
-                    case MOTOR3:
-                        yValues.insert("MOTOR3", new QVector<double>());
-                        break;
-                    case MOTOR4:
-                        yValues.insert("MOTOR4", new QVector<double>());
-                        break;
-                    case MOTOR5:
-                        yValues.insert("MOTOR5", new QVector<double>());
-                        break;
-                    case MOTOR6:
-                        yValues.insert("MOTOR6", new QVector<double>());
-                        break;
-                    case MOTOR7:
-                        yValues.insert("MOTOR7", new QVector<double>());
-                        break;
-                    case MOTOR8:
-                        yValues.insert("MOTOR8", new QVector<double>());
-                        break;
-                    case MOTOR9:
-                        yValues.insert("MOTOR9", new QVector<double>());
-                        break;
-                    case MOTOR10:
-                        yValues.insert("MOTOR10", new QVector<double>());
-                        break;
-                    case MOTOR11:
-                        yValues.insert("MOTOR11", new QVector<double>());
-                        break;
-                    case MOTOR12:
-                        yValues.insert("MOTOR12", new QVector<double>());
-                        break;
-                    case MOTOR13:
-                        yValues.insert("MOTOR13", new QVector<double>());
-                        break;
-                    case MOTOR14:
-                        yValues.insert("MOTOR14", new QVector<double>());
-                        break;
-                    case THROTTLE:
-                        yValues.insert("THROTTLE", new QVector<double>());
-                        break;
-                    case EXTRA1:
-                        yValues.insert("EXTRA1", new QVector<double>());
-                        break;
-                    case EXTRA2:
-                        yValues.insert("EXTRA2", new QVector<double>());
-                        break;
-                    case EXTRA3:
-                        yValues.insert("EXTRA3", new QVector<double>());
-                        break;
-                    case EXTRA4:
-                        yValues.insert("EXTRA4", new QVector<double>());
-                        break;
-                    case NUM_FIELDS:
-                        yValues.insert("NUM_FIELDS", new QVector<double>());
-                        break;
-                    default:
-                    break;
-
-                }
-        }
-    }
+    for ( int i=0; i<LogChannelsStruct.count(); i++ ) {
+        QPair<QString,loggerFieldsAndActive_t> val_pair = LogChannelsStruct.at(i);
+        loggerFieldsAndActive_t val  = val_pair.second;
+        if ( val.fieldActive == 1 )
+            yValues.insert(val_pair.first, new QVector<double>());
     }
 
 }
@@ -1050,44 +471,40 @@ void AQLogParser::ShowCurves() {
     xValues.clear();
     yValues.clear();
     xAxisCount = 0;
-    #ifdef Q_OS_WIN
-        lf = fopen(fileName.toLocal8Bit().constData(),"rb");
-    #else
-        lf = fopen(fileName.toLocal8Bit().constData(),"rb");
-    #endif
+    lf = fopen(fileName.toLocal8Bit().constData(),"rb");
 
-        if (lf) {
+    if (lf) {
 
-            if (!oldLog) {
-                GenerateChannelsCurve(false);
-                CRCErrorCnt = 0;
-                PosOfCrcError = 0;
-                while (ParseLogM(lf) != EOF) {
-                    PosOfCrcError++;
-                    n++;
-                }
-            } else {
-                count = 0;
-                GenerateChannelsCurve(true);
-                bool appendXvalues = true;
-                for ( int i=0; i<LogChannelsStruct.count(); i++ ) {
-                    QPair<QString,loggerFieldsAndActive_t> val_pair = LogChannelsStruct.at(i);
-                    if ( val_pair.second.fieldActive == 1 ) {
-                        rewind(lf);
-                        while (loggerReadEntry(lf, &logEntry) != EOF) {
-                            if ( appendXvalues) {
-                                count++;
-                                xValues.value("XVALUES")->append(count);
-                            }
-                            double va = logDumpGetValue(&logEntry, val_pair.second.fieldId);
-                            yValues.value(val_pair.first)->append(va);
+        if (!oldLog) {
+            GenerateChannelsCurve();
+            CRCErrorCnt = 0;
+            PosOfCrcError = 0;
+            while (ParseLogM(lf) != EOF) {
+                PosOfCrcError++;
+                n++;
+            }
+        } else {
+            count = 0;
+            GenerateChannelsCurve();
+            bool appendXvalues = true;
+            for ( int i=0; i<LogChannelsStruct.count(); i++ ) {
+                QPair<QString,loggerFieldsAndActive_t> val_pair = LogChannelsStruct.at(i);
+                if ( val_pair.second.fieldActive == 1 ) {
+                    rewind(lf);
+                    while (loggerReadEntry(lf, &logEntry) != EOF) {
+                        if ( appendXvalues) {
+                            count++;
+                            xValues.value("XVALUES")->append(count);
                         }
-                        appendXvalues = false;
+                        double va = logDumpGetValue(&logEntry, val_pair.second.fieldId);
+                        yValues.value(val_pair.first)->append(va);
                     }
+                    appendXvalues = false;
                 }
             }
         }
-        fclose(lf);
+    }
+    fclose(lf);
 }
 
 int AQLogParser::ParseLogM(FILE *fp) {
@@ -2043,23 +1460,15 @@ int AQLogParser::GetFrameSize() {
 }
 
 void AQLogParser::ReWriteFile(QString SourceFileName,QString DestinationFileName, int start1, int end1, int start2, int end2) {
-FILE *sf;
-QString fileNameSource;
-fileNameSource = QDir::toNativeSeparators(SourceFileName);
-#ifdef Q_OS_WIN
+    FILE *sf;
+    QString fileNameSource;
+    fileNameSource = QDir::toNativeSeparators(SourceFileName);
     sf = fopen(fileNameSource.toLocal8Bit().constData(),"rb");
-#else
-    sf = fopen(fileNameSource.toLocal8Bit().constData(),"rb");
-#endif
 
-FILE *df;
-QString fileNameDestination;
-fileNameDestination = QDir::toNativeSeparators(DestinationFileName);
-#ifdef Q_OS_WIN
+    FILE *df;
+    QString fileNameDestination;
+    fileNameDestination = QDir::toNativeSeparators(DestinationFileName);
     df = fopen(fileNameDestination.toLocal8Bit().constData(),"wb");
-#else
-    df = fopen(fileNameDestination.toLocal8Bit().constData(),"wb");
-#endif
 
     loggerWriteHeader(sf,df);
 
