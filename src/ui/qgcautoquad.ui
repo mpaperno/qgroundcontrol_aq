@@ -4642,7 +4642,7 @@ padding: 1px 5px;</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Roll axis exponential (slows down movement around center)</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Roll axis exponential (slows down movement around center). When set, the GMBL_SCAL_ROLL must be lowered. An expo of 30, will result in a GMBL_SCAL_ROLL of 1/500 instead of 1/70.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="inputMethodHints">
                  <set>Qt::ImhFormattedNumbersOnly</set>
@@ -4654,13 +4654,13 @@ padding: 1px 5px;</string>
                  <bool>true</bool>
                 </property>
                 <property name="decimals">
-                 <number>6</number>
+                 <number>2</number>
                 </property>
                 <property name="maximum">
-                 <double>1.000000000000000</double>
+                 <double>999.000000000000000</double>
                 </property>
                 <property name="singleStep">
-                 <double>0.001000000000000</double>
+                 <double>1.000000000000000</double>
                 </property>
                 <property name="value">
                  <double>0.000000000000000</double>

@@ -2058,7 +2058,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
         aqFirmwareRevision = 0;
-        aqHardwareVersion = 0;
+        aqHardwareVersion = 6;
         aqHardwareRevision = 0;
         aqBuildNumber = 0;
         ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
@@ -2683,14 +2683,14 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
         }
         if (vlist.at(5).length()) {
             aqHardwareVersion = vlist.at(5).toInt(&ok);
-            if (!ok) aqHardwareVersion = 0;
-            else
-                setHardwareInfo(aqHardwareVersion);
+            if (!ok) aqHardwareVersion = 6;
         }
         if (vlist.at(6).length()) {
             aqHardwareRevision = vlist.at(6).toInt(&ok);
             if (!ok) aqHardwareRevision = -1;
         }
+
+        setHardwareInfo(aqHardwareVersion);
 
         if (aqFirmwareVersion.length()) {
             QString verStr = QString("AutoQuad FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
