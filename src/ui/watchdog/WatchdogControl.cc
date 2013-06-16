@@ -65,6 +65,7 @@ WatchdogControl::~WatchdogControl()
 
 void WatchdogControl::setUAS(UASInterface* uas)
 {
+    /*
     PxQuadMAV* qmav = dynamic_cast<PxQuadMAV*>(uas);
 
     if (qmav) {
@@ -72,6 +73,7 @@ void WatchdogControl::setUAS(UASInterface* uas)
         connect(qmav, SIGNAL(watchdogReceived(int,int,uint)), this, SLOT(updateWatchdog(int,int,uint)));
         connect(qmav, SIGNAL(processChanged(int,int,int,int,bool,int,int)), this, SLOT(updateProcess(int,int,int,int,bool,int,int)));
     }
+    */
 }
 
 void WatchdogControl::updateWatchdog(int systemId, int watchdogId, unsigned int processCount)

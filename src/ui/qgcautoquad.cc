@@ -228,6 +228,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
     connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
     connect(ui->pushButton_start_cal3, SIGNAL(clicked()),this,SLOT(startcal3()));
+    connect(ui->pushButton_var_cal3  , SIGNAL(clicked()),this,SLOT(checkVaraince()));
     connect(ui->pushButton_start_sim1, SIGNAL(clicked()),this,SLOT(startsim1()));
     connect(ui->pushButton_start_sim1_2, SIGNAL(clicked()),this,SLOT(startsim1b()));
     connect(ui->pushButton_start_sim2, SIGNAL(clicked()),this,SLOT(startsim2()));
@@ -985,6 +986,17 @@ void QGCAutoquad::startcal3(){
     ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
 }
 
+void QGCAutoquad::checkVaraince() {
+#ifdef Q_OS_WIN
+    if ( active_cal_mode == 3 ) {
+    }
+#else
+    if ( active_cal_mode == 3 ) {
+        ps_master.write("v");
+    }
+#endif
+}
+
 void QGCAutoquad::startsim1(){
     QString AppPath;
     QString Sim3ParaPath;
@@ -1151,8 +1163,13 @@ void QGCAutoquad::startsim3(){
 }
 
 void QGCAutoquad::abortcalc(){
+    if ( active_cal_mode == 3 ) {
+        ps_master.write("e");
+    }
+    else {
     if ( ps_master.Running)
         ps_master.close();
+    }
 }
 
 
@@ -2846,9 +2863,9 @@ void QGCAutoquad::sendTracking(){
         Info.append(QString::number(yaw) + "\t");
         pitch = 0 + 1.5707963267949;//0.7854; //AQ_PITCH + CAMERA_PITCH_OFFSET;
         Info.append(QString::number(pitch) + "\t");
-        sinp = std::max(sin(pitch), 0.001f);//safety
+        //sinp = std::max(sin(pitch), 0.001f);//safety
         Info.append(QString::number(sinp) + "\t");
-        cotp = std::min(1/tan(pitch), 100.0f);//safety
+        //cotp = std::min(1/tan(pitch), 100.0f);//safety
         Info.append(QString::number(cotp) + "\t");
         l1 = h/sinp;
         Info.append(QString::number(l1) + "\t");

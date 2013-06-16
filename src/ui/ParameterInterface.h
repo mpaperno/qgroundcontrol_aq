@@ -36,7 +36,7 @@ This file is part of the QGROUNDCONTROL project
 
 #include "ui_ParameterInterface.h"
 #include "UASInterface.h"
-#include "QGCAQParamWidget.h"
+#include "qgcaqparamwidget.h"
 
 namespace Ui
 {
