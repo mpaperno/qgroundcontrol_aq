@@ -2846,9 +2846,9 @@ void QGCAutoquad::sendTracking(){
         Info.append(QString::number(yaw) + "\t");
         pitch = 0 + 1.5707963267949;//0.7854; //AQ_PITCH + CAMERA_PITCH_OFFSET;
         Info.append(QString::number(pitch) + "\t");
-        sinp = std::max(sin(pitch), 0.001f);//safety
+        //sinp = std::max(sin(pitch), 0.001f);//safety
         Info.append(QString::number(sinp) + "\t");
-        cotp = std::min(1/tan(pitch), 100.0f);//safety
+        //cotp = std::min(1/tan(pitch), 100.0f);//safety
         Info.append(QString::number(cotp) + "\t");
         l1 = h/sinp;
         Info.append(QString::number(l1) + "\t");
