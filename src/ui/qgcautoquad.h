@@ -72,6 +72,7 @@ private slots:
     void startcal1();
     void startcal2();
     void startcal3();
+    void checkVaraince();
     void startsim1();
     void startsim1b();
     void startsim2();

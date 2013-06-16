@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1049</width>
-    <height>785</height>
+    <width>1200</width>
+    <height>880</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1068,8 +1068,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>442</width>
-                <height>676</height>
+                <width>520</width>
+                <height>762</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -7680,7 +7680,7 @@ padding: 1px 5px;</string>
               <bool>true</bool>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="para_cal_rate">
               <attribute name="title">
@@ -7755,6 +7755,13 @@ padding: 1px 5px;</string>
                   <widget class="QPushButton" name="pushButton_start_cal3">
                    <property name="text">
                     <string>Start cal.</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_var_cal3">
+                   <property name="text">
+                    <string>check Variance</string>
                    </property>
                   </widget>
                  </item>

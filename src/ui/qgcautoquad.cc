@@ -228,6 +228,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
     connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
     connect(ui->pushButton_start_cal3, SIGNAL(clicked()),this,SLOT(startcal3()));
+    connect(ui->pushButton_var_cal3  , SIGNAL(clicked()),this,SLOT(checkVaraince()));
     connect(ui->pushButton_start_sim1, SIGNAL(clicked()),this,SLOT(startsim1()));
     connect(ui->pushButton_start_sim1_2, SIGNAL(clicked()),this,SLOT(startsim1b()));
     connect(ui->pushButton_start_sim2, SIGNAL(clicked()),this,SLOT(startsim2()));
@@ -985,6 +986,17 @@ void QGCAutoquad::startcal3(){
     ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
 }
 
+void QGCAutoquad::checkVaraince() {
+#ifdef Q_OS_WIN
+    if ( active_cal_mode == 3 ) {
+    }
+#else
+    if ( active_cal_mode == 3 ) {
+        ps_master.write("v");
+    }
+#endif
+}
+
 void QGCAutoquad::startsim1(){
     QString AppPath;
     QString Sim3ParaPath;
@@ -1151,8 +1163,13 @@ void QGCAutoquad::startsim3(){
 }
 
 void QGCAutoquad::abortcalc(){
+    if ( active_cal_mode == 3 ) {
+        ps_master.write("e");
+    }
+    else {
     if ( ps_master.Running)
         ps_master.close();
+    }
 }
 
 
