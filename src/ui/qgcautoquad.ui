@@ -1068,8 +1068,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>520</width>
-                <height>762</height>
+                <width>593</width>
+                <height>771</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -7680,7 +7680,7 @@ padding: 1px 5px;</string>
               <bool>true</bool>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="para_cal_rate">
               <attribute name="title">
