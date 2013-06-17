@@ -27,7 +27,7 @@ private slots:
     void writeSettings();
 
     // Log viewer
-    void OpenLogFile(bool openFile=true);
+    void OpenLogFile();
     void SetupListView();
     void DecodeLogFile(QString fileName);
     void CurveItemClicked(QModelIndex index);

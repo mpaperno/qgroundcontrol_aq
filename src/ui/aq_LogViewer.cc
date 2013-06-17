@@ -1,6 +1,7 @@
 #include "aq_LogViewer.h"
 #include "ui_aq_LogViewer.h"
 #include "aq_LogExporter.h"
+#include "MainWindow.h"
 
 #include <QFileDialog>
 #include <QStandardItemModel>
@@ -101,7 +102,7 @@ void AQLogViewer::SetupListView()
     connect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
 }
 
-void AQLogViewer::OpenLogFile(bool openFile)
+void AQLogViewer::OpenLogFile()
 {
     QString dirPath;
     if ( LastFilePath == "")
@@ -125,13 +126,12 @@ void AQLogViewer::OpenLogFile(bool openFile)
         QFile file(fileNames.first());
         LogFile = QDir::toNativeSeparators(file.fileName());
         LastFilePath = LogFile;
-        if (openFile && !file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QMessageBox msgBox;
-            msgBox.setText("Could not read Log file. Permission denied");
-            msgBox.exec();
-        } else if (openFile)
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            MainWindow::instance()->showCriticalMessage("Error", "Could not read Log file. Permission denied!");
+        } else {
+            file.close();
             DecodeLogFile(LogFile);
+        }
     }
 }
 
@@ -209,12 +209,15 @@ void AQLogViewer::DecodeLogFile(QString fileName)
 
 void AQLogViewer::showChannels() {
 
-    parser.ShowCurves();
     plot->removeData();
     plot->clear();
     plot->ResetColor();
-    if (!QFile::exists(LogFile))
+    if (!QFile::exists(LogFile)) {
+        MainWindow::instance()->showCriticalMessage("Error", "Could not open log file!");
         return;
+    }
+
+    parser.ShowCurves();
 
     for (int i = 0; i < parser.yValues.count(); i++) {
         plot->appendData(parser.yValues.keys().at(i), parser.xValues.values().at(0)->data(), parser.yValues.values().at(i)->data(), parser.xValues.values().at(0)->count());
