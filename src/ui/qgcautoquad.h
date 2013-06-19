@@ -65,8 +65,10 @@ private slots:
     // AQ FW flashing
     void setupPortList();
     void setPortName(QString str);
+    void setFwType();
     void selectFWToFlash();
     void flashFW();
+    void flashFwStart();
 
     // Calculations
     void startcal1();
@@ -124,7 +126,6 @@ private slots:
     void CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2 );
     void ESc32Disconnected();
     void Esc32Connected();
-    void Esc32RpmSlider(int rpm);
     void Esc32StartCalibration();
     void Esc32ReadConf();
     void Esc32ReLoadConf();
@@ -132,15 +133,18 @@ private slots:
     void Esc32StartLogging();
     void Esc32CalibrationFinished(int mode);
     void Esc32BootModOk();
-    void Esc32BootModFailure();
+    void Esc32BootModFailure(QString err);
+    void Esc32BootModeTimeout();
+    void Esc32GotFirmwareVersion(QString ver);
 
     // Misc.
-    void prtstexit(int);
+    void prtstexit(int stat);
     void prtstdout();
     void prtstderr();
     void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
     void handleStatusText(int uasId, int compid, int severity, QString text);
     void setHardwareInfo(int boardVer);
+    bool checkAqSerialConnection(QString port = "");
     void paramRequestTimeoutNotify(int readCount, int writeCount);
     void pushButton_dev1();
 
@@ -176,6 +180,7 @@ protected:
     QGCAQParamWidget* paramaq;
     AQEsc32 *esc32;
     AQPWMPortsConfig* aqPwmPortConfig;
+    LinkInterface* connectedLink;
 
     enum commStreamTypes {
         COMM_TYPE_NONE          = 0,
@@ -209,7 +214,6 @@ private:
     // FW flashing
     QString fileToFlash;
     QString portName;
-    LinkInterface* connectedLink;
 
     // ESC32
     int WaitForParaWriten;

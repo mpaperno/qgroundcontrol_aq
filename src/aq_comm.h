@@ -424,23 +424,27 @@ public:
         CONFIG_NUM_PARAMS
     };
 
+    bool currentError;
+    int ExitCalibration;
+    float TelemetryFrequenzy;
+    QString firmwareVersion;
+
     void Connect(QString port);
-    void Disconnect(bool flashMode);
+    void Disconnect();
+    void SleepThread(int msec);
     void SavePara(QString ParaName, QVariant ParaValue);
     void SwitchFromBinaryToAscii();
     int SwitchFromAsciiToBinary();
     void sendCommand(int command, float Value1, float Value2, int num, bool withOutCheck);
     void ReadConfigEsc32();
     void SetToBootMode();
+    void CheckVersion();
     int GetEsc32State();
     SerialLink* getSerialLink();
     void StartCalibration(float MaxCurrent, QString LogFile, QString ResFile);
     void StopCalibration(bool withEmergencyExit);
     void StartLogging();
     void SetCommandBack(int Command);
-    bool currentError;
-    int ExitCalibration;
-    float TelemetryFrequenzy;
     void SetCalibrationMode(int mode);
     float getFF1Term();
     float getFF2Term();
@@ -450,13 +454,13 @@ public:
     float getCL4();
     float getCL5();
 
+protected:
+    AQEsc32Logger* esc32dataLogger;
+
 private:
-    int esc32SendCommand(unsigned char command, float param1, float param2, int n);
     int esc32state;
     int TimerState;
     unsigned char checkInA, checkInB;
-    int getEnumByName(QString Name);
-    void SleepThread(int msec);
     unsigned short commandSeqId;
     unsigned char commandSeqIdBack;
     unsigned char commandBack;
@@ -474,16 +478,8 @@ private:
     int TimeOutWaiting;
     int esc32BinaryMode;
     int esc32DoCommand;
-    void esc32SendChar(unsigned char c);
-    void esc32SendShort(unsigned short i);
-    void esc32SendFloat(float f);
-    void esc32OutChecksum(unsigned char c);
-    void esc32InChecksum(unsigned char c);
     unsigned char checkOutA, checkOutB;
     int indexOfAqC;
-    bool RpmToVoltage(float maxAmps);
-    bool CurrentLimiter(float maxAmps);
-    void stepUp(float start, float end);
     QTimer *checkEsc32State;
     int CommandBack;
     float FF1Term;
@@ -500,6 +496,19 @@ private:
     QString ResultFile;
     FILE *calResultFile;
     bool fastSend;
+    bool bootloaderInitReturned;
+    QTimer* bootModeTimer;
+
+    int esc32SendCommand(unsigned char command, float param1, float param2, int n);
+    int getEnumByName(QString Name);
+    void esc32SendChar(unsigned char c);
+    void esc32SendShort(unsigned short i);
+    void esc32SendFloat(float f);
+    void esc32OutChecksum(unsigned char c);
+    void esc32InChecksum(unsigned char c);
+    bool RpmToVoltage(float maxAmps);
+    bool CurrentLimiter(float maxAmps);
+    void stepUp(float start, float end);
 
 private slots:
     void connectedEsc32();
@@ -508,9 +517,7 @@ private slots:
     void BytesRceivedEsc32(LinkInterface* link, QByteArray bytes);
     void checkEsc32StateTimeOut();
     void communicationErrorEsc32(QString err1, QString err2);
-
-protected:
-    AQEsc32Logger* esc32dataLogger;
+    void emitBootModeTimeout();
 
 
 signals:
@@ -522,7 +529,9 @@ signals:
     void getCommandBack(int Command);
     void finishedCalibration(int CalibrationMode);
     void EnteredBootMode();
-    void NoBootModeArmed();
+    void NoBootModeArmed(QString err);
+    void BootModeTimeout();
+    void GotFirmwareVersion(QString ver);
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

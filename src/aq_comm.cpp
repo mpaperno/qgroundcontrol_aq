@@ -1700,6 +1700,7 @@ AQEsc32::AQEsc32()
     TelemetryFrequenzy = 1000;
     esc32state = 0;
     esc32dataLogger = NULL;
+    bootModeTimer = new QTimer(this);
 }
 
 AQEsc32::~AQEsc32()
@@ -1712,10 +1713,8 @@ void AQEsc32::Connect(QString port)
     ExitCalibration = 0;
     fastSend = false;
     currentError = false;
-    seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
-    seriallinkEsc32->setBaudRate(230400);
-    seriallinkEsc32->setFlowType(0);
-    seriallinkEsc32->setDataBits(1);
+
+    seriallinkEsc32 = new SerialLink(port, 230400, false, false, 1, 1);
     seriallinkEsc32->setEsc32Mode(false);
     connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
     connect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
@@ -1723,54 +1722,30 @@ void AQEsc32::Connect(QString port)
     connect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
     connect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
     seriallinkEsc32->connect();
+
     checkEsc32State = new QTimer(this);
     checkEsc32State->setInterval(10);
     checkEsc32State->stop();
-    connect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
+    connect(checkEsc32State, SIGNAL(timeout()), this, SLOT(checkEsc32StateTimeOut()));
+
     if ( !esc32dataLogger )
         esc32dataLogger = new AQEsc32Logger();
 }
 
-void AQEsc32::Disconnect(bool flashMode)
+void AQEsc32::Disconnect()
 {
-    if (!flashMode){
         seriallinkEsc32->setEsc32Mode(false);
-        SleepThread(500);
-        SwitchFromBinaryToAscii();
-        SleepThread(500);
+        if (esc32BinaryMode) {
+            SleepThread(500);
+            SwitchFromBinaryToAscii();
+            SleepThread(500);
+        }
         checkEsc32State->stop();
-        seriallinkEsc32->disconnect();
-        seriallinkEsc32->setBaudRate(115200);
-        seriallinkEsc32->setFlowType(1);
+        checkEsc32State = NULL;
+        if ( esc32dataLogger )
+            esc32dataLogger = NULL;
 
-        disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
-        disconnect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
-        disconnect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
-        if ( esc32dataLogger )
-            esc32dataLogger = NULL;
-        seriallinkEsc32 = NULL;
-        checkEsc32State = NULL;
-    }
-    else {
-        seriallinkEsc32->setEsc32Mode(false);
-        checkEsc32State->stop();
-        seriallinkEsc32->setBaudRate(115200);
-        seriallinkEsc32->setFlowType(1);
         seriallinkEsc32->disconnect();
-        if ( esc32dataLogger )
-            esc32dataLogger = NULL;
-        disconnect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(disconnected()), this, SLOT(disconnectedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(destroyed()), this, SLOT(destroyedEsc32()));
-        disconnect(seriallinkEsc32, SIGNAL(bytesReceived(LinkInterface*, QByteArray)), this, SLOT(BytesRceivedEsc32(LinkInterface*, QByteArray)));
-        disconnect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));
-        disconnect(checkEsc32State,SIGNAL(timeout()),this,SLOT(checkEsc32StateTimeOut()));
-        seriallinkEsc32 = NULL;
-        checkEsc32State = NULL;
-    }
 }
 
 void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
@@ -2048,6 +2023,9 @@ void AQEsc32::connectedEsc32(){
 }
 
 void AQEsc32::disconnectedEsc32(){
+    disconnect(seriallinkEsc32, 0, this, 0);
+    seriallinkEsc32->deleteLater();
+    seriallinkEsc32 = NULL;
     emit ESc32Disconnected();
 }
 
@@ -2186,15 +2164,27 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
             break;
 
             case 5:
-            BootloaderMessage.append(QString(bytes));
-            if ( BootloaderMessage.contains("ESC armed, disarm first") ) {
-                emit NoBootModeArmed();
-                qDebug() << "ESC armed, disarm first";
-            }
-            if ( BootloaderMessage.contains("Rebooting in boot loader mode...") ) {
-                emit EnteredBootMode();
-                qDebug() << "Now in Bootmode";
-            }
+                BootloaderMessage.append(QString(bytes));
+                if ( BootloaderMessage.contains("Rebooting in boot loader mode...") ) {
+                    bootModeTimer->stop();
+                    emit EnteredBootMode();
+                }
+                else if ( BootloaderMessage.contains("ESC armed, disarm first") || BootloaderMessage.contains("Command not found") ) {
+                    bootModeTimer->stop();
+                    emit NoBootModeArmed(BootloaderMessage.remove(QRegExp("[^\\w\\s]")));
+                }
+
+                qDebug() << BootloaderMessage;
+            break;
+
+            case 6:
+                if (bytes.contains("ver")) {
+                    firmwareVersion.append(bytes);
+                    firmwareVersion.remove(QRegExp("(esc32|[^\\d\\.\\-])", Qt::CaseInsensitive));
+                } else
+                    firmwareVersion = "[unknown]";
+
+                emit GotFirmwareVersion(firmwareVersion);
             break;
 
             default:
@@ -2205,10 +2195,27 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
 
 void AQEsc32::SetToBootMode() {
     QByteArray transmit;
+    bootloaderInitReturned = false;
     BootloaderMessage = "";
     SleepThread(500);
     StepMessageFromEsc32 = 5;
     transmit.append("bootloader\n");
+    seriallinkEsc32->writeBytes(transmit,transmit.size());
+
+    bootModeTimer->setSingleShot(true);
+    bootModeTimer->start(5000);
+    connect(bootModeTimer, SIGNAL(timeout()), this, SLOT(emitBootModeTimeout()));
+}
+
+void AQEsc32::emitBootModeTimeout() {
+    emit BootModeTimeout();
+}
+
+void AQEsc32::CheckVersion() {
+    QByteArray transmit;
+    SleepThread(500);
+    StepMessageFromEsc32 = 6;
+    transmit.append("version\n");
     seriallinkEsc32->writeBytes(transmit,transmit.size());
 }
 
