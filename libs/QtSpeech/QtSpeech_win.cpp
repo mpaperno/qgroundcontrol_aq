@@ -101,6 +101,9 @@ QtSpeech::QtSpeech(QObject * parent)
 
     d->name = n;
     d->ptrs << this;
+
+    finishTimer = new QTimer(this);
+    connect(finishTimer, SIGNAL(timeout()), const_cast<QtSpeech *>(this), SLOT(finishTimerEvent()));
 }
 
 QtSpeech::QtSpeech(VoiceName n, QObject * parent)
@@ -199,9 +202,10 @@ void QtSpeech::tell(QString text, QObject * obj, const char * slot) const
             connect(const_cast<QtSpeech *>(this), SIGNAL(finished()), obj, slot);
 
         d->waitingFinish = true;
-        const_cast<QtSpeech *>(this)->startTimer(100);
     }
 
+//    const_cast<QtSpeech *>(this)->startTimer(100);
+    finishTimer->start(200);
     Private::WCHAR_Holder w_text(text);
     SysCall( d->voice->Speak( w_text.w, SPF_ASYNC | SPF_IS_NOT_XML | SPF_PURGEBEFORESPEAK, 0), LogicError);
 }
@@ -212,19 +216,20 @@ void QtSpeech::say(QString text) const
     SysCall( d->voice->Speak( w_text.w, SPF_IS_NOT_XML, 0), LogicError);
 }
 
-void QtSpeech::timerEvent(QTimerEvent * te)
+void QtSpeech::finishTimerEvent()
 {
-    QObject::timerEvent(te);
+//    QObject::timerEvent(te);
 
-    if (d->waitingFinish) {
+//    if (d->waitingFinish) {
         SPVOICESTATUS es;
         d->voice->GetStatus( &es, NULL );
         if (es.dwRunningState == SPRS_DONE) {
             d->waitingFinish = false;
-            killTimer(te->timerId());
-            finished();
+//            killTimer(te->timerId());
+            finishTimer->stop();
+            emit finished();
         }
-    }
+//    }
 }
 
 } // namespace QtSpeech_v1

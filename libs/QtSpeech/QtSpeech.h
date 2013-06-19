@@ -20,6 +20,7 @@
 #define QtSpeech_H
 
 #include <QObject>
+#include <QTimer>
 #define QTSPEECH_STATIC
 
 #if defined(QTSPEECH_STATIC)
@@ -61,11 +62,15 @@ signals:
     void finished();
 
 protected:
-    virtual void timerEvent(QTimerEvent *);
+//    virtual void timerEvent(QTimerEvent *);
 
 private:
     class Private;
     Private * d;
+    QTimer* finishTimer;
+
+private slots:
+    void finishTimerEvent();
 };
 
 }; // namespace QtSpeech_v1
