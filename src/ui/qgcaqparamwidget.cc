@@ -594,10 +594,10 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             parameterItem = new QTreeWidgetItem(plist);
             // CONFIGURE PARAMETER ITEM
             parameterItem->setData(1, Qt::DisplayRole, value);
+//          if ( !parent.contains("IMU"))
+            parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
 
             compParamGroups->value(parent)->addChild(parameterItem);
-            if ( !parent.contains("IMU"))
-                parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
         }
     }
     else
@@ -626,10 +626,10 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             parameterItem = new QTreeWidgetItem(plist);
             // CONFIGURE PARAMETER ITEM
             parameterItem->setData(1, Qt::DisplayRole, value);
+//          if ( !parameterName.contains("IMU_"))
+            parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
 
             components->value(component)->addChild(parameterItem);
-            if ( !parameterName.contains("IMU_"))
-                parameterItem->setFlags(parameterItem->flags() | Qt::ItemIsEditable);
 
         }
         //tree->expandAll();
