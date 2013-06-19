@@ -35,6 +35,7 @@ This file is part of the PIXHAWK project
 #include <QObject>
 #include <QTimer>
 #include <QStringList>
+#include <QQueue>
 #ifdef Q_OS_MAC
 #include <Phonon/MediaObject>
 #include <Phonon/AudioOutput>
@@ -121,7 +122,7 @@ protected:
 #endif
 
 #ifdef Q_OS_WIN
-    QtSpeech speech;
+    QtSpeech* speech;
 #endif
     int voiceIndex;   ///< The index of the flite voice to use (awb, slt, rms)
     Phonon::MediaObject* m_media; ///< The output object for audio
@@ -129,6 +130,13 @@ protected:
     bool emergency;   ///< Emergency status flag
     QTimer* emergencyTimer;
     bool muted;
+    QQueue<QString> voiceQueue;
+    bool isSpeaking;
+
+private slots:
+    void advanceSpeechQueue();
+    void sayText(QString text);
+
 private:
     GAudioOutput(QObject* parent=NULL);
 //    ~GAudioOutput();

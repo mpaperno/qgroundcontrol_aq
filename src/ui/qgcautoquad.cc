@@ -65,6 +65,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 #ifdef QT_NO_DEBUG
     ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
 #endif
+#ifdef Q_OS_WIN
+    ui->pushButton_var_cal3->hide();
+#endif
 
     // populate field values
 
@@ -165,7 +168,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
     // save this for easy iteration later
-    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO_|CTRL_HF_).+_CH")));
+    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO_|CTRL_HF_|NAV_).+_CH")));
     allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
     allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
 
@@ -504,6 +507,9 @@ void QGCAutoquad::adjustUiForHeadFreeMode(int idx)
     ui->CTRL_HF_SET_CH->setVisible(false);
     ui->CTRL_HF_SET_POS->setVisible(false);
     ui->label_ctrl_chan_pos->setVisible(false);
+
+    ui->NAV_HDFRE_CHAN->setVisible(false);
+    ui->label_NAV_HDFRE_CHAN->setVisible(false);
 
     QModelIndex midx;
     int onChan = ui->CTRL_HF_ON_CH->currentIndex();
@@ -1787,17 +1793,20 @@ bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
     foreach (QComboBox* cb, allRadioChanCombos) {
         cbname = cb->objectName();
         cbtxt = cb->currentText();
-        if (cbname.contains(QRegExp("^CTRL_HF_.+")))
+        if (cbname.contains(QRegExp("^(CTRL_HF_|NAV_HDFRE).+")))
             continue;
         if (portsUsed.contains(cbtxt))
             conflictPorts.append(cbtxt);
-        if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP)_CH")))
+        if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP|AUX2)_CH")))
             essentialPorts.append(cbtxt);
         portsUsed.append(cbtxt);
     }
     // validate heading-free controls
     QString hfOnChan = ui->CTRL_HF_ON_CH->currentText();
     QString hfSetChan = ui->CTRL_HF_SET_CH->currentText();
+    QString hfChan = ui->NAV_HDFRE_CHAN->currentText();
+    if (ui->NAV_HDFRE_CHAN->currentIndex() && essentialPorts.contains(hfChan))
+        conflictPorts.append(hfChan);
     if (ui->CTRL_HF_ON_CH->currentIndex() && essentialPorts.contains(hfOnChan))
         conflictPorts.append(hfOnChan);
     if (ui->CTRL_HF_SET_CH->currentIndex() && essentialPorts.contains(hfSetChan))

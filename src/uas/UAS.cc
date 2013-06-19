@@ -416,30 +416,33 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 emit systemTypeSet(this, type);
             }
 
+            QString audiostring = audioSystemName;
+            QString stateAudio = "";
+            QString modeAudio = "";
+            QString armModeAudio = "";
+            bool statechanged = false;
+            bool modechanged = false;
+            bool armingchanged = false;
+            int audioSeverity = 1;
+
             bool currentlyArmed = state.base_mode & MAV_MODE_FLAG_DECODE_POSITION_SAFETY;
 
             if (systemIsArmed != currentlyArmed)
             {
                 systemIsArmed = currentlyArmed;
                 emit armingChanged(systemIsArmed);
+                armingchanged = true;
                 if (systemIsArmed)
                 {
                     emit armed();
+                    armModeAudio = "armed";
                 }
                 else
                 {
                     emit disarmed();
+                    armModeAudio = "disarmed";
                 }
             }
-
-            QString audiostring = audioSystemName;
-            QString stateAudio = "";
-            QString modeAudio = "";
-            QString navModeAudio = "";
-            bool statechanged = false;
-            bool modechanged = false;
-
-            QString audiomodeText = getAudioModeTextFor(static_cast<int>(state.base_mode));
 
             if ((state.system_status != this->status) && state.system_status != MAV_STATE_UNINIT)
             {
@@ -460,7 +463,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 stateAudio = uasState;
             }
 
-            if (this->mode != static_cast<int>(state.base_mode))
+            if (systemIsArmed && this->mode != static_cast<int>(state.base_mode))
             {
                 modechanged = true;
                 this->mode = static_cast<int>(state.base_mode);
@@ -468,7 +471,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
                 emit modeChanged(this->getUASID(), shortModeText, "");
 
-                modeAudio = " now in " + audiomodeText;
+                modeAudio = " now in " + getAudioModeTextFor(static_cast<int>(state.base_mode));
             }
 
             if (navMode != state.custom_mode)
@@ -479,26 +482,26 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
 
             // AUDIO
+            audiostring += armModeAudio;
+            if (armingchanged && (statechanged || modechanged))
+                audiostring += " and ";
+            audiostring += modeAudio;
             if (modechanged && statechanged)
-            {
-                // Output both messages
-                audiostring += modeAudio + " and " + stateAudio;
-            }
-            else if (modechanged || statechanged)
-            {
-                // Output the one message
-                audiostring += modeAudio + stateAudio + navModeAudio;
-            }
+                audiostring += " and ";
+            audiostring += stateAudio;
 
             if (statechanged && ((int)state.system_status == (int)MAV_STATE_CRITICAL || state.system_status == (int)MAV_STATE_EMERGENCY))
             {
-                GAudioOutput::instance()->say(QString("emergency condition %1").arg(audioSystemName));
-                QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
+                audiostring = "Emergency condition! " + audiostring;
+                audioSeverity = 2;
+                // GAudioOutput::instance()->say(QString("emergency condition %1").arg(audioSystemName));
+//                QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
             }
-            else if (modechanged || statechanged)
+
+            if (modechanged || statechanged || armingchanged)
             {
-                GAudioOutput::instance()->stopEmergency();
-                GAudioOutput::instance()->say(audiostring.toLower());
+//                GAudioOutput::instance()->stopEmergency();
+                GAudioOutput::instance()->say(audiostring, audioSeverity);
             }
         }
 
@@ -1060,16 +1063,11 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             int severity = mavlink_msg_statustext_get_severity(&message);
             //qDebug() << "RECEIVED STATUS:" << text;false
             //emit statusTextReceived(severity, text);
+            emit textMessageReceived(uasId, message.compid, severity, text);
 
-            if (text.startsWith("#audio:"))
-            {
+            if (text.contains(QRegExp("^(#audio:|Warning|Error)", Qt::CaseInsensitive))) {
                 text.remove("#audio:");
-                emit textMessageReceived(uasId, message.compid, severity, QString("Audio message: ") + text);
                 GAudioOutput::instance()->say(text, severity);
-            }
-            else
-            {
-                emit textMessageReceived(uasId, message.compid, severity, text);
             }
         }
             break;
@@ -2864,10 +2862,10 @@ QString UAS::getAudioModeTextFor(int id)
     }
 
     // ARMED STATE DECODING
-    if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_SAFETY)
-    {
-        mode.append(" and armed");
-    }
+//    if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_SAFETY)
+//    {
+//        mode.append(" and armed");
+//    }
 
     // HARDWARE IN THE LOOP DECODING
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_HIL)
@@ -3127,7 +3125,7 @@ void UAS::startLowBattAlarm()
     if (!lowBattAlarm)
     {
         GAudioOutput::instance()->alert(tr("Low battery detected %1").arg(audioSystemName));
-        QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
+//        QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
         lowBattAlarm = true;
     }
 }
