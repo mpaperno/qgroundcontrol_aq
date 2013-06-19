@@ -189,6 +189,40 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
 
 CommConfigurationWindow::~CommConfigurationWindow()
 {
+    saveSettings();
+}
+
+void CommConfigurationWindow::hideEvent(QHideEvent* event)
+{
+    saveSettings();
+    QWidget::hideEvent(event);
+}
+
+void CommConfigurationWindow::closeEvent(QCloseEvent* event)
+{
+    saveSettings();
+    QWidget::closeEvent(event);
+}
+
+void CommConfigurationWindow::showEvent(QShowEvent* event)
+{
+    loadSettings();
+    QWidget::showEvent(event);
+}
+
+
+void CommConfigurationWindow::saveSettings() {
+    settings.beginGroup("QGC_COMM_CONFIG_WINDOW");
+    settings.setValue("WINDOW_POSITION", this->window()->saveGeometry());
+    settings.endGroup();
+    settings.sync();
+}
+
+void CommConfigurationWindow::loadSettings() {
+    settings.beginGroup("QGC_COMM_CONFIG_WINDOW");
+    if (settings.contains("WINDOW_POSITION"))
+        this->window()->restoreGeometry(settings.value("WINDOW_POSITION").toByteArray());
+    settings.endGroup();
 
 }
 

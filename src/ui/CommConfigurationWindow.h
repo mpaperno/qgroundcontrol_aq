@@ -35,6 +35,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QObject>
 #include <QWidget>
 #include <QAction>
+#include <QSettings>
 #include "LinkInterface.h"
 #include "ProtocolInterface.h"
 #include "ui_CommSettings.h"
@@ -72,6 +73,11 @@ public:
 
     QAction* getAction();
 
+protected:
+    void showEvent(QShowEvent* event);
+    void hideEvent(QHideEvent* event);
+    void closeEvent(QCloseEvent* event);
+
 public slots:
     void setLinkType(int linktype);
     /** @brief Set the protocol for this link */
@@ -82,11 +88,16 @@ public slots:
     /** @brief Disconnects the associated link, removes it from all menus and closes the window. */
     void remove();
 
+private slots:
+    void saveSettings();
+    void loadSettings();
+
 private:
 
     Ui::commSettings ui;
     LinkInterface* link;
     QAction* action;
+    QSettings settings;
 };
 
 
