@@ -14,6 +14,7 @@
 #include <QProcess>
 #include <QMap>
 #include <QSettings>
+#include <QAbstractButton>
 
 class QProgressBar;
 class QLabel;
@@ -101,6 +102,7 @@ private slots:
     // AQ Settings
     void loadParametersToUI();
     void saveAQSettings();
+    void saveDialogButtonClicked(QAbstractButton *btn);
 
     // Radio setup
     void radioType_changed(int idx);
@@ -234,6 +236,7 @@ private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
     QList<QComboBox *> allRadioChanCombos;
+    quint8 paramSaveType;
 
     // Tracking
     double lat,lon,alt;

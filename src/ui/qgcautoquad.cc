@@ -2268,51 +2268,74 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
     }
 
     if ( changeList.size() ) {
-        quint8 saveType = 1;  // save to volatile
+        paramSaveType = 1;  // save to volatile
 
         if (interactive) {
-            QString msgBoxText;
+            paramSaveType = 0;
+
+            QString msgBoxText = tr("The following parameter%1 %2 been modified:\n").arg((changeList.size() > 1) ? "s" : "").arg((changeList.size() > 1) ? tr("have") : tr("has"));
             msg = "";
-            if (changeList.size() < 50) {
-                msgBoxText = tr("The following parameter%1 %2 been modified:\n").arg((changeList.size() > 1) ? "s" : "").arg((changeList.size() > 1) ? tr("have") : tr("has"));
-                msg = "<table cellspacing=\"6\" border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n";
-                QMapIterator<QString, QList<float> > i(changeList);
-                QString val1, val2;
-                while (i.hasNext()) {
-                    i.next();
-                    val1.setNum(i.value().at(0), 'g', 8);
-                    val2.setNum(i.value().at(1), 'g', 8);
-                    msg += QString("<tr><td>%1</td><td>%2</td><td>%3</td></tr>\n").arg(i.key()).arg(val1).arg(val2);
-                }
-                msg += "</tbody></table>\n";
+            msg = "<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n";
+            QMapIterator<QString, QList<float> > i(changeList);
+            QString val1, val2;
+            while (i.hasNext()) {
+                i.next();
+                val1.setNum(i.value().at(0), 'g', 8);
+                val2.setNum(i.value().at(1), 'g', 8);
+                msg += QString("<tr><td style=\"padding: 1px 7px 0 1px;\">%1</td><td>%2 </td><td>%3</td></tr>\n").arg(i.key()).arg(val1).arg(val2);
             }
-            else {
-                msgBoxText = tr("Warning: Over 50 parameters have been detected as modified.");
-            }
-            msg += tr("<p>Do you wish to continue?</p>");
+            msg += "</tbody></table>\n";
 
-            msgBox.setText(msgBoxText);
-            msgBox.setInformativeText(msg);
-            msgBox.setWindowModality(Qt::ApplicationModal);
-            msgBox.setIcon(QMessageBox::Question);
-            msgBox.setStandardButtons(QMessageBox::NoButton);
+            QDialog* dialog = new QDialog(this);
+            dialog->setSizeGripEnabled(true);
+            dialog->setWindowTitle(tr("Verify Changed Parameters"));
+            dialog->setWindowModality(Qt::ApplicationModal);
+            dialog->setWindowFlags(dialog->windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-            QPushButton *btn_saveToRam = msgBox.addButton(tr("Save to Volatile Memory"), QMessageBox::YesRole);
+            QSizePolicy sizepol(QSizePolicy::Expanding, QSizePolicy::Fixed, QSizePolicy::Label);
+            sizepol.setVerticalStretch(0);
+            QLabel* prompt = new QLabel(msgBoxText, dialog);
+            prompt->setSizePolicy(sizepol);
+            QLabel* prompt2 = new QLabel(tr("Do you wish to continue?"), dialog);
+            prompt2->setSizePolicy(sizepol);
+
+            QTextEdit* message = new QTextEdit(msg, dialog);
+            message->setReadOnly(true);
+            message->setAcceptRichText(true);
+
+            QDialogButtonBox* bbox = new QDialogButtonBox(Qt::Horizontal, dialog);
+            QPushButton *btn_saveToRam = bbox->addButton(tr("Save to Volatile Memory"), QDialogButtonBox::AcceptRole);
             btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
-            QPushButton *btn_saveToRom = msgBox.addButton(tr("Save to Permanent Memory"), QMessageBox::YesRole);
+            btn_saveToRam->setObjectName("btn_saveToRam");
+            btn_saveToRam->setAutoDefault(false);
+            QPushButton *btn_saveToRom = bbox->addButton(tr("Save to Permanent Memory"), QDialogButtonBox::AcceptRole);
             btn_saveToRom->setToolTip(tr("The settings will be immediately active and persist AFTER flight controller is restarted."));
-            QPushButton *btn_cancel = msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
+            btn_saveToRom->setObjectName("btn_saveToRom");
+            btn_saveToRom->setAutoDefault(false);
+            QPushButton *btn_cancel = bbox->addButton(tr("Cancel"), QDialogButtonBox::RejectRole);
             btn_cancel->setToolTip(tr("Do not save any settings."));
-            msgBox.setDefaultButton(btn_cancel);
+            btn_cancel->setDefault(true);
 
-            msgBox.exec();
+            QVBoxLayout* dlgLayout = new QVBoxLayout(dialog);
+            dlgLayout->setSpacing(8);
+            dlgLayout->addWidget(prompt);
+            dlgLayout->addWidget(message);
+            dlgLayout->addWidget(prompt2);
+            dlgLayout->addWidget(bbox);
 
-            if (msgBox.clickedButton() == btn_saveToRam)
-                saveType = 1;
-            else if (msgBox.clickedButton() == btn_saveToRom)
-                saveType = 2;
-            else
+            dialog->setLayout(dlgLayout);
+
+            connect(btn_cancel, SIGNAL(clicked()), dialog, SLOT(reject()));
+            connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
+            connect(btn_saveToRom, SIGNAL(clicked()), dialog, SLOT(accept()));
+            connect(bbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(saveDialogButtonClicked(QAbstractButton*)));
+
+            bool dlgret = dialog->exec();
+            dialog->deleteLater();
+
+            if (dlgret == QDialog::Rejected || !paramSaveType)
                 return false;
+
         }
 
         QMapIterator<QString, QList<float> > i(changeList);
@@ -2321,7 +2344,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             paramaq->setParaAQ(i.key(), i.value().at(1));
         }
 
-        if (saveType == 2) {
+        if (paramSaveType == 2) {
             uas->writeParametersToStorageAQ();
             ui->label_radioChangeWarning->hide();
         }
@@ -2340,6 +2363,14 @@ void QGCAutoquad::saveAQSettings() {
         return;
     }
     saveSettingsToAq(ui->tab_aq_settings);
+}
+
+void QGCAutoquad::saveDialogButtonClicked(QAbstractButton* btn) {
+    paramSaveType = 0;
+    if (btn->objectName() == "btn_saveToRam")
+        paramSaveType = 1;
+    else if (btn->objectName() == "btn_saveToRom")
+        paramSaveType = 2;
 }
 
 //void QGCAutoquad::saveRadioSettings() {
