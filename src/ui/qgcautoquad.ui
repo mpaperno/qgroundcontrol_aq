@@ -7723,183 +7723,11 @@ padding: 1px 5px;</string>
           <attribute name="title">
            <string>AQ Calibration</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_10" rowstretch="1,0,2">
-           <item row="0" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_24">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetFixedSize</enum>
-             </property>
-             <item>
-              <layout class="QGridLayout" name="gridLayout_6">
-               <item row="1" column="0">
-                <widget class="QPushButton" name="pushButton_Remov_Static">
-                 <property name="text">
-                  <string>Remove Static</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <spacer name="verticalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>78</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item row="0" column="1" rowspan="3">
-                <widget class="QListWidget" name="listWidgetStatic"/>
-               </item>
-               <item row="0" column="0">
-                <widget class="QPushButton" name="pushButton_Add_Static">
-                 <property name="text">
-                  <string>Add Static</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QGridLayout" name="gridLayout_7">
-               <item row="0" column="0">
-                <widget class="QPushButton" name="pushButton_Add_Dynamic">
-                 <property name="text">
-                  <string>Add Dynamic</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1" rowspan="3">
-                <widget class="QListWidget" name="listWidgetDynamic"/>
-               </item>
-               <item row="1" column="0">
-                <widget class="QPushButton" name="pushButton_Remove_Dynamic">
-                 <property name="text">
-                  <string>Remove Dynamic</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <spacer name="verticalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_54">
-                 <item>
-                  <widget class="QLabel" name="label_131">
-                   <property name="text">
-                    <string>Mag. Inc. (-66.43) (°°.MM)</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_114">
-                   <property name="text">
-                    <string>Mag. Dec. (1.54) (°°.MM)</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_insert_declination"/>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_insert_inclination"/>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_Calculate">
-                   <property name="text">
-                    <string>Calc</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEdit_cal_declination">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEdit_cal_inclination"/>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_DIMU">
-                 <property name="text">
-                  <string>Using DIMU</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string>Used users param file:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_user_param_file"/>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_Sel_params_file_user">
-                   <property name="text">
-                    <string>Select</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_Create_params_file_user">
-                   <property name="text">
-                    <string>Create</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
+          <layout class="QGridLayout" name="gridLayout_10" rowstretch="1,3">
+           <property name="verticalSpacing">
+            <number>12</number>
+           </property>
            <item row="1" column="0">
-            <spacer name="verticalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>30</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="2" column="0">
             <widget class="QTabWidget" name="tabWidget_Parameter">
              <property name="enabled">
               <bool>true</bool>
@@ -7914,14 +7742,14 @@ padding: 1px 5px;</string>
               <layout class="QHBoxLayout" name="horizontalLayout_23">
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <item>
+                 <item alignment="Qt::AlignTop">
                   <widget class="QPushButton" name="pushButton_start_cal1">
                    <property name="text">
                     <string>Start cal.</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item alignment="Qt::AlignTop">
                   <widget class="QPushButton" name="pushButton_abort_cal1">
                    <property name="enabled">
                     <bool>false</bool>
@@ -7930,6 +7758,19 @@ padding: 1px 5px;</string>
                     <string>Abort</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </item>
@@ -7961,6 +7802,19 @@ padding: 1px 5px;</string>
                     <string>Abort</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </item>
@@ -7999,6 +7853,19 @@ padding: 1px 5px;</string>
                     <string>Abort</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_6">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </item>
@@ -8088,6 +7955,19 @@ padding: 1px 5px;</string>
                       <string>Abort</string>
                      </property>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="verticalSpacer_19">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </item>
@@ -8180,6 +8060,19 @@ padding: 1px 5px;</string>
                      </property>
                     </widget>
                    </item>
+                   <item>
+                    <spacer name="verticalSpacer_20">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
                   </layout>
                  </item>
                 </layout>
@@ -8270,6 +8163,19 @@ padding: 1px 5px;</string>
                       <string>Abort</string>
                      </property>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="verticalSpacer_21">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </item>
@@ -8362,6 +8268,19 @@ padding: 1px 5px;</string>
                      </property>
                     </widget>
                    </item>
+                   <item>
+                    <spacer name="verticalSpacer_22">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
                   </layout>
                  </item>
                 </layout>
@@ -8376,7 +8295,7 @@ padding: 1px 5px;</string>
                <string>All generated parameters</string>
               </attribute>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item>
+               <item alignment="Qt::AlignTop">
                 <widget class="QPushButton" name="pushButton_save">
                  <property name="text">
                   <string>save to para file</string>
@@ -8389,6 +8308,295 @@ padding: 1px 5px;</string>
               </layout>
              </widget>
             </widget>
+           </item>
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_24">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetFixedSize</enum>
+             </property>
+             <item alignment="Qt::AlignTop">
+              <widget class="QGroupBox" name="groupBox_staticFiles">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="title">
+                <string>Static Logs</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_6">
+                <property name="leftMargin">
+                 <number>6</number>
+                </property>
+                <property name="topMargin">
+                 <number>4</number>
+                </property>
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>4</number>
+                </property>
+                <item row="0" column="0" rowspan="2" colspan="2" alignment="Qt::AlignTop">
+                 <widget class="QListWidget" name="listWidgetStatic">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QPushButton" name="pushButton_Add_Static">
+                  <property name="text">
+                   <string>Add Static</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="pushButton_Remov_Static">
+                  <property name="text">
+                   <string>Remove Static</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignTop">
+              <widget class="QGroupBox" name="groupBox_dynamicFiles">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="title">
+                <string>Dynamic Logs</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_7">
+                <property name="leftMargin">
+                 <number>6</number>
+                </property>
+                <property name="topMargin">
+                 <number>4</number>
+                </property>
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>4</number>
+                </property>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="pushButton_Remove_Dynamic">
+                  <property name="text">
+                   <string>Remove Dynamic</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QPushButton" name="pushButton_Add_Dynamic">
+                  <property name="text">
+                   <string>Add Dynamic</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0" colspan="2">
+                 <widget class="QListWidget" name="listWidgetDynamic">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item alignment="Qt::AlignTop">
+              <widget class="QGroupBox" name="groupBox_calibrationSettings">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="title">
+                <string>Calibration Settings</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <property name="leftMargin">
+                 <number>6</number>
+                </property>
+                <property name="topMargin">
+                 <number>4</number>
+                </property>
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>4</number>
+                </property>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_5" columnstretch="2,2,1,1,0">
+                  <property name="horizontalSpacing">
+                   <number>6</number>
+                  </property>
+                  <property name="verticalSpacing">
+                   <number>2</number>
+                  </property>
+                  <item row="1" column="4">
+                   <widget class="QPushButton" name="pushButton_Calculate">
+                    <property name="text">
+                     <string>Calc</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLineEdit" name="lineEdit_insert_declination">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Enter magnetic inclination in degrees.minutes format.</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QLineEdit" name="lineEdit_insert_inclination">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="toolTip">
+                     <string>Enter magnetic declination in degrees.minutes format.</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0" colspan="2">
+                   <widget class="QLineEdit" name="lineEdit_cal_declination">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="4" alignment="Qt::AlignHCenter">
+                   <widget class="QLabel" name="label_163">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>&lt; Results</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="2" colspan="2">
+                   <widget class="QLineEdit" name="lineEdit_cal_inclination"/>
+                  </item>
+                  <item row="0" column="2" colspan="2">
+                   <widget class="QLabel" name="label_114">
+                    <property name="text">
+                     <string>Mag. Dec. (eg. 1.54)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="3">
+                   <widget class="QLabel" name="label_162">
+                    <property name="text">
+                     <string>(DD.MM)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0" colspan="2">
+                   <widget class="QLabel" name="label_131">
+                    <property name="text">
+                     <string>Mag. Inc. (eg. -66.43)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="label_160">
+                    <property name="text">
+                     <string>(DD.MM)</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBox_DIMU">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Using DIMU</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_11">
+                  <item row="1" column="0">
+                   <widget class="QLineEdit" name="lineEdit_user_param_file"/>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QPushButton" name="pushButton_Create_params_file_user">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Create</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QPushButton" name="pushButton_Sel_params_file_user">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Select</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_2">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Generated params file:</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
