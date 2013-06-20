@@ -1548,7 +1548,7 @@ void QGCAutoquad::Esc32StartCalibration() {
             return;
 
         if ( ret == QMessageBox::Yes) {
-            float maxAmps = ui->DoubleMaxCurrent->text().toFloat();
+            float maxAmps = (float)ui->DoubleMaxCurrent->value();
 
             esc32->SetCalibrationMode(this->Esc32CalibrationMode);
             esc32->StartCalibration(maxAmps,Esc32LoggingFile,Esc32ResultFile);
