@@ -88,6 +88,8 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     QList<QPushButton *> btns = m_ui->uasViewFrame->findChildren<QPushButton *>(QRegExp(".+Button"));
     foreach (QPushButton *btn, btns)
         btn->hide();
+    // AQ doesn't send thrust data
+    m_ui->thrustBar->hide();
 
     // Setup communication
     //connect(uas, SIGNAL(valueChanged(int,QString,double,quint64)), this, SLOT(receiveValue(int,QString,double,quint64)));
