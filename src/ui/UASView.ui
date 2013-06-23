@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>360</width>
-    <height>121</height>
+    <height>124</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -16,17 +16,16 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>260</width>
-    <height>0</height>
-   </size>
-  </property>
   <property name="maximumSize">
    <size>
     <width>360</width>
     <height>16777215</height>
    </size>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>-1</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -64,23 +63,23 @@ QLabel#navLabel {
 }
 
 QLabel#positionLabel {
-	font: 8px;
+	/* font: 8px; */
 }
 
 QLabel#timeElapsedLabel {
-	font: 8px;
+	/* font: 8px; */
 }
 
 QLabel#groundDistanceLabel {
-	font: 8px;
+	/* font: 8px; */
 }
 
 QLabel#speedLabel {
-	font: 8px;
+	/* font: 8px; */
 }
 
 QLabel#timeRemainingLabel {
-	font: 8px;
+	/* font: 8px; */
 }
 
 QLabel#waypointLabel {
@@ -260,18 +259,6 @@ QMenu::separator {
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>130</height>
-      </size>
-     </property>
      <property name="title">
       <string/>
      </property>
@@ -315,7 +302,7 @@ QMenu::separator {
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="../../mavground.qrc">
+         <iconset resource="../../qgroundcontrol.qrc">
           <normaloff>:/files/images/mavs/unknown.svg</normaloff>:/files/images/mavs/unknown.svg</iconset>
         </property>
         <property name="iconSize">
@@ -379,12 +366,15 @@ QMenu::separator {
       </item>
       <item row="1" column="2" rowspan="3">
        <widget class="QLabel" name="timeRemainingLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <pointsize>-1</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -395,6 +385,9 @@ QMenu::separator {
         </property>
         <property name="text">
          <string>00:00:00</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -403,12 +396,15 @@ QMenu::separator {
       </item>
       <item row="1" column="3" rowspan="3" colspan="2">
        <widget class="QLabel" name="timeElapsedLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <pointsize>-1</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -419,6 +415,9 @@ QMenu::separator {
         </property>
         <property name="text">
          <string>00:00:00</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -448,12 +447,15 @@ QMenu::separator {
       </item>
       <item row="4" column="2">
        <widget class="QLabel" name="groundDistanceLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <pointsize>-1</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -465,6 +467,9 @@ QMenu::separator {
         <property name="text">
          <string>00.00 m</string>
         </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
@@ -472,12 +477,15 @@ QMenu::separator {
       </item>
       <item row="4" column="3" colspan="2">
        <widget class="QLabel" name="speedLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <pointsize>-1</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -488,6 +496,9 @@ QMenu::separator {
         </property>
         <property name="text">
          <string>00.0 m/s</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -584,6 +595,12 @@ QMenu::separator {
       </item>
       <item row="2" column="6" colspan="2">
        <widget class="QLabel" name="positionLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -599,9 +616,6 @@ QMenu::separator {
         <property name="font">
          <font>
           <pointsize>-1</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
          </font>
         </property>
         <property name="toolTip">
@@ -612,6 +626,9 @@ QMenu::separator {
         </property>
         <property name="text">
          <string>00.0  00.0  00.0 m</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -647,7 +664,7 @@ QMenu::separator {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../../mavground.qrc">
+           <iconset resource="../../qgroundcontrol.qrc">
             <normaloff>:/files/images/control/launch.svg</normaloff>:/files/images/control/launch.svg</iconset>
           </property>
          </widget>
@@ -676,7 +693,7 @@ QMenu::separator {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../../mavground.qrc">
+           <iconset resource="../../qgroundcontrol.qrc">
             <normaloff>:/files/images/actions/media-playback-pause.svg</normaloff>:/files/images/actions/media-playback-pause.svg</iconset>
           </property>
          </widget>
@@ -705,7 +722,7 @@ QMenu::separator {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../../mavground.qrc">
+           <iconset resource="../../qgroundcontrol.qrc">
             <normaloff>:/files/images/actions/media-playback-start.svg</normaloff>:/files/images/actions/media-playback-start.svg</iconset>
           </property>
          </widget>
@@ -734,7 +751,7 @@ QMenu::separator {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../../mavground.qrc">
+           <iconset resource="../../qgroundcontrol.qrc">
             <normaloff>:/files/images/control/land.svg</normaloff>:/files/images/control/land.svg</iconset>
           </property>
          </widget>
@@ -757,7 +774,7 @@ QMenu::separator {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../../mavground.qrc">
+           <iconset resource="../../qgroundcontrol.qrc">
             <normaloff>:/files/images/actions/system-log-out.svg</normaloff>:/files/images/actions/system-log-out.svg</iconset>
           </property>
          </widget>
@@ -792,7 +809,7 @@ QMenu::separator {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../../mavground.qrc">
+           <iconset resource="../../qgroundcontrol.qrc">
             <normaloff>:/files/images/actions/media-playback-stop.svg</normaloff>:/files/images/actions/media-playback-stop.svg</iconset>
           </property>
          </widget>
@@ -821,7 +838,7 @@ QMenu::separator {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../../mavground.qrc">
+           <iconset resource="../../qgroundcontrol.qrc">
             <normaloff>:/files/images/actions/process-stop.svg</normaloff>:/files/images/actions/process-stop.svg</iconset>
           </property>
          </widget>
@@ -890,7 +907,7 @@ QMenu::separator {
   </layout>
  </widget>
  <resources>
-  <include location="../../mavground.qrc"/>
+  <include location="../../qgroundcontrol.qrc"/>
  </resources>
  <connections/>
 </ui>

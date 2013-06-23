@@ -51,7 +51,7 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     thrustMax(10),
     startVoltage(-1.0f),
     tickVoltage(10.5f),
-    lastTickVoltageValue(13.0f),
+    lastTickVoltageValue(-1.0f),
     tickLowpassVoltage(12.0f),
     warnVoltage(9.5f),
     warnLevelPercent(20.0f),
@@ -531,38 +531,18 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             emit valueChanged(uasId, name.arg("load"), "%", state.load/10.0f, time);
 
             // Battery charge/time remaining/voltage calculations
+            bool vwarning = false;
+            bool vtick = false;
             currentVoltage = state.voltage_battery/1000.0f;
             lpVoltage = filterVoltage(currentVoltage);
-            tickLowpassVoltage = tickLowpassVoltage*0.8f + 0.2f*currentVoltage;
 
+            if (startVoltage == -1.0f && currentVoltage > 0.1f)
+                startVoltage = currentVoltage;
 
-            // We don't want to tick above the threshold
-            if (tickLowpassVoltage > tickVoltage)
-            {
-                lastTickVoltageValue = tickLowpassVoltage;
-            }
-
-            if ((startVoltage > 0.0f) && (tickLowpassVoltage < tickVoltage) && (fabs(lastTickVoltageValue - tickLowpassVoltage) > 0.1f)
-                    /* warn if lower than treshold */
-                    && (lpVoltage < tickVoltage)
-                    /* warn only if we have at least the voltage of an empty LiPo cell, else we're sampling something wrong */
-                    && (currentVoltage > 3.3f)
-                    /* warn only if current voltage is really still lower by a reasonable amount */
-                    && ((currentVoltage - 0.2f) < tickVoltage)
-                    /* warn only every 12 seconds */
-                    && (QGC::groundTimeUsecs() - lastVoltageWarning) > 12000000)
-            {
-                GAudioOutput::instance()->say(QString("voltage warning: %1 volts").arg(lpVoltage, 0, 'f', 1, QChar(' ')));
-                lastVoltageWarning = QGC::groundTimeUsecs();
-                lastTickVoltageValue = tickLowpassVoltage;
-            }
-
-            if (startVoltage == -1.0f && currentVoltage > 0.1f) startVoltage = currentVoltage;
             timeRemaining = calculateTimeRemaining();
             if (!batteryRemainingEstimateEnabled && chargeLevel != -1)
-            {
                 chargeLevel = state.battery_remaining;
-            }
+
             emit batteryChanged(this, lpVoltage, getChargeLevel(), timeRemaining);
             emit valueChanged(uasId, name.arg("battery_remaining"), "%", getChargeLevel(), time);
             emit voltageChanged(message.sysid, currentVoltage);
@@ -575,14 +555,35 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
 
             // LOW BATTERY ALARM
-            if (lpVoltage < warnVoltage && (currentVoltage - 0.2f) < warnVoltage && (currentVoltage > 3.3))
-            {
-                startLowBattAlarm();
+
+            // calculate rate of change since last reding (one "tick" is ~ 0.1v change)
+            tickLowpassVoltage = tickLowpassVoltage*0.8f + 0.2f*currentVoltage;
+            if (lastTickVoltageValue == -1.0f)
+                lastTickVoltageValue = tickLowpassVoltage;
+            if (fabs(lastTickVoltageValue - tickLowpassVoltage) > 0.1f) {
+                vtick = true;
+                lastTickVoltageValue = tickLowpassVoltage;
             }
-            else
-            {
-                stopLowBattAlarm();
+
+            if (batteryRemainingEstimateEnabled && lpVoltage < warnVoltage && (currentVoltage - 0.2f) < warnVoltage && (currentVoltage > 3.3))
+                vwarning = true;
+            else if (!batteryRemainingEstimateEnabled && chargeLevel < warnLevelPercent)
+                vwarning = true;
+
+            // add  && vtick  to only warn when voltage changes
+            if (vwarning && startVoltage > 0.0f && (QGC::groundTimeUsecs() - lastVoltageWarning) > 15e6) {
+                GAudioOutput::instance()->say(QString("voltage warning: %1 volts").arg(lpVoltage, 0, 'f', 1, QChar(' ')));
+                lastVoltageWarning = QGC::groundTimeUsecs();
             }
+
+//            if (lpVoltage < warnVoltage && (currentVoltage - 0.2f) < warnVoltage && (currentVoltage > 3.3))
+//            {
+//                startLowBattAlarm();
+//            }
+//            else
+//            {
+//                stopLowBattAlarm();
+//            }
 
             // control_sensors_enabled:
             // relevant bits: 11: attitude stabilization, 12: yaw position, 13: z/altitude control, 14: x/y position control
