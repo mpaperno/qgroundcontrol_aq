@@ -75,20 +75,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
 
-    ui->CTRL_HF_ON_POS->addItem("High", 250);
-    ui->CTRL_HF_ON_POS->addItem("Mid", 0);
-    ui->CTRL_HF_ON_POS->addItem("Low", -250);
-    ui->CTRL_HF_ON_POS->setCurrentIndex(2);
-
-    ui->CTRL_HF_SET_POS->addItem("High", 250);
-    ui->CTRL_HF_SET_POS->addItem("Mid", 0);
-    ui->CTRL_HF_SET_POS->addItem("Low", -250);
-    ui->CTRL_HF_SET_POS->setCurrentIndex(0);
-
-    ui->CTRL_HF_MODE->addItem("Switch-Controlled", 1);
-    ui->CTRL_HF_MODE->addItem("Locked", 2);
-    ui->CTRL_HF_MODE->addItem("Dynamic", 3);
-    ui->CTRL_HF_MODE->setCurrentIndex(0);
+//    ui->CTRL_HF_ON_POS->addItem("High", 250);
+//    ui->CTRL_HF_ON_POS->addItem("Mid", 0);
+//    ui->CTRL_HF_ON_POS->addItem("Low", -250);
+//    ui->CTRL_HF_ON_POS->setCurrentIndex(2);
 
     ui->comboBox_mode->addItem("RPM",0);
     ui->comboBox_mode->addItem("Open Loop",1);
@@ -152,18 +142,23 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->groupBox_ppmOptions->hide();
     ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     ui->conatiner_radioGraphValues->setEnabled(false);
-    ui->checkBox_raw_value->hide();
-    ui->form_mot_exponent_settings->hide();
     ui->DOWNLINK_BAUD->hide();
     ui->label_DOWNLINK_BAUD->hide();
+
+    // hide these permanently, for now... (possible future use for these)
+    ui->checkBox_raw_value->hide();
+    ui->form_mot_exponent_settings->hide();
+    ui->label_ctrl_chan_pos->hide();
+
     ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
 //    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
 
     adjustUiForHardware();
     adjustUiForFirmware();
-    adjustUiForHeadFreeMode(0);
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
+
+    // done setting up UI
 
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
@@ -208,11 +203,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
 
     connect(ui->pushButton_save_to_aq, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
-//    connect(ui->pushButton_save_to_aq_radio, SIGNAL(clicked()),this,SLOT(saveRadioSettings()));
-//    connect(ui->pushButton_save_to_aq_pid1, SIGNAL(clicked()),this,SLOT(saveAttitudePIDs()));
-//    connect(ui->pushButton_save_to_aq_pid2, SIGNAL(clicked()),this,SLOT(saveNavigationPIDs()));
-//    connect(ui->pushButton_save_to_aq_pid3, SIGNAL(clicked()),this,SLOT(saveSpecialSettings()));
-//    connect(ui->pushButton_save_to_aq_pid4, SIGNAL(clicked()),this,SLOT(saveGimbalSettings()));
 
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
@@ -220,11 +210,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq(int)));
     foreach (QComboBox* cb, allRadioChanCombos)
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
-
-    connect(ui->CTRL_HF_ON_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
-    connect(ui->CTRL_HF_SET_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
-    connect(ui->CTRL_HF_ON_POS, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
-    connect(ui->CTRL_HF_SET_POS, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
 
     connect(ui->pushButton_start_cal1, SIGNAL(clicked()),this,SLOT(startcal1()));
     connect(ui->pushButton_start_cal2, SIGNAL(clicked()),this,SLOT(startcal2()));
@@ -490,61 +475,6 @@ void QGCAutoquad::adjustUiForFirmware() {
         ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
     if (idx > -1 && idx < ui->SPVR_FS_RAD_ST2->count())
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
-}
-
-void QGCAutoquad::adjustUiForHeadFreeMode(int idx)
-{
-    Q_UNUSED(idx);
-
-    if (mtx_paramsAreLoading)
-        return;
-
-    // TODO: fix once HF mode is finalized. Hide everything for now. If params exist they'll be re-displayed when loaded.
-    ui->label_CTRL_HF_ON_CH->setVisible(false);
-    ui->CTRL_HF_ON_CH->setVisible(false);
-    ui->CTRL_HF_ON_POS->setVisible(false);
-    ui->label_CTRL_HF_SET_CH->setVisible(false);
-    ui->CTRL_HF_SET_CH->setVisible(false);
-    ui->CTRL_HF_SET_POS->setVisible(false);
-    ui->label_ctrl_chan_pos->setVisible(false);
-
-    ui->NAV_HDFRE_CHAN->setVisible(false);
-    ui->label_NAV_HDFRE_CHAN->setVisible(false);
-
-    QModelIndex midx;
-    int onChan = ui->CTRL_HF_ON_CH->currentIndex();
-    int setChan = ui->CTRL_HF_SET_CH->currentIndex();
-
-
-    ui->CTRL_HF_ON_POS->setEnabled(onChan);
-    ui->label_CTRL_HF_SET_CH->setEnabled(onChan);
-    ui->CTRL_HF_SET_CH->setEnabled(onChan);
-    ui->CTRL_HF_SET_POS->setEnabled(onChan && setChan);
-    ui->widget_headFreeSettings->setVisible(false);
-
-    // enable the switch-control option
-    midx = ui->CTRL_HF_MODE->model()->index(0, 0);
-    ui->CTRL_HF_MODE->model()->setData(midx, 33, Qt::UserRole - 1);
-
-    if (onChan) {
-        if (setChan && (setChan != onChan || ui->CTRL_HF_ON_POS->currentIndex() != ui->CTRL_HF_SET_POS->currentIndex())) {
-            ui->CTRL_HF_MODE->setEnabled(false);
-            ui->CTRL_HF_MODE->setCurrentIndex(0);
-        } else {
-            ui->CTRL_HF_MODE->setEnabled(true);
-            ui->widget_headFreeSettings->setVisible(true);
-            // disable the switch-control option
-            midx = ui->CTRL_HF_MODE->model()->index(0, 0);
-            ui->CTRL_HF_MODE->model()->setData(midx, 0, Qt::UserRole - 1);
-            if (!ui->CTRL_HF_MODE->currentIndex())
-                ui->CTRL_HF_MODE->setCurrentIndex(1);
-        }
-    } else {
-        disconnect(ui->CTRL_HF_SET_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
-        ui->CTRL_HF_SET_CH->setCurrentIndex(0);
-        connect(ui->CTRL_HF_SET_CH, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForHeadFreeMode(int)));
-    }
-
 }
 
 void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
@@ -1793,7 +1723,7 @@ bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
     foreach (QComboBox* cb, allRadioChanCombos) {
         cbname = cb->objectName();
         cbtxt = cb->currentText();
-        if (cbname.contains(QRegExp("^(CTRL_HF_|NAV_HDFRE).+")))
+        if (cbname.contains(QRegExp("^NAV_HDFRE_CHAN")))
             continue;
         if (portsUsed.contains(cbtxt))
             conflictPorts.append(cbtxt);
@@ -1802,15 +1732,9 @@ bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
         portsUsed.append(cbtxt);
     }
     // validate heading-free controls
-    QString hfOnChan = ui->CTRL_HF_ON_CH->currentText();
-    QString hfSetChan = ui->CTRL_HF_SET_CH->currentText();
     QString hfChan = ui->NAV_HDFRE_CHAN->currentText();
     if (ui->NAV_HDFRE_CHAN->currentIndex() && essentialPorts.contains(hfChan))
         conflictPorts.append(hfChan);
-    if (ui->CTRL_HF_ON_CH->currentIndex() && essentialPorts.contains(hfOnChan))
-        conflictPorts.append(hfOnChan);
-    if (ui->CTRL_HF_SET_CH->currentIndex() && essentialPorts.contains(hfSetChan))
-        conflictPorts.append(hfSetChan);
 
     foreach (QComboBox* cb, allRadioChanCombos) {
         if (conflictPorts.contains(cb->currentText()))
@@ -2144,7 +2068,6 @@ void QGCAutoquad::loadParametersToUI() {
     populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
     mtx_paramsAreLoading = false;
-    adjustUiForHeadFreeMode(0);
 }
 
 bool QGCAutoquad::checkAqConnected(bool interactive) {

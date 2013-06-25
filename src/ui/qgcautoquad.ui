@@ -1382,16 +1382,6 @@ padding: 1px 5px;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="6" column="3">
-                   <widget class="QLabel" name="label_CTRL_HF_ON_CH">
-                    <property name="toolTip">
-                     <string/>
-                    </property>
-                    <property name="text">
-                     <string>Head-Free On</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="3" column="2">
                    <spacer name="horizontalSpacer_2">
                     <property name="orientation">
@@ -1427,113 +1417,6 @@ padding: 1px 5px;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="6" column="4">
-                   <widget class="QComboBox" name="CTRL_HF_ON_CH">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Channel for controlling Heading Free mode on/off.  Can be same channel as HF Set Heading if position values are different.</string>
-                    </property>
-                    <property name="currentIndex">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>Off</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">2</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">3</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">4</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">5</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">6</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">7</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">8</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">9</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">10</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">11</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">12</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">13</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">14</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">15</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">16</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
                   <item row="1" column="0">
                    <widget class="QLabel" name="label_RADIO_THRO_CH">
                     <property name="toolTip">
@@ -1541,16 +1424,6 @@ padding: 1px 5px;</string>
                     </property>
                     <property name="text">
                      <string>Throttle</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="7" column="3">
-                   <widget class="QLabel" name="label_CTRL_HF_SET_CH">
-                    <property name="toolTip">
-                     <string/>
-                    </property>
-                    <property name="text">
-                     <string>HF Set Ref.</string>
                     </property>
                    </widget>
                   </item>
@@ -1969,113 +1842,6 @@ padding: 1px 5px;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="7" column="4">
-                   <widget class="QComboBox" name="CTRL_HF_SET_CH">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for setting Heading Free mode reference orientation (heading). When left at the on position, this will also engage HF Dynamic Mode after a short time (3s).  Can be same channel as HF On if position values are different.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="currentIndex">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>Off</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">2</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">3</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">4</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">5</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">6</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">7</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">8</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">9</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">10</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">11</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">12</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">13</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">14</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">15</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">16</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
                   <item row="4" column="0">
                    <widget class="QLabel" name="label_RADIO_RUDD_CH">
                     <property name="toolTip">
@@ -2183,25 +1949,6 @@ padding: 1px 5px;</string>
                       <string notr="true">16</string>
                      </property>
                     </item>
-                   </widget>
-                  </item>
-                  <item row="6" column="5" alignment="Qt::AlignLeft">
-                   <widget class="QComboBox" name="CTRL_HF_ON_POS">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Channel value/position at which the control is active. High is &amp;gt;250, Low is &amp;lt;-250, and zero is 0 +/- CTRL_DEAD_BAND.</string>
-                    </property>
                    </widget>
                   </item>
                   <item row="1" column="3">
@@ -2429,25 +2176,6 @@ padding: 1px 5px;</string>
                     </item>
                    </widget>
                   </item>
-                  <item row="7" column="5" colspan="2" alignment="Qt::AlignLeft">
-                   <widget class="QComboBox" name="CTRL_HF_SET_POS">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Channel value/position at which the control is active. High is &amp;gt;250, Low is &amp;lt;-250, and zero is 0 +/- CTRL_DEAD_BAND.</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="3" column="3">
                    <widget class="QLabel" name="label_RADIO_AUX2_CH">
                     <property name="toolTip">
@@ -2488,16 +2216,6 @@ padding: 1px 5px;</string>
                     </property>
                     <property name="text">
                      <string>Gimbal Tilt</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="3">
-                   <widget class="QLabel" name="label_NAV_HDFRE_CHAN">
-                    <property name="toolTip">
-                     <string/>
-                    </property>
-                    <property name="text">
-                     <string>Heading-Free</string>
                     </property>
                    </widget>
                   </item>
@@ -2608,59 +2326,13 @@ padding: 1px 5px;</string>
                     </item>
                    </widget>
                   </item>
-                 </layout>
-                </widget>
-               </item>
-               <item alignment="Qt::AlignTop">
-                <widget class="QWidget" name="widget_headFreeSettings" native="true">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <layout class="QFormLayout" name="formLayout_30">
-                  <property name="horizontalSpacing">
-                   <number>8</number>
-                  </property>
-                  <property name="verticalSpacing">
-                   <number>0</number>
-                  </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>4</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>4</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>4</number>
-                  </property>
-                  <item row="0" column="1">
-                   <widget class="QComboBox" name="CTRL_HF_MODE">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>130</width>
-                      <height>0</height>
-                     </size>
-                    </property>
+                  <item row="5" column="3">
+                   <widget class="QLabel" name="label_NAV_HDFRE_CHAN">
                     <property name="toolTip">
-                     <string>Default mode when heading-free is turned on.  This can be changed while disarmed using stick position commands.</string>
+                     <string/>
                     </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_CTRL_HF_MODE">
                     <property name="text">
-                     <string>Heading-Free Mode:</string>
+                     <string>Heading-Free</string>
                     </property>
                    </widget>
                   </item>
@@ -7742,6 +7414,9 @@ padding: 1px 5px;</string>
               <layout class="QHBoxLayout" name="horizontalLayout_23">
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <property name="topMargin">
+                  <number>20</number>
+                 </property>
                  <item alignment="Qt::AlignTop">
                   <widget class="QPushButton" name="pushButton_start_cal1">
                    <property name="text">
@@ -7786,6 +7461,9 @@ padding: 1px 5px;</string>
               <layout class="QHBoxLayout" name="horizontalLayout_27">
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_15">
+                 <property name="topMargin">
+                  <number>20</number>
+                 </property>
                  <item>
                   <widget class="QPushButton" name="pushButton_start_cal2">
                    <property name="text">
@@ -7830,6 +7508,9 @@ padding: 1px 5px;</string>
               <layout class="QHBoxLayout" name="horizontalLayout_28">
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_16">
+                 <property name="topMargin">
+                  <number>20</number>
+                 </property>
                  <item>
                   <widget class="QPushButton" name="pushButton_start_cal3">
                    <property name="text">
@@ -7883,6 +7564,9 @@ padding: 1px 5px;</string>
                 <layout class="QVBoxLayout" name="verticalLayout_156">
                  <property name="sizeConstraint">
                   <enum>QLayout::SetFixedSize</enum>
+                 </property>
+                 <property name="topMargin">
+                  <number>20</number>
                  </property>
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_154">
@@ -7988,6 +7672,9 @@ padding: 1px 5px;</string>
                  <property name="sizeConstraint">
                   <enum>QLayout::SetFixedSize</enum>
                  </property>
+                 <property name="topMargin">
+                  <number>20</number>
+                 </property>
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_185">
                    <property name="sizeConstraint">
@@ -8091,6 +7778,9 @@ padding: 1px 5px;</string>
                 <layout class="QVBoxLayout" name="verticalLayout_157">
                  <property name="sizeConstraint">
                   <enum>QLayout::SetFixedSize</enum>
+                 </property>
+                 <property name="topMargin">
+                  <number>20</number>
                  </property>
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_158">
@@ -8196,6 +7886,9 @@ padding: 1px 5px;</string>
                  <property name="sizeConstraint">
                   <enum>QLayout::SetFixedSize</enum>
                  </property>
+                 <property name="topMargin">
+                  <number>20</number>
+                 </property>
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_161">
                    <property name="sizeConstraint">
@@ -8294,13 +7987,52 @@ padding: 1px 5px;</string>
               <attribute name="title">
                <string>All generated parameters</string>
               </attribute>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item alignment="Qt::AlignTop">
-                <widget class="QPushButton" name="pushButton_save">
-                 <property name="text">
-                  <string>save to para file</string>
-                 </property>
-                </widget>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_18">
+                 <item>
+                  <spacer name="verticalSpacer_23">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item alignment="Qt::AlignTop">
+                  <widget class="QPushButton" name="pushButton_save">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Save File</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_24">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
                </item>
                <item>
                 <widget class="QTextEdit" name="textOutput_Users_Params"/>

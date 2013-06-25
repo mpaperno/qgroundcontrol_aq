@@ -57,7 +57,6 @@ private slots:
     // UI handlers
     void adjustUiForHardware();
     void adjustUiForFirmware();
-    void adjustUiForHeadFreeMode(int idx);
     void on_tab_aq_settings_currentChanged(QWidget *arg1);
     void on_groupBox_controlAdvancedSettings_toggled(bool arg1);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
