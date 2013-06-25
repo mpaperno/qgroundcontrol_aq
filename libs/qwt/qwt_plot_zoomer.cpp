@@ -557,8 +557,8 @@ bool QwtPlotZoomer::accept(QwtPolygon &pa) const
 QwtDoubleSize QwtPlotZoomer::minZoomSize() const
 {
     return QwtDoubleSize(
-               d_data->zoomStack[0].width() / 10e4,
-               d_data->zoomStack[0].height() / 10e4
+               d_data->zoomStack[0].width() / 10e5,
+               d_data->zoomStack[0].height() / 10e5
            );
 }
 
