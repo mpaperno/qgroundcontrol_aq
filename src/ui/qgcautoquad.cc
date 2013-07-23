@@ -948,6 +948,8 @@ void QGCAutoquad::startsim1(){
 
     QStringList Arguments;
 
+    if ( ui->checkBox_DIMU->isChecked())
+        Arguments.append("-b");
     Arguments.append("--gyo");
     Arguments.append("-p");
     Arguments.append(Sim3ParaPath);
@@ -987,6 +989,8 @@ void QGCAutoquad::startsim1b(){
 
     QStringList Arguments;
 
+    if ( ui->checkBox_DIMU->isChecked())
+        Arguments.append("-b");
     Arguments.append("--acc");
     Arguments.append("-p");
     Arguments.append(Sim3ParaPath);
@@ -1026,6 +1030,8 @@ void QGCAutoquad::startsim2(){
 
     QStringList Arguments;
 
+    if ( ui->checkBox_DIMU->isChecked())
+        Arguments.append("-b");
     Arguments.append("--acc");
     Arguments.append("--gyo");
     Arguments.append("-p");
