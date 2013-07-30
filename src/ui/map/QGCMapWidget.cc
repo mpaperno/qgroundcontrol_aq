@@ -18,7 +18,7 @@ QGCMapWidget::QGCMapWidget(QWidget *parent) :
     mapInitialized(false)
 {
     // Widget is inactive until shown
-    loadSettings(false);
+    loadSettings(true);
 }
 
 QGCMapWidget::~QGCMapWidget()
@@ -68,13 +68,12 @@ void QGCMapWidget::showEvent(QShowEvent* event)
         // Connect map updates to the adapter slots
         connect(this, SIGNAL(WPValuesChanged(WayPointItem*)), this, SLOT(handleMapWaypointEdit(WayPointItem*)));
 
-        SetCurrentPosition(pos_lat_lon);         // set the map position
+        //SetCurrentPosition(pos_lat_lon);         // set the map position
         setFocus();
 
         // Start timer
         connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateGlobalPosition()));
         mapInitialized = true;
-        //QTimer::singleShot(800, this, SLOT(loadSettings()));
     }
     updateTimer.start(maxUpdateInterval*1000);
     // Update all UAV positions
@@ -94,9 +93,11 @@ void QGCMapWidget::hideEvent(QHideEvent* event)
 void QGCMapWidget::loadSettings(bool changePosition)
 {
     // Atlantic Ocean near Africa, coordinate origin
-    double lastZoom = 1;
+    int lastZoom = 1;
     double lastLat = 0;
     double lastLon = 0;
+    bool ok;
+    int mapType;
 
     QSettings settings;
     settings.beginGroup("QGC_MAPWIDGET");
@@ -108,6 +109,9 @@ void QGCMapWidget::loadSettings(bool changePosition)
     }
     trailType = static_cast<mapcontrol::UAVTrailType::Types>(settings.value("TRAIL_TYPE", trailType).toInt());
     trailInterval = settings.value("TRAIL_INTERVAL", trailInterval).toFloat();
+    mapType = settings.value("MAP_TYPE", MapType::GoogleHybrid).toInt(&ok);
+    if (ok)
+        this->SetMapType((MapType::Types)mapType);
     settings.endGroup();
 
     // SET TRAIL TYPE
@@ -142,6 +146,7 @@ void QGCMapWidget::storeSettings()
     settings.setValue("LAST_ZOOM", ZoomReal());
     settings.setValue("TRAIL_TYPE", static_cast<int>(trailType));
     settings.setValue("TRAIL_INTERVAL", trailInterval);
+    settings.setValue("MAP_TYPE", this->GetMapType());
     settings.endGroup();
     settings.sync();
 }
