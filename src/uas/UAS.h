@@ -65,8 +65,8 @@ public:
         AGZN = 5
     }; ///< The type of battery used
 
-    static const int lipoFull = 4.2f;  ///< 100% charged voltage
-    static const int lipoEmpty = 3.5f; ///< Discharged voltage
+    static const float lipoFull = 4.2f;  ///< 100% charged voltage
+    static const float lipoEmpty = 3.5f; ///< Discharged voltage
 
     /* MANAGEMENT */
 
