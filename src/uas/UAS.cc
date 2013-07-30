@@ -38,6 +38,8 @@
 * creating the UAS.
 */
 UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
+    lipoFull(4.2f),
+    lipoEmpty(3.5f),
     uasId(id),
     startTime(QGC::groundTimeMilliseconds()),
     commStatus(COMM_DISCONNECTED),
