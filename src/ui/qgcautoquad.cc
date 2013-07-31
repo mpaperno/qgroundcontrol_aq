@@ -463,6 +463,8 @@ void QGCAutoquad::adjustUiForFirmware() {
     ui->RADIO_TYPE->addItem("PPM", 3);
     if (!aqBuildNumber || aqBuildNumber >= 1149)
         ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
+    if (!aqBuildNumber || aqBuildNumber >= 1350)
+        ui->RADIO_TYPE->addItem("M-Link (Multiplex)", 5);
     if (idx > -1 && idx <= ui->RADIO_TYPE->count())
         ui->RADIO_TYPE->setCurrentIndex(idx);
     connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
@@ -2609,7 +2611,7 @@ bool QGCAutoquad::checkAqSerialConnection(QString port) {
     if ( uas != NULL ) {
         for ( int i=0; i < uas->getLinks()->count(); i++) {
             connectedLink = uas->getLinks()->at(i);
-            qDebug() << connectedLink->isConnected() << connectedLink->getName();
+            //qDebug() << connectedLink->getName();
             if ( connectedLink->isConnected() == true && (port == "" ||  connectedLink->getName().contains(port))) {
                 IsConnected = true;
                 break;
