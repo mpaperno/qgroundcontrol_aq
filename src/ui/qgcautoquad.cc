@@ -2609,7 +2609,8 @@ bool QGCAutoquad::checkAqSerialConnection(QString port) {
     if ( uas != NULL ) {
         for ( int i=0; i < uas->getLinks()->count(); i++) {
             connectedLink = uas->getLinks()->at(i);
-            if ( connectedLink->isConnected() == true && (port == "" ||  connectedLink->getName() == port)) {
+            qDebug() << connectedLink->isConnected() << connectedLink->getName();
+            if ( connectedLink->isConnected() == true && (port == "" ||  connectedLink->getName().contains(port))) {
                 IsConnected = true;
                 break;
             }
