@@ -181,8 +181,8 @@ void LinechartWidget::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("LINECHART");
-    bool enforceGT = (!autoGroundTimeSet && timeButton->isChecked()) ? true : false;
-    if (timeButton) settings.setValue("ENFORCE_GROUNDTIME", enforceGT);
+    //bool enforceGT = (!autoGroundTimeSet && timeButton->isChecked()) ? true : false;
+    settings.setValue("ENFORCE_GROUNDTIME", timeButton->isChecked());
     if (ui.showUnitsCheckBox) settings.setValue("SHOW_UNITS", ui.showUnitsCheckBox->isChecked());
     if (ui.shortNameCheckBox) settings.setValue("SHORT_NAMES", ui.shortNameCheckBox->isChecked());
     settings.endGroup();
@@ -196,8 +196,7 @@ void LinechartWidget::readSettings()
     settings.beginGroup("LINECHART");
     if (activePlot) {
         timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-        activePlot->enforceGroundTime(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+        activePlot->enforceGroundTime(timeButton->isChecked());
         //userGroundTimeSet = settings.value("USER_GROUNDTIME", timeButton->isChecked()).toBool();
     }
     if (ui.showUnitsCheckBox) ui.showUnitsCheckBox->setChecked(settings.value("SHOW_UNITS", ui.showUnitsCheckBox->isChecked()).toBool());
@@ -273,6 +272,8 @@ void LinechartWidget::createLayout()
     timeButton->setText(tr("Ground Time"));
     timeButton->setToolTip(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
     timeButton->setWhatsThis(tr("Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time."));
+    timeButton->setChecked(true);
+    activePlot->enforceGroundTime(true);
     layout->addWidget(timeButton, 1, 4);
     layout->setColumnStretch(4, 0);
     connect(timeButton, SIGNAL(clicked(bool)), activePlot, SLOT(enforceGroundTime(bool)));
