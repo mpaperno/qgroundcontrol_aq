@@ -1106,13 +1106,13 @@ void QGCAutoquad::startsim3(){
 }
 
 void QGCAutoquad::abortcalc(){
-    if ( active_cal_mode == 3 ) {
-        ps_master.write("e");
-    }
-    else {
+//    if ( active_cal_mode == 3 ) {
+//        ps_master.write("e");
+//    }
+//    else {
     if ( ps_master.Running)
         ps_master.close();
-    }
+//    }
 }
 
 
