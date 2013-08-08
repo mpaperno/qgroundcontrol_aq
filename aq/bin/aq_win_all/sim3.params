@@ -25,21 +25,21 @@
 #define IMU_ACC_SCAL_X		+1.0
 #define IMU_ACC_SCAL_Y		+1.0
 #define IMU_ACC_SCAL_Z		+1.0
-#define IMU_ACC_ALN_XY		+0.0
-#define IMU_ACC_ALN_XZ		+0.0
-#define IMU_ACC_ALN_YX		+0.0
-#define IMU_ACC_ALN_YZ		+0.0
-#define IMU_ACC_ALN_ZX		+0.0
-#define IMU_ACC_ALN_ZY		-0.0
+#define IMU_ACC_ALGN_XY		+0.0
+#define IMU_ACC_ALGN_XZ		+0.0
+#define IMU_ACC_ALGN_YX		+0.0
+#define IMU_ACC_ALGN_YZ		+0.0
+#define IMU_ACC_ALGN_ZX		+0.0
+#define IMU_ACC_ALGN_ZY		-0.0
 
 #define IMU_GYO_SCAL_X         +0.1145900000
 #define IMU_GYO_SCAL_Y         +0.1145900000
 #define IMU_GYO_SCAL_Z         +0.1145900000
 
-#define IMU_GYO_ALGN_XY		+0.05
-#define IMU_GYO_ALGN_XZ		+0.05
-#define IMU_GYO_ALGN_YX		+0.05
-#define IMU_GYO_ALGN_YZ		+0.05
-#define IMU_GYO_ALGN_ZX		+0.05
-#define IMU_GYO_ALGN_ZY		+0.05
+#define IMU_GYO_ALGN_XY		+0.0
+#define IMU_GYO_ALGN_XZ		+0.0
+#define IMU_GYO_ALGN_YX		+0.0
+#define IMU_GYO_ALGN_YZ		+0.0
+#define IMU_GYO_ALGN_ZX		+0.0
+#define IMU_GYO_ALGN_ZY		+0.0
 
