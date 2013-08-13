@@ -954,9 +954,9 @@ void QGCAQParamWidget::loadParameters()
                     QString parameterName = wpParams.at(1);
 
                     float parameterValue = wpParams.at(2).toFloat();
-                    if ( wpParams.at(2).contains("f") ) {
+                    if ( wpParams.at(2).contains("f", Qt::CaseInsensitive) ) {
                         QString tempStr = wpParams.at(2);
-                        tempStr = tempStr.replace("f","",Qt::CaseSensitive);
+                        tempStr = tempStr.replace("f", "", Qt::CaseInsensitive);
                         parameterValue = tempStr.toFloat();
                     }
 
