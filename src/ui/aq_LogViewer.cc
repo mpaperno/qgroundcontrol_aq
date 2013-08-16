@@ -105,25 +105,35 @@ void AQLogViewer::SetupListView()
 void AQLogViewer::OpenLogFile()
 {
     QString dirPath;
+    QString fileName;
+
     if ( LastFilePath == "")
         dirPath = QCoreApplication::applicationDirPath();
     else
         dirPath = LastFilePath;
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ log file (*.LOG)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
 
-    if (fileNames.size() > 0)
+    // use native file dialog
+    fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Log File"), dir.absoluteFilePath(),
+                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+
+    // use Qt file dialog (sometimes very slow! at least on Win)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setFilter(tr("AQ log file (*.LOG)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    QStringList fileNames;
+//    if (dialog.exec())
+//    {
+//        fileNames = dialog.selectedFiles();
+//    }
+
+//    if (fileNames.size() > 0)
+    if (fileName.length())
     {
-        QFile file(fileNames.first());
+//        QFile file(fileNames.first());
+        QFile file(fileName);
         LogFile = QDir::toNativeSeparators(file.fileName());
         LastFilePath = LogFile;
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {

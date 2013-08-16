@@ -653,7 +653,7 @@ void AQLogExporter::on_toolButton_selectLogFile_clicked()
     QFileInfo fi(dirPath);
 
     // use native file dialog
-    fileName = QFileDialog::getOpenFileName(this, tr("Select Output File"), fi.absoluteFilePath(),
+    fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Log File"), fi.absoluteFilePath(),
                                             tr("AQ Log File (*.LOG);;All File Types (*.*)"));
 
     if (fileName.length()) {

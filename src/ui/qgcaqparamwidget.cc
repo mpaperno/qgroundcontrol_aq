@@ -828,29 +828,38 @@ void QGCAQParamWidget::loadParameters()
     QString fileName = "";
     QString dirPath = QDir::toNativeSeparators(fileNameFromMaster);
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("Parameter Files (*.params *.txt)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
 
-    if (fileNames.size() > 0)
-    {
-        fileName = QDir::toNativeSeparators(fileNames.at(0));
+    // use native file dialog
+    fileName = QFileDialog::getOpenFileName(this, tr("Select Saved Parameters File"), dir.absoluteFilePath(),
+                                            tr("Parameter Files (*.params *.txt)"));
+
+    // use Qt file dialog (sometimes very slow! at least on Win)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setFilter(tr("Parameter Files (*.params *.txt)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    QStringList fileNames;
+//    if (dialog.exec())
+//    {
+//        fileNames = dialog.selectedFiles();
+//    }
+
+//    if (fileNames.size() > 0)
+//    {
+//        fileName = QDir::toNativeSeparators(fileNames.at(0));
+//        fileNameFromMaster = fileName;
+//    }
+    if (fileName.length())
         fileNameFromMaster = fileName;
-    }
     else
         return;
-    if (fileName.endsWith(".txt")) {
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            return;
 
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    if (fileName.endsWith(".txt")) {
         bool userWarned = false;
 
         QTextStream in(&file);
@@ -929,10 +938,6 @@ void QGCAQParamWidget::loadParameters()
     }
     else
     {
-        QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            return;
-
         // Clear list
         //clear();
         //changedValues.clear();
