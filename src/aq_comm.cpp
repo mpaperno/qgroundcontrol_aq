@@ -1714,7 +1714,7 @@ void AQEsc32::Connect(QString port)
     fastSend = false;
     currentError = false;
 
-    seriallinkEsc32 = new SerialLink(port, 230400, false, false, 1, 1);
+    seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
     seriallinkEsc32->setEsc32Mode(false);
     connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
     connect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));

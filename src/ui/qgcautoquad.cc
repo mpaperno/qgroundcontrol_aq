@@ -66,7 +66,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
 #endif
 #ifdef Q_OS_WIN
-    ui->pushButton_var_cal3->hide();
+    //ui->pushButton_var_cal3->hide();
 #endif
 
     // populate field values
@@ -883,6 +883,14 @@ void QGCAutoquad::startcal2(){
 void QGCAutoquad::startcal3(){
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "cal" + platformExeExt);
     ps_master.setWorkingDirectory(aqBinFolderPath);
+#ifdef Q_OS_WIN
+    if ( QFile::exists(aqBinFolderPath + "testVariance") ) {
+        QFile::remove(aqBinFolderPath + "testVariance");
+    }
+    if ( QFile::exists(aqBinFolderPath + "endCal") ) {
+        QFile::remove(aqBinFolderPath + "endCal");
+    }
+#endif
 
     QStringList Arguments;
 
@@ -926,6 +934,9 @@ void QGCAutoquad::startcal3(){
 void QGCAutoquad::checkVaraince() {
 #ifdef Q_OS_WIN
     if ( active_cal_mode == 3 ) {
+        QFile f(aqBinFolderPath + "testVariance");
+        f.open(QIODevice::ReadWrite);
+        f.close();
     }
 #else
     if ( active_cal_mode == 3 ) {
@@ -1106,13 +1117,19 @@ void QGCAutoquad::startsim3(){
 }
 
 void QGCAutoquad::abortcalc(){
-//    if ( active_cal_mode == 3 ) {
-//        ps_master.write("e");
-//    }
-//    else {
-    if ( ps_master.Running)
-        ps_master.close();
-//    }
+    if ( active_cal_mode == 3 ) {
+#ifdef Q_OS_WIN
+        QFile f(aqBinFolderPath + "endCal");
+        f.open(QIODevice::ReadWrite);
+        f.close();
+#else
+        ps_master.write("e");
+#endif
+    }
+    else {
+        if ( ps_master.Running)
+            ps_master.close();
+    }
 }
 
 
