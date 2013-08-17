@@ -90,11 +90,11 @@ int AQLogParser::loggerReadHeader(FILE *fp)
             fieldsInfo.fieldActive = false;
             fieldsInfo.fieldId = logHeader[i].fieldId;
             fieldsInfo.fieldType = logHeader[i].fieldType;
-            fieldsInfo.fieldName = GetChannelsName(logHeader[i].fieldId);
-            LogChannelsStruct.append(qMakePair(GetChannelsName(fieldsInfo.fieldId), fieldsInfo));
-//            qDebug() << "FieldID=" << logHeader[i].fieldId << " Name" << GetChannelsName(logHeader[i].fieldId) << " Type" << logHeader[i].fieldType << " list" << LogChannelsStruct.count();
+            fieldsInfo.fieldName = GetChannelsName(fieldsInfo.fieldId);
+            LogChannelsStruct.append(qMakePair(fieldsInfo.fieldName, fieldsInfo));
+//            qDebug() << "FieldID=" << logHeader[i].fieldId << " Name" << fieldsInfo.fieldName << " Type" << logHeader[i].fieldType << " list" << LogChannelsStruct.count();
 
-            switch (logHeader[i].fieldType) {
+            switch (fieldsInfo.fieldType) {
                 case LOG_TYPE_DOUBLE:
                     LoggerFrameSize += 8;
                     break;
@@ -565,74 +565,70 @@ int AQLogParser::loggerReadEntryM(FILE *fp) {
                 QPair<QString,loggerFieldsAndActive_t> val_pair = LogChannelsStruct.at(i);
                 loggerFieldsAndActive_t val  = val_pair.second;
                 switch (val.fieldType) {
-                    case LOG_TYPE_DOUBLE:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_double = *(double *)buf;
-                            yValues.value(val.fieldName)->append(tmp_double);
-                        }
-                        buf += 8;
-                        break;
-                    case LOG_TYPE_FLOAT:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_float = *(float *)buf;
-                            yValues.value(val.fieldName)->append(tmp_float);
-                        }
-                        buf += 4;
-                        break;
-
-                    case LOG_TYPE_U32:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_uint32 = *(uint32_t *)buf;
-                            yValues.value(val.fieldName)->append(tmp_uint32);
-                        }
-                        buf += 4;
-                        break;
-
-                    case LOG_TYPE_S32:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_int32 = *(int32_t *)buf;
-                            yValues.value(val.fieldName)->append(tmp_int32);
-                        }
-                        buf += 4;
-                        break;
-
-                    case LOG_TYPE_U16:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_uint16 = *(uint16_t *)buf;
-                            yValues.value(val.fieldName)->append(tmp_uint16);
-                        }
-                        buf += 2;
-                        break;
-                    case LOG_TYPE_S16:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_int16 = *(int16_t *)buf;
-                            yValues.value(val.fieldName)->append(tmp_int16);
-                        }
-                        buf += 2;
-                        break;
-
-                    case LOG_TYPE_U8:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_uint8 = *(uint8_t *)buf;
-                            yValues.value(val.fieldName)->append(tmp_uint8);
-                        }
-                        buf += 1;
-                        break;
-                        case LOG_TYPE_S8:
-                        if ( val.fieldActive == 1 )
-                        {
-                            tmp_int8 = *(int8_t *)buf;
-                            yValues.value(val.fieldName)->append(tmp_int8);
-                        }
-                        buf += 1;
-                        break;
+                case LOG_TYPE_DOUBLE:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_double = *(double *)buf;
+                        yValues.value(val.fieldName)->append(tmp_double);
+                    }
+                    buf += 8;
+                    break;
+                case LOG_TYPE_FLOAT:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_float = *(float *)buf;
+                        yValues.value(val.fieldName)->append(tmp_float);
+                    }
+                    buf += 4;
+                    break;
+                case LOG_TYPE_U32:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_uint32 = *(uint32_t *)buf;
+                        yValues.value(val.fieldName)->append(tmp_uint32);
+                    }
+                    buf += 4;
+                    break;
+                case LOG_TYPE_S32:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_int32 = *(int32_t *)buf;
+                        yValues.value(val.fieldName)->append(tmp_int32);
+                    }
+                    buf += 4;
+                    break;
+                case LOG_TYPE_U16:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_uint16 = *(uint16_t *)buf;
+                        yValues.value(val.fieldName)->append(tmp_uint16);
+                    }
+                    buf += 2;
+                    break;
+                case LOG_TYPE_S16:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_int16 = *(int16_t *)buf;
+                        yValues.value(val.fieldName)->append(tmp_int16);
+                    }
+                    buf += 2;
+                    break;
+                case LOG_TYPE_U8:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_uint8 = *(uint8_t *)buf;
+                        yValues.value(val.fieldName)->append(tmp_uint8);
+                    }
+                    buf += 1;
+                    break;
+                case LOG_TYPE_S8:
+                    if ( val.fieldActive == 1 )
+                    {
+                        tmp_int8 = *(int8_t *)buf;
+                        yValues.value(val.fieldName)->append(tmp_int8);
+                    }
+                    buf += 1;
+                    break;
                 }
             }
             return 1;
@@ -1710,14 +1706,14 @@ AQEsc32::~AQEsc32()
 {
 }
 
-void AQEsc32::Connect(QString port)
+void AQEsc32::Connect(QString port, QString baud)
 {
     TimerState = 0;
     ExitCalibration = 0;
     fastSend = false;
     currentError = false;
 
-    seriallinkEsc32 = new SerialLink(port,230400,false,false,8,1);
+    seriallinkEsc32 = new SerialLink(port, baud.toInt(), false, false, 8, 1);
     seriallinkEsc32->setEsc32Mode(false);
     connect(seriallinkEsc32, SIGNAL(connected()), this, SLOT(connectedEsc32()));
     connect(seriallinkEsc32, SIGNAL(communicationError(QString,QString)), this, SLOT(communicationErrorEsc32(QString,QString)));

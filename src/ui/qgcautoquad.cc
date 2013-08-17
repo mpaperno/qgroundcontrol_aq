@@ -80,15 +80,15 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 //    ui->CTRL_HF_ON_POS->addItem("Low", -250);
 //    ui->CTRL_HF_ON_POS->setCurrentIndex(2);
 
-    ui->comboBox_mode->addItem("RPM",0);
-    ui->comboBox_mode->addItem("Open Loop",1);
-    ui->comboBox_mode->addItem("Thrust",2);
+    ui->STARTUP_MODE->addItem("Open Loop",0);
+    ui->STARTUP_MODE->addItem("CL RPM",1);
+    ui->STARTUP_MODE->addItem("CL Thrust",2);
 
-    ui->comboBox_in_mode->addItem("PWM",0);
-    ui->comboBox_in_mode->addItem("UART",1);
-    ui->comboBox_in_mode->addItem("I2C",2);
-    ui->comboBox_in_mode->addItem("CAN",3);
-    ui->comboBox_in_mode->addItem("OW", 4);
+//    ui->comboBox_in_mode->addItem("PWM",0);
+//    ui->comboBox_in_mode->addItem("UART",1);
+//    ui->comboBox_in_mode->addItem("I2C",2);
+//    ui->comboBox_in_mode->addItem("CAN",3);
+//    ui->comboBox_in_mode->addItem("OW", 4);
 
     ui->DoubleMaxCurrent->setValue(30.0);
 
@@ -104,6 +104,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->COMM_BAUD2->addItems(baudRates);
     ui->COMM_BAUD3->addItems(baudRates);
     ui->COMM_BAUD4->addItems(baudRates);
+    ui->BAUD_RATE->addItems(baudRates);
+
+    ui->comboBox_esc32PortSpeed->addItems(baudRates);
 
     QStringList flashBaudRates;
     flashBaudRates << "38400" <<  "57600" << "115200";
@@ -180,8 +183,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
-    connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+//    connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
     connect(ui->comboBox_port_esc32, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
+    connect(ui->comboBox_esc32PortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
     connect(ui->pushButton_connect_to_esc32, SIGNAL(clicked()), this, SLOT(btnConnectEsc32()));
     connect(ui->pushButton_read_config, SIGNAL(clicked()),this, SLOT(btnReadConfigEsc32()));
     connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(btnSaveToEsc32()));
@@ -363,6 +367,7 @@ void QGCAutoquad::loadSettings()
         setFwType();
     }
     ui->comboBox_fwPortSpeed->setCurrentIndex(ui->comboBox_fwPortSpeed->findText(settings.value("FW_FLASH_BAUD_RATE", 57600).toString()));
+    ui->comboBox_esc32PortSpeed->setCurrentIndex(ui->comboBox_esc32PortSpeed->findText(settings.value("ESC32_BAUD_RATE", 230400).toString()));
 
     if (settings.contains("USERS_PARAMS_FILE")) {
         UsersParamsFile = settings.value("USERS_PARAMS_FILE").toString();
@@ -418,6 +423,7 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("AUTOQUAD_FW_FILE", ui->fileLabel->text());
     settings.setValue("FW_FLASH_BAUD_RATE", ui->comboBox_fwPortSpeed->currentText());
+    settings.setValue("ESC32_BAUD_RATE", ui->comboBox_esc32PortSpeed->currentText());
 
     settings.setValue("AUTOQUAD_VARIANCE1", ui->sim3_4_var_1->text());
     settings.setValue("AUTOQUAD_VARIANCE2", ui->sim3_4_var_2->text());
@@ -1173,12 +1179,15 @@ void QGCAutoquad::abortcalc(){
 
 void QGCAutoquad::setPortNameEsc32(QString port)
 {
+    Q_UNUSED(port);
+
+    portNameEsc32 = ui->comboBox_port_esc32->currentText();
 #ifdef Q_OS_WIN
-    port = port.split("-").first();
+    portNameEsc32 = portNameEsc32.split("-").first();
 #endif
-    port = port.remove(" ");
-    portNameEsc32 = port;
-    ui->label_portName_esc32->setText(portNameEsc32);
+    portNameEsc32 = portNameEsc32.remove(" ");
+    QString portSpeed = ui->comboBox_esc32PortSpeed->currentText();
+    ui->label_portName_esc32->setText(QString("%1 @ %2 bps").arg(portNameEsc32).arg(portSpeed));
 }
 
 
@@ -1219,7 +1228,7 @@ void QGCAutoquad::flashFWEsc32() {
     ui->textFlashOutput->append("Connecting to ESC32...\n");
 
     FlashEsc32Active = true;
-    esc32->Connect(portName);
+    esc32->Connect(portName, ui->comboBox_esc32PortSpeed->currentText());
 
 }
 
@@ -1254,7 +1263,9 @@ void QGCAutoquad::Esc32GotFirmwareVersion(QString ver) {
 void QGCAutoquad::btnConnectEsc32()
 {
     if (!esc32) {
-        QString port = ui->label_portName_esc32->text();
+        QString port = portNameEsc32;
+        QString baud = ui->comboBox_esc32PortSpeed->currentText();
+
         if (checkAqSerialConnection(port)) {
             QString msg = QString("WARNING: You are already connected to AutoQuad! If you continue, you will be disconnected.\n\nDo you wish to continue connecting to ESC32?").arg(port);
             QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Disconnect AutoQuad"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
@@ -1274,7 +1285,7 @@ void QGCAutoquad::btnConnectEsc32()
         connect(esc32, SIGNAL(finishedCalibration(int)), this, SLOT(Esc32CalibrationFinished(int)));
         connect(esc32, SIGNAL(GotFirmwareVersion(QString)), this, SLOT(Esc32GotFirmwareVersion(QString)));
 
-        esc32->Connect(port);
+        esc32->Connect(port, baud);
     }
     else {
         esc32->Disconnect();
@@ -1284,58 +1295,80 @@ void QGCAutoquad::btnConnectEsc32()
 void QGCAutoquad::showConfigEsc32(QString Config)
 {
     paramEsc32.clear();
-    QString ConfigStr = Config.remove("\n");
-    QStringList RowList = ConfigStr.split("\r");
+    Config.remove(QRegExp("^.*\\[J"));
+    Config.remove("\n");
+    QStringList RowList = Config.split("\r");
     for ( int j = 0; j< RowList.length(); j++) {
         QStringList ParaList = RowList.at(j).split(" ", QString::SkipEmptyParts);
         if ( ParaList.length() >= 3)
             paramEsc32.insert(ParaList.at(0),ParaList.at(2));
     }
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32, QRegExp("^[A-Z]{2,}") );
     for ( int i = 0; i<edtList.count(); i++) {
-        //edtList.at(i)->setText("");
         QString ParaName = edtList.at(i)->objectName();
         if ( paramEsc32.contains(ParaName) )
         {
             QString value = paramEsc32.value(ParaName);
+            edtList.at(i)->setEnabled(true);
             edtList.at(i)->setText(value);
         }
+        else
+            edtList.at(i)->setEnabled(false);
     }
+
+    ui->STARTUP_MODE->setCurrentIndex(paramEsc32.value("STARTUP_MODE").toInt());
+    ui->BAUD_RATE->setCurrentIndex(ui->BAUD_RATE->findText(paramEsc32.value("BAUD_RATE")));
+
+    ui->groupBox_ESC32_ServoSettings->setVisible(paramEsc32.contains("SERVO_DUTY"));
 }
 
 void QGCAutoquad::btnSaveToEsc32() {
 
-    bool oneWritten = false;
-    bool something_gos_wrong = false;
-    int rettryToStore = 0;
+    bool oneWritten = false, something_gos_wrong = false;
+    int rettryToStore = 0, timeout = 0;
+    QString ParaName, valueText, valueEsc32;
+    QMap<QString, QString> changedParams;
+
     QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
     for ( int i = 0; i<edtList.count(); i++) {
-        QString ParaName = edtList.at(i)->objectName();
-        QString valueText = edtList.at(i)->text();
+        ParaName = edtList.at(i)->objectName();
+        valueText = edtList.at(i)->text();
         if ( paramEsc32.contains(ParaName) )
         {
-            QString valueEsc32 = paramEsc32.value(ParaName);
-            //QString valueText = edtList.at(i)->text();
-            if ( valueEsc32 != valueText) {
-                WaitForParaWriten = 1;
-                ParaNameWritten = ParaName;
-                esc32->SavePara(ParaName,valueText);
-                oneWritten = true;
-                int timeout = 0;
-                while(WaitForParaWriten >0) {
-                    if (paramEsc32Written.contains(ParaName)) {
-                        paramEsc32Written.remove(ParaName);
-                        break;
-                    }
-                    timeout++;
-                    if ( timeout > 500000) {
-                        something_gos_wrong = true;
-                        break;
-                    }
-                    QCoreApplication::processEvents();
-                }
+            valueEsc32 = paramEsc32.value(ParaName);
+            if ( valueEsc32 != valueText)
+                changedParams.insert(ParaName, valueText);
+        }
+    }
+
+    valueEsc32 = paramEsc32.value("STARTUP_MODE");
+    if (valueEsc32.toInt() != ui->STARTUP_MODE->currentIndex())
+        changedParams.insert("STARTUP_MODE", QString::number(ui->STARTUP_MODE->currentIndex()));
+
+    valueEsc32 = paramEsc32.value("BAUD_RATE");
+    if (valueEsc32 != ui->BAUD_RATE->currentText())
+        changedParams.insert("BAUD_RATE", ui->STARTUP_MODE->currentText());
+
+    QMapIterator<QString, QString> i(changedParams);
+    while (i.hasNext()) {
+        i.next();
+        WaitForParaWriten = 1;
+        ParaNameWritten = i.key();
+        esc32->SavePara(ParaNameWritten, i.value());
+        oneWritten = true;
+        timeout = 0;
+        while(WaitForParaWriten >0) {
+            if (paramEsc32Written.contains(ParaNameWritten)) {
+                paramEsc32Written.remove(ParaNameWritten);
+                break;
             }
+            timeout++;
+            if ( timeout > 500000) {
+                something_gos_wrong = true;
+                break;
+            }
+            QCoreApplication::processEvents();
         }
         if ((rettryToStore >= 3) && (something_gos_wrong))
             break;
@@ -1614,12 +1647,11 @@ void QGCAutoquad::setPortName(QString str)
 {
     Q_UNUSED(str);
 
-    QString port = ui->portName->currentText();
+    portName = ui->portName->currentText();
 #ifdef Q_OS_WIN
-    port = port.split("-").first();
+    portName = portName.split("-").first();
 #endif
-    port = port.remove(" ");
-    portName = port;
+    portName = portName.remove(" ");
     QString portSpeed = ui->comboBox_fwPortSpeed->currentText();
     ui->ComPortLabel->setText(QString("%1 @ %2 bps").arg(portName).arg(portSpeed));
 }

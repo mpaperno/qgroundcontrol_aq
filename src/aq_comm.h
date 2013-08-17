@@ -430,7 +430,7 @@ public:
     float TelemetryFrequenzy;
     QString firmwareVersion;
 
-    void Connect(QString port);
+    void Connect(QString port, QString baud);
     void Disconnect();
     void SleepThread(int msec);
     void SavePara(QString ParaName, QVariant ParaValue);
