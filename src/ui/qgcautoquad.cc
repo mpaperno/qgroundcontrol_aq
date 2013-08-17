@@ -516,25 +516,32 @@ void QGCAutoquad::addStatic()
     else
         dirPath = LastFilePath;
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Log (*.LOG)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
 
-    if (fileNames.size() > 0)
-    {
-        for ( int i=0; i<fileNames.size(); i++) {
-            QString fileNameLocale = QDir::toNativeSeparators(fileNames.at(i));
-            ui->listWidgetStatic->addItem(fileNameLocale);
-            StaticFiles.append(fileNameLocale);
-            LastFilePath = fileNameLocale;
-        }
+    // use native file dialog
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Static Log File"), dir.absoluteFilePath(),
+                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+
+    // use Qt file dialog (sometimes very slow! at least on Win)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setFilter(tr("AQ Log (*.LOG)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    QStringList fileNames;
+//    if (dialog.exec())
+//    {
+//        fileNames = dialog.selectedFiles();
+//    }
+
+//    if (fileNames.size() > 0) {
+    if (fileName.length()) {
+//        for ( int i=0; i<fileNames.size(); i++) {
+//            QString fileNameLocale = QDir::toNativeSeparators(fileNames.at(i));
+        QString fileNameLocale = QDir::toNativeSeparators(fileName);
+        ui->listWidgetStatic->addItem(fileNameLocale);
+        StaticFiles.append(fileNameLocale);
+        LastFilePath = fileNameLocale;
+//        }
     }
 }
 
@@ -556,25 +563,32 @@ void QGCAutoquad::addDynamic()
     else
         dirPath = LastFilePath;
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Log (*.LOG)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
 
-    if (fileNames.size() > 0)
-    {
-        for ( int i=0; i<fileNames.size(); i++) {
-            QString fileNameLocale = QDir::toNativeSeparators(fileNames.at(i));
-            ui->listWidgetDynamic->addItem(fileNameLocale);
-            DynamicFiles.append(fileNameLocale);
-            LastFilePath = fileNameLocale;
-        }
+    // use native file dialog
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Dynamic Log File"), dir.absoluteFilePath(),
+                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+
+    // use Qt file dialog (sometimes very slow! at least on Win)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setFilter(tr("AQ Log (*.LOG)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    QStringList fileNames;
+//    if (dialog.exec())
+//    {
+//        fileNames = dialog.selectedFiles();
+//    }
+
+//    if (fileNames.size() > 0) {
+    if (fileName.length()) {
+//        for ( int i=0; i<fileNames.size(); i++) {
+//            QString fileNameLocale = QDir::toNativeSeparators(fileNames.at(i));
+        QString fileNameLocale = QDir::toNativeSeparators(fileName);
+        ui->listWidgetDynamic->addItem(fileNameLocale);
+        DynamicFiles.append(fileNameLocale);
+        LastFilePath = fileNameLocale;
+//        }
     }
 
 }
@@ -593,21 +607,32 @@ void QGCAutoquad::delDynamic()
 void QGCAutoquad::setUsersParams() {
     QString dirPath = QDir::toNativeSeparators(UsersParamsFile);
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Parameters (*.params)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
 
-    if (fileNames.size() > 0)
-    {
-        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
-    }
+    // use native file dialog
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Parameters File"), dir.absoluteFilePath(),
+                                            tr("AQ Parameter File (*.params);;All File Types (*.*)"));
+
+    if (fileName.length())
+        ShowUsersParams(QDir::toNativeSeparators(fileName));
+    else
+        return;
+
+    // use Qt file dialog (sometimes very slow! at least on Win)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setFilter(tr("AQ Parameters (*.params)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    QStringList fileNames;
+//    if (dialog.exec())
+//    {
+//        fileNames = dialog.selectedFiles();
+//    }
+
+//    if (fileNames.size() > 0)
+//    {
+//        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
+//    }
 }
 
 void QGCAutoquad::ShowUsersParams(QString fileName) {
@@ -622,21 +647,33 @@ void QGCAutoquad::ShowUsersParams(QString fileName) {
 void QGCAutoquad::CreateUsersParams() {
     QString dirPath = UsersParamsFile ;
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ Parameter-File (*.params)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
 
-    if (fileNames.size() > 0)
-    {
-        UsersParamsFile = fileNames.at(0);
-    }
+    // use native file dialog
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Parameters File"), dir.absoluteFilePath(),
+                                            tr("AQ Parameter File (*.params);;All File Types (*.*)"));
+
+    if (fileName.length())
+        UsersParamsFile = fileName;
+    else
+        return;
+
+    // use Qt file dialog (sometimes very slow! at least on Win)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setFilter(tr("AQ Parameter-File (*.params)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    QStringList fileNames;
+//    if (dialog.exec())
+//    {
+//        fileNames = dialog.selectedFiles();
+//    }
+
+//    if (fileNames.size() > 0)
+//    {
+//        UsersParamsFile = fileNames.at(0);
+//    }
+
     if (!UsersParamsFile.endsWith(".params") )
         UsersParamsFile += ".params";
 
@@ -651,29 +688,26 @@ void QGCAutoquad::CreateUsersParams() {
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
         int ret = msgBox.exec();
         switch (ret) {
-            case QMessageBox::Yes:
-            {
-                file.close();
-                QFile::remove(UsersParamsFile );
-            }
+        case QMessageBox::Yes:
+            file.close();
+            QFile::remove(UsersParamsFile );
             break;
-            case QMessageBox::No:
-            // ok was clicked
-            break;
-            default:
-            // should never be reached
-            break;
+        default:
+            return;
         }
     }
 
-    if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
-    {
-      return;
+    if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) ) {
+        MainWindow::instance()->showInfoMessage("Warning!", tr("Could not open params file. %1").arg(file.errorString()));
+        return;
     }
+
     QDataStream stream( &file );
     stream << "";
     file.close();
-    ui->lineEdit_user_param_file->setText(QDir::toNativeSeparators(UsersParamsFile));
+
+    ShowUsersParams(UsersParamsFile);
+//    ui->lineEdit_user_param_file->setText(QDir::toNativeSeparators(UsersParamsFile));
 }
 
 void QGCAutoquad::WriteUsersParams() {
@@ -1633,27 +1667,36 @@ void QGCAutoquad::selectFWToFlash()
     else
         dirPath = LastFilePath;
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::AnyFile);
-    dialog.setFilter(tr("AQ or ESC32 firmware (*.hex)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    QStringList fileNames;
-    if (dialog.exec())
-    {
-        fileNames = dialog.selectedFiles();
-    }
 
-    if (fileNames.size() > 0)
+    // use native file dialog
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Firmware File"), dir.absoluteFilePath(),
+                                            tr("AQ or ESC32 firmware (*.hex)"));
+
+    // use Qt file dialog (sometimes very slow! at least on Win)
+//    QFileDialog dialog;
+//    dialog.setDirectory(dir.absoluteDir());
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setFilter(tr("AQ or ESC32 firmware (*.hex)"));
+//    dialog.setViewMode(QFileDialog::Detail);
+//    QStringList fileNames;
+//    if (dialog.exec())
+//    {
+//        fileNames = dialog.selectedFiles();
+//    }
+
+//    if (fileNames.size() > 0)
+    if (fileName.length())
     {
-        QString fileNameLocale = QDir::toNativeSeparators(fileNames.first());
+//        QString fileNameLocale = QDir::toNativeSeparators(fileNames.first());
+        QString fileNameLocale = QDir::toNativeSeparators(fileName);
         QFile file(fileNameLocale);
-        ui->fileLabel->setText(fileNameLocale);
-        ui->fileLabel->setToolTip(fileNameLocale);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            MainWindow::instance()->showInfoMessage("Warning!", "Could not read hex file. Permission denied.");
+            MainWindow::instance()->showInfoMessage("Warning!", tr("Could not read hex file. %1").arg(file.errorString()));
+            return;
         }
+        ui->fileLabel->setText(fileNameLocale);
+        ui->fileLabel->setToolTip(fileNameLocale);
         fileToFlash = file.fileName();
         LastFilePath = fileToFlash;
         file.close();
