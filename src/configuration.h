@@ -25,8 +25,8 @@ const int APPLICATIONVERSION = 102; // 1.0.1
 namespace QGCAUTOQUAD {
     const QString APP_NAME = "QGroundControl for AutoQuad";
     const QString APP_ORG = "AutoQuad";
-    const QString APP_VERSION_TXT = "1.3 BETA 3";
-    const int APP_VERSION = 124; // 1.2.4
+    const QString APP_VERSION_TXT = "1.3 BETA 4";
+    const int APP_VERSION = 125; // 1.2.4
 }
 
 #endif // QGC_CONFIGURATION_H
