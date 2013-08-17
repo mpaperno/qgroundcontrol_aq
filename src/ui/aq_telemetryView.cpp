@@ -41,6 +41,8 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDataFields.append(telemFieldsMeta("IMU_ACCY", unit, 8, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("IMU_ACCZ", unit, 9, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("ACC Magnitude", unit, TELEM_VALDEF_ACC_MAGNITUDE, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("ACC ROLL", unit, TELEM_VALDEF_ACC_ROLL, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("ACC PITCH", unit, TELEM_VALDEF_ACC_PITCH, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("IMU_MAGX", unit, 10, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("IMU_MAGY", unit, 11, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("IMU_MAGZ", unit, 12, msgidx, dset));
@@ -85,6 +87,17 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDataFields.append(telemFieldsMeta("RADIO_ROLL", unit, 4, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("RADIO_FLAPS", unit, 5, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("RADIO_AUX2", unit, 6, msgidx, dset));
+// these are stack names for special aq_mavlink debug version; to use, comment out MOTOR1-10 below (current as of AQ fw r204)
+//    telemDataFields.append(telemFieldsMeta("INIT", unit, 7, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("FILER", unit, 8, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("SUPERVISOR", unit, 9, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("ADC", unit, 10, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("RADIO", unit, 11, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("CONTROL", unit, 12, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("GPS", unit, 13, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("RUN", unit, 14, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("DIMU", unit, 15, msgidx, dset));
+//    telemDataFields.append(telemFieldsMeta("COMM", unit, 16, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("MOTOR1", unit, 7, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("MOTOR2", unit, 8, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("MOTOR3", unit, 9, msgidx, dset));
@@ -271,6 +284,16 @@ float AQTelemetryView::getTelemValue(const int idx) {
         y = currentValuesF->value11;
         z = currentValuesF->value12;
         ret = sqrtf(x*x + y*y + z*z);
+        break;
+    case TELEM_VALDEF_ACC_PITCH : // pure ACC-derived pitch
+        x = currentValuesF->value7;
+        z = currentValuesF->value9;
+        ret = MG::UNITS::radiansToDegrees(atan2f(x, -z));
+        break;
+    case TELEM_VALDEF_ACC_ROLL : // pure ACC-derived roll
+        y = currentValuesF->value8;
+        z = currentValuesF->value9;
+        ret = MG::UNITS::radiansToDegrees(atan2f(-y, -z));
         break;
     }
     return ret;

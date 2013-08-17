@@ -39,6 +39,11 @@ This file is part of the PIXHAWK project
 #include <QThread>
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI			3.14159265f
+#define M_PI_2			(M_PI / 2.0f)
+#endif
+
 namespace MG
 {
 const static int MAX_FLIGHT_TIME = 60 * 60 * 24 * 21;
@@ -208,6 +213,12 @@ public:
         return result;
     }
 
+    static float radiansToDegrees(float rad) {
+        return rad * (180 / M_PI);
+    }
+    static float degreesToRadians(float deg) {
+        return deg * (M_PI / 180);
+    }
 };
 
 class DISPLAY
