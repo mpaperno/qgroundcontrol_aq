@@ -438,6 +438,9 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
     case LOG_RADIO_ERRORS:
         return "LOG_RADIO_ERRORS";
         break;
+    case LOG_GMBL_TRIGGER:
+        return "LOG_GMBL_TRIGGER";
+        break;
     case LOG_NUM_IDS:
         return "LOG_NUM_IDS";
         break;

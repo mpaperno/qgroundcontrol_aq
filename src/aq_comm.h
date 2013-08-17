@@ -160,6 +160,7 @@ public:
         LOG_RADIO_CHANNEL16,
         LOG_RADIO_CHANNEL17,
         LOG_RADIO_ERRORS,
+        LOG_GMBL_TRIGGER,
         LOG_NUM_IDS
     };
 
