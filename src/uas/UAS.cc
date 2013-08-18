@@ -468,12 +468,14 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             if (systemIsArmed && this->mode != static_cast<int>(state.base_mode))
             {
                 modechanged = true;
+                uint8_t oldMode = this->mode;
                 this->mode = static_cast<int>(state.base_mode);
                 shortModeText = getShortModeTextFor(this->mode);
 
                 emit modeChanged(this->getUASID(), shortModeText, "");
 
-                modeAudio = " now in " + getAudioModeTextFor(static_cast<int>(state.base_mode));
+                if (!(this->mode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED) && !(oldMode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED))
+                    modeAudio = " now in " + getAudioModeTextFor(this->mode);
             }
 
             if (navMode != state.custom_mode)
@@ -485,10 +487,10 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             // AUDIO
             audiostring += armModeAudio;
-            if (armingchanged && (statechanged || modechanged))
+            if (armModeAudio.length() && (stateAudio.length() || modeAudio.length()))
                 audiostring += " and ";
             audiostring += modeAudio;
-            if (modechanged && statechanged)
+            if (modeAudio.length() && stateAudio.length())
                 audiostring += " and ";
             audiostring += stateAudio;
 
@@ -500,7 +502,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 //                QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
             }
 
-            if (modechanged || statechanged || armingchanged)
+            if (audiostring.length() && (modechanged || statechanged || armingchanged))
             {
 //                GAudioOutput::instance()->stopEmergency();
                 GAudioOutput::instance()->say(audiostring, audioSeverity);
@@ -1024,7 +1026,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             mavlink_mission_item_reached_t wpr;
             mavlink_msg_mission_item_reached_decode(&message, &wpr);
             waypointManager.handleWaypointReached(message.sysid, message.compid, &wpr);
-            QString text = QString("%1 reached waypoint %2").arg(audioSystemName).arg(wpr.seq);
+            QString text = tr("%1 reached waypoint %2").arg(audioSystemName).arg(wpr.seq);
             GAudioOutput::instance()->say(text);
             emit textMessageReceived(message.sysid, message.compid, 0, text);
         }
