@@ -45,6 +45,7 @@ class QtSpeech::Private {
 public:
     Private()
         :isWaitingInLoop(false),
+          onFinishObj(0L),
           onFinishSlot(0L) {}
 
     VoiceName name;
@@ -177,7 +178,7 @@ void QtSpeech::tell(QString text, QObject * obj, const char * slot) const
 {
     d->onFinishObj = obj;
     d->onFinishSlot = slot;
-    if (obj && slot)
+    if (obj != 0L && slot != 0L)
         connect(const_cast<QtSpeech *>(this), SIGNAL(finished()), obj, slot);
 
     CFStringRef cf_text = CFStringCreateWithCharacters(0,
@@ -209,7 +210,7 @@ void QtSpeech::Private::speechFinished(SpeechChannel chan, SpeechDoneUPP_ARG2 re
     foreach(QtSpeech * c, ptrs) {
         if (c && c->d->channel == chan) {
             c->finished();
-            if (c->d->onFinishObj && c->d->onFinishSlot) {
+            if (c->d->onFinishObj != 0L && c->d->onFinishSlot != 0L) {
                 disconnect(c, SIGNAL(finished()),
                            c->d->onFinishObj, c->d->onFinishSlot);
                 c->d->onFinishSlot = 0L;

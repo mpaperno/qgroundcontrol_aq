@@ -95,8 +95,9 @@ INCLUDEPATH += \
     libs \
     libs/opmapcontrol
 
+include(libs/QtSpeech/QtSpeech.pri)
+
 win32-msvc2008|win32-msvc2010 {
-    include(libs/QtSpeech/QtSpeech.pri)
 
 #    DEFINES += QGC_USE_VLC
 

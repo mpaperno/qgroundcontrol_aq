@@ -37,8 +37,8 @@ This file is part of the QGROUNDCONTROL project
 
 #include <QDebug>
 
-#if defined Q_OS_MAC
-    #include <ApplicationServices/ApplicationServices.h>
+//#if defined Q_OS_MAC
+//    #include <ApplicationServices/ApplicationServices.h>
 
 // Speech synthesis is only supported with MSVC compiler
 //#elif defined _MSC_VER2
@@ -56,12 +56,12 @@ This file is part of the QGROUNDCONTROL project
 ////using System;
 ////using System.Speech.Synthesis;
 
-#elif defined Q_OS_LINUX
-    extern "C" {
-        #include <flite/flite.h>
-        cst_voice* register_cmu_us_kal(const char* voxdir);
-    };
-#endif
+//#elif defined Q_OS_LINUX
+//    extern "C" {
+//        #include <flite/flite.h>
+//        cst_voice* register_cmu_us_kal(const char* voxdir);
+//    };
+//#endif
 
 
 
@@ -98,11 +98,13 @@ GAudioOutput::GAudioOutput(QObject* parent) : QObject(parent),
     settings.sync();
     muted = settings.value(QGC_GAUDIOOUTPUT_KEY+"muted", muted).toBool();
 
-#if defined Q_OS_WIN
+//#if defined Q_OS_WIN
     speech = new QtSpeech(this);
+
+//#if defined Q_OS_WIN
     connect(speech, SIGNAL(finished()), this, SLOT(advanceSpeechQueue()));
-#elif defined Q_OS_LINUX
-    flite_init();
+//#elif defined Q_OS_LINUX
+//    flite_init();
 //#elif defined _MSC_VER2
 //    ISpVoice * pVoice = NULL;
 //    if (FAILED(::CoInitialize(NULL)))
@@ -120,7 +122,7 @@ GAudioOutput::GAudioOutput(QObject* parent) : QObject(parent),
 //            pVoice = NULL;
 //        }
 //    }
-#endif
+//#endif
 
     // Initialize audio output
     //m_media = new Phonon::MediaObject(this);
@@ -131,14 +133,14 @@ GAudioOutput::GAudioOutput(QObject* parent) : QObject(parent),
     emergencyTimer = new QTimer();
 //    connect(emergencyTimer, SIGNAL(timeout()), this, SLOT(beep()));
 
-    switch (voiceIndex) {
-    case 0:
-        selectFemaleVoice();
-        break;
-    default:
-        selectMaleVoice();
-        break;
-    }
+//    switch (voiceIndex) {
+//    case 0:
+//        selectFemaleVoice();
+//        break;
+//    default:
+//        selectMaleVoice();
+//        break;
+//    }
 }
 
 //GAudioOutput::~GAudioOutput()
@@ -176,35 +178,39 @@ void GAudioOutput::sayText(QString text)
     if (muted || emergency)
         return;
 
-#if defined Q_OS_WIN
+//#if defined Q_OS_WIN
         //QString text = "Hello World!";
         //qDebug() << "About to say synchrounously" << text << "using voice:" << speech.name().name;
-        speech->tell(text);
-        isSpeaking = true;
+//#if defined Q_OS_WIN
+    speech->tell(text);
+//#else
+//    speech->tell(text, this, SLOT(advanceSpeechQueue()));
+//#endif
+    isSpeaking = true;
 //#elif defined _MSC_VER2
 //        SpeechSynthesizer synth = new SpeechSynthesizer();
 //        synth.SelectVoice("Microsoft Anna");
 //        synth.SpeakText(text.toStdString().c_str());
-#elif defined Q_OS_LINUX
-        QTemporaryFile file;
-        file.setFileTemplate("XXXXXX.wav");
-        if (file.open()) {
-            cst_voice* v = register_cmu_us_kal(NULL);
-            cst_wave* wav = flite_text_to_wave(text.toStdString().c_str(), v);
-            // file.fileName() returns the unique file name
-            cst_wave_save(wav, file.fileName().toStdString().c_str(), "riff");
-            //m_media->setCurrentSource(Phonon::MediaSource(file.fileName().toStdString().c_str()));
-            //m_media->play();
-        }
-#elif defined Q_OS_MAC
-        // Slashes necessary to have the right start to the sentence
-        // copying data prevents SpeakString from reading additional chars
-        text = "\\" + text;
-        QStdWString str = text.toStdWString();
-        unsigned char str2[1024] = {};
-        memcpy(str2, text.toAscii().data(), str.length());
-        SpeakString(str2);
-#endif
+//#elif defined Q_OS_LINUX
+//    QTemporaryFile file;
+//    file.setFileTemplate("XXXXXX.wav");
+//    if (file.open()) {
+//        cst_voice* v = register_cmu_us_kal(NULL);
+//        cst_wave* wav = flite_text_to_wave(text.toStdString().c_str(), v);
+//        // file.fileName() returns the unique file name
+//        cst_wave_save(wav, file.fileName().toStdString().c_str(), "riff");
+//        //m_media->setCurrentSource(Phonon::MediaSource(file.fileName().toStdString().c_str()));
+//        //m_media->play();
+//    }
+//#elif defined Q_OS_MAC
+//    // Slashes necessary to have the right start to the sentence
+//    // copying data prevents SpeakString from reading additional chars
+//    text = "\\" + text;
+//    QStdWString str = text.toStdWString();
+//    unsigned char str2[1024] = {};
+//    memcpy(str2, text.toAscii().data(), str.length());
+//    SpeakString(str2);
+//#endif
 
 }
 
@@ -228,7 +234,7 @@ bool GAudioOutput::say(QString text, int severity)
  */
 bool GAudioOutput::alert(QString text)
 {
-    if (!emergency || !muted)
+    if (!emergency && !muted)
     {
         // Play alert sound
 //        beep();

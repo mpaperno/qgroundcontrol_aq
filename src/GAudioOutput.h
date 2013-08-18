@@ -36,20 +36,20 @@ This file is part of the PIXHAWK project
 #include <QTimer>
 #include <QStringList>
 #include <QQueue>
-#ifdef Q_OS_MAC
-#include <Phonon/MediaObject>
-#include <Phonon/AudioOutput>
-#endif
-#ifdef Q_OS_LINUX
-//#include <flite/flite.h>
-#include <phonon/MediaObject>
-#include <phonon/AudioOutput>
-#endif
-#ifdef Q_OS_WIN
-#include <Phonon/MediaObject>
-#include <Phonon/AudioOutput>
+//#ifdef Q_OS_MAC
+//#include <Phonon/MediaObject>
+//#include <Phonon/AudioOutput>
+//#endif
+//#ifdef Q_OS_LINUX
+////#include <flite/flite.h>
+//#include <phonon/MediaObject>
+//#include <phonon/AudioOutput>
+//#endif
+//#ifdef Q_OS_WIN
+//#include <Phonon/MediaObject>
+//#include <Phonon/AudioOutput>
 #include <QtSpeech>
-#endif
+//#endif
 
 //#define _MSC_VER2   1
 
@@ -59,13 +59,13 @@ This file is part of the PIXHAWK project
 #endif
    */
 
-#ifdef Q_OS_LINUX2
-extern "C" {
-    cst_voice *REGISTER_VOX(const char *voxdir);
-    void UNREGISTER_VOX(cst_voice *vox);
-    cst_voice* register_cmu_us_kal16(const char *voxdir);
-}
-#endif
+//#ifdef Q_OS_LINUX2
+//extern "C" {
+//    cst_voice *REGISTER_VOX(const char *voxdir);
+//    void UNREGISTER_VOX(cst_voice *vox);
+//    cst_voice* register_cmu_us_kal16(const char *voxdir);
+//}
+//#endif
 
 /**
  * @brief Audio Output (speech synthesizer and "beep" output)
@@ -114,19 +114,19 @@ signals:
     void mutedChanged(bool);
 
 protected:
-#ifdef Q_OS_MAC
-    //NSSpeechSynthesizer
-#endif
-#ifdef Q_OS_LINUX
-    //cst_voice* voice; ///< The flite voice object
-#endif
+//#ifdef Q_OS_MAC
+//    //NSSpeechSynthesizer
+//#endif
+//#ifdef Q_OS_LINUX
+//    //cst_voice* voice; ///< The flite voice object
+//#endif
 
-#ifdef Q_OS_WIN
+//#ifdef Q_OS_WIN
     QtSpeech* speech;
-#endif
+//#endif
     int voiceIndex;   ///< The index of the flite voice to use (awb, slt, rms)
-    Phonon::MediaObject* m_media; ///< The output object for audio
-    Phonon::AudioOutput* m_audioOutput;
+//    Phonon::MediaObject* m_media; ///< The output object for audio
+//    Phonon::AudioOutput* m_audioOutput;
     bool emergency;   ///< Emergency status flag
     QTimer* emergencyTimer;
     bool muted;

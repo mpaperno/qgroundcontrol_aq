@@ -62,7 +62,9 @@ signals:
     void finished();
 
 protected:
-//    virtual void timerEvent(QTimerEvent *);
+#ifndef Q_OS_WIN
+    virtual void timerEvent(QTimerEvent *);
+#endif
 
 private:
     class Private;
@@ -70,9 +72,10 @@ private:
     QTimer* finishTimer;
 
 private slots:
+#ifdef Q_OS_WIN
     void finishTimerEvent();
+#endif
 };
 
-}; // namespace QtSpeech_v1
+} // namespace QtSpeech_v1
 #endif // QtSpeech_H
-

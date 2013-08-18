@@ -127,7 +127,7 @@ void QtSpeech::tell(QString text, QObject * obj, const char * slot) const
 
     d->onFinishObj = obj;
     d->onFinishSlot = slot;
-    if (obj && slot)
+    if (obj != 0L && slot != 0L)
         connect(const_cast<QtSpeech *>(this), SIGNAL(finished()), obj, slot);
 
     QtSpeech_th * th = new QtSpeech_th;
