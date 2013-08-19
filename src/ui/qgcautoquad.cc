@@ -83,6 +83,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->STARTUP_MODE->addItem("Open Loop",0);
     ui->STARTUP_MODE->addItem("CL RPM",1);
     ui->STARTUP_MODE->addItem("CL Thrust",2);
+    ui->STARTUP_MODE->addItem("Servo (v1.5+)",3);
 
 //    ui->comboBox_in_mode->addItem("PWM",0);
 //    ui->comboBox_in_mode->addItem("UART",1);
@@ -152,6 +153,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->checkBox_raw_value->hide();
     ui->form_mot_exponent_settings->hide();
     ui->label_ctrl_chan_pos->hide();
+    ui->ComPortLabel->hide();
+    ui->label_portName_esc32->hide();
 
     ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
 //    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
@@ -187,15 +190,17 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->comboBox_port_esc32, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
     connect(ui->comboBox_esc32PortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
     connect(ui->pushButton_connect_to_esc32, SIGNAL(clicked()), this, SLOT(btnConnectEsc32()));
-    connect(ui->pushButton_read_config, SIGNAL(clicked()),this, SLOT(btnReadConfigEsc32()));
-    connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()),this,SLOT(btnSaveToEsc32()));
-    connect(ui->pushButton_esc32_read_arm_disarm, SIGNAL(clicked()),this,SLOT(btnArmEsc32()));
-    connect(ui->pushButton_esc32_read_start_stop, SIGNAL(clicked()),this,SLOT(btnStartStopEsc32()));
-    connect(ui->pushButton_send_rpm, SIGNAL(clicked()),this,SLOT(btnSetRPM()));
-    connect(ui->pushButton_start_calibration, SIGNAL(clicked()),this,SLOT(Esc32StartCalibration()));
-    connect(ui->pushButton_logging, SIGNAL(clicked()),this,SLOT(Esc32StartLogging()));
-    connect(ui->pushButton_read_load_def, SIGNAL(clicked()),this,SLOT(Esc32ReadConf()));
-    connect(ui->pushButton_reload_conf, SIGNAL(clicked()),this,SLOT(Esc32ReLoadConf()));
+    connect(ui->pushButton_read_config, SIGNAL(clicked()), this, SLOT(btnReadConfigEsc32()));
+    connect(ui->pushButton_send_to_esc32, SIGNAL(clicked()), this, SLOT(btnSaveToEsc32()));
+    connect(ui->pushButton_esc32_read_arm_disarm, SIGNAL(clicked()), this, SLOT(btnArmEsc32()));
+    connect(ui->pushButton_esc32_read_start_stop, SIGNAL(clicked()), this, SLOT(btnStartStopEsc32()));
+    connect(ui->pushButton_send_rpm, SIGNAL(clicked()), this, SLOT(btnSetRPM()));
+    connect(ui->pushButton_start_calibration, SIGNAL(clicked()), this, SLOT(Esc32StartCalibration()));
+    connect(ui->pushButton_logging, SIGNAL(clicked()), this, SLOT(Esc32StartLogging()));
+    connect(ui->pushButton_read_load_def, SIGNAL(clicked()), this, SLOT(Esc32LoadDefaultConf()));
+    connect(ui->pushButton_reload_conf, SIGNAL(clicked()), this, SLOT(Esc32ReLoadConf()));
+    connect(ui->pushButton_esc32_saveToFile, SIGNAL(clicked()), this, SLOT(Esc32SaveParamsToFile()));
+    connect(ui->pushButton_esc32_loadFromFile, SIGNAL(clicked()), this, SLOT(Esc32LoadParamsFromFile()));
 
     connect(ui->pushButton_Add_Static, SIGNAL(clicked()),this,SLOT(addStatic()));
     connect(ui->pushButton_Remov_Static, SIGNAL(clicked()),this,SLOT(delStatic()));
@@ -1188,6 +1193,7 @@ void QGCAutoquad::setPortNameEsc32(QString port)
     portNameEsc32 = portNameEsc32.remove(" ");
     QString portSpeed = ui->comboBox_esc32PortSpeed->currentText();
     ui->label_portName_esc32->setText(QString("%1 @ %2 bps").arg(portNameEsc32).arg(portSpeed));
+    ui->comboBox_port_esc32->setToolTip(ui->comboBox_port_esc32->currentText());
 }
 
 
@@ -1279,7 +1285,7 @@ void QGCAutoquad::btnConnectEsc32()
         connect(esc32, SIGNAL(Esc32Connected()), this, SLOT(Esc32Connected()));
         connect(esc32, SIGNAL(ESc32Disconnected()), this, SLOT(ESc32Disconnected()));
         connect(esc32, SIGNAL(getCommandBack(int)), this, SLOT(Esc32CaliGetCommand(int)));
-        connect(esc32, SIGNAL(ShowConfig(QString)), this, SLOT(showConfigEsc32(QString)));
+        connect(esc32, SIGNAL(ShowConfig(QString)), this, SLOT(Esc32LoadConfig(QString)));
         connect(esc32, SIGNAL(Esc32ParaWritten(QString)), this, SLOT(ParaWrittenEsc32(QString)));
         connect(esc32, SIGNAL(Esc32CommandWritten(int,QVariant,QVariant)), this, SLOT(CommandWrittenEsc32(int,QVariant,QVariant)));
         connect(esc32, SIGNAL(finishedCalibration(int)), this, SLOT(Esc32CalibrationFinished(int)));
@@ -1292,7 +1298,7 @@ void QGCAutoquad::btnConnectEsc32()
     }
 }
 
-void QGCAutoquad::showConfigEsc32(QString Config)
+void QGCAutoquad::Esc32LoadConfig(QString Config)
 {
     paramEsc32.clear();
     Config.remove(QRegExp("^.*\\[J"));
@@ -1304,28 +1310,34 @@ void QGCAutoquad::showConfigEsc32(QString Config)
             paramEsc32.insert(ParaList.at(0),ParaList.at(2));
     }
 
+    Esc32ShowConfig(paramEsc32);
+}
+
+void QGCAutoquad::Esc32ShowConfig(QMap<QString, QString> paramPairs, bool disableMissing) {
     QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32, QRegExp("^[A-Z]{2,}") );
     for ( int i = 0; i<edtList.count(); i++) {
         QString ParaName = edtList.at(i)->objectName();
-        if ( paramEsc32.contains(ParaName) )
+        if ( paramPairs.contains(ParaName) )
         {
-            QString value = paramEsc32.value(ParaName);
             edtList.at(i)->setEnabled(true);
-            edtList.at(i)->setText(value);
+            edtList.at(i)->setText(paramPairs.value(ParaName));
         }
-        else
+        else if (disableMissing)
             edtList.at(i)->setEnabled(false);
     }
 
-    ui->STARTUP_MODE->setCurrentIndex(paramEsc32.value("STARTUP_MODE").toInt());
-    ui->BAUD_RATE->setCurrentIndex(ui->BAUD_RATE->findText(paramEsc32.value("BAUD_RATE")));
+    if (paramPairs.contains("STARTUP_MODE"))
+        ui->STARTUP_MODE->setCurrentIndex(paramPairs.value("STARTUP_MODE").toInt());
+    if (paramPairs.contains("BAUD_RATE"))
+        ui->BAUD_RATE->setCurrentIndex(ui->BAUD_RATE->findText(paramPairs.value("BAUD_RATE")));
 
-    ui->groupBox_ESC32_ServoSettings->setVisible(paramEsc32.contains("SERVO_DUTY"));
+    if (disableMissing)
+        ui->groupBox_ESC32_ServoSettings->setVisible(paramPairs.contains("SERVO_DUTY"));
 }
 
 void QGCAutoquad::btnSaveToEsc32() {
 
-    bool oneWritten = false, something_gos_wrong = false;
+    bool something_gos_wrong = false;
     int rettryToStore = 0, timeout = 0;
     QString ParaName, valueText, valueEsc32;
     QMap<QString, QString> changedParams;
@@ -1337,18 +1349,20 @@ void QGCAutoquad::btnSaveToEsc32() {
         if ( paramEsc32.contains(ParaName) )
         {
             valueEsc32 = paramEsc32.value(ParaName);
-            if ( valueEsc32 != valueText)
+            if ( valueEsc32 != valueText || skipParamChangeCheck)
                 changedParams.insert(ParaName, valueText);
         }
     }
 
     valueEsc32 = paramEsc32.value("STARTUP_MODE");
-    if (valueEsc32.toInt() != ui->STARTUP_MODE->currentIndex())
+    if (valueEsc32.toInt() != ui->STARTUP_MODE->currentIndex() || skipParamChangeCheck)
         changedParams.insert("STARTUP_MODE", QString::number(ui->STARTUP_MODE->currentIndex()));
 
     valueEsc32 = paramEsc32.value("BAUD_RATE");
-    if (valueEsc32 != ui->BAUD_RATE->currentText())
-        changedParams.insert("BAUD_RATE", ui->STARTUP_MODE->currentText());
+    if (valueEsc32 != ui->BAUD_RATE->currentText() || skipParamChangeCheck)
+        changedParams.insert("BAUD_RATE", ui->BAUD_RATE->currentText());
+
+    Esc32UpdateStatusText("Writing config...");
 
     QMapIterator<QString, QString> i(changedParams);
     while (i.hasNext()) {
@@ -1356,7 +1370,6 @@ void QGCAutoquad::btnSaveToEsc32() {
         WaitForParaWriten = 1;
         ParaNameWritten = i.key();
         esc32->SavePara(ParaNameWritten, i.value());
-        oneWritten = true;
         timeout = 0;
         while(WaitForParaWriten >0) {
             if (paramEsc32Written.contains(ParaNameWritten)) {
@@ -1366,6 +1379,7 @@ void QGCAutoquad::btnSaveToEsc32() {
             timeout++;
             if ( timeout > 500000) {
                 something_gos_wrong = true;
+                rettryToStore++;
                 break;
             }
             QCoreApplication::processEvents();
@@ -1374,22 +1388,92 @@ void QGCAutoquad::btnSaveToEsc32() {
             break;
     }
 
-    if (( oneWritten ) && (!something_gos_wrong))
+    if (changedParams.size()&& !something_gos_wrong) {
+        skipParamChangeCheck = false;
+        Esc32UpdateStatusText(tr("Wrote %1 params.").arg(changedParams.size()));
         saveEEpromEsc32();
-    else if (something_gos_wrong) {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Error");
-        msgBox.setInformativeText("Something went wrong trying to store the values. Please retry!");
-        msgBox.setWindowModality(Qt::ApplicationModal);
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.exec();
-    }
+    } else if (something_gos_wrong) {
+        Esc32UpdateStatusText("Error saving config.");
+        MainWindow::instance()->showCriticalMessage("Error!", tr("Something went wrong trying to store the configuration. Please retry!"));
+    } else
+        Esc32UpdateStatusText("No changed params.");
 
 }
 
-void QGCAutoquad::btnReadConfigEsc32() {
-    esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,0.0f, 0.0f, 0, false);
-    esc32->ReadConfigEsc32();
+void QGCAutoquad::Esc32SaveParamsToFile()
+{
+    QString suggestPath = "./esc32.txt";
+    if (LastFilePath.length()) {
+        QFileInfo fi(LastFilePath);
+        suggestPath = fi.absolutePath() + "/" + suggestPath;
+    }
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Select or Create ESC32 Settings File"), suggestPath,
+                                                    tr("Parameter File (*.txt);;All File Types (*.*)"));
+    if (!fileName.length())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        MainWindow::instance()->showCriticalMessage("Error!", tr("Could not open params file. %1").arg(file.errorString()));
+        return;
+    }
+
+    LastFilePath = fileName;
+    Esc32UpdateStatusText("Saving to file...");
+
+    QTextStream in(&file);
+
+    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32, QRegExp("^[A-Z]{2,}") );
+    for ( int i = 0; i<edtList.count(); i++) {
+        if (edtList.at(i)->text().length())
+            in << edtList.at(i)->objectName() << "\t" << edtList.at(i)->text() << "\n";
+    }
+
+    in << "STARTUP_MODE" << "\t" << ui->STARTUP_MODE->currentIndex() << "\n";
+    in << "BAUD_RATE" << "\t" << ui->BAUD_RATE->currentText() << "\n";
+
+    in.flush();
+    file.close();
+
+    Esc32UpdateStatusText("Saved to file.");
+}
+
+void QGCAutoquad::Esc32LoadParamsFromFile() {
+    QString dirPath = QDir::toNativeSeparators(LastFilePath);
+    QFileInfo dir(dirPath);
+
+    // use native file dialog
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Saved Parameters File"), dir.absoluteFilePath(),
+                                            tr("Parameter Files (*.txt);;All File Types (*.*)"));
+
+    if (!fileName.length())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        MainWindow::instance()->showCriticalMessage("Error!", tr("Could not open params file. %1").arg(file.errorString()));
+        return;
+    }
+
+    LastFilePath = fileName;
+
+    QTextStream in(&file);
+    QMap<QString, QString> loadedParams;
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        qDebug() << line;
+        if (line.contains(QRegExp("^[A-Z\\d_]{2,}[\\t ]+[\\d\\+\\-]"))) {
+            QStringList paramPair = line.split(QRegExp("[\\t ]"), QString::SkipEmptyParts);
+            qDebug() << paramPair.at(0);
+            if (paramPair.size() == 2)
+                loadedParams.insert(paramPair.at(0), paramPair.at(1));
+        }
+    }
+
+    Esc32UpdateStatusText("Loaded from file.");
+
+    Esc32ShowConfig(loadedParams, false);
 }
 
 void QGCAutoquad::btnArmEsc32()
@@ -1434,20 +1518,38 @@ void QGCAutoquad::ParaWrittenEsc32(QString ParaName) {
 }
 
 void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2) {
-    if ( CommandName == esc32->BINARY_COMMAND_ARM) {
+    switch (CommandName) {
+    case esc32->BINARY_COMMAND_ARM :
         ui->pushButton_esc32_read_arm_disarm->setText("disarm");
-    }
-    if ( CommandName == esc32->BINARY_COMMAND_DISARM) {
+        break;
+    case esc32->BINARY_COMMAND_DISARM :
         ui->pushButton_esc32_read_arm_disarm->setText("arm");
-    }
-    if ( CommandName == esc32->BINARY_COMMAND_START) {
+        break;
+    case esc32->BINARY_COMMAND_START :
         ui->pushButton_esc32_read_start_stop->setText("stop");
-    }
-    if ( CommandName == esc32->BINARY_COMMAND_STOP) {
+        break;
+    case esc32->BINARY_COMMAND_STOP :
         ui->pushButton_esc32_read_start_stop->setText("start");
-    }
-    if ( CommandName == esc32->BINARY_COMMAND_RPM) {
+        break;
+    case esc32->BINARY_COMMAND_RPM :
         ui->spinBox_rpm->setValue(V1.toInt());
+        break;
+    case esc32->BINARY_COMMAND_CONFIG :
+        switch (V1.toInt()) {
+        case 0 :
+            Esc32UpdateStatusText("Loaded config from flash.");
+            skipParamChangeCheck = false;
+            break;
+        case 1 :
+            Esc32UpdateStatusText("Wrote config to flash.");
+            skipParamChangeCheck = false;
+            break;
+        case 2 :
+            Esc32UpdateStatusText("Loaded default config.");
+            skipParamChangeCheck = true;
+            break;
+        }
+        break;
     }
 }
 
@@ -1471,16 +1573,11 @@ void QGCAutoquad::saveEEpromEsc32()
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     int ret = msgBox.exec();
     switch (ret) {
-        case QMessageBox::Yes:
-        {
-            esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,1.0f, 0.0f, 1, false);
-        }
+    case QMessageBox::Yes :
+        esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,1.0f, 0.0f, 1, false);
         break;
-        case QMessageBox::No:
-        break;
-        default:
-        // should never be reached
-        break;
+    default :
+        return;
     }
 }
 
@@ -1488,6 +1585,8 @@ void QGCAutoquad::Esc32Connected(){
     if ( !FlashEsc32Active ){
         esc32->CheckVersion();
         esc32->ReadConfigEsc32();
+        skipParamChangeCheck = false;
+        Esc32UpdateStatusText("Loaded current config.");
     } else {
         ui->textFlashOutput->append("Serial link connected. Attemtping bootloader mode...\n");
         esc32->SetToBootMode();
@@ -1500,6 +1599,7 @@ void QGCAutoquad::ESc32Disconnected() {
     esc32 = NULL;
     ui->pushButton_connect_to_esc32->setText("connect esc32");
     ui->label_esc32_fw_version->setText("FW version: [not connected]");
+    Esc32UpdateStatusText("Disconnected.");
 }
 
 void QGCAutoquad::Esc32StartLogging() {
@@ -1622,20 +1722,32 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
     }
 }
 
-void QGCAutoquad::Esc32ReadConf() {
+void QGCAutoquad::btnReadConfigEsc32() {
+    Esc32UpdateStatusText("Requesting config...");
+    esc32->ReadConfigEsc32();
+    skipParamChangeCheck = false;
+    Esc32UpdateStatusText("Loaded current config.");
+}
+
+void QGCAutoquad::Esc32LoadDefaultConf() {
+    Esc32UpdateStatusText("Loading defaults...");
     esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,2.0f, 0.0f, 1, false);
-    esc32->SwitchFromBinaryToAscii();
     esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::Esc32ReLoadConf() {
+    Esc32UpdateStatusText("Loading stored config...");
     esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,0.0f, 0.0f, 1, false);
-    esc32->SwitchFromBinaryToAscii();
     esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::Esc32CaliGetCommand(int Command){
     esc32->SetCommandBack(Command);
+}
+
+void QGCAutoquad::Esc32UpdateStatusText(QString text){
+    ui->label_esc32_configStatusText->setText("<i>" + text + "</i>");
+    ui->label_esc32_configStatusText->setToolTip(text);
 }
 
 
@@ -1654,6 +1766,7 @@ void QGCAutoquad::setPortName(QString str)
     portName = portName.remove(" ");
     QString portSpeed = ui->comboBox_fwPortSpeed->currentText();
     ui->ComPortLabel->setText(QString("%1 @ %2 bps").arg(portName).arg(portSpeed));
+    ui->portName->setToolTip(ui->portName->currentText());
 }
 
 void QGCAutoquad::setupPortList()

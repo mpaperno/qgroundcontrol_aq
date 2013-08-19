@@ -434,7 +434,7 @@ public:
     void Disconnect();
     void SleepThread(int msec);
     void SavePara(QString ParaName, QVariant ParaValue);
-    void SwitchFromBinaryToAscii();
+    int SwitchFromBinaryToAscii();
     int SwitchFromAsciiToBinary();
     void sendCommand(int command, float Value1, float Value2, int num, bool withOutCheck);
     void ReadConfigEsc32();

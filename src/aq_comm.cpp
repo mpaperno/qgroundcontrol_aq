@@ -1748,10 +1748,9 @@ void AQEsc32::Disconnect()
 }
 
 void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
-    if ( esc32BinaryMode == 0)
-    {
-        SwitchFromAsciiToBinary();
-    }
+    if ( !SwitchFromAsciiToBinary() )
+        return;
+
     for ( int i = 0; i<5; i++) {
         StepMessageFromEsc32 = 4;
         ParaNameLastSend = ParaName;
@@ -1780,13 +1779,8 @@ void AQEsc32::SavePara(QString ParaName, QVariant ParaValue) {
 }
 
 void AQEsc32::sendCommand(int command, float Value1, float Value2, int num, bool withOutCheck ){
-    if ( esc32BinaryMode == 0)
-    {
-        if ( SwitchFromAsciiToBinary() == 0 ) {
-            qDebug() << "Error switch to binary mode!";
-            return;
-        }
-    }
+    if ( !SwitchFromAsciiToBinary() )
+        return;
 
     command_ACK_NACK = 0;
     for ( int i = 0; i<5; i++) {
@@ -2194,6 +2188,8 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
 
 void AQEsc32::SetToBootMode() {
     QByteArray transmit;
+    if (!SwitchFromBinaryToAscii())
+        return;
     bootloaderInitReturned = false;
     BootloaderMessage = "";
     SleepThread(500);
@@ -2212,6 +2208,8 @@ void AQEsc32::emitBootModeTimeout() {
 
 void AQEsc32::CheckVersion() {
     QByteArray transmit;
+    if (!SwitchFromBinaryToAscii())
+        return;
     SleepThread(500);
     StepMessageFromEsc32 = 6;
     transmit.append("version\n");
@@ -2220,6 +2218,8 @@ void AQEsc32::CheckVersion() {
 
 void AQEsc32::ReadConfigEsc32() {
     QByteArray transmit;
+    if (!SwitchFromBinaryToAscii())
+        return;
     SleepThread(500);
     StepMessageFromEsc32 = 1;
     transmit.append("set list\n");
@@ -2228,6 +2228,9 @@ void AQEsc32::ReadConfigEsc32() {
 
 int AQEsc32::SwitchFromAsciiToBinary()
 {
+    if (esc32BinaryMode)
+        return 1;
+
     StepMessageFromEsc32 = 3;
     QByteArray transmit;
     transmit.append("binary\n");
@@ -2236,23 +2239,31 @@ int AQEsc32::SwitchFromAsciiToBinary()
     while ( esc32BinaryMode == 0) {
         QCoreApplication::processEvents();
         TimeOutWaiting++;
-        if (TimeOutWaiting > 100000 )
-                return 0;
+        if (TimeOutWaiting > 100000 ) {
+            qDebug() << "Error switch to binary mode!";
+            return 0;
+        }
     }
     return 1;
 }
 
-void AQEsc32::SwitchFromBinaryToAscii()
+int AQEsc32::SwitchFromBinaryToAscii()
 {
+    if (!esc32BinaryMode)
+        return 1;
+
     StepMessageFromEsc32 = 2;
     commandSeqIdBack = esc32SendCommand(BINARY_COMMAND_CLI, 0.0, 0.0, 0);
     TimeOutWaiting = 0;
     while ( esc32BinaryMode == 1) {
         QCoreApplication::processEvents();
         TimeOutWaiting++;
-        if (TimeOutWaiting > 100000 )
-                break;
+        if (TimeOutWaiting > 100000 ) {
+            qDebug() << "Error switch to ascii mode!";
+            return 0;
+        }
     }
+    return 1;
 }
 
 int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2, int n) {

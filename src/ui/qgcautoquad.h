@@ -38,6 +38,7 @@ public:
     void populateButtonGroups(QObject *parent);
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
     bool checkAqConnected(bool interactive = false);
+    void Esc32UpdateStatusText(QString text);
 
 protected:
     void showEvent(QShowEvent* event);
@@ -116,9 +117,11 @@ private slots:
     void setPortNameEsc32(QString port);
     void btnConnectEsc32();
     void flashFWEsc32();
-    void showConfigEsc32(QString Config);
-    void btnReadConfigEsc32();
+    void Esc32LoadConfig(QString Config);
+    void Esc32ShowConfig(QMap<QString, QString> paramPairs, bool disableMissing = 1);
     void btnSaveToEsc32();
+    void Esc32SaveParamsToFile();
+    void Esc32LoadParamsFromFile();
     void btnArmEsc32();
     void btnStartStopEsc32();
     void btnSetRPM();
@@ -128,7 +131,8 @@ private slots:
     void ESc32Disconnected();
     void Esc32Connected();
     void Esc32StartCalibration();
-    void Esc32ReadConf();
+    void btnReadConfigEsc32();
+    void Esc32LoadDefaultConf();
     void Esc32ReLoadConf();
     void Esc32CaliGetCommand(int Command);
     void Esc32StartLogging();
@@ -220,6 +224,7 @@ private:
     int WaitForParaWriten;
     int Esc32CalibrationMode;
     bool FlashEsc32Active;
+    bool skipParamChangeCheck;
     QString portNameEsc32;
     QString FwFileForEsc32;
     QString ParaNameWritten;

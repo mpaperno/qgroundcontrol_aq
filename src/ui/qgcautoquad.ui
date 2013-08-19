@@ -6423,6 +6423,12 @@ padding: 1px 5px;</string>
               <string>link esc32</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
+              <property name="leftMargin">
+               <number>7</number>
+              </property>
+              <property name="rightMargin">
+               <number>7</number>
+              </property>
               <item>
                <widget class="QComboBox" name="comboBox_port_esc32">
                 <property name="sizePolicy">
@@ -6474,30 +6480,128 @@ padding: 1px 5px;</string>
                </spacer>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_read_config">
+               <widget class="QLabel" name="label_16">
                 <property name="text">
-                 <string>read config</string>
+                 <string>Settings:</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_read_load_def">
+               <widget class="QPushButton" name="pushButton_read_config">
+                <property name="toolTip">
+                 <string>Gets the current configuration parameters in ESC32 volatile memory, and displays them.</string>
+                </property>
                 <property name="text">
-                 <string>load default</string>
+                 <string>read current config</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_send_to_esc32">
+                <property name="toolTip">
+                 <string>Saves currently displayed parameters to ESC32 memory (with option to save to flash memory).</string>
+                </property>
                 <property name="text">
-                 <string>write config</string>
+                 <string>send config to esc32</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_reload_conf">
+                <property name="toolTip">
+                 <string>Loads parameter values stored in flash memory to volatile memory, requests them, and then displays them here.</string>
+                </property>
                 <property name="text">
-                 <string>reload config</string>
+                 <string>reload saved config</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_read_load_def">
+                <property name="toolTip">
+                 <string>Loads default parameter values into ESC32 volatile memory, requests them, and then displays them here.</string>
+                </property>
+                <property name="text">
+                 <string>load default config</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_27">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>10</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_esc32_saveToFile">
+                <property name="toolTip">
+                 <string>Save displayed values to a text file on your computer (esc32.txt format).</string>
+                </property>
+                <property name="text">
+                 <string>save to file</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_esc32_loadFromFile">
+                <property name="toolTip">
+                 <string>Load saved values from a text file on your computer (esc32.txt format), and display them (does not send to ESC32).</string>
+                </property>
+                <property name="text">
+                 <string>load from file</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_28">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>5</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_esc32_configStatusText">
+                <property name="font">
+                 <font>
+                  <italic>true</italic>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">text-decoration: italic;</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::RichText</enum>
+                </property>
+                <property name="scaledContents">
+                 <bool>true</bool>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
                 </property>
                </widget>
               </item>
@@ -6748,7 +6852,7 @@ padding: 1px 5px;</string>
            <item row="2" column="2" alignment="Qt::AlignTop">
             <widget class="QGroupBox" name="groupBox_ESC32_ServoSettings">
              <property name="title">
-              <string>Stepper/Servo Motor Control</string>
+              <string>Servo Mode</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_19">
               <item>
@@ -7028,6 +7132,189 @@ padding: 1px 5px;</string>
              </layout>
             </widget>
            </item>
+           <item row="0" column="2" rowspan="2">
+            <widget class="QGroupBox" name="groupBox_7">
+             <property name="title">
+              <string>Calibrated Terms</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <layout class="QFormLayout" name="formLayout_38">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_151">
+                  <property name="text">
+                   <string>CL 1:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="CL1TERM">
+                  <property name="toolTip">
+                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="CL2TERM">
+                  <property name="toolTip">
+                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_152">
+                  <property name="text">
+                   <string>CL 2:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_153">
+                  <property name="text">
+                   <string>CL 3:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="CL3TERM">
+                  <property name="toolTip">
+                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="CL4TERM">
+                  <property name="toolTip">
+                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_154">
+                  <property name="text">
+                   <string>CL 4:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="CL5TERM">
+                  <property name="toolTip">
+                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_123">
+                  <property name="text">
+                   <string>CL 5:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QLineEdit" name="FF1TERM">
+                  <property name="toolTip">
+                   <string>Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="label_149">
+                  <property name="text">
+                   <string>FF 1:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QLineEdit" name="FF2TERM">
+                  <property name="toolTip">
+                   <string>Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="label_150">
+                  <property name="text">
+                   <string>FF 2:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="9" column="1">
+                 <widget class="QLineEdit" name="THR1TERM"/>
+                </item>
+                <item row="9" column="0">
+                 <widget class="QLabel" name="label_165">
+                  <property name="text">
+                   <string>THR 1:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="0">
+                 <widget class="QLabel" name="label_169">
+                  <property name="text">
+                   <string>THR 2:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="1">
+                 <widget class="QLineEdit" name="THR2TERM"/>
+                </item>
+                <item row="5" column="1">
+                 <spacer name="horizontalSpacer_14">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="8" column="1">
+                 <spacer name="horizontalSpacer_15">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="4" column="1" rowspan="3">
+            <spacer name="verticalSpacer_26">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="2" rowspan="3">
+            <spacer name="verticalSpacer_25">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item row="2" column="1">
             <widget class="QGroupBox" name="groupBox_8">
              <property name="title">
@@ -7239,189 +7526,6 @@ padding: 1px 5px;</string>
               </item>
              </layout>
             </widget>
-           </item>
-           <item row="0" column="2" rowspan="2">
-            <widget class="QGroupBox" name="groupBox_7">
-             <property name="title">
-              <string>Calibrated Terms</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
-              <item>
-               <layout class="QFormLayout" name="formLayout_38">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_151">
-                  <property name="text">
-                   <string>CL 1:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CL1TERM">
-                  <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CL2TERM">
-                  <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_152">
-                  <property name="text">
-                   <string>CL 2:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_153">
-                  <property name="text">
-                   <string>CL 3:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CL3TERM">
-                  <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CL4TERM">
-                  <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_154">
-                  <property name="text">
-                   <string>CL 4:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLineEdit" name="CL5TERM">
-                  <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="label_123">
-                  <property name="text">
-                   <string>CL 5:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="1">
-                 <widget class="QLineEdit" name="FF1TERM">
-                  <property name="toolTip">
-                   <string>Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="label_149">
-                  <property name="text">
-                   <string>FF 1:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="1">
-                 <widget class="QLineEdit" name="FF2TERM">
-                  <property name="toolTip">
-                   <string>Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="0">
-                 <widget class="QLabel" name="label_150">
-                  <property name="text">
-                   <string>FF 2:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="9" column="1">
-                 <widget class="QLineEdit" name="THR1TERM"/>
-                </item>
-                <item row="9" column="0">
-                 <widget class="QLabel" name="label_165">
-                  <property name="text">
-                   <string>THR 1:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="10" column="0">
-                 <widget class="QLabel" name="label_169">
-                  <property name="text">
-                   <string>THR 2:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="10" column="1">
-                 <widget class="QLineEdit" name="THR2TERM"/>
-                </item>
-                <item row="5" column="1">
-                 <spacer name="horizontalSpacer_14">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>10</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="8" column="1">
-                 <spacer name="horizontalSpacer_15">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>10</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="4" column="1" rowspan="3">
-            <spacer name="verticalSpacer_26">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="4" column="2" rowspan="3">
-            <spacer name="verticalSpacer_25">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
