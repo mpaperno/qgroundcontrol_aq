@@ -113,14 +113,18 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     saveFileButton->setWhatsThis(tr("Save parameters in this view to a file on this computer."));
     connect(saveFileButton, SIGNAL(clicked()), this, SLOT(saveParameters()));
     horizontalLayout->addWidget(saveFileButton, 3, 1, 1, 2);
+    QAction* action;
+    action =  saveFileMenu.addAction(tr("AQ params.txt format (can also load via QGC v1.3+)"), this, SLOT(saveParamFile()));
+    action->setData(1);
+    action =  saveFileMenu.addAction(tr("QGC format (for loading with older QGC versions)"), this, SLOT(saveParamFile()));
+    action->setData(0);
+    saveFileButton->setMenu(&saveFileMenu);
 
     QPushButton* readButton = new QPushButton(tr("Read (ROM)"));
     readButton->setToolTip(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
     readButton->setWhatsThis(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
     connect(readButton, SIGNAL(clicked()), this, SLOT(readParameters()));
     horizontalLayout->addWidget(readButton, 3, 3);
-
-
 
     QPushButton* loadParaFromSDButton = new QPushButton(tr("Load from SD"));
     loadParaFromSDButton->setToolTip(tr("Load parameters from a file on the SD card. These parameters will be in the aircraft non-permanent memory."));
@@ -417,6 +421,9 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
     // If the MAV sent the parameter without request, it wont be in missing list
     if (index != -1) transmissionMissingPackets.value(component)->removeAt(index);
 
+    if (changedValues.contains(component) && changedValues.value(component)->contains(parameterName))
+        changedValues.value(component)->remove(parameterName);
+
     bool justWritten = false;
     bool writeMismatch = false;
     //bool lastWritten = false;
@@ -523,6 +530,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
     Q_UNUSED(uas);
     // Reference to item in tree
     QTreeWidgetItem* parameterItem = NULL;
+    QTreeWidgetItem* parentItem = NULL;
 
     // Get component
     if (!components->contains(component))
@@ -572,7 +580,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
 
         // Append child to group
         bool found = false;
-        QTreeWidgetItem* parentItem = compParamGroups->value(parent);
+        parentItem = compParamGroups->value(parent);
         for (int i = 0; i < parentItem->childCount(); i++) {
             QTreeWidgetItem* child = parentItem->child(i);
             QString key = child->data(0, Qt::DisplayRole).toString();
@@ -603,10 +611,10 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
     else
     {
         bool found = false;
-        QTreeWidgetItem* parent = components->value(component);
-        for (int i = 0; i < parent->childCount(); i++)
+        parentItem = components->value(component);
+        for (int i = 0; i < parentItem->childCount(); i++)
         {
-            QTreeWidgetItem* child = parent->child(i);
+            QTreeWidgetItem* child = parentItem->child(i);
             QString key = child->data(0, Qt::DisplayRole).toString();
             if (key == parameterName)
             {
@@ -635,14 +643,14 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
         //tree->expandAll();
     }
     // Reset background color
-    if ( OverrideCheckValue == 0 )
-    {
-        parameterItem->setBackground(0, Qt::NoBrush);
-        parameterItem->setBackground(1, Qt::NoBrush);
-    }
-    else if ( OverrideCheckValue == 1) {
+    if (OverrideCheckValue && changedValues.contains(component) && changedValues.value(component)->contains(parameterName)) {
         parameterItem->setBackground(0, QBrush(QColor(QGC::colorOrange)));
         parameterItem->setBackground(1, QBrush(QColor(QGC::colorOrange)));
+        tree->expandItem(parentItem);
+    }
+    else {
+        parameterItem->setBackground(0, Qt::NoBrush);
+        parameterItem->setBackground(1, Qt::NoBrush);
     }
 
     // Add tooltip
@@ -660,9 +668,6 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
     parameterItem->setToolTip(1, tooltipFormat);
 
     //tree->update();
-    if (changedValues.contains(component)) {
-        changedValues.value(component)->remove(parameterName);
-    }
 }
 
 
@@ -724,10 +729,10 @@ void QGCAQParamWidget::parameterItemChanged(QTreeWidgetItem* current, int column
             map->insert(str, value);
 
             // Check if the value was numerically changed
-            if ( OverrideCheckValue==1 ||
-                 !parameters.value(key)->contains(str) || parameters.value(key)->value(str, value.toDouble()-1) != value) {
+            if (!parameters.value(key)->contains(str) || fabs(static_cast<float>(parameters.value(key)->value(str).toDouble()) - value.toDouble()) > 2.0f * FLT_EPSILON) {
                 current->setBackground(0, QBrush(QColor(QGC::colorOrange)));
                 current->setBackground(1, QBrush(QColor(QGC::colorOrange)));
+                // qDebug() << "marking changed from: " << parameters.value(key)->value(str) << "to:" << value;
             }
 
             switch (parameters.value(key)->value(str).type())
@@ -764,20 +769,48 @@ void QGCAQParamWidget::parameterItemChanged(QTreeWidgetItem* current, int column
     }
 }
 
-void QGCAQParamWidget::saveParameters()
+void QGCAQParamWidget::saveParamFile()
+{
+    QObject* sender = QObject::sender();
+    QAction* action = qobject_cast<QAction*>(sender);
+
+    if (action)
+    {
+        bool ok;
+        int fileFormat = action->data().toInt(&ok);
+        if (ok)
+            saveParameters(fileFormat);
+    }
+}
+
+void QGCAQParamWidget::saveParameters(int fileFormat)
 {
     if (!mav) return;
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./parameters.txt", tr("Parameter File (*.txt)"));
+    QString suggestPath = (fileFormat == 0) ? "./parameters.txt" : "./PARAMS.txt";
+    if (fileNameFromMaster.length()) {
+        QFileInfo fi(fileNameFromMaster);
+        suggestPath = fi.absolutePath() + "/" + suggestPath;
+    }
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), suggestPath, tr("Parameter File (*.txt)"));
+    if (!fileName.length())
+        return;
+
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        MainWindow::instance()->showCriticalMessage("Error!", tr("Could not open params file. %1").arg(file.errorString()));
         return;
     }
 
+    fileNameFromMaster = fileName;
     QTextStream in(&file);
 
     in << "# Onboard parameters for system " << mav->getUASName() << "\n";
-    in << "#\n";
-    in << "# MAV ID  COMPONENT ID  PARAM NAME  VALUE (FLOAT)\n";
+    if (fileFormat == 0) {
+        in << "#\n";
+        in << "# MAV ID  COMPONENT ID  PARAM NAME  VALUE (FLOAT)\n";
+    }
+    in << "\n";
 
     // Iterate through all components, through all parameters and emit them
     QMap<int, QMap<QString, QVariant>*>::iterator i;
@@ -813,7 +846,19 @@ void QGCAQParamWidget::saveParameters()
                     qCritical() << "ABORTED PARAM WRITE TO FILE, NO VALID QVARIANT TYPE" << j.value();
                     return;
                 }
-                in << mav->getUASID() << "\t" << compid << "\t" << j.key() << "\t" << paramValue << "\t" << paramType << "\n";
+
+                switch (fileFormat) {
+                case 0 :  // QGC format
+                    in << mav->getUASID() << "\t" << compid << "\t" << j.key() << "\t" << paramValue << "\t" << paramType << "\n";
+                    break;
+                case 1 : // AQ param.txt format
+                    in << j.key() << "\t" << paramValue << "\n";
+                    break;
+                default:
+                    qCritical() << "ABORTED PARAM WRITE TO FILE, NO VALID FILE FORMAT" << fileFormat;
+                    return;
+                }
+
                 in.flush();
             }
         }
@@ -825,12 +870,17 @@ void QGCAQParamWidget::loadParameters()
 {
     if (!mav) return;
 
-    QString fileName = "";
+    int fileFormat, component, uasId;
+    float paramValueFloat;
+    bool changed, ok;
+    QString paramName, paramValue;
+    QStringList wpParams;
+
     QString dirPath = QDir::toNativeSeparators(fileNameFromMaster);
     QFileInfo dir(dirPath);
 
     // use native file dialog
-    fileName = QFileDialog::getOpenFileName(this, tr("Select Saved Parameters File"), dir.absoluteFilePath(),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Saved Parameters File"), dir.absoluteFilePath(),
                                             tr("Parameter Files (*.params *.txt)"));
 
     // use Qt file dialog (sometimes very slow! at least on Win)
@@ -850,162 +900,134 @@ void QGCAQParamWidget::loadParameters()
 //        fileName = QDir::toNativeSeparators(fileNames.at(0));
 //        fileNameFromMaster = fileName;
 //    }
-    if (fileName.length())
-        fileNameFromMaster = fileName;
-    else
+    if (!fileName.length())
         return;
+
+    fileNameFromMaster = fileName;
+    OverrideCheckValue = 1;
 
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
-    if (fileName.endsWith(".txt")) {
-        bool userWarned = false;
+    bool userWarned = false;
 
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-            QString line = in.readLine();
-            if ( line.contains("DEFAULT_"))
-                line.replace("DEFAULT_","");
-            if (!line.startsWith("#")) {
-                QStringList wpParams = line.split("\t");
-                if (wpParams.size() == 5) {
-                    // Only load parameters for right mav
-                    if (!userWarned && (mav->getUASID() != wpParams.at(0).toInt())) {
-                        MainWindow::instance()->showCriticalMessage(tr("Parameter loading warning"), tr("The parameters from the file %1 have been saved from system %2, but the currently selected system has the ID %3. If this is unintentional, please click on <READ> to revert to the parameters that are currently onboard").arg(fileName).arg(wpParams.at(0).toInt()).arg(mav->getUASID()));
-                        userWarned = true;
-                    }
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine();
 
-                    bool changed = false;
-                    int component = wpParams.at(1).toInt();
-                    /*
-                    if ( wpParams.at(2).startsWith("DEFAULT_",Qt::CaseSensitive) ) {
-                        wpParams.at(2) = wpParams.at(2).mid(8,-1);
-                    }
-                    */
-                    QString parameterName = wpParams.at(2);
-                    if (!parameters.contains(component) ||
-                            fabs((static_cast<float>(parameters.value(component)->value(parameterName, wpParams.at(3).toDouble()).toDouble())) - (wpParams.at(3).toDouble())) > 2.0f * FLT_EPSILON) {
-                        changed = true;
-                        qDebug() << "Changed" << parameterName << "VAL" << wpParams.at(3).toDouble();
-                    }
+        if ( line.contains("DEFAULT_"))
+            line.replace("DEFAULT_", "");
+        
+        wpParams = line.split(QRegExp("[\\t ]"), QString::SkipEmptyParts);
 
-                    // Set parameter value
-
-                    // Create changed values data structure if necessary
-                    if (changed && !changedValues.contains(wpParams.at(1).toInt())) {
-                        changedValues.insert(wpParams.at(1).toInt(), new QMap<QString, QVariant>());
-                    }
-
-                    // Add to changed values
-                    if (changed && changedValues.value(wpParams.at(1).toInt())->contains(wpParams.at(2))) {
-                        changedValues.value(wpParams.at(1).toInt())->remove(wpParams.at(2));
-                    }
-
-                    switch (wpParams.at(4).toUInt())
-                    {
-                    case (int)MAV_PARAM_TYPE_REAL32:
-                        addParameter(wpParams.at(0).toInt(), wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toFloat());
-                        if (changed) {
-                            changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toFloat());
-                            setParameter(wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toFloat());
-                            qDebug() << "FLOAT PARAM CHANGED";
-                        }
-                        break;
-                    case (int)MAV_PARAM_TYPE_UINT32:
-                        addParameter(wpParams.at(0).toInt(), wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toUInt());
-                        if (changed) {
-                            changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toUInt());
-                            setParameter(wpParams.at(1).toInt(), wpParams.at(2), QVariant(wpParams.at(3).toUInt()));
-                        }
-                        break;
-                    case (int)MAV_PARAM_TYPE_INT32:
-                        addParameter(wpParams.at(0).toInt(), wpParams.at(1).toInt(), wpParams.at(2), wpParams.at(3).toInt());
-                        if (changed) {
-                            changedValues.value(wpParams.at(1).toInt())->insert(wpParams.at(2), wpParams.at(3).toInt());
-                            setParameter(wpParams.at(1).toInt(), wpParams.at(2), QVariant(wpParams.at(3).toInt()));
-                        }
-                        break;
-                    default:
-                        qDebug() << "FAILED LOADING PARAM" << wpParams.at(2) << "NO KNOWN DATA TYPE";
-                    }
-
-                    //qDebug() << "MARKING COMP" << wpParams.at(1).toInt() << "PARAM" << wpParams.at(2) << "VALUE" << (float)wpParams.at(3).toDouble() << "AS CHANGED";
-                }
-            }
+        changed = false;
+        uasId = mav->getUASID();
+        component = 190;
+        
+        if (line.contains(QRegExp("^#define[\\t ]+[A-Z]{2,}"))){
+            fileFormat = 2; // AQ .params format
+            paramName = wpParams.at(1);
+            paramValue = wpParams.at(2);
         }
-        file.close();
-    }
-    else
-    {
-        // Clear list
-        //clear();
-        //changedValues.clear();
-        QTextStream in(&file);
-        int ErrorLineWithDefine = 0;
-        while (!in.atEnd()) {
-            QString line = in.readLine();
-            if ( line.contains("DEFAULT_"))
-                line.replace("DEFAULT_","");
-
-            if (line.startsWith("#define ")) {
-                line.replace("\t"," ");
-                line.replace("\\\\","  ");
-                QStringList wpParams = line.split(" ",QString::SkipEmptyParts);
-                if (( wpParams.length() <= 6) && ( wpParams.length() >= 3)){
-                    OverrideCheckValue = 1;
-                    bool changed = false;
-                    int component = 190;
-                    QString parameterName = wpParams.at(1);
-
-                    float parameterValue = wpParams.at(2).toFloat();
-                    if ( wpParams.at(2).contains("f", Qt::CaseInsensitive) ) {
-                        QString tempStr = wpParams.at(2);
-                        tempStr = tempStr.replace("f", "", Qt::CaseInsensitive);
-                        parameterValue = tempStr.toFloat();
-                    }
-
-
-                    if ( parameterName.contains("IMU_ACC_ALN_" ))
-                        parameterName = parameterName.replace("IMU_ACC_ALN_","IMU_ACC_ALGN_");
-                    if ( parameterName.contains("L1_ATT_PWM_SCALE" ))
-                        parameterName = parameterName.replace("L1_ATT_PWM_SCALE","L1_ATT_PWM_SCAL");
-                    /*
-                    if (!parameters.contains(component) || parameters.value(component)->value(parameterName, wpParams.at(2).toDouble()-3.0f) != (float)wpParams.at(2).toDouble()) {
-                        changed = true;
-                    }
-                    */
-
-                    addParameter(mav->getUASID(), component, parameterName,parameterValue);
-
-                    changed = true;
-                    if (changed) {
-
-                        // Create changed values data structure if necessary
-                         if (!changedValues.contains(190)) {
-                            changedValues.insert(component, new QMap<QString, QVariant>());
-                        }
-
-                        if (changedValues.value(component)->contains(parameterName)) {
-                            changedValues.value(component)->remove(parameterName);
-                        }
-
-                        changedValues.value(component)->insert(parameterName, parameterValue);
-                        qDebug() << "MARKING COMP" << 190 << "PARAM" << wpParams.at(1) << "VALUE" << (float)wpParams.at(2).toDouble() << "AS CHANGED";
-                    }
-                }
-                else {
-                    ErrorLineWithDefine++;
-                }
-            }
-            else {
-                ErrorLineWithDefine++;
-            }
+        else if (line.contains(QRegExp("^[\\d]+\\t")) && wpParams.size() == 5){
+            fileFormat = 0; // QGC format
+            paramName = wpParams.at(2);
+            paramValue = wpParams.at(3);
+            // uasId = wpParams.at(0).toInt();
+            component = wpParams.at(1).toInt();
+        }
+        else if (line.contains(QRegExp("^[A-Z][A-Z\\d_]{2,}[\\t ]")) && wpParams.size() == 2){
+            fileFormat = 1; // AQ params.txt format
+            paramName = wpParams.at(0);
+            paramValue = wpParams.at(1);
+        }
+        else {
+            qDebug() << "Could not parse line: " << line;
+            continue;
         }
 
-        file.close();
-        OverrideCheckValue = 0;
+//        qDebug() << line << fileFormat << paramName << paramValue;
+
+        if ( paramName.contains("IMU_ACC_ALN_"))
+            paramName = paramName.replace("IMU_ACC_ALN_", "IMU_ACC_ALGN_");
+        if ( paramName.contains("L1_ATT_PWM_SCALE"))
+            paramName = paramName.replace("L1_ATT_PWM_SCALE", "L1_ATT_PWM_SCAL");
+
+        if (!paramExistsAQ(paramName)) {
+            qDebug() << "Param does not exist: " << paramName;
+            continue;
+        }
+
+        paramValueFloat = paramValue.replace("f", "", Qt::CaseInsensitive).toFloat(&ok);
+        if (!ok || isnan(paramValueFloat)) {
+            qDebug() << "Could not convert value: " << paramValue;
+            continue;
+        }
+
+        // Only load parameters for right mav
+//        if (fileFormat == 0 && !userWarned && (mav->getUASID() != uasId)) {
+//            MainWindow::instance()->showCriticalMessage(tr("Parameter loading warning"),
+//                                                        tr("The parameters from the file %1 have been saved from system %2, but the currently selected system has the ID %3. If this is unintentional, please click on <READ> to revert to the parameters that are currently onboard").arg(fileName).arg(uasId).arg(mav->getUASID()));
+//            userWarned = true;
+//        }
+
+        // check for change of value
+        if (fabs(static_cast<float>(parameters.value(component)->value(paramName).toDouble()) - paramValue.toDouble()) > 2.0f * FLT_EPSILON) {
+            changed = true;
+            // qDebug() << "Changed" << paramName << "From:" << parameters.value(component)->value(paramName) << "To:" << paramValue;
+        }
+
+        // Create changed values data structure if necessary
+        if (changed) {
+            if (!changedValues.contains(component))
+                changedValues.insert(component, new QMap<QString, QVariant>());
+
+            // Remove from changed values if already present
+            if (changedValues.value(component)->contains(paramName))
+                changedValues.value(component)->remove(paramName);
+        }
+
+        if (fileFormat == 0) {  // QGC file format specifies value type
+            switch (wpParams.at(4).toUInt())
+            {
+            case (int)MAV_PARAM_TYPE_REAL32:
+                addParameter(uasId, component, paramName, paramValueFloat);
+                if (changed) {
+                    changedValues.value(component)->insert(paramName, paramValueFloat);
+                    // setParameter(wpParams.at(1).toInt(), paramName, paramValueFloat);
+                }
+                break;
+            case (int)MAV_PARAM_TYPE_UINT32:
+                addParameter(uasId, component, paramName, paramValue.toUInt());
+                if (changed) {
+                    changedValues.value(component)->insert(paramName, paramValue.toUInt());
+                    // setParameter(wpParams.at(1).toInt(), paramName, QVariant(paramValue.toUInt()));
+                }
+                break;
+            case (int)MAV_PARAM_TYPE_INT32:
+                addParameter(uasId, component, paramName, paramValue.toInt());
+                if (changed) {
+                    changedValues.value(component)->insert(paramName, paramValue.toInt());
+                    // setParameter(wpParams.at(1).toInt(), paramName, QVariant(paramValue.toInt()));
+                }
+                break;
+            default:
+                qDebug() << "FAILED LOADING PARAM" << paramName << "NO KNOWN DATA TYPE";
+            }
+        }
+        // AQ params.txt and .params file formats
+        else {
+
+            addParameter(uasId, component, paramName, paramValueFloat);
+            if (changed)
+                changedValues.value(component)->insert(paramName, paramValueFloat);
+
+        }
+
     }
+    file.close();
+    OverrideCheckValue = 0;
 }
 
 

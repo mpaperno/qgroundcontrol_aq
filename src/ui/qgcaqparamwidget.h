@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QTimer>
 #include <QStyledItemDelegate>
+#include <QMenu>
 
 #include "QGCUASParamManager.h"
 #include "UASInterface.h"
@@ -66,8 +67,9 @@ public slots:
     /** @brief Update when user changes parameters */
     void parameterItemChanged(QTreeWidgetItem* prev, int column);
 
+    void saveParamFile();
     /** @brief Store parameters to a file */
-    void saveParameters();
+    void saveParameters(int fileFormat = 1);  // fileFormat: 0 = QGC format, 1 = AQ params.txt format
     /** @brief Load parameters from a file */
     void loadParameters();
 
@@ -85,6 +87,7 @@ protected:
     QLabel* statusLabel; ///< Parameter transmission label
     QMap<int, QTreeWidgetItem*>* components; ///< The list of components
     QMap<int, QMap<QString, QTreeWidgetItem*>* > paramGroups; ///< Parameter groups
+    QMenu saveFileMenu;
 
     // Tooltip data structures
     QMap<QString, QString> paramToolTips; ///< Tooltip values
