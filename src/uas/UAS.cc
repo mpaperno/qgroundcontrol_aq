@@ -2291,6 +2291,7 @@ void UAS::setParameter(const int component, const QString& id, const QVariant& v
             p.param_type = MAV_PARAM_TYPE_UINT32;
             break;
         case QMetaType::Float:
+        case QMetaType::Double:
             union_value.param_float = value.toFloat();
             p.param_type = MAV_PARAM_TYPE_REAL32;
             break;

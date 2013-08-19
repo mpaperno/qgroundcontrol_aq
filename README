@@ -33,9 +33,9 @@ cd directory
 
 git clone https://github.com/AutoQuad/qgroundcontrol.git
 
-go to libs/thirdParty -> libxbee 
+go to libs/thirdParty/libxbee and build the library (see README for details)
 
-Create Library -> Readme file in folder
+go to libs/QtSpeech and run: sh ./get-festival.sh
 
 Ubuntu Application Menu -> Development -> Qt Creator
 

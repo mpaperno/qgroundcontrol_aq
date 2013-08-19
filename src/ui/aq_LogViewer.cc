@@ -241,7 +241,7 @@ void AQLogViewer::showChannels() {
             //item->setForeground(plot->getColorForCurve(item->text()));
             item->setBackground(plot->getColorForCurve(item->text()));
         else
-            item->setBackground(DefaultColorMeasureChannels);
+            item->setBackground(Qt::NoBrush);
     }
 
 }
