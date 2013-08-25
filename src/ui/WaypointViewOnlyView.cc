@@ -182,7 +182,7 @@ void WaypointViewOnlyView::updateValues()
         {
             if (wp->getParam1()>0)
             {
-                m_ui->displayBar->setText(QString("Go to <b>(</b>lat <b>%1<sup>o</sup></b>, lon <b>%2<sup>o</sup></b>, alt <b>%3)</b> and wait there for %4 sec; yaw: %5; rad: %6").arg(wp->getX(),0, 'f', 7).arg(wp->getY(),0, 'f', 7).arg(wp->getZ(),0, 'f', 2).arg(wp->getParam1()).arg(wp->getParam4()).arg(wp->getParam2()));
+                m_ui->displayBar->setText(QString("Go to <b>(</b>lat <b>%1<sup>o</sup></b>, lon <b>%2<sup>o</sup></b>, alt <b>%3)</b> and wait there for %6 sec; yaw: %5; rad: %4").arg(wp->getX(),0, 'f', 7).arg(wp->getY(),0, 'f', 7).arg(wp->getZ(),0, 'f', 2).arg(wp->getParam1()).arg(wp->getParam4()).arg(wp->getParam2()/1000));
             }
             else
             {
@@ -195,7 +195,7 @@ void WaypointViewOnlyView::updateValues()
         {
             if (wp->getParam1()>0)
             {
-                m_ui->displayBar->setText(QString("Go to <b>(%1, %2, %3)</b> and wait there for %4 sec; yaw: %5; rad: %6").arg(wp->getX(),0, 'f', 2).arg(wp->getY(),0, 'f', 2).arg(wp->getZ(),0, 'f',2).arg(wp->getParam1()).arg(wp->getParam4()).arg(wp->getParam2()));
+                m_ui->displayBar->setText(QString("Go to <b>(%1, %2, %3)</b> and wait there for %6 sec; yaw: %5; rad: %4").arg(wp->getX(),0, 'f', 2).arg(wp->getY(),0, 'f', 2).arg(wp->getZ(),0, 'f',2).arg(wp->getParam1()).arg(wp->getParam4()).arg(wp->getParam2()/1000));
             }
             else
             {
