@@ -151,8 +151,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // hide these permanently, for now... (possible future use for these)
     ui->checkBox_raw_value->hide();
-    ui->form_mot_exponent_settings->hide();
-    ui->label_ctrl_chan_pos->hide();
     ui->ComPortLabel->hide();
     ui->label_portName_esc32->hide();
 
@@ -169,7 +167,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
     // save this for easy iteration later
-    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO_|CTRL_HF_|NAV_).+_CH")));
+    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO_|NAV_|GMBL_).+_CH")));
     allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
     allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
 
@@ -488,6 +486,9 @@ void QGCAutoquad::adjustUiForFirmware() {
         ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
     if (idx > -1 && idx < ui->SPVR_FS_RAD_ST2->count())
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
+
+    // auto-triggering options
+    ui->groupBox_gmbl_auto_triggering->setVisible(!paramaq || paramaq->paramExistsAQ("GMBL_TRIG_ON_PWM"));
 }
 
 void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
@@ -1931,12 +1932,12 @@ void QGCAutoquad::radioType_changed(int idx) {
 
 bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
     QList<QString> conflictPorts, portsUsed, essentialPorts;
-    QString cbname, cbtxt;
+    QString cbname, cbtxt, xtraChan;
 
     foreach (QComboBox* cb, allRadioChanCombos) {
         cbname = cb->objectName();
         cbtxt = cb->currentText();
-        if (cbname.contains(QRegExp("^NAV_HDFRE_CHAN")))
+        if (cbname.contains(QRegExp("^(NAV_HDFRE_CHAN|GMBL_PSTHR_CHAN)")))
             continue;
         if (portsUsed.contains(cbtxt))
             conflictPorts.append(cbtxt);
@@ -1945,9 +1946,13 @@ bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
         portsUsed.append(cbtxt);
     }
     // validate heading-free controls
-    QString hfChan = ui->NAV_HDFRE_CHAN->currentText();
-    if (ui->NAV_HDFRE_CHAN->currentIndex() && essentialPorts.contains(hfChan))
-        conflictPorts.append(hfChan);
+    xtraChan = ui->NAV_HDFRE_CHAN->currentText();
+    if (ui->NAV_HDFRE_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
+        conflictPorts.append(xtraChan);
+    // validate passthrough 1
+    xtraChan = ui->GMBL_PSTHR_CHAN->currentText();
+    if (ui->GMBL_PSTHR_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
+        conflictPorts.append(xtraChan);
 
     foreach (QComboBox* cb, allRadioChanCombos) {
         if (conflictPorts.contains(cb->currentText()))
@@ -2239,7 +2244,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             // TODO: notify the user, or something...
     }
 
-    if (qobject_cast<QGCAutoquad *>(parent)) {
+    if (parent->objectName() == "tab_aq_settings") {
         // gimbal pitch/roll revese checkboxes
         ui->reverse_gimbal_pitch->setChecked(paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat() < 0);
         ui->reverse_gimbal_roll->setChecked(paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat() < 0);
@@ -2518,29 +2523,6 @@ void QGCAutoquad::saveDialogButtonClicked(QAbstractButton* btn) {
         paramSaveType = 2;
 }
 
-//void QGCAutoquad::saveRadioSettings() {
-//    if (!validateRadioSettings(0)) {
-//        MainWindow::instance()->showCriticalMessage("Error", "You have the same port assigned to multiple controls!");
-//        return;
-//    }
-//    saveSettingsToAq(ui->RadioSettings);
-//}
-
-//void QGCAutoquad::saveAttitudePIDs() {
-//    saveSettingsToAq(ui->TiltYawPID);
-//}
-
-//void QGCAutoquad::saveNavigationPIDs() {
-//    saveSettingsToAq(ui->NavigationPID);
-//}
-
-//void QGCAutoquad::saveSpecialSettings() {
-//    saveSettingsToAq(ui->SpecialSettings);
-//}
-
-//void QGCAutoquad::saveGimbalSettings() {
-//    saveSettingsToAq(ui->Gimbal);
-//}
 
 
 //

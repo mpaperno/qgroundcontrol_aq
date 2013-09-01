@@ -673,10 +673,10 @@ void AQPWMPortsConfig::loadFrameTypes(void) {
 
 bool AQPWMPortsConfig::validateForm(void) {
     QStringList usedPorts, dupePorts, timConflictPorts;
-    QMap<uint8_t, QStringList> motorUsedTimers, gimbalUsedTimers;
+    QMap<uint8_t, QStringList> motorUsedTimers;
     uint8_t tim;
     QString port;
-    bool ok;
+    bool ok, ignoreTimer;
     float val;
 
     QColor color_error(255, 0, 0, 200);
@@ -687,6 +687,8 @@ bool AQPWMPortsConfig::validateForm(void) {
     errorInMotorConfig = false;  // reset error flags
     errorInPortConfig = false;
     errorInTimerConfig = false;
+
+    ignoreTimer = (ui->GMBL_PWM_FREQ->value() == 400);
 
     portConfigConnections(false);  // disable motor config signals to prevent loops
 
@@ -733,41 +735,23 @@ bool AQPWMPortsConfig::validateForm(void) {
             continue;
 
         tim = aq->pwmPortTimers.at(port.toUInt()-1);
-        if (usedPorts.contains(port))
+
+        if (usedPorts.contains(port)) {
+            // special exception to allow tilt port to == pitch port
+            if (cb->objectName() == "GMBL_TILT_PORT" && ui->GMBL_PITCH_PORT->currentText() == port)
+                continue;
+
             dupePorts.append(port);
+        }
         else {
             usedPorts.append(port);
 
             // check if this timer conflicts with any motor ports
-            if (cb->objectName().startsWith("GMBL_")){
-                if (motorUsedTimers.contains(tim)) {
-                    timConflictPorts.append(motorUsedTimers.value(tim));
-                    timConflictPorts.append(port);
-                }
-                // save this timer as used to compare to trigger timer
-                if (cb->objectName() != "GMBL_TRIG_PORT") {
-                    if (!gimbalUsedTimers.contains(tim))
-                        gimbalUsedTimers.insert(tim, QStringList(port));
-                    else {
-                        QStringList pl = gimbalUsedTimers.value(tim);
-                        pl.append(port);
-                        gimbalUsedTimers.insert(tim, pl);
-                    }
-                }
-            }
+            if (!ignoreTimer && cb->objectName().startsWith("GMBL_") && motorUsedTimers.contains(tim))
+                timConflictPorts.append(port);
 
         }
     }
-
-    // validate the trigger port timer against used gimbal ports (this is fixed at 50hz)
-    if ( ui->GMBL_TRIG_PORT->currentIndex() && (!paramHandler || paramHandler->getParaAQ("GMBL_PWM_FREQ") != 50.0f) ) {
-        port = ui->GMBL_TRIG_PORT->currentText();
-        tim = aq->pwmPortTimers.at(port.toUInt()-1);
-        if (gimbalUsedTimers.contains(tim)) {
-            timConflictPorts.append(gimbalUsedTimers.value(tim));
-            timConflictPorts.append(port);
-        }
-    };
 
     if (dupePorts.size())
         errorInPortConfig = true;
