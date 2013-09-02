@@ -441,9 +441,18 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
     case LOG_GMBL_TRIGGER:
         return "LOG_GMBL_TRIGGER";
         break;
-    case LOG_NUM_IDS:
-        return "LOG_NUM_IDS";
+    case LOG_ACC_BIAS_X:
+        return "LOG_ACC_BIAS_X";
         break;
+    case LOG_ACC_BIAS_Y:
+        return "LOG_ACC_BIAS_Y";
+        break;
+    case LOG_ACC_BIAS_Z:
+        return "LOG_ACC_BIAS_Z";
+        break;
+//    case LOG_NUM_IDS:
+//        return "LOG_NUM_IDS";
+//        break;
     default:
         return "Not connected" + QString::number(fieldId);
         break;

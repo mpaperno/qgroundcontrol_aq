@@ -161,6 +161,9 @@ public:
         LOG_RADIO_CHANNEL17,
         LOG_RADIO_ERRORS,
         LOG_GMBL_TRIGGER,
+        LOG_ACC_BIAS_X,
+        LOG_ACC_BIAS_Y,
+        LOG_ACC_BIAS_Z,
         LOG_NUM_IDS
     };
 
