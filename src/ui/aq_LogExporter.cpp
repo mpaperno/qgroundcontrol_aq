@@ -290,9 +290,6 @@ void AQLogExporter::startExport() {
     // trigger channel
     if (ui->spinBox_triggerChannel->value()) {
         appArgs += QString("-t%1").arg(ui->spinBox_triggerChannel->value());
-        // triggered only
-        if (ui->checkBox_triggerOnly->isChecked())
-            appArgs += "-y";
         // channel value (depends on radio btn selected)
         switch (ui->buttonGroup_trigChanValues->checkedId()) {
         case 1 : // > value
@@ -307,6 +304,12 @@ void AQLogExporter::startExport() {
         }
         appArgs += QString("-r%1").arg(tmp_i);
     }
+    // trigger delay
+    if (ui->spinBox_triggerDelay->value())
+        appArgs += QString("-i%1").arg(ui->spinBox_triggerDelay->value());
+    // triggered only
+    if (ui->checkBox_triggerOnly->isChecked())
+        appArgs += "-y";
     // gps track
     if (ui->checkBox_gpsTrack->isChecked() || ui->checkBox_gpsWaypoints->isChecked()) {
         appArgs += "-g";
@@ -347,6 +350,9 @@ void AQLogExporter::startExport() {
             }
         }
     }
+    // gbml_trigger record
+    if (ui->checkBox_triggerUseGmblTrigger->isChecked())
+        appArgs += "--gmbl-trig";
 
     // log file
     appArgs += ui->lineEdit_inputFile->text();
@@ -481,6 +487,8 @@ void AQLogExporter::readSettings() {
         ui->doubleSpinBox_altOffset->setValue(settings.value("GPSAltOffset", 0).toFloat());
         ui->checkBox_timestamp->setChecked(settings.value("Timestamp", false).toBool());
         ui->checkBox_localtime->setChecked(settings.value("Localtime", false).toBool());
+        ui->checkBox_triggerUseGmblTrigger->setChecked(settings.value("TriggerOnLogRecord", false).toBool());
+        ui->spinBox_triggerDelay->setValue(settings.value("TriggerDelay", 0).toInt());
         ui->checkBox_triggerOnly->setChecked(settings.value("TriggeredOnly", false).toBool());
         ui->buttonGroup_trigChanValues->button(settings.value("ChannelValueTypeId", 0).toInt())->setChecked(true);
         ui->spinBox_trigVal_gt->setValue(settings.value("TriggerValueGT", 250).toInt());
@@ -525,7 +533,9 @@ void AQLogExporter::writeSettings() {
     settings.setValue("GPSAltOffset", ui->doubleSpinBox_altOffset->value());
     settings.setValue("Timestamp", ui->checkBox_timestamp->isChecked());
     settings.setValue("Localtime", ui->checkBox_localtime->isChecked());
+    settings.setValue("TriggerOnLogRecord", ui->checkBox_triggerUseGmblTrigger->isChecked());
     settings.setValue("TriggerChannel", ui->spinBox_triggerChannel->value());
+    settings.setValue("TriggerDelay", ui->spinBox_triggerDelay->value());
     settings.setValue("TriggeredOnly", ui->checkBox_triggerOnly->isChecked());
     settings.setValue("ChannelValueTypeId", ui->buttonGroup_trigChanValues->id(ui->buttonGroup_trigChanValues->checkedButton()));
     settings.setValue("TriggerValueGT", ui->spinBox_trigVal_gt->value());
@@ -724,10 +734,23 @@ void AQLogExporter::on_toolButton_selectOutputFile_clicked()
     }
 }
 
+// Trigger activated
+void AQLogExporter::on_checkBox_triggerUseGmblTrigger_toggled(bool checked)
+{
+    bool en = (checked || ui->spinBox_triggerChannel->value());
+    ui->checkBox_triggerOnly->setEnabled(en);
+    ui->label_triggerDelay->setEnabled(en);
+    ui->spinBox_triggerDelay->setEnabled(en);
+}
+
 // Trigger channel changed
 void AQLogExporter::on_spinBox_triggerChannel_valueChanged(int arg1)
 {
-    ui->checkBox_triggerOnly->setEnabled((bool)arg1);
+    bool en = (arg1 || ui->checkBox_triggerUseGmblTrigger->isChecked());
+    ui->checkBox_triggerOnly->setEnabled(en);
+    ui->label_triggerDelay->setEnabled(en);
+    ui->spinBox_triggerDelay->setEnabled(en);
+
     ui->radioButton_trigVal_opt01->setEnabled((bool)arg1);
     ui->radioButton_trigVal_opt02->setEnabled((bool)arg1);
     ui->radioButton_trigVal_opt03->setEnabled((bool)arg1);

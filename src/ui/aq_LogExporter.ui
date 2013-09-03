@@ -203,6 +203,19 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="val_acc_bias">
+            <property name="toolTip">
+             <string>ACC_BIAS X, Y, &amp; Z (AQ 6.8+ only)</string>
+            </property>
+            <property name="text">
+             <string>accel. bias</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">buttonGroup_exportValues</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="val_mags">
             <property name="toolTip">
              <string>MAG X, Y, &amp; Z</string>
@@ -530,7 +543,7 @@
           <item>
            <widget class="QCheckBox" name="val_radio_quality">
             <property name="toolTip">
-             <string>RC radio signal status</string>
+             <string>RC radio signal status and error count (RADIO_QUALITY and RADIO_ERRORS)</string>
             </property>
             <property name="text">
              <string>radio signal quality</string>
@@ -552,9 +565,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
        </property>
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Output Options&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select or enter a file in &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;To File&lt;/span&gt; to which to save the exported data. The file extension will automatically be adjusted based on your chosen export format.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export Format&lt;/span&gt; determines the type of output. &lt;span style=&quot; font-weight:600;&quot;&gt;CSV&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;TAB&lt;/span&gt;, and &lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt; types are &amp;quot;flat file&amp;quot; types with rows of data values which are separated by a comma, tab, or space character respectively. You may choose to &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Include Column Headers&lt;/span&gt; to output the field names as the first line of the export (this is recommended for easy import into a spreadsheet or database).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; (GPS eXchange) and &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; (Keyhole Markup Language) are XML output types which are typically used for GPS tracking and visualisation. KML is the native format for importing into Google Earth and provides more features than GPX, while GPX is a more accepted standard for data exchange.&lt;/p&gt;&lt;p&gt;Output Frequency determines how many records are exported per second of logged data. AutoQuad logs at a 200Hz rate (200 records per second). In many cases this is more data than necessary and can create very large export files. To limit the amount of data exported, select a lower frequency. For GPS tracking, a low value like 5 to 10 Hz is recommended, especially with KML or GPX exports which can create very large files even at low frequencies.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -811,9 +821,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip">
-        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
-       </property>
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;GPS Data Export&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export GPS Data as Track&lt;/span&gt; to automatically include all data releavant to GPS position and speed tracking, as well as vehicle attitude data (heading, roll, &amp;amp; pitch angles), and an accurate time stamp.&lt;/p&gt;&lt;p&gt;If you choose a flat file type output format (&lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt;,&lt;span style=&quot; font-weight:600;&quot;&gt; CSV&lt;/span&gt;,&lt;span style=&quot; font-weight:600;&quot;&gt; TAB&lt;/span&gt;) then you can also select other values to include in the export from the choices on the right. Column headings are automatically included.&lt;/p&gt;&lt;p&gt;If you choose &lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; or &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; format, you also have the choice to output the GPS data as &amp;quot;waypoints&amp;quot; by selecting &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export GPS Data as Waypoints&lt;/span&gt;.You can export this either in addition to, or instead of, the track data. The difference is mostly in how the data is plotted in programs like Google Earth. &lt;span style=&quot; color:#9e0000;&quot;&gt;Exporting waypoint data can produce significantly larger output files and may take longer to process.&lt;/span&gt; Both KML and GPX files can be opened directly in Google Earth, although KML is recommended.&lt;/p&gt;&lt;p&gt;You can also specify the minimum &lt;span style=&quot; font-weight:600;&quot;&gt;GPS &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;estimated &lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;accuracy&lt;/span&gt; of the records you want exported. This eliminates the &amp;quot;no data&amp;quot; records before the flight controller aquires a GPS fix, and can control the accuracy of the data you are exporting. Typically anything with an accuracy great than 3 will be poor data.&lt;/p&gt;&lt;p&gt;To ensure the dates in your GPS log are correct, make sure the &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Date of Flight&lt;/span&gt; field has the correct date. It is based on the log file modification date and may, or may not, be accurate. The &lt;span style=&quot; text-decoration: underline;&quot;&gt;time&lt;/span&gt; portion of the exported data will be correct regardless.&lt;/p&gt;&lt;p&gt;Under &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Altitude Source&lt;/span&gt; you may choose the&lt;span style=&quot; font-weight:600;&quot;/&gt;reporting source for altitude. The default is reported GPS data (GPS_HEIGHT). &lt;span style=&quot; font-style:italic;&quot;&gt;UKF Altitude &lt;/span&gt;is the altitude derived by AQ from GPS and pressure sensor data (UKF_POSD in the logs). &lt;span style=&quot; font-style:italic;&quot;&gt;Pressure Altitude&lt;/span&gt; means use altitude as reported by the pressure sensor. When using the last option, you will need to specify an Altitude Offset value, typically ~30 - 100 meters.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Altitude Offset&lt;/span&gt; will adjust the final altitude value by this amount. This maybe be useful if portions your tracks are appearing below ground in mapping applications, or if you are using the pressure altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -910,7 +917,7 @@
              <double>0.100000000000000</double>
             </property>
             <property name="maximum">
-             <double>10.000000000000000</double>
+             <double>100000.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>0.500000000000000</double>
@@ -975,7 +982,7 @@
              <double>0.100000000000000</double>
             </property>
             <property name="maximum">
-             <double>10.000000000000000</double>
+             <double>100000.000000000000000</double>
             </property>
             <property name="singleStep">
              <double>0.500000000000000</double>
@@ -1173,9 +1180,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip">
-        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
-       </property>
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Timestamp Options&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select options to include a date/time value for each exported record. This is based on the logged GPS Time of Week (iTOW) and is &lt;span style=&quot; font-weight:600;&quot;&gt;calculated based on the &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Date of Flight&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; field in this section&lt;/span&gt;. The default date shown is based on the log file modification date, which may or may not be correct. Even if the date is not set correctly, the time value will still be exact.&lt;/p&gt;&lt;p&gt;Date and time is output in UTC (GMT) time by default. Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Adjust to Local Time&lt;/span&gt; to use the time zone information on this computer to change the timestamp to local time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -1317,7 +1321,7 @@
               <second>59</second>
               <year>3001</year>
               <month>1</month>
-              <day>25</day>
+              <day>26</day>
              </datetime>
             </property>
             <property name="minimumDateTime">
@@ -1393,11 +1397,8 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip">
-        <string>Use the &quot;What's this&quot; tool to get more information (typically this is the ? near this window's close button)</string>
-       </property>
        <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Trigger Indicator&lt;/span&gt;&lt;/p&gt;&lt;p&gt;You can use a radio channel as a &amp;quot;trigger&amp;quot; mechanism, for example to indicate a flight mode or a camera being triggered. The output depends on the export format selected.&lt;/p&gt;&lt;p&gt;For flat files (&lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;CSV&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;TAB&lt;/span&gt;), a column will be included which has a value of one (1) or zero (0). 1 indicates that the trigger is active (meaning the channel is at/above/below the value indicated).&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; export types, a special waypoint is created for every point in the track where the trigger is active. For example when viewing the output in Google Earth, each triggered waypoint will appear with a named marker (in KML format it will be uniquely colored to distinguish it from other waypoint types).&lt;/p&gt;&lt;p&gt;Select the desired channel using &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Trigger Channel&lt;/span&gt; and specify a value in &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Channel Value&lt;/span&gt;. You have 3 options for the channel value: greater than a value (eg. a switch set to high), less than a value (eg. a switch set to low) and a value of zero with a buffer of +/-100 (meaning in the range -100 to +100, eg. to indicate a switch in middle position).&lt;/p&gt;&lt;p&gt;Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Output Triggered Records Only&lt;/span&gt; to only include records where the trigger is active.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Trigger Indicator&lt;/span&gt;&lt;/p&gt;&lt;p&gt;You can use a radio channel as a &amp;quot;trigger&amp;quot; mechanism, for example to indicate a flight mode or a camera being triggered. Also, in AQ firmware versions with gimbal triggering features (v6.7 b1378 and later), the dedicated log field can be used (select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Use gimbal log record&lt;/span&gt; to trigger based on this log field). &lt;/p&gt;&lt;p&gt;The output depends on the export format selected:&lt;/p&gt;&lt;p&gt;- For flat files (&lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;CSV&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;TAB&lt;/span&gt;), a column will be included which contains the current trigger count, or a zero (0). A zero indicates that the trigger is not active.&lt;/p&gt;&lt;p&gt;- For &lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; export types, a special waypoint is created for every point in the track where the trigger is active. For example when viewing the output in Google Earth, each triggered waypoint will appear with a named marker (in KML format it will be uniquely colored to distinguish it from other waypoint types).&lt;/p&gt;&lt;p&gt;Specify a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Shutter Delay&lt;/span&gt; to attempt to pinpoint the actual time/location of a photo. This would be the typical time delay (in ms) between trigger activation and actual shutter opening of the camera used (eg. focus delay). Usually an active trigger will span multiple log records (since it is active for some amount of time), but if you specify a shutter delay here, then only one record out of each series will be marked as active.   &lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that the &lt;span style=&quot; font-style:italic;&quot;&gt;Output Frequency&lt;/span&gt; export setting can affect accuracy (you will only get the next record after trigger activation is detected + the shutter delay has passed).&lt;/p&gt;&lt;p&gt;Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Output Triggered Records Only&lt;/span&gt; to only include records where the trigger is active.&lt;/p&gt;&lt;p&gt;To detect triggering based on a radio channel, select the desired channel using &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Trigger Channel&lt;/span&gt; and specify a value in &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Channel Value&lt;/span&gt;. You have 3 options for the channel value: greater than a value (eg. a switch set to high), less than a value (eg. a switch set to low) and a value of zero with a buffer of +/-100 (meaning in the range -100 to +100, eg. to indicate a switch in middle position).&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="title">
         <string>Trigger Indicator</string>
@@ -1419,23 +1420,10 @@
             <property name="horizontalSpacing">
              <number>16</number>
             </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_triggerChannel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Trigger Channel:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
+            <property name="verticalSpacing">
+             <number>7</number>
+            </property>
+            <item row="0" column="5">
              <widget class="QSpinBox" name="spinBox_triggerChannel">
               <property name="enabled">
                <bool>true</bool>
@@ -1463,36 +1451,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <spacer name="horizontalSpacer_trig_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="0" colspan="3">
-             <widget class="QCheckBox" name="checkBox_triggerOnly">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>Output Triggerered Records only</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3" rowspan="2">
+            <item row="1" column="4" rowspan="2" colspan="2">
              <layout class="QGridLayout" name="gridLayout_trig" columnstretch="0,0,0,0">
               <property name="horizontalSpacing">
                <number>4</number>
@@ -1575,22 +1534,6 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="1" colspan="2">
-               <widget class="QRadioButton" name="radioButton_trigVal_opt03">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="toolTip">
-                 <string>Channel should equal zero, +/- 100</string>
-                </property>
-                <property name="text">
-                 <string>= 0 (+/-100)</string>
-                </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">buttonGroup_trigChanValues</string>
-                </attribute>
-               </widget>
-              </item>
               <item row="1" column="2">
                <widget class="QSpinBox" name="spinBox_trigVal_gt">
                 <property name="enabled">
@@ -1669,7 +1612,143 @@
                 </property>
                </widget>
               </item>
+              <item row="3" column="1" rowspan="2" colspan="2" alignment="Qt::AlignTop">
+               <widget class="QRadioButton" name="radioButton_trigVal_opt03">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="toolTip">
+                 <string>Channel should equal zero, +/- 100</string>
+                </property>
+                <property name="text">
+                 <string>= 0 (+/-100)</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup_trigChanValues</string>
+                </attribute>
+               </widget>
+              </item>
              </layout>
+            </item>
+            <item row="2" column="0" colspan="3" alignment="Qt::AlignTop">
+             <widget class="QCheckBox" name="checkBox_triggerOnly">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Output Triggerered Records only</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0" colspan="3">
+             <widget class="QCheckBox" name="checkBox_triggerUseGmblTrigger">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Available in AQ firmware versions with gimbal triggering features (v6.7 b1378 and later).</string>
+              </property>
+              <property name="text">
+               <string>Use gimbal log record (if available)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
+             <widget class="QLabel" name="label_triggerChannel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Use Trigger Channel:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" colspan="2">
+             <widget class="QSpinBox" name="spinBox_triggerDelay">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Typical time delay (in ms) between trigger activation and actual shutter opening (eg. focus delay). Using this option will attempt to pinpoint the actual time/location of a photo. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <property name="suffix">
+               <string> ms</string>
+              </property>
+              <property name="minimum">
+               <number>0</number>
+              </property>
+              <property name="maximum">
+               <number>9999</number>
+              </property>
+              <property name="singleStep">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>0</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_triggerDelay">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Shutter Delay:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3" rowspan="3">
+             <spacer name="horizontalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>10</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -1699,52 +1778,58 @@
        <property name="verticalSpacing">
         <number>0</number>
        </property>
-       <item row="0" column="2">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::MinimumExpanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>13</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0">
-        <widget class="QToolButton" name="toolButton_openOutput">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
+       <item row="2" column="4">
+        <widget class="QPushButton" name="pushButton_close">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="toolTip">
-          <string>Open the output file in the associated application (if any).</string>
-         </property>
          <property name="text">
-          <string>Open</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../qgroundcontrol.qrc">
-           <normaloff>:/files/images/actions/application-monitor.png</normaloff>:/files/images/actions/application-monitor.png</iconset>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-         <property name="autoRaise">
-          <bool>true</bool>
+          <string>Close</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="3">
+        <widget class="QPushButton" name="pushButton_doExport">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Export</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <spacer name="horizontalSpacer_btns">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>268</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1">
         <widget class="QToolButton" name="toolButton_browseOutput">
          <property name="enabled">
           <bool>false</bool>
@@ -1773,54 +1858,58 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
-        <spacer name="horizontalSpacer_btns">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>268</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="pushButton_doExport">
+       <item row="2" column="0">
+        <widget class="QToolButton" name="toolButton_openOutput">
          <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Export</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QPushButton" name="pushButton_close">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="toolTip">
+          <string>Open the output file in the associated application (if any).</string>
+         </property>
          <property name="text">
-          <string>Close</string>
+          <string>Open</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../qgroundcontrol.qrc">
+           <normaloff>:/files/images/actions/application-monitor.png</normaloff>:/files/images/actions/application-monitor.png</iconset>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextBesideIcon</enum>
+         </property>
+         <property name="autoRaise">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::MinimumExpanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>13</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" colspan="5">
+        <widget class="QLabel" name="label">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Tip: Use the &quot;What's this&quot; tool (? icon) to get more information about each group of options.</string>
          </property>
         </widget>
        </item>
@@ -1899,7 +1988,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>doubleSpinBox_minHAcc</tabstop>
   <tabstop>doubleSpinBox_minVAcc</tabstop>
   <tabstop>checkBox_timestamp</tabstop>
-  <tabstop>spinBox_triggerChannel</tabstop>
   <tabstop>checkBox_triggerOnly</tabstop>
   <tabstop>radioButton_trigVal_opt02</tabstop>
   <tabstop>spinBox_trigVal_lt</tabstop>
@@ -1964,11 +2052,11 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>340</x>
-     <y>395</y>
+     <y>418</y>
     </hint>
     <hint type="destinationlabel">
      <x>389</x>
-     <y>397</y>
+     <y>420</y>
     </hint>
    </hints>
   </connection>
@@ -1980,11 +2068,11 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>340</x>
-     <y>373</y>
+     <y>396</y>
     </hint>
     <hint type="destinationlabel">
      <x>389</x>
-     <y>375</y>
+     <y>398</y>
     </hint>
    </hints>
   </connection>
@@ -2027,8 +2115,8 @@ p, li { white-space: pre-wrap; }
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>495</x>
-     <y>549</y>
+     <x>527</x>
+     <y>593</y>
     </hint>
     <hint type="destinationlabel">
      <x>462</x>
@@ -2056,6 +2144,7 @@ p, li { white-space: pre-wrap; }
  </designerdata>
  <buttongroups>
   <buttongroup name="buttonGroup_trigChanValues"/>
+  <buttongroup name="buttonGroup_altOptions"/>
   <buttongroup name="buttonGroup_exportValues">
    <property name="exclusive">
     <bool>false</bool>
@@ -2066,6 +2155,5 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="buttonGroup_altOptions"/>
  </buttongroups>
 </ui>

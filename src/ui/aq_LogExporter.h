@@ -54,6 +54,7 @@ private slots:
 
     void on_lineEdit_inputFile_editingFinished();
     void on_lineEdit_outputFile_editingFinished();
+    void on_checkBox_triggerUseGmblTrigger_toggled(bool checked);
     void on_spinBox_triggerChannel_valueChanged(int arg1);
     void on_comboBox_exportFormat_activated(const QString &arg1);
     void on_checkBox_gpsTrack_toggled(bool checked);
