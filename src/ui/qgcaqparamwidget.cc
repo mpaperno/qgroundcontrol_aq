@@ -953,15 +953,17 @@ void QGCAQParamWidget::loadParameters()
             paramName = paramName.replace("IMU_ACC_ALN_", "IMU_ACC_ALGN_");
         if ( paramName.contains("L1_ATT_PWM_SCALE"))
             paramName = paramName.replace("L1_ATT_PWM_SCALE", "L1_ATT_PWM_SCAL");
+        if ( paramName.contains("NAV_ATL_SPED_") && paramExistsAQ("NAV_ALT_SPED_P"))
+            paramName = paramName.replace(QRegExp("NAV_ATL_SPED_(.+)"), "NAV_ALT_SPED_\\1");
 
         if (!paramExistsAQ(paramName)) {
-            qDebug() << "Param does not exist: " << paramName;
+            //qDebug() << "Param does not exist: " << paramName;
             continue;
         }
 
         paramValueFloat = paramValue.replace("f", "", Qt::CaseInsensitive).toFloat(&ok);
         if (!ok || isnan(paramValueFloat)) {
-            qDebug() << "Could not convert value: " << paramValue;
+            //qDebug() << "Could not convert value: " << paramValue;
             continue;
         }
 

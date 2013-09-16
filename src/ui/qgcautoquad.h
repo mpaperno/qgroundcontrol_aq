@@ -103,6 +103,8 @@ private slots:
     void loadParametersToUI();
     void saveAQSettings();
     void saveDialogButtonClicked(QAbstractButton *btn);
+    QString paramNameGuiToOnboard(QString paraName);
+    void convertPidAttValsToFW68Scales();
 
     // Radio setup
     void radioType_changed(int idx);

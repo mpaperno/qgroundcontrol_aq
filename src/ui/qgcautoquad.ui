@@ -4114,14 +4114,14 @@ padding: 1px 5px;</string>
               <item>
                <layout class="QFormLayout" name="formLayout_15">
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_NAV_ATL_SPED_P">
+                 <widget class="QLabel" name="label_NAV_ALT_SPED_P">
                   <property name="text">
                    <string>P:</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="NAV_ATL_SPED_P">
+                 <widget class="QLineEdit" name="NAV_ALT_SPED_P">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -4131,14 +4131,14 @@ padding: 1px 5px;</string>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_NAV_ATL_SPED_I">
+                 <widget class="QLabel" name="label_NAV_ALT_SPED_I">
                   <property name="text">
                    <string>I:</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QLineEdit" name="NAV_ATL_SPED_I">
+                 <widget class="QLineEdit" name="NAV_ALT_SPED_I">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -4152,14 +4152,14 @@ padding: 1px 5px;</string>
               <item>
                <layout class="QFormLayout" name="formLayout_16">
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_NAV_ATL_SPED_PM">
+                 <widget class="QLabel" name="label_NAV_ALT_SPED_PM">
                   <property name="text">
                    <string>P Max:</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="NAV_ATL_SPED_PM">
+                 <widget class="QLineEdit" name="NAV_ALT_SPED_PM">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -4169,14 +4169,14 @@ padding: 1px 5px;</string>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_NAV_ATL_SPED_IM">
+                 <widget class="QLabel" name="label_NAV_ALT_SPED_IM">
                   <property name="text">
                    <string>I Max:</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QLineEdit" name="NAV_ATL_SPED_IM">
+                 <widget class="QLineEdit" name="NAV_ALT_SPED_IM">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -4186,14 +4186,14 @@ padding: 1px 5px;</string>
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLabel" name="label_NAV_ATL_SPED_OM">
+                 <widget class="QLabel" name="label_NAV_ALT_SPED_OM">
                   <property name="text">
                    <string>Out Max:</string>
                   </property>
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QLineEdit" name="NAV_ATL_SPED_OM">
+                 <widget class="QLineEdit" name="NAV_ALT_SPED_OM">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -4313,6 +4313,32 @@ padding: 1px 5px;</string>
                </layout>
               </item>
              </layout>
+            </widget>
+           </item>
+           <item row="2" column="0" colspan="2" alignment="Qt::AlignRight|Qt::AlignTop">
+            <widget class="QPushButton" name="cmdBtn_ConvertTov68AttPIDs">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>28</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will re-calculate the currently shown Rate and Angle PID values to firmware v6.8 (and up) scaling (multiplies all values by 4.82).&lt;/p&gt;&lt;p&gt;The new values are only displayed here, you still need to save them to AQ (if you want to).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Re-scale attitude PID values for firmware version 6.8+    </string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../qgroundcontrol.qrc">
+               <normaloff>:/files/images/apps/accessories-calculator.svg</normaloff>:/files/images/apps/accessories-calculator.svg</iconset>
+             </property>
             </widget>
            </item>
           </layout>
@@ -5563,13 +5589,57 @@ padding: 1px 5px;</string>
                   <number>8</number>
                  </property>
                  <item row="0" column="0">
+                  <widget class="QLabel" name="label_MOT_ARM">
+                   <property name="text">
+                    <string>Arm PWM:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QSpinBox" name="MOT_ARM">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>75</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="accelerated">
+                    <bool>true</bool>
+                   </property>
+                   <property name="suffix">
+                    <string> µs</string>
+                   </property>
+                   <property name="minimum">
+                    <number>750</number>
+                   </property>
+                   <property name="maximum">
+                    <number>2250</number>
+                   </property>
+                   <property name="singleStep">
+                    <number>10</number>
+                   </property>
+                   <property name="value">
+                    <number>975</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
                   <widget class="QLabel" name="label_MOT_MIN">
                    <property name="text">
                     <string>Min. PWM:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="1">
+                 <item row="1" column="1">
                   <widget class="QSpinBox" name="MOT_MIN">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -5602,18 +5672,18 @@ padding: 1px 5px;</string>
                     <number>10</number>
                    </property>
                    <property name="value">
-                    <number>975</number>
+                    <number>1000</number>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="0">
+                 <item row="2" column="0">
                   <widget class="QLabel" name="label_MOT_START">
                    <property name="text">
                     <string>Starting PWM:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
+                 <item row="2" column="1">
                   <widget class="QSpinBox" name="MOT_START">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -5650,14 +5720,14 @@ padding: 1px 5px;</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
+                 <item row="3" column="0">
                   <widget class="QLabel" name="label_MOT_MAX">
                    <property name="text">
                     <string>Max. PWM:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="1">
+                 <item row="3" column="1">
                   <widget class="QSpinBox" name="MOT_MAX">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -5692,6 +5762,33 @@ padding: 1px 5px;</string>
                    <property name="value">
                     <number>1950</number>
                    </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_MOT_CAN">
+                   <property name="text">
+                    <string>Use CAN Bus</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QComboBox" name="MOT_CAN">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>No</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Yes</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -8982,12 +9079,12 @@ padding: 1px 5px;</string>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>366</x>
-     <y>378</y>
+     <x>387</x>
+     <y>563</y>
     </hint>
     <hint type="destinationlabel">
-     <x>356</x>
-     <y>409</y>
+     <x>428</x>
+     <y>595</y>
     </hint>
    </hints>
   </connection>
@@ -8998,12 +9095,12 @@ padding: 1px 5px;</string>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>398</x>
-     <y>407</y>
+     <x>428</x>
+     <y>595</y>
     </hint>
     <hint type="destinationlabel">
-     <x>397</x>
-     <y>379</y>
+     <x>387</x>
+     <y>563</y>
     </hint>
    </hints>
   </connection>

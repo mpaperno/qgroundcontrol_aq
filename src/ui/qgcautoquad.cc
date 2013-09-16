@@ -152,6 +152,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->conatiner_radioGraphValues->setEnabled(false);
     ui->DOWNLINK_BAUD->hide();
     ui->label_DOWNLINK_BAUD->hide();
+    ui->cmdBtn_ConvertTov68AttPIDs->hide();
 
     // hide variance button for older versions of cal program
     if (calVersion <= 1.0f)
@@ -223,6 +224,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->pushButton_Calculate, SIGNAL(clicked()),this,SLOT(CalculatDeclination()));
 
     connect(ui->pushButton_save_to_aq, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
+    connect(ui->cmdBtn_ConvertTov68AttPIDs, SIGNAL(clicked()), this, SLOT(convertPidAttValsToFW68Scales()));
 
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
@@ -2204,8 +2206,9 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     // handle all input widgets
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     foreach (QWidget* w, wdgtList) {
-        paraName = w->objectName().replace(dupeFldnameRx, "");
+        paraName = paramNameGuiToOnboard(w->objectName());
         paraLabel = parent->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
+
         if (!paramaq->paramExistsAQ(paraName)) {
             w->hide();
             if (paraLabel)
@@ -2296,6 +2299,16 @@ void QGCAutoquad::loadParametersToUI() {
     getGUIpara(ui->tab_aq_settings);
     populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
+
+    // check for old PIDs and offer to convert them if running newer firmware
+    // TODO: remove me eventually
+    if (paramaq->paramExistsAQ("MOT_CAN") &&
+            paramaq->getParaAQ("CTRL_TLT_RTE_D").toFloat() < 15000.0f &&
+            paramaq->getParaAQ("CTRL_YAW_ANG_PM").toFloat() < 3.0f)
+        ui->cmdBtn_ConvertTov68AttPIDs->show();
+    else
+        ui->cmdBtn_ConvertTov68AttPIDs->hide();
+
     mtx_paramsAreLoading = false;
 }
 
@@ -2332,7 +2345,8 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
     }
 
     foreach (QObject* w, objList) {
-        paraName = w->objectName().replace(dupeFldnameRx, "");
+        paraName = paramNameGuiToOnboard(w->objectName());
+
         if (!paramaq->paramExistsAQ(paraName))
             continue;
 
@@ -2435,7 +2449,6 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             paramSaveType = 0;
 
             QString msgBoxText = tr("The following parameter%1 %2 been modified:\n").arg((changeList.size() > 1) ? "s" : "").arg((changeList.size() > 1) ? tr("have") : tr("has"));
-            msg = "";
             msg = "<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n";
             QMapIterator<QString, QList<float> > i(changeList);
             QString val1, val2;
@@ -2534,7 +2547,42 @@ void QGCAutoquad::saveDialogButtonClicked(QAbstractButton* btn) {
         paramSaveType = 2;
 }
 
+QString QGCAutoquad::paramNameGuiToOnboard(QString paraName) {
+    paraName = paraName.replace(dupeFldnameRx, "");
 
+    if (!paramaq)
+        return paraName;
+
+    // check for old param names
+    QString tmpstr;
+    if (paraName.indexOf(QRegExp("NAV_ALT_SPED_.+")) > -1 && !paramaq->paramExistsAQ(paraName)){
+        tmpstr = paraName.replace(QRegExp("NAV_ALT_SPED_(.+)"), "NAV_ATL_SPED_\\1");
+        if (paramaq->paramExistsAQ(tmpstr))
+            paraName = tmpstr;
+    }
+
+    return paraName;
+}
+
+void QGCAutoquad::convertPidAttValsToFW68Scales() {
+    float v;
+    bool ok;
+    QList<QLineEdit *> attPIDs = this->findChildren<QLineEdit *>(QRegExp("^CTRL_(TLT|YAW)_(RTE|ANG)_[PIDOM]{1,2}$"));
+    foreach (QLineEdit* le, attPIDs) {
+        v = le->text().toFloat(&ok);
+        if (ok)
+            le->setText(QString::number(v * 4.82f));
+    }
+    if (ok) {
+        QString msg = "The Rate and Angle PIDs have been converted and are displayed here, but have NOT been sent to AQ. ";
+        msg += "To return to the old values, simply refresh the onboard parameters list.\n\n";
+        msg += "Please note that the conversions are approximate. Each value (except the F term!) has been multipled by 4.82 You may want to round some of the numbers a bit.\n\n";
+        msg += "You also may wish to refer to the original code changes for reference:\n";
+        msg += "    http://code.google.com/p/autoquad/source/diff?spec=svn234&r=234&format=side&path=/trunk/onboard/config_default.h#sc_svn233_59";
+        MainWindow::instance()->showInfoMessage("Attitude PID values converted.", msg);
+        ui->cmdBtn_ConvertTov68AttPIDs->hide();
+    }
+}
 
 //
 // Miscellaneous
