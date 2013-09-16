@@ -26,6 +26,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connectedLink(NULL),
     mtx_paramsAreLoading(false)
 {
+    bool ok;
 
     VisibleWidget = 0;
     FwFileForEsc32 = "";
@@ -45,6 +46,16 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     platformExeExt = "";
 #endif
 
+    calVersion = 1.0f;
+    if (QFile::exists(aqBinFolderPath + "cal_version.txt")) {
+        QFile cverfile(aqBinFolderPath + "cal_version.txt");
+        if (cverfile.open(QFile::ReadOnly | QFile::Text)) {
+            float chkver = cverfile.readAll().trimmed().toFloat(&ok);
+            if (ok)
+                calVersion = chkver;
+        }
+    }
+
     // these regexes are used for matching field names to AQ params
     fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
@@ -61,13 +72,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     aqPwmPortConfig = new AQPWMPortsConfig(this);
     ui->tabLayout_aqMixingOutput->addWidget(aqPwmPortConfig);
     //ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
-
-#ifdef QT_NO_DEBUG
-    ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
-#endif
-#ifdef Q_OS_WIN
-    //ui->pushButton_var_cal3->hide();
-#endif
 
     // populate field values
 
@@ -149,6 +153,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->DOWNLINK_BAUD->hide();
     ui->label_DOWNLINK_BAUD->hide();
 
+    // hide variance button for older versions of cal program
+    if (calVersion <= 1.0f)
+        ui->pushButton_var_cal3->hide();
+
     // hide these permanently, for now... (possible future use for these)
     ui->checkBox_raw_value->hide();
     ui->ComPortLabel->hide();
@@ -162,7 +170,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
-    // done setting up UI
+#ifdef QT_NO_DEBUG
+    ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
+#endif
+
+
+    // done setting up UI //
 
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
@@ -978,17 +991,15 @@ void QGCAutoquad::startcal3(){
 }
 
 void QGCAutoquad::checkVaraince() {
+    if ( active_cal_mode == 3 && calVersion > 1.0f ) {
 #ifdef Q_OS_WIN
-    if ( active_cal_mode == 3 ) {
         QFile f(aqBinFolderPath + "testVariance");
         f.open(QIODevice::ReadWrite);
         f.close();
-    }
 #else
-    if ( active_cal_mode == 3 ) {
         ps_master.write("v");
-    }
 #endif
+    }
 }
 
 void QGCAutoquad::startsim1(){
@@ -1163,7 +1174,7 @@ void QGCAutoquad::startsim3(){
 }
 
 void QGCAutoquad::abortcalc(){
-    if ( active_cal_mode == 3 ) {
+    if ( active_cal_mode == 3 && calVersion > 1.0f ) {
 #ifdef Q_OS_WIN
         QFile f(aqBinFolderPath + "endCal");
         f.open(QIODevice::ReadWrite);

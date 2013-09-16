@@ -215,6 +215,7 @@ private:
     QStringList StaticFiles;
     QStringList DynamicFiles;
     QString UsersParamsFile;
+    float calVersion;
 
     // FW flashing
     QString fileToFlash;
