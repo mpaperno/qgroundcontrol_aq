@@ -1533,22 +1533,22 @@ void QGCAutoquad::ParaWrittenEsc32(QString ParaName) {
 
 void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2) {
     switch (CommandName) {
-    case esc32->BINARY_COMMAND_ARM :
+    case AQEsc32::BINARY_COMMAND_ARM :
         ui->pushButton_esc32_read_arm_disarm->setText("disarm");
         break;
-    case esc32->BINARY_COMMAND_DISARM :
+    case AQEsc32::BINARY_COMMAND_DISARM :
         ui->pushButton_esc32_read_arm_disarm->setText("arm");
         break;
-    case esc32->BINARY_COMMAND_START :
+    case AQEsc32::BINARY_COMMAND_START :
         ui->pushButton_esc32_read_start_stop->setText("stop");
         break;
-    case esc32->BINARY_COMMAND_STOP :
+    case AQEsc32::BINARY_COMMAND_STOP :
         ui->pushButton_esc32_read_start_stop->setText("start");
         break;
-    case esc32->BINARY_COMMAND_RPM :
+    case AQEsc32::BINARY_COMMAND_RPM :
         ui->spinBox_rpm->setValue(V1.toInt());
         break;
-    case esc32->BINARY_COMMAND_CONFIG :
+    case AQEsc32::BINARY_COMMAND_CONFIG :
         switch (V1.toInt()) {
         case 0 :
             Esc32UpdateStatusText("Loaded config from flash.");
