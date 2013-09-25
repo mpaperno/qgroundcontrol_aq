@@ -2958,10 +2958,10 @@ padding: 1px 5px;</string>
                           <number>0</number>
                          </property>
                          <property name="maximum">
-                          <number>700</number>
+                          <number>3000</number>
                          </property>
                          <property name="value">
-                          <number>300</number>
+                          <number>1440</number>
                          </property>
                         </widget>
                        </item>
