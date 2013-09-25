@@ -907,10 +907,13 @@ void QGCAQParamWidget::loadParameters()
     OverrideCheckValue = 1;
 
     QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
 
-    bool userWarned = false;
+    if (!file.size() || !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        MainWindow::instance()->showCriticalMessage("Error", "Could not open saved parameters file.");
+        return;
+    }
+
+    // bool userWarned = false;
 
     QTextStream in(&file);
     while (!in.atEnd()) {

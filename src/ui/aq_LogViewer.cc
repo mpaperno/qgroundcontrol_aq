@@ -136,7 +136,9 @@ void AQLogViewer::OpenLogFile()
         QFile file(fileName);
         LogFile = QDir::toNativeSeparators(file.fileName());
         LastFilePath = LogFile;
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        if (!file.size()) {
+            MainWindow::instance()->showCriticalMessage("Error", "Log file size is zero!");
+        } else if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             MainWindow::instance()->showCriticalMessage("Error", "Could not read Log file. Permission denied!");
         } else {
             file.close();
