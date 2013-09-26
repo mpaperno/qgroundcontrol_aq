@@ -31,6 +31,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     VisibleWidget = 0;
     FwFileForEsc32 = "";
     FlashEsc32Active = false;
+    fwFlashActive = false;
 
     aqFirmwareVersion = "";
     aqFirmwareRevision = 0;
@@ -267,7 +268,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ps_master.setProcessChannelMode(QProcess::MergedChannels);
     connect(&ps_master, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
     connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
-    connect(&ps_master, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
+//    connect(&ps_master, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
+    connect(&ps_master, SIGNAL(error(QProcess::ProcessError)), this, SLOT(extProcessError(QProcess::ProcessError)));
 
     //Process Slots for tracking
     ps_tracking.setProcessChannelMode(QProcess::MergedChannels);
@@ -891,10 +893,60 @@ void QGCAutoquad::check_stop()
 
 }
 
-void QGCAutoquad::startcal1(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "cal" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
+void QGCAutoquad::startCalculationProcess(QString appName, QStringList appArgs) {
+    QString appPath = QDir::toNativeSeparators(aqBinFolderPath + appName + platformExeExt);
 
+    activeProcessStatusWdgt->clear();
+    activeProcessStatusWdgt->append(appPath);
+    for ( int i = 0; i<appArgs.count(); i++) {
+        activeProcessStatusWdgt->append(appArgs.at(i));
+    }
+    currentCalcStartBtn->setEnabled(false);
+    currentCalcAbortBtn->setEnabled(true);
+
+    ps_master.setWorkingDirectory(aqBinFolderPath);
+    ps_master.start(appPath , appArgs, QIODevice::Unbuffered | QIODevice::ReadWrite);
+}
+
+void QGCAutoquad::abortcalc(){
+    if ( currentCalcAbortBtn == ui->pushButton_abort_cal3 && calVersion > 1.0f ) {
+#ifdef Q_OS_WIN
+        QFile f(aqBinFolderPath + "endCal");
+        f.open(QIODevice::ReadWrite);
+        f.close();
+#else
+        ps_master.write("e");
+#endif
+    }
+    else {
+        if ( ps_master.Running)
+            ps_master.close();
+    }
+}
+
+void QGCAutoquad::checkVaraince() {
+    if ( currentCalcAbortBtn == ui->pushButton_abort_cal3 && calVersion > 1.0f ) {
+#ifdef Q_OS_WIN
+        QFile f(aqBinFolderPath + "testVariance");
+        f.open(QIODevice::ReadWrite);
+        f.close();
+#else
+        ps_master.write("v");
+#endif
+    }
+}
+
+QString QGCAutoquad::calcGetSim3ParamPath() {
+    QString Sim3ParaPath = "sim3.params";
+    if ( ui->checkBox_DIMU->isChecked())
+        Sim3ParaPath = "sim3_dimu.params";
+
+    Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + Sim3ParaPath);
+
+    return Sim3ParaPath;
+}
+
+void QGCAutoquad::startcal1(){
     QStringList Arguments;
 
     Arguments.append("--rate");
@@ -903,21 +955,14 @@ void QGCAutoquad::startcal1(){
     }
     Arguments.append(":");
 
-    active_cal_mode = 1;
-    ui->textOutput_cal1->clear();
-    ui->pushButton_start_cal1->setEnabled(false);
-    ui->pushButton_abort_cal1->setEnabled(true);
-    ui->textOutput_cal1->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_cal1->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    activeProcessStatusWdgt = ui->textOutput_cal1;
+    currentCalcStartBtn = ui->pushButton_start_cal1;
+    currentCalcAbortBtn = ui->pushButton_abort_cal1;
+
+    startCalculationProcess("cal", Arguments);
 }
 
 void QGCAutoquad::startcal2(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "cal" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-
     QStringList Arguments;
 
     Arguments.append("--acc");
@@ -930,20 +975,16 @@ void QGCAutoquad::startcal2(){
         Arguments.append(DynamicFiles.at(i));
     }
 
-    active_cal_mode = 2;
-    ui->textOutput_cal2->clear();
-    ui->pushButton_start_cal2->setEnabled(false);
-    ui->pushButton_abort_cal2->setEnabled(true);
-    ui->textOutput_cal2->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_cal2->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    activeProcessStatusWdgt = ui->textOutput_cal2;
+    currentCalcStartBtn = ui->pushButton_start_cal2;
+    currentCalcAbortBtn = ui->pushButton_abort_cal2;
+
+    startCalculationProcess("cal", Arguments);
 }
 
 void QGCAutoquad::startcal3(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "cal" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
+    QStringList Arguments;
+
 #ifdef Q_OS_WIN
     if ( QFile::exists(aqBinFolderPath + "testVariance") ) {
         QFile::remove(aqBinFolderPath + "testVariance");
@@ -952,8 +993,6 @@ void QGCAutoquad::startcal3(){
         QFile::remove(aqBinFolderPath + "endCal");
     }
 #endif
-
-    QStringList Arguments;
 
     if ( !ui->checkBox_DIMU->isChecked()) {
         Arguments.append("--mag");
@@ -980,51 +1019,21 @@ void QGCAutoquad::startcal3(){
     Arguments.append("-p");
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
-    active_cal_mode = 3;
-    ui->textOutput_cal3->clear();
-    ui->pushButton_start_cal3->setEnabled(false);
-    ui->pushButton_abort_cal3->setEnabled(true);
-    ui->textOutput_cal3->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_cal3->append(Arguments.at(i));
-    }
+    activeProcessStatusWdgt = ui->textOutput_cal3;
+    currentCalcStartBtn = ui->pushButton_start_cal3;
+    currentCalcAbortBtn = ui->pushButton_abort_cal3;
 
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
-}
-
-void QGCAutoquad::checkVaraince() {
-    if ( active_cal_mode == 3 && calVersion > 1.0f ) {
-#ifdef Q_OS_WIN
-        QFile f(aqBinFolderPath + "testVariance");
-        f.open(QIODevice::ReadWrite);
-        f.close();
-#else
-        ps_master.write("v");
-#endif
-    }
+    startCalculationProcess("cal", Arguments);
 }
 
 void QGCAutoquad::startsim1(){
-    QString AppPath;
-    QString Sim3ParaPath;
-    if ( !ui->checkBox_DIMU->isChecked()) {
-        AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
-        ps_master.setWorkingDirectory(aqBinFolderPath);
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
-    }
-    else {
-        AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
-        ps_master.setWorkingDirectory(aqBinFolderPath);
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
-    }
-
     QStringList Arguments;
 
     if ( ui->checkBox_DIMU->isChecked())
         Arguments.append("-b");
     Arguments.append("--gyo");
     Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
+    Arguments.append(calcGetSim3ParamPath());
     Arguments.append("-p");
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
@@ -1039,33 +1048,21 @@ void QGCAutoquad::startsim1(){
         Arguments.append(DynamicFiles.at(i));
     }
 
-    active_cal_mode = 4;
-    ui->textOutput_sim1->clear();
-    ui->pushButton_start_sim1->setEnabled(false);
-    ui->pushButton_abort_sim1->setEnabled(true);
-    ui->textOutput_sim1->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim1->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    activeProcessStatusWdgt = ui->textOutput_sim1;
+    currentCalcStartBtn = ui->pushButton_start_sim1;
+    currentCalcAbortBtn = ui->pushButton_abort_sim1;
+
+    startCalculationProcess("sim3", Arguments);
 }
 
 void QGCAutoquad::startsim1b(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath;
-    if ( !ui->checkBox_DIMU->isChecked())
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
-    else
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
-
     QStringList Arguments;
 
     if ( ui->checkBox_DIMU->isChecked())
         Arguments.append("-b");
     Arguments.append("--acc");
     Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
+    Arguments.append(calcGetSim3ParamPath());
     Arguments.append("-p");
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
@@ -1080,26 +1077,14 @@ void QGCAutoquad::startsim1b(){
         Arguments.append(DynamicFiles.at(i));
     }
 
-    active_cal_mode = 41;
-    ui->textOutput_sim1_2->clear();
-    ui->pushButton_start_sim1_2->setEnabled(false);
-    ui->pushButton_abort_sim1_2->setEnabled(true);
-    ui->textOutput_sim1_2->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim1_2->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    activeProcessStatusWdgt = ui->textOutput_sim1_2;
+    currentCalcStartBtn = ui->pushButton_start_sim1_2;
+    currentCalcAbortBtn = ui->pushButton_abort_sim1_2;
+
+    startCalculationProcess("sim3", Arguments);
 }
 
 void QGCAutoquad::startsim2(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath;
-    if ( !ui->checkBox_DIMU->isChecked())
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
-    else
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
-
     QStringList Arguments;
 
     if ( ui->checkBox_DIMU->isChecked())
@@ -1107,7 +1092,7 @@ void QGCAutoquad::startsim2(){
     Arguments.append("--acc");
     Arguments.append("--gyo");
     Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
+    Arguments.append(calcGetSim3ParamPath());
     Arguments.append("-p");
     Arguments.append( QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
@@ -1122,26 +1107,14 @@ void QGCAutoquad::startsim2(){
         Arguments.append(DynamicFiles.at(i));
     }
 
-    active_cal_mode = 5;
-    ui->textOutput_sim2->clear();
-    ui->pushButton_start_sim2->setEnabled(false);
-    ui->pushButton_abort_sim2->setEnabled(true);
-    ui->textOutput_sim2->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim2->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    activeProcessStatusWdgt = ui->textOutput_sim2;
+    currentCalcStartBtn = ui->pushButton_start_sim2;
+    currentCalcAbortBtn = ui->pushButton_abort_sim2;
+
+    startCalculationProcess("sim3", Arguments);
 }
 
 void QGCAutoquad::startsim3(){
-    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3" + platformExeExt);
-    ps_master.setWorkingDirectory(aqBinFolderPath);
-    QString Sim3ParaPath;
-    if ( !ui->checkBox_DIMU->isChecked())
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3.params");
-    else
-        Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + "sim3_dimu.params");
-
     QStringList Arguments;
 
     Arguments.append("--mag");
@@ -1149,7 +1122,7 @@ void QGCAutoquad::startsim3(){
         Arguments.append("-b");
     Arguments.append("--incl");
     Arguments.append("-p");
-    Arguments.append(Sim3ParaPath);
+    Arguments.append(calcGetSim3ParamPath());
     Arguments.append("-p");
     Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
 
@@ -1164,32 +1137,13 @@ void QGCAutoquad::startsim3(){
         Arguments.append(DynamicFiles.at(i));
     }
 
-    active_cal_mode = 6;
-    ui->textOutput_sim3->clear();
-    ui->pushButton_start_sim3->setEnabled(false);
-    ui->pushButton_abort_sim3->setEnabled(true);
-    ui->textOutput_sim3->append(AppPath);
-    for ( int i = 0; i<Arguments.count(); i++) {
-        ui->textOutput_sim3->append(Arguments.at(i));
-    }
-    ps_master.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    activeProcessStatusWdgt = ui->textOutput_sim3;
+    currentCalcStartBtn = ui->pushButton_start_sim3;
+    currentCalcAbortBtn = ui->pushButton_abort_sim3;
+
+    startCalculationProcess("sim3", Arguments);
 }
 
-void QGCAutoquad::abortcalc(){
-    if ( active_cal_mode == 3 && calVersion > 1.0f ) {
-#ifdef Q_OS_WIN
-        QFile f(aqBinFolderPath + "endCal");
-        f.open(QIODevice::ReadWrite);
-        f.close();
-#else
-        ps_master.write("e");
-#endif
-    }
-    else {
-        if ( ps_master.Running)
-            ps_master.close();
-    }
-}
 
 
 //
@@ -1894,6 +1848,9 @@ void QGCAutoquad::flashFW()
     if (connectedLink)
         connectedLink->disconnect();
 
+    activeProcessStatusWdgt = ui->textFlashOutput;
+    fwFlashActive = true;
+
     if (fwtype == "aq")
         flashFwStart();
     else
@@ -1910,8 +1867,7 @@ void QGCAutoquad::flashFwStart()
     Arguments.append(QDir::toNativeSeparators(ui->fileLabel->text()));
     Arguments.append("-v");
     Arguments.append(portName);
-    active_cal_mode = 0;
-//    ui->textFlashOutput->clear();
+
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
 }
 
@@ -2588,178 +2544,70 @@ void QGCAutoquad::convertPidAttValsToFW68Scales() {
     }
 }
 
+
+
 //
 // Miscellaneous
 //
 
 
 void QGCAutoquad::prtstexit(int stat) {
-    if ( active_cal_mode == 0 ) {
+    if ( fwFlashActive ) {  // firmware flashing mode
         ui->flashButton->setEnabled(true);
         if (!stat)
             MainWindow::instance()->showInfoMessage("Restart the device.", "Please cycle power to the AQ/ESC or press the AQ reset button to reboot.");
+        fwFlashActive = false;
         if (connectedLink) {
             connectedLink->connect();
         }
-    }
-    if ( active_cal_mode == 1 ) {
-        ui->pushButton_start_cal1->setEnabled(true);
-        ui->pushButton_abort_cal1->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 2 ) {
-        ui->pushButton_start_cal2->setEnabled(true);
-        ui->pushButton_abort_cal2->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 3 ) {
-        ui->pushButton_start_cal3->setEnabled(true);
-        ui->pushButton_abort_cal3->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 4 ) {
-        ui->pushButton_start_sim1->setEnabled(true);
-        ui->pushButton_abort_sim1->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 41 ) {
-        ui->pushButton_start_sim1_2->setEnabled(true);
-        ui->pushButton_abort_sim1_2->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 5 ) {
-        ui->pushButton_start_sim2->setEnabled(true);
-        ui->pushButton_abort_sim2->setEnabled(false);
-        active_cal_mode = 0;
-    }
-    if ( active_cal_mode == 6 ) {
-        ui->pushButton_start_sim3->setEnabled(true);
-        ui->pushButton_abort_sim3->setEnabled(false);
-        active_cal_mode = 0;
+    } else if (currentCalcStartBtn && currentCalcAbortBtn) {
+        currentCalcStartBtn->setEnabled(true);
+        currentCalcAbortBtn->setEnabled(false);
     }
 }
 
 void QGCAutoquad::prtstdout() {
-        if ( active_cal_mode == 0 ) {
-            output = ps_master.readAllStandardOutput();
-            if ( output.contains("[uWrote")) {
-                output = output.right(output.length()-3);
-                ui->textFlashOutput->clear();
-            }
-            ui->textFlashOutput->append(output);
-        }
-        if ( active_cal_mode == 1 ) {
-            output_cal1 = ps_master.readAllStandardOutput();
-            if ( output_cal1.contains("[H") ) {
-                ui->textOutput_cal1->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_cal1->append(output_cal1);
-        }
-        if ( active_cal_mode == 2 ) {
-            output_cal2 = ps_master.readAllStandardOutput();
-            if ( output_cal2.contains("[H") ) {
-                ui->textOutput_cal2->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_cal2->append(output_cal2);
-        }
-        if ( active_cal_mode == 3 ) {
-            output_cal3 = ps_master.readAllStandardOutput();
-            if ( output_cal3.contains("[H") ) {
-                ui->textOutput_cal3->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_cal3->append(output_cal3);
-        }
-        if ( active_cal_mode == 4 ) {
-            output_sim1 = ps_master.readAllStandardOutput();
-            if ( output_sim1.contains("[H") ) {
-                ui->textOutput_sim1->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_sim1->append(output_sim1);
-        }
-        if ( active_cal_mode == 41 ) {
-            output_sim1b = ps_master.readAllStandardOutput();
-            if ( output_sim1b.contains("[H") ) {
-                ui->textOutput_sim1_2->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_sim1_2->append(output_sim1b);
-        }
-        if ( active_cal_mode == 5 ) {
-            output_sim2 = ps_master.readAllStandardOutput();
-            if ( output_sim2.contains("[H") ) {
-                ui->textOutput_sim2->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_sim2->append(output_sim2);
-        }
-        if ( active_cal_mode == 6 ) {
-            output_sim3 = ps_master.readAllStandardOutput();
-            if ( output_sim3.contains("[H") ) {
-                ui->textOutput_sim3->clear();
-                output = output.right(output.length()-2);
-            }
-
-            ui->textOutput_sim3->append(output_sim3);
-        }
+    QString output = ps_master.readAllStandardOutput();
+    if (output.contains(QRegExp(".{1}\\[(uWrote|H)"))) {
+        output = output.replace(QRegExp(".{1}\\[[uH]"), "");
+        activeProcessStatusWdgt->clear();
+    }
+    activeProcessStatusWdgt->append(output);
 }
 
-void QGCAutoquad::prtstderr() {
-    if ( active_cal_mode == 0 ) {
-        output = ps_master.readAllStandardError();
-        ui->textFlashOutput->append(output);
+//void QGCAutoquad::prtstderr() {
+//
+//}
+
+/**
+ * @brief Handle external process error code
+ * @param err Error code
+ */
+void QGCAutoquad::extProcessError(QProcess::ProcessError err) {
+    QString msg;
+    switch(err)
+    {
+    case QProcess::FailedToStart:
+        msg = "Failed to start.";
+        break;
+    case QProcess::Crashed:
+        msg = "Process terminated (aborted or crashed).";
+        break;
+    case QProcess::Timedout:
+        msg = "Timeout waiting for process.";
+        break;
+    case QProcess::WriteError:
+        msg = "Cannot write to process, exiting.";
+        break;
+    case QProcess::ReadError:
+        msg = "Cannot read from process, exiting.";
+        break;
+    default:
+        msg = "Unknown error";
+        break;
     }
-    if ( active_cal_mode == 1 ) {
-            output_cal1 = ps_master.readAllStandardError();
-            if ( output_cal1.contains("[") )
-                    ui->textOutput_cal1->clear();
-            ui->textOutput_cal1->append(output_cal1);
-    }
-    if ( active_cal_mode == 2 ) {
-            output_cal2 = ps_master.readAllStandardError();
-            if ( output_cal2.contains("[") )
-                    ui->textOutput_cal2->clear();
-            ui->textOutput_cal2->append(output_cal2);
-    }
-    if ( active_cal_mode == 3 ) {
-            output_cal3 = ps_master.readAllStandardError();
-            if ( output_cal3.contains("[") )
-                    ui->textOutput_cal3->clear();
-            ui->textOutput_cal3->append(output_cal3);
-    }
-    if ( active_cal_mode == 4 ) {
-            output_sim1 = ps_master.readAllStandardError();
-            if ( output_sim1.contains("[") )
-                    ui->textOutput_sim1->clear();
-            ui->textOutput_sim1->append(output_sim1);
-    }
-    if ( active_cal_mode == 41 ) {
-            output_sim1b = ps_master.readAllStandardError();
-            if ( output_sim1b.contains("[") )
-                    ui->textOutput_sim1_2->clear();
-            ui->textOutput_sim1_2->append(output_sim1b);
-    }
-    if ( active_cal_mode == 5 ) {
-            output_sim2 = ps_master.readAllStandardError();
-            if ( output_sim2.contains("[") )
-                    ui->textOutput_sim2->clear();
-            ui->textOutput_sim2->append(output_sim2);
-    }
-    if ( active_cal_mode == 6 ) {
-            output_sim3 = ps_master.readAllStandardError();
-            if ( output_sim3.contains("[") )
-                    ui->textOutput_sim3->clear();
-            ui->textOutput_sim3->append(output_sim3);
-    }
+    activeProcessStatusWdgt->append(msg);
+    fwFlashActive = false;
 }
 
 

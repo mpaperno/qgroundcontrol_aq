@@ -19,6 +19,7 @@
 class QProgressBar;
 class QLabel;
 class QGCAQParamWidget;
+class QTextEdit;
 
 namespace Ui {
 class QGCAutoquad;
@@ -72,10 +73,12 @@ private slots:
     void flashFwStart();
 
     // Calculations
+    void startCalculationProcess(QString appName, QStringList appArgs);
     void startcal1();
     void startcal2();
     void startcal3();
     void checkVaraince();
+    QString calcGetSim3ParamPath();
     void startsim1();
     void startsim1b();
     void startsim2();
@@ -147,7 +150,8 @@ private slots:
     // Misc.
     void prtstexit(int stat);
     void prtstdout();
-    void prtstderr();
+//    void prtstderr();
+    void extProcessError(QProcess::ProcessError err);
     void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
     void handleStatusText(int uasId, int compid, int severity, QString text);
     void setHardwareInfo(int boardVer);
@@ -205,23 +209,18 @@ private:
     QSettings settings;
 
     // Calculations
-    quint32 active_cal_mode;
-    QString output;
-    QString output_cal1;
-    QString output_cal2;
-    QString output_cal3;
-    QString output_sim1;
-    QString output_sim1b;
-    QString output_sim2;
-    QString output_sim3;
     QStringList StaticFiles;
     QStringList DynamicFiles;
     QString UsersParamsFile;
     float calVersion;
+    QTextEdit* activeProcessStatusWdgt;
+    QPushButton* currentCalcStartBtn;
+    QPushButton* currentCalcAbortBtn;
 
     // FW flashing
     QString fileToFlash;
     QString portName;
+    bool fwFlashActive;
 
     // ESC32
     int WaitForParaWriten;
