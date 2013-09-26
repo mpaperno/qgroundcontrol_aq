@@ -676,7 +676,7 @@ void QGCAutoquad::CreateUsersParams() {
     QFileInfo dir(dirPath);
 
     // use native file dialog
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Parameters File"), dir.absoluteFilePath(),
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Select Parameters File"), dir.absoluteFilePath(),
                                             tr("AQ Parameter File (*.params);;All File Types (*.*)"));
 
     if (fileName.length())
@@ -2573,12 +2573,16 @@ void QGCAutoquad::convertPidAttValsToFW68Scales() {
         if (ok)
             le->setText(QString::number(v * 4.82f));
     }
+    // don't forget CTRL_MAX which is a int spin box
+    ui->CTRL_MAX->setValue(ui->CTRL_MAX->value() * 4.82f);
+
     if (ok) {
-        QString msg = "The Rate and Angle PIDs have been converted and are displayed here, but have NOT been sent to AQ. ";
-        msg += "To return to the old values, simply refresh the onboard parameters list.\n\n";
-        msg += "Please note that the conversions are approximate. Each value (except the F term!) has been multipled by 4.82 You may want to round some of the numbers a bit.\n\n";
-        msg += "You also may wish to refer to the original code changes for reference:\n";
-        msg += "    http://code.google.com/p/autoquad/source/diff?spec=svn234&r=234&format=side&path=/trunk/onboard/config_default.h#sc_svn233_59";
+        QString msg = "<html><p>The Rate and Angle PIDs, and the Max. Ctrl. Per Axis (CTRL_MAX) parameter have been converted and are displayed here, ";
+        msg += "but have NOT been sent to AQ (Ctrl. Max. is shown on the Radio & Controls setup screen).</p>";
+        msg += "<p>To return to the old values, simply refresh the onboard parameters list.</p>";
+        msg += "<p>Please note that the conversions are approximate. Each value (except the F term!) has been multipled by 4.82 You may want to round some of the numbers a bit.</p>";
+        msg += "<p>You may also wish to refer to the <a href='http://code.google.com/p/autoquad/source/diff?spec=svn234&r=234&format=side&path=/trunk/onboard/config_default.h#sc_svn233_59'>";
+        msg += "original code changes</a> for reference.</p></html>";
         MainWindow::instance()->showInfoMessage("Attitude PID values converted.", msg);
         ui->cmdBtn_ConvertTov68AttPIDs->hide();
     }
