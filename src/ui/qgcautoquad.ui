@@ -1200,9 +1200,6 @@ font-weight: bold;</string>
                   </property>
                   <item row="5" column="3">
                    <widget class="QLabel" name="label_GMBL_PSTHR_CHAN">
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optional extra passthrough channel, to be directed to Passthrough Port in Output -&amp;gt; Gimbal settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
                     <property name="text">
                      <string>Passthrough 1</string>
                     </property>
@@ -1223,7 +1220,7 @@ font-weight: bold;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="currentIndex">
                      <number>4</number>
@@ -1325,7 +1322,7 @@ font-weight: bold;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>aka Flaps/Aux 1. Switch between manual / position hold / mission modes.</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Flaps/Aux 1. Switch between manual / position hold / mission modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="currentIndex">
                      <number>5</number>
@@ -1414,9 +1411,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="5" column="0">
                    <widget class="QLabel" name="label_RADIO_GEAR_CH">
-                    <property name="toolTip">
-                     <string>aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.</string>
-                    </property>
                     <property name="text">
                      <string>Cam. Trig</string>
                     </property>
@@ -1424,9 +1418,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="3" column="3">
                    <widget class="QLabel" name="label_RADIO_AUX3_CH">
-                    <property name="toolTip">
-                     <string>aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function</string>
-                    </property>
                     <property name="text">
                      <string>Gimbal Tilt</string>
                     </property>
@@ -1447,7 +1438,7 @@ font-weight: bold;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="currentIndex">
                      <number>7</number>
@@ -1536,9 +1527,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="2" column="3">
                    <widget class="QLabel" name="label_RADIO_AUX2_CH">
-                    <property name="toolTip">
-                     <string>aka Aux 2. Switch to set home position and activate Return to Home function</string>
-                    </property>
                     <property name="text">
                      <string>Home Action</string>
                     </property>
@@ -1559,7 +1547,7 @@ font-weight: bold;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>aka Aux 2. Switch to set home position and activate Return to Home function</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 2. Switch to set home position and activate Return to Home function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="currentIndex">
                      <number>6</number>
@@ -1648,9 +1636,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="1" column="3">
                    <widget class="QLabel" name="label_RADIO_FLAP_CH">
-                    <property name="toolTip">
-                     <string>aka Flaps/Aux 1. Switch between manual / position hold / mission modes.</string>
-                    </property>
                     <property name="text">
                      <string>Flight Mode</string>
                     </property>
@@ -1765,9 +1750,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="4" column="3">
                    <widget class="QLabel" name="label_NAV_HDFRE_CHAN">
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for controlling Heading Free mode. Low position (&amp;lt; -250) turns HF on. Mid position (~0) turns HF off. Hight position (&amp;gt; 250) sets reference heading.  Keep switch in high position to continously set reference (aka. &amp;quot;dynamic mode&amp;quot;).&lt;/p&gt;&lt;p&gt;Reference heading is set as follows: &lt;/p&gt;&lt;p&gt;1) When not flying OR within 2 meters of Home position: reference heading is based on actual craft orienation.&lt;/p&gt;&lt;p&gt;2) When flying AND 2 meters or more away from home position: reference heading is based on bearing to home position.  In other words, &amp;quot;back&amp;quot; stick will bring the craft back towards home, regardless of its actual orientation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
                     <property name="text">
                      <string>Heading-Free</string>
                     </property>
@@ -1775,9 +1757,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="3" column="0">
                    <widget class="QLabel" name="label_RADIO_PITC_CH">
-                    <property name="toolTip">
-                     <string>Elevator / Nick</string>
-                    </property>
                     <property name="text">
                      <string>Pitch</string>
                     </property>
@@ -1897,9 +1876,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="2" column="0">
                    <widget class="QLabel" name="label_RADIO_ROLL_CH">
-                    <property name="toolTip">
-                     <string>Aileron</string>
-                    </property>
                     <property name="text">
                      <string>Roll</string>
                     </property>
@@ -2009,9 +1985,6 @@ font-weight: bold;</string>
                   </item>
                   <item row="4" column="0">
                    <widget class="QLabel" name="label_RADIO_RUDD_CH">
-                    <property name="toolTip">
-                     <string>Rudder</string>
-                    </property>
                     <property name="text">
                      <string>Yaw</string>
                     </property>
@@ -2242,9 +2215,6 @@ padding: 1px 5px;</string>
                   </item>
                   <item row="1" column="0">
                    <widget class="QLabel" name="label_RADIO_THRO_CH">
-                    <property name="toolTip">
-                     <string>Gas</string>
-                    </property>
                     <property name="text">
                      <string>Throttle</string>
                     </property>
@@ -2482,9 +2452,6 @@ padding: 1px 5px;</string>
                        </property>
                        <item row="0" column="0">
                         <widget class="QLabel" name="label_PPM_SCALER">
-                         <property name="toolTip">
-                          <string>Amount to divide pulse value by to arrive at acceptable AQ value.  Default of 3 is good for FrSky, Graupner, possibly others.</string>
-                         </property>
                          <property name="text">
                           <string>Chan. Value Scaler:</string>
                          </property>
@@ -2499,7 +2466,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Amount to divide pulse value by to arrive at acceptable AQ value.  Default of 3 is good for FrSky, Graupner, possibly others.</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Amount to divide pulse value by to arrive at acceptable AQ value.  Default of 3 is good for FrSky, Graupner, possibly others.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="decimals">
                           <number>2</number>
@@ -2527,9 +2494,6 @@ padding: 1px 5px;</string>
                        </property>
                        <item row="0" column="0">
                         <widget class="QLabel" name="label_PPM_THROT_LOW">
-                         <property name="toolTip">
-                          <string>Pulse value at at lowest stick position (affects throttle only)</string>
-                         </property>
                          <property name="text">
                           <string>Throt. Low Value</string>
                          </property>
@@ -2544,7 +2508,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Pulse value at at lowest stick position (affects throttle only)</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse value at at lowest stick position (affects throttle only)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="suffix">
                           <string> µs</string>
@@ -2562,9 +2526,6 @@ padding: 1px 5px;</string>
                        </item>
                        <item row="1" column="0">
                         <widget class="QLabel" name="label_PPM_CHAN_MID">
-                         <property name="toolTip">
-                          <string>Pulse value at middle stick/switch position (affects all channels except throttle)</string>
-                         </property>
                          <property name="text">
                           <string>Channel Midpiont</string>
                          </property>
@@ -2579,7 +2540,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Pulse value at middle stick/switch position (affects all channels except throttle)</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse value at middle stick/switch position (affects all channels except throttle)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="suffix">
                           <string> µs</string>
@@ -2697,7 +2658,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="decimals">
                           <number>5</number>
@@ -2738,7 +2699,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="decimals">
                           <number>5</number>
@@ -2770,7 +2731,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="decimals">
                           <number>5</number>
@@ -2802,7 +2763,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="decimals">
                           <number>5</number>
@@ -2833,9 +2794,6 @@ padding: 1px 5px;</string>
                        </property>
                        <item row="0" column="0">
                         <widget class="QLabel" name="label_CTRL_DBAND_THRO">
-                         <property name="toolTip">
-                          <string>Deadband is only active in altitude/position hold modes.</string>
-                         </property>
                          <property name="text">
                           <string>Throttle Deadband</string>
                          </property>
@@ -2850,7 +2808,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Deadband is only active in altitude/position hold modes.</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Deadband is only active in altitude/position hold modes (CTRL_DBAND_THRO).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="suffix">
                           <string> µs</string>
@@ -2868,9 +2826,6 @@ padding: 1px 5px;</string>
                        </item>
                        <item row="1" column="0">
                         <widget class="QLabel" name="label_CTRL_DEAD_BAND">
-                         <property name="toolTip">
-                          <string>Deadband is only active in position hold mode.</string>
-                         </property>
                          <property name="text">
                           <string>Pitch/Roll D-band</string>
                          </property>
@@ -2885,7 +2840,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>Deadband is only active in position hold mode.</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Deadband is only active in position hold mode (CTRL_DEAD_BAND).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="suffix">
                           <string> µs</string>
@@ -2917,7 +2872,7 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>minimum user throttle to activate motors (CTRL_MIN_THROT)</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum user throttle to activate motors (CTRL_MIN_THROT).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="suffix">
                           <string> µs</string>
@@ -2949,10 +2904,10 @@ padding: 1px 5px;</string>
                           </sizepolicy>
                          </property>
                          <property name="toolTip">
-                          <string>maximum control applied to motors for each of the roll/pitch/yaw axes (CTRL_MAX)</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum control applied to motors for each of the roll/pitch/yaw axes (CTRL_MAX).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="suffix">
-                          <string> µs</string>
+                          <string> </string>
                          </property>
                          <property name="minimum">
                           <number>0</number>
@@ -4457,7 +4412,7 @@ padding: 1px 5px;</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Pulse width sent to servo/controller for mid-point (level adjustment)</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width sent to servo/controller for mid-point (level adjustment)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="accelerated">
                  <bool>true</bool>
@@ -4545,7 +4500,7 @@ padding: 1px 5px;</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Stabilization scaling factor in degrees per second of pulse width.</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stabilization scaling factor in degrees per second of pulse width.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="inputMethodHints">
                  <set>Qt::ImhFormattedNumbersOnly</set>
@@ -4730,7 +4685,7 @@ padding: 1px 5px;</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Pulse width sent to servo/controller for mid-point (level adjustment)</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width sent to servo/controller for mid-point (level adjustment)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="accelerated">
                  <bool>true</bool>
@@ -4818,7 +4773,7 @@ padding: 1px 5px;</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Stabilization scaling factor in degrees per second of pulse width.</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stabilization scaling factor in degrees per second of pulse width.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="inputMethodHints">
                  <set>Qt::ImhFormattedNumbersOnly</set>
@@ -5048,7 +5003,7 @@ padding: 1px 5px;</string>
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>GMBL_TRIG_ON_TIM - How long to keep the trigger output level active, in ms.</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_TIM - How long to keep the trigger output level active, in ms.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="accelerated">
                  <bool>true</bool>
@@ -5390,7 +5345,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>Meters relative to home alt. Maximum altitude in AH/PH/mission/dvh modes</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Meters relative to home alt. Maximum altitude in AH/PH/mission/dvh modes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> m</string>
@@ -5418,7 +5373,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>Default velocity for mission landing leg when none is specified in mission plan.  Used as landing descent rate during failsafe activation.</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Default velocity for mission landing leg when none is specified in mission plan.  Used as landing descent rate during failsafe activation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> m/s</string>
@@ -5478,7 +5433,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>Flight controller/IMU orientation compared to vehicle front (negative values for CCW rotation) </string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flight controller/IMU orientation compared to vehicle front (negative values for CCW rotation) &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> °</string>
@@ -5742,7 +5697,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>Maximum pulse width sent to ESCs which should result in maximum motor output</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum pulse width sent to ESCs which should result in maximum motor output&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="accelerated">
                     <bool>true</bool>
@@ -5762,33 +5717,6 @@ padding: 1px 5px;</string>
                    <property name="value">
                     <number>1950</number>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_MOT_CAN">
-                   <property name="text">
-                    <string>Use CAN Bus</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QComboBox" name="MOT_CAN">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string>No</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Yes</string>
-                    </property>
-                   </item>
                   </widget>
                  </item>
                 </layout>
@@ -6379,7 +6307,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>Add this many meters to home altitude when Stage 2 failsafe is activated using the &quot;Ascend, RTH, Land&quot; option.</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add this many meters to home altitude when Stage 2 failsafe is activated using the &amp;quot;Ascend, RTH, Land&amp;quot; option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> m</string>
@@ -6601,7 +6529,7 @@ padding: 1px 5px;</string>
                 <item row="2" column="1">
                  <widget class="QLineEdit" name="MAX_CURRENT">
                   <property name="toolTip">
-                   <string>The maximum amount of current in amps that the ESC will allow.  Current is dynamically regulated.  Always set this value low and only increase it if you know what you are doing.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum amount of current in amps that the ESC will allow.  Current is dynamically regulated.  Always set this value low and only increase it if you know what you are doing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -6615,7 +6543,7 @@ padding: 1px 5px;</string>
                 <item row="3" column="1">
                  <widget class="QLineEdit" name="ADVANCE">
                   <property name="toolTip">
-                   <string> 	The amount of timing advance in electrical degrees.  There are 60 electrical degrees in a commutation cycle.  This value can be set from 0 to 30 degrees.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The amount of timing advance in electrical degrees.  There are 60 electrical degrees in a commutation cycle.  This value can be set from 0 to 30 degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -6638,7 +6566,7 @@ padding: 1px 5px;</string>
                    </sizepolicy>
                   </property>
                   <property name="toolTip">
-                   <string>This is the run mode that the ESC defaults to when first powered on. 0 == normal open loop operation, 1 == closed loop RPM mode, 2 == closed loop thrust mode (not yet implemented)</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the run mode that the ESC defaults to when first powered on. 0 == normal open loop operation, 1 == closed loop RPM mode, 2 == closed loop thrust mode (not yet implemented).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7301,7 +7229,7 @@ padding: 1px 5px;</string>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="PWM_MIN_VALUE">
                   <property name="toolTip">
-                   <string>The minimum input PWM pulse length in microseconds which the ESC will consider to be valid. For DJI Naza this value has to be 900!</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum input PWM pulse length in microseconds which the ESC will consider to be valid. For DJI Naza this value has to be 900!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7315,7 +7243,7 @@ padding: 1px 5px;</string>
                 <item row="1" column="1">
                  <widget class="QLineEdit" name="PWM_LO_VALUE">
                   <property name="toolTip">
-                   <string>The input PWM pulse length in microseconds for the lowest throttle setting.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the lowest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7332,7 +7260,7 @@ padding: 1px 5px;</string>
                    <bool>true</bool>
                   </property>
                   <property name="toolTip">
-                   <string>The input PWM pulse length in microseconds at which the motor will be started.  Once running, the throttle can be brought as low as PWM_LO_VALUE as long as the motor does not stall.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds at which the motor will be started.  Once running, the throttle can be brought as low as PWM_LO_VALUE as long as the motor does not stall.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7346,7 +7274,7 @@ padding: 1px 5px;</string>
                 <item row="3" column="1">
                  <widget class="QLineEdit" name="PWM_MIN_PERIOD">
                   <property name="toolTip">
-                   <string>The minimum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 450Hz. For MultiWii and ArduCopter APM this value needs to be changed to 2000!</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 450Hz. For MultiWii and ArduCopter APM this value needs to be changed to 2000!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7360,7 +7288,7 @@ padding: 1px 5px;</string>
                 <item row="4" column="1">
                  <widget class="QLineEdit" name="PWM_LOWPASS">
                   <property name="toolTip">
-                   <string>lowpass on PWM input values (0 = none, 10 = heavy, no upper limit)</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass on PWM input values (0 = none, 10 = heavy, no upper limit)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7381,7 +7309,7 @@ padding: 1px 5px;</string>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="PWM_MAX_VALUE">
                   <property name="toolTip">
-                   <string>The maximum input PWM pulse length in microseconds which the ESC will consider to be valid.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum input PWM pulse length in microseconds which the ESC will consider to be valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7395,7 +7323,7 @@ padding: 1px 5px;</string>
                 <item row="1" column="1">
                  <widget class="QLineEdit" name="PWM_HI_VALUE">
                   <property name="toolTip">
-                   <string>The input PWM pulse length in microseconds for the highest throttle setting.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the highest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7409,7 +7337,7 @@ padding: 1px 5px;</string>
                 <item row="3" column="1">
                  <widget class="QLineEdit" name="PWM_MAX_PERIOD">
                   <property name="toolTip">
-                   <string>The maximum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 40Hz</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 40Hz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7423,7 +7351,7 @@ padding: 1px 5px;</string>
                 <item row="4" column="1">
                  <widget class="QLineEdit" name="PWM_RPM_SCALE">
                   <property name="toolTip">
-                   <string>The scale of the input PWM pulse length.  In closed loop RPM run mode, PWM_LO_VALUE will indicate 0 RPM and PWM_HI_VALUE will indicate this RPM. Closed loop modes only!</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The scale of the input PWM pulse length.  In closed loop RPM run mode, PWM_LO_VALUE will indicate 0 RPM and PWM_HI_VALUE will indicate this RPM. Closed loop modes only!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7476,14 +7404,14 @@ padding: 1px 5px;</string>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="CL1TERM">
                   <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
                  <widget class="QLineEdit" name="CL2TERM">
                   <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7504,14 +7432,14 @@ padding: 1px 5px;</string>
                 <item row="2" column="1">
                  <widget class="QLineEdit" name="CL3TERM">
                   <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item row="3" column="1">
                  <widget class="QLineEdit" name="CL4TERM">
                   <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7525,7 +7453,7 @@ padding: 1px 5px;</string>
                 <item row="4" column="1">
                  <widget class="QLineEdit" name="CL5TERM">
                   <property name="toolTip">
-                   <string>CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  	If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7539,7 +7467,7 @@ padding: 1px 5px;</string>
                 <item row="6" column="1">
                  <widget class="QLineEdit" name="FF1TERM">
                   <property name="toolTip">
-                   <string>Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7553,7 +7481,7 @@ padding: 1px 5px;</string>
                 <item row="7" column="1">
                  <widget class="QLineEdit" name="FF2TERM">
                   <property name="toolTip">
-                   <string>Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7662,7 +7590,7 @@ padding: 1px 5px;</string>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="MIN_PERIOD">
                   <property name="toolTip">
-                   <string>The minimum commutation period allowed in microseconds</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7676,7 +7604,7 @@ padding: 1px 5px;</string>
                 <item row="1" column="1">
                  <widget class="QLineEdit" name="BLANKING_MICROS">
                   <property name="toolTip">
-                   <string>The number of microseconds to ignore back EMF after a commutation.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of microseconds to ignore back EMF after a commutation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7690,7 +7618,7 @@ padding: 1px 5px;</string>
                 <item row="2" column="1">
                  <widget class="QLineEdit" name="START_VOLTAGE">
                   <property name="toolTip">
-                   <string>The amount of voltage presented to the motor during startup. Allowable range is 0.1v to 3.0v</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The amount of voltage presented to the motor during startup. Allowable range is 0.1v to 3.0v&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7704,8 +7632,7 @@ padding: 1px 5px;</string>
                 <item row="3" column="1">
                  <widget class="QLineEdit" name="START_ALIGN_TIME">
                   <property name="toolTip">
-                   <string>ms to align rotor in known position
-</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ms to align rotor in known position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7719,7 +7646,7 @@ padding: 1px 5px;</string>
                 <item row="4" column="1">
                  <widget class="QLineEdit" name="START_ALIGN_VOLTAGE">
                   <property name="toolTip">
-                   <string>max voltage during align (around 0.8 * START_VOLTAGE)</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;max voltage during align (around 0.8 * START_VOLTAGE)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7733,7 +7660,7 @@ padding: 1px 5px;</string>
                 <item row="5" column="1">
                  <widget class="QLineEdit" name="GOOD_DETECTS_START">
                   <property name="toolTip">
-                   <string>Once started, the number of good, in order zero crossings needed to be detected before the motor is considered to be in the running state.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Once started, the number of good, in order zero crossings needed to be detected before the motor is considered to be in the running state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7747,7 +7674,7 @@ padding: 1px 5px;</string>
                 <item row="6" column="1">
                  <widget class="QLineEdit" name="RPM_MEAS_LP">
                   <property name="toolTip">
-                   <string>lowpass measured RPM values for closed loop control (0 = none, 0.99 = max, &gt;=1 not allowed)</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass measured RPM values for closed loop control (0 = none, 0.99 = max, &amp;gt;=1 not allowed)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7768,7 +7695,7 @@ padding: 1px 5px;</string>
                 <item row="0" column="1">
                  <widget class="QLineEdit" name="MAX_PERIOD">
                   <property name="toolTip">
-                   <string>The maximum commutation period allowed in microseconds</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7782,7 +7709,7 @@ padding: 1px 5px;</string>
                 <item row="1" column="1">
                  <widget class="QLineEdit" name="SWITCH_FREQ">
                   <property name="toolTip">
-                   <string>The output PWM pulse frequency used to power the motor windings in KHz.  Valid range is from 4KHz to 64KHz.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The output PWM pulse frequency used to power the motor windings in KHz.  Valid range is from 4KHz to 64KHz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7796,8 +7723,7 @@ padding: 1px 5px;</string>
                 <item row="2" column="1">
                  <widget class="QLineEdit" name="START_STEPS_NUM">
                   <property name="toolTip">
-                   <string>steps without commutation
-</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;steps without commutation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7811,8 +7737,7 @@ padding: 1px 5px;</string>
                 <item row="3" column="1">
                  <widget class="QLineEdit" name="START_STEPS_PERIOD">
                   <property name="toolTip">
-                   <string>us betweet steps
-</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us betweet steps&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7826,8 +7751,7 @@ padding: 1px 5px;</string>
                 <item row="4" column="1">
                  <widget class="QLineEdit" name="START_STEPS_ACCEL">
                   <property name="toolTip">
-                   <string>us each following step will be shorter (acceleration)
-</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us each following step will be shorter (acceleration)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -7844,7 +7768,7 @@ padding: 1px 5px;</string>
                 <item row="5" column="1">
                  <widget class="QLineEdit" name="BAD_DETECTS_DISARM">
                   <property name="toolTip">
-                   <string> 	The number of missed zero crossing detects allowed before the ESC considers the motor not to be running at which point will go into the disarmed state.</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; The number of missed zero crossing detects allowed before the ESC considers the motor not to be running at which point will go into the disarmed state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
