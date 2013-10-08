@@ -56,6 +56,7 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	# Copy AQ files
         QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
         QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
+        QMAKE_POST_LINK += && chmod +x $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin/*
         QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
         QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
 
@@ -266,12 +267,16 @@ linux-g++|linux-g++-64{
 
 linux-g++ {
 	message("Building for GNU/Linux 32bit/i386")
+        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_32 $$TARGETDIR/aq/bin/cal
+        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_32 $$TARGETDIR/aq/bin/sim3
 }
 linux-g++-64 {
 	message("Building for GNU/Linux 64bit/x64 (g++-64)")
 	exists(/usr/local/lib64) {
 		LIBS += -L/usr/local/lib64
 	}
+        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_64 $$TARGETDIR/aq/bin/cal
+        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_64 $$TARGETDIR/aq/bin/sim3
 }
 
 # Windows (32bit), Visual Studio
