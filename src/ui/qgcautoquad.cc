@@ -894,13 +894,31 @@ void QGCAutoquad::check_stop()
 }
 
 void QGCAutoquad::startCalculationProcess(QString appName, QStringList appArgs) {
+    if (ps_master.state() == QProcess::Running) {
+        MainWindow::instance()->showCriticalMessage("Process already running.", "There appears to be a calculation step already running. Please abort it first.");
+        return;
+    }
+
     QString appPath = QDir::toNativeSeparators(aqBinFolderPath + appName + platformExeExt);
 
     activeProcessStatusWdgt->clear();
-    activeProcessStatusWdgt->append(appPath);
-    for ( int i = 0; i<appArgs.count(); i++) {
-        activeProcessStatusWdgt->append(appArgs.at(i));
+    activeProcessStatusWdgt->append(appPath + " " + appArgs.join(" "));
+//    for ( int i = 0; i<appArgs.count(); i++) {
+//        activeProcessStatusWdgt->append(appArgs.at(i));
+//    }
+
+// FIXME
+#ifdef Q_OS_MAC
+    if (appName == "sim3") {
+        activeProcessStatusWdgt->append("The sim3 steps are not currently working on Mac OS X via QGC. \
+                                        To continue calibration, please copy the complete command line you see above \
+                                        and paste it into a terminal window. sim3 should start and produce output.  Once you are satisfied \
+                                        with the result, copy the parameters from the terminal window into the All Generated Parameters window \
+                                        and save the file.  You will need to repeat this process for each sim3 step (4a, 4b, 5, and 6)");
+        return;
     }
+#endif
+
     currentCalcStartBtn->setEnabled(false);
     currentCalcAbortBtn->setEnabled(true);
 
@@ -1825,6 +1843,11 @@ void QGCAutoquad::flashFW()
         return;
     }
 
+    if (ps_master.state() == QProcess::Running) {
+        MainWindow::instance()->showCriticalMessage("Process already running.", "There appears to be an external process already running (firmware flashing or a calibration calculation). Please abort it first.");
+        return;
+    }
+
     QString fwtype = (ui->radioButton_fwType_aq->isChecked()) ? "aq" : "esc";
     QString msg = "";
 
@@ -2568,8 +2591,8 @@ void QGCAutoquad::prtstexit(int stat) {
 
 void QGCAutoquad::prtstdout() {
     QString output = ps_master.readAllStandardOutput();
-    if (output.contains(QRegExp(".{1}\\[(uWrote|H)"))) {
-        output = output.replace(QRegExp(".{1}\\[[uH]"), "");
+    if (output.contains(QRegExp("\\[(uWrote|H)"))) {
+        output = output.replace(QRegExp(".\\[[uH]"), "");
         activeProcessStatusWdgt->clear();
     }
     activeProcessStatusWdgt->append(output);
