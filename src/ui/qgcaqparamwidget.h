@@ -42,6 +42,7 @@ signals:
     void requestParameter(int component, const QString& parameter);
     void requestParameterRefreshed();
     void paramRequestTimeout(int readCount, int writeCount);
+    void parameterListRequested();
 
 public slots:
     /** @brief Add a component to the list */

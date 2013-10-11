@@ -22,6 +22,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     portOrder2Param = "TELEMETRY_RATE";
     mixFilesPath = aq->aqMotorMixesPath;
     mixImagesPath = mixFilesPath % "images/";
+    motMixLastFile = mixFilesPath + QString("/motorMixing.mix");
 
     ui->setupUi(this);
 
@@ -35,6 +36,8 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     ui->table_motMix->horizontalHeader()->resizeSection(COL_MOTOR, 45);
     PwmPortsComboBoxDelegate *delegate = new PwmPortsComboBoxDelegate(ui->table_motMix, this);
     ui->table_motMix->setItemDelegateForColumn(COL_PORT, delegate);
+    ui->table_motMix->setItemDelegateForColumn(COL_TYPE, delegate);
+    dataChangeType = Qt::EditRole;
 
     // set up motor/frame layout graphics view background image
     QImage img(":/files/images/contrib/aq_motormix_frame_background.png");
@@ -49,8 +52,11 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     loadFrameTypes();
 
     // number of motors selector for custom type
-    ui->comboBox_numOfMotors->addItem("Select...");
-    ui->comboBox_numOfMotors->addItems(aq->getAvailablePwmPorts());
+    ui->comboBox_numOfMotors->addItem("Select...", 0);
+    for (int i=1; i <= aq->maxMotorPorts; ++i)
+        ui->comboBox_numOfMotors->addItem(QString::number(i), i);
+
+    //ui->comboBox_numOfMotors->addItems(aq->getAvailablePwmPorts());
     ui->comboBox_numOfMotors->setCurrentIndex(0);
 
     // list of all port selector combo boxes, for easy traversal
@@ -74,6 +80,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
 
     // connect to hardware info update signal
     connect(aq, SIGNAL(hardwareInfoUpdated()), this, SLOT(portNumbersModel_updated()));
+    connect(aq, SIGNAL(firmwareInfoUpdated()), this, SLOT(firmwareVersion_updated()));
 
     // connect GUI controls related to motor table
     motorTableConnections(true);
@@ -82,6 +89,8 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     connect(ui->toolButton_loadFile, SIGNAL(clicked()), this, SLOT(loadFile_clicked()));
     connect(ui->toolButton_saveFile, SIGNAL(clicked()), this, SLOT(saveFile_clicked()));
     connect(ui->toolButton_loadImage, SIGNAL(clicked()), this, SLOT(loadImage_clicked()));
+    connect(ui->toolButton_allToCAN, SIGNAL(clicked()), this, SLOT(allToCAN_clicked()));
+    connect(ui->toolButton_allToPWM, SIGNAL(clicked()), this, SLOT(allToPWM_clicked()));
 }
 
 AQPWMPortsConfig::~AQPWMPortsConfig()
@@ -211,11 +220,28 @@ QString AQPWMPortsConfig::getMixFileByConfigId(int configId) {
     return file;
 }
 
+QString AQPWMPortsConfig::motorPortTypeName(uint8_t type) {
+    switch (type) {
+    case MOT_PORT_TYPE_CAN :
+        return "CAN";
+    case MOT_PORT_TYPE_PWM :
+    default:
+        return "PWM";
+    }
+}
+
+uint8_t AQPWMPortsConfig::motorPortTypeId(QString type) {
+    if (type == "CAN")
+        return MOT_PORT_TYPE_CAN;
+    else
+        return MOT_PORT_TYPE_PWM;
+}
 
 void AQPWMPortsConfig::drawMotorsTable(void) {
     QColor ttlLineBg(Qt::gray);
     QColor ttlLineFg(Qt::black);
     motorPortSettings mot;
+//    QTableWidgetItem * wi;
 
     portConfigConnections(false);
 
@@ -234,10 +260,13 @@ void AQPWMPortsConfig::drawMotorsTable(void) {
                 ui->table_motMix->item(i, COL_MOTOR)->setBackgroundColor(ttlLineBg);
                 ui->table_motMix->item(i, COL_MOTOR)->setTextColor(ttlLineFg);
                 ui->table_motMix->setItem(i, COL_PORT, new QTableWidgetItem(QString::number(mot.port)));
+                ui->table_motMix->item(i, COL_PORT)->setData(Qt::UserRole, mot.port);
                 ui->table_motMix->setItem(i, COL_THROT, new QTableWidgetItem(QString::number(mot.throt)));
                 ui->table_motMix->setItem(i, COL_PITCH, new QTableWidgetItem(QString::number(mot.pitch)));
                 ui->table_motMix->setItem(i, COL_ROLL, new QTableWidgetItem(QString::number(mot.roll)));
                 ui->table_motMix->setItem(i, COL_YAW, new QTableWidgetItem(QString::number(mot.yaw)));
+                ui->table_motMix->setItem(i, COL_TYPE, new QTableWidgetItem(motorPortTypeName(mot.type)));
+                ui->table_motMix->item(i, COL_TYPE)->setData(Qt::UserRole, mot.type);
             }
         }
 
@@ -250,19 +279,17 @@ void AQPWMPortsConfig::drawMotorsTable(void) {
         ui->table_motMix->setSpan(i, COL_MOTOR, 1, 2);
         ui->table_motMix->item(i, COL_MOTOR)->setBackgroundColor(ttlLineBg);
         ui->table_motMix->item(i, COL_MOTOR)->setTextColor(ttlLineFg);
-        for (int ii=COL_THROT; ii <= COL_YAW; ++ii){
-            ui->table_motMix->setItem(i, ii, new QTableWidgetItem("0"));
+        for (int ii=COL_THROT; ii <= COL_TYPE; ++ii){
+            ui->table_motMix->setItem(i, ii, new QTableWidgetItem(ii != COL_TYPE ? "0" : ""));
             ui->table_motMix->item(i, ii)->setFlags(ui->table_motMix->item(i, ii)->flags() ^ Qt::ItemIsEditable);
             ui->table_motMix->item(i, ii)->setBackgroundColor(ttlLineBg);
             ui->table_motMix->item(i, ii)->setTextColor(ttlLineFg);
             //ui->table_motMix->item(i, ii)->setIcon(QIcon(QPixmap(":/files/images/actions/cross-small.png")));
         }
-
-        updateMotorSums();
-
     }
 
     portConfigConnections(true);
+    validateForm();
 }
 
 
@@ -276,6 +303,8 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
     float throt=0, pitch=0, roll=0, yaw=0;
     QIcon icnBad(QPixmap(":/files/images/actions/cross-small.png"));
     QIcon icnGood(QPixmap(":/files/images/actions/tick-small.png"));
+
+    portConfigConnections(false);
 
     errorInMotorConfigTotals = false;
 
@@ -300,6 +329,7 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
     ui->table_motMix->item(lastRow, COL_YAW)->setIcon((ok = yaw == 0) ? icnGood : icnBad);
     if (!ok) errorInMotorConfigTotals = true;
 
+    portConfigConnections(true);
     return true;
 }
 
@@ -307,8 +337,10 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
 void AQPWMPortsConfig::loadFileConfig(QString file) {
     QString mot;
     float throt, pitch, roll, yaw;
+    uint8_t type;
     QStringList pOrder;
     QList<motorPortSettings> fileConfig;
+    uint16_t motCAN;
 
     QFileInfo fInfo(file);
 
@@ -321,19 +353,21 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
 
     mixConfigId = mixSettings.value("META/ConfigId", 0).toUInt();
     pOrder = mixSettings.value("META/PortOrder").toStringList();
+    motCAN = mixSettings.value("META/MOT_CAN", 0).toInt();
 
     motorTableConnections(false);
 
     motorPortsConfig.clear();
-    for (int i=1; i <= aq->maxPwmPorts; ++i) {
+    for (int i=1; i <= 16; ++i) {
         mot = QString::number(i);
         throt = mixSettings.value("Throttle/Motor" % mot, 0).toFloat();
         pitch = mixSettings.value("Pitch/Motor" % mot, 0).toFloat();
         roll = mixSettings.value("Roll/Motor" % mot, 0).toFloat();
         yaw = mixSettings.value("Yaw/Motor" % mot, 0).toFloat();
+        type = (motCAN >> (i-1)) & 1;
 
         if (throt || pitch || roll || yaw) {
-            fileConfig.append(motorPortSettings(i, throt, pitch, roll, yaw));
+            fileConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type));
         }
     }
 
@@ -367,6 +401,12 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
     else
         frameImageFile = fInfo.fileName();
 
+    if (motCAN) {
+        ui->toolButton_allToCAN->show();
+        ui->toolButton_allToPWM->show();
+        ui->table_motMix->showColumn(COL_TYPE);
+    }
+
     changeMixType();
     //setFrameImage(frameImageFile);
 
@@ -378,6 +418,7 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
     QString pname;
     motorPortSettings pconfig, mot;
     QStringList pOrder;
+    uint16_t motCAN = 0;
 
     QFile f(file);
     if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -395,10 +436,9 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
     mixSettings.setValue("META/ConfigId", 0);
     mixSettings.setValue("META/Motors", motorPortsConfig.size());
     mixSettings.setValue("META/PortOrder", pOrder);
-    if (frameImageFile.length())
-        mixSettings.setValue("META/ImageFile", frameImageFile);
+    mixSettings.setValue("META/ImageFile", frameImageFile);
 
-    for (int i=1; i <= 14; ++i) {
+    for (int i=1; i <= 16; ++i) {
         pconfig = motorPortSettings(i);
         for (int ii=0; ii < motorPortsConfig.size(); ++ii) {
             mot = motorPortsConfig.at(ii);
@@ -413,7 +453,12 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
         mixSettings.setValue("Pitch" % pname, QString::number(pconfig.pitch));
         mixSettings.setValue("Roll" % pname, QString::number(pconfig.roll));
         mixSettings.setValue("Yaw" % pname, QString::number(pconfig.yaw));
+
+        if (pconfig.type == MOT_PORT_TYPE_CAN)
+            motCAN |= 1 << (pconfig.port - 1);
     }
+
+    mixSettings.setValue("META/MOT_CAN", motCAN);
 
     mixSettings.sync();
 }
@@ -438,17 +483,29 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
         return;
 
     QString pname;
-    float throt, pitch, roll, yaw, motConfig, motConfig2;
+    float throt, pitch, roll, yaw, motConfig;
+    uint8_t type;
     bool orderType = 0; // 0=param order (1-14), 1=order from onboard config bitmask
     uint32_t portOrder=0, portOrder2=0;
+    uint16_t motCAN = 0;
     QList<motorPortSettings> onboardConfig;
 
     portOrder2Param = (paramHandler->paramExistsAQ("MOT_CONFIG_PO2")) ? "MOT_CONFIG_PO2" : "TELEMETRY_RATE";
 
     motConfig = paramHandler->getParaAQ("MOT_FRAME").toFloat();
-    motConfig2 = paramHandler->getParaAQ(portOrder2Param).toFloat();
     portOrder = *(uint32_t *) &motConfig;
-    portOrder2 = *(uint32_t *) &motConfig2;
+    motConfig = paramHandler->getParaAQ(portOrder2Param).toFloat();
+    portOrder2 = *(uint32_t *) &motConfig;
+    if (paramHandler->paramExistsAQ("MOT_CAN")) {
+        motCAN = paramHandler->getParaAQ("MOT_CAN").toInt();
+        ui->toolButton_allToCAN->show();
+        ui->toolButton_allToPWM->show();
+        ui->table_motMix->showColumn(COL_TYPE);
+    } else {
+        ui->toolButton_allToCAN->hide();
+        ui->toolButton_allToPWM->hide();
+        ui->table_motMix->hideColumn(COL_TYPE);
+    }
 
     mixConfigId = portOrder & 0xFF; // 8bits
     if (portOrder > 65)
@@ -456,18 +513,19 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
 
     motorPortsConfig.clear();
 
-    for (int i=1; i <= aq->maxPwmPorts; ++i) {
+    for (int i=1; i <= aq->maxMotorPorts; ++i) {
         pname = QString("MOT_PWRD_%1_").arg(i, 2, 10, QLatin1Char('0'));
         throt = paramHandler->getParaAQ(pname % "T").toFloat();
         pitch = paramHandler->getParaAQ(pname % "P").toFloat();
         roll = paramHandler->getParaAQ(pname % "R").toFloat();
         yaw = paramHandler->getParaAQ(pname % "Y").toFloat();
+        type = (motCAN >> (i-1)) & 1;
 
         if (throt || pitch || roll || yaw) {
             if (orderType) // store a temp copy because ordering is defined elsewhere
-                onboardConfig.append(motorPortSettings(i, throt, pitch, roll, yaw));
+                onboardConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type));
             else
-                motorPortsConfig.append(motorPortSettings(i, throt, pitch, roll, yaw));
+                motorPortsConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type));
         }
     }
 
@@ -518,22 +576,6 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
     }
 
     changeMixType();
-    // motorTableConnections(true);
-
-//    val = paramHandler->getParaAQ("GMBL_ROLL_PORT").toFloat();
-//    ui->comboBox_gimbalRoll->setCurrentIndex(ui->comboBox_gimbalRoll->findText((val == 0) ? "off" : QString::number(val)));
-//    val = paramHandler->getParaAQ("GMBL_PITCH_PORT").toFloat();
-//    ui->comboBox_gimbalPitch->setCurrentIndex(ui->comboBox_gimbalPitch->findText((val == 0) ? "off" : QString::number(val)));
-//    val = paramHandler->getParaAQ("GMBL_TRIG_PORT").toFloat();
-//    ui->comboBox_gimbalTrigger->setCurrentIndex(ui->comboBox_gimbalTrigger->findText((val == 0) ? "off" : QString::number(val)));
-//    val = paramHandler->getParaAQ("GMBL_PTHR_PORT").toFloat();
-//    ui->comboBox_gimbalPthru->setCurrentIndex(ui->comboBox_gimbalPthru->findText((val == 0) ? "off" : QString::number(val)));
-//    val = paramHandler->getParaAQ("SIG_LED_1_PRT").toFloat();
-//    ui->comboBox_led_1->setCurrentIndex(ui->comboBox_led_1->findText((val == 0) ? "off" : QString::number(val)));
-//    val = paramHandler->getParaAQ("SIG_LED_2_PRT").toFloat();
-//    ui->comboBox_led_2->setCurrentIndex(ui->comboBox_led_2->findText((val == 0) ? "off" : QString::number(val)));
-//    val = paramHandler->getParaAQ("SIG_BEEP_PRT").toFloat();
-//    ui->comboBox_beeper->setCurrentIndex(ui->comboBox_beeper->findText((val == 0) ? "off" : QString::number(abs(val))));
 
     aq->getGUIpara(ui->groupBox_gimbal);
     aq->getGUIpara(ui->groupBox_signaling);
@@ -555,6 +597,7 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
     QString pname; //, porder;
     float val, val_uas;
     uint32_t portOrder=0, portOrder2=0;
+    uint16_t motCAN = 0;
     motorPortSettings mot, pconfig;
     QMap<QString, float> configMap;
     QList<float> changeVals;
@@ -578,11 +621,15 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
         errors->append(tr("You have selected motor and gimbal ports, or gimbal roll/pitch and trigger ports, which use the same hardware timers. Please check the port number chart image for a reference."));
         err = 2;
     }
+    if (errorInPortNumberType) {
+        errors->append(tr("You have selected a PWM output port which does not exist on your current hardware."));
+        err = 2;
+    }
 
     if (err > 1)
         return err;
 
-    for (int i=1; i <= 14; ++i) {
+    for (int i=1; i <= aq->maxMotorPorts; ++i) {
         pconfig = motorPortSettings(i);
         for (int ii=0; ii < motorPortsConfig.size(); ++ii) {
             mot = motorPortsConfig.at(ii);
@@ -596,6 +643,18 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
         configMap.insert(pname % "P", pconfig.pitch);
         configMap.insert(pname % "R", pconfig.roll);
         configMap.insert(pname % "Y", pconfig.yaw);
+
+        if (pconfig.type == MOT_PORT_TYPE_CAN)
+            motCAN |= 1 << (pconfig.port - 1);
+    }
+
+    if (paramHandler->paramExistsAQ("MOT_CAN")) {
+        val = *(float *) &motCAN;
+        configMap.insert("MOT_CAN", motCAN);
+        //  qDebug() << qSetRealNumberPrecision(20) << motCAN << val;
+    } else if (motCAN) {
+        errors->append(tr("You have selected CAN motor output type but your current firmware does not appear to support it."));
+        err = 1;
     }
 
     // save port order (bit mask: first 8 bits are confgId, next 4 bits is first port used, next 4 is 2nd port used, etc., up to 32 bits (6 ports plus id))
@@ -672,21 +731,23 @@ void AQPWMPortsConfig::loadFrameTypes(void) {
 
 
 bool AQPWMPortsConfig::validateForm(void) {
-    QStringList usedPorts, dupePorts, timConflictPorts;
+    QStringList usedPorts, dupePorts, usedMotorPorts, dupeMotorPorts, timConflictPorts, invalidPwmPorts;
     QMap<uint8_t, QStringList> motorUsedTimers;
-    uint8_t tim;
+    uint8_t tim, iport;
     QString port;
-    bool ok, ignoreTimer;
+    bool ok, ignoreTimer, isPwm;
     float val;
-
-    QColor color_error(255, 0, 0, 200);
-    QColor color_warn(255, 140, 0, 200);
+    QColor color_error(255, 0, 0, 200),
+            color_warn(255, 140, 0, 200),
+            color_ok(Qt::NoBrush),
+            bgcolor;
 
     // motor sums will set errorInMotorConfigTotals flag
     updateMotorSums();
     errorInMotorConfig = false;  // reset error flags
     errorInPortConfig = false;
     errorInTimerConfig = false;
+    errorInPortNumberType = false;
 
     ignoreTimer = (ui->GMBL_PWM_FREQ->value() == 400);
 
@@ -694,34 +755,50 @@ bool AQPWMPortsConfig::validateForm(void) {
 
     // loop over each row of the motors table, looking for errors and marking them
     for (int r=0; r < ui->table_motMix->rowCount() - 1; ++r) {
-        // check for duplicate port numbers
+
         port = ui->table_motMix->item(r, COL_PORT)->data(Qt::EditRole).toString();
-        tim = aq->pwmPortTimers.at(port.toUInt()-1);
-        if (usedPorts.contains(port))
+        iport = port.toUInt();
+        isPwm = ui->table_motMix->item(r, COL_TYPE)->data(Qt::UserRole).toInt() == MOT_PORT_TYPE_PWM;
+
+        // save and check used port numbers
+        if (isPwm && usedPorts.contains(port))
             dupePorts.append(port);
+        else if (!isPwm && usedMotorPorts.contains(port))
+            dupeMotorPorts.append(port);
         else {
-            usedPorts.append(port);
-            // save this timer as used
-            if (!motorUsedTimers.contains(tim))
-                motorUsedTimers.insert(tim, QStringList(port));
-            else {
-                QStringList pl = motorUsedTimers.value(tim);
-                pl.append(port);
-                motorUsedTimers.insert(tim, pl);
+            if (isPwm) {
+                usedPorts.append(port);
+                // save this timer as used
+                if (iport <= aq->pwmPortTimers.size()) {
+                    tim = aq->pwmPortTimers.at(iport-1);
+                    if (!motorUsedTimers.contains(tim))
+                        motorUsedTimers.insert(tim, QStringList(port));
+                    else {
+                        QStringList pl = motorUsedTimers.value(tim);
+                        pl.append(port);
+                        motorUsedTimers.insert(tim, pl);
+                    }
+                }
+            } else {
+                usedMotorPorts.append(port);
             }
         }
 
-        // loop over each of the value columns (throt, pitch, roll, yaw)
+        // check if any pwm ports don't exist in hardware
+        if (isPwm && port.toUInt() > aq->maxPwmPorts)
+            invalidPwmPorts.append(port);
+
+        // loop over each of the value columns (throt, pitch, roll, yaw) to check valid values
         for (int c=COL_PORT+1; c <= COL_PORT + 4; ++c) {
             val = ui->table_motMix->item(r, c)->data(Qt::EditRole).toFloat(&ok);
             // validate the value
             if (!ok || val < -100 || val > 100 || (c == COL_THROT && val < 0)) {
+                bgcolor = color_error;
                 errorInMotorConfig = true;
-                ui->table_motMix->item(r, c)->setBackground(color_error);  // bg color of table cell to red
-            } else {
-                // reset bg color of table cell to default
-                ui->table_motMix->item(r, c)->setBackground(ui->table_motMix->palette().color(QPalette::Background));
-            }
+            } else
+                bgcolor = color_ok;
+
+            ui->table_motMix->item(r, c)->setBackground(bgcolor);
         }
 
     }
@@ -731,43 +808,47 @@ bool AQPWMPortsConfig::validateForm(void) {
             continue;
 
         port = cb->currentText();
-        if (port.toInt() > aq->pwmPortTimers.size())
-            continue;
-
-        tim = aq->pwmPortTimers.at(port.toUInt()-1);
+        iport = port.toUInt();
 
         if (usedPorts.contains(port)) {
             // special exception to allow tilt port to == pitch port
             if (cb->objectName() == "GMBL_TILT_PORT" && ui->GMBL_PITCH_PORT->currentText() == port)
                 continue;
-
             dupePorts.append(port);
         }
         else {
             usedPorts.append(port);
-
+            if (iport > aq->pwmPortTimers.size())
+                continue;
+            tim = aq->pwmPortTimers.at(iport-1);
             // check if this timer conflicts with any motor ports
-            if (!ignoreTimer && cb->objectName().startsWith("GMBL_") && motorUsedTimers.contains(tim))
-                timConflictPorts.append(port);
-
+            if (!ignoreTimer && cb->objectName().startsWith("GMBL_") && motorUsedTimers.contains(tim)) {
+                for (int i=0; i < aq->pwmPortTimers.size(); ++i)
+                    if (aq->pwmPortTimers.at(i) == tim)
+                        timConflictPorts.append(QString::number(i+1));
+            }
         }
     }
 
-    if (dupePorts.size())
+    if (dupePorts.size() || dupeMotorPorts.size())
         errorInPortConfig = true;
     if (timConflictPorts.size())
         errorInTimerConfig = true;
+    if (invalidPwmPorts.size())
+        errorInPortNumberType = true;
 
     // if we have duplicate port numbers, go find them and highlight them
     // first look in the motors table
     for (int r=0; r < ui->table_motMix->rowCount() - 1; ++r) {
         port = ui->table_motMix->item(r, COL_PORT)->data(Qt::EditRole).toString();
-        if (dupePorts.contains(port))
-            ui->table_motMix->item(r, COL_PORT)->setBackground(color_error);
-        else if (timConflictPorts.contains(port))
-            ui->table_motMix->item(r, COL_PORT)->setBackground(color_warn);
+        isPwm = ui->table_motMix->item(r, COL_TYPE)->data(Qt::UserRole).toInt() == MOT_PORT_TYPE_PWM;
+        if ((isPwm && dupePorts.contains(port)) || (!isPwm && dupeMotorPorts.contains(port)) || invalidPwmPorts.contains(port))
+            bgcolor = color_error;
+        else if (isPwm && timConflictPorts.contains(port))
+            bgcolor = color_warn;
         else
-            ui->table_motMix->item(r, COL_PORT)->setBackground(ui->table_motMix->palette().color(QPalette::Background)); // reset
+            bgcolor = color_ok;
+        ui->table_motMix->item(r, COL_PORT)->setBackground(bgcolor);
     }
     // now in each port combo box in the rest of the form
     foreach (QComboBox* cb, allPortSelectors) {
@@ -781,19 +862,28 @@ bool AQPWMPortsConfig::validateForm(void) {
 
     portConfigConnections(true); // done possibly updating the data, re-enable motor config signals
 
-    if (errorInMotorConfig || errorInPortConfig || errorInTimerConfig || errorInMotorConfigTotals)
-        return false;
+    return !errorInMotorConfig && !errorInPortConfig && !errorInTimerConfig && !errorInMotorConfigTotals && !errorInPortNumberType;
+}
 
+void AQPWMPortsConfig::setAllMotorPortTypes(quint8 type) {
+    for (int i=0; i < motorPortsConfig.size(); ++i)
+        motorPortsConfig[i].type = type;
 
-    return true;
-
+    drawMotorsTable();
 }
 
 
-void AQPWMPortsConfig::updatePortsConfigModel(int row, int col) {
+void AQPWMPortsConfig::motorPortsConfig_updated(int row, int col) {
     bool ok;
-    float newVal = ui->table_motMix->item(row, col)->data(Qt::EditRole).toFloat(&ok);
+    int role = (col == COL_PORT || col == COL_TYPE) ? Qt::UserRole : Qt::EditRole;
 
+    if (dataChangeType == Qt::EditRole)
+        validateForm();
+
+    if (errorInMotorConfig || dataChangeType != role || row >= motorPortsConfig.size() || col == COL_MOTOR)
+        return;
+
+    float newVal = ui->table_motMix->item(row, col)->data(role).toFloat(&ok);
     if (!ok)
         return;
 
@@ -813,24 +903,11 @@ void AQPWMPortsConfig::updatePortsConfigModel(int row, int col) {
     case COL_YAW:
         motorPortsConfig[row].yaw = newVal;
         break;
+    case COL_TYPE:
+        motorPortsConfig[row].type = static_cast<uint8_t>(newVal);
+        break;
     }
 
-    // qDebug() << motorPortsConfig[row].port << motorPortsConfig[row].throt << motorPortsConfig[row].pitch << motorPortsConfig[row].roll << motorPortsConfig[row].yaw;
-}
-
-
-void AQPWMPortsConfig::motorPortsConfig_updated(int row, int col) {
-
-    if (row >= motorPortsConfig.size() || col == COL_MOTOR)
-        return;
-
-    validateForm();
-
-    if (errorInMotorConfig)
-        return;
-
-    //updateMotorSums();
-    updatePortsConfigModel(row, col);
 }
 
 
@@ -855,12 +932,34 @@ void AQPWMPortsConfig::portNumbersModel_updated(void) {
     mtx_portModelIsUpdating = false;
 }
 
+void AQPWMPortsConfig::firmwareVersion_updated(void) {
+    if (aq->maxMotorPorts > ui->comboBox_numOfMotors->count())
+        for (int i=ui->comboBox_numOfMotors->count()-1; i <= aq->maxMotorPorts; ++i)
+            ui->comboBox_numOfMotors->addItem(QString::number(i), i);
+    else if (aq->maxMotorPorts < ui->comboBox_numOfMotors->count())
+        for (int i=ui->comboBox_numOfMotors->count(); i > aq->maxMotorPorts + 1; --i)
+            ui->comboBox_numOfMotors->removeItem(i-1);
+}
+
+
 
 QComboBox* AQPWMPortsConfig::makeMotorPortCombo(QWidget *parent) {
     QComboBox *editor = new QComboBox(parent);
-    QStringList ports = aq->getAvailablePwmPorts();
-    editor->addItems(ports);
-//    editor->setModel(model_portNumbers);
+//    QStringList ports = aq->getAvailablePwmPorts();
+//    editor->addItems(ports);
+
+    for (int i=1; i <= aq->maxMotorPorts; ++i)
+        editor->addItem(QString::number(i), i);
+
+    return editor;
+}
+
+QComboBox* AQPWMPortsConfig::makeMotorPortTypeCombo(QWidget *parent) {
+    QComboBox *editor = new QComboBox(parent);
+
+    editor->addItem("PWM", MOT_PORT_TYPE_PWM);
+    if (aq->motPortTypeCAN)
+        editor->addItem("CAN", MOT_PORT_TYPE_CAN);
 
     return editor;
 }
@@ -894,54 +993,43 @@ void AQPWMPortsConfig::portSelector_currentIndexChanged(int /*index*/) {
 
 
 void AQPWMPortsConfig::loadFile_clicked() {
+    QFileInfo dir(motMixLastFile);
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select or Create AQ Motor Mix File"), dir.absoluteFilePath(),
+                                                    tr("AQ Mixing Table (*.mix);;All File Types (*.*)"));
 
-    static QString dirPath;
-    if ( dirPath == "")
-        dirPath = mixFilesPath + QString("/");
+    if (!fileName.length())
+        return;
 
-    QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("AQ Mixing Table (*.mix)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    if (dialog.exec()) {
-        QStringList fileNames = dialog.selectedFiles();
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        MainWindow::instance()->showCriticalMessage("Error!", tr("Could not open file. %1").arg(file.errorString()));
+        return;
+    } else
+        file.close();
 
-        if (fileNames.size() > 0) {
-            QString fileName = fileNames.first();
-            QFileInfo fInfo(fileName);
-
-            if (!fInfo.exists() || !fInfo.isReadable()) {
-                MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Could not open file: '%1'").arg(fileName));
-                return;
-            }
-
-            dirPath = fileName;
-            loadFileConfig(fileName);
-        }
-    }
+    motMixLastFile = fileName;
+    loadFileConfig(fileName);
 }
 
 void AQPWMPortsConfig::saveFile_clicked() {
-
-    static QString dirPath;
-    if ( dirPath == "")
-        dirPath = mixFilesPath + QString("/motorMixing.mix");
+    ui->toolButton_saveFile->setFocus();  // this makes sure the table model gets updated
 
     if (!motorPortsConfig.size()) {
         MainWindow::instance()->showCriticalMessage("Error", "There is nothing to save...");
         return;
     }
 
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dirPath, tr("AQ Mixing Table (*.mix)"));
+    QFileInfo dir(motMixLastFile);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dir.absoluteFilePath(), tr("AQ Mixing Table (*.mix)"));
+
+    if (!fileName.length())
+        return;
+
     if (!fileName.endsWith(".mix"))
         fileName += ".mix";
-    QFileInfo fInfo(fileName);
 
-    dirPath = fileName;
+    motMixLastFile = fileName;
     saveConfigFile(fileName);
-
 }
 
 void AQPWMPortsConfig::loadImage_clicked() {
@@ -976,6 +1064,13 @@ void AQPWMPortsConfig::loadImage_clicked() {
     }
 }
 
+void AQPWMPortsConfig::allToCAN_clicked() {
+    setAllMotorPortTypes(MOT_PORT_TYPE_CAN);
+}
+
+void AQPWMPortsConfig::allToPWM_clicked() {
+    setAllMotorPortTypes(MOT_PORT_TYPE_PWM);
+}
 
 
 // ----------------------------------------------
@@ -986,16 +1081,22 @@ PwmPortsComboBoxDelegate::PwmPortsComboBoxDelegate(QObject *parent, AQPWMPortsCo
     QStyledItemDelegate(parent), aqPwmPortConfig(aqPwmPortConfig) {}
 PwmPortsComboBoxDelegate::~PwmPortsComboBoxDelegate() {}
 
-QWidget *PwmPortsComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
+QWidget *PwmPortsComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
 {
-    return aqPwmPortConfig->makeMotorPortCombo(parent);
+    if (index.column() == aqPwmPortConfig->COL_PORT)
+        return aqPwmPortConfig->makeMotorPortCombo(parent);
+    else
+        return aqPwmPortConfig->makeMotorPortTypeCombo(parent);
 }
 
 void PwmPortsComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QComboBox *edit = qobject_cast<QComboBox *>(editor);
     if (edit) {
-        int idx = index.data(Qt::EditRole).toInt() - 1;
+        int idx = index.data(Qt::UserRole).toInt();
+        if (index.column() == aqPwmPortConfig->COL_PORT)
+            idx -= 1;
+        //qDebug() << "idx" << idx;
         if (edit->count() > idx)
             edit->setCurrentIndex(idx);
     }
@@ -1004,6 +1105,12 @@ void PwmPortsComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex 
 void PwmPortsComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     QComboBox *edit = qobject_cast<QComboBox *>(editor);
-    if (edit)
+    //qDebug() << "editor" << edit->itemData(edit->currentIndex(), Qt::UserRole).toString() << edit->currentText();
+    if (edit) {
+        aqPwmPortConfig->dataChangeType = Qt::UserRole;
+        model->setData(index, edit->itemData(edit->currentIndex(), Qt::UserRole).toInt(), Qt::UserRole);
+        aqPwmPortConfig->dataChangeType = Qt::EditRole;
         model->setData(index, edit->currentText());
+    }
+    //qDebug() << "model" << model->data(index, Qt::UserRole).toString() << model->data(index, Qt::EditRole).toString();
 }

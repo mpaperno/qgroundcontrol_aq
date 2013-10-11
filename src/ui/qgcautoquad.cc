@@ -62,6 +62,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
 
     setHardwareInfo(aqHardwareVersion);  // populate hardware (AQ board) info with defaults
+    setFirmwareInfo();
 
     /*
      * Start the UI
@@ -190,7 +191,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // Signal handlers
 
     connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
-    connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForFirmware()));
+    connect(this, SIGNAL(firmwareInfoUpdated()), this, SLOT(adjustUiForFirmware()));
 
     //GUI slots
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
@@ -505,7 +506,7 @@ void QGCAutoquad::adjustUiForFirmware() {
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
 
     // auto-triggering options
-    ui->groupBox_gmbl_auto_triggering->setVisible(!paramaq || paramaq->paramExistsAQ("GMBL_TRIG_ON_PWM"));
+    ui->groupBox_gmbl_auto_triggering->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
 }
 
 void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
@@ -2126,19 +2127,22 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         }
 
         uas = uas_ext;
-        connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
-        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
-        connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
-
         paramaq = new QGCAQParamWidget(uas, this);
         ui->label_params_no_aq->hide();
         ui->tabLayout_paramHandler->addWidget(paramaq);
-        connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-        connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
         if ( LastFilePath == "")
             paramaq->setFilePath(QCoreApplication::applicationDirPath());
         else
             paramaq->setFilePath(LastFilePath);
+
+        connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
+        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
+        connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
+        //connect(uas, SIGNAL(connected()), this, SLOT(uasConnected())); // this doesn't do anything
+
+        connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+        connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
+        connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
 
         // get firmware version of this AQ
         aqFirmwareVersion = QString("");
@@ -2147,9 +2151,8 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         aqHardwareRevision = 0;
         aqBuildNumber = 0;
         ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
-        uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
 
-        paramaq->loadParaAQ();
+        paramaq->requestParameterList();
 
         VisibleWidget = 2;
 //        aqTelemetryView->initChart(uas);
@@ -2643,6 +2646,10 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
     this->alt = alt;
 }
 
+void QGCAutoquad::uasConnected() {
+    uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
+}
+
 void QGCAutoquad::setHardwareInfo(int boardVer) {
     switch (boardVer) {
     case 7:
@@ -2658,6 +2665,19 @@ void QGCAutoquad::setHardwareInfo(int boardVer) {
         break;
     }
     emit hardwareInfoUpdated();
+}
+
+void QGCAutoquad::setFirmwareInfo() {
+
+    maxMotorPorts = 16;
+    motPortTypeCAN = true;
+
+    if (aqBuildNumber && aqBuildNumber < 1423)
+        maxMotorPorts = 14;
+    if (aqBuildNumber && aqBuildNumber < 1418)
+        motPortTypeCAN = false;
+
+    emit firmwareInfoUpdated();
 }
 
 QStringList QGCAutoquad::getAvailablePwmPorts(void) {
@@ -2705,6 +2725,7 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
         }
 
         setHardwareInfo(aqHardwareVersion);
+        setFirmwareInfo();
 
         if (aqFirmwareVersion.length()) {
             QString verStr = QString("AutoQuad FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);

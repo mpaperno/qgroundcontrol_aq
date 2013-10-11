@@ -49,6 +49,7 @@ protected:
 signals:
     void visibilityChanged(bool visible);
     void hardwareInfoUpdated(void);
+    void firmwareInfoUpdated(void);
 
 private slots:
 
@@ -153,8 +154,10 @@ private slots:
 //    void prtstderr();
     void extProcessError(QProcess::ProcessError err);
     void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
+    void uasConnected();
     void handleStatusText(int uasId, int compid, int severity, QString text);
     void setHardwareInfo(int boardVer);
+    void setFirmwareInfo();
     bool checkAqSerialConnection(QString port = "");
     void paramRequestTimeoutNotify(int readCount, int writeCount);
     void pushButton_dev1();
@@ -177,8 +180,10 @@ public:
     int aqBuildNumber;
     QString aqFirmwareVersion;
 
-    uint8_t maxPwmPorts;        // total number of output ports on current hardware
-    QList<uint8_t> pwmPortTimers; // table of timers corresponding to ports
+    uint8_t maxPwmPorts;            // total number of output ports on current hardware
+    uint8_t maxMotorPorts;          // maximum possible motor outputs (PWM or CAN or ?)
+    QList<uint8_t> pwmPortTimers;   // table of timers corresponding to ports
+    bool motPortTypeCAN;            // is CAN bus available?
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files

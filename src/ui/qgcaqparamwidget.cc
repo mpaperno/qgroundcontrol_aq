@@ -685,6 +685,8 @@ void QGCAQParamWidget::requestParameterList()
     loadSettings();
     // End of FIXME
 
+    emit parameterListRequested();
+
     // Clear view and request param list
     clear();
     parameters.clear();
