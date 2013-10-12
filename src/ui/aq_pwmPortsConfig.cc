@@ -760,33 +760,35 @@ bool AQPWMPortsConfig::validateForm(void) {
         iport = port.toUInt();
         isPwm = ui->table_motMix->item(r, COL_TYPE)->data(Qt::UserRole).toInt() == MOT_PORT_TYPE_PWM;
 
-        // save and check used port numbers
-        if (isPwm && usedPorts.contains(port))
-            dupePorts.append(port);
-        else if (!isPwm && usedMotorPorts.contains(port))
-            dupeMotorPorts.append(port);
-        else {
-            if (isPwm) {
+        // save and check used pwm port numbers
+        if (isPwm) {
+            if (usedPorts.contains(port))
+                dupePorts.append(port);
+            else
                 usedPorts.append(port);
-                // save this timer as used
-                if (iport <= aq->pwmPortTimers.size()) {
-                    tim = aq->pwmPortTimers.at(iport-1);
-                    if (!motorUsedTimers.contains(tim))
-                        motorUsedTimers.insert(tim, QStringList(port));
-                    else {
-                        QStringList pl = motorUsedTimers.value(tim);
-                        pl.append(port);
-                        motorUsedTimers.insert(tim, pl);
-                    }
+
+            // save this timer as used
+            if (iport <= aq->pwmPortTimers.size()) {
+                tim = aq->pwmPortTimers.at(iport-1);
+                if (!motorUsedTimers.contains(tim))
+                    motorUsedTimers.insert(tim, QStringList(port));
+                else {
+                    QStringList pl = motorUsedTimers.value(tim);
+                    pl.append(port);
+                    motorUsedTimers.insert(tim, pl);
                 }
-            } else {
-                usedMotorPorts.append(port);
             }
+
+            // check if any pwm ports don't exist in hardware
+            if (port.toUInt() > aq->maxPwmPorts)
+                invalidPwmPorts.append(port);
         }
 
-        // check if any pwm ports don't exist in hardware
-        if (isPwm && port.toUInt() > aq->maxPwmPorts)
-            invalidPwmPorts.append(port);
+        // save and check used motor port numbers
+        if (usedMotorPorts.contains(port))
+            dupeMotorPorts.append(port);
+        else
+            usedMotorPorts.append(port);
 
         // loop over each of the value columns (throt, pitch, roll, yaw) to check valid values
         for (int c=COL_PORT+1; c <= COL_PORT + 4; ++c) {
@@ -816,17 +818,17 @@ bool AQPWMPortsConfig::validateForm(void) {
                 continue;
             dupePorts.append(port);
         }
-        else {
+        else
             usedPorts.append(port);
-            if (iport > aq->pwmPortTimers.size())
-                continue;
-            tim = aq->pwmPortTimers.at(iport-1);
-            // check if this timer conflicts with any motor ports
-            if (!ignoreTimer && cb->objectName().startsWith("GMBL_") && motorUsedTimers.contains(tim)) {
-                for (int i=0; i < aq->pwmPortTimers.size(); ++i)
-                    if (aq->pwmPortTimers.at(i) == tim)
-                        timConflictPorts.append(QString::number(i+1));
-            }
+
+        if (iport > aq->pwmPortTimers.size())
+            continue;
+        tim = aq->pwmPortTimers.at(iport-1);
+        // check if this timer conflicts with any motor ports
+        if (!ignoreTimer && cb->objectName().startsWith("GMBL_") && motorUsedTimers.contains(tim)) {
+            for (int i=0; i < aq->pwmPortTimers.size(); ++i)
+                if (aq->pwmPortTimers.at(i) == tim)
+                    timConflictPorts.append(QString::number(i+1));
         }
     }
 
@@ -842,7 +844,7 @@ bool AQPWMPortsConfig::validateForm(void) {
     for (int r=0; r < ui->table_motMix->rowCount() - 1; ++r) {
         port = ui->table_motMix->item(r, COL_PORT)->data(Qt::EditRole).toString();
         isPwm = ui->table_motMix->item(r, COL_TYPE)->data(Qt::UserRole).toInt() == MOT_PORT_TYPE_PWM;
-        if ((isPwm && dupePorts.contains(port)) || (!isPwm && dupeMotorPorts.contains(port)) || invalidPwmPorts.contains(port))
+        if ((isPwm && dupePorts.contains(port)) || dupeMotorPorts.contains(port) || invalidPwmPorts.contains(port))
             bgcolor = color_error;
         else if (isPwm && timConflictPorts.contains(port))
             bgcolor = color_warn;
