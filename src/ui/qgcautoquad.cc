@@ -895,27 +895,21 @@ void QGCAutoquad::check_stop()
 }
 
 void QGCAutoquad::startCalculationProcess(QString appName, QStringList appArgs) {
-    if (ps_master.state() == QProcess::Running) {
-        MainWindow::instance()->showCriticalMessage("Process already running.", "There appears to be a calculation step already running. Please abort it first.");
+    if (checkProcRunning(false))
         return;
-    }
 
-    QString appPath = QDir::toNativeSeparators(aqBinFolderPath + appName + platformExeExt);
+    QString appPath = "\"" + QDir::toNativeSeparators(aqBinFolderPath + appName + platformExeExt) + "\" " + appArgs.join(" ");
 
     activeProcessStatusWdgt->clear();
-    activeProcessStatusWdgt->append(appPath + " " + appArgs.join(" "));
-//    for ( int i = 0; i<appArgs.count(); i++) {
-//        activeProcessStatusWdgt->append(appArgs.at(i));
-//    }
+    activeProcessStatusWdgt->append(appPath);
 
 // FIXME
 #ifdef Q_OS_MAC
     if (appName == "sim3") {
-        activeProcessStatusWdgt->append("The sim3 steps are not currently working on Mac OS X via QGC. \
-                                        To continue calibration, please copy the complete command line you see above \
-                                        and paste it into a terminal window. sim3 should start and produce output.  Once you are satisfied \
-                                        with the result, copy the parameters from the terminal window into the All Generated Parameters window \
-                                        and save the file.  You will need to repeat this process for each sim3 step (4a, 4b, 5, and 6)");
+        activeProcessStatusWdgt->append("\n\nThe sim3 calculation steps are currently not working on Mac OS X via QGC. :-(  But all is not lost!\n\n\
+To continue calibration, please copy the complete command line you see above and paste it into a terminal window. sim3 should start and produce output.  \
+Once you are satisfied with the result, press CTRL-C to stop the sim3 program, copy the parameters from the terminal window into the \
+All Generated Parameters window (here in QGC) and save the file.  You will need to repeat this process for each sim3 step (4a, 4b, 5, and 6).");
         return;
     }
 #endif
@@ -924,7 +918,7 @@ void QGCAutoquad::startCalculationProcess(QString appName, QStringList appArgs) 
     currentCalcAbortBtn->setEnabled(true);
 
     ps_master.setWorkingDirectory(aqBinFolderPath);
-    ps_master.start(appPath , appArgs, QIODevice::Unbuffered | QIODevice::ReadWrite);
+    ps_master.start(appPath, QIODevice::Unbuffered | QIODevice::ReadWrite);
 }
 
 void QGCAutoquad::abortcalc(){
@@ -955,24 +949,40 @@ void QGCAutoquad::checkVaraince() {
     }
 }
 
+void QGCAutoquad::calcAppendStaticFiles(QStringList *args) {
+    for (int i=0; i < StaticFiles.size(); ++i)
+        args->append("\"" + StaticFiles.at(i) + "\"");
+    args->append(":");
+}
+
+void QGCAutoquad::calcAppendDynamicFiles(QStringList *args) {
+    for (int i=0; i < DynamicFiles.size(); ++i)
+        args->append("\"" + DynamicFiles.at(i) + "\"");
+}
+
+void QGCAutoquad::calcAppendParamsFile(QStringList *args) {
+    args->append("-p");
+    args->append("\"" + QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()) + "\"");
+}
+
 QString QGCAutoquad::calcGetSim3ParamPath() {
     QString Sim3ParaPath = "sim3.params";
     if ( ui->checkBox_DIMU->isChecked())
         Sim3ParaPath = "sim3_dimu.params";
 
-    Sim3ParaPath = QDir::toNativeSeparators(aqBinFolderPath + Sim3ParaPath);
+    Sim3ParaPath = "\"" + QDir::toNativeSeparators(aqBinFolderPath + Sim3ParaPath) + "\"";
 
     return Sim3ParaPath;
 }
 
 void QGCAutoquad::startcal1(){
+    if (checkProcRunning())
+        return;
+
     QStringList Arguments;
 
     Arguments.append("--rate");
-    for ( int i = 0; i<StaticFiles.count(); i++) {
-        Arguments.append(StaticFiles.at(i));
-    }
-    Arguments.append(":");
+    calcAppendStaticFiles(&Arguments);
 
     activeProcessStatusWdgt = ui->textOutput_cal1;
     currentCalcStartBtn = ui->pushButton_start_cal1;
@@ -982,17 +992,14 @@ void QGCAutoquad::startcal1(){
 }
 
 void QGCAutoquad::startcal2(){
+    if (checkProcRunning())
+        return;
+
     QStringList Arguments;
 
     Arguments.append("--acc");
-    for ( int i = 0; i<StaticFiles.count(); i++) {
-        Arguments.append(StaticFiles.at(i));
-    }
-    Arguments.append(":");
-
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
+    calcAppendStaticFiles(&Arguments);
+    calcAppendDynamicFiles(&Arguments);
 
     activeProcessStatusWdgt = ui->textOutput_cal2;
     currentCalcStartBtn = ui->pushButton_start_cal2;
@@ -1002,6 +1009,9 @@ void QGCAutoquad::startcal2(){
 }
 
 void QGCAutoquad::startcal3(){
+    if (checkProcRunning())
+        return;
+
     QStringList Arguments;
 
 #ifdef Q_OS_WIN
@@ -1013,30 +1023,16 @@ void QGCAutoquad::startcal3(){
     }
 #endif
 
-    if ( !ui->checkBox_DIMU->isChecked()) {
+    if ( !ui->checkBox_DIMU->isChecked())
         Arguments.append("--mag");
-
-        for ( int i = 0; i<StaticFiles.count(); i++) {
-            Arguments.append(StaticFiles.at(i));
-        }
-        Arguments.append(":");
-    }
     else {
         Arguments.append("-b");
         Arguments.append("--mag");
-
-        for ( int i = 0; i<StaticFiles.count(); i++) {
-            Arguments.append(StaticFiles.at(i));
-        }
-        Arguments.append(":");
     }
 
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
-
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+    calcAppendParamsFile(&Arguments);
+    calcAppendStaticFiles(&Arguments);
+    calcAppendDynamicFiles(&Arguments);
 
     activeProcessStatusWdgt = ui->textOutput_cal3;
     currentCalcStartBtn = ui->pushButton_start_cal3;
@@ -1046,6 +1042,9 @@ void QGCAutoquad::startcal3(){
 }
 
 void QGCAutoquad::startsim1(){
+    if (checkProcRunning())
+        return;
+
     QStringList Arguments;
 
     if ( ui->checkBox_DIMU->isChecked())
@@ -1053,8 +1052,7 @@ void QGCAutoquad::startsim1(){
     Arguments.append("--gyo");
     Arguments.append("-p");
     Arguments.append(calcGetSim3ParamPath());
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+    calcAppendParamsFile(&Arguments);
 
     if ( ui->checkBox_sim3_4_var_1->checkState() ) {
         Arguments.append("--var=" + ui->sim3_4_var_1->text());
@@ -1063,9 +1061,7 @@ void QGCAutoquad::startsim1(){
         Arguments.append("--stop=" + ui->sim3_4_stop_1->text());
     }
 
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
+    calcAppendDynamicFiles(&Arguments);
 
     activeProcessStatusWdgt = ui->textOutput_sim1;
     currentCalcStartBtn = ui->pushButton_start_sim1;
@@ -1075,6 +1071,9 @@ void QGCAutoquad::startsim1(){
 }
 
 void QGCAutoquad::startsim1b(){
+    if (checkProcRunning())
+        return;
+
     QStringList Arguments;
 
     if ( ui->checkBox_DIMU->isChecked())
@@ -1082,8 +1081,7 @@ void QGCAutoquad::startsim1b(){
     Arguments.append("--acc");
     Arguments.append("-p");
     Arguments.append(calcGetSim3ParamPath());
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+    calcAppendParamsFile(&Arguments);
 
     if ( ui->checkBox_sim3_4_var_2->checkState() ) {
         Arguments.append("--var=" + ui->sim3_4_var_2->text());
@@ -1092,9 +1090,7 @@ void QGCAutoquad::startsim1b(){
         Arguments.append("--stop=" + ui->sim3_4_var_2->text());
     }
 
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
+    calcAppendDynamicFiles(&Arguments);
 
     activeProcessStatusWdgt = ui->textOutput_sim1_2;
     currentCalcStartBtn = ui->pushButton_start_sim1_2;
@@ -1104,6 +1100,9 @@ void QGCAutoquad::startsim1b(){
 }
 
 void QGCAutoquad::startsim2(){
+    if (checkProcRunning())
+        return;
+
     QStringList Arguments;
 
     if ( ui->checkBox_DIMU->isChecked())
@@ -1112,8 +1111,7 @@ void QGCAutoquad::startsim2(){
     Arguments.append("--gyo");
     Arguments.append("-p");
     Arguments.append(calcGetSim3ParamPath());
-    Arguments.append("-p");
-    Arguments.append( QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+    calcAppendParamsFile(&Arguments);
 
     if ( ui->checkBox_sim3_5_var->checkState() ) {
         Arguments.append("--var=" + ui->sim3_5_var->text());
@@ -1122,9 +1120,7 @@ void QGCAutoquad::startsim2(){
         Arguments.append("--stop=" + ui->sim3_5_stop->text());
     }
 
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
+    calcAppendDynamicFiles(&Arguments);
 
     activeProcessStatusWdgt = ui->textOutput_sim2;
     currentCalcStartBtn = ui->pushButton_start_sim2;
@@ -1134,6 +1130,9 @@ void QGCAutoquad::startsim2(){
 }
 
 void QGCAutoquad::startsim3(){
+    if (checkProcRunning())
+        return;
+
     QStringList Arguments;
 
     Arguments.append("--mag");
@@ -1142,8 +1141,7 @@ void QGCAutoquad::startsim3(){
     Arguments.append("--incl");
     Arguments.append("-p");
     Arguments.append(calcGetSim3ParamPath());
-    Arguments.append("-p");
-    Arguments.append(QDir::toNativeSeparators(ui->lineEdit_user_param_file->text()));
+    calcAppendParamsFile(&Arguments);
 
     if ( ui->checkBox_sim3_6_var->checkState() ) {
         Arguments.append("--var=" + ui->sim3_6_var->text());
@@ -1152,9 +1150,7 @@ void QGCAutoquad::startsim3(){
         Arguments.append("--stop=" + ui->sim3_6_var->text());
     }
 
-    for ( int i = 0; i<DynamicFiles.count(); i++) {
-        Arguments.append(DynamicFiles.at(i));
-    }
+    calcAppendDynamicFiles(&Arguments);
 
     activeProcessStatusWdgt = ui->textOutput_sim3;
     currentCalcStartBtn = ui->pushButton_start_sim3;
@@ -1844,10 +1840,8 @@ void QGCAutoquad::flashFW()
         return;
     }
 
-    if (ps_master.state() == QProcess::Running) {
-        MainWindow::instance()->showCriticalMessage("Process already running.", "There appears to be an external process already running (firmware flashing or a calibration calculation). Please abort it first.");
+    if (checkProcRunning())
         return;
-    }
 
     QString fwtype = (ui->radioButton_fwType_aq->isChecked()) ? "aq" : "esc";
     QString msg = "";
@@ -2576,6 +2570,17 @@ void QGCAutoquad::convertPidAttValsToFW68Scales() {
 // Miscellaneous
 //
 
+
+bool QGCAutoquad::checkProcRunning(bool warn) {
+    if (ps_master.state() == QProcess::Running) {
+        if (warn)
+            MainWindow::instance()->showCriticalMessage(
+                        "Process already running.",
+                        "There appears to be an external process (calculation step or firmware flashing) already running. Please abort it first.");
+        return true;
+    }
+    return false;
+}
 
 void QGCAutoquad::prtstexit(int stat) {
     if ( fwFlashActive ) {  // firmware flashing mode

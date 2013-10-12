@@ -79,6 +79,9 @@ private slots:
     void startcal2();
     void startcal3();
     void checkVaraince();
+    void calcAppendStaticFiles(QStringList *args);
+    void calcAppendDynamicFiles(QStringList *args);
+    void calcAppendParamsFile(QStringList *args);
     QString calcGetSim3ParamPath();
     void startsim1();
     void startsim1b();
@@ -149,6 +152,7 @@ private slots:
     void Esc32GotFirmwareVersion(QString ver);
 
     // Misc.
+    bool checkProcRunning(bool warn = true);
     void prtstexit(int stat);
     void prtstdout();
 //    void prtstderr();
