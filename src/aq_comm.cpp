@@ -1835,187 +1835,108 @@ int AQEsc32::GetEsc32State() {
 int AQEsc32::getEnumByName(QString Name)
 {
     if ( Name == "CONFIG_VERSION")
-    {
         return CONFIG_VERSION;
-    }
     if ( Name == "STARTUP_MODE")
-    {
         return STARTUP_MODE;
-    }
     if ( Name == "BAUD_RATE")
-    {
         return BAUD_RATE;
-    }
     if ( Name == "PTERM")
-    {
         return PTERM;
-    }
     if ( Name == "ITERM")
-    {
         return ITERM;
-    }
-
     if ( Name == "FF1TERM")
-    {
         return FF1TERM;
-    }
     if ( Name == "FF2TERM")
-    {
         return FF2TERM;
-    }
     if ( Name == "CL1TERM")
-    {
         return CL1TERM;
-    }
     if ( Name == "CL2TERM")
-    {
         return CL2TERM;
-    }
     if ( Name == "CL3TERM")
-    {
         return CL3TERM;
-    }
     if ( Name == "CL4TERM")
-    {
         return CL4TERM;
-    }
     if ( Name == "CL5TERM")
-    {
         return CL5TERM;
-    }
     if ( Name == "SHUNT_RESISTANCE")
-    {
         return SHUNT_RESISTANCE;
-    }
     if ( Name == "MIN_PERIOD")
-    {
         return MIN_PERIOD;
-    }
     if ( Name == "MAX_PERIOD")
-    {
         return MAX_PERIOD;
-    }
-
     if ( Name == "BLANKING_MICROS")
-    {
         return BLANKING_MICROS;
-    }
     if ( Name == "ADVANCE")
-    {
         return ADVANCE;
-    }
     if ( Name == "START_VOLTAGE")
-    {
         return START_VOLTAGE;
-    }
     if ( Name == "GOOD_DETECTS_START")
-    {
         return GOOD_DETECTS_START;
-    }
     if ( Name == "BAD_DETECTS_DISARM")
-    {
         return BAD_DETECTS_DISARM;
-    }
-
     if ( Name == "MAX_CURRENT")
-    {
         return MAX_CURRENT;
-    }
     if ( Name == "SWITCH_FREQ")
-    {
         return SWITCH_FREQ;
-    }
     if ( Name == "MOTOR_POLES")
-    {
         return MOTOR_POLES;
-    }
     if ( Name == "PWM_MIN_PERIOD")
-    {
         return PWM_MIN_PERIOD;
-    }
     if ( Name == "PWM_MAX_PERIOD")
-    {
         return PWM_MAX_PERIOD;
-    }
-
     if ( Name == "PWM_MIN_VALUE")
-    {
         return PWM_MIN_VALUE;
-    }
     if ( Name == "PWM_LO_VALUE")
-    {
         return PWM_LO_VALUE;
-    }
     if ( Name == "PWM_HI_VALUE")
-    {
         return PWM_HI_VALUE;
-    }
     if ( Name == "PWM_MAX_VALUE")
-    {
         return PWM_MAX_VALUE;
-    }
     if ( Name == "PWM_MIN_START")
-    {
         return PWM_MIN_START;
-    }
-
     if ( Name == "PWM_RPM_SCALE")
-    {
         return PWM_RPM_SCALE;
-    }
     if ( Name == "FET_BRAKING")
-    {
         return FET_BRAKING;
-    }
-
     if ( Name == "PNFAC")
-    {
         return PNFAC;
-    }
     if ( Name == "INFAC")
-    {
         return INFAC;
-    }
     if ( Name == "THR1TERM")
-    {
         return THR1TERM;
-    }
     if ( Name == "THR2TERM")
-    {
         return THR2TERM;
-    }
     if ( Name == "START_ALIGN_TIME")
-    {
         return START_ALIGN_TIME;
-    }
     if ( Name == "START_ALIGN_VOLTAGE")
-    {
         return START_ALIGN_VOLTAGE;
-    }
     if ( Name == "START_STEPS_NUM")
-    {
         return START_STEPS_NUM;
-    }
     if ( Name == "START_STEPS_PERIOD")
-    {
         return START_STEPS_PERIOD;
-    }
     if ( Name == "START_STEPS_ACCEL")
-    {
         return START_STEPS_ACCEL;
-    }
     if ( Name == "PWM_LOWPASS")
-    {
         return PWM_LOWPASS;
-    }
     if ( Name == "RPM_MEAS_LP")
-    {
         return RPM_MEAS_LP;
-    }
+    if ( Name == "SERVO_DUTY")
+        return SERVO_DUTY;
+    if ( Name == "SERVO_P")
+        return SERVO_P;
+    if ( Name == "SERVO_D")
+        return SERVO_D;
+    if ( Name == "SERVO_MAX_RATE")
+        return SERVO_MAX_RATE;
+    if ( Name == "SERVO_SCALE")
+        return SERVO_SCALE;
+    if ( Name == "ESC_ID")
+        return ESC_ID;
+    if ( Name == "DIRECTION")
+        return DIRECTION;
+
     if ( Name == "CONFIG_NUM_PARAMS")
-    {
         return CONFIG_NUM_PARAMS;
-    }
 
     return 0;
 }

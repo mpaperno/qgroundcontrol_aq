@@ -1313,9 +1313,16 @@ void QGCAutoquad::Esc32ShowConfig(QMap<QString, QString> paramPairs, bool disabl
         ui->STARTUP_MODE->setCurrentIndex(paramPairs.value("STARTUP_MODE").toInt());
     if (paramPairs.contains("BAUD_RATE"))
         ui->BAUD_RATE->setCurrentIndex(ui->BAUD_RATE->findText(paramPairs.value("BAUD_RATE")));
+    if (paramPairs.contains("ESC_ID"))
+        ui->ESC_ID->setCurrentIndex(paramPairs.value("ESC_ID").toInt());
+    if (paramPairs.contains("DIRECTION"))
+        ui->DIRECTION->setCurrentIndex(paramPairs.value("ESC_ID").toInt() == 1 ? 0 : 1);
 
-    if (disableMissing)
+    if (disableMissing) {
         ui->groupBox_ESC32_ServoSettings->setVisible(paramPairs.contains("SERVO_DUTY"));
+        ui->ESC_ID->setEnabled(paramPairs.contains("ESC_ID"));
+        ui->DIRECTION->setEnabled(paramPairs.contains("DIRECTION"));
+    }
 }
 
 void QGCAutoquad::btnSaveToEsc32() {
@@ -1344,6 +1351,18 @@ void QGCAutoquad::btnSaveToEsc32() {
     valueEsc32 = paramEsc32.value("BAUD_RATE");
     if (valueEsc32 != ui->BAUD_RATE->currentText() || skipParamChangeCheck)
         changedParams.insert("BAUD_RATE", ui->BAUD_RATE->currentText());
+
+    if ( paramEsc32.contains("ESC_ID") ) {
+        valueEsc32 = paramEsc32.value("ESC_ID");
+        if (valueEsc32.toInt() != ui->ESC_ID->currentIndex() || skipParamChangeCheck)
+            changedParams.insert("ESC_ID", QString::number(ui->ESC_ID->currentIndex()));
+    }
+    if ( paramEsc32.contains("DIRECTION") ) {
+        valueEsc32 = paramEsc32.value("DIRECTION");
+        valueText = ui->DIRECTION->currentIndex() == 0 ? "1" : "-1";
+        if (valueEsc32 != valueText || skipParamChangeCheck)
+            changedParams.insert("DIRECTION", valueText);
+    }
 
     Esc32UpdateStatusText("Writing config...");
 
@@ -1415,6 +1434,8 @@ void QGCAutoquad::Esc32SaveParamsToFile()
 
     in << "STARTUP_MODE" << "\t" << ui->STARTUP_MODE->currentIndex() << "\n";
     in << "BAUD_RATE" << "\t" << ui->BAUD_RATE->currentText() << "\n";
+    in << "ESC_ID" << "\t" << ui->ESC_ID->currentIndex() << "\n";
+    in << "DIRECTION" << "\t" << (ui->DIRECTION->currentIndex() == 0 ? 1 : -1) << "\n";
 
     in.flush();
     file.close();

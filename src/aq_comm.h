@@ -425,6 +425,13 @@ public:
         START_STEPS_ACCEL,
         PWM_LOWPASS,
         RPM_MEAS_LP,
+        SERVO_DUTY,
+        SERVO_P,
+        SERVO_D,
+        SERVO_MAX_RATE,
+        SERVO_SCALE,
+        ESC_ID,
+        DIRECTION,
         CONFIG_NUM_PARAMS
     };
 
