@@ -2279,8 +2279,7 @@ void QGCAutoquad::loadParametersToUI() {
     // check for old PIDs and offer to convert them if running newer firmware
     // TODO: remove me eventually
     if (paramaq->paramExistsAQ("MOT_CAN") &&
-            paramaq->getParaAQ("CTRL_TLT_RTE_D").toFloat() < 15000.0f &&
-            paramaq->getParaAQ("CTRL_YAW_ANG_PM").toFloat() < 3.0f)
+            paramaq->getParaAQ("CTRL_TLT_RTE_D").toFloat() < 15000.0f)
         ui->cmdBtn_ConvertTov68AttPIDs->show();
     else
         ui->cmdBtn_ConvertTov68AttPIDs->hide();
@@ -2543,7 +2542,7 @@ QString QGCAutoquad::paramNameGuiToOnboard(QString paraName) {
 void QGCAutoquad::convertPidAttValsToFW68Scales() {
     float v;
     bool ok;
-    QList<QLineEdit *> attPIDs = this->findChildren<QLineEdit *>(QRegExp("^CTRL_(TLT|YAW)_(RTE|ANG)_[PIDOM]{1,2}$"));
+    QList<QLineEdit *> attPIDs = this->findChildren<QLineEdit *>(QRegExp("^CTRL_(TLT_(RTE|ANG)|YAW_RTE)_[PIDOM]{1,2}$"));
     foreach (QLineEdit* le, attPIDs) {
         v = le->text().toFloat(&ok);
         if (ok)
@@ -2553,8 +2552,8 @@ void QGCAutoquad::convertPidAttValsToFW68Scales() {
     ui->CTRL_MAX->setValue(ui->CTRL_MAX->value() * 4.82f);
 
     if (ok) {
-        QString msg = "<html><p>The Rate and Angle PIDs, and the Max. Ctrl. Per Axis (CTRL_MAX) parameter have been converted and are displayed here, ";
-        msg += "but have NOT been sent to AQ (Ctrl. Max. is shown on the Radio & Controls setup screen).</p>";
+        QString msg = "<html><p>The <b>Tilt Rate</b>, <b>Tilt Angle</b>, and <b>Yaw Rate</b> PIDs, and the <b>Max. Ctrl. Per Axis</b> (CTRL_MAX) parameter have been converted ";
+        msg += "and are displayed here, but have NOT been sent to AQ (Ctrl. Max. is shown on the Radio & Controls setup screen).</p>";
         msg += "<p>To return to the old values, simply refresh the onboard parameters list.</p>";
         msg += "<p>Please note that the conversions are approximate. Each value (except the F term!) has been multipled by 4.82 You may want to round some of the numbers a bit.</p>";
         msg += "<p>You may also wish to refer to the <a href='http://code.google.com/p/autoquad/source/diff?spec=svn234&r=234&format=side&path=/trunk/onboard/config_default.h#sc_svn233_59'>";
