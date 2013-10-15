@@ -1316,7 +1316,7 @@ void QGCAutoquad::Esc32ShowConfig(QMap<QString, QString> paramPairs, bool disabl
     if (paramPairs.contains("ESC_ID"))
         ui->ESC_ID->setCurrentIndex(paramPairs.value("ESC_ID").toInt());
     if (paramPairs.contains("DIRECTION"))
-        ui->DIRECTION->setCurrentIndex(paramPairs.value("ESC_ID").toInt() == 1 ? 0 : 1);
+        ui->DIRECTION->setCurrentIndex(paramPairs.value("DIRECTION").toInt() == 1 ? 0 : 1);
 
     if (disableMissing) {
         ui->groupBox_ESC32_ServoSettings->setVisible(paramPairs.contains("SERVO_DUTY"));
