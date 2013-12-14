@@ -5225,7 +5225,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>maximum navigation yaw rate deg/s</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum navigation yaw rate deg/s (in auto modes).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> °/s</string>
@@ -5269,7 +5269,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>Maximum speed contraint while in automated modes</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum speed constraint while in automated modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> m/s</string>
@@ -5307,7 +5307,7 @@ padding: 1px 5px;</string>
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>Maximum descent rate while in automated modes</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum descent rate while in automated modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> m/s</string>
