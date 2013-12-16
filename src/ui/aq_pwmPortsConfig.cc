@@ -737,8 +737,8 @@ bool AQPWMPortsConfig::validateForm(void) {
     QString port;
     bool ok, ignoreTimer, isPwm;
     float val;
-    QColor color_error(255, 0, 0, 200),
-            color_warn(255, 140, 0, 200),
+    QBrush color_error(QColor(255, 0, 0, 200)),
+            color_warn(QColor(255, 140, 0, 200)),
             color_ok(Qt::NoBrush),
             bgcolor;
 
