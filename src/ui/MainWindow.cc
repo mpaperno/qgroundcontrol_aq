@@ -94,7 +94,7 @@ MainWindow* MainWindow::instance(QSplashScreen* screen)
 **/
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
-    currentView(VIEW_UNCONNECTED),
+    currentView(VIEW_OPERATOR),
     currentStyle(QGC_MAINWINDOW_STYLE_INDOOR),
     aboutToCloseFlag(false),
     changingViewsFlag(false),
@@ -106,24 +106,17 @@ MainWindow::MainWindow(QWidget *parent):
     hide();
     emit initStatusChanged("Loading UI Settings..");
     loadSettings();
-    if (!settings.contains("CURRENT_VIEW"))
+    if (!settings.contains("QGC_MAINWINDOW/CURRENT_VIEW"))
     {
         // Set this view as default view
-        settings.setValue("CURRENT_VIEW", currentView);
+        settings.setValue("QGC_MAINWINDOW/CURRENT_VIEW", currentView);
     }
     else
     {
         // LOAD THE LAST VIEW
-        VIEW_SECTIONS currentViewCandidate = (VIEW_SECTIONS) settings.value("CURRENT_VIEW", currentView).toInt();
-        if (currentViewCandidate != VIEW_ENGINEER &&
-                currentViewCandidate != VIEW_OPERATOR &&
-                currentViewCandidate != VIEW_PILOT &&
-                currentViewCandidate != VIEW_FULL &&
-                currentViewCandidate != VIEW_DATA &&
-                currentViewCandidate != VIEW_AQ)
-        {
+        VIEW_SECTIONS currentViewCandidate = (VIEW_SECTIONS) settings.value("QGC_MAINWINDOW/CURRENT_VIEW", currentView).toInt();
+        if (currentViewCandidate >= VIEW_ENGINEER && currentViewCandidate <= VIEW_DATA)
             currentView = currentViewCandidate;
-        }
     }
 
     settings.sync();
@@ -843,19 +836,21 @@ void MainWindow::storeSettings()
     settings.beginGroup("QGC_MAINWINDOW");
     settings.setValue("AUTO_RECONNECT", autoReconnect);
     settings.setValue("CURRENT_STYLE", currentStyle);
-    settings.endGroup();
     if (!aboutToCloseFlag && isVisible())
     {
         settings.setValue(getWindowGeometryKey(), saveGeometry());
         // Save the last current view in any case
         settings.setValue("CURRENT_VIEW", currentView);
         // Save the current window state, but only if a system is connected (else no number of widgets would be present)
-        if (UASManager::instance()->getUASList().length() > 0) settings.setValue(getWindowStateKey(), saveState(QGC::applicationVersion()));
-        // Save the current view only if a UAS is connected
-        if (UASManager::instance()->getUASList().length() > 0) settings.setValue("CURRENT_VIEW_WITH_UAS_CONNECTED", currentView);
-        // Save the current power mode
+        if (UASManager::instance()->getUASList().length() > 0) {
+            settings.setValue(getWindowStateKey(), saveState(QGC::applicationVersion()));
+            // Save the current view only if a UAS is connected
+            settings.setValue("CURRENT_VIEW_WITH_UAS_CONNECTED", currentView);
+        }
     }
+    // Save the current power mode
     settings.setValue("LOW_POWER_MODE", lowPowerMode);
+    settings.endGroup();
     settings.sync();
 }
 
@@ -1094,14 +1089,32 @@ void MainWindow::connectCommonActions()
     perspectives->setExclusive(true);
 
     // Mark the right one as selected
-    if (currentView == VIEW_ENGINEER) ui.actionEngineersView->setChecked(true);
-//    if (currentView == VIEW_MAVLINK) ui.actionMavlinkView->setChecked(true);
-    if (currentView == VIEW_PILOT) ui.actionPilotsView->setChecked(true);
-    if (currentView == VIEW_OPERATOR || currentView == VIEW_UNCONNECTED) ui.actionOperatorsView->setChecked(true);
-    if (currentView == VIEW_DATA) ui.actionDataView->setChecked(true);
-//    if (currentView == VIEW_FIRMWAREUPDATE) ui.actionFirmwareUpdateView->setChecked(true);
-//    if (currentView == VIEW_UNCONNECTED) ui.actionUnconnectedView->setChecked(true);
-
+    switch (currentView)
+    {
+    case VIEW_ENGINEER:
+        ui.actionEngineersView->setChecked(true);
+        break;
+    case VIEW_PILOT:
+        ui.actionPilotsView->setChecked(true);
+        break;
+    case VIEW_DATA:
+        ui.actionDataView->setChecked(true);
+        break;
+//    case VIEW_MAVLINK:
+//        ui.actionMavlinkView->setChecked(true);
+//        break;
+//    case VIEW_FIRMWAREUPDATE:
+//        ui.actionFirmwareUpdateView->setChecked(true);
+//        break;
+//    case VIEW_UNCONNECTED:
+//        ui.actionUnconnectedView->setChecked(true);
+//        break;
+    case VIEW_OPERATOR:
+    case VIEW_UNCONNECTED:
+    default:
+        ui.actionOperatorsView->setChecked(true);
+        break;
+    }
     // The UAS actions are not enabled without connection to system
     ui.actionLiftoff->setEnabled(false);
     ui.actionLand->setEnabled(false);
@@ -1479,9 +1492,9 @@ void MainWindow::UASCreated(UASInterface* uas)
         if (UASManager::instance()->getUASList().size() == 1)
         {
             // Load last view if setting is present
-            if (settings.contains("CURRENT_VIEW_WITH_UAS_CONNECTED"))
+            if (settings.contains("QGC_MAINWINDOW/CURRENT_VIEW_WITH_UAS_CONNECTED"))
             {
-                int view = settings.value("CURRENT_VIEW_WITH_UAS_CONNECTED").toInt();
+                int view = settings.value("QGC_MAINWINDOW/CURRENT_VIEW_WITH_UAS_CONNECTED").toInt();
                 switch (view)
                 {
                 case VIEW_ENGINEER:
@@ -1600,7 +1613,7 @@ void MainWindow::loadViewState()
             logPlayerDockWidget->hide();
             mavlinkInspectorWidget->show();
             //mavlinkSenderWidget->show();
-            parametersDockWidget->show();
+            parametersDockWidget->hide();
             hsiDockWidget->hide();
             headDown1DockWidget->hide();
             //headDown2DockWidget->hide();
@@ -1696,17 +1709,17 @@ void MainWindow::loadViewState()
             waypointsDockWidget->show();
             infoDockWidget->hide();
             debugConsoleDockWidget->show();
-            logPlayerDockWidget->show();
+            logPlayerDockWidget->hide();
             parametersDockWidget->hide();
-            hsiDockWidget->show();
+            hsiDockWidget->hide();
             headDown1DockWidget->hide();
             //headDown2DockWidget->hide();
             rcViewDockWidget->hide();
-            headUpDockWidget->show();
-            pfdDockWidget->hide();
+            headUpDockWidget->hide();
+            pfdDockWidget->show();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
-            mavlinkInspectorWidget->show();
+            mavlinkInspectorWidget->hide();
             break;
         }
     }
