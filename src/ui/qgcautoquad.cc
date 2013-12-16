@@ -152,8 +152,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->groupBox_ppmOptions->hide();
     ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     ui->conatiner_radioGraphValues->setEnabled(false);
+
+    // hide some controls which may get shown later based on AQ fw version
     ui->DOWNLINK_BAUD->hide();
     ui->label_DOWNLINK_BAUD->hide();
+    ui->MOT_MIN->hide();
+    ui->label_MOT_MIN->hide();
+    ui->CTRL_MAN_YAW_RT->hide();
+    ui->label_CTRL_MAN_YAW_RT->hide();
     ui->cmdBtn_ConvertTov68AttPIDs->hide();
 
     // hide variance button for older versions of cal program
