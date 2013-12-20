@@ -51,9 +51,14 @@ OBJECTS_DIR = $${BUILDDIR}/obj
 MOC_DIR = $${BUILDDIR}/moc
 UI_DIR = $${BUILDDIR}/ui
 RCC_DIR = $${BUILDDIR}/rcc
+RESOURCES += qgroundcontrol.qrc
+TRANSLATIONS += files/lang/de.ts \
+    files/lang/en.ts
+
+DEFINES += MAVLINK_NO_DATA
+
 MAVLINK_CONF = "autoquad"
 MAVLINKPATH = $$BASEDIR/libs/mavlink/include/mavlink/v1.0
-DEFINES += MAVLINK_NO_DATA
 
 win32 {
     QMAKE_INCDIR_QT = $$(QTDIR)/include
@@ -629,9 +634,6 @@ contains(DEPENDENCIES_PRESENT, libfreenect) {
     SOURCES += src/input/Freenect.cc
 }
 
-# Add icons and other resources
-RESOURCES += qgroundcontrol.qrc
-
 # Include RT-LAB Library
 win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin) { 
     message("Building support for Opal-RT")
@@ -653,8 +655,6 @@ win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin)
     FORMS += src/ui/OpalLinkSettings.ui
     DEFINES += OPAL_RT
 }
-TRANSLATIONS += es-MX.ts \
-    en-US.ts
 
 # xbee support
 # libxbee only supported by linux and windows systems
