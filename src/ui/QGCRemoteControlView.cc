@@ -242,7 +242,7 @@ void QGCRemoteControlView::redrawRssi()
     if(!isVisible() || !rssiBar || rssi < 0.0f || rssi > 99.0f)
         return;
 
-    rssiBar->setValue(rssi * 255.0f);
+    rssiBar->setValue(rssi);
 }
 
 void QGCRemoteControlView::changeEvent(QEvent *e)

@@ -2104,7 +2104,7 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
 
 void QGCAutoquad::setRssiDisplayValue(float normalized) {
     QProgressBar* bar = ui->progressBar_rssi;
-    int val = (int)(normalized * 255.0f);
+    int val = (int)(normalized);
 
     if (bar && val <= bar->maximum() && val >= bar->minimum())
         bar->setValue(val);

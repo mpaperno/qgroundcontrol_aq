@@ -69,6 +69,7 @@ UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
     this->voltage = 0;
     this->chargeLevel = 0;
     this->load = 0;
+    this->rssi = 0;
     receiveLoss = 0;
     sendLoss = 0;
     changed = true;
@@ -109,6 +110,7 @@ void UASInfoWidget::addUAS(UASInterface* uas)
         connect(uas, SIGNAL(dropRateChanged(int,float)), this, SLOT(updateReceiveLoss(int,float)));
         connect(uas, SIGNAL(loadChanged(UASInterface*, double)), this, SLOT(updateCPULoad(UASInterface*,double)));
         connect(uas, SIGNAL(errCountChanged(int,QString,QString,int)), this, SLOT(updateErrorCount(int,QString,QString,int)));
+        connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
 
         // Set this UAS as active if it is the first one
         if (activeUAS == 0) activeUAS = uas;
@@ -162,6 +164,13 @@ void UASInfoWidget::updateSendLoss(int uasId, float sendLoss)
     this->sendLoss = this->sendLoss * 0.8f + sendLoss * 0.2f;
 }
 
+void UASInfoWidget::updateRSSI(float rssi)
+{
+    if (rssi >= 99.0f)
+        rssi = 100;
+    this->rssi = rssi;
+}
+
 void UASInfoWidget::setVoltage(UASInterface* uas, double voltage)
 {
     Q_UNUSED(uas);
@@ -184,6 +193,8 @@ void UASInfoWidget::setTimeRemaining(UASInterface* uas, double seconds)
 
 void UASInfoWidget::refresh()
 {
+    QString text;
+
     ui.voltageLabel->setText(QString::number(this->voltage, 'f', voltageDecimals));
     ui.batteryBar->setValue(qMax(0,qMin(static_cast<int>(this->chargeLevel), 100)));
 
@@ -196,8 +207,8 @@ void UASInfoWidget::refresh()
     ui.sendLossBar->setValue(sendLoss);
     ui.sendLossLabel->setText(QString::number(sendLoss, 'f', 2));
 
-    ui.label_5->setText(QString::number(this->load, 'f', loadDecimals));
-    ui.progressBar->setValue(qMax(0, qMin(static_cast<int>(this->load), 100)));
+    ui.rssiLabel->setText(text.sprintf("%6.2f", this->rssi));
+    ui.rssiBar->setValue(qMax(0, qMin(static_cast<int>(this->rssi), 99)));
 
     QString errorString;
     QMapIterator<QString, int> i(errors);

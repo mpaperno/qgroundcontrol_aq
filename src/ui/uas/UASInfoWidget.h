@@ -74,6 +74,8 @@ public slots:
     /** @brief Update the error count */
     void updateErrorCount(int uasid, QString component, QString device, int count);
 
+    void updateRSSI(float rssi);
+
     void setVoltage(UASInterface* uas, double voltage);
     void setChargeLevel(UASInterface* uas, double chargeLevel);
     void setTimeRemaining(UASInterface* uas, double seconds);
@@ -100,6 +102,7 @@ protected:
     double load;
     float receiveLoss;
     float sendLoss;
+    float rssi;
     bool changed;
     QTimer* updateTimer;
     QString name;
