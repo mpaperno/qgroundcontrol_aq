@@ -634,7 +634,7 @@
           <item>
            <widget class="QCheckBox" name="checkBox_colHeaders">
             <property name="toolTip">
-             <string>If selected, the first row of the export will list the exported values. Only valid for txt, csv, and tab export formats.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If selected, the first row of the export will list the exported values. Only valid for txt, csv, and tab export formats.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Use Col. Headings</string>
@@ -691,10 +691,10 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Number of samples per second to export (AQ logging rate is 200Hz)</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of samples per second to export (AQ logging rate is 200Hz)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="suffix">
-             <string>Hz</string>
+             <string notr="true">Hz</string>
             </property>
             <property name="minimum">
              <number>1</number>
@@ -854,7 +854,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Set GPS Track output mode (see &quot;What's this&quot; help for this section)</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set GPS Track output mode (see &amp;quot;What's this&amp;quot; help for this section)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Export GPS Data as Track</string>
@@ -873,7 +873,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Set GPS track output as Waypoints (only in GPX and KML formats)</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set GPS track output as Waypoints (only in GPX and KML formats)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Export GPS Data as Waypoints</string>
@@ -902,7 +902,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Vertical GPS accuracy must this high or better (lower)</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Vertical GPS accuracy must this high or better (lower)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="prefix">
              <string notr="true">~ </string>
@@ -967,7 +967,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Horizontal GPS accuracy must this high or better (lower)</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Horizontal GPS accuracy must this high or better (lower)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="prefix">
              <string notr="true">~ </string>
@@ -1050,7 +1050,7 @@
              <bool>false</bool>
             </property>
             <property name="toolTip">
-             <string>Use reported GPS altitude in the export (GPS_HEIGHT)</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use reported GPS altitude in the export (GPS_HEIGHT)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>GPS Altitude</string>
@@ -1069,7 +1069,7 @@
              <bool>false</bool>
             </property>
             <property name="toolTip">
-             <string>Use derived altitude in the export (UKF_POSD)</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use derived altitude in the export (UKF_POSD)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Derived Altitude</string>
@@ -1088,7 +1088,7 @@
              <bool>false</bool>
             </property>
             <property name="toolTip">
-             <string>Use raw pressure sensor altitutde (UKF_PRES_ALT). You will need to specify an offset when using this.</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use raw pressure sensor altitutde (UKF_PRES_ALT). You will need to specify an offset when using this.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Pressure Altitude</string>
@@ -1136,7 +1136,10 @@
                <bool>false</bool>
               </property>
               <property name="toolTip">
-               <string>Adjust final altitude by this many meters. Useful if your tracks are showing up below ground level in GE or you need to adjust for pressure sensor altitude.</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adjust final altitude by this many meters. Useful if your tracks are showing up below ground level in GE or you need to adjust for pressure sensor altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="prefix">
+               <string notr="true"/>
               </property>
               <property name="suffix">
                <string>m</string>
@@ -1245,7 +1248,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Adjust timestamp to local time based on computer settings</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adjust timestamp to local time based on computer settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Adjust to Local Time</string>
@@ -1305,7 +1308,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Actual UTC date of the flight (in case log creation date is incorrect).</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Actual UTC date of the flight (in case log creation date is incorrect).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="maximumDateTime">
              <datetime>
@@ -1435,7 +1438,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Radio channel number  (enter zero to disable)</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio channel number  (enter zero to disable)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1484,7 +1487,7 @@
                  </sizepolicy>
                 </property>
                 <property name="toolTip">
-                 <string>Channel should be less than this value</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel should be less than this value&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
                  <string>is &lt;</string>
@@ -1577,7 +1580,7 @@
                  <bool>false</bool>
                 </property>
                 <property name="toolTip">
-                 <string>Channel should be greater than this value</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel should be greater than this value&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
                  <string>is &gt;</string>
@@ -1618,7 +1621,7 @@
                  <bool>false</bool>
                 </property>
                 <property name="toolTip">
-                 <string>Channel should equal zero, +/- 100</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel should equal zero, +/- 100&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
                  <string>= 0 (+/-100)</string>
@@ -1658,7 +1661,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Available in AQ firmware versions with gimbal triggering features (v6.7 b1378 and later).</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Available in AQ firmware versions with gimbal triggering features (v6.7 b1378 and later).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Use gimbal log record (if available)</string>
@@ -1699,7 +1702,7 @@
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
               <property name="suffix">
-               <string> ms</string>
+               <string notr="true"> ms</string>
               </property>
               <property name="minimum">
                <number>0</number>
@@ -1841,7 +1844,7 @@
           </sizepolicy>
          </property>
          <property name="toolTip">
-          <string>Browse the output folder using the native file browser application.</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Browse the output folder using the native file browser application.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
           <string>Browse</string>
@@ -1870,7 +1873,7 @@
           </sizepolicy>
          </property>
          <property name="toolTip">
-          <string>Open the output file in the associated application (if any).</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open the output file in the associated application (if any).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
           <string>Open</string>

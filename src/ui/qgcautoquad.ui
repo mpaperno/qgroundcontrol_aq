@@ -417,6 +417,9 @@
                      <property name="value">
                       <number>0</number>
                      </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="0" column="2">
@@ -466,6 +469,9 @@
                      </property>
                      <property name="value">
                       <number>0</number>
+                     </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
                      </property>
                     </widget>
                    </item>
@@ -517,6 +523,9 @@
                      <property name="value">
                       <number>0</number>
                      </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="0" column="2">
@@ -567,6 +576,9 @@
                      <property name="value">
                       <number>0</number>
                      </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="0" column="2">
@@ -616,6 +628,9 @@
                      </property>
                      <property name="value">
                       <number>0</number>
+                     </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
                      </property>
                     </widget>
                    </item>
@@ -730,6 +745,9 @@
                      <property name="value">
                       <number>0</number>
                      </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="0" column="2">
@@ -843,6 +861,9 @@
                      <property name="value">
                       <number>0</number>
                      </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="0" column="2">
@@ -892,6 +913,9 @@
                      </property>
                      <property name="value">
                       <number>0</number>
+                     </property>
+                     <property name="format">
+                      <string notr="true">%p%</string>
                      </property>
                     </widget>
                    </item>
@@ -979,6 +1003,9 @@
                   </property>
                   <property name="value">
                    <number>0</number>
+                  </property>
+                  <property name="format">
+                   <string notr="true">%p%</string>
                   </property>
                  </widget>
                 </item>
@@ -9269,9 +9296,9 @@ padding: 1px 5px;</string>
   </connection>
  </connections>
  <buttongroups>
+  <buttongroup name="COMM_STREAM_TYP1"/>
   <buttongroup name="COMM_STREAM_TYP2"/>
   <buttongroup name="COMM_STREAM_TYP3"/>
   <buttongroup name="COMM_STREAM_TYP4"/>
-  <buttongroup name="COMM_STREAM_TYP1"/>
  </buttongroups>
 </ui>

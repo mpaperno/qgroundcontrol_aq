@@ -204,7 +204,7 @@ void UAS::updateState()
 {
     QString audioSystemName = "";
     if (UASManager::instance()->getSystemsCount() > 1)
-        audioSystemName = QString("to System %1").arg(uasId);
+        audioSystemName = tr("to System %1").arg(uasId);
 
     // Check if heartbeat timed out
     quint64 heartbeatInterval = QGC::groundTimeUsecs() - lastHeartbeat;
@@ -212,7 +212,7 @@ void UAS::updateState()
     {
         connectionLost = true;
         commStatus = COMM_TIMEDOUT;
-        QString audiostring = QString("Link lost %1").arg(audioSystemName);
+        QString audiostring = tr("Link lost %1").arg(audioSystemName);
         GAudioOutput::instance()->say(audiostring.toLower());
     }
 
@@ -227,7 +227,7 @@ void UAS::updateState()
     // Connection gained
     if (connectionLost && (heartbeatInterval < timeoutIntervalHeartbeat))
     {
-        QString audiostring = QString("Link regained %1 after %2 seconds").arg(audioSystemName).arg((int)(connectionLossTime/1000000));
+        QString audiostring = tr("Link regained %1 after %2 seconds").arg(audioSystemName).arg((int)(connectionLossTime/1000000));
         GAudioOutput::instance()->say(audiostring.toLower());
         connectionLost = false;
         connectionLossTime = 0;
@@ -288,22 +288,22 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
         {
         case MAV_COMP_ID_ALL:
         {
-            componentName = "ANONYMOUS";
+            componentName = tr("ANONYMOUS");
             break;
         }
         case MAV_COMP_ID_IMU:
         {
-            componentName = "IMU #1";
+            componentName = tr("IMU #1");
             break;
         }
         case MAV_COMP_ID_CAMERA:
         {
-            componentName = "CAMERA";
+            componentName = tr("CAMERA");
             break;
         }
         case MAV_COMP_ID_MISSIONPLANNER:
         {
-            componentName = "MISSIONPLANNER";
+            componentName = tr("MISSIONPLANNER");
             break;
         }
         }
@@ -327,7 +327,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
         bool wrongComponent = false;
 
         if (UASManager::instance()->getSystemsCount() > 1)
-            audioSystemName = QString("System %1").arg(uasId);
+            audioSystemName = tr("System %1").arg(uasId);
 
         switch (message.compid)
         {
@@ -437,12 +437,12 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 if (systemIsArmed)
                 {
                     emit armed();
-                    armModeAudio = "armed";
+                    armModeAudio = tr("armed");
                 }
                 else
                 {
                     emit disarmed();
-                    armModeAudio = "disarmed";
+                    armModeAudio = tr("disarmed");
                 }
             }
 
@@ -457,10 +457,10 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 shortStateText = uasState;
 
                 // Adjust for better audio
-                if (uasState == QString("STANDBY")) uasState = QString("standing by");
-                if (uasState == QString("EMERGENCY")) uasState = QString("emergency condition");
-                if (uasState == QString("CRITICAL")) uasState = QString("critical condition");
-                if (uasState == QString("SHUTDOWN")) uasState = QString("shutting down");
+                if (uasState == QString("STANDBY")) uasState = tr("standing by");
+                if (uasState == QString("EMERGENCY")) uasState = tr("emergency condition");
+                if (uasState == QString("CRITICAL")) uasState = tr("critical condition");
+                if (uasState == QString("SHUTDOWN")) uasState = tr("shutting down");
 
                 stateAudio = uasState;
             }
@@ -475,7 +475,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 emit modeChanged(this->getUASID(), shortModeText, "");
 
                 if (!(this->mode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED) && !(oldMode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED))
-                    modeAudio = " now in " + getAudioModeTextFor(this->mode);
+                    modeAudio = tr(" now in ") + getAudioModeTextFor(this->mode);
             }
 
             if (navMode != state.custom_mode)
@@ -488,15 +488,15 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             // AUDIO
             audiostring += armModeAudio;
             if (armModeAudio.length() && (stateAudio.length() || modeAudio.length()))
-                audiostring += " and ";
+                audiostring += tr(" and ");
             audiostring += modeAudio;
             if (modeAudio.length() && stateAudio.length())
-                audiostring += " and ";
+                audiostring += tr(" and ");
             audiostring += stateAudio;
 
             if (statechanged && ((int)state.system_status == (int)MAV_STATE_CRITICAL || state.system_status == (int)MAV_STATE_EMERGENCY))
             {
-                audiostring = "Emergency condition! " + audiostring;
+                audiostring = tr("Emergency condition! ") + audiostring;
                 audioSeverity = 2;
                 // GAudioOutput::instance()->say(QString("emergency condition %1").arg(audioSystemName));
 //                QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
@@ -576,7 +576,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             // add  && vtick  to only warn when voltage changes
             if (vwarning && startVoltage > 0.0f && (QGC::groundTimeUsecs() - lastVoltageWarning) > 15e6) {
-                GAudioOutput::instance()->say(QString("voltage warning: %1 volts").arg(lpVoltage, 0, 'f', 1, QChar(' ')));
+                GAudioOutput::instance()->say(tr("voltage warning: %1 volts").arg(lpVoltage, 0, 'f', 1, QChar(' ')));
                 lastVoltageWarning = QGC::groundTimeUsecs();
             }
 
@@ -802,7 +802,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 }
                 else
                 {
-                    emit textMessageReceived(uasId, message.compid, 255, QString("GCS ERROR: RECEIVED INVALID SPEED OF %1 m/s").arg(vel));
+                    emit textMessageReceived(uasId, message.compid, 255, tr("GCS ERROR: RECEIVED INVALID SPEED OF %1 m/s").arg(vel));
                 }
             }
         }
@@ -1269,7 +1269,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 QString errString = tr("UNABLE TO DECODE MESSAGE NUMBER %1").arg(message.msgid);
                 //GAudioOutput::instance()->say(errString+tr(", please check console for details."));
                 emit textMessageReceived(uasId, message.compid, 255, errString);
-                std::cout << "Unable to decode message from system " << std::dec << static_cast<int>(message.sysid) << " with message id:" << static_cast<int>(message.msgid) << std::endl;
+                //std::cout << "Unable to decode message from system " << std::dec << static_cast<int>(message.sysid) << " with message id:" << static_cast<int>(message.msgid) << std::endl;
                 //qDebug() << std::cerr << "Unable to decode message from system " << std::dec << static_cast<int>(message.acid) << " with message id:" << static_cast<int>(message.msgid) << std::endl;
             }
         }
@@ -1387,8 +1387,8 @@ void UAS::setHomePosition(double lat, double lon, double alt)
 {
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText("Setting new World Coordinate Frame Origin");
-    msgBox.setInformativeText("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location");
+    msgBox.setText(tr("Setting new World Coordinate Frame Origin"));
+    msgBox.setInformativeText(tr("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Cancel);
     int ret = msgBox.exec();
@@ -1423,8 +1423,8 @@ void UAS::setLocalOriginAtCurrentGPSPosition()
 {
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText("Setting new World Coordinate Frame Origin");
-    msgBox.setInformativeText("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location");
+    msgBox.setText(tr("Setting new World Coordinate Frame Origin"));
+    msgBox.setInformativeText(tr("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Cancel);
     int ret = msgBox.exec();
@@ -1776,27 +1776,19 @@ float UAS::filterVoltage(float value) const
 */
 QString UAS::getNavModeText(int mode)
 {
+    QString ret = tr("UNKNOWN");
     if (autopilot == MAV_AUTOPILOT_PIXHAWK)
     {
         switch (mode)
         {
         case 0:
-            return QString("PREFLIGHT");
+            ret = tr("PREFLIGHT");
             break;
-        default:
-            return QString("UNKNOWN");
         }
     }
-    else if (autopilot == MAV_AUTOPILOT_ARDUPILOTMEGA)
-    {
-        return QString("UNKNOWN");
-    }
-    else if (autopilot == MAV_AUTOPILOT_OPENPILOT)
-    {
-        return QString("UNKNOWN");
-    }
+
     // If nothing matches, return unknown
-    return QString("UNKNOWN");
+    return ret;
 }
 
 /**
@@ -2353,9 +2345,8 @@ void UAS::requestParameter(int component, const QString& parameter)
     read.param_index = -1;
     // Copy full param name or maximum max field size
     if (parameter.length() > MAVLINK_MSG_PARAM_REQUEST_READ_FIELD_PARAM_ID_LEN)
-    {
-        emit textMessageReceived(uasId, 0, 255, QString("QGC WARNING: Parameter name %1 is more than %2 bytes long. This might lead to errors and mishaps!").arg(parameter).arg(MAVLINK_MSG_PARAM_REQUEST_READ_FIELD_PARAM_ID_LEN-1));
-    }
+        emit textMessageReceived(uasId, 0, 255, tr("QGC WARNING: Parameter name %1 is more than %2 bytes long. This might lead to errors and mishaps!").arg(parameter).arg(MAVLINK_MSG_PARAM_REQUEST_READ_FIELD_PARAM_ID_LEN-1));
+
     memcpy(read.param_id, parameter.toStdString().c_str(), qMax(parameter.length(), MAVLINK_MSG_PARAM_REQUEST_READ_FIELD_PARAM_ID_LEN));
     read.param_id[15] = '\0'; // Enforce null termination
     read.target_system = uasId;
@@ -2772,8 +2763,8 @@ void UAS::shutdown()
 {
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Critical);
-    msgBox.setText("Shutting down the UAS");
-    msgBox.setInformativeText("Do you want to shut down the onboard computer?");
+    msgBox.setText(tr("Shutting down the UAS"));
+    msgBox.setInformativeText(tr("Do you want to shut down the onboard computer?"));
 
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Cancel);
@@ -2842,41 +2833,41 @@ QString UAS::getAudioModeTextFor(int id)
     // BASE MODE DECODING
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_AUTO)
     {
-        mode += "autonomous";
+        mode += tr("autonomous");
     }
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_GUIDED)
     {
-        mode += "guided";
+        mode += tr("guided");
     }
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_STABILIZE)
     {
-        mode += "stabilized";
+        mode += tr("stabilized");
     }
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_MANUAL)
     {
-        mode += "manual";
+        mode += tr("manual");
     }
     else
     {
         // Nothing else applies, we're in preflight
-        mode += "preflight";
+        mode += tr("preflight");
     }
 
     if (modeid != 0)
     {
-        mode += " mode";
+        mode += tr(" mode");
     }
 
     // ARMED STATE DECODING
 //    if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_SAFETY)
 //    {
-//        mode.append(" and armed");
+//        mode.append(tr(" and armed"));
 //    }
 
     // HARDWARE IN THE LOOP DECODING
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_HIL)
     {
-        mode.append(" using hardware in the loop simulation");
+        mode.append(tr(" using hardware in the loop simulation"));
     }
 
     return mode;
@@ -2891,37 +2882,24 @@ QString UAS::getShortModeTextFor(int id)
     QString mode;
     uint8_t modeid = id;
 
-    qDebug() << "MODE:" << modeid;
+    //qDebug() << "MODE:" << modeid;
 
+    mode += "|";
     // BASE MODE DECODING
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_AUTO)
-    {
-        mode += "|AUTO";
-    }
+        mode += tr("AUTO");
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_GUIDED)
-    {
-        mode += "|VECTOR";
-    }
+        mode += tr("VECTOR");
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_STABILIZE)
-    {
-        mode += "|STABILIZED";
-    }
+        mode += tr("STABILIZED");
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_TEST)
-    {
-        mode += "|TEST";
-    }
+        mode += tr("TEST");
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_MANUAL)
-    {
-        mode += "|MANUAL";
-    }
+        mode += tr("MANUAL");
     else if (modeid == 0)
-    {
-        mode = "|PREFLIGHT";
-    }
+        mode = tr("PREFLIGHT");
     else
-    {
-        mode = "|UNKNOWN";
-    }
+        mode = tr("UNKNOWN");
 
     // ARMED STATE DECODING
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_SAFETY)
@@ -3037,7 +3015,7 @@ void UAS::setBatterySpecs(const QString& specs)
         }
         else
         {
-            emit textMessageReceived(0, 0, 0, "Could not set battery options, format is wrong");
+            emit textMessageReceived(0, 0, 0, tr("Could not set battery options, format is wrong"));
         }
     }
     else
@@ -3063,7 +3041,7 @@ void UAS::setBatterySpecs(const QString& specs)
         }
         else
         {
-            emit textMessageReceived(0, 0, 0, "Could not set battery options, format is wrong");
+            emit textMessageReceived(0, 0, 0, tr("Could not set battery options, format is wrong"));
         }
     }
 }
@@ -3126,7 +3104,7 @@ void UAS::startLowBattAlarm()
 {
     QString audioSystemName = "";
     if (UASManager::instance()->getSystemsCount() > 1)
-        audioSystemName = QString("on System %1").arg(uasId);
+        audioSystemName = tr("on System %1").arg(uasId);
 
     if (!lowBattAlarm)
     {

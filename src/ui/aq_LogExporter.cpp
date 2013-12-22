@@ -664,7 +664,7 @@ void AQLogExporter::on_toolButton_selectLogFile_clicked()
 
     // use native file dialog
     fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Log File"), fi.absoluteFilePath(),
-                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+                                            tr("AQ Log File") + " (*.LOG);;" + tr("All File Types") + " (*.*)");
 
     if (fileName.length()) {
         ui->lineEdit_inputFile->setText(fileName);
@@ -716,7 +716,7 @@ void AQLogExporter::on_toolButton_selectOutputFile_clicked()
 
     // use native file dialog
     fileName = QFileDialog::getSaveFileName(this, tr("Select Output File"), fi.absoluteFilePath(),
-                                            tr("Export File Types (*.csv *.tab *.txt *.gpx *.kml);;All File Types (*.*)"));
+                                            tr("Export File Types") + " (*.csv *.tab *.txt *.gpx *.kml);;"  + tr("All File Types") + " (*.*)");
 
     // use Qt file dialog (slower)
 //    QFileDialog dialog;

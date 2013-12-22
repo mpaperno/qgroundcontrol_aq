@@ -49,7 +49,7 @@ void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
 {
     if (ms > 10000) {
         if (!currentLink || !currentLink->isConnected()) {
-            toolBarTimeoutLabel->setText("DISCONNECTED");
+            toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
             toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
             return;
         }
@@ -103,13 +103,13 @@ void QGCToolBar::createUI() {
     toolBarNameLabel->setObjectName("toolBarNameLabel");
     addWidget(toolBarNameLabel);
 
-    toolBarTimeoutLabel = new QLabel("NOT CONNECTED", this);
+    toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
     toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
     toolBarTimeoutLabel->setStyleSheet(QString("QLabel { background-color: %2; padding: 0 3px; }").arg(QGC::colorMagenta.dark(250).name()));
     addWidget(toolBarTimeoutLabel);
 
-    toolBarSafetyLabel = new QLabel("SAFE", this);
+    toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
     toolBarSafetyLabel->setToolTip(tr("Vehicle safety state"));
     toolBarSafetyLabel->setObjectName("toolBarSafetyLabel");
     addWidget(toolBarSafetyLabel);
@@ -149,7 +149,7 @@ void QGCToolBar::createUI() {
 //	toolBarDistLabel->setToolTip(tr("Distance to current mission"));
 //    addWidget(toolBarDistLabel);
 
-    toolBarMessageLabel = new QLabel("No system messages.", this);
+    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
     toolBarMessageLabel->setToolTip(tr("Most recent system message"));
     toolBarMessageLabel->setObjectName("toolBarMessageLabel");
     addWidget(toolBarMessageLabel);
@@ -255,7 +255,7 @@ void QGCToolBar::logging(bool checked)
     if (checked)
     {
 		// Prompt the user for a filename/location to save to
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Specify MAVLink log file to save to"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("MAVLink Logfile (*.mavlink *.log *.bin);;"));
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Specify MAVLink log file to save to"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("MAVLink Logfile") + " (*.mavlink *.log *.bin)");
 
 		// Check that they didn't cancel out
 		if (fileName.isNull())
@@ -360,8 +360,8 @@ void QGCToolBar::updateView()
 //    toolBarWpLabel->setText(tr("WP%1").arg(wpId));
     toolBarBatteryBar->setValue(batteryPercent);
     toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
-    toolBarStateLabel->setText(tr("%1").arg(state));
-    toolBarModeLabel->setText(tr("%1").arg(mode));
+    toolBarStateLabel->setText(state);
+    toolBarModeLabel->setText(mode);
     toolBarNameLabel->setText(systemName);
     toolBarMessageLabel->setText(lastSystemMessage);
 

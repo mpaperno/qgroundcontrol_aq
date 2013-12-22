@@ -498,7 +498,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
         else
         {
             // Transmission in progress
-            statusLabel->setText(tr("OK: %1 %2 (%3/%4)").arg(parameterName).arg(val).arg(paramCount-missCount).arg(paramCount));
+            statusLabel->setText(QString("OK: %1 %2 (%3/%4)").arg(parameterName).arg(val).arg(paramCount-missCount).arg(paramCount));
         }
     }
 
@@ -794,13 +794,13 @@ void QGCAQParamWidget::saveParameters(int fileFormat)
         suggestPath = fi.absolutePath() + "/" + suggestPath;
     }
 
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), suggestPath, tr("Parameter File (*.txt)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), suggestPath, tr("Parameter File") + " (*.txt)");
     if (!fileName.length())
         return;
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        MainWindow::instance()->showCriticalMessage("Error!", tr("Could not open params file. %1").arg(file.errorString()));
+        MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Could not open params file. %1").arg(file.errorString()));
         return;
     }
 
@@ -883,7 +883,7 @@ void QGCAQParamWidget::loadParameters()
 
     // use native file dialog
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select Saved Parameters File"), dir.absoluteFilePath(),
-                                            tr("Parameter Files (*.params *.txt)"));
+                                            tr("Parameter File") + " (*.param *.txt);;" + tr("All File Types") + " (*.*)");
 
     // use Qt file dialog (sometimes very slow! at least on Win)
 //    QFileDialog dialog;
@@ -911,7 +911,7 @@ void QGCAQParamWidget::loadParameters()
     QFile file(fileName);
 
     if (!file.size() || !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        MainWindow::instance()->showCriticalMessage("Error", "Could not open saved parameters file.");
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Could not open saved parameters file."));
         return;
     }
 
@@ -1280,7 +1280,7 @@ void QGCAQParamWidget::setParameters()
     if (parametersSent == 0) {
         statusLabel->setText(tr("No transmission: No changed values."));
     } else {
-        statusLabel->setText(tr("Transmitting %1 parameters.").arg(parametersSent));
+        statusLabel->setText(tr("Transmitting %n parameter(s).", "", parametersSent));
         // Set timeouts
         if (transmissionActive)
         {
