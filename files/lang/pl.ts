@@ -1,112 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1" language="pl">
 <context>
     <name>AQLinechartWidget</name>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="207"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="208"/>
         <source>Set linear scale for Y axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw liniowej skali dla osi Y</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="217"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="218"/>
         <source>Set logarithmic scale for Y axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw skali logarytmicznej na osi Y</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="224"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="225"/>
         <source>Number of samples used to calculate mean and variance</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba próbek używane do obliczenia średniej i wariancji</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="231"/>
         <source>Avg. Window:</source>
-        <translation type="unfinished"></translation>
+        <translation>Średni czas okna:</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="237"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="238"/>
         <source>Time span of plot window, in seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>Czasowym powierzchni okna, w kilka sekund</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="244"/>
         <source>Time Span:</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas trwania:</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="266"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="267"/>
         <source>Start to log curve data into a CSV or TXT file</source>
-        <translation type="unfinished"></translation>
+        <translation>Start, aby rejestrować dane do pliku CSV lub TXT</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="268"/>
         <source>Start Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocząć rejestrowanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="521"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="535"/>
         <source>Specify log file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ nazwę pliku dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="521"/>
         <source>Logfile (*.csv *.txt);;</source>
-        <translation type="unfinished"></translation>
+        <translation>LogFile (*.csv *.txt);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="535"/>
         <source>Logfile (*.txt *.csv);;</source>
-        <translation type="unfinished"></translation>
+        <translation>LogFile (*.txt *.csv);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="548"/>
         <source>Stop logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatrzymaj rejestrowanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="569"/>
         <source>Starting Log Compression</source>
-        <translation type="unfinished"></translation>
+        <translation>Począwszy od kompresji Log</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="570"/>
         <source>Should empty fields (e.g. due to packet drops) be filled with the previous value of the same variable (zero order hold)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Puste pola (np. ze względu na pakiet krople) powinna być wypełniona z poprzednią wartość tej samej zmiennej (zero Ekstrapolator rzędu)?</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="586"/>
         <source>Start logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczęcie rejestrowania</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="634"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="635"/>
         <source>Enable the curve in the graph window</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz krzywej w oknie wykresu</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="664"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="665"/>
         <source>Current value of %1 in %2 units</source>
-        <translation type="unfinished"></translation>
+        <translation>Bieżąca wartość %1 %2 jednostek</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="684"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="685"/>
         <source>Arithmetic mean of %1 in %2 units</source>
-        <translation type="unfinished"></translation>
+        <translation>Średnia arytmetyczna %1 %2 jednostek</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="699"/>
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="700"/>
         <source>Variance of %1 in (%2)^2 units</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenie %1 w (%2) ^ 2 jednostki</translation>
     </message>
 </context>
 <context>
@@ -114,755 +114,755 @@
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="24"/>
         <source>AQ Log Export Options</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ dziennika opcje eksportu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="53"/>
         <source>Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="77"/>
         <source>Select log file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="80"/>
         <location filename="../../src/ui/aq_LogExporter.ui" line="780"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="108"/>
         <source>Select what data to export. Mouse over individual items for descriptions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz dane do eksportu. Po najechaniu myszą na poszczególne opisy.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="111"/>
         <source>Value(s) to Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartości do eksportu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="135"/>
         <source>Select/de-select all values</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz/de-select wszystkie wartości</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="138"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="156"/>
         <source>Microseconds since AQ boot</source>
-        <translation type="unfinished"></translation>
+        <translation>Mikrosekundach od AQ zyski</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="159"/>
         <source>timer</source>
-        <translation type="unfinished"></translation>
+        <translation>zegar</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="169"/>
         <source>Voltage readings 0-14</source>
-        <translation type="unfinished"></translation>
+        <translation>Odczyty napięcia 0-14</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="172"/>
         <source>voltages</source>
-        <translation type="unfinished"></translation>
+        <translation>napięcia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="182"/>
         <source>RATE X, Y, &amp; Z</source>
-        <translation type="unfinished"></translation>
+        <translation>STAWKA X, Y &amp; Z</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="185"/>
         <source>gyro values</source>
-        <translation type="unfinished"></translation>
+        <translation>żyroskop wartości</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="195"/>
         <source>ACC X, Y, &amp; Z</source>
-        <translation type="unfinished"></translation>
+        <translation>ACC X, Y &amp; Z</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="198"/>
         <source>accel. values</source>
-        <translation type="unfinished"></translation>
+        <translation>Accel. wartości</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="208"/>
         <source>ACC_BIAS X, Y, &amp; Z (AQ 6.8+ only)</source>
-        <translation type="unfinished"></translation>
+        <translation>ACC_BIAS X, Y, Z (AQ 6.8 + tylko) &amp;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="211"/>
         <source>accel. bias</source>
-        <translation type="unfinished"></translation>
+        <translation>Accel. nastawienie</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="221"/>
         <source>MAG X, Y, &amp; Z</source>
-        <translation type="unfinished"></translation>
+        <translation>MAG X, Y &amp; Z</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="224"/>
         <source>mag. values</source>
-        <translation type="unfinished"></translation>
+        <translation>mag. wartości</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="234"/>
         <source>ADC_MAG_SIGN</source>
-        <translation type="unfinished"></translation>
+        <translation>ADC_MAG_SIGN</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="237"/>
         <source>mag-sign</source>
-        <translation type="unfinished"></translation>
+        <translation>Mag znak</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="247"/>
         <source>Pressure 1, pressure 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciśnienie 1, ciśnienie 2</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="250"/>
         <source>pressure sensor</source>
-        <translation type="unfinished"></translation>
+        <translation>Czujnik ciśnienia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="260"/>
         <source> UKF_ALT and UKF_PRES_ALT</source>
-        <translation type="unfinished"></translation>
+        <translation> UKF_ALT i UKF_PRES_ALT</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="263"/>
         <source>pressure altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>ciśnieniowej</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="273"/>
         <source>Temperatures 0-2</source>
-        <translation type="unfinished"></translation>
+        <translation>Temperatur 0-2</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="276"/>
         <source>temperatures</source>
-        <translation type="unfinished"></translation>
+        <translation>temperatury</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="286"/>
         <source>Flight battery voltage</source>
-        <translation type="unfinished"></translation>
+        <translation>Napięcie akumulatora lotu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="289"/>
         <source>battery voltage</source>
-        <translation type="unfinished"></translation>
+        <translation>napięcie akumulatora</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="299"/>
         <source>Quaternions 0-4</source>
-        <translation type="unfinished"></translation>
+        <translation>Kwaternionów 0-4</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="302"/>
         <source>quaternions</source>
-        <translation type="unfinished"></translation>
+        <translation>kwaternionów</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="312"/>
         <source>UKF positions N, E, &amp; D</source>
-        <translation type="unfinished"></translation>
+        <translation>UKF pozycji N, E &amp; D</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="315"/>
         <source>UKF positions</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycje UKF</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="325"/>
         <source>UKF velocity N, E, &amp; D</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość UKF, N, E &amp; D</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="328"/>
         <source>UKF velocities</source>
-        <translation type="unfinished"></translation>
+        <translation>UKF prędkości</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="338"/>
         <source>Motor port outputs 0-13</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik portu wyjścia 0-13</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="341"/>
         <source>motor outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>silnik wyjść</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="351"/>
         <source>Output throttle</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście przepustnicy</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="354"/>
         <source>throttle output</source>
-        <translation type="unfinished"></translation>
+        <translation>wyjście przepustnicy</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="364"/>
         <source>Output pitch, roll, &amp; yaw</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście paki, rolki &amp; odchylenia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="367"/>
         <source>pitch/roll/yaw out.</source>
-        <translation type="unfinished"></translation>
+        <translation>poza boisko/rolki/silniczek.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="377"/>
         <source>Heading, roll, &amp; pitch in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji, rolki &amp; nachylenie w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="380"/>
         <source>vehicle attitude</source>
-        <translation type="unfinished"></translation>
+        <translation>postawa pojazdu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="390"/>
         <source>GPS Latitude and Longitude</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS szerokości i długości geograficznej</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="393"/>
         <source>GPS Lat. &amp; Lon.</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS Lat. &amp; Lon.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="403"/>
         <source>GPS horizontal position accuracy in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS dokładność pozycji poziomej w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="406"/>
         <source>GPS position accuracy</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokładność pozycji GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="416"/>
         <source>GPS Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="419"/>
         <source>GPS altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="429"/>
         <source>GPS vertical accuracy in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Pionowe dokładność GPS w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="432"/>
         <source>GPS alt. accuracy</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS lub dokładności</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="442"/>
         <source>Velocities N, E, &amp; D</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkości, N, E &amp; D</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="445"/>
         <source>GPS velocities</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkości GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="455"/>
         <source>GPS velocity accuracy in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS dokładność prędkości w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="458"/>
         <source>GPS vel. accuracy</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS dokładność vel.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="468"/>
         <source>PDOP, HDOP, VDOP, TDOP, NDOP, EDOP</source>
-        <translation type="unfinished"></translation>
+        <translation>PDOP, HDOP, VDOP, TDOP, NDOP, EDOP</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="471"/>
         <source>GPS DOPs</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS DOPs</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="481"/>
         <source>GPS Time of Week</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas GPS tygodnia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="484"/>
         <source>GPS time of week</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas GPS tygodnia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="494"/>
         <source>GPS position update timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Licznik aktualizacji pozycji GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="497"/>
         <source>GPS position update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizacja pozycji GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="507"/>
         <source>GPS velocity update timer</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS prędkość aktualizacji zegara</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="510"/>
         <source>GPS velocity update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizacja prędkość GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="520"/>
         <source>Radio channel inputs 0-7</source>
-        <translation type="unfinished"></translation>
+        <translation>Radiowy kanał wejścia 0-7</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="523"/>
         <source>radio channels 1-8</source>
-        <translation type="unfinished"></translation>
+        <translation>radio kanały 1-8</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="533"/>
         <source>Radio channel inputs 8-17</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanał radiowy wejść 8-17</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="536"/>
         <source>radio channels 9-18</source>
-        <translation type="unfinished"></translation>
+        <translation>kanały radiowe 9-18</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="546"/>
         <source>RC radio signal status and error count (RADIO_QUALITY and RADIO_ERRORS)</source>
-        <translation type="unfinished"></translation>
+        <translation>RC radia sygnał stanu i błąd licznika (RADIO_QUALITY i RADIO_ERRORS)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="549"/>
         <source>radio signal quality</source>
-        <translation type="unfinished"></translation>
+        <translation>jakość sygnału radiowego</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="570"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Output Options&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select or enter a file in &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;To File&lt;/span&gt; to which to save the exported data. The file extension will automatically be adjusted based on your chosen export format.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export Format&lt;/span&gt; determines the type of output. &lt;span style=&quot; font-weight:600;&quot;&gt;CSV&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;TAB&lt;/span&gt;, and &lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt; types are &amp;quot;flat file&amp;quot; types with rows of data values which are separated by a comma, tab, or space character respectively. You may choose to &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Include Column Headers&lt;/span&gt; to output the field names as the first line of the export (this is recommended for easy import into a spreadsheet or database).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; (GPS eXchange) and &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; (Keyhole Markup Language) are XML output types which are typically used for GPS tracking and visualisation. KML is the native format for importing into Google Earth and provides more features than GPX, while GPX is a more accepted standard for data exchange.&lt;/p&gt;&lt;p&gt;Output Frequency determines how many records are exported per second of logged data. AutoQuad logs at a 200Hz rate (200 records per second). In many cases this is more data than necessary and can create very large export files. To limit the amount of data exported, select a lower frequency. For GPS tracking, a low value like 5 to 10 Hz is recommended, especially with KML or GPX exports which can create very large files even at low frequencies.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:9pt; font-weight:600; color:#00007f;&quot;&gt; Opcje wyjścia&lt;/span&gt;&lt;/p&gt; &lt;p&gt;Wybierz lub wprowadź pliku &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Do pliku&lt;/span&gt;, do którego należy zapisać eksportowane dane. Rozszerzenie pliku automatycznie być dostosowane oparte na swój format eksportu wybranych.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Format eksportu&lt;/span&gt; określa typ danych wyjściowych. &lt;span style=&quot;font-weight:600;&quot;&gt; CSV&lt;/span&gt;, &lt;span style=&quot;font-weight:600;&quot;&gt; TXT&lt;/span&gt; i &lt;span style=&quot;font-weight:600;&quot;&gt; kartę&lt;/span&gt; są typami &quot;płaski plik&quot; z wierszami o wartości danych, które są oddzielone przecinkiem, kartę, lub spacja odpowiednio. Możesz &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Zawierać nagłówki kolumn&lt;/span&gt; do wyprowadzenia nazwy pól w pierwszym wierszu wywozu (jest to zalecane dla łatwo importować do arkusza kalkulacyjnego lub bazy danych).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600;&quot;&gt; GPX&lt;/span&gt; (GPS eXchange) i &lt;span style=&quot;font-weight:600;&quot;&gt; KML&lt;/span&gt; (Keyhole Markup Language) są typy danych wyjściowych XML, które są zazwyczaj używane do śledzenia GPS i wizualizacji. KML jest format macierzysty do importowania do programu Google Earth i oferuje więcej funkcji niż GPX, natomiast bardziej akceptowane standard wymiany danych GPX.&lt;/p&gt;Częstotliwość wyjściowa &lt;p&gt;Określa, ile rekordy są eksportowane na sekundę logu. AutoQuad logi z częstotliwością 200Hz (200 rekordów na sekundę). W wielu przypadkach, to jest więcej danych, niż jest to konieczne i można tworzyć bardzo duży eksport plików. Aby ograniczyć ilość eksportowanych danych, zaznacz niższej częstotliwości. GPS śledzenie, niskiej wartości, jak zaleca się 5-10 Hz, zwłaszcza z KML i GPX wywozu, które można tworzyć bardzo duże pliki nawet przy niskich częstotliwościach.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="573"/>
         <source>Output Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje wyjścia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="602"/>
         <source>Export format:</source>
-        <translation type="unfinished"></translation>
+        <translation>Format eksportu:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="624"/>
         <source>Export data in this format</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksportowanie danych w tym formacie</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="637"/>
         <source>If selected, the first row of the export will list the exported values. Only valid for txt, csv, and tab export formats.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeśli zaznaczone, wiersz pierwszy wywóz będzie lista wartości eksportowanych. Tylko ważne dla txt, csv i kartę formaty eksportowania.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="640"/>
         <source>Use Col. Headings</source>
-        <translation type="unfinished"></translation>
+        <translation>Płk użycie nagłówków</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="672"/>
         <source>Output frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Częstotliwość wyjściowa:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="694"/>
         <source>Number of samples per second to export (AQ logging rate is 200Hz)</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczbę próbek na sekundę, aby wyeksportować (AQ rejestrowania kursu jest 200Hz)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="697"/>
         <source>Hz</source>
-        <translation type="unfinished"></translation>
+        <translation>Hz</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="739"/>
         <source>To File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Do pliku:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="764"/>
         <source>Path and file for export output</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka i eksport danych wyjściowych</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="777"/>
         <source>Select output file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik wyjściowy</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="825"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;GPS Data Export&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export GPS Data as Track&lt;/span&gt; to automatically include all data releavant to GPS position and speed tracking, as well as vehicle attitude data (heading, roll, &amp;amp; pitch angles), and an accurate time stamp.&lt;/p&gt;&lt;p&gt;If you choose a flat file type output format (&lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt;,&lt;span style=&quot; font-weight:600;&quot;&gt; CSV&lt;/span&gt;,&lt;span style=&quot; font-weight:600;&quot;&gt; TAB&lt;/span&gt;) then you can also select other values to include in the export from the choices on the right. Column headings are automatically included.&lt;/p&gt;&lt;p&gt;If you choose &lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; or &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; format, you also have the choice to output the GPS data as &amp;quot;waypoints&amp;quot; by selecting &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Export GPS Data as Waypoints&lt;/span&gt;.You can export this either in addition to, or instead of, the track data. The difference is mostly in how the data is plotted in programs like Google Earth. &lt;span style=&quot; color:#9e0000;&quot;&gt;Exporting waypoint data can produce significantly larger output files and may take longer to process.&lt;/span&gt; Both KML and GPX files can be opened directly in Google Earth, although KML is recommended.&lt;/p&gt;&lt;p&gt;You can also specify the minimum &lt;span style=&quot; font-weight:600;&quot;&gt;GPS &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;estimated &lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;accuracy&lt;/span&gt; of the records you want exported. This eliminates the &amp;quot;no data&amp;quot; records before the flight controller aquires a GPS fix, and can control the accuracy of the data you are exporting. Typically anything with an accuracy great than 3 will be poor data.&lt;/p&gt;&lt;p&gt;To ensure the dates in your GPS log are correct, make sure the &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Date of Flight&lt;/span&gt; field has the correct date. It is based on the log file modification date and may, or may not, be accurate. The &lt;span style=&quot; text-decoration: underline;&quot;&gt;time&lt;/span&gt; portion of the exported data will be correct regardless.&lt;/p&gt;&lt;p&gt;Under &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Altitude Source&lt;/span&gt; you may choose the&lt;span style=&quot; font-weight:600;&quot;/&gt;reporting source for altitude. The default is reported GPS data (GPS_HEIGHT). &lt;span style=&quot; font-style:italic;&quot;&gt;UKF Altitude &lt;/span&gt;is the altitude derived by AQ from GPS and pressure sensor data (UKF_POSD in the logs). &lt;span style=&quot; font-style:italic;&quot;&gt;Pressure Altitude&lt;/span&gt; means use altitude as reported by the pressure sensor. When using the last option, you will need to specify an Altitude Offset value, typically ~30 - 100 meters.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Altitude Offset&lt;/span&gt; will adjust the final altitude value by this amount. This maybe be useful if portions your tracks are appearing below ground in mapping applications, or if you are using the pressure altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:9pt; font-weight:600; color:#00007f;&quot;&gt; Eksport danych GPS&lt;/span&gt;&lt;/p&gt; &lt;p&gt;Wybierz opcję &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Eksportuj dane GPS Track&lt;/span&gt; automatycznie obejmują wszystkie dane releavant do pozycji GPS i prędkość śledzenia, postawa dane pojazdu (nagłówek, rolki &amp;amp; Kąty boiska) i dokładny czas pieczęć.&lt;/p&gt;&lt;p&gt;Jeśli możesz wybrać typ pliku płaski wyjście formatu (&lt;span style=&quot;font-weight:600;&quot;&gt; TXT&lt;/span&gt;, &lt;span style=&quot;font-weight:600;&quot;&gt; CSV&lt;/span&gt;, &lt;span style=&quot;font-weight:600;&quot;&gt; karta&lt;/span&gt;), a następnie można także wybrać inne wartości, które mają zostać wyeksportowane z wyborów na prawo. Nagłówki kolumn są automatycznie uwzględniane.&lt;/p&gt;&lt;p&gt;, Jeśli wybierzesz format &lt;span style=&quot;font-weight:600;&quot;&gt; KML&lt;/span&gt; i &lt;span style=&quot;font-weight:600;&quot;&gt; GPX&lt;/span&gt;, masz również wybór do wyprowadzenia danych GPS jako &quot;punkty&quot; wybierając opcję &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Eksportu danych GPS jako punkty&lt;/span&gt;.Można wyeksportować ten oprócz lub zamiast danych utworów. Różnica jest głównie w tym, jak dane są kreślone w programach Google Earth. &lt;span style=&quot;color:#9e0000;&quot;&gt; Eksportowanie danych punktu nawigacyjnego można produkować znacznie większe pliki wyjściowe i może trwać dłużej, aby proces.&lt;/span&gt; Pliki KML i GPX mogą być otwierane bezpośrednio w programie Google Earth, choć zaleca się KML.&lt;/p&gt;&lt;p&gt;Można również określić minimalne &lt;span style=&quot;font-weight:600;&quot;&gt; GPS&lt;/span&gt; &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; szacuje&lt;/span&gt; &lt;span style=&quot;font-weight:600;&quot;&gt; dokładność&lt;/span&gt; rekordy, które chcesz wywożonych. To eliminuje rekordy &quot;Brak danych&quot; przed aquires kontroler lotu utrwalić GPS i można kontrolować dokładność danych, który eksportujesz. Zazwyczaj wszystko z dokładnością wielki niż 3 będzie biedny danych.&lt;/p&gt;&lt;p&gt;Do zapewnienia daty w dziennika GPS są poprawne, upewnij się, że pole &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Daty lotu&lt;/span&gt; nie ma prawidłowej daty. Jest on oparty na daty modyfikacji pliku dziennika i maja lub maja nie, być dokładne. Część &lt;span style=&quot;text-decoration: underline;&quot;&gt; czasu&lt;/span&gt; eksportowane dane będą poprawne niezależnie.&lt;/p&gt;&lt;p&gt;w &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Wysokości źródła&lt;/span&gt; mogą wybrać &lt;span style=&quot;font-weight:600;&quot;/&gt; zgłoszenie źródła do wysokości. Wartością domyślną jest przekazywanych danych GPS (GPS_HEIGHT). &lt;span style=&quot;font-style:italic;&quot;&gt; UKF wysokość&lt;/span&gt; jest wysokością otrzymanych przez AQ z danych z czujników GPS i ciśnienie (UKF_POSD w logach). &lt;span style=&quot;font-style:italic;&quot;&gt; Wysokość ciśnienia&lt;/span&gt; oznacza wysokość, zgłoszone przez czujnik ciśnienia. Przy użyciu opcji ostatni, trzeba będzie określić wartość wyrównania wysokości zazwyczaj ~ 30-100 m.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Wysokości wyrównania&lt;/span&gt; dostosuje wartości ostatecznej wysokości tej kwoty. To może być przydatne, jeśli fragmenty swoich utworów pojawiają się pod ziemią w mapowania aplikacji, lub jeśli używasz ciśnieniowej.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="828"/>
         <source>GPS Data Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport danych GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="857"/>
         <source>Set GPS Track output mode (see &quot;What&apos;s this&quot; help for this section)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw GPS Track wyjście trybu (patrz &quot;Co to jest&quot; pomoc dla tej sekcji)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="860"/>
         <source>Export GPS Data as Track</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport danych GPS Track</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="876"/>
         <source>Set GPS track output as Waypoints (only in GPX and KML formats)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw GPS toru wyjście jako punkty (tylko w formacie KML i GPX)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="879"/>
         <source>Export GPS Data as Waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport danych GPS jako waypointy</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="905"/>
         <source>Vertical GPS accuracy must this high or better (lower)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pionowe dokładność GPS musi ten wysoki lub lepsza (niższa)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="911"/>
         <location filename="../../src/ui/aq_LogExporter.ui" line="976"/>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1142"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="942"/>
         <source>Min. Horiz. GPS Accuracy:</source>
-        <translation type="unfinished"></translation>
+        <translation>Min. poziom. Dokładność GPS:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="970"/>
         <source>Horizontal GPS accuracy must this high or better (lower)</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziomy dokładności GPS musi ten wysoki lub lepsza (niższa)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1007"/>
         <source>Min. Vert. GPS Accuracy:</source>
-        <translation type="unfinished"></translation>
+        <translation>Min. Portillo GPS dokładność:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1043"/>
         <source>Altitude Source:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość źródła:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1053"/>
         <source>Use reported GPS altitude in the export (GPS_HEIGHT)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykorzystanie zgłaszane wysokości GPS w eksporcie (GPS_HEIGHT)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1056"/>
         <source>GPS Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1072"/>
         <source>Use derived altitude in the export (UKF_POSD)</source>
-        <translation type="unfinished"></translation>
+        <translation>Za pomocą pochodnych wysokości w eksporcie (UKF_POSD)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1075"/>
         <source>Derived Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Pochodne wysokości</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1091"/>
         <source>Use raw pressure sensor altitutde (UKF_PRES_ALT). You will need to specify an offset when using this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj altitutde czujnik ciśnienia surowego (UKF_PRES_ALT). Trzeba będzie określić przesunięcie podczas korzystania z tego.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1094"/>
         <source>Pressure Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Ciśnieniowej</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1129"/>
         <source>Altitude Offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość Offset:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1139"/>
         <source>Adjust final altitude by this many meters. Useful if your tracks are showing up below ground level in GE or you need to adjust for pressure sensor altitude.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostosować ostateczne wysokości przy tym wielu metrów. Przydatne, jeśli utwory są wyświetlane poniżej poziomu terenu w GE lub trzeba dostosować do wysokości czujnika ciśnienia.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1184"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Timestamp Options&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select options to include a date/time value for each exported record. This is based on the logged GPS Time of Week (iTOW) and is &lt;span style=&quot; font-weight:600;&quot;&gt;calculated based on the &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Date of Flight&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; field in this section&lt;/span&gt;. The default date shown is based on the log file modification date, which may or may not be correct. Even if the date is not set correctly, the time value will still be exact.&lt;/p&gt;&lt;p&gt;Date and time is output in UTC (GMT) time by default. Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Adjust to Local Time&lt;/span&gt; to use the time zone information on this computer to change the timestamp to local time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:9pt; font-weight:600; color:#00007f;&quot;&gt; Sygnatury czasowej opcje&lt;/span&gt;&lt;/p&gt; &lt;p&gt;Wybierz opcje obejmują wartość daty/godziny dla każdego wywożonego rekord. To jest oparte na zalogowanego czasu tygodnia GPS (iTOW) i &lt;span style=&quot;font-weight:600;&quot;&gt; obliczany na podstawie&lt;/span&gt; &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Daty lotu&lt;/span&gt; &lt;span style=&quot;font-weight:600;&quot;&gt; pola w tej sekcji&lt;/span&gt;. Domyślna Data się opiera się na Data modyfikacji pliku dziennika, który może lub może nie być poprawna. Nawet, jeśli data nie jest poprawnie ustawiona, wartość czasu nadal będzie dokładnie.&lt;/p&gt;&lt;p&gt;Data i czas jest wyjście w czasie UTC (GMT) domyślnie. Wybierz opcję &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Dopasuj do czasu lokalnego&lt;/span&gt; używania Informacje o strefie czasowej na tym komputerze, aby zmienić sygnatury czasowej do czasu lokalnego.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1187"/>
         <source>Timestamp Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Sygnatura czasowa opcji</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1213"/>
         <source>Include GPS date/time in output</source>
-        <translation type="unfinished"></translation>
+        <translation>Zawierać GPS Data/godzina w danych wyjściowych</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1216"/>
         <source>Include Timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Obejmują sygnatury czasowej</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1248"/>
         <source>Adjust timestamp to local time based on computer settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostosować sygnatury czasowej do czasu lokalnego, na podstawie ustawień komputera</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1251"/>
         <source>Adjust to Local Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostosowanie czasu lokalnego</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1286"/>
         <source>Date of Flight:</source>
-        <translation type="unfinished"></translation>
+        <translation>Data lotu:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1308"/>
         <source>Actual UTC date of the flight (in case log creation date is incorrect).</source>
-        <translation type="unfinished"></translation>
+        <translation>Rzeczywiste UTC Data lotu (w przypadku, gdy data utworzenia dziennika jest niepoprawne).</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1401"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600; color:#00007f;&quot;&gt;Trigger Indicator&lt;/span&gt;&lt;/p&gt;&lt;p&gt;You can use a radio channel as a &amp;quot;trigger&amp;quot; mechanism, for example to indicate a flight mode or a camera being triggered. Also, in AQ firmware versions with gimbal triggering features (v6.7 b1378 and later), the dedicated log field can be used (select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Use gimbal log record&lt;/span&gt; to trigger based on this log field). &lt;/p&gt;&lt;p&gt;The output depends on the export format selected:&lt;/p&gt;&lt;p&gt;- For flat files (&lt;span style=&quot; font-weight:600;&quot;&gt;TXT&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;CSV&lt;/span&gt;, &lt;span style=&quot; font-weight:600;&quot;&gt;TAB&lt;/span&gt;), a column will be included which contains the current trigger count, or a zero (0). A zero indicates that the trigger is not active.&lt;/p&gt;&lt;p&gt;- For &lt;span style=&quot; font-weight:600;&quot;&gt;GPX&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;KML&lt;/span&gt; export types, a special waypoint is created for every point in the track where the trigger is active. For example when viewing the output in Google Earth, each triggered waypoint will appear with a named marker (in KML format it will be uniquely colored to distinguish it from other waypoint types).&lt;/p&gt;&lt;p&gt;Specify a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Shutter Delay&lt;/span&gt; to attempt to pinpoint the actual time/location of a photo. This would be the typical time delay (in ms) between trigger activation and actual shutter opening of the camera used (eg. focus delay). Usually an active trigger will span multiple log records (since it is active for some amount of time), but if you specify a shutter delay here, then only one record out of each series will be marked as active.   &lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that the &lt;span style=&quot; font-style:italic;&quot;&gt;Output Frequency&lt;/span&gt; export setting can affect accuracy (you will only get the next record after trigger activation is detected + the shutter delay has passed).&lt;/p&gt;&lt;p&gt;Select &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Output Triggered Records Only&lt;/span&gt; to only include records where the trigger is active.&lt;/p&gt;&lt;p&gt;To detect triggering based on a radio channel, select the desired channel using &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Trigger Channel&lt;/span&gt; and specify a value in &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;Channel Value&lt;/span&gt;. You have 3 options for the channel value: greater than a value (eg. a switch set to high), less than a value (eg. a switch set to low) and a value of zero with a buffer of +/-100 (meaning in the range -100 to +100, eg. to indicate a switch in middle position).&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:9pt; font-weight:600; color:#00007f;&quot;&gt; Wyzwalacz wskaźnik&lt;/span&gt;&lt;/p&gt; &lt;p&gt;można użyć kana³ radiowy jako mechanizm &quot;wyzwolenia&quot;, na przykład tryb lotu lub aparat fotograficzny jest wywołane. Ponadto w AQ wersje firmware z przegub wywoływanie funkcji (v6.7 b1378 i później), dedykowany dziennika pole może być używane (wybierz &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; rekord dziennika użycia przegub&lt;/span&gt; do wyzwalania oparte na tym polu dziennika). &lt;/p&gt; &lt;p&gt;Dane wyjściowe zależy od formatu eksport wybranych:&lt;/p&gt; &lt;p&gt;-dla plików płaskich (&lt;span style=&quot;font-weight:600;&quot;&gt; TXT&lt;/span&gt;, &lt;span style=&quot;font-weight:600;&quot;&gt; CSV&lt;/span&gt;, &lt;span style=&quot;font-weight:600;&quot;&gt; karty&lt;/span&gt;), kolumna będzie włączone, który zawiera bieżąca liczba wyzwalacza lub wartość zero (0). Zero oznacza, że wyzwalacz nie jest aktywne.&lt;/p&gt;&lt;p&gt;- Na &lt;span style=&quot;font-weight:600;&quot;&gt; GPX&lt;/span&gt; &lt;span style=&quot;font-weight:600;&quot;&gt; KML&lt;/span&gt; Eksport typów oraz specjalne waypoint jest tworzony dla każdym punkcie toru, gdzie wyzwalacz jest aktywny. Na przykład podczas przeglądania danych wyjściowych w programie Google Earth, kaŜdy wyzwalane pojawią się ze znacznikiem o nazwie (w formacie KML to będzie być wyjątkowo kolorowy odróżnienie go od innych typów punktu nawigacyjnego).&lt;/p&gt;&lt;p&gt;Określić &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Opóźnienie migawki&lt;/span&gt; do próby wskazać rzeczywisty czas/lokalizacji zdjęcie. Byłoby to typowy czas opóźnienia (w ms) między aktywacja wyzwalacza i otwarcia migawki rzeczywistej kamery wykorzystywane (np. skupić się opóźnienie). Zwykle aktywne wyzwalacz będzie obejmują wiele rekordów dziennika (ponieważ jest aktywny przez jakiś czas), ale jeśli można określić opóźnienie migawki tutaj, to tylko jeden rekord z każdej serii zostaną oznaczone jako aktywny.   &lt;span style=&quot;font-weight:600;&quot;&gt; Uwaga&lt;/span&gt;, że wywóz &lt;span style=&quot;font-style:italic;&quot;&gt; Wyjście częstotliwości&lt;/span&gt; ustawienie może mieć wpływ na dokładność (tylko będzie uzyskać następnego rekordu po aktywacja wyzwalacza zostanie wykryty + opóźnienie migawki minęło).&lt;/p&gt;&lt;p&gt;Wybierz &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Wyjście wywołane rekordy tylko&lt;/span&gt; uwzględnienie tylko rekordy którym wyzwalacz jest aktywny.&lt;/p&gt;&lt;p&gt;Do wykrywania, wyzwalanie oparte na kana³ radiowy, wybierz żądany kanał przy użyciu &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Wyzwalacza kanału&lt;/span&gt; i określ wartość w &lt;span style=&quot;font-weight:600; font-style:italic;&quot;&gt; Wartość kanału&lt;/span&gt;. Masz 3 opcje dla wartość kanału: większa niż wartość (np. przełącznik ustawiony na wysoki), mniej niż wartość (np. przełącznik zestaw niski) i wartość zero z buforu +/-100 (czyli w zakresie od -100 do + 100, np. do wskazania przełącznik w położeniu środkowym).&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1404"/>
         <source>Trigger Indicator</source>
-        <translation type="unfinished"></translation>
+        <translation>Wskaźnik wyzwalacza</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1438"/>
         <source>Radio channel number  (enter zero to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Radio numer kanału (wpisz zero, aby wyłączyć)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1487"/>
         <source>Channel should be less than this value</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanał powinna być mniejsza niż wartość ta</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1490"/>
         <source>is &lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>jest &lt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1515"/>
         <source>Negative channel value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość ujemna kanał</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1555"/>
         <source>Positive channel value</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanał pozytywne wartości</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1580"/>
         <source>Channel should be greater than this value</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanał powinna być większa niż wartość ta</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1583"/>
         <source>is &gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>jest &gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1608"/>
         <source>Channel Value:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość kanału:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1621"/>
         <source>Channel should equal zero, +/- 100</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanał powinna być równa zeru, +/-100</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1624"/>
         <source>= 0 (+/-100)</source>
-        <translation type="unfinished"></translation>
+        <translation>= 0 (+/-100)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1645"/>
         <source>Output Triggerered Records only</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście tylko rekordy Triggerered</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1661"/>
         <source>Available in AQ firmware versions with gimbal triggering features (v6.7 b1378 and later).</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostępne wersje firmware AQ z przegub wywoływanie funkcji (v6.7 b1378 i później).</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1664"/>
         <source>Use gimbal log record (if available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Używać rekordu dziennika przegub (jeśli dostępne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1677"/>
         <source>Use Trigger Channel:</source>
-        <translation type="unfinished"></translation>
+        <translation>Użycie wyzwalacza kanału:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1696"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Typical time delay (in ms) between trigger activation and actual shutter opening (eg. focus delay). Using this option will attempt to pinpoint the actual time/location of a photo. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Typowy czas opóźnienia (w ms) między aktywacja wyzwalacza i otwarcia migawki rzeczywistego (np. skupić się opóźnienie). Za pomocą tej opcji będzie próbował wskazać rzeczywisty czas/lokalizacji zdjęcie. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1702"/>
         <source> ms</source>
-        <translation type="unfinished"></translation>
+        <translation> MS</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1730"/>
         <source>Shutter Delay:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opóźnienie migawki:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1790"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1812"/>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1844"/>
         <source>Browse the output folder using the native file browser application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do folderu danych wyjściowych przy użyciu aplikacji Przeglądarka plików macierzystych.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1847"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeglądaj</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1873"/>
         <source>Open the output file in the associated application (if any).</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz plik wyjściowy w skojarzoną aplikację (jeśli są).</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1876"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwarte</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1912"/>
         <source>Tip: Use the &quot;What&apos;s this&quot; tool (? icon) to get more information about each group of options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wskazówka: Użyj &quot;Co to jest&quot; narzędzie (? ikona) Aby uzyskać więcej informacji na temat każdej grupy opcji.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1935"/>
         <source>Export Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan eksportu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1953"/>
         <source>Export status will appear here...</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport statusu pojawią się tutaj...</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="125"/>
         <source>Please specify a log file to export.</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ plik dziennika do eksportu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="129"/>
         <source>Log file not found, please verify your entry: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można odnaleźć pliku dziennika, proszę sprawdzić Twój wpis: %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="135"/>
         <source>Please specify a file for the output.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę określić plik wyjściowy.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="138"/>
         <source>Please choose at least one value to export.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz co najmniej jedną wartość wywozu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="149"/>
         <source>AQ Log Export</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ dziennika eksportu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="222"/>
         <source>The directory you specified for output (%1) does not exist. The program will attempt to create it during export.</source>
-        <translation type="unfinished"></translation>
+        <translation>Katalog podany na wyjście (%1) nie istnieje. Program będzie próbował go utworzyć podczas eksportu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="270"/>
         <source>Confirm Overwrite Existing File</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdzenie zastąpienia istniejącego pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="666"/>
         <source>Select AQ Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik dziennika AQ</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="667"/>
         <source>AQ Log File (*.LOG);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik dziennika AQ (*.log);;Wszystkie typy plików (*.*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="718"/>
         <source>Select Output File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik wyjściowy</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="719"/>
         <source>Export File Types (*.csv *.tab *.txt *.gpx *.kml);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport typów plików (*.csv *.tab *.txt *.gpx *.kml);;Wszystkie typy plików (*.*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogExporter.cpp" line="852"/>
         <source>Confirm Close Window</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdzenia Zamknij okno</translation>
     </message>
 </context>
 <context>
@@ -870,62 +870,62 @@
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="72"/>
         <source>Select Log File...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik dziennika...</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="85"/>
         <source>Show Curves</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż krzywe</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="98"/>
         <source>Save As Image...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz jako obraz...</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="111"/>
         <source>Export Log...</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksportowanie dziennika...</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="134"/>
         <source>Set size of cut area. Select a pre-defined area or create a custom one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar powierzchni cięcia. Wybierz wstępnie określonego obszaru lub utworzyć niestandardowe.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="150"/>
         <source>Set Marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw Marker</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="166"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Cięcia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="179"/>
         <source>Remove Marker</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń znacznik</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.ui" line="247"/>
         <source>Clear All Selections</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyczyść wszystkie wybory</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.cc" line="117"/>
         <source>Select AQ Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik dziennika AQ</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_LogViewer.cc" line="118"/>
         <source>AQ Log File (*.LOG);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik dziennika AQ (*.log);;Wszystkie typy plików (*.*)</translation>
     </message>
 </context>
 <context>
@@ -933,33 +933,33 @@
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="21"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="42"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="291"/>
         <source>Any disabled items mean this option is not available in the currently-connected AQ firmware version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszelkie elementy wyłączone oznacza, że ta opcja nie jest dostępna w wersji firmware AQ-podłączona.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="45"/>
         <source>Signaling Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Sygnalizacji portów</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="57"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A piezo speaker does &lt;span style=&quot; font-weight:600;&quot;&gt;not&lt;/span&gt; have a built-in wave generator, vs. a buzzer which does.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Głośnik piezo ma &lt;span style=&quot;font-weight:600;&quot;&gt; nie&lt;/span&gt; mieć fala wbudowany generator, vs brzęczyk, który ma.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="60"/>
         <source>Use speaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Użycie głośnika</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="79"/>
         <source>Beeper:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sygnał dźwiękowy:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="111"/>
@@ -968,341 +968,341 @@
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="231"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="256"/>
         <source>See documentation for proper LED hookup!</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokumentacji dla właściwego montażowe LED!</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="149"/>
         <source>Use a custom ESC/MCU to convert PWM pulses to lighting patterns.</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj niestandardowego ESC/MCU przerobić oświetlenie wzorce impulsów PWM.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="209"/>
         <source>PWM:</source>
-        <translation type="unfinished"></translation>
+        <translation>PWM:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="234"/>
         <source>LED 2:</source>
-        <translation type="unfinished"></translation>
+        <translation>DIODA LED 2:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="259"/>
         <source>LED 1:</source>
-        <translation type="unfinished"></translation>
+        <translation>LED 1:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="294"/>
         <source>Gimbal Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Przegub portów</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="328"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="548"/>
         <source>Camera/remote trigger port and Gear channel passthrough.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aparat fotograficzny/zdalnego wyzwala port i narzędzi kanał passthrough.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="360"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="523"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera roll stabilization control.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Camera roll kontroli stabilizacji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="385"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="410"/>
         <source>Extra passthrough port controlled by optional radio channel passthrough setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazywanie dodatkowych portów kontrolowane przez ustawienie passthrough opcjonalnym radiowym.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="413"/>
         <source>P-through 1:</source>
-        <translation type="unfinished"></translation>
+        <translation>1 P-poprzez:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="435"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="454"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera pitch (tilt) stabilization control. If manual tilt (passthrough) port is set to the same port number, then manual and POI tilt is directed to this port as well.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kamery boisko (tilt) stabilizacja kontroli. Jeśli Manualny przechyl (przechodnie) port jest ustawiony do tego samego numeru portu, a następnie ręczne i POI pochylenia jest skierowane do tego portu oraz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="438"/>
         <source>Stab. Pitch:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nożem. Boisko:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="479"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Passthrough port for manual gimbal tilt control. Point of Interest tilt (mission parameter) is also sent to this port.  If this port number matches the Stabilized Pitch port number, then both outputs are sent to the same port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Przekazywanie portów dla obsługi przegub plandeka sterowanie. Tilt punktów użyteczności publicznej (misja parametr) jest również wysłane do tego portu.  Jeśli ten numer portu odpowiada numer portu stabilizowane boiska, a następnie oba wyniki są wysyłane do samego port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="482"/>
         <source>Manual Tilt:</source>
-        <translation type="unfinished"></translation>
+        <translation>Manualny przechyl:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="498"/>
         <source>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazywanie port do obsługi/POI przegub skoku sterowania. Jeśli ten port jest zestaw, pochylenia Podręcznik/POI nie jest wysyłane do portu skoku.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="526"/>
         <source>Stab. Roll:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nożem. Rolki:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="551"/>
         <source>Trigger:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyzwalacz:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="577"/>
         <source>Output PWM Frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście PWM częstotliwości:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="596"/>
         <source>Servo/controller output frequency (50Hz for standard servos, 400Hz for brushless controllers, 200-400Hz for digital servos)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontroler i serwo wyjście częstotliwości (50Hz dla standardowego serwa, 400Hz bezszczotkowy kontrolerów, 200-400Hz cyfrowy serwa)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="599"/>
         <source>Hz</source>
-        <translation type="unfinished"></translation>
+        <translation>Hz</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="627"/>
         <source>Motor Output Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik konfiguracji</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="654"/>
         <source>Load configuration from a .mix file</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadować konfiguracji z pliku .mix</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="657"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="801"/>
         <source>Load from File</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadować z pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="696"/>
         <source>Configuration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="712"/>
         <source>Select Frame Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz typ ramki:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="731"/>
         <source>Select number of motors as the starting point</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz liczbę silników jako punkt wyjścia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="734"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Niestandardowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="753"/>
         <source>Number of Motors:</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba silników:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="782"/>
         <source>Select a pre-configured setup as the starting point</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz wstępnie skonfigurowane ustawienia jako punkt wyjścia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="785"/>
         <source>Predefined</source>
-        <translation type="unfinished"></translation>
+        <translation>Wstępnie</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="798"/>
         <source>Load an image to overlay on the frame diagram. Images should be scaleable to 200x200px. A transparent PNG24 or SVG is ideal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadować obraz nakładki na schemacie ramki. Obrazy powinny być skalowalne do 200x200px. Przezroczysty PNG24 lub SVG jest idealny.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="834"/>
         <source>Save current configuration to a .mix file</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisać bieżącą konfigurację do pliku .mix</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="837"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="866"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="895"/>
         <source>Save to File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie do pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="863"/>
         <source>Set all motor output types to PWM</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw wszystkich typów silnika wyjście PWM</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="892"/>
         <source>Set all motor output types to CAN</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw wszystkich typów silnik może</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="985"/>
         <source>Motor</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="988"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reference position in frame diagram, if any.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Odniesienia pozycji w ramki diagramu, ewentualne.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="996"/>
         <source>Port/ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Portu/ID</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="999"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When using PWM output, this is the M port number to use. When using CAN bus, this is the CAN ID to use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Przy użyciu PWM wyjście, to jest numerem portu M do użycia. Przy użyciu można autobusem, jest to identyfikator można korzystać.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1007"/>
         <source>Throt.</source>
-        <translation type="unfinished"></translation>
+        <translation>Throt.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1015"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Boisko</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1023"/>
         <source>Roll</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolki</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1031"/>
         <source>Yaw</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenia</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1039"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1042"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output type to use, PWM (M# ports) or CAN bus. Using CAN requires AQ firmware version 6.8 or higher, compatible flight controller hardware, and ESCs supporting CAN (like the ESC32). &lt;/p&gt;&lt;p&gt;A mix of PWM and CAN output types can be used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Typ danych wyjściowych, PWM (M # portów) lub można autobusem. Za pomocą może wymaga AQ oprogramowanie mikroprogramowe wersja 6.8 lub wyższe, sprzętowego kontrolera lotu zgodna i radami wspieranie może (jak ESC32). &lt;/p&gt; &lt;p&gt;PWM i może wyjście typów może być używany.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1125"/>
         <source>Frame Diagram</source>
-        <translation type="unfinished"></translation>
+        <translation>Ramki diagramu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1206"/>
         <source>AQ Port Numbers Reference</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ Port numery referencyjne</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1267"/>
         <source>- Error</source>
-        <translation type="unfinished"></translation>
+        <translation>-Błąd</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1312"/>
         <source>- Timer conflict</source>
-        <translation type="unfinished"></translation>
+        <translation>-Timer konfliktu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="201"/>
         <source>Could not load image file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można załadować pliku obrazu: %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="234"/>
         <source>Could not find ConfigID %1 in any .mix file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można odnaleźć ConfigID %1 w dowolny plik .mix!</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="364"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1073"/>
         <source>Could not open file: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można otworzyć pliku: &apos;%1&apos;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="441"/>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1073"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="441"/>
         <source>Could not open file for writing: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można otworzyć pliku w celu zapisu: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="625"/>
         <source>There is an unbalanced total value in one or more of the motor configuration columns. This may lead to upredictable behavior.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam jest niezrównoważony łączna wartość w jednej lub więcej kolumn konfiguracji silnika. Może to prowadzić do upredictable zachowania.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="629"/>
         <source>You have invalid values in the motor configuration table.</source>
-        <translation type="unfinished"></translation>
+        <translation>Masz nieprawidłowe wartości w tabeli konfiguracji silnika.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="633"/>
         <source>You have selected the same port for multiple outputs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrano tego samego portu na wiele wyjść.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="637"/>
         <source>You have selected motor and gimbal ports, or gimbal roll/pitch and trigger ports, which use the same hardware timers. Please check the port number chart image for a reference.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrano silnik i przegub portów, lub przegub przechyłu/nachylenia i wyzwalania portów, które wykorzystują te same liczniki sprzętu. Sprawdź portu numer obraz wykresu dla odniesienia.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="641"/>
         <source>You have selected a PWM output port which does not exist on your current hardware.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrano portu wyjściowego PWM, który nie istnieje w aktualnym sprzętem.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="672"/>
         <source>You have selected CAN motor output type but your current firmware does not appear to support it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrano silnik typ, ale obecny firmware nie pojawia się go wspierać.</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1015"/>
         <source>Select or Create AQ Motor Mix File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz lub Utwórz plik AQ silnika Mix</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1016"/>
         <source>AQ Mixing Table (*.mix);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ lakiernicze (*.mix);;Wszystkie typy plików (*.*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1023"/>
         <source>Could not open file. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można otworzyć pliku. %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1041"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1041"/>
         <source>AQ Mixing Table (*.mix)</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ lakiernicze (* .mix)</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1063"/>
         <source>Image Files (*.png *.svg *.gif *.jpg *.jpeg *.bmp);;All files (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyobrażenie o osobie akta (*.png *.svg *.gif *.jpg *.jpeg *.bmp);;Wszystkie pliki (*.*)</translation>
     </message>
 </context>
 <context>
@@ -1310,32 +1310,32 @@
     <message>
         <location filename="../../src/ui/aq_telemetryView.ui" line="14"/>
         <source>TeleTabWidget</source>
-        <translation type="unfinished"></translation>
+        <translation>TeleTabWidget</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_telemetryView.ui" line="20"/>
         <source>TabWidget</source>
-        <translation type="unfinished"></translation>
+        <translation>TabWidget</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_telemetryView.ui" line="27"/>
         <source>Values Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartości siatki</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_telemetryView.ui" line="104"/>
         <source>Values Chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartości wykresu</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_telemetryView.ui" line="156"/>
         <source>Start Telemetry</source>
-        <translation type="unfinished"></translation>
+        <translation>Początek telemetrii</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_telemetryView.ui" line="179"/>
         <source>Update Frequency:</source>
-        <translation type="unfinished"></translation>
+        <translation>Częstotliwość aktualizacji:</translation>
     </message>
 </context>
 <context>
@@ -1343,32 +1343,32 @@
     <message>
         <location filename="../../src/ui/AQLinechart.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/AQLinechart.ui" line="78"/>
         <source>Value Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybór wartości</translation>
     </message>
     <message>
         <location filename="../../src/ui/AQLinechart.ui" line="153"/>
         <source>All MAVs</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie MAVs</translation>
     </message>
     <message>
         <location filename="../../src/ui/AQLinechart.ui" line="167"/>
         <source>Rotate color scheme for all curves</source>
-        <translation type="unfinished"></translation>
+        <translation>Obróć schemat kolorów dla wszystkich krzywych</translation>
     </message>
     <message>
         <location filename="../../src/ui/AQLinechart.ui" line="170"/>
         <source>Recolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponowne kolorowanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/AQLinechart.ui" line="187"/>
         <source>Diagram</source>
-        <translation type="unfinished"></translation>
+        <translation>Schemat</translation>
     </message>
 </context>
 <context>
@@ -1376,12 +1376,12 @@
     <message>
         <location filename="../../src/ui/AudioOutputWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/AudioOutputWidget.ui" line="49"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyciszenie</translation>
     </message>
 </context>
 <context>
@@ -1389,90 +1389,90 @@
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="67"/>
         <source>Serial</source>
-        <translation type="unfinished"></translation>
+        <translation>Powieść w odcinkach</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="68"/>
         <source>UDP</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="69"/>
         <source>Simulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Symulacja</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="70"/>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="142"/>
         <source>Opal-RT Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Opal-RT Link</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="72"/>
         <source>Xbee API</source>
-        <translation type="unfinished"></translation>
+        <translation>XBee API</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="105"/>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="346"/>
         <source>Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączone</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="109"/>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="349"/>
         <source>Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Odłączony</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="119"/>
         <source>Serial Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Łącza szeregowego</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="126"/>
         <source>UDP Link</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP Link</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="132"/>
         <source>MAVLink Simulation Link</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink symulacja Link</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="151"/>
         <source>Xbee Link</source>
-        <translation type="unfinished"></translation>
+        <translation>XBee Link</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="186"/>
         <source>Settings for </source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dla </translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="319"/>
         <source>%1 Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Ustawienia</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="320"/>
         <source>Adjust setting for link %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostosuj ustawienie łącze %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="321"/>
         <source>Settings for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dla %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="347"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>Odłącz</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommConfigurationWindow.cc" line="350"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć</translation>
     </message>
 </context>
 <context>
@@ -1480,201 +1480,201 @@
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="52"/>
         <source>Select the link to monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz link do monitora</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="59"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable/disable simplified console view, suitable for docking on the side.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Włączyć/wyłączyć uproszczony widok konsoli, nadaje się do dokowania na boku.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="62"/>
         <source>Compact</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompaktowy</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="72"/>
         <location filename="../../src/ui/DebugConsole.ui" line="75"/>
         <source>Ignore MAVLINK protocol messages in display</source>
-        <translation type="unfinished"></translation>
+        <translation>Zignorować komunikaty protokołu MAVLINK w ekran</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="78"/>
         <source>Hide MAVLink</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="85"/>
         <location filename="../../src/ui/DebugConsole.ui" line="88"/>
         <source>Display and enter bytes in HEX representation (e.g. 0xAA)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie i wprowadź bajtów w HEX reprezentacji (np. 0xAA)</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="91"/>
         <source>HEX</source>
-        <translation type="unfinished"></translation>
+        <translation>HEX</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="98"/>
         <location filename="../../src/ui/DebugConsole.ui" line="101"/>
         <source>Saves CPU ressources, automatically set view to hold if data rate is too high to prevent fast scrolling</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisuje CPU zasoby, widok automatycznie zestaw do przechowywania, jeżeli szybkość transmisji danych jest zbyt wysoki, aby zapobiec szybkie przewijanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="104"/>
         <source>Enable auto hold to lower the CPU consumption</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz automatyczne przytrzymaj, aby obniżyć zużycie procesora</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="107"/>
         <source>Auto Hold</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto Hold</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="136"/>
         <source>Enter data/text below to send</source>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz poniżej, aby przesłać dane/tekst</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="167"/>
         <source>Add..</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać...</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="172"/>
         <source>CR+LF</source>
-        <translation type="unfinished"></translation>
+        <translation>CR + LF</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="177"/>
         <source>LF</source>
-        <translation type="unfinished"></translation>
+        <translation>LF</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="182"/>
         <source>FF</source>
-        <translation type="unfinished"></translation>
+        <translation>FF</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="187"/>
         <source>CR</source>
-        <translation type="unfinished"></translation>
+        <translation>CR</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="192"/>
         <source>TAB</source>
-        <translation type="unfinished"></translation>
+        <translation>KARTĘ</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="197"/>
         <source>ESC</source>
-        <translation type="unfinished"></translation>
+        <translation>ESC</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="202"/>
         <source>~</source>
-        <translation type="unfinished"></translation>
+        <translation>~</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="207"/>
         <source>&lt;Space&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Space&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="226"/>
         <source>Automatically send special char at end of message</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatycznie wysłać specjalny znak na końcu wiadomości</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="229"/>
         <source>Auto-Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto Dodaj</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="236"/>
         <source>Send the ASCII text or HEX values over the link</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij tekst ASCII lub HEX wartości na link</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="239"/>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="266"/>
         <source>0.0 kB/s</source>
-        <translation type="unfinished"></translation>
+        <translation>0.0 kB/s</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="289"/>
         <source>Hold</source>
-        <translation type="unfinished"></translation>
+        <translation>Przytrzymaj</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="299"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Jasne</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="306"/>
         <location filename="../../src/ui/DebugConsole.cc" line="798"/>
         <source>Disconn.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozłączone.</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.ui" line="315"/>
         <source>Type the bytes to send here, use 0xAA format for HEX (Check HEX checkbox above)</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ bajtów, aby wysłać tutaj, należy użyć formatu 0xAA dla HEX (HEX sprawdź pole powyżej)</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="265"/>
         <source>WARNING: You have NOT enabled auto-hold (stops updating the console if huge amounts of serial data arrive). Updating the console consumes significant CPU load, so if you receive more than about 5 KB/s of serial data, make sure to enable auto-hold if not using the console.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrzeżenie: Nie masz włączone auto-hold (zatrzymuje aktualizacji konsoli, Jeśli przyjadą ogromne ilości danych szeregowych). Aktualizacja konsoli zużywa znaczne obciążenie procesora, więc jeśli pojawi się więcej niż o 5 KB/s danych szeregowych, upewnij się włączyć auto trzymać jeśli nie za pomocą konsoli.</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="635"/>
         <source>Nothing sent. The link %1 is unconnected. Please connect first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nic, nie wysłał. Link %1 jest niepodłączony. Proszę najpierw połączyć.</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="702"/>
         <source>HEX format error near &quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd formatu HEX w pobliżu&quot;</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="707"/>
         <source>HEX values have to be in pairs, e.g. AA or AA 05</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartości szesnastkowe muszą być w pary, np. AA lub AA 05</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="718"/>
         <source>Sent: </source>
-        <translation type="unfinished"></translation>
+        <translation>Wysłany: </translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="726"/>
         <source>Not sent: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nie wysłane: </translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="799"/>
         <source>Link %1 is connected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Łącze %1 jest podłączony.</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="801"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć</translation>
     </message>
     <message>
         <location filename="../../src/ui/DebugConsole.cc" line="802"/>
         <source>Link %1 is unconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Link %1 jest niepodłączony.</translation>
     </message>
 </context>
 <context>
@@ -1682,12 +1682,12 @@
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/DomModel.cc" line="135"/>
         <source>Name                 </source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa                 </translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/DomModel.cc" line="137"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
     </message>
 </context>
 <context>
@@ -1695,77 +1695,77 @@
     <message>
         <location filename="../../src/ui/HDDisplay.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="259"/>
         <source>Remove %1 gauge</source>
-        <translation type="unfinished"></translation>
+        <translation>Usunąć %1 miernik</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="260"/>
         <source>Removes the %1 gauge from the view.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usunięcie miernika %1 z widoku.</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="302"/>
         <source>Add Gauge Instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać wskaźnik przyrządu</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="303"/>
         <source>Format: min, data name, unit, max, label [,s]</source>
-        <translation type="unfinished"></translation>
+        <translation>Format: min danych nazwa, jednostka, max, etykiety [, s]</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="364"/>
         <source>New &amp;Gauge</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowe &amp;miernik</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="365"/>
         <source>Add a new gauge to the view by adding its name from the linechart</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodanie nowego miernika w widoku przez dodanie nazwy z linechart</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="368"/>
         <source>Set Widget Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw Widget tytuł</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="369"/>
         <source>Set the title caption of this tool widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw podpis tytuł ten widget narzędzia</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="372"/>
         <source>Set Number of Instrument Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw liczbę kolumn instrumentu</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="373"/>
         <source>Set number of columns to draw</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawić liczbę kolumn rysować</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="381"/>
         <source>Number of Instrument Columns</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba kolumn instrumentu</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="382"/>
         <source>Columns:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolumny:</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="408"/>
         <source>New title</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowy tytuł</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="409"/>
         <source>Widget title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Widżet tytuł:</translation>
     </message>
 </context>
 <context>
@@ -1774,170 +1774,170 @@
         <location filename="../../src/ui/HSIDisplay.cc" line="175"/>
         <location filename="../../src/ui/HSIDisplay.cc" line="176"/>
         <source>View from top in body frame. Scroll with mouse wheel to change the horizontal field of view of the widget.</source>
-        <translation type="unfinished"></translation>
+        <translation>Widok z góry w klatce ciała. Przewijać kółkiem myszy do zmiany poziome pole widzenia widget.</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="270"/>
         <location filename="../../src/ui/HSIDisplay.cc" line="380"/>
         <source>%1 m</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 m</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="279"/>
         <source>N</source>
-        <translation type="unfinished"></translation>
+        <translation>N</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="280"/>
         <source>S</source>
-        <translation type="unfinished"></translation>
+        <translation>S</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="281"/>
         <source>E</source>
-        <translation type="unfinished"></translation>
+        <translation>E</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="282"/>
         <source>W</source>
-        <translation type="unfinished"></translation>
+        <translation>W</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="350"/>
         <source>RAT</source>
-        <translation type="unfinished"></translation>
+        <translation>SZCZUR</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="351"/>
         <source>ATT</source>
-        <translation type="unfinished"></translation>
+        <translation>ATT</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="352"/>
         <source>PXY</source>
-        <translation type="unfinished"></translation>
+        <translation>PXY</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="353"/>
         <source>PZ</source>
-        <translation type="unfinished"></translation>
+        <translation>PZ</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="354"/>
         <source>YAW</source>
-        <translation type="unfinished"></translation>
+        <translation>ODCHYLENIA</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="357"/>
         <location filename="../../src/ui/HSIDisplay.cc" line="389"/>
         <source>POS</source>
-        <translation type="unfinished"></translation>
+        <translation>POS</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="358"/>
         <location filename="../../src/ui/HSIDisplay.cc" line="398"/>
         <source>GPS</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="359"/>
         <source>FLO</source>
-        <translation type="unfinished"></translation>
+        <translation>FLO</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="360"/>
         <source>VIS</source>
-        <translation type="unfinished"></translation>
+        <translation>VIS</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="361"/>
         <source>IRU</source>
-        <translation type="unfinished"></translation>
+        <translation>IRU</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="363"/>
         <source>GYR</source>
-        <translation type="unfinished"></translation>
+        <translation>GYR</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="364"/>
         <source>ACC</source>
-        <translation type="unfinished"></translation>
+        <translation>ACC</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="365"/>
         <source>MAG</source>
-        <translation type="unfinished"></translation>
+        <translation>MAG</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="366"/>
         <source>BAR</source>
-        <translation type="unfinished"></translation>
+        <translation>BAR</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="367"/>
         <source>PIT</source>
-        <translation type="unfinished"></translation>
+        <translation>PIT</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="369"/>
         <source>ACT</source>
-        <translation type="unfinished"></translation>
+        <translation>AKT</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="370"/>
         <source>LAS</source>
-        <translation type="unfinished"></translation>
+        <translation>LAS</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="371"/>
         <source>VCN</source>
-        <translation type="unfinished"></translation>
+        <translation>VCN</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="374"/>
         <source>SPEED</source>
-        <translation type="unfinished"></translation>
+        <translation>PRĘDKOŚĆ</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="375"/>
         <source>%1 m/s</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 m/s</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="379"/>
         <source>XTRACK</source>
-        <translation type="unfinished"></translation>
+        <translation>XTRACK</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="456"/>
         <source>ON</source>
-        <translation type="unfinished"></translation>
+        <translation>NA</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="456"/>
         <source>OFF</source>
-        <translation type="unfinished"></translation>
+        <translation>POZA</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="498"/>
         <source>LOC</source>
-        <translation type="unfinished"></translation>
+        <translation>LOC</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="501"/>
         <source>2D</source>
-        <translation type="unfinished"></translation>
+        <translation>2D</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="504"/>
         <source>3D</source>
-        <translation type="unfinished"></translation>
+        <translation>3D</translation>
     </message>
     <message>
         <location filename="../../src/ui/HSIDisplay.cc" line="507"/>
         <source>NO</source>
-        <translation type="unfinished"></translation>
+        <translation>NR</translation>
     </message>
 </context>
 <context>
@@ -1945,62 +1945,62 @@
     <message>
         <location filename="../../src/ui/HUD.cc" line="66"/>
         <source>UNKNOWN MODE</source>
-        <translation type="unfinished"></translation>
+        <translation>NIEZNANY TRYB</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="67"/>
         <source>UNKNOWN STATE</source>
-        <translation type="unfinished"></translation>
+        <translation>NIEZNANY STAN</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="68"/>
         <source>00.0V (00m:00s)</source>
-        <translation type="unfinished"></translation>
+        <translation>00.0V (m: 00 00s)</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="233"/>
         <source>Enable HUD</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz HUD</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="234"/>
         <source>Show the HUD instruments in this window</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż HUD instrumenty w tym oknie</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="239"/>
         <source>Enable Video Live feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz kanał wideo na żywo</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="240"/>
         <source>Show the video live feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż ywo wideo</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="245"/>
         <source>Select image log</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz obrazek dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="246"/>
         <source>Load previously logged images into simulation / replay</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadować zdjęcia wcześniej zarejestrowane w symulacji / powtórka</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="339"/>
         <source>BAT [%1% | %2V]</source>
-        <translation type="unfinished"></translation>
+        <translation>BAT [%%1 | %2V]</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="1289"/>
         <source>WP</source>
-        <translation type="unfinished"></translation>
+        <translation>WP</translation>
     </message>
     <message>
         <location filename="../../src/ui/HUD.cc" line="1421"/>
         <source>Select image directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog obrazu</translation>
     </message>
 </context>
 <context>
@@ -2008,42 +2008,42 @@
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="15"/>
         <source>Imagery Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametry Zdjęcia</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="120"/>
         <source>..</source>
-        <translation type="unfinished"></translation>
+        <translation>..</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="126"/>
         <source>Imagery Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ Zdjęcia</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="127"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="131"/>
         <source>Offset</source>
-        <translation type="unfinished"></translation>
+        <translation>Przesunięcie</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="149"/>
         <source>x (m)</source>
-        <translation type="unfinished"></translation>
+        <translation>x (m)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="150"/>
         <source>y (m)</source>
-        <translation type="unfinished"></translation>
+        <translation>y (m)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ImageryParamDialog.cc" line="151"/>
         <source>z (m)</source>
-        <translation type="unfinished"></translation>
+        <translation>z (m)</translation>
     </message>
 </context>
 <context>
@@ -2052,103 +2052,103 @@
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="235"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="236"/>
         <source>Set linear scale for Y axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw liniowej skali dla osi Y</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="244"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="245"/>
         <source>Set logarithmic scale for Y axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw skali logarytmicznej na osi Y</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="251"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="252"/>
         <source>Sliding window size to calculate mean and variance</source>
-        <translation type="unfinished"></translation>
+        <translation>Przesuwne okno rozmiar do obliczania średniej i wariancji</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="263"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="264"/>
         <source>Start to log curve data into a CSV or TXT file</source>
-        <translation type="unfinished"></translation>
+        <translation>Start, aby rejestrować dane do pliku CSV lub TXT</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="265"/>
         <source>Start Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocząć rejestrowanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="272"/>
         <source>Ground Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas ziemi</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="273"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="274"/>
         <source>Overwrite timestamp of data from vehicle with ground receive time. Helps if the plots are not visible because of missing or invalid onboard time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastąpić sygnatury czasowej dane z pojazdu z ziemi otrzymywać czas. Pomaga jeśli działki nie są widoczne z powodu chybianie albo nieważny czas na pokładzie.</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="552"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="566"/>
         <source>Specify log file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ nazwę pliku dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="552"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="566"/>
         <source>Logfile (*.log);;</source>
-        <translation type="unfinished"></translation>
+        <translation>LogFile (* .log);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="579"/>
         <source>Stop logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatrzymaj rejestrowanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="600"/>
         <source>Starting Log Compression</source>
-        <translation type="unfinished"></translation>
+        <translation>Począwszy od kompresji Log</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="601"/>
         <source>Should empty fields (e.g. due to packet drops) be filled with the previous value of the same variable (zero order hold)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Puste pola (np. ze względu na pakiet krople) powinna być wypełniona z poprzednią wartość tej samej zmiennej (zero Ekstrapolator rzędu)?</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="617"/>
         <source>Start logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczęcie rejestrowania</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="663"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="664"/>
         <source>Enable the curve in the graph window</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz krzywej w oknie wykresu</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="693"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="694"/>
         <source>Current value of %1 in %2 units</source>
-        <translation type="unfinished"></translation>
+        <translation>Bieżąca wartość %1 %2 jednostek</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="703"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="704"/>
         <source>Unit of </source>
-        <translation type="unfinished"></translation>
+        <translation>Jednostki </translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="713"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="714"/>
         <source>Arithmetic mean of %1 in %2 units</source>
-        <translation type="unfinished"></translation>
+        <translation>Średnia arytmetyczna %1 %2 jednostek</translation>
     </message>
     <message>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="728"/>
         <location filename="../../src/ui/linechart/LinechartWidget.cc" line="729"/>
         <source>Variance of %1 in (%2)^2 units</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenie %1 w (%2) ^ 2 jednostki</translation>
     </message>
 </context>
 <context>
@@ -2156,27 +2156,27 @@
     <message>
         <location filename="../../src/LogCompressor.cc" line="61"/>
         <source>Log Compressor: Cannot start/compress log file, since input file %1 is not readable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompresor dziennika: Nie start/kompresji pliku dziennika, ponieważ wejściowego pliku %1 nie jest czytelny</translation>
     </message>
     <message>
         <location filename="../../src/LogCompressor.cc" line="78"/>
         <source>Log Compressor: Cannot start/compress log file, since output file %1 is not writable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompresor dziennika: Nie start/kompresji pliku dziennika, ponieważ plik wyjściowy %1 nie jest zapisywalny</translation>
     </message>
     <message>
         <location filename="../../src/LogCompressor.cc" line="116"/>
         <source>Log compressor: Dataset contains dimensions: </source>
-        <translation type="unfinished"></translation>
+        <translation>Kompresor dziennika: zestaw danych zawiera wymiary: </translation>
     </message>
     <message>
         <location filename="../../src/LogCompressor.cc" line="195"/>
         <source>Log Compressor: Writing output to file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompresor dziennika: Pisanie dane wyjściowe do pliku %1</translation>
     </message>
     <message>
         <location filename="../../src/LogCompressor.cc" line="199"/>
         <source>Log compressor: Finished processing file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompresor dziennika: zakończono przetwarzanie pliku: %1</translation>
     </message>
 </context>
 <context>
@@ -2184,53 +2184,53 @@
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="302"/>
         <source>MAVLink Logging failed</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink logowanie nie powiodło się</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="302"/>
         <source>Could not write to file %1, disabling logging.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można zapisać do pliku %1, wyłączenie rejestrowania.</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="326"/>
         <source>SYSTEM ID CONFLICT!</source>
-        <translation type="unfinished"></translation>
+        <translation>SYSTEM ID KONFLIKT!</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="326"/>
         <source>Warning: A second system is using the same system id (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrzeżenie: Drugiego systemu jest za pomocą systemu identyfikator (%1)</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="346"/>
         <source>The MAVLink protocol version on the MAV and QGroundControl mismatch!</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja protokołu MAVLink na niezgodność MAV i QGroundControl!</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="347"/>
         <source>It is unsafe to use different MAVLink versions. QGroundControl therefore refuses to connect to system %1, which sends MAVLink version %2 (QGroundControl uses version %3).</source>
-        <translation type="unfinished"></translation>
+        <translation>Jest to niebezpieczne w użyciu różne wersje MAVLink. QGroundControl w związku z tym chce podłączyć do systemu %1, który wysyła MAVLink wersja %2 (QGroundControl używa wersji %3).</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="444"/>
         <source>MAVLink protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokół MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="632"/>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="638"/>
         <source>Opening MAVLink logfile for writing failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwarcie pliku dziennika MAVLink do pisania nie powiodło się</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="632"/>
         <source>MAVLink cannot log to the file %1, please choose a different file. Stopping logging.</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink nie mogę się zalogować do pliku %1, proszę wybrać inny plik. Zatrzymywanie rejestrowania.</translation>
     </message>
     <message>
         <location filename="../../src/comm/MAVLinkProtocol.cc" line="638"/>
         <source>MAVLink cannot start logging, no logfile selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink nie może rozpocząć rejestrowanie, nie logfile zaznaczone.</translation>
     </message>
 </context>
 <context>
@@ -2238,158 +2238,158 @@
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="20"/>
         <source>Emit heartbeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Emitują bicie serca</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="27"/>
         <source>Log all MAVLink packets</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie pakiety MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="50"/>
         <source>Only accept MAVs with same protocol version</source>
-        <translation type="unfinished"></translation>
+        <translation>Akceptują tylko MAVs z tej samej wersji protokołu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="70"/>
         <source>MAVLINK_VERSION: </source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLINK_VERSION: </translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="77"/>
         <source>Logfile name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa pliku dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="84"/>
         <source>Select..</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz...</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="91"/>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="94"/>
         <source>Set the groundstation number</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw numer groundstation</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="107"/>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="110"/>
         <source>The system ID is the number the MAV associates with this computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Identyfikator systemu jest liczba MAV kojarzy się z tego komputera</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="113"/>
         <source>Groundstation MAVLink System ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Groundstation MAVLink System ID</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="136"/>
         <source>Enter a comma-separated list of allowed packets</source>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz rozdzielaną przecinkami listę dozwolonych pakietów</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="143"/>
         <source>Filter multiplexed packets: Only forward selected IDs</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr pakietów multipleksowane: do przodu tylko wybrane identyfikatory</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="150"/>
         <source>Enable Multiplexing: Forward packets to all other links</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz Multiplexing: Przekazywanie pakietów do wszystkich innych linków</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="157"/>
         <source>Enable retransmission of parameter read/write requests</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz retransmisji parametrów żądań odczytu i zapisu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="190"/>
         <source>Read request retransmission timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit czasu retransmisji żądania odczytu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="197"/>
         <source>Write request retransmission timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit czasu retransmisji żądania zapisu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="204"/>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="207"/>
         <source>Time in milliseconds after which a not acknowledged read request is sent again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas w milisekundach, po których nie przyznał odczytu żądanie jest wysyłane ponownie.</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="210"/>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="235"/>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="278"/>
         <source> ms</source>
-        <translation type="unfinished"></translation>
+        <translation> MS</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="229"/>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="232"/>
         <source>Time in milliseconds after which a not acknowledged write request is sent again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas w milisekundach, po których nie przyznał zapisu żądanie jest wysyłane ponownie.</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="251"/>
         <source>Enable retransmission of actions / commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz retransmisji działań / komendy</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="271"/>
         <source>Action request retransmission timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit czasu retransmisji żądania akcja</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="310"/>
         <source>Forward MAVLink packets of all links to http://droneos.com</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazywanie pakietów MAVLink wszystkie linki do http://droneos.com</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="330"/>
         <source>Enter your DroneOS API Token/Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź DroneOS Token/klucz API</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="344"/>
         <source>mavlink.droneos.com:14555</source>
-        <translation type="unfinished"></translation>
+        <translation>mavlink.droneos.com:14555</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.ui" line="349"/>
         <source>localhost:14555</source>
-        <translation type="unfinished"></translation>
+        <translation>localhost:14555</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.cc" line="112"/>
         <source>MAVLINK_VERSION: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLINK_VERSION: %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.cc" line="162"/>
         <source>Specify MAVLink log file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ nazwę pliku dziennika MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.cc" line="162"/>
         <source>MAVLink Logfile (*.mavlink);;</source>
-        <translation type="unfinished"></translation>
+        <translation>Dziennik MAVLink (*.mavlink);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.cc" line="174"/>
         <source>The selected logfile is not writable</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrany plik nie jest zapisywalny</translation>
     </message>
     <message>
         <location filename="../../src/ui/MAVLinkSettingsWidget.cc" line="175"/>
         <source>Please make sure that the file %1 is writable or select a different file</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę upewnić się, że plik %1 jest zapisywalny lub wybrać inny plik</translation>
     </message>
 </context>
 <context>
@@ -2422,7 +2422,7 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParser.cc" line="384"/>
         <source>Compiling message &lt;strong&gt;%1 	(#%3)&lt;/strong&gt; 	near line %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompie komunikat &lt;strong&gt;%1 (#%3)&lt;/strong&gt; w pobliżu linii %2</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParser.cc" line="389"/>
@@ -2448,28 +2448,28 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParserV10.cc" line="72"/>
         <source>Generator failed to start. Please check if the path and command is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Generator nie powiodło się. Proszę sprawdzić, czy ścieżka i polecenie jest prawidłowe.</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParserV10.cc" line="78"/>
         <source>Generator start timed out, please check if the path and command are correct</source>
-        <translation type="unfinished"></translation>
+        <translation>Początku generatora przekroczony, proszę sprawdzić jeśli ścieżka i polecenia są poprawne</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParserV10.cc" line="81"/>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParserV10.cc" line="84"/>
         <source>Could not communicate with generator. Please check if the path and command are correct</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie mógł komunikować się z generatora. Proszę sprawdzić, czy ścieżka i polecenia są poprawne</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParserV10.cc" line="88"/>
         <source>Generator error. Please check if the path and command is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd generatora. Proszę sprawdzić, czy ścieżka i polecenie jest prawidłowe.</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/generator/MAVLinkXMLParserV10.cc" line="98"/>
         <source>Generator ready.</source>
-        <translation type="unfinished"></translation>
+        <translation>Generator gotowy.</translation>
     </message>
 </context>
 <context>
@@ -2477,474 +2477,474 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="29"/>
         <source>MGMainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>MGMainWindow</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="56"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="60"/>
         <source>Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlacz</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="67"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Język</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="81"/>
         <source>Communication</source>
-        <translation type="unfinished"></translation>
+        <translation>Komunikacja</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="91"/>
         <source>Select System</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz System</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="99"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="112"/>
         <source>Tool Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Narzędzie wzory</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="119"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomoc</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="126"/>
         <source>Perspectives</source>
-        <translation type="unfinished"></translation>
+        <translation>Perspektywy</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="138"/>
         <source>Main Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Głównym Widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="157"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjście</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="160"/>
         <source>Alt+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt + Q</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="173"/>
         <source>Liftoff</source>
-        <translation type="unfinished"></translation>
+        <translation>Starcie</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="182"/>
         <source>Land</source>
-        <translation type="unfinished"></translation>
+        <translation>Ziemi</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="191"/>
         <source>Emergency Land</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruntów awaryjnego</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="194"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL + E</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="203"/>
         <source>Kill UAS</source>
-        <translation type="unfinished"></translation>
+        <translation>Zabić ZWZ</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="206"/>
         <source>Ctrl+K</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL + K</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="215"/>
         <source>Add Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać Link</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="218"/>
         <source>Alt+A</source>
-        <translation type="unfinished"></translation>
+        <translation>ALT + A</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="227"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencje</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="230"/>
         <source>Open UAS Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>UAS Otwórz preferencje</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="242"/>
         <source>Simulate</source>
-        <translation type="unfinished"></translation>
+        <translation>Symulacji</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="245"/>
         <source>Simulate one vehicle to test and evaluate this application</source>
-        <translation type="unfinished"></translation>
+        <translation>Symulacja jednego pojazdu do badania i oceny tej aplikacji</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="254"/>
         <source>Show Slugs View</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż widok ślimaki</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="263"/>
         <source>Online Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Dokumentacji online</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="272"/>
         <source>Project Roadmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt planu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="281"/>
         <source>Developer Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>Kredytów autora</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="293"/>
         <source>Mission</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="296"/>
         <source>Mission Planning and MAV Tracking</source>
-        <translation type="unfinished"></translation>
+        <translation>Planowanie misji i śledzenia MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="299"/>
         <source>Alt+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt + M</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="311"/>
         <source>Config</source>
-        <translation type="unfinished"></translation>
+        <translation>Config</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="314"/>
         <source>MAV Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="317"/>
         <source>Alt+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Klawisze ALT + C</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="326"/>
         <source>Select Stylesheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz arkusz stylów</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="338"/>
         <source>Pilot</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilot</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="341"/>
         <source>Pilot&apos;s view (HUD, moving map, etc)</source>
-        <translation type="unfinished"></translation>
+        <translation>Widok pilota (HUD, przeniesienie mapy, itp.)</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="344"/>
         <source>Alt+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt + P</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="353"/>
         <source>New Custom Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowych niestandardowych Widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="369"/>
         <source>Mute Audio Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyciszenie dźwięku</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="378"/>
         <source>Shutdown MAV</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknięcie MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="381"/>
         <location filename="../../src/ui/MainWindow.ui" line="384"/>
         <source>Shutdown the onboard computer - works not during flight</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamykania komputera pokładowego - działa nie podczas lotu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="389"/>
         <source>Reload Stylesheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeładuj stylów</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="392"/>
         <source>Alt+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Klawisze ALT + R</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="397"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="402"/>
         <source>Fullscreen</source>
-        <translation type="unfinished"></translation>
+        <translation>Pełny ekran</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="405"/>
         <source>Alt+Return</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt + Enter</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="410"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Normalne</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="413"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>ESC</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="422"/>
         <source>Load Custom Widget File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj plik niestandardowych Widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="434"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Danych</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="437"/>
         <source>Log viewing and export, live telemetry views, and other diagnostic tools.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dziennika oglądania i wywóz, żyje Telemetria widoków i innych narzędzi diagnostycznych.</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="440"/>
         <source>Alt+D</source>
-        <translation type="unfinished"></translation>
+        <translation>ALT + D</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.ui" line="445"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Angielski</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="459"/>
         <source>Current Language changed to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Bieżący język zmienił na %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="518"/>
         <location filename="../../src/ui/MainWindow.cc" line="521"/>
         <source>Unmanned Systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemy bez pilota</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="526"/>
         <location filename="../../src/ui/MainWindow.cc" line="529"/>
         <source>Mission Plan</source>
-        <translation type="unfinished"></translation>
+        <translation>Plan misji</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="534"/>
         <location filename="../../src/ui/MainWindow.cc" line="537"/>
         <source>Status Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan szczegóły</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="542"/>
         <location filename="../../src/ui/MainWindow.cc" line="550"/>
         <source>Communication Console</source>
-        <translation type="unfinished"></translation>
+        <translation>Komunikacja konsoli</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="555"/>
         <source>MAVLink Log Player</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink dziennik odtwarzacza</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="560"/>
         <source>MAVLink Log Replay</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink dziennika Replay</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="565"/>
         <source>MAVLink Message Inspector</source>
-        <translation type="unfinished"></translation>
+        <translation>Inspektor MAVLink wiadomość</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="568"/>
         <source>MAVLink Inspector</source>
-        <translation type="unfinished"></translation>
+        <translation>Inspektor MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="591"/>
         <location filename="../../src/ui/MainWindow.cc" line="594"/>
         <source>Onboard Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Na pokładzie parametry</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="599"/>
         <source>Horizontal Situation Indicator</source>
-        <translation type="unfinished"></translation>
+        <translation>Wskaźnik sytuacji poziomej</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="602"/>
         <source>Horizontal Situation</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziomy sytuacji</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="607"/>
         <location filename="../../src/ui/MainWindow.cc" line="612"/>
         <source>Custom Gauges</source>
-        <translation type="unfinished"></translation>
+        <translation>Przyrządy niestandardowego</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="627"/>
         <location filename="../../src/ui/MainWindow.cc" line="630"/>
         <source>Channels Monitor</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanały Monitor</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="635"/>
         <source>HUD</source>
-        <translation type="unfinished"></translation>
+        <translation>HUD</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="638"/>
         <location filename="../../src/ui/MainWindow.cc" line="720"/>
         <source>Head Up Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Head Up Display</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="643"/>
         <location filename="../../src/ui/MainWindow.cc" line="646"/>
         <source>Primary Flight Display</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie podstawowego lotu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="737"/>
         <source>AutoQuad</source>
-        <translation type="unfinished"></translation>
+        <translation>AutoQuad</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="743"/>
         <source>Log Analysis &amp;&amp; Telemetry</source>
-        <translation type="unfinished"></translation>
+        <translation>Log analizy &amp;&amp; telemetrii</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="751"/>
         <source>Local 3D</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalne 3D</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="759"/>
         <source>Google Earth</source>
-        <translation type="unfinished"></translation>
+        <translation>Google Earth</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="873"/>
         <source>Specify Widget File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ nazwę pliku Widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="873"/>
         <source>QGroundControl Widget (*%1);;</source>
-        <translation type="unfinished"></translation>
+        <translation>QGroundControl Widget (*%1);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="917"/>
         <source>Did not find any custom widgets in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleźliśmy żadnych niestandardowe wzory w %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="929"/>
         <source>Loaded custom widget %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Widżet załadowany niestandardowe %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1000"/>
         <source>/untitled.</source>
-        <translation type="unfinished"></translation>
+        <translation>/ bez tytułu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1002"/>
         <source>Save As</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz jako</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1004"/>
         <source>%1 Files (*.%2);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Pliki (*.%2);;Wszystkie pliki (*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1067"/>
         <source>Please restart QGroundControl</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę ponownie QGroundControl</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1067"/>
         <source>Please restart QGroundControl to switch to fully native look and feel. Currently you have loaded Qt&apos;s plastique style.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę ponownie QGroundControl do pełni natywny wygląd. Aktualnie załadowany Qt zdadzą stylu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1096"/>
         <source>Specify stylesheet</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ arkusz stylów</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1096"/>
         <source>CSS Stylesheet (*.css);;</source>
-        <translation type="unfinished"></translation>
+        <translation>Arkusz stylów CSS (*.css);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1102"/>
         <location filename="../../src/ui/MainWindow.cc" line="1132"/>
         <source>QGroundControl did lot load a new style</source>
-        <translation type="unfinished"></translation>
+        <translation>QGroundControl dużo załadować nowy styl</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1103"/>
         <source>No suitable .css file selected. Please select a valid .css file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Żadnego pliku .css nadaje. Proszę wybrać plik .css ważne.</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1133"/>
         <source>Stylesheet file %1 was not readable</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik arkusza %1 nie był czytelny</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1441"/>
         <location filename="../../src/ui/MainWindow.cc" line="1658"/>
         <source>No System</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="1528"/>
         <source>Select %1 for control</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz %1 dla kontroli</translation>
     </message>
 </context>
 <context>
@@ -2952,22 +2952,22 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../libs/opmapcontrol/src/mapwidget/mapripform.ui" line="14"/>
         <source>MapRipper</source>
-        <translation type="unfinished"></translation>
+        <translation>MapRipper</translation>
     </message>
     <message>
         <location filename="../../libs/opmapcontrol/src/mapwidget/mapripform.ui" line="39"/>
         <source>Currently ripping from:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpowszechniony rozprucie od:</translation>
     </message>
     <message>
         <location filename="../../libs/opmapcontrol/src/mapwidget/mapripform.ui" line="52"/>
         <source>Downloading tile</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobieranie płytek</translation>
     </message>
     <message>
         <location filename="../../libs/opmapcontrol/src/mapwidget/mapripform.ui" line="65"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
 </context>
 <context>
@@ -2975,12 +2975,12 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/input/Mouse6dofInput.cpp" line="91"/>
         <source>No 3DxWare driver is running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie sterownika 3DxWare jest uruchomiona.</translation>
     </message>
     <message>
         <location filename="../../src/input/Mouse6dofInput.cpp" line="92"/>
         <source>Enter in Terminal &apos;sudo /etc/3DxWare/daemon/3dxsrv -d usb&apos; and then restart QGroundControl.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz w terminalu &apos;sudo /etc/3DxWare/daemon/3dxsrv usb -d&apos;, a następnie uruchom ponownie QGroundControl.</translation>
     </message>
 </context>
 <context>
@@ -2988,17 +2988,17 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/ObjectDetectionView.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/ObjectDetectionView.ui" line="95"/>
         <source>No objects recognized</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie ma obiektów uznanych</translation>
     </message>
     <message>
         <location filename="../../src/ui/ObjectDetectionView.ui" line="108"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Jasne</translation>
     </message>
 </context>
 <context>
@@ -3006,7 +3006,7 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/comm/OpalLink.cc" line="52"/>
         <source>OpalRT link </source>
-        <translation type="unfinished"></translation>
+        <translation>Ogniwo OpalRT </translation>
     </message>
 </context>
 <context>
@@ -3014,58 +3014,58 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="14"/>
         <source>OpalLink Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja OpalLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="23"/>
         <source>Model Instance ID</source>
-        <translation type="unfinished"></translation>
+        <translation>Identyfikator wystąpienie modelu</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="30"/>
         <source>Opal-RT Parameter File</source>
-        <translation type="unfinished"></translation>
+        <translation>Opal-RT parametr pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="37"/>
         <source>Servo Configuration File</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik konfiguracji serwa</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="74"/>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="88"/>
         <source>Change</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmiana</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="129"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="132"/>
         <source>Delete this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń ten link</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="137"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="140"/>
         <source>Connect this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć ten link</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="145"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../../src/ui/OpalLinkSettings.ui" line="148"/>
         <source>Close the configuration window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij okno konfiguracji</translation>
     </message>
 </context>
 <context>
@@ -3073,17 +3073,17 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/map3D/Pixhawk3DWidget.cc" line="596"/>
         <source>Collada (*.dae)</source>
-        <translation type="unfinished"></translation>
+        <translation>Collada (*.dae)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/Pixhawk3DWidget.cc" line="943"/>
         <source>Set altitude of waypoint %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawianie wysokości punktu nawigacyjnego %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/Pixhawk3DWidget.cc" line="944"/>
         <source>Altitude (m):</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość (m):</translation>
     </message>
 </context>
 <context>
@@ -3091,211 +3091,211 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="81"/>
         <source>Click refresh to download parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij przycisk Odśwież, aby pobrać parametry</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="86"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Odśwież</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="87"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="88"/>
         <source>Load parameters currently in non-permanent memory of aircraft.</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadować parametry aktualnie w pamięci stałe samolotów.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="92"/>
         <source>Transmit</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazuje</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="93"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="94"/>
         <source>Set current parameters in non-permanent onboard memory</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw bieżących parametrów w wbudowanej pamięci stałe</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="98"/>
         <source>Write (ROM)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pisać (ROM)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="99"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="100"/>
         <source>Copy current parameters in non-permanent memory of the aircraft to permanent memory. Transmit your parameters first to write these.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skopiuj bieżących parametrów w pamięci stałe statku powietrznego do pamięci stałej. Przekazuje swoje parametry po raz pierwszy, aby napisać te.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="105"/>
         <source>Load File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="106"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="107"/>
         <source>Load parameters from a file on this computer in the view. To write them to the aircraft, use transmit after loading them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadować parametry z pliku na tym komputerze w widoku. Pisać je do samolotu, wykorzystanie transmisji po załadowaniu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="111"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="797"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="112"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="113"/>
         <source>Save parameters in this view to a file on this computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz parametry w tym widoku do pliku na tym komputerze.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="117"/>
         <source>AQ params.txt format (can also load via QGC v1.3+)</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ params.txt formatu (można również załadować za pomocą QGC v1.3 +)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="119"/>
         <source>QGC format (for loading with older QGC versions)</source>
-        <translation type="unfinished"></translation>
+        <translation>QGC formacie (do ładowania w starszych wersjach QGC)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="123"/>
         <source>Read (ROM)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odczytu (ROM)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="124"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="125"/>
         <source>Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiowanie parametrów z pamięci stałej bieżącej pamięci stałe samolotów. NIE aktualizować parametry w tym widoku, kliknij przycisk Odśwież po skopiowaniu ich aby je.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="129"/>
         <source>Load from SD</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładowanie z SD</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="130"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="131"/>
         <source>Load parameters from a file on the SD card. These parameters will be in the aircraft non-permanent memory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadować parametry z pliku na karcie SD. Parametry te będą w pamięci stałe samolotów.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="135"/>
         <source>Save to SD</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz na SD</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="136"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="137"/>
         <source>Save parameters in this view to a file on the on-board SD card.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz parametry w tym widoku do pliku na karcie SD pokładzie.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="457"/>
         <source>SUCCESS: WROTE ALL PARAMETERS</source>
-        <translation type="unfinished"></translation>
+        <translation>SUKCES: NAPISAŁ WSZYSTKIE PARAMETRY</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="463"/>
         <source>SUCCESS: Wrote %2 (#%1/%4): %3</source>
-        <translation type="unfinished"></translation>
+        <translation>SUKCES: Napisał %2 (#%1 / %4): %3.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="473"/>
         <source>FAILURE: Wrote %1: sent %2 != onboard %3</source>
-        <translation type="unfinished"></translation>
+        <translation>BŁĄD: Napisał %1: %2 wysyłane! = %3 na pokładzie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="496"/>
         <source>All received. (updated at %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie otrzymane. (zaktualizowany w %1)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="501"/>
         <source>OK: %1 %2 (%3/%4)</source>
-        <translation type="unfinished"></translation>
+        <translation>OK: %1 %2 (%3 / %4)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="551"/>
         <source>Component #%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Składnik #%1</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="660"/>
         <source>Default: %1, %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość domyślna: %1, %2</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="704"/>
         <source>Requested param list.. waiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista zgłoszony param... czekam</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="726"/>
         <source>Changed Param %1:%2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmieniony parametr %1: %2: %3</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="797"/>
         <source>Parameter File (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr pliku (txt)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="803"/>
         <source>Could not open params file. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można otworzyć pliku parametrów. %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="885"/>
         <source>Select Saved Parameters File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz zapisany plik parametrów</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="886"/>
         <source>Parameter Files (*.params *.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr pliki (*. txt *.params)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1084"/>
         <source>TIMEOUT! MISSING: %1 read, %2 write.</source>
-        <translation type="unfinished"></translation>
+        <translation>LIMIT CZASU! BRAKUJĄCE: %1 czytać, pisać %2.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1102"/>
         <source>Requested retransmission of #%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zgłoszony retransmisji %1 #</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1152"/>
         <source>Requested rewrite of: %1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Zgłoszony przepisać z: %1: %2</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1184"/>
         <source>REJ. %1 &lt; min</source>
-        <translation type="unfinished"></translation>
+        <translation>REJ. %1 &lt; min</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1189"/>
         <source>REJ. %1 &gt; max</source>
-        <translation type="unfinished"></translation>
+        <translation>REJ. %1 &gt; max</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1281"/>
         <source>No transmission: No changed values.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie ma transmisji: nie zmiany wartości.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1283"/>
         <source>Transmitting %1 parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazywanie parametrów %1.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1328"/>
         <source>There are locally changed parameters. Please transmit them first (&lt;TRANSMIT&gt;) or update them with the onboard values (&lt;REFRESH&gt;) before storing onboard from RAM to ROM.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tam są lokalnie zmienionych parametrów. Proszę przekazać je pierwszy (&lt;TRANSMIT&gt;) lub zaktualizować je z wartości na pokładzie (&lt;REFRESH&gt;) przed przechowywanie na pokładzie z pamięci RAM do rz</translation>
     </message>
 </context>
 <context>
@@ -3303,29 +3303,29 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/designer/QGCActionButton.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCActionButton.ui" line="38"/>
         <location filename="../../src/ui/designer/QGCActionButton.ui" line="72"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCActionButton.ui" line="51"/>
         <source>Refresh Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Odśwież działania</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCActionButton.ui" line="58"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrobić</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCActionButton.ui" line="65"/>
         <location filename="../../src/ui/designer/QGCActionButton.ui" line="85"/>
         <source>Button name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa przycisku</translation>
     </message>
 </context>
 <context>
@@ -3333,101 +3333,101 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="61"/>
         <source>Onboard Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Na pokładzie parametry</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="73"/>
         <source>No parameters loaded, please connect to an AutoQuad.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez parametrów załadowany, proszę połączyć AutoQuad.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="90"/>
         <source>Firmware Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizacja firmware</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="120"/>
         <location filename="../../src/ui/qgcautoquad.cc" line="1827"/>
         <source>Select Firmware File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik Firmware</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="127"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="136"/>
         <source>FW Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ FW:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="145"/>
         <source>AutoQuad</source>
-        <translation type="unfinished"></translation>
+        <translation>AutoQuad</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="155"/>
         <source>ESC32</source>
-        <translation type="unfinished"></translation>
+        <translation>ESC32</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="164"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6951"/>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Portu:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="184"/>
         <source>Speed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="206"/>
         <source>Com Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Com Port</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="213"/>
         <source>Flash Firmware</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash Firmware</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="281"/>
         <source>  Save Settings to AQ </source>
-        <translation type="unfinished"></translation>
+        <translation>  Zapisz ustawienia do AQ </translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="304"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="307"/>
         <source>AutoQuad firmware version</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja oprogramowania układowego AutoQuad</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="313"/>
         <source>AutoQuad Firmware Version: [not connected]</source>
-        <translation type="unfinished"></translation>
+        <translation>AutoQuad Firmware Version: [nie podłączony]</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="342"/>
         <source>Radio &amp;&amp; Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Radio &amp;&amp; kontroli</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="357"/>
         <source>Radio Values</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartości radiowych</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="395"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2246"/>
         <source>Throttle</source>
-        <translation type="unfinished"></translation>
+        <translation>Przepustnicy</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="402"/>
@@ -3442,7 +3442,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="6694"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="9058"/>
         <source>0</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="425"/>
@@ -3454,284 +3454,284 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="851"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="901"/>
         <source>Recommended low/mid/high values.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zalecane wartości niski/średni/wysoki.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="428"/>
         <source>0 / 700 / 1400</source>
-        <translation type="unfinished"></translation>
+        <translation>0 / 700 / 1400</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="445"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="1907"/>
         <source>Roll</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolki</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="478"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="528"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="578"/>
         <source>-700 / 0 / +700</source>
-        <translation type="unfinished"></translation>
+        <translation>-700 / 0 / + 700</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="495"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="1788"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Boisko</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="545"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2016"/>
         <source>Yaw</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="595"/>
         <source>Cam Trigger</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyzwalacz CAM</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="628"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="904"/>
         <source>any</source>
-        <translation type="unfinished"></translation>
+        <translation>wszelkie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="651"/>
         <source>Posiotion Hold &gt; -250</source>
-        <translation type="unfinished"></translation>
+        <translation>Przytrzymaj Posiotion &gt;-250 kartę</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="654"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="1667"/>
         <source>Flight Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb samolotowy</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="683"/>
         <source>Mission Start &gt; 250</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja rozpocząć &gt; 250</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="686"/>
         <source>mission mode</source>
-        <translation type="unfinished"></translation>
+        <translation>tryb misji</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="702"/>
         <source>alt./pos. hold</source>
-        <translation type="unfinished"></translation>
+        <translation>przytrzymaj Alt./poz.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="718"/>
         <source>manual mode</source>
-        <translation type="unfinished"></translation>
+        <translation>tryb ręczny</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="741"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="854"/>
         <source>-350 / 0 / +350</source>
-        <translation type="unfinished"></translation>
+        <translation>-350 / 0 / + 350</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="764"/>
         <source>Return to Launch &gt; -250</source>
-        <translation type="unfinished"></translation>
+        <translation>Powrót do uruchomienia &gt;-250 kartę</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="767"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="1558"/>
         <source>Home Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Strona główna Akcja</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="796"/>
         <source>activate RTH</source>
-        <translation type="unfinished"></translation>
+        <translation>aktywować RTH</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="809"/>
         <source>Set Home &gt; 250</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw do domu &gt; 250</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="812"/>
         <source>set home pos.</source>
-        <translation type="unfinished"></translation>
+        <translation>zestaw do domu pos.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="828"/>
         <source>normal flight</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwykły lot</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="871"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="1449"/>
         <source>Gimbal Tilt</source>
-        <translation type="unfinished"></translation>
+        <translation>Przegub Tilt</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="928"/>
         <source>Raw values</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartości surowców</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="959"/>
         <source>Quality:</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakość:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="972"/>
         <source>AutoQuad RADIO_QUALITY indicator, roughly a measure of lost radio packets and signal quality.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wskaźnik AutoQuad RADIO_QUALITY, mniej więcej środek radio utracone pakiety i jakość sygnału.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1001"/>
         <source>Refresh frequency of channels graph (higher frequencies consume more computer CPU power)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odświeżyć wykres kanały częstotliwość (wyższe częstotliwości spożywania komputera więcej mocy procesora)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1004"/>
         <source> Hz</source>
-        <translation type="unfinished"></translation>
+        <translation> Hz</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1039"/>
         <source>Toggle radio channel graph updates on/off (they can consume a lot of CPU resouces on your computer)</source>
-        <translation type="unfinished"></translation>
+        <translation>Przełącz aktualizacje wykres Kanał radiowy na/off (mogą spożywać dużo CPU zasoby na komputerze)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1151"/>
         <source>Radio Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ radia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1200"/>
         <source>You must save to ROM after trasmitting to AQ, and then reboot the AQ for radio type change to take effect!</source>
-        <translation type="unfinished"></translation>
+        <translation>Należy zapisać do ROM po trasmitting do AQ, a wtedy ponownie obuwać AQ radia typu zmiany odniosły skutek!</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1219"/>
         <source>Controls Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Formanty Instalatora</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1231"/>
         <source>Passthrough 1</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Przekazywanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1250"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;aka narzędzi. Aparat wyzwala port lub wykorzystania jako passthrough dla innych funkcji sterowanych Tx.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1352"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Flaps/Aux 1. Switch between manual / position hold / mission modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;aka klapy/Aux 1. Przełącznik między ręcznym / pozycji przytrzymaj / misja tryby.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1442"/>
         <source>Cam. Trig</source>
-        <translation type="unfinished"></translation>
+        <translation>CAM. Trygonometryczna</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1468"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;aka Aux 3. Gimbal tilt kontroli, lub użyć jako passthrough dla innych funkcji sterowanych Tx&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1577"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 2. Switch to set home position and activate Return to Home function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;aka Aux 2. Przełącznik pozycji i włączyć powrót do domu funkcja&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1686"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for controlling Heading Free mode. Low position (&amp;lt; -250) turns HF on. Mid position (~0) turns HF off. Hight position (&amp;gt; 250) sets reference heading.  Keep switch in high position to continously set reference (aka. &amp;quot;dynamic mode&amp;quot;).&lt;/p&gt;&lt;p&gt;Reference heading is set as follows: &lt;/p&gt;&lt;p&gt;1) When not flying OR within 2 meters of Home position: reference heading is based on actual craft orienation.&lt;/p&gt;&lt;p&gt;2) When flying AND 2 meters or more away from home position: reference heading is based on bearing to home position.  In other words, &amp;quot;back&amp;quot; stick will bring the craft back towards home, regardless of its actual orientation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kanał do kontrolowania pozycji Free mode. Niskie położenie (&amp;lt;-250 kartę) włącza HF. Połowie pozycji (~ 0) wyłącza HF. Wysokość położenia (&amp;gt; 250) ustawia się w pozycji odniesienia.  Przełącznik Zachowaj w wysokiej pozycji, aby stale zestaw odniesienia (aka. &quot;dynamiczny tryb&quot;).&lt;/p&gt;&lt;p&gt;Pozycji odniesienia znajduje się w następujący sposób:&lt;/p&gt;&lt;p&gt;1) Kiedy nie pływające lub w 2 metry domu pozycji: odniesienia pozycji opiera się na rzeczywistych rzemiosło dużo.&lt;/p&gt;&lt;p&gt;2) Podczas lotu samolotem i 2 metrów lub więcej od pozycji: odniesienia pozycji opiera się na łożyska do pozycji do domu.  Innymi słowy, &quot;Powrót&quot; kij przyniesie jednostki powrót do domu, niezależnie od jego rzeczywistej orientacji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1693"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2345"/>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation>Poza</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1698"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2350"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6699"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1781"/>
         <source>Heading-Free</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagłówek-za darmo</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1820"/>
         <source>Gas</source>
-        <translation type="unfinished"></translation>
+        <translation>Gazu</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="1926"/>
         <source>Elevator / Nick</source>
-        <translation type="unfinished"></translation>
+        <translation>Winda / Nick</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2035"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2281"/>
         <source>Control</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontroli</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2054"/>
         <source>Rudder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ster</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2156"/>
         <source>Aileron</source>
-        <translation type="unfinished"></translation>
+        <translation>Lotka</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2300"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2319"/>
         <source>Chan.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chan.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2338"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optional extra passthrough channel, to be directed to Passthrough Port in Output -&amp;gt; Gimbal settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kanał opcjonalnie dodatkowe passthrough, skierowane do portu przekazywanie danych wyjściowych -&amp;gt; Ustawienia Gimbal.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2442"/>
         <source>PPM Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia PPM</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2492"/>
         <source>Chan. Val. Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Chan. Val. skali</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2505"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Amount to divide pulse value by to arrive at acceptable AQ value.  Default of 3 is good for FrSky, Graupner, possibly others.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kwota do podziału wartości impulsu przez dopuszczalne wartości AQ.  Domyślnie 3 jest dobre dla FrSky, Graupner, ewentualnie innych.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2534"/>
         <source>Throt. Low Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Throt. Niska wartość</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2547"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse value at at lowest stick position (affects throttle only)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Puls wartość w najniższym położeniu kij (dotyczy tylko przepustnicy)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2550"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2582"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2894"/>
@@ -3750,27 +3750,27 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="5751"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5795"/>
         <source> µs</source>
-        <translation type="unfinished"></translation>
+        <translation> µs</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2566"/>
         <source>Channel Midpiont</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanał Midpiont</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2579"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse value at middle stick/switch position (affects all channels except throttle)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Puls wartości w pozycji środkowej kij/przełącznik (dotyczy wszystkich kanałów z wyjątkiem przepustnicy)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2628"/>
         <source>Additional Control Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodatkowe ustawienia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2693"/>
         <source>Throt. Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Throt. Skala</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2706"/>
@@ -3778,93 +3778,93 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="2779"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2811"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Mnożnik stosowane do radiowego kanału wartość do ustalenia kwoty końcowej kontroli w trybów manualnych.  Zostawić je na ustawienia domyślne, dopóki nie wiesz, dlaczego warto je zmienić.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2731"/>
         <source>Pitch Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Pitch Scale</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2766"/>
         <source>Roll Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolki skali</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2798"/>
         <source>Yaw Scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenia skali</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2836"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Manual mode yaw rate in degrees per second at full control deflection(+/-700).  This rate is scaled based on control stick position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Tryb ręczny odchylenia stopy w stopni na sekundę przy pełnej kontroli ugięcia (+/-700).  Ten kurs jest skalowany oparte na położeniu drążka.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2839"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5320"/>
         <source> °/s</source>
-        <translation type="unfinished"></translation>
+        <translation> ° /s</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2858"/>
         <source>Yaw Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2878"/>
         <source>Throttle Deadband</source>
-        <translation type="unfinished"></translation>
+        <translation>Deadband przepustnicy</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2891"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Deadband is only active in altitude/position hold modes (CTRL_DBAND_THRO).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Deadband tylko jest aktywny w wysokości/pozycji trzymać tryby (CTRL_DBAND_THRO).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2910"/>
         <source>Pitch/Roll D-band</source>
-        <translation type="unfinished"></translation>
+        <translation>Boisko/Roll D-zespół</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2923"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Deadband is only active in position hold mode (CTRL_DEAD_BAND).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Deadband działa tylko w trybie hold pozycji (CTRL_DEAD_BAND).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2942"/>
         <source>Min. Throttle Pulse</source>
-        <translation type="unfinished"></translation>
+        <translation>Min. przepustnicy puls</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2955"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum user throttle to activate motors (CTRL_MIN_THROT).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Minimum przepustnicy użytkownik wobec przyśpieszyć silniki (CTRL_MIN_THROT).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2974"/>
         <source>Max. Ctrl. Per Axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. CTRL. na osi</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2987"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum control applied to motors for each of the roll/pitch/yaw axes (CTRL_MAX).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalnej kontroli stosowane silniki dla każdej z osi boiska/rolki/odchylenia (CTRL_MAX).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3070"/>
         <source>Mixing &amp;&amp; Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Mieszanie &amp;&amp; wyjścia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3086"/>
         <source>PID Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia PID</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3101"/>
         <source>Yaw Rate PID</source>
-        <translation type="unfinished"></translation>
+        <translation>Yaw Rate PID</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3124"/>
@@ -3876,7 +3876,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="4154"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4262"/>
         <source>P:</source>
-        <translation type="unfinished"></translation>
+        <translation>P:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3147"/>
@@ -3888,7 +3888,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="4171"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4279"/>
         <source>I:</source>
-        <translation type="unfinished"></translation>
+        <translation>I:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3170"/>
@@ -3896,7 +3896,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="3596"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="3797"/>
         <source>D:</source>
-        <translation type="unfinished"></translation>
+        <translation>D:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3193"/>
@@ -3904,7 +3904,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="3619"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="3814"/>
         <source>F:</source>
-        <translation type="unfinished"></translation>
+        <translation>F:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3223"/>
@@ -3916,7 +3916,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="4192"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4300"/>
         <source>P Max:</source>
-        <translation type="unfinished"></translation>
+        <translation>P Max:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3246"/>
@@ -3928,7 +3928,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="4209"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4317"/>
         <source>I Max:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mogę Max:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3269"/>
@@ -3936,7 +3936,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="3695"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="3872"/>
         <source>D Max:</source>
-        <translation type="unfinished"></translation>
+        <translation>D Max:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3292"/>
@@ -3948,126 +3948,126 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="4226"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4334"/>
         <source>Out Max:</source>
-        <translation type="unfinished"></translation>
+        <translation>Na Max:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3314"/>
         <source>Yaw Angle PID</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenia kąt PID</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3527"/>
         <source>Tilt Angle PID</source>
-        <translation type="unfinished"></translation>
+        <translation>Pochylenia kąta PID</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3740"/>
         <source>Tilt Rate PID</source>
-        <translation type="unfinished"></translation>
+        <translation>Plandeka cena PID</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3924"/>
         <source>Navigation Distance Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Nawigacja odległość stopy</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4032"/>
         <source>Navigation Speed Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkość nawigacji</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4140"/>
         <source>Navigation Altitude Speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Nawigacja wysokości prędkość</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4248"/>
         <source>Navigation Altitude Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Nawigacja wysokości położenia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4368"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will re-calculate the currently shown Rate and Angle PID values to firmware v6.8 (and up) scaling (multiplies all values by 4.82).&lt;/p&gt;&lt;p&gt;The new values are only displayed here, you still need to save them to AQ (if you want to).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;To będzie ponownie obliczyć obecnie pokazano wartości stawki i kąt PID v6.8 dla oprogramowania (i się) skalowanie (Mnoży wszystkie wartości 4.82).&lt;/p&gt;&lt;p&gt;Nowe wartości wyświetlane są tylko tutaj, trzeba jeszcze zapisać je na AQ (jeśli chcesz).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4371"/>
         <source>Re-scale attitude PID values for firmware version 6.8+    </source>
-        <translation type="unfinished"></translation>
+        <translation>Skali wartości PID postawy oprogramowanie mikroprogramowe wersja 6.8 +    </translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4389"/>
         <source>Gimbal Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Przegub ustawienia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4420"/>
         <source>Roll Axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Oś rolki</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4432"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4705"/>
         <source>PWM Min:</source>
-        <translation type="unfinished"></translation>
+        <translation>PWM Min:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4451"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4724"/>
         <source>Minumum pulse width sent to servo/controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokość impulsu minumum wysyłane do kontroler i serwo</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4476"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4749"/>
         <source>PWM Mid:</source>
-        <translation type="unfinished"></translation>
+        <translation>PWM w połowie:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4495"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4768"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width sent to servo/controller for mid-point (level adjustment)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Szerokość impulsu do serwa/kontroler na połowie (regulacja poziomu)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4520"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4793"/>
         <source>PWM Max:</source>
-        <translation type="unfinished"></translation>
+        <translation>PWM Max:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4539"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4812"/>
         <source>Maximum pulse width sent to servo/controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokość maksymalna impuls wysyłane do serwa/kontroler</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4564"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4837"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7418"/>
         <source>Scale:</source>
-        <translation type="unfinished"></translation>
+        <translation>Skali:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4583"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4856"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stabilization scaling factor in degrees per second of pulse width.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Stabilizacja współczynnik skalowania w stopni na sekundę szerokości impulsu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4589"/>
         <source>0.01428571</source>
-        <translation type="unfinished"></translation>
+        <translation>0.01428571</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4611"/>
         <source>Expo:</source>
-        <translation type="unfinished"></translation>
+        <translation>Expo:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4630"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Roll axis exponential (slows down movement around center). When set, the GMBL_SCAL_ROLL must be lowered. An expo of 30, will result in a GMBL_SCAL_ROLL of 1/500 instead of 1/70.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Oś rolki wykładniczy (spowalnia ruch wokół centrum). Po ustawieniu, GMBL_SCAL_ROLL musi być obniżona. Expo 30, spowoduje GMBL_SCAL_ROLL 1/500, a nie 1/70.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4658"/>
@@ -4075,80 +4075,80 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="4931"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4947"/>
         <source>Select to reverse movement direction on this axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz, aby zmienić kierunek ruchu na tej osi</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4661"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4934"/>
         <source>Reverse:</source>
-        <translation type="unfinished"></translation>
+        <translation>Strona odwrotna:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4693"/>
         <source>Pitch Axis</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość osi</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4862"/>
         <source>0.01098901</source>
-        <translation type="unfinished"></translation>
+        <translation>0.01098901</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4884"/>
         <source>Slew Rate:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stawki zabił:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4903"/>
         <source>Smooth out manual tilt commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Gładkie, Podręcznik plandeka poleceń</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4909"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7387"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="9004"/>
         <source>0.0</source>
-        <translation type="unfinished"></translation>
+        <translation>0.0</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4973"/>
         <source>Automated Triggering</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyzwalanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4979"/>
         <source>Trig. Chan. Neutral Position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Trygonometryczna. Chan. neutralne stanowisko:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="4998"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_CH_NEU&lt;/p&gt;&lt;p&gt;This defines the &amp;quot;neutral&amp;quot; state of the GEAR channel when no manual triggering is being done. It is used by the automated triggering to determine when it is OK to fire (it can also be thought of as the &amp;quot;on&amp;quot; position for auto-triggering). &lt;/p&gt;&lt;p&gt;This can be set to any &amp;quot;AQ&amp;quot; radio value (-1024 - +1024), for example zero for a middle switch position, or -500 for switch low. The actual radio value must be within +/- of the configured control dead-band (40 by default). So if zero is defined for this param, the actual channel value would need to be within +/- 40 (by default).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_CH_NEU&lt;/p&gt; &lt;p&gt;definiuje &quot;neutralne&quot; stan kanału biegu gdy nie ręczne wyzwalanie odbywa. Jest używany przez automatyczne wywoływanie do określenia, kiedy to jest OK do ognia (to można również traktować jako pozycja &quot;na&quot; auto-uruchamiania). &lt;/p&gt; &lt;p&gt;To można ustawić dowolną wartość radia &quot;AQ&quot; (-1024-+1024), na przykład zerowej pozycji środkowej przełącznik lub niskie -500 dla przełącznika. Wartość rzeczywista radia muszą być w skonfigurowane sterowanie zmarłych-Band (40 domyślnie). Więc jeśli zero jest zdefiniowany dla ten parametr, wartość rzeczywista kanał trzeba będzie w +/-40 (domyślnie).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5023"/>
         <source>Trigger Active PWM:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywne PWM wyzwalacza:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5042"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_PWM - Pulse width to output when trigger is active. &lt;span style=&quot; text-decoration: underline;&quot;&gt;This is for automatic mode only&lt;/span&gt; (manual mode is completely passthrough).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_PWM - szerokość impulsu do wyjścia, kiedy wyzwalacz jest aktywny. &lt;span style=&quot;text-decoration: underline;&quot;&gt; to jest tylko tryb automatyczny&lt;/span&gt; (tryb ręczny jest całkowicie passthrough).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5067"/>
         <source>Trigger Active Duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywny czas trwania wyzwalacza:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5086"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_TIM - How long to keep the trigger output level active, in ms.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_TIM - jak długo, aby zachować poziom wyzwalania wyjścia aktywnych, w Pani&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5092"/>
         <source> ms</source>
-        <translation type="unfinished"></translation>
+        <translation> MS</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5117"/>
@@ -4157,203 +4157,203 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="5211"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5227"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_DIST &amp;amp; GMBL_TRIG_TIME&lt;/p&gt;&lt;p&gt;Set one/both to a value to enable automatic triggering. The triggering starts/runs only when in FLYING state. If both are set, whichever condition is met first will fire the trigger (time is checked first). &lt;/p&gt;&lt;p&gt;Manual (GEAR channel) control has priority over automatic triggering. If manual override is active, the next auto-trigger will happen right after GEAR is moved back to neutral position, or when the next time/distance interval is reached, whichever is later.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_DIST &amp;amp; GMBL_TRIG_TIME&lt;/p&gt; &lt;p&gt;zestaw jednego lub dwóch wartość, aby umożliwić automatyczne wyzwalanie. Wyzwalanie zaczyna/działa tylko wtedy, gdy w państwie LATAJĄCE. Jeśli są ustawione, którykolwiek warunek jest spełniony pierwszy spowoduje uruchomienie wyzwalacz (czas jest sprawdzany po raz pierwszy). &lt;/p&gt; &lt;p&gt;Sterowanie ręczne (kanał GEAR) ma pierwszeństwo przed automatyczne wyzwalanie. Jeśli aktywne jest ręczne, następne auto wyzwalacz będzie stało prawo po biegu jest przemieszczany z powrotem do pozycji neutralnej, lub po osiągnięciu następnego interwału czas/odległość, którekolwiek jest późniejsze.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5120"/>
         <source>Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5148"/>
         <source> s</source>
-        <translation type="unfinished"></translation>
+        <translation> s</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5185"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5440"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6411"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5214"/>
         <source>Interval Triggers</source>
-        <translation type="unfinished"></translation>
+        <translation>Interwał wyzwalaczy</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5230"/>
         <source>Distance:</source>
-        <translation type="unfinished"></translation>
+        <translation>Odległość:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5250"/>
         <source>Misc. Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia dodatkowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5283"/>
         <source>Navigation &amp;&amp; Control Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>Nawigacja &amp;&amp; kontroli limitów</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5298"/>
         <source>Max. Yaw Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Odchylenie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5317"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum navigation yaw rate deg/s (in auto modes).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Nawigacji maksymalne odchylenia kurs deg/s (w trybie auto).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5342"/>
         <source>Max. Speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Prędkość</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5361"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum speed constraint while in automated modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Ograniczenie prędkości maksymalnej w automatycznych trybów.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5364"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5402"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5468"/>
         <source> m/s</source>
-        <translation type="unfinished"></translation>
+        <translation> m/s</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5380"/>
         <source>Max. Descent Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Opadania</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5399"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum descent rate while in automated modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalnie opadania w automatycznych trybów.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5418"/>
         <source>Ceiling Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość sufitu</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5437"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Meters relative to home alt. Maximum altitude in AH/PH/mission/dvh modes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;m do domu lub maksymalna wysokość w trybach AH/PH/misja/pod sufitem&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5465"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Default velocity for mission landing leg when none is specified in mission plan.  Used as landing descent rate during failsafe activation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Domyślna prędkość na nodze lądowania misji gdy brak jest określony w planie misji.  Używane jako lądowania opadania podczas aktywacji failsafe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5484"/>
         <source>Dflt. Landing Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Lądowania stopy Dflt.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5494"/>
         <source>Mounting &amp;&amp; Environment</source>
-        <translation type="unfinished"></translation>
+        <translation>Montaż &amp;&amp; środowiska</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5506"/>
         <source>IMU Rotation:</source>
-        <translation type="unfinished"></translation>
+        <translation>IMU rotacji:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5525"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flight controller/IMU orientation compared to vehicle front (negative values for CCW rotation) &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Lotu kontroler/IMU orientację w porównaniu z przodu pojazdu (ujemne wartości obrotu CCW)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5528"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5566"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5604"/>
         <source> °</source>
-        <translation type="unfinished"></translation>
+        <translation> °</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5544"/>
         <source>Magnetic Declination:</source>
-        <translation type="unfinished"></translation>
+        <translation>Deklinacja magnetyczna:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5563"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local declination in operating area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Lokalnej deklinacji w okolicach.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5582"/>
         <source>Magnetic Inclination:</source>
-        <translation type="unfinished"></translation>
+        <translation>Inklinacja magnetyczna:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5601"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local inclination in operating area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Lokalnych nachylenia w okolicach.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5626"/>
         <source>Motor / Esc Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik / Esc ustawienia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5638"/>
         <source>Arm PWM:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ramię PWM:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5657"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width at which the ESCs should arm, but motors not running yet.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Puls szerokości, w którym należy uzbroić RSG, ale silniki nie działa jeszcze.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5682"/>
         <source>Min. PWM:</source>
-        <translation type="unfinished"></translation>
+        <translation>Min. PWM:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5701"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width sent to ESCs at which motors should start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Szerokość wysyłane do RSG, w których należy uruchomić Silniki impulsowe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5726"/>
         <source>Starting PWM:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyjścia PWM:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5745"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width sent to ESCs at which motors should start&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Szerokość impulsu wysyłane do RSG, w których należy uruchomić silniki&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5770"/>
         <source>Max. PWM:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. PWM:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5789"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum pulse width sent to ESCs which should result in maximum motor output&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalna szerokość impulsu wysyłane do RSG, które powinny spowodować maksymalną moc silnika&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5857"/>
         <source>Communication Ports</source>
-        <translation type="unfinished"></translation>
+        <translation>Porty komunikacyjne</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5884"/>
         <source>Main FTDI/serial connector at back of board</source>
-        <translation type="unfinished"></translation>
+        <translation>Głównym złącza szeregowego FTDI tyłu deska</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5887"/>
         <source>Serial Port 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Port szeregowy 1</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5904"/>
@@ -4363,7 +4363,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="6257"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6823"/>
         <source>Baud Rate:</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkość transmisji:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5939"/>
@@ -4371,7 +4371,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="6185"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6292"/>
         <source>Protocol:</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokół:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5948"/>
@@ -4379,7 +4379,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="6194"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6301"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5958"/>
@@ -4387,7 +4387,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="6204"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6311"/>
         <source>MAVLink</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5968"/>
@@ -4395,777 +4395,777 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="6214"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6321"/>
         <source>AQ Serial</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ seryjny</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6023"/>
         <source>J2 expansion header UART2</source>
-        <translation type="unfinished"></translation>
+        <translation>J2 ekspansji nagłówek UART2</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6026"/>
         <source>Serial Port 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Port szeregowy 2</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6130"/>
         <source>USB Interface (AQ v7)</source>
-        <translation type="unfinished"></translation>
+        <translation>Interfejs USB (AQ v7)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6133"/>
         <source>Serial Port 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Port szeregowy 3</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6237"/>
         <source>OMAP Interface (AQ v7)</source>
-        <translation type="unfinished"></translation>
+        <translation>Interfejs OMAP (AQ v7)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6240"/>
         <source>Serial Port 4</source>
-        <translation type="unfinished"></translation>
+        <translation>Port szeregowy 4</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6341"/>
         <source>Radio Failsafe</source>
-        <translation type="unfinished"></translation>
+        <translation>Odporny na uszkodzenia radia</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6347"/>
         <source>Stage1 Action:</source>
-        <translation type="unfinished"></translation>
+        <translation>St.1 działania:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6370"/>
         <source>Stage2 Action:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stage2 działania:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6389"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Land: Immediately start descent and disarm at landing. &lt;/p&gt;&lt;p&gt;RTH, Land: First return to home position and altitude (if set), then start descent.&lt;/p&gt;&lt;p&gt;Ascend, RTH, Land: If below home position altitude, then first ascend to that altitude, then return to home position, then descend.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NOTE&lt;/span&gt;: Landing velocity is determined by the NAV_LANDING_VEL parameter (aka Dflt. Landing Rate on this settings screen).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Ziemi: natychmiast rozpocząć zejście i rozbrojenie w docelowej.&lt;/p&gt;&lt;p&gt;RTH, ziemi: pierwszy powrót do domu położenia i wysokości (jeśli zestaw), a następnie rozpocząć zejście.&lt;/p&gt;&lt;p&gt;Ascend, RTH, ziemi: Jeśli poniżej wysokości położenia domu, po raz pierwszy wstąpić do tej wysokości, a następnie wrócić do pozycji, a następnie zejść.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600;&quot;&gt; Uwaga&lt;/span&gt;: lądowania prędkość jest określona przez parametr NAV_LANDING_VEL (aka Dflt. lądowania stopy na ten ekran).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6408"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add this many meters to home altitude when Stage 2 failsafe is activated using the &amp;quot;Ascend, RTH, Land&amp;quot; option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Dodać wiele metrów do wysokości domu gdy failsafe 2 etapu jest aktywowane za pomocą opcji &quot;Serwer Ascend, RTH, Land&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6421"/>
         <source>Add Altitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj wysokości:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6431"/>
         <source>Low Battery Warnings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrzeżenia o niskim poziomie energii baterii</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6440"/>
         <source>Stage 1 Warning:</source>
-        <translation type="unfinished"></translation>
+        <translation>Etap 1 Ostrzeżenie:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6459"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6497"/>
         <source>Voltage per battery cell</source>
-        <translation type="unfinished"></translation>
+        <translation>Napięcia na baterii komórka</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6462"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="6500"/>
         <source>V</source>
-        <translation type="unfinished"></translation>
+        <translation>V</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6478"/>
         <source>Stage 2 Warning:</source>
-        <translation type="unfinished"></translation>
+        <translation>Etap 2 ostrzeżenia:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6562"/>
         <source>ESC32 Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia ESC32</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6587"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6595"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7380"/>
         <source>P Term:</source>
-        <translation type="unfinished"></translation>
+        <translation>P termin:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6602"/>
         <source>The P term for the RPM PI controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Termin P dla kontrolera PI obr. / min</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6609"/>
         <source>I Term:</source>
-        <translation type="unfinished"></translation>
+        <translation>Termin:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6616"/>
         <source>The I term for the RPM PI controller</source>
-        <translation type="unfinished"></translation>
+        <translation>Termin dla kontrolera PI obr. / min</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6623"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7243"/>
         <source>Max. Current:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Prąd:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6630"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum amount of current in amps that the ESC will allow.  Current is dynamically regulated.  Always set this value low and only increase it if you know what you are doing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalnego prądu wzmacniaczy, które pozwolą ESC.  Dynamicznie reguluje prąd.  Zawsze ustawić tej wartości niskie i tylko ją zwiększyć, jeśli wiesz co robisz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6637"/>
         <source>Advance:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaliczka:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6644"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The amount of timing advance in electrical degrees.  There are 60 electrical degrees in a commutation cycle.  This value can be set from 0 to 30 degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Ilość czas zaliczki w elektrycznych stopni.  60 Stopni elektryczne są w cyklu komutacyjne.  Można ustawić tę wartość od 0 do 30 stopni.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6651"/>
         <source>Startup Mode:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tryb uruchamiania:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6667"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the run mode that the ESC defaults to when first powered on. 0 == normal open loop operation, 1 == closed loop RPM mode, 2 == closed loop thrust mode (not yet implemented).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;To jest to uruchomić tryb ESC domyślnie, gdy po raz pierwszy włączony. 0 == normalne otwartej pętli operacji, 1 == RPM zamkniętego, 2 == trybie zamkniętej pętli wzdłużne (jeszcze nie jest zaimplementowana).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6674"/>
         <source>CAN ID:</source>
-        <translation type="unfinished"></translation>
+        <translation>MOŻE IDENTYFIKATOR:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6690"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If using CAN Bus with AutoQuad, this ID must match the motor port number from the mixing table (1-16).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Jeśli za pomocą magistrali CAN z AutoQuad, ten identyfikator musi odpowiadać numeru portu silnika z tabeli mieszania (1-16).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6704"/>
         <source>2</source>
-        <translation type="unfinished"></translation>
+        <translation>2</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6709"/>
         <source>3</source>
-        <translation type="unfinished"></translation>
+        <translation>3</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6714"/>
         <source>4</source>
-        <translation type="unfinished"></translation>
+        <translation>4</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6719"/>
         <source>5</source>
-        <translation type="unfinished"></translation>
+        <translation>5</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6724"/>
         <source>6</source>
-        <translation type="unfinished"></translation>
+        <translation>6</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6729"/>
         <source>7</source>
-        <translation type="unfinished"></translation>
+        <translation>7</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6734"/>
         <source>8</source>
-        <translation type="unfinished"></translation>
+        <translation>8</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6739"/>
         <source>9</source>
-        <translation type="unfinished"></translation>
+        <translation>9</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6744"/>
         <source>10</source>
-        <translation type="unfinished"></translation>
+        <translation>10</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6749"/>
         <source>11</source>
-        <translation type="unfinished"></translation>
+        <translation>11</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6754"/>
         <source>12</source>
-        <translation type="unfinished"></translation>
+        <translation>12</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6759"/>
         <source>13</source>
-        <translation type="unfinished"></translation>
+        <translation>13</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6764"/>
         <source>14</source>
-        <translation type="unfinished"></translation>
+        <translation>14</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6769"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="9074"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="9094"/>
         <source>15</source>
-        <translation type="unfinished"></translation>
+        <translation>15</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6774"/>
         <source>16</source>
-        <translation type="unfinished"></translation>
+        <translation>16</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6789"/>
         <source>P N-Factor:</source>
-        <translation type="unfinished"></translation>
+        <translation>P N-współczynnik:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6799"/>
         <source>I N-Factor:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mam N-współczynnik:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6809"/>
         <source>Motor poles:</source>
-        <translation type="unfinished"></translation>
+        <translation>Silnik Polaków:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6816"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; The number of magnetic poles used in the motor’s construction.  This value only needs to be set correctly if you want to use the RPM closed loop mode.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Liczba biegunów magnetycznych w konstrukcji silnika.  Ta wartość tylko musi być ustawiona poprawnie, jeśli chcesz użyć RPM zamknięta pętla tryb.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6836"/>
         <source>The UART baud rate.  Allowable range 9600 to 921600</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkość transmisji UART.  Dopuszczalny zakres 9600-921600</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6852"/>
         <source>Braking:</source>
-        <translation type="unfinished"></translation>
+        <translation>Układ hamulcowy:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6859"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Turns on regenerative braking in closed loop modes (experimental),  0 == off, 1 == on. Closed Loop modes only!!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Włącza regeneracyjne hamowania w zamkniętej pętli tryby (eksperymentalne), 0 == od 1 == na. Zamknięta pętla tryby tylko!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6866"/>
         <source>Direction:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kierunek:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6882"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Motor direction. 1 = forward, -1 = reverse.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Motor kierunku. 1 = do przodu, -1 = odwrotnej.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6886"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Do przodu</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6891"/>
         <source>Reverse</source>
-        <translation type="unfinished"></translation>
+        <translation>Odwrócić</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6916"/>
         <source>link esc32</source>
-        <translation type="unfinished"></translation>
+        <translation>ogniwo esc32</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6958"/>
         <source>connect esc32</source>
-        <translation type="unfinished"></translation>
+        <translation>połączenia esc32</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6978"/>
         <source>Settings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6985"/>
         <source>Gets the current configuration parameters in ESC32 volatile memory, and displays them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobiera aktualne parametry konfiguracja w pamięci nietrwałej ESC32 i wyświetla je.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6988"/>
         <source>read current config</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeczytaj obecny plik konfiguracyjny</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6995"/>
         <source>Saves currently displayed parameters to ESC32 memory (with option to save to flash memory).</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisuje aktualnie wyświetlane parametry do ESC32 pamięci (z opcja Zapisz do pamięci flash).</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6998"/>
         <source>send config to esc32</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij config do esc32</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7005"/>
         <source>Loads parameter values stored in flash memory to volatile memory, requests them, and then displays them here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładunki parametru wartości przechowywane w pamięci flash do pamięci nietrwałej, zwraca je, a następnie wyświetla je tutaj.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7008"/>
         <source>reload saved config</source>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj ponownie zapisać config</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7015"/>
         <source>Loads default parameter values into ESC32 volatile memory, requests them, and then displays them here.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładuje domyślne wartości parametrów do pamięci nietrwałej ESC32, zwraca je, a następnie wyświetla je tutaj.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7018"/>
         <source>load default config</source>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj domyślne config</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7041"/>
         <source>Save displayed values to a text file on your computer (esc32.txt format).</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz wartości wyświetlane tekst w pliku na komputerze (esc32.txt format).</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7044"/>
         <source>save to file</source>
-        <translation type="unfinished"></translation>
+        <translation>zapisywanie do pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7051"/>
         <source>Load saved values from a text file on your computer (esc32.txt format), and display them (does not send to ESC32).</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartości obciążenia zapisane z tekstu pliku na komputerze (esc32.txt format) i wyświetlać je (nie wysyła do ESC32).</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7054"/>
         <source>load from file</source>
-        <translation type="unfinished"></translation>
+        <translation>załadować z pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7117"/>
         <source>Run:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchom:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7124"/>
         <source>arm</source>
-        <translation type="unfinished"></translation>
+        <translation>ramię</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7131"/>
         <source>start</source>
-        <translation type="unfinished"></translation>
+        <translation>Start</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7140"/>
         <source>RPM:</source>
-        <translation type="unfinished"></translation>
+        <translation>OBR. / MIN:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7181"/>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7234"/>
         <source>Calibration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalibracja:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7292"/>
         <source>start calibration</source>
-        <translation type="unfinished"></translation>
+        <translation>rozpocząć kalibracji</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7315"/>
         <source>Start Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Początek dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7338"/>
         <source>FW version: [not connected]</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja FW: [nie podłączony]</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7348"/>
         <source>Servo Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>SERVO tryb</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7356"/>
         <source>Duty Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dyżuru:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7363"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation>%</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7366"/>
         <source>16.0</source>
-        <translation type="unfinished"></translation>
+        <translation>16.0</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7373"/>
         <source>0.05</source>
-        <translation type="unfinished"></translation>
+        <translation>0.05</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7394"/>
         <source>D Term:</source>
-        <translation type="unfinished"></translation>
+        <translation>D termin:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7401"/>
         <source>Max. Rate:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Kurs:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7408"/>
         <source>deg/sec</source>
-        <translation type="unfinished"></translation>
+        <translation>stopni na sekundę</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7411"/>
         <source>1000.0</source>
-        <translation type="unfinished"></translation>
+        <translation>1000.0</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7425"/>
         <source>deg</source>
-        <translation type="unfinished"></translation>
+        <translation>deg</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7428"/>
         <source>360.0</source>
-        <translation type="unfinished"></translation>
+        <translation>360.0</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7453"/>
         <source>PWM Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Wejście PWM</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7464"/>
         <source>Min. Valid:</source>
-        <translation type="unfinished"></translation>
+        <translation>Min. prawidłowy:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7471"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum input PWM pulse length in microseconds which the ESC will consider to be valid. For DJI Naza this value has to be 900!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Minimum wejścia długość impulsu PWM w mikrosekundach, które ESC będzie uznać za prawidłowe. DJI Naza wartość ta ma być 900!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7478"/>
         <source>Min. Throttle:</source>
-        <translation type="unfinished"></translation>
+        <translation>Min. przepustnicy:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7485"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the lowest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Długość impulsu PWM wejście w mikrosekundach dla najniższego ustawienia przepustnicy.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7492"/>
         <source>Motor Start:</source>
-        <translation type="unfinished"></translation>
+        <translation>Start silnika:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7502"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds at which the motor will be started.  Once running, the throttle can be brought as low as PWM_LO_VALUE as long as the motor does not stall.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Długość impulsu PWM wejście w mikrosekundach, przy których silnik zostanie uruchomiony.  Raz uruchomiony, przepustnicy może być wniesiona tak niskie, jak PWM_LO_VALUE, tak długo, jak silnik nie stragan.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7509"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7825"/>
         <source>Min. Period:</source>
-        <translation type="unfinished"></translation>
+        <translation>Min. okres:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7516"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 450Hz. For MultiWii and ArduCopter APM this value needs to be changed to 2000!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Minimalny okres w mikrosekundach, że ESC rozważy wejście PWM przebiegu jest ważny.  Domyślna wartość reprezentuje około 450Hz. Dla MultiWii i ArduCopter APM wartość ta musi być zmieniona na 2000!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7523"/>
         <source>Low Pass Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr dolnoprzepustowy:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7530"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass on PWM input values (0 = none, 10 = heavy, no upper limit)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;wartości wejściowe lowpass na PWM (0 = brak, 10 = ciężkie, nie górnego limitu)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7544"/>
         <source>Max. Valid:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Ważne:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7551"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum input PWM pulse length in microseconds which the ESC will consider to be valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalne wejście długość impulsu PWM w mikrosekundach, które ESC będzie uznać za prawidłowe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7558"/>
         <source>Max. Throttle:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Przepustnicy:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7565"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the highest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Wprowadzania PWM długość impulsu w mikrosekundach najwyższe ustawienie przepustnicy.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7572"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7930"/>
         <source>Max. Period:</source>
-        <translation type="unfinished"></translation>
+        <translation>Max. Okres:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7579"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 40Hz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalny okres w mikrosekundach, że ESC rozważy wejście PWM przebiegu jest ważny.  Domyślna wartość reprezentuje około 40Hz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7586"/>
         <source>RPM Scale:</source>
-        <translation type="unfinished"></translation>
+        <translation>Obr. / min skalą:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7593"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The scale of the input PWM pulse length.  In closed loop RPM run mode, PWM_LO_VALUE will indicate 0 RPM and PWM_HI_VALUE will indicate this RPM. Closed loop modes only!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Skalę wprowadzania długość impulsu PWM.  W zamkniętej pętli, które tryb uruchamiania obr. / min PWM_LO_VALUE będzie wskazują, że 0 obr/min i PWM_HI_VALUE będzie wskazywać ten obr. / min. Zamknięta pętla tryby tylko!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7631"/>
         <source>Calibrated Terms</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalibrowane warunki</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7639"/>
         <source>CL 1:</source>
-        <translation type="unfinished"></translation>
+        <translation>CL 1:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7646"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7653"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7674"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7681"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7695"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;CL1TERM przez CL5TERM są używane przez wirtualnego ograniczniki prądu, który nie będzie działać, dopóki nie są ustawione.  Jeśli nie ustawiono CL1TERM poprzez CL5TERM, kontroler PI posłużą do ograniczenie prądowe zamiast. CL1TERM przez CL5TERM można obliczyć za pomocą programu esc32Cal z opcją –cl.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7660"/>
         <source>CL 2:</source>
-        <translation type="unfinished"></translation>
+        <translation>CL 2:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7667"/>
         <source>CL 3:</source>
-        <translation type="unfinished"></translation>
+        <translation>CL 3:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7688"/>
         <source>CL 4:</source>
-        <translation type="unfinished"></translation>
+        <translation>CL 4:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7702"/>
         <source>CL 5:</source>
-        <translation type="unfinished"></translation>
+        <translation>CL 5:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7709"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7723"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Paszy do przodu warunki stosowane dla kontrolera obr. / min.  Obr. / min zamkniętego nie będzie działać, dopóki FF1 &amp;amp; FF2 warunki zostały ustalone. Wartości te należy obliczyć za pomocą programu esc32Cal z opcją –r2v.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7716"/>
         <source>FF 1:</source>
-        <translation type="unfinished"></translation>
+        <translation>FF 1:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7730"/>
         <source>FF 2:</source>
-        <translation type="unfinished"></translation>
+        <translation>FF 2:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7740"/>
         <source>THR 1:</source>
-        <translation type="unfinished"></translation>
+        <translation>THR 1:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7747"/>
         <source>THR 2:</source>
-        <translation type="unfinished"></translation>
+        <translation>THR 2:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7814"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaawansowane</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7832"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Komutacyjne minimalny termin w mikrosekundach&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7839"/>
         <source>Blanking:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygaszania:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7846"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of microseconds to ignore back EMF after a commutation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Liczba mikrosekund do zignorowania EMF z powrotem po komutacyjne.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7853"/>
         <source>Start Voltage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Początek napięcia:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7860"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The amount of voltage presented to the motor during startup. Allowable range is 0.1v to 3.0v&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Ilość napięcia przedstawione podczas uruchamiania silnika. Dopuszczalny zakres to 0.1V do 3.0V&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7867"/>
         <source>Start Align Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczęcie dostosowania czasu:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7874"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ms to align rotor in known position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;ms, aby wyrównać wirnika w znanej pozycji&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7881"/>
         <source>Start Align Volt.:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpoczęcie dostosowania v.:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7888"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;max voltage during align (around 0.8 * START_VOLTAGE)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;max napięcia podczas Wyrównaj (około 0,8 * START_VOLTAGE)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7895"/>
         <source>Good Dets. Start:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dobry Dets. Rozpoczęcie:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7902"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Once started, the number of good, in order zero crossings needed to be detected before the motor is considered to be in the running state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Po uruchomieniu, ilość dobra, w celu zerowych przejazdów potrzebne być wykryte przed silnika jest w stanie uruchomienia.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7909"/>
         <source>RPM Low Pass:</source>
-        <translation type="unfinished"></translation>
+        <translation>Obr. / min Low Pass:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7916"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass measured RPM values for closed loop control (0 = none, 0.99 = max, &amp;gt;=1 not allowed)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;lowpass mierzone wartości obr. / min dla zamkniętej pętli sterowania (0 = brak, 0,99 = max, &amp;gt; = 1 nie wolno)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7937"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Komutacyjne maksymalny termin w mikrosekundach&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7944"/>
         <source>Switch Freq:</source>
-        <translation type="unfinished"></translation>
+        <translation>Przełącznik Freq:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7951"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The output PWM pulse frequency used to power the motor windings in KHz.  Valid range is from 4KHz to 64KHz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Wyjście PWM puls częstotliwości wykorzystywane do zasilania silnika uzwojenia w KHz.  Prawidłowym zakresem jest z 4KHz 64KHz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7958"/>
         <source>Start Steps Num:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchomić klawisz Num kroki:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7965"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;steps without commutation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;kroki bez komutacyjne&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7972"/>
         <source>Start Steps Period:</source>
-        <translation type="unfinished"></translation>
+        <translation>Początek okresu kroki:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7979"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us betweet steps&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;nas betweet kroki&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7986"/>
         <source>Start Step Accel.:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchom krok Accel.:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7993"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us each following step will be shorter (acceleration)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;nas każdy następny krok będzie krótszy (przyspieszenie)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8003"/>
         <source>Bad Dets. Disarm:</source>
-        <translation type="unfinished"></translation>
+        <translation>Złe Dets. Rozbrajanie:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8010"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; The number of missed zero crossing detects allowed before the ESC considers the motor not to be running at which point will go into the disarmed state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Liczba nieodebranych zero skrzyżowania wykrywa dozwolone przed ESC uważa silnika nie jest systemem w którym momencie przejdzie w stan rozbrojony.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8023"/>
         <source>AQ Calibration</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ kalibracji</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8039"/>
         <source>Step1: cal --rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Krok 1: cal - kurs</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8050"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8097"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8144"/>
         <source>Start cal.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zacząć cal.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8060"/>
@@ -5176,27 +5176,27 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="8480"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8587"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Przerwanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8086"/>
         <source>Step2: cal --acc</source>
-        <translation type="unfinished"></translation>
+        <translation>Krok 2: cal - wg</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8133"/>
         <source>Step3: cal --mag</source>
-        <translation type="unfinished"></translation>
+        <translation>Krok 3: cal - mag</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8151"/>
         <source>check Variance</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź wariancji</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8187"/>
         <source>Step4a: sim3 --gyo</source>
-        <translation type="unfinished"></translation>
+        <translation>Step4a: sim3--gyo</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8206"/>
@@ -5204,7 +5204,7 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="8420"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8527"/>
         <source>use variance</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj wariancji</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8229"/>
@@ -5212,257 +5212,257 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/qgcautoquad.ui" line="8443"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8550"/>
         <source>use stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj stop</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8256"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8363"/>
         <source>Start sim.</source>
-        <translation type="unfinished"></translation>
+        <translation>Początek sim.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8294"/>
         <source>Step4b: sim3 --acc</source>
-        <translation type="unfinished"></translation>
+        <translation>Step4b: sim3--acc</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8401"/>
         <source>Step5: sim3 --gyo --acc</source>
-        <translation type="unfinished"></translation>
+        <translation>Step5: sim3--gyo--acc</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8470"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8577"/>
         <source>Start sim</source>
-        <translation type="unfinished"></translation>
+        <translation>Początek sim</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8508"/>
         <source>Step6: sim3 --mag --incl</source>
-        <translation type="unfinished"></translation>
+        <translation>Step6: sim3 - mag - incl</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8615"/>
         <source>All generated parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie generowane parametry</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8645"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8685"/>
         <source>Static Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi statyczne</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8713"/>
         <source>Add Static</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać statyczne</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8720"/>
         <source>Remove Static</source>
-        <translation type="unfinished"></translation>
+        <translation>Usunąć statyczne</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8736"/>
         <source>Dynamic Logs</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi dynamiczne</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8754"/>
         <source>Remove Dynamic</source>
-        <translation type="unfinished"></translation>
+        <translation>Usunąć dynamiczny</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8761"/>
         <source>Add Dynamic</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać dynamiczny</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8787"/>
         <source>Calibration Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia kalibracji</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8813"/>
         <source>Calc</source>
-        <translation type="unfinished"></translation>
+        <translation>Calc</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8826"/>
         <source>Enter magnetic inclination in degrees.minutes format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź Inklinacja magnetyczna w formacie degrees.minutes.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8839"/>
         <source>Enter magnetic declination in degrees.minutes format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź Deklinacja magnetyczna w formacie degrees.minutes.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8859"/>
         <source>&lt; Results</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt; Wyniki</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8869"/>
         <source>Mag. Dec. (eg. 1.54)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mag. grudzień (np. 1,54)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8876"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8890"/>
         <source>(DD.MM)</source>
-        <translation type="unfinished"></translation>
+        <translation>(DD.MM)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8883"/>
         <source>Mag. Inc. (eg. -66.43)</source>
-        <translation type="unfinished"></translation>
+        <translation>Mag. Inc. (np.-66.43)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8905"/>
         <source>Using DIMU</source>
-        <translation type="unfinished"></translation>
+        <translation>Za pomocą DIMU</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8923"/>
         <source>Create</source>
-        <translation type="unfinished"></translation>
+        <translation>Tworzenie</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8936"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8949"/>
         <source>Generated params file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik wygenerowany parametry:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8964"/>
         <source>Devel</source>
-        <translation type="unfinished"></translation>
+        <translation>Devel</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8979"/>
         <source>Focal Length in mtrs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość ogniskowej w pozycji rynkowej.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8986"/>
         <source>0.01</source>
-        <translation type="unfinished"></translation>
+        <translation>0.01</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8997"/>
         <source>Yaw Offset [radians]</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenia przesunięcie [radianów]</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9015"/>
         <source>Pitch Offset [radians]</source>
-        <translation type="unfinished"></translation>
+        <translation>Przesunięcie boisku [radianów]</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9022"/>
         <source>0.7854</source>
-        <translation type="unfinished"></translation>
+        <translation>0.7854</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9033"/>
         <source>Pixel Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozmiar w pikselach</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9040"/>
         <source>7e-6</source>
-        <translation type="unfinished"></translation>
+        <translation>7e-6</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9051"/>
         <source>Camera number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numer kamery</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9067"/>
         <source>X-min changes [pix]</source>
-        <translation type="unfinished"></translation>
+        <translation>X-min zmienia [pix]</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9087"/>
         <source>Y-min changes [pix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Y-min zmienia [pix]</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9113"/>
         <source>Select File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9120"/>
         <source>Start Object Tracking</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocznij śledzenie obiektu</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9146"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Heading Absolut in ° (0.0-359.9)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Pozycji Absolut w ° (0,0-359.9)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9160"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="9174"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="9188"/>
         <source>Free</source>
-        <translation type="unfinished"></translation>
+        <translation>Darmowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9200"/>
         <source>Send To Aq</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij do Aq</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="557"/>
         <source>Select AQ Static Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz AQ statyczny plik dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="558"/>
         <location filename="../../src/ui/qgcautoquad.cc" line="605"/>
         <source>AQ Log File (*.LOG);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik dziennika AQ (*.log);;Wszystkie typy plików (*.*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="604"/>
         <source>Select AQ Dynamic Log File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz AQ dynamiczny pliku dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="648"/>
         <location filename="../../src/ui/qgcautoquad.cc" line="688"/>
         <source>Select Parameters File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz parametry pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="649"/>
         <location filename="../../src/ui/qgcautoquad.cc" line="689"/>
         <source>AQ Parameter File (*.params);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ parametr pliku (*.params);;Wszystkie typy plików (*.*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="737"/>
         <location filename="../../src/ui/qgcautoquad.cc" line="1426"/>
         <location filename="../../src/ui/qgcautoquad.cc" line="1465"/>
         <source>Could not open params file. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można otworzyć pliku parametrów. %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="754"/>
         <source>Unable to open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można otworzyć pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1202"/>
@@ -5479,52 +5479,52 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1255"/>
         <source>FW version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Wersja FW: %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1266"/>
         <source>Confirm Disconnect AutoQuad</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdzić odłączenie AutoQuad</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1401"/>
         <source>Wrote %1 params.</source>
-        <translation type="unfinished"></translation>
+        <translation>Napisał %1 params.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1405"/>
         <source>Something went wrong trying to store the configuration. Please retry!</source>
-        <translation type="unfinished"></translation>
+        <translation>Coś się zepsuło, próbujesz zapisać konfigurację. Spróbuj ponownie!</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1419"/>
         <source>Select or Create ESC32 Settings File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz lub Utwórz plik ustawień ESC32</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1420"/>
         <source>Parameter File (*.txt);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr pliku (*.txt);;Wszystkie typy plików (*.*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1457"/>
         <source>Select Saved Parameters File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznacz zapisany plik parametrów</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1458"/>
         <source>Parameter Files (*.txt);;All File Types (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr pliki (*.txt);;Wszystkie typy plików (*.*)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1828"/>
         <source>AQ or ESC32 firmware (*.hex)</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ lub ESC32 oprogramowania (* .hex)</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1850"/>
         <source>Could not read hex file. %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można odczytać pliku hex. %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1877"/>
@@ -5536,7 +5536,7 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1880"/>
         <source>WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrzeżenie: Zaprogramowanie firmware&apos;u będzie zresetować wszystkie ustawienia AutoQuad powrót do wartości domyślnych. Upewnij się, że masz parametry generowane i zapisane ustawienia niestandardowe.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1883"/>
@@ -5548,27 +5548,27 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="1889"/>
         <source>Confirm Firmware Flashing</source>
-        <translation type="unfinished"></translation>
+        <translation>Potwierdzić flashowania Firmware</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2416"/>
         <source>One or more parameter(s) could not be saved:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można zapisać jeden lub więcej parametrów:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2428"/>
         <source>Cannot save due to error(s):</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można zapisać ze względu na błędy:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2433"/>
         <source>Possible problem(s) exist:</source>
-        <translation type="unfinished"></translation>
+        <translation>Możliwe problemy istnieją:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2434"/>
         <source>Do you wish to ignore this and continue saving?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy chcesz to zignorować i kontynuować zapisywanie?</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2453"/>
@@ -5579,57 +5579,57 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2453"/>
         <source>have</source>
-        <translation type="unfinished"></translation>
+        <translation>mają</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2453"/>
         <source>has</source>
-        <translation type="unfinished"></translation>
+        <translation>ma</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2467"/>
         <source>Verify Changed Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź, czy zmiany parametrów</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2475"/>
         <source>Do you wish to continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy chcesz kontynuować?</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2483"/>
         <source>Save to Volatile Memory</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz do pamięci nietrwałej</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2484"/>
         <source>The settings will be immediately active and persist UNTIL the flight controller is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia zostaną natychmiast aktywne i utrzymują się aż do ponownego uruchomienia kontrolera lotu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2487"/>
         <source>Save to Permanent Memory</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz do pamięci stałej</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2488"/>
         <source>The settings will be immediately active and persist AFTER flight controller is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia zostaną natychmiast aktywne i utrzymują się po ponownym uruchomieniu kontrolera lotu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2491"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2492"/>
         <source>Do not save any settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie zapisać ustawienia.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.cc" line="2801"/>
         <source>PARAMETER READ/WRITE TIMEOUT! Missing: %1 read, %2 write.</source>
-        <translation type="unfinished"></translation>
+        <translation>ODCZYT/ZAPIS PARAMETRU TIMEOUT! Brakuje: Czytaj %1, %2 pisać.</translation>
     </message>
 </context>
 <context>
@@ -5637,111 +5637,111 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="39"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrobić</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="46"/>
         <source>&lt;Button Label&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt; Etykietę Przycisku &gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="53"/>
         <source>&lt;Button Description Label (in front of button)&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt; Przycisk Opis Etykiety (przed przycisk) &gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="66"/>
         <source>Unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez nazwy</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="73"/>
         <source>Component ID: </source>
-        <translation type="unfinished"></translation>
+        <translation>Identyfikator składnika: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="86"/>
         <source>Set the confirm flag for this button. Some commands require that first one command is sent without confirm flag and then a second, equal command with confirm flag. This ensures safety.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw flagę potwierdź ten przycisk. Niektóre polecenia wymagają, że pierwsza polecenia są wysyłane bez potwierdzenia flagę, a następnie drugi, równe polecenia flagą Potwierdź. Gwarantuje to bezpieczeństwo.</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="89"/>
         <source>Set CONFIRM flag</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw flaga Potwierdź</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="98"/>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="101"/>
         <source>PARAM1 Value as defined in MAV_CMD list</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr1 wartość określoną w wykazie MAV_CMD</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="104"/>
         <source>P1 </source>
-        <translation type="unfinished"></translation>
+        <translation>P1 </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="117"/>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="120"/>
         <source>PARAM2 Value as defined in MAV_CMD list</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość parametr2 zdefiniowanych na liście MAV_CMD</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="123"/>
         <source>P2: </source>
-        <translation type="unfinished"></translation>
+        <translation>P2: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="136"/>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="139"/>
         <source>PARAM3 Value as defined in MAV_CMD list</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr3 wartość określoną w wykazie MAV_CMD</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="142"/>
         <source>P3: </source>
-        <translation type="unfinished"></translation>
+        <translation>P3: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="155"/>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="158"/>
         <source>PARAM4 Value as defined in MAV_CMD list</source>
-        <translation type="unfinished"></translation>
+        <translation>PARAM4 wartość określoną w wykazie MAV_CMD</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="161"/>
         <source>P4: </source>
-        <translation type="unfinished"></translation>
+        <translation>P4: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="174"/>
         <source>P5: </source>
-        <translation type="unfinished"></translation>
+        <translation>P5: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="187"/>
         <source>P6: </source>
-        <translation type="unfinished"></translation>
+        <translation>P6: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="200"/>
         <source>P7: </source>
-        <translation type="unfinished"></translation>
+        <translation>P7: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="221"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCCommandButton.ui" line="231"/>
         <source>Keep parameters visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachować parametry widoczne</translation>
     </message>
 </context>
 <context>
@@ -5749,32 +5749,32 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/QGCCore.cc" line="116"/>
         <source>Loading application fonts</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładowanie czcionek aplikacji</translation>
     </message>
     <message>
         <location filename="../../src/QGCCore.cc" line="132"/>
         <source>Starting Communication Links</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchamianie połączeń komunikacyjnych</translation>
     </message>
     <message>
         <location filename="../../src/QGCCore.cc" line="136"/>
         <source>Starting UAS Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchamianie menedżera ZWZ</translation>
     </message>
     <message>
         <location filename="../../src/QGCCore.cc" line="140"/>
         <source>Starting User Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Począwszy od interfejsu użytkownika</translation>
     </message>
     <message>
         <location filename="../../src/QGCCore.cc" line="165"/>
         <source>Default Settings Loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne ustawienia załadowany</translation>
     </message>
     <message>
         <location filename="../../src/QGCCore.cc" line="165"/>
         <source>QGroundControl has been upgraded from version %1 to version %2. Some of your user preferences have been reset to defaults for safety reasons. Please adjust them where needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>QGroundControl został uaktualniony z wersji %1 do wersji %2. Niektóre preferencje użytkownika zostały zresetowane do domyślnych ze względów bezpieczeństwa. Proszę dostosować je w razie potrzeby.</translation>
     </message>
 </context>
 <context>
@@ -5782,47 +5782,47 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="26"/>
         <source>CMD </source>
-        <translation type="unfinished"></translation>
+        <translation>CMD </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="42"/>
         <source>P1 </source>
-        <translation type="unfinished"></translation>
+        <translation>P1 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="55"/>
         <source>P2 </source>
-        <translation type="unfinished"></translation>
+        <translation>P2 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="68"/>
         <source>P3 </source>
-        <translation type="unfinished"></translation>
+        <translation>P3 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="81"/>
         <source>P4 </source>
-        <translation type="unfinished"></translation>
+        <translation>P4 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="94"/>
         <source>P5 </source>
-        <translation type="unfinished"></translation>
+        <translation>P5 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="107"/>
         <source>P6 </source>
-        <translation type="unfinished"></translation>
+        <translation>P6 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCCustomWaypointAction.ui" line="120"/>
         <source>P7 </source>
-        <translation type="unfinished"></translation>
+        <translation>P7 </translation>
     </message>
 </context>
 <context>
@@ -5830,235 +5830,235 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="20"/>
         <source>X</source>
-        <translation type="unfinished"></translation>
+        <translation>X</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="30"/>
         <source>Y</source>
-        <translation type="unfinished"></translation>
+        <translation>Y</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="41"/>
         <source>Style..</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl...</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="46"/>
         <source>Only crosses</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko krzyże</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="51"/>
         <source>Only circles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko koła</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="56"/>
         <source>Only rectangles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko prostokąty</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="61"/>
         <source>Only symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko symbole</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="66"/>
         <source>Lines and crosses</source>
-        <translation type="unfinished"></translation>
+        <translation>Linii i krzyże</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="71"/>
         <source>Lines and circles</source>
-        <translation type="unfinished"></translation>
+        <translation>Linie, okręgi</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="76"/>
         <source>Lines and rects</source>
-        <translation type="unfinished"></translation>
+        <translation>Linie i prostokątom</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="81"/>
         <source>Lines and symbols</source>
-        <translation type="unfinished"></translation>
+        <translation>Linii i symboli</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="86"/>
         <source>Dotted lines and crosses</source>
-        <translation type="unfinished"></translation>
+        <translation>Kropkowane linie i krzyże</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="91"/>
         <source>Dotted lines and circles</source>
-        <translation type="unfinished"></translation>
+        <translation>Kropkowane linie i koła</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="96"/>
         <source>Dotted lines and rects</source>
-        <translation type="unfinished"></translation>
+        <translation>Kropkowane linie i prostokątom</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="101"/>
         <source>Dashed lines and crosses</source>
-        <translation type="unfinished"></translation>
+        <translation>Linie kreskowane i krzyże</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="106"/>
         <source>Dashed lines and circles</source>
-        <translation type="unfinished"></translation>
+        <translation>Linie kreskowane i koła</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="111"/>
         <source>Dashed lines and rects</source>
-        <translation type="unfinished"></translation>
+        <translation>Linie kreskowane i prostokątom</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="119"/>
         <source>Replot</source>
-        <translation type="unfinished"></translation>
+        <translation>Replot</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="133"/>
         <source>Save Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz obraz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="140"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Drukuj</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="147"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Tytuł</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="157"/>
         <source>X label</source>
-        <translation type="unfinished"></translation>
+        <translation>X etykiety</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="167"/>
         <source>Y label</source>
-        <translation type="unfinished"></translation>
+        <translation>Y etykiety</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="177"/>
         <source>Symmetric</source>
-        <translation type="unfinished"></translation>
+        <translation>Symetryczny</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="184"/>
         <source>Legend</source>
-        <translation type="unfinished"></translation>
+        <translation>Legenda</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="191"/>
         <source>Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Siatki</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="208"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="216"/>
         <source>CSV</source>
-        <translation type="unfinished"></translation>
+        <translation>CSV</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="221"/>
         <source>pxIMU</source>
-        <translation type="unfinished"></translation>
+        <translation>pxIMU</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="226"/>
         <source>RAW</source>
-        <translation type="unfinished"></translation>
+        <translation>SUROWY</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="234"/>
         <source>Please select input file..</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik wejściowy...</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="241"/>
         <source>Select file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="268"/>
         <source>Regression</source>
-        <translation type="unfinished"></translation>
+        <translation>Regresja</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="281"/>
         <source>Calculate</source>
-        <translation type="unfinished"></translation>
+        <translation>Obliczyć</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.ui" line="295"/>
         <source>Save Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie danych</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="156"/>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="196"/>
         <source> -- </source>
-        <translation type="unfinished"></translation>
+        <translation> -- </translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="252"/>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="256"/>
         <source>Specify log file name</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ nazwę pliku dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="273"/>
         <source>The file is owned by user %1. Is the file currently used by another program?</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik jest własnością użytkownika %1. Plik jest obecnie używany przez inny program?</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="277"/>
         <source>Could not open %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można otworzyć %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="281"/>
         <source>Opened %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwarty %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="598"/>
         <source>%1 = %2 * %3 + %4 | R-coefficient: %5</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 = %2 * %3 + %4 | R-współczynnik: %5</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="603"/>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="606"/>
         <source>regression %1-%2</source>
-        <translation type="unfinished"></translation>
+        <translation>regresja %1-%2</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="610"/>
         <source>Linear regression failed. (Limit: %1 data points. Try with less)</source>
-        <translation type="unfinished"></translation>
+        <translation>Regresji liniowej nie powiodło się. (Limit: %1 punktów danych. Spróbuj z mniej)</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="613"/>
         <source>Regression method %1 not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Regresji Metoda %1 nie znaleziono</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataPlot2D.cc" line="620"/>
         <source>Please select different X and Y dimensions, not %1 = %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę wybrać różne X i Y wymiary, nie %1 = %2</translation>
     </message>
 </context>
 <context>
@@ -6066,17 +6066,17 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/QGCDataViewWidget.cc" line="65"/>
         <source>AutoQuad Log Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Podgląd dziennika AutoQuad</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataViewWidget.cc" line="66"/>
         <source>AQ Diagnostic Telemetry</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ diagnostyczne telemetrii</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCDataViewWidget.cc" line="67"/>
         <source>MAVLink Data Plot</source>
-        <translation type="unfinished"></translation>
+        <translation>Działka MAVLink danych</translation>
     </message>
 </context>
 <context>
@@ -6084,142 +6084,142 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="32"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="35"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="38"/>
         <source>Go to home location</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do lokalizacji domu</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="41"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Strona główna</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="48"/>
         <source>Set Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Home zestaw</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="58"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="61"/>
         <source>Enable waypoint and home location edit mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz punkt i lokalizację domu tryb edycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="64"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Edycja</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="74"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="77"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="80"/>
         <source>Show MAV trajectories</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż MAV trajektorii</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="83"/>
         <source>Trails</source>
-        <translation type="unfinished"></translation>
+        <translation>Szlaki</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="97"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="100"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="103"/>
         <source>Select the MAV to chase</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz MAV gonić</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="107"/>
         <source>MAV Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Odległość MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="112"/>
         <source>Ground Distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Odległość ziemi</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="120"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="123"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="126"/>
         <source>Distance of the chase camera to the MAV</source>
-        <translation type="unfinished"></translation>
+        <translation>Odległość kamery pościg MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="145"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="148"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="151"/>
         <source>Chase the MAV</source>
-        <translation type="unfinished"></translation>
+        <translation>Chase MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="154"/>
         <source>Follow</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonaj</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="161"/>
         <source>Overhead</source>
-        <translation type="unfinished"></translation>
+        <translation>Obciążenie</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="175"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="178"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="181"/>
         <source>Delete all waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń wszystkie punkty</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="184"/>
         <source>Clear Trails</source>
-        <translation type="unfinished"></translation>
+        <translation>Jasne szlaki</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="191"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Badanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="214"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="217"/>
         <source>Enable the atmosphere visualization. Not recommended for mission execution, only for visualization</source>
-        <translation type="unfinished"></translation>
+        <translation>Umożliwia wizualizację atmosferę. Nie zaleca się wykonywania misji, tylko do wizualizacji</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="220"/>
         <source>Sky</source>
-        <translation type="unfinished"></translation>
+        <translation>Niebo</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="227"/>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="230"/>
         <source>Enable day/night light. Not recommended for mission execution, only for visualization.</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz światło dnia i nocy. Nie zaleca się wykonywania misji, tylko dla wizualizacji.</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="233"/>
         <source>Day/Night</source>
-        <translation type="unfinished"></translation>
+        <translation>Dzień/noc</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.ui" line="240"/>
         <source>Lat/Lon</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości/długości geograficznej</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.cc" line="372"/>
         <source>Please enter coordinates</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj współrzędne</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/QGCGoogleEarthView.cc" line="373"/>
         <source>Coordinates (Lat,Lon):</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędne (Lat, Lon):</translation>
     </message>
 </context>
 <context>
@@ -6227,42 +6227,42 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.ui" line="48"/>
         <source>System:</source>
-        <translation type="unfinished"></translation>
+        <translation>Systemu:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.ui" line="70"/>
         <source>Component:</source>
-        <translation type="unfinished"></translation>
+        <translation>Składnik:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.ui" line="103"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Jasne</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.cc" line="24"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.cc" line="35"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.cc" line="36"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkInspector.cc" line="37"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
 </context>
 <context>
@@ -6270,182 +6270,182 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="23"/>
         <source>Please choose logfile</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę wybrać logfile</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="30"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="33"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="36"/>
         <source>Select the logfile to replay</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik dziennika do powtarzania</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="39"/>
         <source>Select File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="46"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="49"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="52"/>
         <source>Set the replay speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw szybkość powtarzania</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="74"/>
         <source>No logfile selected..</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie logfile wybrany...</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="81"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="84"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="87"/>
         <source>Current replay speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Bieżąca szybkość powtarzania</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="90"/>
         <source>Speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="113"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="116"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="119"/>
         <source>Start to replay the logfile</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozpocząć odtwarzanie pliku dziennika</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.ui" line="122"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="106"/>
         <source>Started playing..</source>
-        <translation type="unfinished"></translation>
+        <translation>Zacząłem grać...</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="114"/>
         <source>No logfile selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie logfile wybrane</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="115"/>
         <source>Please select first a MAVLink log file before playing it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz pierwszy plik dziennika MAVLink przed odtworzeniem.</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="152"/>
         <source>Changing packet index failed, back to start.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmiana indeksu pakietów nie, powrót do początku.</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="172"/>
         <source>Specify MAVLink log file name to replay</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ nazwę pliku dziennika MAVLink do powtarzania</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="172"/>
         <source>MAVLink or Binary Logfile (*.mavlink *.bin *.log)</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink lub binarne dziennika (*.mavlink *.bin * .log)</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="216"/>
         <source>Speed: %1X</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość: %1 X</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="225"/>
         <source>MAVLink Logging Stopped during Replay</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink logowanie zatrzymane podczas odtwarzania</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="225"/>
         <source>MAVLink logging has been stopped during the log replay. To re-enable logging, use the link properties in the communication menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink rejestrowania został zatrzymany podczas odtwarzania dziennika. Aby ponownie włączyć rejestrowanie, należy użyć właściwości łącza w menu komunikacja.</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="238"/>
         <source>The selected logfile is unreadable</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybranego pliku dziennika jest nieczytelny</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="238"/>
         <source>Please make sure that the file %1 is readable or select a different file</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę upewnić się, że plik %1 jest czytelny lub wybrać inny plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="247"/>
         <source>%1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="276"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="305"/>
         <source>%1h:%2m:%3s</source>
-        <translation type="unfinished"></translation>
+        <translation>h %1: %2 m: %3s</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="278"/>
         <source>%2 MB, %3 packets, %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%2 %3 Pakietów, %4 MB</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="306"/>
         <source>%2 MB, %4 at %5 KB/s</source>
-        <translation type="unfinished"></translation>
+        <translation>%2 MB, %4 w %5 KB/s</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="332"/>
         <source>Jumped to packet %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Skoczył do pakietu %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="359"/>
         <source>Error reading first %1 bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd odczytu pierwszy %1 bajtów</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="360"/>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="376"/>
         <source>Failed loading MAVLink Logfile</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie powiodło się ładowanie pliku dziennika MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="360"/>
         <source>Error reading first %1 bytes from logfile. Got %2 instead of %1 bytes. Is the logfile readable?</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd odczytu pierwszy %1 bajtów z pliku dziennika. Dostał %2 zamiast %1 bajtów. Pliku dziennika jest czytelny?</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="375"/>
         <source>Error decoding first timestamp, aborting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd podczas dekodowania timestamp pierwszy, przerywanie.</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="376"/>
         <source>Could not load initial timestamp from file %1. Is the file corrupted?</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można załadować początkowej sygnatury czasowej z pliku %1. Plik jest uszkodzony?</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="396"/>
         <source>Reached end of MAVLink log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Osiągnął koniec pliku dziennika MAVLink.</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="411"/>
         <source>Time conversion error during log replay. Continuing..</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd konwersji podczas odtwarzania dziennika. Nadal...</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCMAVLinkLogPlayer.cc" line="457"/>
         <source>Reached end of binary log file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Osiągnął koniec binarny plik dziennika.</translation>
     </message>
 </context>
 <context>
@@ -6453,27 +6453,27 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mavlink/QGCMAVLinkMessageSender.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mavlink/QGCMAVLinkMessageSender.ui" line="35"/>
         <source>Send Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij wiadomość</translation>
     </message>
     <message>
         <location filename="../../src/ui/mavlink/QGCMAVLinkMessageSender.cc" line="15"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <location filename="../../src/ui/mavlink/QGCMAVLinkMessageSender.cc" line="16"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Wartość</translation>
     </message>
     <message>
         <location filename="../../src/ui/mavlink/QGCMAVLinkMessageSender.cc" line="17"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
 </context>
 <context>
@@ -6481,47 +6481,47 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="60"/>
         <source>Found xml error</source>
-        <translation type="unfinished"></translation>
+        <translation>Znaleziono błąd xml</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="60"/>
         <source>Check line %1 column %2 on string &quot;%3&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź kolumny wiersza %1 %2 na ciąg znaków &quot;%3&quot;!</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="71"/>
         <source>XML valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prawidłowy XML.</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="71"/>
         <source>All tags are valid. Document size is %1 characters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie Tagi są prawidłowe. Rozmiar dokumentu jest %1 znaków.</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="75"/>
         <source>XML not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>XML nie znaleziono!</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="75"/>
         <source>Null size xml document!</source>
-        <translation type="unfinished"></translation>
+        <translation>Zerowy rozmiar dokumentu xml!</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="92"/>
         <source>Zoom In</source>
-        <translation type="unfinished"></translation>
+        <translation>Powiększanie</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="93"/>
         <source>Zoom Out</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomniejsz</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/QGCMAVLinkTextEdit.cc" line="94"/>
         <source>Check xml syntax</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź składnię xml</translation>
     </message>
 </context>
 <context>
@@ -6529,7 +6529,7 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/map/QGCMapTool.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
 </context>
 <context>
@@ -6537,147 +6537,147 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="26"/>
         <source>Lat/Lon</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości/długości geograficznej</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="33"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Edycja</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="40"/>
         <source>Go Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Idź do domu</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="47"/>
         <source>Last Pos</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatni Pos</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="54"/>
         <source>Cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Pamięci podręcznej</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="61"/>
         <source>Clear Trails</source>
-        <translation type="unfinished"></translation>
+        <translation>Jasne szlaki</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="68"/>
         <source>Follow</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonaj</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="75"/>
         <source>00.00 00.00</source>
-        <translation type="unfinished"></translation>
+        <translation>00.00 00.00</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.ui" line="95"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="53"/>
         <source>&amp;Add trail dot every..</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dodać szlak kropka każdy..</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="54"/>
         <source>&amp;Limit map view update rate to..</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ograniczyć częstotliwość aktualizacji widok mapy do...</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="55"/>
         <source>&amp;Map type</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Typ mapy</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="61"/>
         <source>Bing Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Bing hybrydowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="67"/>
         <source>Google Hybrid</source>
-        <translation type="unfinished"></translation>
+        <translation>Google hybrydowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="73"/>
         <source>OpenStreetMap</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenStreetMap</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="83"/>
         <source>No trail</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie szlak</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="90"/>
         <source>%1 second%2</source>
-        <translation type="unfinished"></translation>
+        <translation>drugi %1 %2</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="102"/>
         <source>%1 meter%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Miernik %1 %2</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="125"/>
         <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sek</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="142"/>
         <source>uptate every %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>uptate co %1 sek</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="166"/>
         <source>Trail mode: Every %1 second%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Szlak tryb: co %1 drugi %2</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="183"/>
         <source>Trail mode: Every %1 meter%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Szlak tryb: co %1 %2 metr</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="200"/>
         <source>Map update rate limit: %1 second%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit szybkości aktualizacji mapy: %1 %2 sekund</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="217"/>
         <source>Map type: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapa typu: %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="224"/>
         <source>Starting to load tiles..</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaczynają ładować płytki...</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="229"/>
         <source>Finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Gotowy</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="236"/>
         <source>1 tile to load..</source>
-        <translation type="unfinished"></translation>
+        <translation>1 dachówka załadować...</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="240"/>
         <source>%1 tiles to load..</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 płytki, aby załadować...</translation>
     </message>
 </context>
 <context>
@@ -6685,12 +6685,12 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/map/QGCMapWidget.cc" line="361"/>
         <source>Please enter coordinates</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj współrzędne</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapWidget.cc" line="362"/>
         <source>Coordinates (Lat,Lon):</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędne (Lat, Lon):</translation>
     </message>
 </context>
 <context>
@@ -6698,23 +6698,23 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionDelay.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionDelay.ui" line="50"/>
         <location filename="../../src/ui/mission/QGCMissionConditionDelay.ui" line="53"/>
         <source>Delay duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas opóźnienia</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionDelay.ui" line="68"/>
         <source>Duration: </source>
-        <translation type="unfinished"></translation>
+        <translation>Czas trwania: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionDelay.ui" line="71"/>
         <source>s</source>
-        <translation type="unfinished"></translation>
+        <translation>s</translation>
     </message>
 </context>
 <context>
@@ -6722,83 +6722,83 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="26"/>
         <source>delay: </source>
-        <translation type="unfinished"></translation>
+        <translation>opóźnienie: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="29"/>
         <source> s</source>
-        <translation type="unfinished"></translation>
+        <translation> s</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="42"/>
         <source>rate: </source>
-        <translation type="unfinished"></translation>
+        <translation>Kurs: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="45"/>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="77"/>
         <source> m/s</source>
-        <translation type="unfinished"></translation>
+        <translation> m/s</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="58"/>
         <source>finish altitude: </source>
-        <translation type="unfinished"></translation>
+        <translation>wykończenie wysokości: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="61"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="74"/>
         <source>distance to next wp: </source>
-        <translation type="unfinished"></translation>
+        <translation>odległość do następnego: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="87"/>
         <source>heading: </source>
-        <translation type="unfinished"></translation>
+        <translation>nagłówek: </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="90"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="97"/>
         <source>turn rate: </source>
-        <translation type="unfinished"></translation>
+        <translation>kolei stawki: </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="100"/>
         <source>°/s</source>
-        <translation type="unfinished"></translation>
+        <translation>° /s</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="117"/>
         <source>left/counter-clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>lewej/counter-lewo</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="122"/>
         <source>right/clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>prawo/lewo</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="131"/>
         <source>compass direction</source>
-        <translation type="unfinished"></translation>
+        <translation>kierunek kompas</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="136"/>
         <source>offset from current heading</source>
-        <translation type="unfinished"></translation>
+        <translation>odsunięty od bieżącej pozycji</translation>
     </message>
 </context>
 <context>
@@ -6806,40 +6806,40 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="38"/>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="41"/>
         <source>Jump to this index, if search successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do tego indeksu, jeśli Szukaj sukces</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="50"/>
         <source>Jump to index: </source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do indeksu: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="69"/>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="72"/>
         <source>Jump to this index, if search unsuccessful</source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do tego indeksu, jeśli Szukaj</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="81"/>
         <source>Jump to index:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do indeksu:  </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="97"/>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="100"/>
         <source>Remaining number of jumps. Terminate search if jumps == 0.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozostała liczba skoków. Zakończenie wyszukiwania jeśli wyskakuje == 0.</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoFinishSearch.ui" line="112"/>
         <source> time(s)</source>
-        <translation type="unfinished"></translation>
+        <translation> czas (s)</translation>
     </message>
 </context>
 <context>
@@ -6847,29 +6847,29 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoJump.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoJump.ui" line="50"/>
         <location filename="../../src/ui/mission/QGCMissionDoJump.ui" line="53"/>
         <source>Mission element ID to jump to</source>
-        <translation type="unfinished"></translation>
+        <translation>Identyfikator elementu misji aby przejść do</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoJump.ui" line="68"/>
         <source>Jump to index </source>
-        <translation type="unfinished"></translation>
+        <translation>Przejdź do indeksu </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoJump.ui" line="99"/>
         <location filename="../../src/ui/mission/QGCMissionDoJump.ui" line="102"/>
         <source>Maximal number of jumps</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna liczba skoków</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoJump.ui" line="111"/>
         <source> time(s)</source>
-        <translation type="unfinished"></translation>
+        <translation> czas (s)</translation>
     </message>
 </context>
 <context>
@@ -6877,29 +6877,29 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoStartSearch.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoStartSearch.ui" line="38"/>
         <location filename="../../src/ui/mission/QGCMissionDoStartSearch.ui" line="41"/>
         <source>Minimal required detection confidence</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimalne wymagane wykrywania zaufania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoStartSearch.ui" line="47"/>
         <source>Conf: </source>
-        <translation type="unfinished"></translation>
+        <translation>Conf: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoStartSearch.ui" line="66"/>
         <location filename="../../src/ui/mission/QGCMissionDoStartSearch.ui" line="69"/>
         <source>Required number of detections</source>
-        <translation type="unfinished"></translation>
+        <translation>Wymagana liczba wykrywania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoStartSearch.ui" line="75"/>
         <source>#det: </source>
-        <translation type="unfinished"></translation>
+        <translation>#det: </translation>
     </message>
 </context>
 <context>
@@ -6907,22 +6907,22 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoWidget.ui" line="29"/>
         <source>list index to jump to: </source>
-        <translation type="unfinished"></translation>
+        <translation>indeksie listy, aby przejść do: </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoWidget.ui" line="45"/>
         <source> times</source>
-        <translation type="unfinished"></translation>
+        <translation> razy</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionDoWidget.ui" line="48"/>
         <source>repeat </source>
-        <translation type="unfinished"></translation>
+        <translation>Powtórz </translation>
     </message>
 </context>
 <context>
@@ -6930,101 +6930,101 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="50"/>
         <source>Position X coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna X pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="53"/>
         <source>Position X corrdinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja X corrdinate</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="68"/>
         <source>N </source>
-        <translation type="unfinished"></translation>
+        <translation>N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="71"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="108"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="148"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="96"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="99"/>
         <source>Position Y/Longitude coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna Y/długość geograficzna pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="105"/>
         <source>E </source>
-        <translation type="unfinished"></translation>
+        <translation>E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="136"/>
         <source>Position Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji Z koordynacji (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="145"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="173"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="176"/>
         <source>Latitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości geograficznej w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="182"/>
         <source>lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="302"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="213"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="216"/>
         <source>Longitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość geograficzna w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="222"/>
         <source>lon </source>
-        <translation type="unfinished"></translation>
+        <translation>nie, </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="250"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="253"/>
         <source>Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="259"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="262"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="287"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="290"/>
         <source>Rotary wing only: Desired yaw angle at waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wirnikowy tylko: kąt pożądanego odchylenia w punkt</translation>
     </message>
 </context>
 <context>
@@ -7032,22 +7032,22 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="50"/>
         <source>Position X coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna X pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="53"/>
         <source>Position X corrdinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja X corrdinate</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="68"/>
         <source>N </source>
-        <translation type="unfinished"></translation>
+        <translation>N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="71"/>
@@ -7055,96 +7055,96 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="148"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="333"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="96"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="99"/>
         <source>Position Y/Longitude coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna Y/długość geograficzna pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="105"/>
         <source>E </source>
-        <translation type="unfinished"></translation>
+        <translation>E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="136"/>
         <source>Position Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji Z koordynacji (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="145"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="173"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="176"/>
         <source>Latitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości geograficznej w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="182"/>
         <source>lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="302"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="213"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="216"/>
         <source>Longitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość geograficzna w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="222"/>
         <source>lon </source>
-        <translation type="unfinished"></translation>
+        <translation>Lon </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="250"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="253"/>
         <source>Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="259"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="262"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="287"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="290"/>
         <source>Rotary wing only: Desired yaw angle at waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wirnikowy tylko: kąt pożądanego odchylenia w punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="324"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="327"/>
         <source>Loiter Radius. If negative loiter counter-clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Marudzić promień. Jeśli negatywne marudzić lewo</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="355"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="358"/>
         <source>Time to loiter around the mission point</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas marudzić wokół punktu misji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="364"/>
         <source> s</source>
-        <translation type="unfinished"></translation>
+        <translation> s</translation>
     </message>
 </context>
 <context>
@@ -7152,22 +7152,22 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="50"/>
         <source>Position X coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna X pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="53"/>
         <source>Position X corrdinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja X corrdinate</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="68"/>
         <source>N </source>
-        <translation type="unfinished"></translation>
+        <translation>N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="71"/>
@@ -7175,96 +7175,96 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="148"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="333"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="96"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="99"/>
         <source>Position Y/Longitude coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna Y/długość geograficzna pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="105"/>
         <source>E </source>
-        <translation type="unfinished"></translation>
+        <translation>E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="136"/>
         <source>Position Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji Z koordynacji (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="145"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="173"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="176"/>
         <source>Latitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości geograficznej w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="182"/>
         <source>lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="302"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="213"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="216"/>
         <source>Longitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość geograficzna w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="222"/>
         <source>lon </source>
-        <translation type="unfinished"></translation>
+        <translation>Lon </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="250"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="253"/>
         <source>Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="259"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="262"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="287"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="290"/>
         <source>Rotary wing only: Desired yaw angle at waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wirnikowy tylko: kąt pożądanego odchylenia w punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="324"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="327"/>
         <source>Loiter Radius. If negative loiter counter-clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Marudzić promień. Jeśli negatywne marudzić lewo</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="355"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="358"/>
         <source>Number of turns around the loiter point</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba obrotów wokół punktu marudzić</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="364"/>
         <source> turns</source>
-        <translation type="unfinished"></translation>
+        <translation> Włącza</translation>
     </message>
 </context>
 <context>
@@ -7272,22 +7272,22 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="50"/>
         <source>Position X coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna X pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="53"/>
         <source>Position X corrdinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja X corrdinate</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="68"/>
         <source>N </source>
-        <translation type="unfinished"></translation>
+        <translation>N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="71"/>
@@ -7295,85 +7295,85 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="148"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="333"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="96"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="99"/>
         <source>Position Y/Longitude coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna Y/długość geograficzna pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="105"/>
         <source>E </source>
-        <translation type="unfinished"></translation>
+        <translation>E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="136"/>
         <source>Position Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji Z koordynacji (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="145"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="173"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="176"/>
         <source>Latitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości geograficznej w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="182"/>
         <source>lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="302"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="213"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="216"/>
         <source>Longitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość geograficzna w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="222"/>
         <source>lon </source>
-        <translation type="unfinished"></translation>
+        <translation>Lon </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="250"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="253"/>
         <source>Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="259"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="262"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="287"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="290"/>
         <source>Rotary wing only: Desired yaw angle at waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wirnikowy tylko: kąt pożądanego odchylenia w punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="324"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="327"/>
         <source>Loiter Radius. If negative loiter counter-clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Marudzić promień. Jeśli negatywne marudzić lewo</translation>
     </message>
 </context>
 <context>
@@ -7381,12 +7381,12 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavReturnToLaunch.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavReturnToLaunch.ui" line="41"/>
         <source>No Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Bez parametrów</translation>
     </message>
 </context>
 <context>
@@ -7394,18 +7394,18 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="50"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="53"/>
         <source>X coordinate of the first sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>X Współrzędna pierwszym rogu obszaru wymiata</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="68"/>
         <source>(1)N </source>
-        <translation type="unfinished"></translation>
+        <translation>(1)N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="71"/>
@@ -7415,124 +7415,124 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="234"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="459"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="96"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="99"/>
         <source>Y coordinate of the first sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Y koordynować pierwszym rogu obszaru wymiata</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="105"/>
         <source>(1)E </source>
-        <translation type="unfinished"></translation>
+        <translation>(1)E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="136"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="139"/>
         <source>X coordinate of the second sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>X współrzędnych drugiego rogu obszaru wycierania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="154"/>
         <source>(2)N </source>
-        <translation type="unfinished"></translation>
+        <translation>(2)N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="182"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="185"/>
         <source>Y coordinate of the second sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Y koordynować drugiego rogu obszaru wycierania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="191"/>
         <source>(2)E </source>
-        <translation type="unfinished"></translation>
+        <translation>(2)E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="222"/>
         <source>Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędną (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="231"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="259"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="262"/>
         <source>Latitude of the first sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokość pierwszej rogu obszaru wycierania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="268"/>
         <source>(1)lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat (1) </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="271"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="311"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="351"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="391"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="299"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="302"/>
         <source>Longitude of the first sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość pierwszego narożnika obszaru wycierania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="308"/>
         <source>(1)lon </source>
-        <translation type="unfinished"></translation>
+        <translation>lon (1) </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="339"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="342"/>
         <source>Latitude of the second sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokość drugiego rogu obszaru wycierania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="348"/>
         <source>(2)lat </source>
-        <translation type="unfinished"></translation>
+        <translation>(2) lat </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="379"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="382"/>
         <source>Longitude of the second sweep area corner</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość drugiego rogu obszaru wycierania</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="388"/>
         <source>(2)lon </source>
-        <translation type="unfinished"></translation>
+        <translation>lon (2) </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="416"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="419"/>
         <source>Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="425"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="428"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="450"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="453"/>
         <source>Radius of the circle under the MAV covered by the camera</source>
-        <translation type="unfinished"></translation>
+        <translation>Promień okręgu pod MAV objęte aparatu</translation>
     </message>
 </context>
 <context>
@@ -7540,108 +7540,108 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="50"/>
         <source>Position X coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna X pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="53"/>
         <source>Position X corrdinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja X corrdinate</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="68"/>
         <source>N </source>
-        <translation type="unfinished"></translation>
+        <translation>N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="71"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="108"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="148"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="96"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="99"/>
         <source>Position Y/Longitude coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna Y/długość geograficzna pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="105"/>
         <source>E </source>
-        <translation type="unfinished"></translation>
+        <translation>E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="136"/>
         <source>Position Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji Z koordynacji (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="145"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="173"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="176"/>
         <source>Latitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości geograficznej w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="182"/>
         <source>lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="302"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="333"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="213"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="216"/>
         <source>Longitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość geograficzna w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="222"/>
         <source>lon </source>
-        <translation type="unfinished"></translation>
+        <translation>Lon </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="250"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="253"/>
         <source>Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="259"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="262"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="287"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="290"/>
         <source>Rotary wing only: Desired yaw angle at waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wirnikowy tylko: kąt pożądanego odchylenia w punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="324"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="327"/>
         <source>Minimum Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimalna wysokość</translation>
     </message>
 </context>
 <context>
@@ -7649,22 +7649,22 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="50"/>
         <source>Position X coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna X pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="53"/>
         <source>Position X corrdinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja X corrdinate</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="68"/>
         <source>N </source>
-        <translation type="unfinished"></translation>
+        <translation>N </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="71"/>
@@ -7672,79 +7672,79 @@ Abort.&lt;/font&gt;</source>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="148"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="334"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="96"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="99"/>
         <source>Position Y/Longitude coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna Y/długość geograficzna pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="105"/>
         <source>E </source>
-        <translation type="unfinished"></translation>
+        <translation>E </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="136"/>
         <source>Position Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji Z koordynacji (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="145"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="173"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="176"/>
         <source>Latitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości geograficznej w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="182"/>
         <source>lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="302"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="213"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="216"/>
         <source>Longitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość geograficzna w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="222"/>
         <source>lon </source>
-        <translation type="unfinished"></translation>
+        <translation>Lon </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="250"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="253"/>
         <source>Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="259"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="262"/>
         <source>m</source>
-        <translation type="unfinished"></translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="287"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="290"/>
         <source>Rotary wing only: Desired yaw angle at waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wirnikowy tylko: kąt pożądanego odchylenia w punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="324"/>
@@ -7755,18 +7755,18 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="328"/>
         <source>Uncertainty radius in meters where to accept this waypoint as reached</source>
-        <translation type="unfinished"></translation>
+        <translation>Promień niepewności w metrów gdzie przyjmuje ten punkt, jak dojechać</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="350"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="353"/>
         <source>Time to stay/loiter at this position before advancing</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas pobytu/marudzić na tej pozycji przed pogłębianie</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="359"/>
         <source> s</source>
-        <translation type="unfinished"></translation>
+        <translation> s</translation>
     </message>
 </context>
 <context>
@@ -7774,95 +7774,95 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="38"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="41"/>
         <source>MAV_CMD id</source>
-        <translation type="unfinished"></translation>
+        <translation>Identyfikator MAV_CMD</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="47"/>
         <source>CMD </source>
-        <translation type="unfinished"></translation>
+        <translation>CMD </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="63"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="66"/>
         <source>Mission parameter #1</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja parametr #1</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="72"/>
         <source>P1 </source>
-        <translation type="unfinished"></translation>
+        <translation>P1 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="88"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="91"/>
         <source>Mission parameter #2</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja parametr #2</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="97"/>
         <source>P2 </source>
-        <translation type="unfinished"></translation>
+        <translation>P2 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="113"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="116"/>
         <source>Mission parameter #3</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja parametr #3</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="122"/>
         <source>P3 </source>
-        <translation type="unfinished"></translation>
+        <translation>P3 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="138"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="141"/>
         <source>Mission parameter #4</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja parametr #4</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="147"/>
         <source>P4 </source>
-        <translation type="unfinished"></translation>
+        <translation>P4 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="163"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="166"/>
         <source>Mission parameter #5</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja parametr #5</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="172"/>
         <source>P5 </source>
-        <translation type="unfinished"></translation>
+        <translation>P5 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="188"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="191"/>
         <source>Mission parameter #6</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja parametr #6</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="197"/>
         <source>P6 </source>
-        <translation type="unfinished"></translation>
+        <translation>P6 </translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="213"/>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="216"/>
         <source>Mission parameter #7</source>
-        <translation type="unfinished"></translation>
+        <translation>Misja parametr #7</translation>
     </message>
     <message>
         <location filename="../../src/ui/mission/QGCMissionOther.ui" line="222"/>
         <source>P7 </source>
-        <translation type="unfinished"></translation>
+        <translation>P7 </translation>
     </message>
 </context>
 <context>
@@ -7870,97 +7870,97 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="51"/>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="54"/>
         <source>Select parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz parametr</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="96"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Zrobić</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="116"/>
         <source>Show Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż Info</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="142"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Odśwież</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="168"/>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="171"/>
         <source>Read the current parameter value on the system</source>
-        <translation type="unfinished"></translation>
+        <translation>Odczytać bieżącą wartość parametru w systemie</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="174"/>
         <source>R</source>
-        <translation type="unfinished"></translation>
+        <translation>R</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="184"/>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="187"/>
         <source>Select component</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz składnik</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="194"/>
         <source>&lt;Parameter Name / Label&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt; Nazwa parametru / Etykieta &gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="201"/>
         <source>Please click first on refresh to update selection menus..</source>
-        <translation type="unfinished"></translation>
+        <translation>Najpierw kliknij na Odśwież, aby zaktualizować menu wyboru...</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="220"/>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="223"/>
         <source>Transmit the current slider value to the system</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazać wartość bieżącą suwak do systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="226"/>
         <source>W</source>
-        <translation type="unfinished"></translation>
+        <translation>W</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="243"/>
         <source>MIN: </source>
-        <translation type="unfinished"></translation>
+        <translation>MIN: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="256"/>
         <source>MAX: </source>
-        <translation type="unfinished"></translation>
+        <translation>MAX: </translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.ui" line="275"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.cc" line="86"/>
         <source>Parameter list updating..</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr lista aktualizacji...</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.cc" line="315"/>
         <location filename="../../src/ui/designer/QGCParamSlider.cc" line="417"/>
         <source>Component #%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Składnik #%1</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCParamSlider.cc" line="365"/>
         <source>Complete parameter list received.</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametr pełna lista otrzymał.</translation>
     </message>
 </context>
 <context>
@@ -7968,17 +7968,17 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/QGCPluginHost.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCPluginHost.ui" line="49"/>
         <source>Loaded Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadowanych wtyczek</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCPluginHost.ui" line="62"/>
         <source>Plugin Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin dziennika</translation>
     </message>
 </context>
 <context>
@@ -7986,37 +7986,37 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/QGCRGBDView.cc" line="21"/>
         <source>Enable RGB Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Włączyć obraz RGB</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCRGBDView.cc" line="22"/>
         <source>Show the RGB image live stream in this window</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż RGB obrazu live stream w tym oknie</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCRGBDView.cc" line="27"/>
         <source>Enable Depthmap</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz Depthmap</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCRGBDView.cc" line="28"/>
         <source>Show the Depthmap in this window</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż Depthmap w tym oknie</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCRGBDView.cc" line="38"/>
         <source>VLC</source>
-        <translation type="unfinished"></translation>
+        <translation>VLC</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCRGBDView.cc" line="39"/>
         <source>Show video with vlc</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wideo z vlc</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCRGBDView.cc" line="249"/>
         <source>Load a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładowanie pliku</translation>
     </message>
 </context>
 <context>
@@ -8024,12 +8024,12 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/QGCRemoteControlView.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCRemoteControlView.cc" line="172"/>
         <source>Radio Quality</source>
-        <translation type="unfinished"></translation>
+        <translation>Jakości radia</translation>
     </message>
 </context>
 <context>
@@ -8037,52 +8037,52 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="29"/>
         <source>Data Stream Rates (Hz)</source>
-        <translation type="unfinished"></translation>
+        <translation>Cena strumienia danych (Hz)</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="96"/>
         <source>Ext. Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Status wew.:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="103"/>
         <source>Position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stanowisko:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="110"/>
         <source>Extra 1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodatek 1:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="131"/>
         <source>Raw Contr.:</source>
-        <translation type="unfinished"></translation>
+        <translation>Surowy zysk:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="138"/>
         <source>Raw Sensor:</source>
-        <translation type="unfinished"></translation>
+        <translation>Czujnik surowe:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="159"/>
         <source>Extra 2:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodatkowe 2:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="166"/>
         <source>RC Chan.:</source>
-        <translation type="unfinished"></translation>
+        <translation>RC Chan.:</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSensorSettingsWidget.ui" line="173"/>
         <source>Extra 3:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodatkowe 3:</translation>
     </message>
 </context>
 <context>
@@ -8090,62 +8090,62 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Okno dialogowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="21"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogólne</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="24"/>
         <source>General Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia ogólne</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="30"/>
         <source>Use outdoor mission style (light background)</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj stylu odkryty misji (jasne tło)</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="37"/>
         <source>Use native platform look and feel (requires restart)</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj macierzystego platformy wygląd (wymaga ponownego uruchomienia)</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="47"/>
         <source>Mute all audio output</source>
-        <translation type="unfinished"></translation>
+        <translation>Wycisz wszystkie wyjścia audio</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="58"/>
         <source>Automatically reconnect last link on application startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatycznie ponownie ostatni link przy starcie aplikacji</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="69"/>
         <source>Use indoor mission style (black background)</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj stylu misji kryty (czarne tło)</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="76"/>
         <source>Lowers all update rates to save battery power</source>
-        <translation type="unfinished"></translation>
+        <translation>Obniża wszystkie ceny aktualizacji do oszczędzania baterii</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="79"/>
         <source>Enable low power mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz tryb niskiego poboru energii</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.ui" line="86"/>
         <source>Use native Qt &quot;Plastique&quot; style</source>
-        <translation type="unfinished"></translation>
+        <translation>Użyj macierzystego Qt &quot;Moi&quot; styl</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCSettingsWidget.cc" line="30"/>
         <source>QGroundControl Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia QGroundControl</translation>
     </message>
 </context>
 <context>
@@ -8153,88 +8153,88 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="70"/>
         <source>CONNECTION LOST: %1 s</source>
-        <translation type="unfinished"></translation>
+        <translation>LOST połączeń: %1 s</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="102"/>
         <source>Currently controlled vehicle</source>
-        <translation type="unfinished"></translation>
+        <translation>Obecnie kontrolowany pojazd</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="107"/>
         <source>System connection status, interval since last message if timed out.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan połączenia systemu, przedział od ostatniej wiadomości, jeżeli upłynął limit czasu.</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="113"/>
         <source>Vehicle safety state</source>
-        <translation type="unfinished"></translation>
+        <translation>Pojazd bezpieczeństwa państwa</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="118"/>
         <source>Vehicle mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Trybie pojazd</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="123"/>
         <source>Vehicle state</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan pojazdu</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="133"/>
         <source>Battery charge level</source>
-        <translation type="unfinished"></translation>
+        <translation>Poziom na³adowania baterii</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="139"/>
         <source>Battery voltage</source>
-        <translation type="unfinished"></translation>
+        <translation>Napięcie akumulatora</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="153"/>
         <source>Most recent system message</source>
-        <translation type="unfinished"></translation>
+        <translation>Najnowsze wiadomości systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="258"/>
         <source>Specify MAVLink log file to save to</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ plik dziennika MAVLink, aby zapisać</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="258"/>
         <source>MAVLink Logfile (*.mavlink *.log *.bin);;</source>
-        <translation type="unfinished"></translation>
+        <translation>Dziennik MAVLink (*.mavlink *.log *.bin);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="279"/>
         <source>The selected logfile is not writable</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybrany plik nie jest zapisywalny</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="280"/>
         <source>Please make sure that the file %1 is writable or select a different file</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę upewnić się, że plik %1 jest zapisywalny lub wybrać inny plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="362"/>
         <source>%1 V</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 V</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="363"/>
         <location filename="../../src/ui/QGCToolBar.cc" line="364"/>
         <source>%1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="371"/>
         <source>ARMED</source>
-        <translation type="unfinished"></translation>
+        <translation>ZBROJNYCH</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="376"/>
         <source>SAFE</source>
-        <translation type="unfinished"></translation>
+        <translation>SEJF</translation>
     </message>
 </context>
 <context>
@@ -8242,94 +8242,94 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.ui" line="35"/>
         <source>Right-click into the widget to customize</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij prawym przyciskiem myszy na widget, aby dostosować</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="335"/>
         <source>New &amp;Parameter Slider</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowe &amp;parametr suwak</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="336"/>
         <source>Add a parameter setting slider widget to the tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodawanie widżetu suwak ustawienie parametru do narzędzia</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="339"/>
         <source>New MAV &amp;Command Button</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowe MAV &amp;przycisk polecenia</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="340"/>
         <source>Add a new action button to the tool</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj nowy przycisk działania narzędzia</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="343"/>
         <source>Set Widget Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw Widget tytuł</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="344"/>
         <source>Set the title caption of this tool widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw podpis tytuł ten widget narzędzia</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="347"/>
         <source>Delete this widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń ten widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="348"/>
         <source>Delete this widget permanently</source>
-        <translation type="unfinished"></translation>
+        <translation>Trwale usunąć ten widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="351"/>
         <source>Export this widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport ten widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="352"/>
         <source>Export this widget to be reused by others</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksport ten widget do ponownego wykorzystania przez innych</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="355"/>
         <source>Import widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Widżet importu</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="356"/>
         <source>Import this widget from a file (current content will be removed)</source>
-        <translation type="unfinished"></translation>
+        <translation>Przywóz ten widget z pliku (aktualnej treści zostaną usunięte)</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="414"/>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="425"/>
         <source>Specify File Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Określ nazwę pliku</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="414"/>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="425"/>
         <source>QGroundControl Widget (*%1);;</source>
-        <translation type="unfinished"></translation>
+        <translation>QGroundControl Widget (*%1);;</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="440"/>
         <source>Enter Widget Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź tytuł Widget</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidget.cc" line="441"/>
         <source>Widget title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Widżet tytuł:</translation>
     </message>
 </context>
 <context>
@@ -8337,17 +8337,17 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidgetItem.cc" line="16"/>
         <source>Edit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Edycja %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidgetItem.cc" line="18"/>
         <source>Finish Editing %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończ edycję %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/designer/QGCToolWidgetItem.cc" line="20"/>
         <source>Delete %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Usunąć %1</translation>
     </message>
 </context>
 <context>
@@ -8355,32 +8355,32 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/QGCUDPLinkConfiguration.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCUDPLinkConfiguration.ui" line="20"/>
         <source>UDP Port</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP Port</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCUDPLinkConfiguration.ui" line="37"/>
         <source>Add remote communication target</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać miejsce docelowe komunikacji zdalnej</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCUDPLinkConfiguration.ui" line="44"/>
         <source>Add IP</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj IP</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCUDPLinkConfiguration.cc" line="37"/>
         <source>Add a new IP address / hostname to MAVLink</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać nowy adres IP / nazwa hosta do MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCUDPLinkConfiguration.cc" line="38"/>
         <source>Host (hostname:port):</source>
-        <translation type="unfinished"></translation>
+        <translation>Gospodarz (mysql_connect()):</translation>
     </message>
 </context>
 <context>
@@ -8388,7 +8388,7 @@ where to accept this waypoint as reached</source>
     <message>
         <location filename="../../src/ui/uas/QGCUnconnectedInfoWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/QGCUnconnectedInfoWidget.ui" line="35"/>
@@ -8413,12 +8413,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/uas/QGCUnconnectedInfoWidget.ui" line="70"/>
         <source>Simulate MAV</source>
-        <translation type="unfinished"></translation>
+        <translation>Symulacji MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/QGCUnconnectedInfoWidget.ui" line="77"/>
         <source>Connect Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć Link</translation>
     </message>
 </context>
 <context>
@@ -8426,7 +8426,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/QGCWaypointListMulti.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
 </context>
 <context>
@@ -8434,12 +8434,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/QGCWebView.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCWebView.ui" line="21"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation>temat: puste</translation>
     </message>
 </context>
 <context>
@@ -8447,17 +8447,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/QMap3D.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/QMap3D.ui" line="20"/>
         <source>Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapa</translation>
     </message>
     <message>
         <location filename="../../src/ui/QMap3D.ui" line="30"/>
         <source>Vehicle</source>
-        <translation type="unfinished"></translation>
+        <translation>Pojazd</translation>
     </message>
 </context>
 <context>
@@ -8465,18 +8465,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/SerialConfigurationWindow.cc" line="130"/>
         <source>Serial Communication Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia komunikacji szeregowej</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialConfigurationWindow.cc" line="233"/>
         <location filename="../../src/ui/SerialConfigurationWindow.cc" line="234"/>
         <source>Configure </source>
-        <translation type="unfinished"></translation>
+        <translation>Konfigurowanie </translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialConfigurationWindow.cc" line="235"/>
         <source>Configuration of </source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguracja </translation>
     </message>
 </context>
 <context>
@@ -8484,18 +8484,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/comm/SerialLink.cc" line="259"/>
         <source>Serial Link </source>
-        <translation type="unfinished"></translation>
+        <translation>Łącza szeregowego </translation>
     </message>
     <message>
         <location filename="../../src/comm/SerialLink.cc" line="468"/>
         <location filename="../../src/comm/SerialLink.cc" line="501"/>
         <source>Could not send data - link %1 is disconnected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wysłać danych - łącze %1 jest odłączony!</translation>
     </message>
     <message>
         <location filename="../../src/comm/SerialLink.cc" line="1073"/>
         <source>serial port </source>
-        <translation type="unfinished"></translation>
+        <translation>port szeregowy </translation>
     </message>
 </context>
 <context>
@@ -8503,42 +8503,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="13"/>
         <source>Terrain Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Parametry terenu</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="59"/>
         <source>Offset</source>
-        <translation type="unfinished"></translation>
+        <translation>Przesunięcie</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="92"/>
         <source>x (m)</source>
-        <translation type="unfinished"></translation>
+        <translation>x (m)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="93"/>
         <source>y (m)</source>
-        <translation type="unfinished"></translation>
+        <translation>y (m)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="94"/>
         <source>z (m)</source>
-        <translation type="unfinished"></translation>
+        <translation>z (m)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="95"/>
         <source>Roll (deg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rolka (stopnie)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="96"/>
         <source>Pitch (deg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Boisko (stopnie)</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/TerrainParamDialog.cc" line="97"/>
         <source>Yaw (deg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Odchylenia (stopnie)</translation>
     </message>
 </context>
 <context>
@@ -8546,127 +8546,127 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/uas/UAS.cc" line="943"/>
         <source>SUCCESS: Executed CMD: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>SUKCES: Wykonane CMD: %1</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="948"/>
         <source>FAILURE: Temporarily rejected CMD: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>BŁĄD: Tymczasowo odrzucił CMD: %1</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="953"/>
         <source>FAILURE: Unsupported CMD: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>BŁĄD: Nieobsługiwane CMD: %1</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1029"/>
         <source>%1 reached waypoint %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 osiągnął punkt %2</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1269"/>
         <source>UNABLE TO DECODE MESSAGE NUMBER %1</source>
-        <translation type="unfinished"></translation>
+        <translation>NIE MOŻNA ZDEKODOWAĆ NUMER KOMUNIKATU %1</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1812"/>
         <source>UNINIT</source>
-        <translation type="unfinished"></translation>
+        <translation>UNINIT</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1813"/>
         <source>Unitialized, booting up.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niezainicjowanej, zyski w górze.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1816"/>
         <source>BOOT</source>
-        <translation type="unfinished"></translation>
+        <translation>ZYSKI</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1817"/>
         <source>Booting system, please wait.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uruchamianie systemu, proszę czekać.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1820"/>
         <source>CALIBRATING</source>
-        <translation type="unfinished"></translation>
+        <translation>KALIBRACJI</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1821"/>
         <source>Calibrating sensors, please wait.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalibracji czujników, proszę czekać.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1824"/>
         <source>ACTIVE</source>
-        <translation type="unfinished"></translation>
+        <translation>AKTYWNE</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1825"/>
         <source>Active, normal operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywnego, normalnego działania.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1828"/>
         <source>STANDBY</source>
-        <translation type="unfinished"></translation>
+        <translation>TRYB GOTOWOŚCI</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1829"/>
         <source>Standby mode, ready for launch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trybie gotowości, gotowy do uruchomienia.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1832"/>
         <source>CRITICAL</source>
-        <translation type="unfinished"></translation>
+        <translation>KRYTYCZNE</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1833"/>
         <source>FAILURE: Continuing operation.</source>
-        <translation type="unfinished"></translation>
+        <translation>BŁĄD: Kontynuowanie operacji.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1836"/>
         <source>EMERGENCY</source>
-        <translation type="unfinished"></translation>
+        <translation>AWARYJNE</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1837"/>
         <source>EMERGENCY: Land Immediately!</source>
-        <translation type="unfinished"></translation>
+        <translation>AWARYJNEGO: Gruntów natychmiast!</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1845"/>
         <source>SHUTDOWN</source>
-        <translation type="unfinished"></translation>
+        <translation>ZAMKNIĘCIE</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1846"/>
         <source>Powering off system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłączenie systemu.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1850"/>
         <source>UNKNOWN</source>
-        <translation type="unfinished"></translation>
+        <translation>NIEZNANY</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="1851"/>
         <source>Unknown system state</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan nieznany systemu</translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="2815"/>
         <source>MAV </source>
-        <translation type="unfinished"></translation>
+        <translation>MAV </translation>
     </message>
     <message>
         <location filename="../../src/uas/UAS.cc" line="3133"/>
         <source>Low battery detected %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrolka wykryte %1</translation>
     </message>
 </context>
 <context>
@@ -8674,73 +8674,73 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="59"/>
         <source>----</source>
-        <translation type="unfinished"></translation>
+        <translation>----</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="91"/>
         <source>Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Polecenia</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="99"/>
         <source>Height (m)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość (m)</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="117"/>
         <source>Airspeed (m/s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość (m/s)</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="135"/>
         <source>Turn Rate (rad/s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Turn Oceń (rad/s)</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="153"/>
         <location filename="../../src/ui/UASControlParameters.ui" line="221"/>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="160"/>
         <source>Get</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobierz</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="183"/>
         <source>Passthrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazywanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="191"/>
         <source>Elevator</source>
-        <translation type="unfinished"></translation>
+        <translation>Winda</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="198"/>
         <source>Rudder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ster</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="205"/>
         <source>Throttle</source>
-        <translation type="unfinished"></translation>
+        <translation>Przepustnicy</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControlParameters.ui" line="212"/>
         <source>Ailerons</source>
-        <translation type="unfinished"></translation>
+        <translation>Lotki</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASControlParameters.cpp" line="38"/>
         <source>Set Passthrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw przekazywanie</translation>
     </message>
 </context>
 <context>
@@ -8748,19 +8748,19 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/uas/UASControlWidget.cc" line="94"/>
         <source>Connected to </source>
-        <translation type="unfinished"></translation>
+        <translation>Podłączony do </translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASControlWidget.cc" line="110"/>
         <location filename="../../src/ui/uas/UASControlWidget.cc" line="153"/>
         <source>DISARM SYSTEM</source>
-        <translation type="unfinished"></translation>
+        <translation>ROZBRAJANIE SYSTEMU</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASControlWidget.cc" line="114"/>
         <location filename="../../src/ui/uas/UASControlWidget.cc" line="157"/>
         <source>ARM SYSTEM</source>
-        <translation type="unfinished"></translation>
+        <translation>RAMIĘ SYSTEM</translation>
     </message>
 </context>
 <context>
@@ -8768,7 +8768,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/UASList.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
 </context>
 <context>
@@ -8776,233 +8776,233 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/UASView.ui" line="31"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="296"/>
         <location filename="../../src/ui/UASView.ui" line="299"/>
         <source>System Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="302"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="333"/>
         <location filename="../../src/ui/UASView.ui" line="336"/>
         <source>System Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="339"/>
         <source>UAS001</source>
-        <translation type="unfinished"></translation>
+        <translation>UAS001</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="360"/>
         <source>MODE</source>
-        <translation type="unfinished"></translation>
+        <translation>TRYB</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="381"/>
         <location filename="../../src/ui/UASView.ui" line="384"/>
         <source>Remaining flight time</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozostały czas lotu</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="387"/>
         <location filename="../../src/ui/UASView.ui" line="417"/>
         <source>00:00:00</source>
-        <translation type="unfinished"></translation>
+        <translation>00:00:00</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="411"/>
         <location filename="../../src/ui/UASView.ui" line="414"/>
         <source>Uptime</source>
-        <translation type="unfinished"></translation>
+        <translation>Uptime</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="435"/>
         <location filename="../../src/ui/UASView.ui" line="438"/>
         <source>Current throttle</source>
-        <translation type="unfinished"></translation>
+        <translation>Obecny przepustnicy</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="444"/>
         <source>throttle %p%</source>
-        <translation type="unfinished"></translation>
+        <translation>przepustnicy %p %</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="462"/>
         <location filename="../../src/ui/UASView.ui" line="465"/>
         <source>Altitude</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="468"/>
         <source>00.00 m</source>
-        <translation type="unfinished"></translation>
+        <translation>00.00 m</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="492"/>
         <location filename="../../src/ui/UASView.ui" line="495"/>
         <source>Ground Speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="498"/>
         <source>00.0 m/s</source>
-        <translation type="unfinished"></translation>
+        <translation>00.0 m/s</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="529"/>
         <location filename="../../src/ui/UASView.ui" line="532"/>
         <source>Heartbeat</source>
-        <translation type="unfinished"></translation>
+        <translation>Bicie serca</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="559"/>
         <location filename="../../src/ui/UASView.ui" line="562"/>
         <source>Battery Fuel</source>
-        <translation type="unfinished"></translation>
+        <translation>Akumulator paliwa</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="583"/>
         <location filename="../../src/ui/UASView.ui" line="586"/>
         <source>Current Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorouting</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="589"/>
         <source>---</source>
-        <translation type="unfinished"></translation>
+        <translation>---</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="622"/>
         <location filename="../../src/ui/UASView.ui" line="625"/>
         <source>Current Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualna pozycja</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="628"/>
         <source>00.0  00.0  00.0 m</source>
-        <translation type="unfinished"></translation>
+        <translation>00.0 00.0 00.0 m</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="658"/>
         <location filename="../../src/ui/UASView.ui" line="661"/>
         <source>Liftoff / Launch</source>
-        <translation type="unfinished"></translation>
+        <translation>Starcie / uruchomić</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="687"/>
         <location filename="../../src/ui/UASView.ui" line="690"/>
         <source>Loiter / Wait at current position</source>
-        <translation type="unfinished"></translation>
+        <translation>Marudzić / czekać w bieżącej pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="716"/>
         <location filename="../../src/ui/UASView.ui" line="719"/>
         <source>Continue flightplan</source>
-        <translation type="unfinished"></translation>
+        <translation>Nadal flightplan</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="745"/>
         <location filename="../../src/ui/UASView.ui" line="748"/>
         <source>Fly straight to landing location</source>
-        <translation type="unfinished"></translation>
+        <translation>Leci prosto do miejsca wyładunku</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="768"/>
         <location filename="../../src/ui/UASView.ui" line="771"/>
         <source>Only in standby mode: Power off system</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko w trybie gotowości: Wyłącz system</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="803"/>
         <location filename="../../src/ui/UASView.ui" line="806"/>
         <source>Emergency land system at closest possible site</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruntów awaryjnego systemu w najbliższym miejscu możliwe</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="832"/>
         <location filename="../../src/ui/UASView.ui" line="835"/>
         <source>Kill immediately all onboard power</source>
-        <translation type="unfinished"></translation>
+        <translation>Zabić od razu wszystkie siły na pokładzie</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="851"/>
         <source>Waiting for first status update..</source>
-        <translation type="unfinished"></translation>
+        <translation>Czekam na pierwszą aktualizację statusu...</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="872"/>
         <source>STATE</source>
-        <translation type="unfinished"></translation>
+        <translation>PAŃSTWA</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASView.ui" line="887"/>
         <source>NAV</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="55"/>
         <source>Unknown state</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieznany stan</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="142"/>
         <source>UAS</source>
-        <translation type="unfinished"></translation>
+        <translation>ZWZ</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="353"/>
         <source>GCS </source>
-        <translation type="unfinished"></translation>
+        <translation>GCS </translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="437"/>
         <location filename="../../src/ui/uas/UASView.cc" line="451"/>
         <location filename="../../src/ui/uas/UASView.cc" line="460"/>
         <source>WP</source>
-        <translation type="unfinished"></translation>
+        <translation>WP</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="520"/>
         <source>Set Battery Specifications for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw baterii specyfikacji dla %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="521"/>
         <source>Specs: (empty,warn,full), e.g. (9V,9.5V,12.6V) or just warn level in percent (e.g. 15%) to use estimate from MAV</source>
-        <translation type="unfinished"></translation>
+        <translation>Specyfikacja: (puste, Warna, pełne), np. (9V, 9.5V, 12.6V) lub po prostu poziom w procentach (np. 15%) umożliwia oszacowanie od MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="533"/>
         <source>Rename System %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmień nazwę systemu %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="534"/>
         <source>System Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa systemu:</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="564"/>
         <source>Select Airframe for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz płatowca do %1</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="565"/>
         <source>Airframe</source>
-        <translation type="unfinished"></translation>
+        <translation>Płatowiec</translation>
     </message>
     <message>
         <location filename="../../src/ui/uas/UASView.cc" line="671"/>
         <source>Calc..</source>
-        <translation type="unfinished"></translation>
+        <translation>Oblicz.</translation>
     </message>
 </context>
 <context>
@@ -9010,27 +9010,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/uas/UASWaypointManager.cc" line="74"/>
         <source>Timeout, retrying (retries left: %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Limit czasu, ponawianie (prób lewej: %1)</translation>
     </message>
     <message>
         <location filename="../../src/uas/UASWaypointManager.cc" line="206"/>
         <source>done. (updated at %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>zrobić. (zaktualizowany w %1)</translation>
     </message>
     <message>
         <location filename="../../src/uas/UASWaypointManager.cc" line="210"/>
         <source>Waypoint ID mismatch, rejecting waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Waypoint RSM, odrzucenie punktu nawigacyjnego</translation>
     </message>
     <message>
         <location filename="../../src/uas/UASWaypointManager.cc" line="506"/>
         <source>The waypoint file is not compatible with the current version of QGroundControl.</source>
-        <translation type="unfinished"></translation>
+        <translation>Waypoint plik nie jest zgodna z aktualną wersję QGroundControl.</translation>
     </message>
     <message>
         <location filename="../../src/uas/UASWaypointManager.cc" line="520"/>
         <source>The waypoint file is corrupted. Load operation only partly succesful.</source>
-        <translation type="unfinished"></translation>
+        <translation>Waypoint plik jest uszkodzony. Obciążenia operacji tylko częściowo udana.</translation>
     </message>
 </context>
 <context>
@@ -9039,7 +9039,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../../src/comm/UDPLink.cc" line="50"/>
         <location filename="../../src/comm/UDPLink.cc" line="94"/>
         <source>UDP Link (port:%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Link UDP (port: %1)</translation>
     </message>
 </context>
 <context>
@@ -9062,17 +9062,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/checkablemessagebox.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Okno dialogowe</translation>
     </message>
     <message>
         <location filename="../../libs/utils/checkablemessagebox.ui" line="45"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>TextLabel</translation>
     </message>
     <message>
         <location filename="../../libs/utils/checkablemessagebox.ui" line="69"/>
         <source>CheckBox</source>
-        <translation type="unfinished"></translation>
+        <translation>Pole wyboru</translation>
     </message>
 </context>
 <context>
@@ -9080,17 +9080,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/classnamevalidatinglineedit.cpp" line="83"/>
         <source>The class name must not contain namespace delimiters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa klasy nie może zawierać nazw ograniczników.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/classnamevalidatinglineedit.cpp" line="87"/>
         <source>Please enter a class name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź nazwę klasy.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/classnamevalidatinglineedit.cpp" line="91"/>
         <source>The class name contains invalid characters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa klasy zawiera nieprawidłowe znaki.</translation>
     </message>
 </context>
 <context>
@@ -9098,62 +9098,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/consoleprocess.cpp" line="48"/>
         <source>Cannot set up communication channel: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można ustawić kanał komunikacyjny: %1</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess.cpp" line="55"/>
         <source>Press &lt;RETURN&gt; to close this window...</source>
-        <translation type="unfinished"></translation>
+        <translation>Naciśnij &lt;RETURN&gt;, aby zamknąć to okno...</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess.cpp" line="60"/>
         <source>Cannot create temporary file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można utworzyć pliku tymczasowego: %1</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess.cpp" line="65"/>
         <source>Cannot create temporary directory &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można utworzyć folderu &apos;%1&apos;: %2</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess.cpp" line="70"/>
         <source>Unexpected output from helper program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Niespodziewane wyjście z programu pomocnik.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess.cpp" line="75"/>
         <source>Cannot change to working directory &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie może zmienić katalog roboczy &apos;%1&apos;: %2</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess.cpp" line="80"/>
         <source>Cannot execute &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wykonać &apos;%1&apos;: %2</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess_unix.cpp" line="110"/>
         <source>Cannot start the terminal emulator &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można uruchomić emulator terminala &apos;%1&apos;.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess_unix.cpp" line="159"/>
         <source>Cannot create socket &apos;%1&apos;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można utworzyć gniazda &apos;%1&apos;: %2</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess_win.cpp" line="124"/>
         <source>The process &apos;%1&apos; could not be started: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można uruchomić procesu &apos;%1&apos;: %2</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess_win.cpp" line="194"/>
         <source>Cannot obtain a handle to the inferior: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można uzyskać uchwyt na gorsze: %1</translation>
     </message>
     <message>
         <location filename="../../libs/utils/consoleprocess_win.cpp" line="224"/>
         <source>Cannot obtain exit status from inferior: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można uzyskać stanu wyjścia z gorsze: %1</translation>
     </message>
 </context>
 <context>
@@ -9161,7 +9161,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/detailsbutton.cpp" line="47"/>
         <source>Show Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż szczegóły</translation>
     </message>
 </context>
 <context>
@@ -9169,22 +9169,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/filenamevalidatinglineedit.cpp" line="94"/>
         <source>The name must not be empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa nie może być pusta</translation>
     </message>
     <message>
         <location filename="../../libs/utils/filenamevalidatinglineedit.cpp" line="102"/>
         <source>The name must not contain any of the characters &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa nie może zawierać znaków &apos;%1&apos;.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/filenamevalidatinglineedit.cpp" line="111"/>
         <source>The name must not contain &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa nie może zawierać &apos;%1&apos;.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/filenamevalidatinglineedit.cpp" line="121"/>
         <source>The name must not match that of a MS Windows device. (%1).</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa nie musi odpowiadać urządzenie MS Windows. (%1).</translation>
     </message>
 </context>
 <context>
@@ -9196,97 +9196,75 @@ p, li { white-space: pre-wrap; }
             <numerusform></numerusform>
         </translation>
     </message>
-    <message numerus="yes">
-        <location filename="../../libs/utils/filesearch.cpp" line="54"/>
-        <source>%1: %n occurrences found in %2 files.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../libs/utils/filesearch.cpp" line="62"/>
-        <source>%1: %n occurrences found in %2 of %3 files.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>Utils::NewClassWidget</name>
-    <message>
-        <location filename="../../libs/utils/newclasswidget.ui" line="23"/>
-        <source>Class name:</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="33"/>
         <source>Base class:</source>
-        <translation type="unfinished"></translation>
+        <translation>Klasa bazowa:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="50"/>
         <source>Type information:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ informacji:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="58"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="63"/>
         <source>Inherits QObject</source>
-        <translation type="unfinished"></translation>
+        <translation>Dziedziczy QObject</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="68"/>
         <source>Inherits QWidget</source>
-        <translation type="unfinished"></translation>
+        <translation>Dziedziczy QWidget</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="108"/>
         <source>Header file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik nagłówka:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="118"/>
         <source>Source file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik źródłowy:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="128"/>
         <source>Generate form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Generowanie formularza:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="142"/>
         <source>Form file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik formularza:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.ui" line="152"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.cpp" line="416"/>
         <source>Invalid base class name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa nieprawidłowa Klasa podstawowa</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.cpp" line="423"/>
         <source>Invalid header file name: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowy nagłówek nazwa pliku: &apos;%1&apos;</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.cpp" line="429"/>
         <source>Invalid source file name: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowe Źródło nazwa pliku: &apos;%1&apos;</translation>
     </message>
     <message>
         <location filename="../../libs/utils/newclasswidget.cpp" line="436"/>
         <source>Invalid form file name: &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieprawidłowy formularz nazwy pliku: &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -9294,47 +9272,47 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="48"/>
         <source>Choose...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz...</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="50"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeglądaj...</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="176"/>
         <source>Choose a directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="182"/>
         <source>Choose a file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="215"/>
         <source>The path must not be empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka nie może być pusta.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="228"/>
         <source>The path &apos;%1&apos; does not exist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka &apos;%1&apos; nie istnieje.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="243"/>
         <source>The path &apos;%1&apos; is not a directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka &apos;%1&apos; nie jest katalogiem.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="251"/>
         <source>The path &apos;%1&apos; is not a file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka &apos;%1&apos; nie jest plikiem.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathchooser.cpp" line="270"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka:</translation>
     </message>
 </context>
 <context>
@@ -9342,27 +9320,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/pathlisteditor.cpp" line="118"/>
         <source>Insert...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wstaw...</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathlisteditor.cpp" line="122"/>
         <source>Add...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać...</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathlisteditor.cpp" line="123"/>
         <source>Delete line</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuwanie linii</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathlisteditor.cpp" line="124"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Jasne</translation>
     </message>
     <message>
         <location filename="../../libs/utils/pathlisteditor.cpp" line="254"/>
         <source>From &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Z &quot;%1&quot;</translation>
     </message>
 </context>
 <context>
@@ -9370,32 +9348,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/projectintropage.ui" line="14"/>
         <source>Introduction and project location</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadzenie i projekt lokalizacji</translation>
     </message>
     <message>
         <location filename="../../libs/utils/projectintropage.ui" line="57"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/projectintropage.ui" line="67"/>
         <source>Create in:</source>
-        <translation type="unfinished"></translation>
+        <translation>Utworzyć:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/projectintropage.cpp" line="64"/>
         <source>&lt;Enter_Name&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;Enter_Name&gt;</translation>
     </message>
     <message>
         <location filename="../../libs/utils/projectintropage.cpp" line="161"/>
         <source>The project already exists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt już istnieje.</translation>
     </message>
     <message>
         <location filename="../../libs/utils/projectintropage.cpp" line="165"/>
         <source>A file with that name already exists.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik o tej nazwie już istnieje.</translation>
     </message>
 </context>
 <context>
@@ -9403,7 +9381,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/projectnamevalidatinglineedit.cpp" line="49"/>
         <source>The name must not contain the &apos;.&apos;-character.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa nie może zawierać &apos;.&apos;-znak.</translation>
     </message>
 </context>
 <context>
@@ -9411,17 +9389,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/submiteditorwidget.ui" line="14"/>
         <source>Subversion Submit</source>
-        <translation type="unfinished"></translation>
+        <translation>Prześlij Subversion</translation>
     </message>
     <message>
         <location filename="../../libs/utils/submiteditorwidget.ui" line="20"/>
         <source>Des&amp;cription</source>
-        <translation type="unfinished"></translation>
+        <translation>Des &amp;cription</translation>
     </message>
     <message>
         <location filename="../../libs/utils/submiteditorwidget.ui" line="39"/>
         <source>F&amp;iles</source>
-        <translation type="unfinished"></translation>
+        <translation>F &amp;iles</translation>
     </message>
 </context>
 <context>
@@ -9429,17 +9407,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/filewizardpage.ui" line="14"/>
         <source>Choose the location</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybór lokalizacji</translation>
     </message>
     <message>
         <location filename="../../libs/utils/filewizardpage.ui" line="20"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazwa:</translation>
     </message>
     <message>
         <location filename="../../libs/utils/filewizardpage.ui" line="30"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka:</translation>
     </message>
 </context>
 <context>
@@ -9447,17 +9425,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/reloadpromptutils.cpp" line="41"/>
         <source>File Changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmieniony plik</translation>
     </message>
     <message>
         <location filename="../../libs/utils/reloadpromptutils.cpp" line="45"/>
         <source>The unsaved file %1 has been changed outside Qt Creator. Do you want to reload it and discard your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Niezapisany plik %1 została zmieniona poza Qt Creator. Czy chcesz go przeładować i Odrzuć zmiany?</translation>
     </message>
     <message>
         <location filename="../../libs/utils/reloadpromptutils.cpp" line="48"/>
         <source>The file %1 has changed outside Qt Creator. Do you want to reload it?</source>
-        <translation type="unfinished"></translation>
+        <translation>Plik %1 została zmieniona poza Qt Creator. Czy chcesz odświeżyć go?</translation>
     </message>
 </context>
 <context>
@@ -9465,97 +9443,97 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="15"/>
         <source>View Parameters</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobacz parametry</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="138"/>
         <source>Follow Camera</source>
-        <translation type="unfinished"></translation>
+        <translation>Po aparat</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="139"/>
         <source>Frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Rama</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="140"/>
         <source>Terrain</source>
-        <translation type="unfinished"></translation>
+        <translation>Teren</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="141"/>
         <source>World Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Gridową na świecie</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="142"/>
         <source>Imagery Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcje Zdjęcia</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="212"/>
         <source>Overlays</source>
-        <translation type="unfinished"></translation>
+        <translation>Nakładki</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="219"/>
         <source>Color Point Cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor chmury punktów</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="220"/>
         <source>Local Grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokalne sieci</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="221"/>
         <source>Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelu</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="222"/>
         <source>Obstacles</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeszkody</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="223"/>
         <source>Planned Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Planowanej ścieżki</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="224"/>
         <source>Point Cloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Chmury punktów</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="225"/>
         <source>RGBD</source>
-        <translation type="unfinished"></translation>
+        <translation>RGBD</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="226"/>
         <source>Setpoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Progowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="227"/>
         <source>Setpoint History Length</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość historii SetPoint</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="228"/>
         <source>Target</source>
-        <translation type="unfinished"></translation>
+        <translation>Miejsce docelowe</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="229"/>
         <source>Trails</source>
-        <translation type="unfinished"></translation>
+        <translation>Szlaki</translation>
     </message>
     <message>
         <location filename="../../src/ui/map3D/ViewParamWidget.cc" line="230"/>
         <source>Waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Waypointy</translation>
     </message>
 </context>
 <context>
@@ -9563,12 +9541,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/watchdog/WatchdogControl.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/watchdog/WatchdogControl.ui" line="23"/>
         <source>0 Processes  Core 1: 0%  Core 2: 0%</source>
-        <translation type="unfinished"></translation>
+        <translation>Podstawowe procesy 0 1: 0% Core 2:0 %</translation>
     </message>
 </context>
 <context>
@@ -9576,20 +9554,20 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/watchdog/WatchdogProcessView.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/watchdog/WatchdogProcessView.ui" line="20"/>
         <location filename="../../src/ui/watchdog/WatchdogProcessView.ui" line="27"/>
         <location filename="../../src/ui/watchdog/WatchdogProcessView.ui" line="34"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>TextLabel</translation>
     </message>
     <message>
         <location filename="../../src/ui/watchdog/WatchdogProcessView.ui" line="41"/>
         <location filename="../../src/ui/watchdog/WatchdogProcessView.ui" line="48"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -9597,12 +9575,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/watchdog/WatchdogView.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/watchdog/WatchdogView.ui" line="20"/>
         <source>Watchdog</source>
-        <translation type="unfinished"></translation>
+        <translation>Watchdog</translation>
     </message>
 </context>
 <context>
@@ -9610,50 +9588,50 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="142"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="145"/>
         <source>Mission Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Start misji</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="173"/>
         <source>Waypoint Sequence Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numer kolejny punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="176"/>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="192"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="195"/>
         <source>Action at Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Akcja w Waypoint</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="211"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="214"/>
         <source>Coordinate frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Ramki współrzędnych</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="233"/>
         <source>Position X coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna X pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="236"/>
         <source>Position X corrdinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja X corrdinate</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="248"/>
         <source>N </source>
-        <translation type="unfinished"></translation>
+        <translation>N </translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="251"/>
@@ -9664,212 +9642,212 @@ p, li { white-space: pre-wrap; }
         <location filename="../../src/ui/WaypointEditableView.ui" line="533"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="564"/>
         <source> m</source>
-        <translation type="unfinished"></translation>
+        <translation> m</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="276"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="279"/>
         <source>Position Y/Longitude coordinate</source>
-        <translation type="unfinished"></translation>
+        <translation>Współrzędna Y/długość geograficzna pozycji</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="282"/>
         <source>E </source>
-        <translation type="unfinished"></translation>
+        <translation>E </translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="313"/>
         <source>Position Z coordinate (local frame, negative)</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycji Z koordynacji (lokalne ramki, negatywne)</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="319"/>
         <source>D </source>
-        <translation type="unfinished"></translation>
+        <translation>D </translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="347"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="350"/>
         <source>Latitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Szerokości geograficznej w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="353"/>
         <source>lat </source>
-        <translation type="unfinished"></translation>
+        <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="356"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="393"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="502"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="667"/>
         <source>°</source>
-        <translation type="unfinished"></translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="384"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="387"/>
         <source>Longitude in degrees</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość geograficzna w stopniach</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="390"/>
         <source>lon </source>
-        <translation type="unfinished"></translation>
+        <translation>Lon </translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="418"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="421"/>
         <source>Altitude in meters</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość w metrach</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="424"/>
         <source>alt </source>
-        <translation type="unfinished"></translation>
+        <translation>Alt </translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="443"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="446"/>
         <source>Uncertainly radius in meters where to accept this waypoint as reached</source>
-        <translation type="unfinished"></translation>
+        <translation>Niepewnie promień w metrów gdzie przyjmuje ten punkt, jak dojechać</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="471"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="474"/>
         <source>Loiter Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Wałęsać się czas</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="477"/>
         <source>s</source>
-        <translation type="unfinished"></translation>
+        <translation>s</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="493"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="496"/>
         <source>Rotary wing only: Desired yaw angle at waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Wirnikowy tylko: kąt pożądanego odchylenia w punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="527"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="530"/>
         <source>Loiter radius. Negative for counter-clockwise</source>
-        <translation type="unfinished"></translation>
+        <translation>Marudzić promień. Negatywne na lewo</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="558"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="561"/>
         <source>Relative Altitude Target</source>
-        <translation type="unfinished"></translation>
+        <translation>Względna wysokość cel</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="586"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="589"/>
         <source>maximum Horizontal Speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość pozioma</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="592"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="617"/>
         <source> m/s</source>
-        <translation type="unfinished"></translation>
+        <translation> m/s</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="608"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="611"/>
         <source>maximum Vertical Speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Maksymalna prędkość pionowa</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="633"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="636"/>
         <source>Number of turns to loiter</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba zwojów do marudzić</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="639"/>
         <source> turns</source>
-        <translation type="unfinished"></translation>
+        <translation> Włącza</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="658"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="661"/>
         <source>Take off pitch angle</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdjąć kąt nachylenia</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="735"/>
         <source>AQ format</source>
-        <translation type="unfinished"></translation>
+        <translation>AQ formatu</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="751"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="754"/>
         <source>Automatically continue after this waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatycznie kontynuować po ten punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="773"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="776"/>
         <source>Move Up in List</source>
-        <translation type="unfinished"></translation>
+        <translation>Wrzucic na liście</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="799"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="802"/>
         <source>Move Down in List</source>
-        <translation type="unfinished"></translation>
+        <translation>Przenieś w dół na liście</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="825"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="50"/>
         <source>NAV: Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: Waypoint</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="51"/>
         <source>NAV: TakeOff</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: TakeOff</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="52"/>
         <source>NAV: Loiter Unlim.</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: Marudzić trenera.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="53"/>
         <source>NAV: Loiter Time</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: Marudzić czas</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="54"/>
         <source>NAV: Loiter Turns</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: Wałęsać się</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="55"/>
         <source>NAV: Ret. to Launch</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: Ret. rozpoczęcie</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="56"/>
         <source>NAV: Land</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: Ziemia</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="57"/>
         <source>NAV: Orbit</source>
-        <translation type="unfinished"></translation>
+        <translation>NAV: Orbit</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointEditableView.cc" line="62"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Inne</translation>
     </message>
 </context>
 <context>
@@ -9877,223 +9855,223 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="30"/>
         <source>Edit Waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Edycja punktów</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="51"/>
         <location filename="../../src/ui/WaypointList.ui" line="54"/>
         <location filename="../../src/ui/WaypointList.ui" line="57"/>
         <source>Load waypoints from a file on the local harddisk. Does not load the waypoints on the MAV.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obciążenia punktów z pliku na dysku lokalnym. Nie załadować waypointy na MAV.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="60"/>
         <source>Load WPs</source>
-        <translation type="unfinished"></translation>
+        <translation>Obciążenia WPs</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="67"/>
         <location filename="../../src/ui/WaypointList.ui" line="70"/>
         <location filename="../../src/ui/WaypointList.ui" line="73"/>
         <source>Set the current vehicle position as new waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw aktualną pozycję pojazdu jako nowy punkt orientacyjny</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="76"/>
         <location filename="../../src/ui/WaypointList.ui" line="109"/>
         <location filename="../../src/ui/WaypointList.ui" line="233"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="100"/>
         <location filename="../../src/ui/WaypointList.ui" line="103"/>
         <location filename="../../src/ui/WaypointList.ui" line="106"/>
         <source>Add a new waypoint to this list. Transmit via write to the MAV.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać nowy punkt orientacyjny dla tej listy. Przekazywać poprzez zapis do MAV.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="120"/>
         <location filename="../../src/ui/WaypointList.ui" line="123"/>
         <location filename="../../src/ui/WaypointList.ui" line="126"/>
         <source>Transmit all waypoints on this list to the MAV.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazuje wszystkie waypointy na tej liście MAV.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="129"/>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="155"/>
         <location filename="../../src/ui/WaypointList.ui" line="158"/>
         <location filename="../../src/ui/WaypointList.ui" line="161"/>
         <source>Waypoint list. The list is empty until you issue a read command or add waypoints.</source>
-        <translation type="unfinished"></translation>
+        <translation>Listę punktów nawigacyjnych. Lista jest pusta, aż do wydania polecenia odczytu lub dodać waypointy.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="172"/>
         <location filename="../../src/ui/WaypointList.ui" line="175"/>
         <location filename="../../src/ui/WaypointList.ui" line="178"/>
         <source>Read all waypoints from the MAV. Clears the list on this computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeczytaj wszystkie waypointy z MAV. Czyści listę na tym komputerze.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="181"/>
         <source>Get</source>
-        <translation type="unfinished"></translation>
+        <translation>Pobierz</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="192"/>
         <location filename="../../src/ui/WaypointList.ui" line="195"/>
         <location filename="../../src/ui/WaypointList.ui" line="198"/>
         <source>Save waypoints to a file on the local harddisk. Does not save them on the MAV.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie waypointów do pliku na dysku lokalnym. Nie zapisać je na MAV.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="201"/>
         <source>Save WPs</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz WPs</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="208"/>
         <location filename="../../src/ui/WaypointList.ui" line="211"/>
         <location filename="../../src/ui/WaypointList.ui" line="214"/>
         <source>The current waypoint transmission status</source>
-        <translation type="unfinished"></translation>
+        <translation>Bieżący stan transmisji punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="217"/>
         <source>Please add first waypoint.</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę dodać punkt pierwszy.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="224"/>
         <location filename="../../src/ui/WaypointList.ui" line="227"/>
         <location filename="../../src/ui/WaypointList.ui" line="230"/>
         <source>Delete all waypoints from this list. You have to click write to clear the list on the MAV as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń wszystkie punkty z tej listy. Musisz kliknij napisz się wyczyszczenia listy na MAV także.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="245"/>
         <source>Onboard Waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Na pokładzie waypointy</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="276"/>
         <location filename="../../src/ui/WaypointList.ui" line="279"/>
         <source>Read all waypoints from the MAV and display in View tab..</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeczytaj wszystkie waypointy z MAV i wyświetlić w widoku kartę...</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="282"/>
         <source>Read all waypoints from the MAV and display in View tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeczytaj wszystkie waypointy z MAV i wyświetlić w widoku kartę.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="285"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Odśwież</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="303"/>
         <location filename="../../src/ui/WaypointList.ui" line="306"/>
         <location filename="../../src/ui/WaypointList.ui" line="309"/>
         <source>Save onboard waypoints to SD card</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie waypointów na pokładzie karty SD</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="312"/>
         <source>Save to SD</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz na SD</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="323"/>
         <location filename="../../src/ui/WaypointList.ui" line="326"/>
         <location filename="../../src/ui/WaypointList.ui" line="329"/>
         <source>Load onboard waypoints from SD card</source>
-        <translation type="unfinished"></translation>
+        <translation>Obciążenia na pokładzie waypointy z karty SD</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="332"/>
         <source>Load from SD</source>
-        <translation type="unfinished"></translation>
+        <translation>Ładowanie z SD</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="386"/>
         <source>Add Waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="389"/>
         <source>Add a new waypoint to the end of the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodać nowy punkt orientacyjny na końcu listy</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="398"/>
         <source>Transmit</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazuje</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="401"/>
         <source>Transmit waypoints to unmanned system</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazuje waypointy do bezzałogowych system</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.ui" line="410"/>
         <source>Read</source>
-        <translation type="unfinished"></translation>
+        <translation>Czytaj</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="193"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="193"/>
         <location filename="../../src/ui/WaypointList.cc" line="212"/>
         <source>Waypoint File (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Waypoint plik (*.txt)</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="212"/>
         <source>Load File</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytaj plik</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="279"/>
         <source>Added default LOCAL (NED) waypoint.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodano domyślnie lokalne (NED) punktu nawigacyjnego.</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="287"/>
         <source>WARNING: No position known. Adding default LOCAL (NED) waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostrzeżenie: Nie ma pozycji znany. Dodanie domyślnego lokalnego (NED) punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="295"/>
         <source>No UAV connected. Adding default LOCAL (NED) waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie UAV podłączony. Dodanie domyślnego lokalnego (NED) punkt</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="342"/>
         <source>Added GLOBAL, ALTITUDE OVER GROUND waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodano punkt globalnego, wysokości nad ziemią</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="357"/>
         <source>Added LOCAL (NED) waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodano waypointa lokalnym (NED)</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointList.cc" line="363"/>
         <source>Not adding waypoint, no position of MAV known yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie Dodawanie waypoint, nie pozycji MAV jeszcze znane.</translation>
     </message>
 </context>
 <context>
@@ -10101,48 +10079,41 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="515"/>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="518"/>
         <source>Currently executed waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualnie wykonywany punktu nawigacyjnego</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="543"/>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="559"/>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="562"/>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="568"/>
         <source>Mission element description</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis elementu misji</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="591"/>
         <source>Coordinate Frame</source>
-        <comment>Coordinate Frame</comment>
-        <extracomment>Coordinate Frame</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/ui/WaypointViewOnlyView.ui" line="594"/>
-        <source>Coordinate Frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Ramki współrzędnych</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="600"/>
         <source>Frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Rama</translation>
     </message>
     <message>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="619"/>
         <location filename="../../src/ui/WaypointViewOnlyView.ui" line="622"/>
         <source>Automatically continue after this waypoint</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatycznie kontynuować po ten punkt</translation>
     </message>
 </context>
 <context>
@@ -10150,98 +10121,98 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="35"/>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="45"/>
         <source>Select input file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik wejściowy</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="81"/>
         <source>Select output directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="91"/>
         <source>Select directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="102"/>
         <source>Compile Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompilacji danych wyjściowych</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="116"/>
         <source>No file loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie plik załadowany</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="123"/>
         <source>Save file</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz plik</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="130"/>
         <source>Save and generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz i generowania</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="141"/>
         <source>Select MAVLink Version</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz wersję MAVLink</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="152"/>
         <source>MAVLink v1.0 (Sept&apos;10+)</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink v1.0 (wrzesień &apos; 10 +)</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.ui" line="157"/>
         <source>MAVLink v0.9 (-Aug&apos;10)</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink v0.9 (-sierpnia &apos; 10)</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="40"/>
         <source>MAVLink XML (*.xml)</source>
-        <translation type="unfinished"></translation>
+        <translation>MAVLink XML (*.xml)</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="77"/>
         <source>&lt;font color=&quot;green&quot;&gt;Valid XML file&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;font color=&quot;green&quot;&gt; prawidłowy dokument XML pliku&lt;/font&gt;</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="81"/>
         <source>&lt;font color=&quot;red&quot;&gt;File is NOT valid XML, please fix in editor&lt;/font&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;font color=&quot;red&quot;&gt; plik jest nie prawidłowy XML, popraw w edytorze&lt;/font&gt;</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="115"/>
         <source>Please select an XML input file first</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz plik wejściowy XML, najpierw</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="115"/>
         <source>You have to select an input XML file before generating C files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Musisz wybrać plik wejściowy XML przed generowania plików C.</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="122"/>
         <source>Please select output directory first</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę najpierw wybierz katalog docelowy</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="122"/>
         <source>You have to select an output directory before generating C files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Musisz wybrać katalog docelowy przed generowania plików C.</translation>
     </message>
     <message>
         <location filename="../../src/apps/mavlinkgen/ui/XMLCommProtocolWidget.cc" line="164"/>
         <source>C code generation failed, please see the compile log for further information</source>
-        <translation type="unfinished"></translation>
+        <translation>Generowanie kodu C nie powiodło się, proszę Zobacz log kompilacji dla dalszych informacji</translation>
     </message>
 </context>
 <context>
@@ -10249,27 +10220,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="209"/>
         <source>Baut Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Baut stopy</translation>
     </message>
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="213"/>
         <source>SerialPort</source>
-        <translation type="unfinished"></translation>
+        <translation>SerialPort</translation>
     </message>
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="218"/>
         <source>Remote hex Address &amp;High</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdalne hex adres &amp;wysokiej</translation>
     </message>
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="222"/>
         <source>Remote hex Address &amp;Low</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdalne hex adres &amp;niski</translation>
     </message>
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="288"/>
         <source>Xbee Communication Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia komunikacyjne XBee</translation>
     </message>
 </context>
 <context>
@@ -10277,12 +10248,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/comm/XbeeLink.cpp" line="21"/>
         <source>xbee link</source>
-        <translation type="unfinished"></translation>
+        <translation>XBee link</translation>
     </message>
     <message>
         <location filename="../../src/comm/XbeeLink.cpp" line="230"/>
         <source>Could not send data - link %1 is disconnected!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można wysłać danych - łącze %1 jest odłączony!</translation>
     </message>
 </context>
 <context>
@@ -10290,7 +10261,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/xmlconfig.cpp" line="61"/>
         <source>GCS config</source>
-        <translation type="unfinished"></translation>
+        <translation>GCS config</translation>
     </message>
     <message>
         <location filename="../../libs/utils/xmlconfig.cpp" line="62"/>
@@ -10304,61 +10275,61 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="44"/>
         <source>Link Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ łącza</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="54"/>
         <location filename="../../src/ui/CommSettings.ui" line="109"/>
         <source>Protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>Protokół</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="77"/>
         <source>Link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="147"/>
         <source>Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Odłączony</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="162"/>
         <location filename="../../src/ui/CommSettings.ui" line="202"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="175"/>
         <location filename="../../src/ui/CommSettings.ui" line="194"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="182"/>
         <location filename="../../src/ui/CommSettings.ui" line="210"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="197"/>
         <source>Delete this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń ten link</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="205"/>
         <source>Connect this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć ten link</translation>
     </message>
     <message>
         <location filename="../../src/ui/CommSettings.ui" line="213"/>
         <source>Close the configuration window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij okno konfiguracji</translation>
     </message>
 </context>
 <context>
@@ -10366,43 +10337,43 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/Linechart.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/Linechart.ui" line="122"/>
         <source>All MAVs</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie MAVs</translation>
     </message>
     <message>
         <location filename="../../src/ui/Linechart.ui" line="140"/>
         <source>Display only variable names in curve list</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyświetlanie tylko nazwy zmiennych w krzywej listy</translation>
     </message>
     <message>
         <location filename="../../src/ui/Linechart.ui" line="143"/>
         <source>Short names</source>
-        <translation type="unfinished"></translation>
+        <translation>Krótkie nazwy</translation>
     </message>
     <message>
         <location filename="../../src/ui/Linechart.ui" line="150"/>
         <location filename="../../src/ui/Linechart.ui" line="153"/>
         <source>Display variable units in curve list</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmienne jednostki wyświetlane na liście łuk</translation>
     </message>
     <message>
         <location filename="../../src/ui/Linechart.ui" line="156"/>
         <source>Show units</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż jednostki</translation>
     </message>
     <message>
         <location filename="../../src/ui/Linechart.ui" line="192"/>
         <source>Rotate color scheme for all curves</source>
-        <translation type="unfinished"></translation>
+        <translation>Obróć schemat kolorów dla wszystkich krzywych</translation>
     </message>
     <message>
         <location filename="../../src/ui/Linechart.ui" line="195"/>
         <source>Recolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponowne kolorowanie</translation>
     </message>
 </context>
 <context>
@@ -10410,17 +10381,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/opmapcontrol/src/mapwidget/trailitem.cpp" line="36"/>
         <source>Position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stanowisko:</translation>
     </message>
     <message>
         <location filename="../../libs/opmapcontrol/src/mapwidget/trailitem.cpp" line="36"/>
         <source>Altitude:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wysokość:</translation>
     </message>
     <message>
         <location filename="../../libs/opmapcontrol/src/mapwidget/trailitem.cpp" line="36"/>
         <source>Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas:</translation>
     </message>
 </context>
 <context>
@@ -10428,7 +10399,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/ParameterInterface.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
 </context>
 <context>
@@ -10436,178 +10407,178 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="23"/>
         <source>Serial Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port szeregowy</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="30"/>
         <location filename="../../src/ui/SerialSettings.ui" line="33"/>
         <location filename="../../src/ui/SerialSettings.ui" line="36"/>
         <source>The serial port to which the system is connected. All ports listed here should work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Port szeregowy, do którego podłączony jest układ. Powinny działać wszystkie porty wymienione tutaj.</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="54"/>
         <source>Baud Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkość transmisji</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="61"/>
         <location filename="../../src/ui/SerialSettings.ui" line="64"/>
         <location filename="../../src/ui/SerialSettings.ui" line="67"/>
         <source>The data transmission rate. If unsure 57600 and 115200 are very common rates.</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkość transmisji danych. Jeśli pewien 57600 i 115200 są bardzo często cena.</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="77"/>
         <source>50</source>
-        <translation type="unfinished"></translation>
+        <translation>50</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="82"/>
         <source>75</source>
-        <translation type="unfinished"></translation>
+        <translation>75</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="87"/>
         <source>110</source>
-        <translation type="unfinished"></translation>
+        <translation>110</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="92"/>
         <source>134</source>
-        <translation type="unfinished"></translation>
+        <translation>134</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="97"/>
         <source>150</source>
-        <translation type="unfinished"></translation>
+        <translation>150</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="102"/>
         <source>200</source>
-        <translation type="unfinished"></translation>
+        <translation>200</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="107"/>
         <source>300</source>
-        <translation type="unfinished"></translation>
+        <translation>300</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="112"/>
         <source>600</source>
-        <translation type="unfinished"></translation>
+        <translation>600</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="117"/>
         <source>1200</source>
-        <translation type="unfinished"></translation>
+        <translation>1200</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="122"/>
         <source>1800</source>
-        <translation type="unfinished"></translation>
+        <translation>1800</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="127"/>
         <source>2400</source>
-        <translation type="unfinished"></translation>
+        <translation>2400</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="132"/>
         <source>4800</source>
-        <translation type="unfinished"></translation>
+        <translation>4800</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="137"/>
         <source>9600</source>
-        <translation type="unfinished"></translation>
+        <translation>9600</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="142"/>
         <source>14400</source>
-        <translation type="unfinished"></translation>
+        <translation>14400</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="147"/>
         <source>19200</source>
-        <translation type="unfinished"></translation>
+        <translation>19200</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="152"/>
         <source>38400</source>
-        <translation type="unfinished"></translation>
+        <translation>38400</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="157"/>
         <source>56000</source>
-        <translation type="unfinished"></translation>
+        <translation>56000</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="162"/>
         <source>57600</source>
-        <translation type="unfinished"></translation>
+        <translation>57600</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="167"/>
         <source>76800</source>
-        <translation type="unfinished"></translation>
+        <translation>76800</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="172"/>
         <source>115200</source>
-        <translation type="unfinished"></translation>
+        <translation>115200</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="177"/>
         <source>128000</source>
-        <translation type="unfinished"></translation>
+        <translation>128000</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="182"/>
         <source>230400</source>
-        <translation type="unfinished"></translation>
+        <translation>230400</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="187"/>
         <source>256000</source>
-        <translation type="unfinished"></translation>
+        <translation>256000</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="192"/>
         <source>460800</source>
-        <translation type="unfinished"></translation>
+        <translation>460800</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="197"/>
         <source>921600</source>
-        <translation type="unfinished"></translation>
+        <translation>921600</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="205"/>
         <source>Flow Control</source>
-        <translation type="unfinished"></translation>
+        <translation>Sterowanie przepływem</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="212"/>
         <location filename="../../src/ui/SerialSettings.ui" line="215"/>
         <location filename="../../src/ui/SerialSettings.ui" line="218"/>
         <source>Activate / deactivate hardware flow control. Commonly deactivated</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywacja / deaktywacja sprzętowe sterowanie przepływem. Powszechnie wyłączone</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="221"/>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktywne</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="228"/>
         <source>Parity</source>
-        <translation type="unfinished"></translation>
+        <translation>Parzystość</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="237"/>
@@ -10620,86 +10591,86 @@ p, li { white-space: pre-wrap; }
         <location filename="../../src/ui/SerialSettings.ui" line="275"/>
         <location filename="../../src/ui/SerialSettings.ui" line="278"/>
         <source>Set the parity. In most cases no parity (None) is used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawić parzystość. W większości przypadków jest używany bez parzystości (brak).</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="246"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="265"/>
         <source>Odd</source>
-        <translation type="unfinished"></translation>
+        <translation>Dziwne</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="281"/>
         <source>Even</source>
-        <translation type="unfinished"></translation>
+        <translation>Nawet</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="302"/>
         <location filename="../../src/ui/SerialSettings.ui" line="305"/>
         <location filename="../../src/ui/SerialSettings.ui" line="308"/>
         <source>Number of data bits per symbol. This is almost always 8.</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba bitów danych na symbol. To jest prawie zawsze 8.</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="324"/>
         <source>Stop bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Przystanek bitów</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="337"/>
         <location filename="../../src/ui/SerialSettings.ui" line="340"/>
         <location filename="../../src/ui/SerialSettings.ui" line="343"/>
         <source>Number of stop bits per symbol. This is almost always 2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba bitów stopu na symbol. To jest prawie zawsze 2.</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="378"/>
         <source>Data bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitów danych</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="385"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="388"/>
         <location filename="../../src/ui/SerialSettings.ui" line="391"/>
         <source>Delete this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń ten link</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="394"/>
         <source>Link delete button</source>
-        <translation type="unfinished"></translation>
+        <translation>Przycisk Usuń link</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="399"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="402"/>
         <location filename="../../src/ui/SerialSettings.ui" line="405"/>
         <location filename="../../src/ui/SerialSettings.ui" line="408"/>
         <source>Connect this link</source>
-        <translation type="unfinished"></translation>
+        <translation>Połączyć ten link</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="413"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij</translation>
     </message>
     <message>
         <location filename="../../src/ui/SerialSettings.ui" line="416"/>
         <location filename="../../src/ui/SerialSettings.ui" line="419"/>
         <location filename="../../src/ui/SerialSettings.ui" line="422"/>
         <source>Close the configuration window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij okno konfiguracji</translation>
     </message>
 </context>
 <context>
@@ -10707,95 +10678,95 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/UASControl.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="35"/>
         <source>Control widget to send basic control actions to the micro air vehicle</source>
-        <translation type="unfinished"></translation>
+        <translation>Widżet kontroli wysłać podstawowe kontroli działania pojazdu mikro powietrza</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="63"/>
         <location filename="../../src/ui/UASControl.ui" line="66"/>
         <source>Currently controlled system</source>
-        <translation type="unfinished"></translation>
+        <translation>Obecnie kontrolowane systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="69"/>
         <source>UNCONNECTED</source>
-        <translation type="unfinished"></translation>
+        <translation>NIEZWIĄZANE</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="106"/>
         <location filename="../../src/ui/UASControl.ui" line="109"/>
         <source>Liftoff / Launch</source>
-        <translation type="unfinished"></translation>
+        <translation>Starcie / uruchomić</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="112"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Start</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="129"/>
         <location filename="../../src/ui/UASControl.ui" line="132"/>
         <source>Fly straight to landing spot</source>
-        <translation type="unfinished"></translation>
+        <translation>Leci prosto do lądowania miejscu</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="135"/>
         <source>Land</source>
-        <translation type="unfinished"></translation>
+        <translation>Ziemi</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="152"/>
         <location filename="../../src/ui/UASControl.ui" line="155"/>
         <source>Only active on the ground: Poweroff system</source>
-        <translation type="unfinished"></translation>
+        <translation>Tylko aktywne na ziemi: Poweroff systemu</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="158"/>
         <source>Halt</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatrzymanie</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="177"/>
         <location filename="../../src/ui/UASControl.ui" line="180"/>
         <source>Select MAV operation mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz tryb pracy MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="193"/>
         <location filename="../../src/ui/UASControl.ui" line="196"/>
         <source>Transmit and enable mode on MAV</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekazywanie i włączyć tryb MAV</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="199"/>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Zestaw</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="216"/>
         <location filename="../../src/ui/UASControl.ui" line="219"/>
         <source>Status label</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan etykiety</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="222"/>
         <source>No actions executed so far</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie działania wykonywane dotychczas</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="251"/>
         <location filename="../../src/ui/UASControl.ui" line="254"/>
         <source>Main control button</source>
-        <translation type="unfinished"></translation>
+        <translation>Przycisk sterowania</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASControl.ui" line="257"/>
         <source>Activate Engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Włączyć silnik</translation>
     </message>
 </context>
 <context>
@@ -10803,7 +10774,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formularz</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="47"/>
@@ -10811,12 +10782,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../../src/ui/UASInfo.ui" line="364"/>
         <location filename="../../src/ui/UASInfo.ui" line="456"/>
         <source>%</source>
-        <translation type="unfinished"></translation>
+        <translation>%</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="92"/>
         <source>MAV TX Loss</source>
-        <translation type="unfinished"></translation>
+        <translation>MAV TX straty</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="135"/>
@@ -10824,17 +10795,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../../src/ui/UASInfo.ui" line="277"/>
         <location filename="../../src/ui/UASInfo.ui" line="414"/>
         <source>%p%</source>
-        <translation type="unfinished"></translation>
+        <translation>%p %</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="142"/>
         <source>No error status received yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Stan błędu, nie otrzymał jeszcze</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="155"/>
         <source>MAV RX Loss</source>
-        <translation type="unfinished"></translation>
+        <translation>MAV RX straty</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="162"/>
@@ -10843,27 +10814,27 @@ p, li { white-space: pre-wrap; }
         <location filename="../../src/ui/UASInfo.ui" line="421"/>
         <location filename="../../src/ui/UASInfo.ui" line="440"/>
         <source>0</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="240"/>
         <source>MCU Load</source>
-        <translation type="unfinished"></translation>
+        <translation>MCU Load</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="306"/>
         <source>V</source>
-        <translation type="unfinished"></translation>
+        <translation>V</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="325"/>
         <source>Battery</source>
-        <translation type="unfinished"></translation>
+        <translation>Baterii</translation>
     </message>
     <message>
         <location filename="../../src/ui/UASInfo.ui" line="377"/>
         <source>Radio Qual.</source>
-        <translation type="unfinished"></translation>
+        <translation>Radio Qual.</translation>
     </message>
 </context>
 </TS>

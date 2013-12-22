@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de" sourcelanguage="en">
+<TS version="2.1" language="de" sourcelanguage="en">
 <context>
     <name>AQLinechartWidget</name>
     <message>
@@ -560,7 +560,7 @@
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1308"/>
         <source>Actual UTC date of the flight (in case log creation date is incorrect).</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle UTC-Datum des Fluges (für den Fall, dass der Protokoll-Erstellungs-Datum nicht korrekt ist).</translation>
     </message>
     <message>
         <source>~ </source>
@@ -1732,7 +1732,7 @@
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="364"/>
         <source>New &amp;Gauge</source>
-        <translation>Neue &amp; Messgerät</translation>
+        <translation>Neue &amp;Messgerät</translation>
     </message>
     <message>
         <location filename="../../src/ui/HDDisplay.cc" line="365"/>
@@ -3743,7 +3743,7 @@ Abort.&lt;/font&gt;</source>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse value at at lowest stick position (affects throttle only)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Puls Zeitwert am Stick unterste (nur Affekte Drosselklappe)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2550"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2582"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="2894"/>
@@ -3812,7 +3812,7 @@ Abort.&lt;/font&gt;</source>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Manual mode yaw rate in degrees per second at full control deflection(+/-700).  This rate is scaled based on control stick position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Handbetrieb Gierrate in Grad pro Sekunde bei &quot;Vollzugriff&quot; Durchbiegung (+/-700).  Diese Rate wird skaliert, basierend auf Steuerknüppel Position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="2839"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5320"/>
         <source> °/s</source>
@@ -4280,7 +4280,7 @@ Abort.&lt;/font&gt;</source>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flight controller/IMU orientation compared to vehicle front (negative values for CCW rotation) &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Flight Controller/IMU Orientierung im Vergleich zu Fahrzeug-Front (negative Werte für CCW Drehung)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5528"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5566"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="5604"/>
@@ -4660,7 +4660,7 @@ Abort.&lt;/font&gt;</source>
         <source>Motor poles:</source>
         <translation>Motor Polen:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6816"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; The number of magnetic poles used in the motor’s construction.  This value only needs to be set correctly if you want to use the RPM closed loop mode.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Die Anzahl der magnetischen Pole in der Motor-Bau verwendet.  Dieser Wert muss korrekt eingestellt sein, wenn Sie den RPM closed-Loop-Modus verwenden möchten.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
@@ -4982,7 +4982,7 @@ Abort.&lt;/font&gt;</source>
         <source>CL 1:</source>
         <translation>CL 1:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7646"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7653"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7674"/>
@@ -5011,7 +5011,7 @@ Abort.&lt;/font&gt;</source>
         <source>CL 5:</source>
         <translation>CL 5:</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7709"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="7723"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -5419,7 +5419,7 @@ Abort.&lt;/font&gt;</source>
         <source>Start Object Tracking</source>
         <translation>Start-Objektverfolgung</translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9146"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Heading Absolut in ° (0.0-359.9)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Position Absolut in ° (0.0-359.9)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
@@ -6599,17 +6599,17 @@ Abort.&lt;/font&gt;</source>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="53"/>
         <source>&amp;Add trail dot every..</source>
-        <translation>&amp; Hinzufⁿgen Spur jedes...</translation>
+        <translation>&amp;Hinzufⁿgen Spur jedes...</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="54"/>
         <source>&amp;Limit map view update rate to..</source>
-        <translation>&amp; Limit Karte anzeigen-Update-Rate zu...</translation>
+        <translation>&amp;Limit Karte anzeigen-Update-Rate zu...</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="55"/>
         <source>&amp;Map type</source>
-        <translation>&amp; Kartentyp</translation>
+        <translation>&amp;Kartentyp</translation>
     </message>
     <message>
         <location filename="../../src/ui/map/QGCMapToolBar.cc" line="61"/>
@@ -6777,7 +6777,7 @@ Abort.&lt;/font&gt;</source>
         <source>heading: </source>
         <translation>Überschrift: </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="90"/>
         <source>°</source>
         <translation>°</translation>
@@ -6787,7 +6787,7 @@ Abort.&lt;/font&gt;</source>
         <source>turn rate: </source>
         <translation>Tarif zu aktivieren: </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionConditionWidget.ui" line="100"/>
         <source>°/s</source>
         <translation>° / s</translation>
@@ -6998,7 +6998,7 @@ Abort.&lt;/font&gt;</source>
         <source>lat </source>
         <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLand.ui" line="302"/>
@@ -7101,7 +7101,7 @@ Abort.&lt;/font&gt;</source>
         <source>lat </source>
         <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTime.ui" line="302"/>
@@ -7221,7 +7221,7 @@ Abort.&lt;/font&gt;</source>
         <source>lat </source>
         <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterTurns.ui" line="302"/>
@@ -7341,7 +7341,7 @@ Abort.&lt;/font&gt;</source>
         <source>lat </source>
         <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavLoiterUnlim.ui" line="302"/>
@@ -7483,7 +7483,7 @@ Abort.&lt;/font&gt;</source>
         <source>(1)lat </source>
         <translation>(1) lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="271"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="311"/>
         <location filename="../../src/ui/mission/QGCMissionNavSweep.ui" line="351"/>
@@ -7608,7 +7608,7 @@ Abort.&lt;/font&gt;</source>
         <source>lat </source>
         <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavTakeoff.ui" line="302"/>
@@ -7718,7 +7718,7 @@ Abort.&lt;/font&gt;</source>
         <source>lat </source>
         <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="185"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="225"/>
         <location filename="../../src/ui/mission/QGCMissionNavWaypoint.ui" line="302"/>
@@ -9206,7 +9206,6 @@ p, li { white-space: pre-wrap; }
         <source>%1: canceled. %n occurrences found in %2 files.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -9214,14 +9213,12 @@ p, li { white-space: pre-wrap; }
         <source>%1: %n occurrences found in %2 files.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../../libs/utils/filesearch.cpp" line="62"/>
         <source>%1: %n occurrences found in %2 of %3 files.</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -9487,12 +9484,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../libs/utils/submiteditorwidget.ui" line="20"/>
         <source>Des&amp;cription</source>
-        <translation>Des &amp; cription</translation>
+        <translation>Des &amp;cription</translation>
     </message>
     <message>
         <location filename="../../libs/utils/submiteditorwidget.ui" line="39"/>
         <source>F&amp;iles</source>
-        <translation>F &amp; iles</translation>
+        <translation>F &amp;iles</translation>
     </message>
 </context>
 <context>
@@ -9769,7 +9766,7 @@ p, li { white-space: pre-wrap; }
         <source>lat </source>
         <translation>lat </translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="../../src/ui/WaypointEditableView.ui" line="356"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="393"/>
         <location filename="../../src/ui/WaypointEditableView.ui" line="502"/>
@@ -10330,12 +10327,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="218"/>
         <source>Remote hex Address &amp;High</source>
-        <translation>Remote hex-Adresse- &amp; -High</translation>
+        <translation>Remote hex-Adresse- &amp;High</translation>
     </message>
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="222"/>
         <source>Remote hex Address &amp;Low</source>
-        <translation>Remote hex Adresse &amp; Low</translation>
+        <translation>Remote hex Adresse &amp;Low</translation>
     </message>
     <message>
         <location filename="../../src/ui/XbeeConfigurationWindow.cpp" line="288"/>
