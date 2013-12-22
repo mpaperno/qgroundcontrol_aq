@@ -53,7 +53,8 @@ UI_DIR = $${BUILDDIR}/ui
 RCC_DIR = $${BUILDDIR}/rcc
 RESOURCES += qgroundcontrol.qrc
 TRANSLATIONS += files/lang/de.ts \
-    files/lang/en.ts
+    files/lang/en.ts \
+    files/lang/pl.ts
 
 DEFINES += MAVLINK_NO_DATA
 

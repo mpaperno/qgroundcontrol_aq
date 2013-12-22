@@ -558,11 +558,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_LogExporter.ui" line="1308"/>
-        <source>Actual UTC date of the flight (in case log creation date is incorrect).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="911"/>
         <location filename="../../src/ui/aq_LogExporter.ui" line="976"/>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1142"/>
@@ -662,6 +657,11 @@
     <message>
         <location filename="../../src/ui/aq_LogExporter.ui" line="1286"/>
         <source>Date of Flight:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/aq_LogExporter.ui" line="1308"/>
+        <source>Actual UTC date of the flight (in case log creation date is incorrect).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

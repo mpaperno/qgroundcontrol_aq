@@ -905,7 +905,7 @@
              <string>Vertical GPS accuracy must this high or better (lower)</string>
             </property>
             <property name="prefix">
-             <string>~ </string>
+             <string notr="true">~ </string>
             </property>
             <property name="suffix">
              <string>m</string>
@@ -970,7 +970,7 @@
              <string>Horizontal GPS accuracy must this high or better (lower)</string>
             </property>
             <property name="prefix">
-             <string>~ </string>
+             <string notr="true">~ </string>
             </property>
             <property name="suffix">
              <string>m</string>
@@ -1305,28 +1305,21 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>Actual UTC date of the flight (in case log creation date is incorrect). DD/MM/YYYY format.</string>
-            </property>
-            <property name="date">
-             <date>
-              <year>2012</year>
-              <month>1</month>
-              <day>1</day>
-             </date>
+             <string>Actual UTC date of the flight (in case log creation date is incorrect).</string>
             </property>
             <property name="maximumDateTime">
              <datetime>
-              <hour>4</hour>
+              <hour>23</hour>
               <minute>59</minute>
               <second>59</second>
               <year>3001</year>
               <month>1</month>
-              <day>26</day>
+              <day>27</day>
              </datetime>
             </property>
             <property name="minimumDateTime">
              <datetime>
-              <hour>5</hour>
+              <hour>0</hour>
               <minute>0</minute>
               <second>0</second>
               <year>2010</year>
@@ -1335,7 +1328,7 @@
              </datetime>
             </property>
             <property name="displayFormat">
-             <string>dd-MMM-yyyy</string>
+             <string notr="true">dd-MMM-yyyy</string>
             </property>
             <property name="calendarPopup">
              <bool>true</bool>
@@ -1345,6 +1338,13 @@
             </property>
             <property name="timeSpec">
              <enum>Qt::UTC</enum>
+            </property>
+            <property name="date">
+             <date>
+              <year>2012</year>
+              <month>1</month>
+              <day>1</day>
+             </date>
             </property>
            </widget>
           </item>
@@ -2143,17 +2143,17 @@ p, li { white-space: pre-wrap; }
   </property>
  </designerdata>
  <buttongroups>
-  <buttongroup name="buttonGroup_trigChanValues"/>
-  <buttongroup name="buttonGroup_altOptions"/>
-  <buttongroup name="buttonGroup_exportValues">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="buttonGroup_gpsExportVals">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="buttonGroup_trigChanValues"/>
+  <buttongroup name="buttonGroup_exportValues">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="buttonGroup_altOptions"/>
  </buttongroups>
 </ui>

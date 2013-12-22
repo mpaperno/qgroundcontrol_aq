@@ -62,10 +62,16 @@
      <addaction name="actionSelectStylesheet"/>
      <addaction name="actionReloadStylesheet"/>
     </widget>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+    </widget>
     <addaction name="actionSimulate"/>
     <addaction name="separator"/>
     <addaction name="actionMuteAudioOutput"/>
     <addaction name="actionSettings"/>
+    <addaction name="menuLanguage"/>
     <addaction name="menuPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>

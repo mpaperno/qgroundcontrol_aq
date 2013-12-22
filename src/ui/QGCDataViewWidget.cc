@@ -4,20 +4,25 @@ QGCDataViewWidget::QGCDataViewWidget(QWidget *parent) :
     QWidget(parent)
 {
     tabWidget = new QTabWidget(this);
-    tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
+    tabWidget->setObjectName(QString::fromUtf8("dataViewTabWidget"));
     tabWidget->setEnabled(true);
 
     logViewer = new AQLogViewer(this);
-    tabWidget->addTab(logViewer, tr("AutoQuad Log Viewer"));
+    logViewer->setObjectName(QString::fromUtf8("tab_logViewer"));
+    tabWidget->addTab(logViewer, QString());
 
     telemetryView = new AQTelemetryView(this);
-    tabWidget->addTab(telemetryView, tr("AQ Diagnostic Telemetry"));
+    telemetryView->setObjectName(QString::fromUtf8("tab_telemetryView"));
+    tabWidget->addTab(telemetryView, QString());
 
     linechartWidget = new Linecharts(this);
-    tabWidget->addTab(linechartWidget, tr("MAVLink Data Plot"));
+    linechartWidget->setObjectName(QString::fromUtf8("tab_linechartWidget"));
+    tabWidget->addTab(linechartWidget, QString());
 
     layout = new QHBoxLayout(this);
     layout->addWidget(tabWidget);
+
+    retranslateUi(this);
 
     this->show();
 }
@@ -36,6 +41,30 @@ void QGCDataViewWidget::hideEvent(QHideEvent* event)
 {
     QWidget::hideEvent(event);
     emit visibilityChanged(false);
+}
+
+void QGCDataViewWidget::changeEvent(QEvent* event)
+{
+    if(event)
+    {
+        switch(event->type())
+        {
+        // this event is send if a translator is loaded
+        case QEvent::LanguageChange:
+            retranslateUi(this);
+            break;
+        }
+    }
+
+    QWidget::changeEvent(event);
+}
+
+void QGCDataViewWidget::retranslateUi(QWidget *QGCDataViewWidget)
+{
+    Q_UNUSED(QGCDataViewWidget);
+    tabWidget->setTabText(tabWidget->indexOf(logViewer), tr("AutoQuad Log Viewer"));
+    tabWidget->setTabText(tabWidget->indexOf(telemetryView), tr("AQ Diagnostic Telemetry"));
+    tabWidget->setTabText(tabWidget->indexOf(linechartWidget), tr("MAVLink Data Plot"));
 }
 
 void QGCDataViewWidget::addSource(MAVLinkDecoder *decoder)
