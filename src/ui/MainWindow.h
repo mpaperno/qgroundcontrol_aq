@@ -126,6 +126,16 @@ public:
         return lowPowerMode;
     }
 
+    QGCMAVLinkLogPlayer* getLogPlayer()
+    {
+        return logPlayer;
+    }
+
+    MAVLinkProtocol* getMAVLink()
+    {
+        return mavlink;
+    }
+
     QList<QAction*> listLinkMenuActions(void);
 
 public slots:
@@ -247,17 +257,6 @@ signals:
     void x11EventOccured(XEvent *event);
 #endif //MOUSE_ENABLED_LINUX
 
-public:
-    QGCMAVLinkLogPlayer* getLogPlayer()
-    {
-        return logPlayer;
-    }
-
-    MAVLinkProtocol* getMAVLink()
-    {
-        return mavlink;
-    }
-
 protected:
 
     MainWindow(QWidget *parent = 0);
@@ -303,6 +302,8 @@ protected:
 
     /** @brief Catch window resize events */
     void resizeEvent(QResizeEvent * event);
+    /** @brief this event is called when a new translator is loaded or the system language is changed */
+    void changeEvent(QEvent*);
 
     /** @brief Keeps track of the current view */
     VIEW_SECTIONS currentView;
@@ -425,8 +426,24 @@ protected:
 private:
     Ui::MainWindow ui;
 
+    QString defaultLanguage;     /**< contains the default language */
+    QString currentLanguage;     /**< contains the currently loaded language */
+
+    void retranslateUi(/*QMainWindow *MainWindow*/);
     QString getWindowStateKey();
     QString getWindowGeometryKey();
+
+    /** @brief creates the language menu dynamically from the content of m_langPath */
+    void createLanguageMenu(void);
+    /** @brief loads a language by the given language shortcur (e.g. de, en, ...) */
+    void loadLanguage(const QString& lang);
+
+    //void switchTranslator(QTranslator &translator, const QString &filename);
+
+private slots:
+    /** @brief this slot is called by the language menu actions */
+    void languageChanged(QAction* action);
+
 
 };
 

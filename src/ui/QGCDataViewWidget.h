@@ -25,7 +25,7 @@ protected:
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
     void changeEvent(QEvent* event);
-    void retranslateUi(QWidget *QGCDataViewWidget);
+    void retranslateUi();
 
 private:
     QTabWidget* tabWidget;

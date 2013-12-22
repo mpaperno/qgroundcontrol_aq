@@ -40,10 +40,14 @@ This file is part of the PIXHAWK project
 #include "LinkManager.h"
 /*#include "ViconTarsusProtocol.h" */
 #ifdef OPAL_RT
-
-#include "OpalLink.h"
-
+    #include "OpalLink.h"
 #endif
+
+class QDir;
+class QTranslator;
+
+typedef QHash<QString, QTranslator*> Translators;
+
 /**
  * @brief The main application and management class.
  *
@@ -59,6 +63,16 @@ public:
     QGCCore(int &argc, char* argv[]);
     ~QGCCore();
 
+    static void loadTranslations();
+    static void loadTranslations(const QDir& dir);
+    static const QStringList availableLanguages();
+    static const QString getLangFilePath();
+
+    static QString langPath;     /**< Path of language files.  */
+
+public slots:
+    static void setLanguage(const QString& locale);
+
 protected:
     void startLinkManager();
 
@@ -71,6 +85,8 @@ protected:
 
 private:
     MainWindow* mainWindow;
+    static QTranslator* current;
+    static Translators translators;
 };
 
 #endif /* _CORE_H_ */

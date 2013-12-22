@@ -22,7 +22,7 @@ QGCDataViewWidget::QGCDataViewWidget(QWidget *parent) :
     layout = new QHBoxLayout(this);
     layout->addWidget(tabWidget);
 
-    retranslateUi(this);
+    retranslateUi();
 
     this->show();
 }
@@ -45,23 +45,14 @@ void QGCDataViewWidget::hideEvent(QHideEvent* event)
 
 void QGCDataViewWidget::changeEvent(QEvent* event)
 {
-    if(event)
-    {
-        switch(event->type())
-        {
-        // this event is send if a translator is loaded
-        case QEvent::LanguageChange:
-            retranslateUi(this);
-            break;
-        }
-    }
+    if (event->type() == QEvent::LanguageChange)
+        retranslateUi();
 
     QWidget::changeEvent(event);
 }
 
-void QGCDataViewWidget::retranslateUi(QWidget *QGCDataViewWidget)
+void QGCDataViewWidget::retranslateUi(/*QWidget *QGCDataViewWidget*/)
 {
-    Q_UNUSED(QGCDataViewWidget);
     tabWidget->setTabText(tabWidget->indexOf(logViewer), tr("AutoQuad Log Viewer"));
     tabWidget->setTabText(tabWidget->indexOf(telemetryView), tr("AQ Diagnostic Telemetry"));
     tabWidget->setTabText(tabWidget->indexOf(linechartWidget), tr("MAVLink Data Plot"));
