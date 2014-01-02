@@ -683,7 +683,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
 
             emit altitudeChanged(uasId, hud.alt);
-            emit speedChanged(this, hud.airspeed, 0.0f, hud.climb, time);
+            emit hudSpeedChanged(this, hud.airspeed, 0.0f, hud.climb, time);
         }
             break;
         case MAVLINK_MSG_ID_LOCAL_POSITION_NED:
@@ -707,7 +707,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 // Emit
 
                 emit localPositionChanged(this, pos.x, pos.y, pos.z, time);
-                emit speedChanged(this, pos.vx, pos.vy, pos.vz, time);
+                emit localSpeedChanged(this, pos.vx, pos.vy, pos.vz, time);
 
                 // Set internal state
                 if (!positionLock) {
@@ -742,7 +742,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             speedY = pos.vy/100.0;
             speedZ = pos.vz/100.0;
             emit globalPositionChanged(this, latitude, longitude, altitude, time);
-            emit speedChanged(this, speedX, speedY, speedZ, time);
+            emit gpsSpeedChanged(this, speedX, speedY, speedZ, time);
 
             // Set internal state
             if (!positionLock)
@@ -775,15 +775,17 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
             emit localizationChanged(this, loc_type);
 
-            if (pos.fix_type > 2)
+            if ((float)pos.eph/100.0f < 20)
             {
-                emit globalPositionChanged(this, pos.lat/(double)1E7, pos.lon/(double)1E7, pos.alt/1000.0, time);
                 latitude = pos.lat/(double)1E7;
                 longitude = pos.lon/(double)1E7;
                 altitude = pos.alt/1000.0;
-                positionLock = true;
-                isGlobalPositionKnown = true;
+                emit globalPositionChanged(this, latitude, longitude, altitude, time);
 
+                if (pos.fix_type > 2) {
+                    positionLock = true;
+                    isGlobalPositionKnown = true;
+                }
                 // Check for NaN
                 int alt = pos.alt;
                 if (!isnan(alt) && !isinf(alt))
@@ -794,16 +796,11 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 // FIXME REMOVE LATER emit valueChanged(uasId, "altitude", "m", pos.alt/(double)1E3, time);
                 // Smaller than threshold and not NaN
 
-                float vel = pos.vel/100.0f;
-
-                if (vel < 1000000 && !isnan(vel) && !isinf(vel))
-                {
-                    emit speedChanged(this, vel, 0.0, 0.0, time);
-                }
+                float vel = (float)pos.vel/100.0f;
+                if (vel < 1000000.0f && !isnan(vel) && !isinf(vel))
+                    emit gpsSpeedChanged(this, vel, time);
                 else
-                {
                     emit textMessageReceived(uasId, message.compid, 255, tr("GCS ERROR: RECEIVED INVALID SPEED OF %1 m/s").arg(vel));
-                }
             }
         }
             break;
@@ -1266,7 +1263,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             if (!unknownPackets.contains(message.msgid))
             {
                 unknownPackets.append(message.msgid);
-                QString errString = tr("UNABLE TO DECODE MESSAGE NUMBER %1").arg(message.msgid);
+                QString errString = tr("GCS: UNABLE TO DECODE MESSAGE NUMBER %1").arg(message.msgid);
                 //GAudioOutput::instance()->say(errString+tr(", please check console for details."));
                 emit textMessageReceived(uasId, message.compid, 255, errString);
                 //std::cout << "Unable to decode message from system " << std::dec << static_cast<int>(message.sysid) << " with message id:" << static_cast<int>(message.msgid) << std::endl;
@@ -1385,35 +1382,37 @@ void UAS::receiveExtendedMessage(LinkInterface* link, std::tr1::shared_ptr<googl
 */
 void UAS::setHomePosition(double lat, double lon, double alt)
 {
-    QMessageBox msgBox;
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(tr("Setting new World Coordinate Frame Origin"));
-    msgBox.setInformativeText(tr("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location"));
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
-    msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
+    // removed for now because this causes a nasty loop when Home position is set on AQ
 
-    // Close the message box shortly after the click to prevent accidental clicks
-    QTimer::singleShot(5000, &msgBox, SLOT(reject()));
+//    QMessageBox msgBox;
+//    msgBox.setIcon(QMessageBox::Warning);
+//    msgBox.setText(tr("Setting new World Coordinate Frame Origin"));
+//    msgBox.setInformativeText(tr("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location"));
+//    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+//    msgBox.setDefaultButton(QMessageBox::Cancel);
+//    int ret = msgBox.exec();
+
+//    // Close the message box shortly after the click to prevent accidental clicks
+//    QTimer::singleShot(5000, &msgBox, SLOT(reject()));
 
 
-    if (ret == QMessageBox::Yes)
-    {
-        mavlink_message_t msg;
-        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), 0, MAV_CMD_DO_SET_HOME, 1, 0, 0, 0, 0, lat, lon, alt);
-        // Send message twice to increase chance that it reaches its goal
-        sendMessage(msg);
+//    if (ret == QMessageBox::Yes)
+//    {
+//        mavlink_message_t msg;
+//        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), 0, MAV_CMD_DO_SET_HOME, 1, 0, 0, 0, 0, lat, lon, alt);
+//        // Send message twice to increase chance that it reaches its goal
+//        sendMessage(msg);
 
-        // Send new home position to UAS
-        mavlink_set_gps_global_origin_t home;
-        home.target_system = uasId;
-        home.latitude = lat*1E7;
-        home.longitude = lon*1E7;
-        home.altitude = alt*1000;
-        qDebug() << "lat:" << home.latitude << " lon:" << home.longitude;
-        mavlink_msg_set_gps_global_origin_encode(mavlink->getSystemId(), mavlink->getComponentId(), &msg, &home);
-        sendMessage(msg);
-    }
+//        // Send new home position to UAS
+//        mavlink_set_gps_global_origin_t home;
+//        home.target_system = uasId;
+//        home.latitude = lat*1E7;
+//        home.longitude = lon*1E7;
+//        home.altitude = alt*1000;
+//        qDebug() << "lat:" << home.latitude << " lon:" << home.longitude;
+//        mavlink_msg_set_gps_global_origin_encode(mavlink->getSystemId(), mavlink->getComponentId(), &msg, &home);
+//        sendMessage(msg);
+//    }
 }
 
 /**
@@ -1995,14 +1994,14 @@ void UAS::writeWaypointsToSDAQ()
     sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 5.0f);
 }
 
-void UAS::startStopTelemetry(bool enable, float frequenz){
-    sendCommmandToAq(2, 1, enable, frequenz);
+void UAS::startStopTelemetry(bool enable, float frequenz, uint8_t dataset){
+    sendCommmandToAq(MAV_CMD_AQ_TELEMETRY, 1, enable, frequenz, dataset);
 }
 
 void UAS::sendCommmandToAq(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7){
     mavlink_message_t msg;
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, command, confirm, para1, para2, para3, para4, para5, para6, para7);
-    qDebug() << "SENT COMMAND" << command << "para1:" << para1 << "para2:" << para2 << "para3:" << para3 << "para4:" << para4;
+    //qDebug() << "SENT COMMAND" << command << "para1:" << para1 << "para2:" << para2 << "para3:" << para3 << "para4:" << para4;
     sendMessage(msg);
 }
 
@@ -2890,6 +2889,7 @@ QString UAS::getShortModeTextFor(int id)
         mode += tr("AUTO");
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_GUIDED)
         mode += tr("VECTOR");
+    mode += "|";
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_STABILIZE)
         mode += tr("STABILIZED");
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_TEST)

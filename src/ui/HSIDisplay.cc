@@ -853,35 +853,7 @@ void HSIDisplay::setMetricWidth(double width)
 void HSIDisplay::setActiveUAS(UASInterface* uas)
 {
     if (this->uas != NULL) {
-        disconnect(this->uas, SIGNAL(gpsSatelliteStatusChanged(int,int,float,float,float,bool)), this, SLOT(updateSatellite(int,int,float,float,float,bool)));
-        disconnect(this->uas, SIGNAL(localPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateLocalPosition(UASInterface*,double,double,double,quint64)));
-        disconnect(this->uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateGlobalPosition(UASInterface*,double,double,double,quint64)));
-        disconnect(this->uas, SIGNAL(attitudeThrustSetPointChanged(UASInterface*,double,double,double,double,quint64)), this, SLOT(updateAttitudeSetpoints(UASInterface*,double,double,double,double,quint64)));
-        disconnect(this->uas, SIGNAL(positionSetPointsChanged(int,float,float,float,float,quint64)), this, SLOT(updatePositionSetpoints(int,float,float,float,float,quint64)));
-        disconnect(uas, SIGNAL(userPositionSetPointsChanged(int,float,float,float,float)), this, SLOT(updateUserPositionSetpoints(int,float,float,float,float)));
-        disconnect(this->uas, SIGNAL(speedChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateSpeed(UASInterface*,double,double,double,quint64)));
-        disconnect(this->uas, SIGNAL(attitudeChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateAttitude(UASInterface*,double,double,double,quint64)));
-
-        disconnect(this->uas, SIGNAL(attitudeControlEnabled(bool)), this, SLOT(updateAttitudeControllerEnabled(bool)));
-        disconnect(this->uas, SIGNAL(positionXYControlEnabled(bool)), this, SLOT(updatePositionXYControllerEnabled(bool)));
-        disconnect(this->uas, SIGNAL(positionZControlEnabled(bool)), this, SLOT(updatePositionZControllerEnabled(bool)));
-        disconnect(this->uas, SIGNAL(positionYawControlEnabled(bool)), this, SLOT(updatePositionYawControllerEnabled(bool)));
-
-        disconnect(this->uas, SIGNAL(localizationChanged(UASInterface*,int)), this, SLOT(updateLocalization(UASInterface*,int)));
-        disconnect(this->uas, SIGNAL(visionLocalizationChanged(UASInterface*,int)), this, SLOT(updateVisionLocalization(UASInterface*,int)));
-        disconnect(this->uas, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsLocalization(UASInterface*,int)));
-        disconnect(this->uas, SIGNAL(irUltraSoundLocalizationChanged(UASInterface*,int)), this, SLOT(updateInfraredUltrasoundLocalization(UASInterface*,int)));
-        disconnect(this->uas, SIGNAL(objectDetected(uint,int,int,QString,int,float,float)), this, SLOT(updateObjectPosition(uint,int,int,QString,int,float,float)));
-
-        disconnect(this->uas, SIGNAL(gyroStatusChanged(bool,bool,bool)), this, SLOT(updateGyroStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(accelStatusChanged(bool,bool,bool)), this, SLOT(updateAccelStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(magSensorStatusChanged(bool,bool,bool)), this, SLOT(updateMagSensorStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(baroStatusChanged(bool,bool,bool)), this, SLOT(updateBaroStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(airspeedStatusChanged(bool,bool,bool)), this, SLOT(updateAirspeedStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(opticalFlowStatusChanged(bool,bool,bool)), this, SLOT(updateOpticalFlowStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(laserStatusChanged(bool,bool,bool)), this, SLOT(updateLaserStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(groundTruthSensorStatusChanged(bool,bool,bool)), this, SLOT(updateGroundTruthSensorStatus(bool,bool,bool)));
-        disconnect(this->uas, SIGNAL(actuatorStatusChanged(bool,bool,bool)), this, SLOT(updateActuatorStatus(bool,bool,bool)));
+        disconnect(this->uas, 0, this, 0);
     }
 
     connect(uas, SIGNAL(gpsSatelliteStatusChanged(int,int,float,float,float,bool)), this, SLOT(updateSatellite(int,int,float,float,float,bool)));
@@ -890,7 +862,8 @@ void HSIDisplay::setActiveUAS(UASInterface* uas)
     connect(uas, SIGNAL(attitudeThrustSetPointChanged(UASInterface*,double,double,double,double,quint64)), this, SLOT(updateAttitudeSetpoints(UASInterface*,double,double,double,double,quint64)));
     connect(uas, SIGNAL(positionSetPointsChanged(int,float,float,float,float,quint64)), this, SLOT(updatePositionSetpoints(int,float,float,float,float,quint64)));
     connect(uas, SIGNAL(userPositionSetPointsChanged(int,float,float,float,float)), this, SLOT(updateUserPositionSetpoints(int,float,float,float,float)));
-    connect(uas, SIGNAL(speedChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateSpeed(UASInterface*,double,double,double,quint64)));
+    connect(uas, SIGNAL(gpsSpeedChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateSpeed(UASInterface*,double,double,double,quint64)));
+    connect(uas, SIGNAL(localSpeedChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateSpeed(UASInterface*,double,double,double,quint64)));
     connect(uas, SIGNAL(attitudeChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateAttitude(UASInterface*,double,double,double,quint64)));
 
     connect(uas, SIGNAL(attitudeControlEnabled(bool)), this, SLOT(updateAttitudeControllerEnabled(bool)));

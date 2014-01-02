@@ -93,7 +93,8 @@ void UASControlParameters::activeUasSet(UASInterface *uas)
 {
     if(uas) {
         connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateGlobalPosition(UASInterface*,double,double,double,quint64)));
-        connect(uas, SIGNAL(speedChanged(UASInterface*,double,double,double,quint64)), this, SLOT(speedChanged(UASInterface*,double,double,double,quint64)));
+        connect(uas, SIGNAL(gpsSpeedChanged(UASInterface*,double,double,double,quint64)), this, SLOT(speedChanged(UASInterface*,double,double,double,quint64)));
+        connect(uas, SIGNAL(gpsSpeedChanged(UASInterface*,double,quint64)), this, SLOT(speedChanged(UASInterface*,double,quint64)));
         connect(uas, SIGNAL(attitudeChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateAttitude(UASInterface*,double,double,double,quint64)));
         connect(uas, SIGNAL(modeChanged(int,QString,QString)), this, SLOT(updateMode(int,QString,QString)));
         connect(uas, SIGNAL(thrustChanged(UASInterface*,double)), this, SLOT(thrustChanged(UASInterface*,double)) );
@@ -117,6 +118,14 @@ void UASControlParameters::speedChanged(UASInterface* uas, double vx, double vy,
     Q_UNUSED(uas);
     this->speed = sqrt(pow(vx, 2.0) + pow(vy, 2.0) + pow(vz, 2.0));
     //ui->sbAirSpeed->setValue(speed);
+}
+
+void UASControlParameters::speedChanged(UASInterface* uas, double gndspd, quint64 time)
+{
+    Q_UNUSED(time);
+    Q_UNUSED(uas);
+    this->speed = gndspd;
+    //ui->sbAirSpeed->setValue(gndspd);
 }
 
 void UASControlParameters::updateAttitude(UASInterface *uas, double roll, double pitch, double yaw, quint64 time)

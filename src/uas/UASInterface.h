@@ -285,7 +285,7 @@ public slots:
     virtual void writeParametersToStorageAQ() = 0;
     virtual void writeParametersToSDAQ() = 0;
     virtual void writeWaypointsToSDAQ() = 0;
-    virtual void startStopTelemetry(bool enable, float frequenz) =0;
+    virtual void startStopTelemetry(bool enable, float frequenz, uint8_t dataset = 0) =0;
     /** @brief Read parameter from permanent storage */
     virtual void readParametersFromStorage() = 0;
     virtual void readParametersFromStorageAQ() = 0;
@@ -486,7 +486,10 @@ signals:
     void altitudeChanged(int uasid, double altitude);
     /** @brief Update the status of one satellite used for localization */
     void gpsSatelliteStatusChanged(int uasid, int satid, float azimuth, float direction, float snr, bool used);
-    void speedChanged(UASInterface*, double x, double y, double z, quint64 usec);
+    void localSpeedChanged(UASInterface*, double x, double y, double z, quint64 usec);
+    void gpsSpeedChanged(UASInterface*, double x, double y, double z, quint64 usec);
+    void hudSpeedChanged(UASInterface*, double x, double y, double z, quint64 usec);
+    void gpsSpeedChanged(UASInterface*, double grndspd, quint64 usec);
     void imageStarted(int imgid, int width, int height, int depth, int channels);
     void imageDataReceived(int imgid, const unsigned char* imageData, int length, int startIndex);
     /** @brief Emit the new system type */
