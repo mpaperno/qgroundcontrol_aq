@@ -143,8 +143,6 @@ MainWindow::MainWindow(QWidget *parent):
     // load language choices
     createLanguageMenu();
 
-    configureWindowName();
-
     // Setup corners
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 
@@ -381,10 +379,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::retranslateUi(/*QMainWindow *MainWindow*/)
 {
-    listDockWidget->setWindowTitle(tr("Unmanned Systems"));
-//    tabWidget->setTabText(tabWidget->indexOf(logViewer), tr("AutoQuad Log Viewer"));
-//    tabWidget->setTabText(tabWidget->indexOf(telemetryView), tr("AQ Diagnostic Telemetry"));
-//    tabWidget->setTabText(tabWidget->indexOf(linechartWidget), tr("MAVLink Data Plot"));
+    configureWindowName();
+//    listDockWidget->setWindowTitle(tr("Unmanned Systems"));
 }
 
 QString MainWindow::getWindowStateKey()
@@ -989,10 +985,6 @@ void MainWindow::configureWindowName()
     windowname.append(")");
 
     setWindowTitle(windowname);
-
-#ifndef Q_WS_MAC
-    //qApp->setWindowIcon(QIcon(":/core/images/qtcreator_logo_128.png"));
-#endif
 }
 
 void MainWindow::startVideoCapture()

@@ -883,7 +883,7 @@ void QGCAQParamWidget::loadParameters()
 
     // use native file dialog
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select Saved Parameters File"), dir.absoluteFilePath(),
-                                            tr("Parameter File") + " (*.param *.txt);;" + tr("All File Types") + " (*.*)");
+                                            tr("Parameter File") + " (*.params *.txt);;" + tr("All File Types") + " (*.*)");
 
     // use Qt file dialog (sometimes very slow! at least on Win)
 //    QFileDialog dialog;

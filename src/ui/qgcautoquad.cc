@@ -490,6 +490,7 @@ void QGCAutoquad::adjustUiForFirmware() {
     disconnect(ui->RADIO_TYPE, 0, this, 0);
     idx = ui->RADIO_TYPE->currentIndex();
     ui->RADIO_TYPE->clear();
+    ui->RADIO_TYPE->addItem("Select...", -1);
     ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
     ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
     ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
@@ -1938,7 +1939,7 @@ void QGCAutoquad::radioType_changed(int idx) {
     bool ok;
     int prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
 
-    if (ok && idx != prevRadioValue)
+    if (ok && ui->RADIO_TYPE->itemData(idx).toInt() != prevRadioValue)
         ui->label_radioChangeWarning->show();
     else
         ui->label_radioChangeWarning->hide();
