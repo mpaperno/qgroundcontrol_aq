@@ -798,7 +798,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
                 float vel = (float)pos.vel/100.0f;
                 if (vel < 1000000.0f && !isnan(vel) && !isinf(vel))
-                    emit speedChanged(this, vel, time);
+                    emit speedChanged(this, vel, 0.0f, 0.0f, time);
                 else
                     emit textMessageReceived(uasId, message.compid, 255, tr("GCS ERROR: RECEIVED INVALID SPEED OF %1 m/s").arg(vel));
             }
@@ -819,6 +819,11 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             mavlink_gps_global_origin_t pos;
             mavlink_msg_gps_global_origin_decode(&message, &pos);
             emit homePositionChanged(uasId, pos.latitude / 10000000.0, pos.longitude / 10000000.0, pos.altitude / 1000.0);
+        }
+            break;
+        case MAVLINK_MSG_ID_RADIO_STATUS:
+        {
+            emit remoteControlRSSIChanged(mavlink_msg_radio_status_get_rssi(&message));
         }
             break;
         case MAVLINK_MSG_ID_RC_CHANNELS_RAW:
@@ -1263,10 +1268,10 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             if (!unknownPackets.contains(message.msgid))
             {
                 unknownPackets.append(message.msgid);
-                QString errString = tr("UNABLE TO DECODE MESSAGE NUMBER %1").arg(message.msgid);
+                QString errString = tr("GCS: UNABLE TO DECODE MESSAGE NUMBER %1").arg(message.msgid);
                 //GAudioOutput::instance()->say(errString+tr(", please check console for details."));
                 emit textMessageReceived(uasId, message.compid, 255, errString);
-                std::cout << "Unable to decode message from system " << std::dec << static_cast<int>(message.sysid) << " with message id:" << static_cast<int>(message.msgid) << std::endl;
+                //std::cout << "Unable to decode message from system " << std::dec << static_cast<int>(message.sysid) << " with message id:" << static_cast<int>(message.msgid) << std::endl;
                 //qDebug() << std::cerr << "Unable to decode message from system " << std::dec << static_cast<int>(message.acid) << " with message id:" << static_cast<int>(message.msgid) << std::endl;
             }
         }
