@@ -821,6 +821,11 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             emit homePositionChanged(uasId, pos.latitude / 10000000.0, pos.longitude / 10000000.0, pos.altitude / 1000.0);
         }
             break;
+        case MAVLINK_MSG_ID_RADIO_STATUS:
+        {
+            emit remoteControlRSSIChanged(mavlink_msg_radio_status_get_rssi(&message));
+        }
+            break;
         case MAVLINK_MSG_ID_RC_CHANNELS_RAW:
         {
             mavlink_rc_channels_raw_t channels;
