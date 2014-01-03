@@ -775,15 +775,17 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
             emit localizationChanged(this, loc_type);
 
-            if (pos.fix_type > 2)
+            if ((float)pos.eph/100.0f < 20)
             {
-                emit globalPositionChanged(this, pos.lat/(double)1E7, pos.lon/(double)1E7, pos.alt/1000.0, time);
                 latitude = pos.lat/(double)1E7;
                 longitude = pos.lon/(double)1E7;
                 altitude = pos.alt/1000.0;
-                positionLock = true;
-                isGlobalPositionKnown = true;
+                emit globalPositionChanged(this, latitude, longitude, altitude, time);
 
+                if (pos.fix_type > 2) {
+                    positionLock = true;
+                    isGlobalPositionKnown = true;
+                }
                 // Check for NaN
                 int alt = pos.alt;
                 if (!isnan(alt) && !isinf(alt))
@@ -794,16 +796,11 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 // FIXME REMOVE LATER emit valueChanged(uasId, "altitude", "m", pos.alt/(double)1E3, time);
                 // Smaller than threshold and not NaN
 
-                float vel = pos.vel/100.0f;
-
-                if (vel < 1000000 && !isnan(vel) && !isinf(vel))
-                {
-                    emit speedChanged(this, vel, 0.0, 0.0, time);
-                }
+                float vel = (float)pos.vel/100.0f;
+                if (vel < 1000000.0f && !isnan(vel) && !isinf(vel))
+                    emit speedChanged(this, vel, time);
                 else
-                {
-                    emit textMessageReceived(uasId, message.compid, 255, QString("GCS ERROR: RECEIVED INVALID SPEED OF %1 m/s").arg(vel));
-                }
+                    emit textMessageReceived(uasId, message.compid, 255, tr("GCS ERROR: RECEIVED INVALID SPEED OF %1 m/s").arg(vel));
             }
         }
             break;
@@ -1385,35 +1382,37 @@ void UAS::receiveExtendedMessage(LinkInterface* link, std::tr1::shared_ptr<googl
 */
 void UAS::setHomePosition(double lat, double lon, double alt)
 {
-    QMessageBox msgBox;
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText("Setting new World Coordinate Frame Origin");
-    msgBox.setInformativeText("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location");
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
-    msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
+    // removed for now because this causes a nasty loop when Home position is set on AQ
 
-    // Close the message box shortly after the click to prevent accidental clicks
-    QTimer::singleShot(5000, &msgBox, SLOT(reject()));
+//    QMessageBox msgBox;
+//    msgBox.setIcon(QMessageBox::Warning);
+//    msgBox.setText(tr("Setting new World Coordinate Frame Origin"));
+//    msgBox.setInformativeText(tr("Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location"));
+//    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+//    msgBox.setDefaultButton(QMessageBox::Cancel);
+//    int ret = msgBox.exec();
+
+//    // Close the message box shortly after the click to prevent accidental clicks
+//    QTimer::singleShot(5000, &msgBox, SLOT(reject()));
 
 
-    if (ret == QMessageBox::Yes)
-    {
-        mavlink_message_t msg;
-        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), 0, MAV_CMD_DO_SET_HOME, 1, 0, 0, 0, 0, lat, lon, alt);
-        // Send message twice to increase chance that it reaches its goal
-        sendMessage(msg);
+//    if (ret == QMessageBox::Yes)
+//    {
+//        mavlink_message_t msg;
+//        mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), 0, MAV_CMD_DO_SET_HOME, 1, 0, 0, 0, 0, lat, lon, alt);
+//        // Send message twice to increase chance that it reaches its goal
+//        sendMessage(msg);
 
-        // Send new home position to UAS
-        mavlink_set_gps_global_origin_t home;
-        home.target_system = uasId;
-        home.latitude = lat*1E7;
-        home.longitude = lon*1E7;
-        home.altitude = alt*1000;
-        qDebug() << "lat:" << home.latitude << " lon:" << home.longitude;
-        mavlink_msg_set_gps_global_origin_encode(mavlink->getSystemId(), mavlink->getComponentId(), &msg, &home);
-        sendMessage(msg);
-    }
+//        // Send new home position to UAS
+//        mavlink_set_gps_global_origin_t home;
+//        home.target_system = uasId;
+//        home.latitude = lat*1E7;
+//        home.longitude = lon*1E7;
+//        home.altitude = alt*1000;
+//        qDebug() << "lat:" << home.latitude << " lon:" << home.longitude;
+//        mavlink_msg_set_gps_global_origin_encode(mavlink->getSystemId(), mavlink->getComponentId(), &msg, &home);
+//        sendMessage(msg);
+//    }
 }
 
 /**
