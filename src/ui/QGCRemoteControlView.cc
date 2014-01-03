@@ -146,9 +146,10 @@ void QGCRemoteControlView::setChannelRaw(int channelId, float raw)
         this->raw.append(raw);
         appendChannelWidget(channelId, 0);
     }
-
-    this->raw[channelId] = raw;
-    redraw(channelId);
+    if (this->raw.size() > channelId) {
+        this->raw[channelId] = raw;
+        redraw(channelId);
+    }
 
 }
 
