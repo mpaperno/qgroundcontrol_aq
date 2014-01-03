@@ -966,7 +966,7 @@ void MainWindow::configureWindowName()
 {
     QList<QHostAddress> hostAddresses = QNetworkInterface::allAddresses();
 //    QString windowname = qApp->applicationName() + " " + qApp->applicationVersion();
-    QString windowname = QGCAUTOQUAD::APP_NAME + " v" + QGCAUTOQUAD::APP_VERSION_TXT;
+    QString windowname = QGCAUTOQUAD::APP_NAME + " v" + QGCAUTOQUAD::APP_VERSION_TXT + " (" + QString::number(QGCAUTOQUAD::APP_VERSION) + ")";
     bool prevAddr = false;
 
     windowname.append(" (" + QHostInfo::localHostName() + ": ");
