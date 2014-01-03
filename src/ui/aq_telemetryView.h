@@ -20,6 +20,19 @@ private:
     enum telemDatasets { TELEM_DATASET_DEFAULT, TELEM_DATASET_GROUND, TELEM_DATASET_NUM };
     enum telemValueTypes { TELEM_VALUETYPE_FLOAT, TELEM_VALUETYPE_INT };
     enum telemValueDefs { TELEM_VALDEF_ACC_MAGNITUDE = 100, TELEM_VALDEF_MAG_MAGNITUDE, TELEM_VALDEF_ACC_PITCH, TELEM_VALDEF_ACC_ROLL };
+    enum mavlinkCustomDataSets {
+        AQMAV_DATASET_LEGACY1 = 0,	// legacy sets can eventually be phased out
+        AQMAV_DATASET_LEGACY2,
+        AQMAV_DATASET_LEGACY3,
+        AQMAV_DATASET_ALL,		// use this to toggle all datasets at once
+        AQMAV_DATASET_GPS_XTRA,
+        AQMAV_DATASET_UKF_XTRA,
+        AQMAV_DATASET_SUPERVISOR,
+        AQMAV_DATASET_STACKSFREE,
+        AQMAV_DATASET_GIMBAL,
+        AQMAV_DATASET_ENUM_END
+    };
+
 
     struct telemFieldsMeta {
         telemFieldsMeta(QString label, QString unit, int valueIndex, int msgValueIndex = 0, telemDatasets dataSet = TELEM_DATASET_DEFAULT) :
@@ -42,6 +55,7 @@ private:
     telemValueTypes currentValueType;
     telemDatasets currentDataSet;
     QList<telemFieldsMeta> telemDataFields;
+    QButtonGroup* btnsDataSets;
 
     void setupDataFields();
     void setupCurves();

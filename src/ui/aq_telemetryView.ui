@@ -81,6 +81,16 @@
             </property>
            </layout>
           </item>
+          <item>
+           <layout class="QGridLayout" name="valsGrid3">
+            <property name="horizontalSpacing">
+             <number>3</number>
+            </property>
+            <property name="verticalSpacing">
+             <number>4</number>
+            </property>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
@@ -195,6 +205,16 @@
         </size>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_dataSets">
+       <property name="text">
+        <string>Data Set(s):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="hLayout_dataSets"/>
      </item>
      <item>
       <spacer name="horizontalSpacer">
