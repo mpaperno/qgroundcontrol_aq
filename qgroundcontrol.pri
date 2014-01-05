@@ -31,7 +31,7 @@ DEFINES += _TTY_NOWARN_
 # MAC OS X
 macx|macx-g++42|macx-g++|macx-llvm: {
 
-        CONFIG += cocoa phonon
+        CONFIG += cocoa #phonon
 #	CONFIG += x86_64 cocoa phonon
 #	CONFIG -= x86
 
@@ -191,16 +191,16 @@ linux-g++|linux-g++-64{
 
 	INCLUDEPATH += /usr/include \
         /usr/local/include \
-        /usr/include/qt4/phonon
+#        /usr/include/qt4/phonon
 
 	LIBS += \
 		-L/usr/lib \
 		-L/usr/local/lib64 \
 		-lm \
-		-lflite_cmu_us_kal \
-		-lflite_usenglish \
-		-lflite_cmulex \
-		-lflite \
+#		-lflite_cmu_us_kal \
+#		-lflite_usenglish \
+#		-lflite_cmulex \
+#		-lflite \
 		-lSDL \
 		-lSDLmain
 
@@ -378,7 +378,7 @@ win32-msvc2008|win32-msvc2010 {
 
         # Copy Qt DLLs
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins" "$$TARGETDIR_WIN" /E /I $$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\phonon$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+#        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\phonon$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtCore$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtGui$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtMultimedia$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))

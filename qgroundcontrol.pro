@@ -28,7 +28,7 @@ QT += network \
     webkit \
     sql
 
-!win32:QT += phonon
+#!win32:QT += phonon
 
 TEMPLATE = app
 TARGET = qgroundcontrol
@@ -68,14 +68,6 @@ win32 {
     QMAKE_MOC = "$$(QTDIR)/bin/moc.exe"
     QMAKE_RCC = "$$(QTDIR)/bin/rcc.exe"
     QMAKE_QMAKE = "$$(QTDIR)/bin/qmake.exe"
-	
-	# Build QAX for GoogleEarth API access
-#	!exists( $(QTDIR)/src/activeqt/Makefile ) {
-#		message( Making QAx (ONE TIME) )
-#		system( cd $$(QTDIR)\\src\\activeqt && $$(QTDIR)\\bin\\qmake.exe )
-#		system( cd $$(QTDIR)\\src\\activeqt\\container && $$(QTDIR)\\bin\\qmake.exe )
-#		system( cd $$(QTDIR)\\src\\activeqt\\control && $$(QTDIR)\\bin\\qmake.exe )
-#	}
 }
 
 
@@ -274,6 +266,7 @@ INCLUDEPATH += src \
     src/ui/map3D \
     src/ui/mission \
     src/ui/designer
+
 HEADERS += src/MG.h \
     src/QGCCore.h \
     src/uas/UASInterface.h \
@@ -413,6 +406,8 @@ HEADERS += src/MG.h \
 
 # Google Earth is only supported on Mac OS and Windows with Visual Studio Compiler
 macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::HEADERS += src/ui/map3D/QGCGoogleEarthView.h
+
+
 contains(DEPENDENCIES_PRESENT, osg) { 
     message("Including headers for OpenSceneGraph")
     
@@ -454,6 +449,7 @@ contains(DEPENDENCIES_PRESENT, libfreenect) {
     # Enable only if libfreenect is available
     HEADERS += src/input/Freenect.h
 }
+
 SOURCES += src/main.cc \
     src/QGCCore.cc \
     src/uas/UASManager.cc \
