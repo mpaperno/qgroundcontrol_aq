@@ -236,17 +236,17 @@ void UAS::updateState()
 
     // Position lock is set by the MAVLink message handler
     // if no position lock is available, indicate an error
-    if (positionLock)
-    {
-        positionLock = false;
-    }
-    else
-    {
-        if (((mode&MAV_MODE_FLAG_DECODE_POSITION_AUTO) || (mode&MAV_MODE_FLAG_DECODE_POSITION_GUIDED)) && positionLock)
-        {
-            GAudioOutput::instance()->notifyNegative();
-        }
-    }
+//    if (positionLock)
+//    {
+//        positionLock = false;
+//    }
+//    else
+//    {
+//        if (((mode&MAV_MODE_FLAG_DECODE_POSITION_AUTO) || (mode&MAV_MODE_FLAG_DECODE_POSITION_GUIDED)) && positionLock)
+//        {
+//            GAudioOutput::instance()->notifyNegative();
+//        }
+//    }
 
 }
 
@@ -499,12 +499,12 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 audiostring = tr("Emergency condition! ") + audiostring;
                 audioSeverity = 2;
                 // GAudioOutput::instance()->say(QString("emergency condition %1").arg(audioSystemName));
-//                QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
+                QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
             }
 
             if (audiostring.length() && (modechanged || statechanged || armingchanged))
             {
-//                GAudioOutput::instance()->stopEmergency();
+                GAudioOutput::instance()->stopEmergency();
                 GAudioOutput::instance()->say(audiostring, audioSeverity);
             }
         }
@@ -710,11 +710,11 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 emit localSpeedChanged(this, pos.vx, pos.vy, pos.vz, time);
 
                 // Set internal state
-                if (!positionLock) {
-                    // If position was not locked before, notify positive
-                    GAudioOutput::instance()->notifyPositive();
-                }
-                positionLock = true;
+//                if (!positionLock) {
+//                    // If position was not locked before, notify positive
+//                    GAudioOutput::instance()->notifyPositive();
+//                }
+//                positionLock = true;
                 isLocalPositionKnown = true;
             }
         }
@@ -783,9 +783,19 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 emit globalPositionChanged(this, latitude, longitude, altitude, time);
 
                 if (pos.fix_type > 2) {
+                    if (!positionLock) {
+                        GAudioOutput::instance()->notifyPositive();
+                        GAudioOutput::instance()->say(tr("GPS lock established."));
+                    }
                     positionLock = true;
                     isGlobalPositionKnown = true;
+                } else {
+                    if (positionLock)
+                        GAudioOutput::instance()->alert(tr("GPS lock lost."));
+                    positionLock = false;
+                    isGlobalPositionKnown = false;
                 }
+
                 // Check for NaN
                 int alt = pos.alt;
                 if (!isnan(alt) && !isinf(alt))
