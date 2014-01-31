@@ -38,6 +38,9 @@ This file is part of the QGROUNDCONTROL project
 #include <QPainter>
 #include <QStyleFactory>
 #include <QAction>
+#include <QTranslator>
+#include <QDir>
+#include <QFileInfo>
 
 #include <QDebug>
 
@@ -53,6 +56,10 @@ This file is part of the QGROUNDCONTROL project
 #include "UDPLink.h"
 #include "MAVLinkSimulationLink.h"
 
+
+QTranslator* QGCCore::current = 0;
+Translators QGCCore::translators;
+QString QGCCore::langPath = "/files/lang";
 
 /**
  * @brief Constructor for the main application.
@@ -106,6 +113,11 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
 
     settings.sync();
 
+    loadTranslations();
+
+    // Exit main application when last window is closed
+    connect(this, SIGNAL(lastWindowClosed()), this, SLOT(quit()));
+
     // Show splash screen
     QPixmap splashImage(":/files/images/splash.png");
     QSplashScreen* splashScreen = new QSplashScreen(splashImage);
@@ -114,9 +126,6 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
     splashScreen->show();
     processEvents();
     splashScreen->showMessage(tr("Loading application fonts"), Qt::AlignLeft | Qt::AlignBottom, QColor(62, 93, 141));
-
-    // Exit main application when last window is closed
-    connect(this, SIGNAL(lastWindowClosed()), this, SLOT(quit()));
 
     // Load application font
     QFontDatabase fontDatabase = QFontDatabase();
@@ -234,10 +243,7 @@ void QGCCore::startUASManager()
     // Load UAS plugins
     QDir pluginsDir = QDir(qApp->applicationDirPath());
 
-#if defined(Q_OS_WIN)
-    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
-        pluginsDir.cdUp();
-#elif defined(Q_OS_LINUX)
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
         pluginsDir.cdUp();
 #elif defined(Q_OS_MAC)
@@ -264,6 +270,71 @@ void QGCCore::startUASManager()
             //printf(QString("Loaded plugin from " + fileName + "\n").toStdString().c_str());
         }
     }
+}
+
+// translation engine
+
+void QGCCore::loadTranslations()
+{
+    loadTranslations(getLangFilePath());
+}
+
+void QGCCore::loadTranslations(const QDir& dir)
+{
+    // <language>_<country>.qm or <language.qm>
+    QString filter = "*.qm";
+    QDir::Filters filters = QDir::Files | QDir::Readable;
+    QDir::SortFlags sort = QDir::Name;
+    QFileInfoList entries = dir.entryInfoList(QStringList() << filter, filters, sort);
+    QString language, country;
+
+    foreach (QFileInfo file, entries)
+    {
+        // pick country and language out of the file name
+        QStringList parts = file.baseName().split("_");
+        if (parts.count() > 1) {
+            language = parts.at(parts.count() - 2).toLower();
+            country  = parts.at(parts.count() - 1).toUpper();
+        } else {
+            language = parts.at(parts.count() - 1).toLower();
+            country = "";
+        }
+
+        qDebug() << __FILE__ << __LINE__ << "Loaded language file:" << file.absoluteFilePath() << language << country;
+
+        // construct and load translator
+        QTranslator* translator = new QTranslator(instance());
+        if (translator->load(file.absoluteFilePath()))
+        {
+            QString locale = language + (country.length() ? "_" + country : "");
+            translators.insert(locale, translator);
+        }
+    }
+}
+
+const QStringList QGCCore::availableLanguages()
+{
+    // the content won't get copied thanks to implicit sharing and constness
+    return QStringList(translators.keys());
+}
+
+void QGCCore::setLanguage(const QString& locale)
+{
+    // remove previous
+    if (current)
+        removeTranslator(current);
+
+    // install new
+    current = translators.value(locale, 0);
+    if (current)
+        installTranslator(current);
+}
+
+const QString QGCCore::getLangFilePath()
+{
+    QString ret = QApplication::applicationDirPath();
+    ret.append(langPath);
+    return ret;
 }
 
 

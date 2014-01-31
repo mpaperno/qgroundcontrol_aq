@@ -622,7 +622,7 @@ public slots:
     void writeParametersToStorageAQ();
     void writeParametersToSDAQ();
     void writeWaypointsToSDAQ();
-    void startStopTelemetry(bool enable, float frequenz);
+    void startStopTelemetry(bool enable, float frequenz, uint8_t dataset = 0);
     void sendCommmandToAq(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0);
     /** @brief Read parameters from permanent storage */
     void readParametersFromStorage();

@@ -226,10 +226,12 @@ void DebugConsole::linkSelected(int linkId)
     m_ui->receiveText->clear();
 
     // Connect new link
-    currLink = links[linkId];
-    connect(currLink, SIGNAL(bytesReceived(LinkInterface*,QByteArray)), this, SLOT(receiveBytes(LinkInterface*, QByteArray)));
-    connect(currLink, SIGNAL(connected(bool)), this, SLOT(setConnectionState(bool)));
-    setConnectionState(currLink->isConnected());
+    if (linkId > -1) {
+        currLink = links[linkId];
+        connect(currLink, SIGNAL(bytesReceived(LinkInterface*,QByteArray)), this, SLOT(receiveBytes(LinkInterface*, QByteArray)));
+        connect(currLink, SIGNAL(connected(bool)), this, SLOT(setConnectionState(bool)));
+        setConnectionState(currLink->isConnected());
+    }
 }
 
 /**

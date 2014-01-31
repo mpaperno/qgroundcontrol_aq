@@ -19,18 +19,34 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     ui->Frequenz_Telemetry->addItem("10 Hz", 100000);
     ui->Frequenz_Telemetry->addItem("25 Hz", 50000);
     ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
-    ui->Frequenz_Telemetry->addItem("75 Hz", 13333);
-    ui->Frequenz_Telemetry->addItem("100 Hz", 10000);
-    ui->Frequenz_Telemetry->addItem("150 Hz", 6666);
-    ui->Frequenz_Telemetry->addItem("200 Hz", 5000);
+//    ui->Frequenz_Telemetry->addItem("75 Hz", 13333);
+//    ui->Frequenz_Telemetry->addItem("100 Hz", 10000);
+//    ui->Frequenz_Telemetry->addItem("110 Hz", 9090);
+//    ui->Frequenz_Telemetry->addItem("120 Hz", 8333);
+//    ui->Frequenz_Telemetry->addItem("130 Hz", 7692);
+//    ui->Frequenz_Telemetry->addItem("150 Hz", 6666);
+//    ui->Frequenz_Telemetry->addItem("175 Hz", 5714);
+//    ui->Frequenz_Telemetry->addItem("200 Hz", 5000);
     ui->Frequenz_Telemetry->setCurrentIndex(2);
+
+    btnsDataSets = new QButtonGroup(this);
+    btnsDataSets->setExclusive(false);
+    QCheckBox* cb = new QCheckBox(tr("Legacy"), this);
+    btnsDataSets->addButton(cb, AQMAV_DATASET_LEGACY1);
+    ui->hLayout_dataSets->addWidget(cb);
+    cb = new QCheckBox(tr("Gimbal"), this);
+    btnsDataSets->addButton(cb, AQMAV_DATASET_GIMBAL);
+    ui->hLayout_dataSets->addWidget(cb);
+    cb = new QCheckBox(tr("Stacks"), this);
+    btnsDataSets->addButton(cb, AQMAV_DATASET_STACKSFREE);
+    ui->hLayout_dataSets->addWidget(cb);
 
     // define all data fields
 
     //valueCallback callback = &AQTelemetryView::getTelemValue;
     QString unit = "float";
     telemDatasets dset = TELEM_DATASET_DEFAULT;
-    int msgidx = 0;
+    int msgidx = AQMAV_DATASET_LEGACY1;
     telemDataFields.append(telemFieldsMeta("AQ_ROLL", unit, 1, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("AQ_PITCH", unit, 2, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("AQ_YAW", unit, 3, msgidx, dset));
@@ -55,7 +71,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDataFields.append(telemFieldsMeta("UKF_POSE", unit, 19, msgidx, dset));
 //    telemDataFields.append(telemFieldsMeta("Res", unit, 20, msgidx, dset));
 
-    msgidx++; // new set of messages
+    msgidx = AQMAV_DATASET_LEGACY2; // new set of messages
     telemDataFields.append(telemFieldsMeta("UKF_VELN", unit, 12, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("UKF_VELE", unit, 13, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("UKF_VELD", unit, 14, msgidx, dset));
@@ -79,7 +95,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDataFields.append(telemFieldsMeta("RADIO_QUALITY", unit, 15, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("RADIO_ERROR_COUNT", "int", 20, msgidx, dset));
 
-    msgidx++; // new set of messages (INT msg types)
+    msgidx = AQMAV_DATASET_LEGACY3; // new set of messages (INT msg types)
     unit = "int";
     telemDataFields.append(telemFieldsMeta("RADIO_THROT", unit, 1, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("RADIO_RUDD", unit, 2, msgidx, dset));
@@ -113,6 +129,32 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     telemDataFields.append(telemFieldsMeta("MOTOR13", unit, 19, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("MOTOR14", unit, 20, msgidx, dset));
 
+    msgidx = AQMAV_DATASET_STACKSFREE;
+    telemDataFields.append(telemFieldsMeta("INIT", unit, 1, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("FILER", unit, 2, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("SUPERVISOR", unit, 3, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("ADC", unit, 4, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("RADIO", unit, 5, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("CONTROL", unit, 6, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("GPS", unit, 7, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("RUN", unit, 8, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("COMM", unit, 9, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("DIMU", unit, 10, msgidx, dset));
+
+    msgidx = AQMAV_DATASET_GIMBAL;
+    telemDataFields.append(telemFieldsMeta("Pitch Port", unit, 1, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Tilt Port", unit, 2, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Roll Port", unit, 3, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Trigger Port", unit, 4, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("P-thru Port", unit, 5, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("tilt", "float", 6, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("trigger", unit, 7, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Trig Lst Time", unit, 8, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Trig Lst Lat", "float", 9, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Trig Lst Lon", "float", 10, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("Trig Count", unit, 11, msgidx, dset));
+
+
     // save size of this data set
     totalDatasetFields[dset] = telemDataFields.size();
 
@@ -137,7 +179,7 @@ void AQTelemetryView::setupDataFields() {
     if (datasetFieldsSetup != currentDataSet) {
 
         const int totalFlds = totalDatasetFields[currentDataSet];
-        const int rowsPerCol = (int) ceil((float)(totalFlds / 3.0f));
+        const int rowsPerCol = (int) ceil((float)(totalFlds / 4.0f));
         int gridRow = 0;
         int curGrid = 0;
         int fldCnt = 0;
@@ -158,7 +200,7 @@ void AQTelemetryView::setupDataFields() {
         grid = ui->valsGrid0;
         for (i=0; i < telemDataFields.size(); i++) {
             if (telemDataFields[i].dataSet == currentDataSet) {
-                if ( gridRow >= rowsPerCol && curGrid < 2 ) {
+                if ( gridRow >= rowsPerCol && curGrid < 3 ) {
                     curGrid++;
                     grid = ui->valuesGrid->findChild<QGridLayout *>(QString("valsGrid%1").arg(curGrid));
                     gridRow = 0;
@@ -304,25 +346,18 @@ void AQTelemetryView::teleValuesStart(){
     if (!uas) return;
 
     connect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
-
-    float freq = 40000;
-    if ( ui->Frequenz_Telemetry->currentIndex() == 0)
-        freq = 1000000;
-    if ( ui->Frequenz_Telemetry->currentIndex() == 1)
-        freq = 100000;
-    if ( ui->Frequenz_Telemetry->currentIndex() == 2)
-        freq = 40000;
-    if ( ui->Frequenz_Telemetry->currentIndex() == 3)
-        freq = 20000;
-
-    uas->startStopTelemetry(true,freq);
+    float freq = ui->Frequenz_Telemetry->itemData(ui->Frequenz_Telemetry->currentIndex()).toFloat();
+    foreach (QAbstractButton* abtn, btnsDataSets->buttons())
+        uas->startStopTelemetry(abtn->isChecked(), freq, btnsDataSets->id(abtn));
 }
 
 void AQTelemetryView::teleValuesStop() {
     if (!uas)
         return;
     disconnect(uas, SIGNAL(TelemetryChangedF(int,mavlink_aq_telemetry_f_t)), this, SLOT(getNewTelemetryF(int,mavlink_aq_telemetry_f_t)));
-    uas->startStopTelemetry(false,0.0f);
+    float freq = ui->Frequenz_Telemetry->itemData(ui->Frequenz_Telemetry->currentIndex()).toFloat();
+    foreach (QAbstractButton* abtn, btnsDataSets->buttons())
+        uas->startStopTelemetry(false, freq, btnsDataSets->id(abtn));
 }
 
 void AQTelemetryView::teleValuesToggle(){

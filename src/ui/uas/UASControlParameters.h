@@ -25,6 +25,7 @@ public slots:
     void activeUasSet(UASInterface* uas);
     void updateGlobalPosition(UASInterface*,double,double,double,quint64);
     void speedChanged(UASInterface*,double,double,double,quint64);
+    void speedChanged(UASInterface*,double,quint64);
     void updateAttitude(UASInterface* uas, double roll, double pitch, double yaw, quint64 time);
     void setCommands();
     void getCommands();

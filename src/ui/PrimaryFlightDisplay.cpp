@@ -287,8 +287,8 @@ void PrimaryFlightDisplay::setActiveUAS(UASInterface* uas)
         connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(updateGlobalPosition(UASInterface*,double,double,double,quint64)));
 //        connect(uas, SIGNAL(waypointSelected(int,int)), this, SLOT(selectWaypoint(int, int)));
 //        connect(uas, SIGNAL(primarySpeedChanged(UASInterface*, double, quint64)), this, SLOT(updatePrimarySpeed(UASInterface*,double,quint64)));
-//        connect(uas, SIGNAL(gpsSpeedChanged(UASInterface*, double, quint64)), this, SLOT(updateGPSSpeed(UASInterface*,double,quint64)));
-        connect(uas, SIGNAL(speedChanged(UASInterface*, double, double, double, quint64)), this, SLOT(updateGPSSpeed(UASInterface*,double, double, double,quint64)));
+        connect(uas, SIGNAL(gpsSpeedChanged(UASInterface*, double, quint64)), this, SLOT(updatePrimarySpeed(UASInterface*,double,quint64)));
+        connect(uas, SIGNAL(gpsSpeedChanged(UASInterface*, double, double, double, quint64)), this, SLOT(updateGPSSpeed(UASInterface*,double, double, double,quint64)));
 //        connect(uas, SIGNAL(climbRateChanged(UASInterface*, double, quint64)), this, SLOT(updateClimbRate(UASInterface*, AltitudeMeasurementSource, double, quint64)));
 //        connect(uas, SIGNAL(primaryAltitudeChanged(UASInterface*, double, quint64)), this, SLOT(updatePrimaryAltitude(UASInterface*, double, quint64)));
 //        connect(uas, SIGNAL(gpsAltitudeChanged(UASInterface*, double, quint64)), this, SLOT(updateGPSAltitude(UASInterface*, double, quint64)));

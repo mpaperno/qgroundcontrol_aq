@@ -46,6 +46,9 @@ public:
         MOT_PORT_TYPE_ENUM_END
     };
 
+protected:
+    void changeEvent(QEvent *event);
+
 private:
     Ui::AQPWMPortsConfig* ui;
 

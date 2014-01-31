@@ -28,7 +28,7 @@ QT += network \
     webkit \
     sql
 
-!win32:QT += phonon
+#!win32:QT += phonon
 
 TEMPLATE = app
 TARGET = qgroundcontrol
@@ -51,9 +51,15 @@ OBJECTS_DIR = $${BUILDDIR}/obj
 MOC_DIR = $${BUILDDIR}/moc
 UI_DIR = $${BUILDDIR}/ui
 RCC_DIR = $${BUILDDIR}/rcc
+RESOURCES += qgroundcontrol.qrc
+TRANSLATIONS += files/lang/de.ts \
+    files/lang/en.ts \
+    files/lang/pl.ts
+
+DEFINES += MAVLINK_NO_DATA
+
 MAVLINK_CONF = "autoquad"
 MAVLINKPATH = $$BASEDIR/libs/mavlink/include/mavlink/v1.0
-DEFINES += MAVLINK_NO_DATA
 
 win32 {
     QMAKE_INCDIR_QT = $$(QTDIR)/include
@@ -260,6 +266,7 @@ INCLUDEPATH += src \
     src/ui/map3D \
     src/ui/mission \
     src/ui/designer
+
 HEADERS += src/MG.h \
     src/QGCCore.h \
     src/uas/UASInterface.h \
@@ -399,6 +406,8 @@ HEADERS += src/MG.h \
 
 # Google Earth is only supported on Mac OS and Windows with Visual Studio Compiler
 macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::HEADERS += src/ui/map3D/QGCGoogleEarthView.h
+
+
 contains(DEPENDENCIES_PRESENT, osg) { 
     message("Including headers for OpenSceneGraph")
     
@@ -440,6 +449,7 @@ contains(DEPENDENCIES_PRESENT, libfreenect) {
     # Enable only if libfreenect is available
     HEADERS += src/input/Freenect.h
 }
+
 SOURCES += src/main.cc \
     src/QGCCore.cc \
     src/uas/UASManager.cc \
@@ -621,9 +631,6 @@ contains(DEPENDENCIES_PRESENT, libfreenect) {
     SOURCES += src/input/Freenect.cc
 }
 
-# Add icons and other resources
-RESOURCES += qgroundcontrol.qrc
-
 # Include RT-LAB Library
 win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin) { 
     message("Building support for Opal-RT")
@@ -645,8 +652,6 @@ win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin)
     FORMS += src/ui/OpalLinkSettings.ui
     DEFINES += OPAL_RT
 }
-TRANSLATIONS += es-MX.ts \
-    en-US.ts
 
 # xbee support
 # libxbee only supported by linux and windows systems

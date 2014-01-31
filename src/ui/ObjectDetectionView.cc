@@ -185,7 +185,7 @@ void ObjectDetectionView::clearLists()
     m_ui->listWidget->clear();
     m_ui->letterListWidget->clear();
 
-    m_ui->imageLabel->clear();;
+    m_ui->imageLabel->clear();
     m_ui->letterLabel->clear();
     m_ui->nameLabel->clear();
 }

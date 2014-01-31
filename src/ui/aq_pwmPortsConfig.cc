@@ -98,6 +98,14 @@ AQPWMPortsConfig::~AQPWMPortsConfig()
     delete ui;
 }
 
+void AQPWMPortsConfig::changeEvent(QEvent* event)
+{
+    if (event->type() == QEvent::LanguageChange)
+        ui->retranslateUi(this);
+
+    QWidget::changeEvent(event);
+}
+
 
 void AQPWMPortsConfig::motorTableConnections(bool enable) {
     if (enable) {
@@ -422,7 +430,7 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
 
     QFile f(file);
     if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Could not open file for writing: '%1'").arg(file));
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Could not open file for writing: %1").arg(f.errorString()));
         return;
     }
     f.close();
@@ -716,7 +724,7 @@ void AQPWMPortsConfig::loadFrameTypes(void) {
     QStringList mixFiles = getMixFileList();
 
     ui->comboBox_mixSelector->clear();
-    ui->comboBox_mixSelector->addItem("Select...", QString(""));
+    ui->comboBox_mixSelector->addItem(tr("Select..."), QString(""));
     for (int i = 0; i < mixFiles.size(); ++i) {
         QString mixName = mixFiles.at(i);
         mixName.replace(".mix", "", Qt::CaseInsensitive);
@@ -997,14 +1005,14 @@ void AQPWMPortsConfig::portSelector_currentIndexChanged(int /*index*/) {
 void AQPWMPortsConfig::loadFile_clicked() {
     QFileInfo dir(motMixLastFile);
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select or Create AQ Motor Mix File"), dir.absoluteFilePath(),
-                                                    tr("AQ Mixing Table (*.mix);;All File Types (*.*)"));
+                                                    tr("AQ Mixing Table") + " (*.mix);;" + tr("All File Types") + " (*.*)");
 
     if (!fileName.length())
         return;
 
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        MainWindow::instance()->showCriticalMessage("Error!", tr("Could not open file. %1").arg(file.errorString()));
+        MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Could not open file. %1").arg(file.errorString()));
         return;
     } else
         file.close();
@@ -1017,12 +1025,12 @@ void AQPWMPortsConfig::saveFile_clicked() {
     ui->toolButton_saveFile->setFocus();  // this makes sure the table model gets updated
 
     if (!motorPortsConfig.size()) {
-        MainWindow::instance()->showCriticalMessage("Error", "There is nothing to save...");
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("There is nothing to save..."));
         return;
     }
 
     QFileInfo dir(motMixLastFile);
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dir.absoluteFilePath(), tr("AQ Mixing Table (*.mix)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dir.absoluteFilePath(), tr("AQ Mixing Table") + " (*.mix)");
 
     if (!fileName.length())
         return;
@@ -1041,29 +1049,24 @@ void AQPWMPortsConfig::loadImage_clicked() {
         dirPath = mixImagesPath;
 
     QFileInfo dir(dirPath);
-    QFileDialog dialog;
-    dialog.setDirectory(dir.absoluteDir());
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setNameFilter(tr("Image Files (*.png *.svg *.gif *.jpg *.jpeg *.bmp);;All files (*.*)"));
-    dialog.setViewMode(QFileDialog::Detail);
-    if (dialog.exec()) {
-        QStringList fileNames = dialog.selectedFiles();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select an Image File"), dir.absoluteFilePath(),
+                                                    tr("Image Files") + " (*.png *.svg *.gif *.jpg *.jpeg *.bmp);;" + tr("All File Types") + " (*.*)");
 
-        if (fileNames.size() > 0) {
-            QString fileName = fileNames.first();
-            QFileInfo fInfo(fileName);
+    if (!fileName.length())
+        return;
 
-            if (!fInfo.exists() || !fInfo.isReadable()) {
-                MainWindow::instance()->showCriticalMessage(tr("Error"), tr("Could not open file: '%1'").arg(fileName));
-                return;
-            }
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        MainWindow::instance()->showCriticalMessage("Error!", tr("Could not open file. %1").arg(file.errorString()));
+        return;
+    } else
+        file.close();
 
-            dirPath = fileName;
-            frameImageFile = fileName;
-            customFrameImg = true;
-            setFrameImage(fileName);
-        }
-    }
+    dirPath = fileName;
+    frameImageFile = fileName;
+    customFrameImg = true;
+    setFrameImage(fileName);
+
 }
 
 void AQPWMPortsConfig::allToCAN_clicked() {

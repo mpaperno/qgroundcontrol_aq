@@ -47,7 +47,7 @@ namespace mapcontrol
         Q_UNUSED(option);
         Q_UNUSED(widget);
         painter->drawPixmap(-pic.width()/2,-pic.height()/2,pic);
-        if(showsafearea)
+        if(showsafearea && localsafearea)
         {
             if(safe)
                 painter->setPen(Qt::green);

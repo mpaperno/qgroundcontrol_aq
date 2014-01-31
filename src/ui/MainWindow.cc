@@ -40,6 +40,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QGCHilFlightGearConfiguration.h>
 
 #include "QGC.h"
+#include "QGCCore.h"
 #include "MAVLinkSimulationLink.h"
 #include "SerialLink.h"
 #include "UDPLink.h"
@@ -104,15 +105,17 @@ MainWindow::MainWindow(QWidget *parent):
     lowPowerMode(false)
 {
     hide();
+
+    // format systems language
+    defaultLanguage = QLocale::system().name();       // e.g. "de_DE"
+    defaultLanguage.truncate(defaultLanguage.lastIndexOf('_')); // e.g. "de"
+
     emit initStatusChanged("Loading UI Settings..");
     loadSettings();
-    if (!settings.contains("QGC_MAINWINDOW/CURRENT_VIEW"))
-    {
+    if (!settings.contains("QGC_MAINWINDOW/CURRENT_VIEW")) {
         // Set this view as default view
         settings.setValue("QGC_MAINWINDOW/CURRENT_VIEW", currentView);
-    }
-    else
-    {
+    } else {
         // LOAD THE LAST VIEW
         VIEW_SECTIONS currentViewCandidate = (VIEW_SECTIONS) settings.value("QGC_MAINWINDOW/CURRENT_VIEW", currentView).toInt();
         if (currentViewCandidate >= VIEW_ENGINEER && currentViewCandidate <= VIEW_DATA)
@@ -126,6 +129,9 @@ MainWindow::MainWindow(QWidget *parent):
 
     emit initStatusChanged("Setting up user interface.");
 
+    QGCCore::setLanguage(defaultLanguage);
+    currentLanguage = defaultLanguage;
+
     // Setup user interface
     ui.setupUi(this);
     hide();
@@ -134,7 +140,8 @@ MainWindow::MainWindow(QWidget *parent):
     setDockOptions(AnimatedDocks | AllowTabbedDocks | AllowNestedDocks);
     statusBar()->setSizeGripEnabled(true);
 
-    configureWindowName();
+    // load language choices
+    createLanguageMenu();
 
     // Setup corners
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
@@ -252,6 +259,8 @@ MainWindow::MainWindow(QWidget *parent):
 
     }
 
+    retranslateUi();
+
     connect(&windowNameUpdateTimer, SIGNAL(timeout()), this, SLOT(configureWindowName()));
     windowNameUpdateTimer.start(15000);
     emit initStatusChanged("Done.");
@@ -267,6 +276,10 @@ MainWindow::~MainWindow()
         delete mavlink;
         mavlink = NULL;
     }
+
+    //qApp->removeTranslator(m_translator);
+    //delete m_translator;
+
 //    if (simulationLink)
 //    {
 //        simulationLink->deleteLater();
@@ -328,6 +341,48 @@ void MainWindow::resizeEvent(QResizeEvent * event)
     QMainWindow::resizeEvent(event);
 }
 
+void MainWindow::changeEvent(QEvent* event)
+{
+    if(event)
+    {
+        switch(event->type())
+        {
+        // this event is send if a translator is loaded
+        case QEvent::LanguageChange:
+            ui.retranslateUi(this);
+            retranslateUi();
+            break;
+        // this event is send, if the system, language changes
+        case QEvent::LocaleChange:
+            {
+                QString locale = QLocale::system().name();
+                locale.truncate(locale.lastIndexOf('_'));
+                loadLanguage(locale);
+                //QGCCore::setLanguage(currentLanguage);
+            }
+            break;
+        }
+    }
+
+    QMainWindow::changeEvent(event);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (isVisible()) storeViewState();
+    storeSettings();
+    aboutToCloseFlag = true;
+    mavlink->storeSettings();
+    UASManager::instance()->storeSettings();
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::retranslateUi(/*QMainWindow *MainWindow*/)
+{
+    configureWindowName();
+//    listDockWidget->setWindowTitle(tr("Unmanned Systems"));
+}
+
 QString MainWindow::getWindowStateKey()
 {
     return QString::number(currentView)+"_windowstate";
@@ -337,6 +392,66 @@ QString MainWindow::getWindowGeometryKey()
 {
     //return QString::number(currentView)+"_geometry";
     return "_geometry";
+}
+
+// Called every time sn entry of the language menu is called
+void MainWindow::languageChanged(QAction* action)
+{
+    if(action)
+        loadLanguage(action->data().toString());
+}
+
+// we create the language menu entries dynamically, dependant on the existing translations.
+void MainWindow::createLanguageMenu(void)
+{
+    QActionGroup* langGroup = new QActionGroup(ui.menuLanguage);
+    langGroup->setExclusive(true);
+
+    connect(langGroup, SIGNAL(triggered(QAction *)), this, SLOT(languageChanged(QAction *)));
+
+    QString langPath = QGCCore::getLangFilePath();
+
+    foreach (QString lang, QGCCore::availableLanguages())
+    {
+        // figure out nice names for locales
+        QLocale locale(lang);
+        QString name = QLocale::languageToString(locale.language());
+        //QString language = QLocale::languageToString(locale.language());
+        //QString country = QLocale::countryToString(locale.country());
+        //QString name = language;
+        //if (country.length())
+        //    name += " (" + country + ")";
+
+        // construct an action
+        QIcon ico(QString("%1/flags/%2.png").arg(langPath).arg(lang));
+
+        QAction *action = new QAction(ico, name, this);
+        action->setCheckable(true);
+        action->setData(lang);
+
+        ui.menuLanguage->addAction(action);
+        langGroup->addAction(action);
+
+        // set default translators and language checked
+        if (currentLanguage == lang)
+            action->setChecked(true);
+    }
+
+}
+
+// Called every time, when a menu entry of the language menu is called
+void MainWindow::loadLanguage(const QString& lang)
+{
+    if (currentLanguage != lang) {
+        currentLanguage = lang;
+        //loadLanguage(locale);
+        QGCCore::setLanguage(currentLanguage);
+
+        QLocale l = QLocale(currentLanguage);
+        QLocale::setDefault(l);
+        QString languageName = QLocale::languageToString(l.language());
+        ui.statusBar->showMessage(tr("Current Language changed to %1").arg(languageName));
+    }
 }
 
 void MainWindow::buildCustomWidget()
@@ -710,16 +825,6 @@ void MainWindow::showCentralWidget()
 //    loadViewState();
 //}
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    if (isVisible()) storeViewState();
-    storeSettings();
-    aboutToCloseFlag = true;
-    mavlink->storeSettings();
-    UASManager::instance()->storeSettings();
-    QMainWindow::closeEvent(event);
-}
-
 /**
  * Connect the signals and slots of the common window widgets
  */
@@ -759,7 +864,8 @@ void MainWindow::createCustomWidget()
 void MainWindow::loadCustomWidget()
 {
     QString widgetFileExtension(".qgw");
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Specify Widget File Name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("QGroundControl Widget (*%1);;").arg(widgetFileExtension));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Specify Widget File Name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
+                                                    QString("QGroundControl Widget (*%1)").arg(widgetFileExtension));
     if (fileName != "") loadCustomWidget(fileName);
 }
 
@@ -827,6 +933,7 @@ void MainWindow::loadSettings()
     autoReconnect = settings.value("AUTO_RECONNECT", autoReconnect).toBool();
     currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", currentStyle).toInt();
     lowPowerMode = settings.value("LOW_POWER_MODE", lowPowerMode).toBool();
+    defaultLanguage = settings.value("UI_LANGUAGE", defaultLanguage).toString();
     settings.endGroup();
 }
 
@@ -850,6 +957,7 @@ void MainWindow::storeSettings()
     }
     // Save the current power mode
     settings.setValue("LOW_POWER_MODE", lowPowerMode);
+    settings.setValue("UI_LANGUAGE", currentLanguage);
     settings.endGroup();
     settings.sync();
 }
@@ -858,7 +966,7 @@ void MainWindow::configureWindowName()
 {
     QList<QHostAddress> hostAddresses = QNetworkInterface::allAddresses();
 //    QString windowname = qApp->applicationName() + " " + qApp->applicationVersion();
-    QString windowname = QGCAUTOQUAD::APP_NAME + " v" + QGCAUTOQUAD::APP_VERSION_TXT;
+    QString windowname = QGCAUTOQUAD::APP_NAME + " v" + QGCAUTOQUAD::APP_VERSION_TXT + " (" + QString::number(QGCAUTOQUAD::APP_VERSION) + ")";
     bool prevAddr = false;
 
     windowname.append(" (" + QHostInfo::localHostName() + ": ");
@@ -877,10 +985,6 @@ void MainWindow::configureWindowName()
     windowname.append(")");
 
     setWindowTitle(windowname);
-
-#ifndef Q_WS_MAC
-    //qApp->setWindowIcon(QIcon(":/core/images/qtcreator_logo_128.png"));
-#endif
 }
 
 void MainWindow::startVideoCapture()
@@ -890,9 +994,8 @@ void MainWindow::startVideoCapture()
 
     QString screenFileName = QFileDialog::getSaveFileName(this, tr("Save As"),
                                                           initialPath,
-                                                          tr("%1 Files (*.%2);;All Files (*)")
-                                                          .arg(format.toUpper())
-                                                          .arg(format));
+                                                          QString("%1 Files (*.%2)")
+                                                          .arg(format.toUpper()).arg(format)) + ";;" + tr("All File Types") + " (*.*)";
     delete videoTimer;
     videoTimer = new QTimer(this);
     //videoTimer->setInterval(40);
@@ -982,7 +1085,7 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
 void MainWindow::selectStylesheet()
 {
     // Let user select style sheet
-    styleFileName = QFileDialog::getOpenFileName(this, tr("Specify stylesheet"), styleFileName, tr("CSS Stylesheet (*.css);;"));
+    styleFileName = QFileDialog::getOpenFileName(this, tr("Specify stylesheet"), styleFileName, tr("CSS Stylesheet") + " (*.css)");
 
     if (!styleFileName.endsWith(".css"))
     {

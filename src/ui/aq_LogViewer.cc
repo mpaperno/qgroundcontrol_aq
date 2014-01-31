@@ -115,7 +115,7 @@ void AQLogViewer::OpenLogFile()
 
     // use native file dialog
     fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Log File"), dir.absoluteFilePath(),
-                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+                                            tr("AQ Log File") + " (*.LOG);;" + tr("All File Types") + " (*.*)");
 
     // use Qt file dialog (sometimes very slow! at least on Win)
 //    QFileDialog dialog;

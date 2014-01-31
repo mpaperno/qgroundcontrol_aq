@@ -556,7 +556,7 @@ void QGCAutoquad::addStatic()
 
     // use native file dialog
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Static Log File"), dir.absoluteFilePath(),
-                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+                                            tr("AQ Log File") + " (*.LOG);;" + tr("All File Types") + " (*.*)");
 
     // use Qt file dialog (sometimes very slow! at least on Win)
 //    QFileDialog dialog;
@@ -603,7 +603,7 @@ void QGCAutoquad::addDynamic()
 
     // use native file dialog
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Dynamic Log File"), dir.absoluteFilePath(),
-                                            tr("AQ Log File (*.LOG);;All File Types (*.*)"));
+                                            tr("AQ Log File") + " (*.LOG);;" + tr("All File Types") + " (*.*)");
 
     // use Qt file dialog (sometimes very slow! at least on Win)
 //    QFileDialog dialog;
@@ -647,7 +647,7 @@ void QGCAutoquad::setUsersParams() {
 
     // use native file dialog
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select Parameters File"), dir.absoluteFilePath(),
-                                            tr("AQ Parameter File (*.params);;All File Types (*.*)"));
+                                            tr("AQ Parameter File") + " (*.params);;" + tr("All File Types") + " (*.*)");
 
     if (fileName.length())
         ShowUsersParams(QDir::toNativeSeparators(fileName));
@@ -687,7 +687,7 @@ void QGCAutoquad::CreateUsersParams() {
 
     // use native file dialog
     QString fileName = QFileDialog::getSaveFileName(this, tr("Select Parameters File"), dir.absoluteFilePath(),
-                                            tr("AQ Parameter File (*.params);;All File Types (*.*)"));
+                                            tr("AQ Parameter File") + " (*.params);;" + tr("All File Types") + " (*.*)");
 
     if (fileName.length())
         UsersParamsFile = fileName;
@@ -1418,7 +1418,7 @@ void QGCAutoquad::Esc32SaveParamsToFile()
     }
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Select or Create ESC32 Settings File"), suggestPath,
-                                                    tr("Parameter File (*.txt);;All File Types (*.*)"));
+                                                    tr("Parameter File") + " (*.txt);;" + tr("All File Types") + " (*.*)");
     if (!fileName.length())
         return;
 
@@ -1456,7 +1456,7 @@ void QGCAutoquad::Esc32LoadParamsFromFile() {
 
     // use native file dialog
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select Saved Parameters File"), dir.absoluteFilePath(),
-                                            tr("Parameter Files (*.txt);;All File Types (*.*)"));
+                                            tr("Parameter File") + " (*.txt);;" + tr("All File Types") + " (*.*)");
 
     if (!fileName.length())
         return;
@@ -1529,18 +1529,19 @@ void QGCAutoquad::ParaWrittenEsc32(QString ParaName) {
 }
 
 void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2) {
+    Q_UNUSED(V2);
     switch (CommandName) {
     case AQEsc32::BINARY_COMMAND_ARM :
-        ui->pushButton_esc32_read_arm_disarm->setText("disarm");
+        ui->pushButton_esc32_read_arm_disarm->setText(tr("disarm"));
         break;
     case AQEsc32::BINARY_COMMAND_DISARM :
-        ui->pushButton_esc32_read_arm_disarm->setText("arm");
+        ui->pushButton_esc32_read_arm_disarm->setText(tr("arm"));
         break;
     case AQEsc32::BINARY_COMMAND_START :
-        ui->pushButton_esc32_read_start_stop->setText("stop");
+        ui->pushButton_esc32_read_start_stop->setText(tr("stop"));
         break;
     case AQEsc32::BINARY_COMMAND_STOP :
-        ui->pushButton_esc32_read_start_stop->setText("start");
+        ui->pushButton_esc32_read_start_stop->setText(tr("start"));
         break;
     case AQEsc32::BINARY_COMMAND_RPM :
         ui->spinBox_rpm->setValue(V1.toInt());
@@ -1548,15 +1549,15 @@ void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2)
     case AQEsc32::BINARY_COMMAND_CONFIG :
         switch (V1.toInt()) {
         case 0 :
-            Esc32UpdateStatusText("Loaded config from flash.");
+            Esc32UpdateStatusText(tr("Loaded config from flash."));
             skipParamChangeCheck = false;
             break;
         case 1 :
-            Esc32UpdateStatusText("Wrote config to flash.");
+            Esc32UpdateStatusText(tr("Wrote config to flash."));
             skipParamChangeCheck = false;
             break;
         case 2 :
-            Esc32UpdateStatusText("Loaded default config.");
+            Esc32UpdateStatusText(tr("Loaded default config."));
             skipParamChangeCheck = true;
             break;
         }
@@ -1566,10 +1567,10 @@ void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2)
 
 void QGCAutoquad::btnSetRPM()
 {
-    if (( ui->pushButton_esc32_read_start_stop->text() == "stop") &&( ui->pushButton_esc32_read_arm_disarm->text() == "disarm")) {
+    if (( ui->pushButton_esc32_read_start_stop->text() == tr("stop")) &&( ui->pushButton_esc32_read_arm_disarm->text() == tr("disarm"))) {
         float rpm = (float)ui->spinBox_rpm->value();
         if ( ui->FF1TERM->text().toFloat() == 0.0f)
-            MainWindow::instance()->showCriticalMessage("Error!", "The Parameter FF1Term is 0.0, can't set the RPM! Please change it and write config to ESC.");
+            MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("The Parameter FF1Term is 0.0, can't set the RPM! Please change it and write config to ESC."));
         else
             esc32->sendCommand(esc32->BINARY_COMMAND_RPM, rpm, 0.0f, 1, false);
     }
@@ -1578,8 +1579,8 @@ void QGCAutoquad::btnSetRPM()
 void QGCAutoquad::saveEEpromEsc32()
 {
     QMessageBox msgBox;
-    msgBox.setWindowTitle("Question");
-    msgBox.setInformativeText("The values have been transmitted to Esc32! Do you want to store the parameters into permanent memory (ROM)?");
+    msgBox.setWindowTitle(tr("Question"));
+    msgBox.setInformativeText(tr("The values have been transmitted to Esc32! Do you want to store the parameters into permanent memory (ROM)?"));
     msgBox.setWindowModality(Qt::ApplicationModal);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     int ret = msgBox.exec();
@@ -1597,20 +1598,20 @@ void QGCAutoquad::Esc32Connected(){
         esc32->CheckVersion();
         esc32->ReadConfigEsc32();
         skipParamChangeCheck = false;
-        Esc32UpdateStatusText("Loaded current config.");
+        Esc32UpdateStatusText(tr("Loaded current config."));
     } else {
-        ui->textFlashOutput->append("Serial link connected. Attemtping bootloader mode...\n");
+        ui->textFlashOutput->append(tr("Serial link connected. Attemtping bootloader mode...\n"));
         esc32->SetToBootMode();
     }
-    ui->pushButton_connect_to_esc32->setText("disconnect");
+    ui->pushButton_connect_to_esc32->setText(tr("disconnect"));
 }
 
 void QGCAutoquad::ESc32Disconnected() {
     disconnect(esc32, 0, this, 0);
     esc32 = NULL;
-    ui->pushButton_connect_to_esc32->setText("connect esc32");
-    ui->label_esc32_fw_version->setText("FW version: [not connected]");
-    Esc32UpdateStatusText("Disconnected.");
+    ui->pushButton_connect_to_esc32->setText(tr("connect esc32"));
+    ui->label_esc32_fw_version->setText(tr("FW version: [not connected]"));
+    Esc32UpdateStatusText(tr("Disconnected."));
 }
 
 void QGCAutoquad::Esc32StartLogging() {
@@ -1624,12 +1625,12 @@ void QGCAutoquad::Esc32StartCalibration() {
     QString Esc32LoggingFile = "";
     QString Esc32ResultFile = "";
 
-    if ( ui->pushButton_start_calibration->text() == "start calibration") {
+    if ( ui->pushButton_start_calibration->text() == tr("start calibration")) {
         QMessageBox InfomsgBox;
-        InfomsgBox.setText("<p style='color: red; font-weight: bold;'>WARNING!! EXPERIMENTAL FEATURE! BETTER TO USE Linux/OS-X COMMAND-LINE TOOLS!</p> \
+        InfomsgBox.setText(tr("<p style='color: red; font-weight: bold;'>WARNING!! EXPERIMENTAL FEATURE! BETTER TO USE Linux/OS-X COMMAND-LINE TOOLS!</p> \
 <p>This is the calibration routine for ESC32!</p> \
 <p>Please be careful with the calibration function! The motor will spin up to full throttle! Please stay clear of the motor & propeller!</p> \
-<p><b style='color: red;'>Proceed at your own risk!</b>  You will have one more chance to cancel before the procedure starts.</p>");
+<p><b style='color: red;'>Proceed at your own risk!</b>  You will have one more chance to cancel before the procedure starts.</p>"));
         InfomsgBox.setWindowModality(Qt::ApplicationModal);
         InfomsgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         InfomsgBox.setDefaultButton(QMessageBox::Cancel);
@@ -1637,7 +1638,7 @@ void QGCAutoquad::Esc32StartCalibration() {
         if (ret == QMessageBox::Cancel)
             return;
 
-        ret = QMessageBox::question(this,"Question","Which calibration do you want to do?","RpmToVoltage","CurrentLimiter");
+        ret = QMessageBox::question(this, tr("Question"), tr("Which calibration do you want to do?"), "RpmToVoltage", "CurrentLimiter");
         if ( ret == 0) {
             Esc32CalibrationMode = 1;
             #ifdef Q_OS_WIN
@@ -1671,8 +1672,8 @@ void QGCAutoquad::Esc32StartCalibration() {
             QFile::remove(Esc32ResultFile);
 
         QMessageBox msgBox;
-        msgBox.setText("<p style='font-weight: bold;'>Again, be carful! You can abort using the Stop Calibration button, but the fastest stop is to pull the battery!</p> \
-<p style='font-weight: bold;'>To start the calibration procedure, press Yes.</p><p style='color: red; font-weight: bold;'>This is your final warning!</p>");
+        msgBox.setText(tr("<p style='font-weight: bold;'>Again, be carful! You can abort using the Stop Calibration button, but the fastest stop is to pull the battery!</p> \
+<p style='font-weight: bold;'>To start the calibration procedure, press Yes.</p><p style='color: red; font-weight: bold;'>This is your final warning!</p>"));
         msgBox.setWindowModality(Qt::ApplicationModal);
         msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
@@ -1685,12 +1686,12 @@ void QGCAutoquad::Esc32StartCalibration() {
 
             esc32->SetCalibrationMode(this->Esc32CalibrationMode);
             esc32->StartCalibration(maxAmps,Esc32LoggingFile,Esc32ResultFile);
-            ui->pushButton_start_calibration->setText("stop calibration");
+            ui->pushButton_start_calibration->setText(tr("stop calibration"));
         }
     }
-    else if ( ui->pushButton_start_calibration->text() == "stop calibration")
+    else if ( ui->pushButton_start_calibration->text() == tr("stop calibration"))
     {
-        ui->pushButton_start_calibration->setText("start calibration");
+        ui->pushButton_start_calibration->setText(tr("start calibration"));
         esc32->StopCalibration(true);
     }
 }
@@ -1700,7 +1701,7 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
     if ( mode == 99) {
         //No values from esc32
         QMessageBox InfomsgBox;
-        InfomsgBox.setText("Something went wrong in data logging, Aborted!");
+        InfomsgBox.setText(tr("Something went wrong in data logging, Aborted!"));
         InfomsgBox.exec();
         return;
     }
@@ -1712,10 +1713,10 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
     if ( mode == 1) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
         ui->FF2TERM->setText(QString::number(esc32->getFF2Term()));
-        ui->pushButton_start_calibration->setText("start calibration");
+        ui->pushButton_start_calibration->setText(tr("start calibration"));
         //Esc32LoggingFile
         QMessageBox InfomsgBox;
-        InfomsgBox.setText("Updated the fields with FF1Term and FF2Term!");
+        InfomsgBox.setText(tr("Updated the fields with FF1Term and FF2Term!"));
         InfomsgBox.exec();
         return;
     }
@@ -1725,29 +1726,29 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
         ui->CL3TERM->setText(QString::number(esc32->getCL3()));
         ui->CL4TERM->setText(QString::number(esc32->getCL4()));
         ui->CL5TERM->setText(QString::number(esc32->getCL5()));
-        ui->pushButton_start_calibration->setText("start calibration");
+        ui->pushButton_start_calibration->setText(tr("start calibration"));
         QMessageBox InfomsgBox;
-        InfomsgBox.setText("Updated the fields with Currentlimiter 1 to Currentlimiter 5!");
+        InfomsgBox.setText(tr("Updated the fields with Currentlimiter 1 to Currentlimiter 5!"));
         InfomsgBox.exec();
         return;
     }
 }
 
 void QGCAutoquad::btnReadConfigEsc32() {
-    Esc32UpdateStatusText("Requesting config...");
+    Esc32UpdateStatusText(tr("Requesting config..."));
     esc32->ReadConfigEsc32();
     skipParamChangeCheck = false;
-    Esc32UpdateStatusText("Loaded current config.");
+    Esc32UpdateStatusText(tr("Loaded current config."));
 }
 
 void QGCAutoquad::Esc32LoadDefaultConf() {
-    Esc32UpdateStatusText("Loading defaults...");
+    Esc32UpdateStatusText(tr("Loading defaults..."));
     esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,2.0f, 0.0f, 1, false);
     esc32->ReadConfigEsc32();
 }
 
 void QGCAutoquad::Esc32ReLoadConf() {
-    Esc32UpdateStatusText("Loading stored config...");
+    Esc32UpdateStatusText(tr("Loading stored config..."));
     esc32->sendCommand(esc32->BINARY_COMMAND_CONFIG,0.0f, 0.0f, 1, false);
     esc32->ReadConfigEsc32();
 }
@@ -1848,7 +1849,7 @@ void QGCAutoquad::selectFWToFlash()
         QFile file(fileNameLocale);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         {
-            MainWindow::instance()->showInfoMessage("Warning!", tr("Could not read hex file. %1").arg(file.errorString()));
+            MainWindow::instance()->showInfoMessage(tr("Warning!"), tr("Could not read hex file. %1").arg(file.errorString()));
             return;
         }
         ui->fileLabel->setText(fileNameLocale);
@@ -1864,7 +1865,7 @@ void QGCAutoquad::selectFWToFlash()
 void QGCAutoquad::flashFW()
 {
     if (!ui->radioButton_fwType_aq->isChecked() && !ui->radioButton_fwType_esc32->isChecked()) {
-        MainWindow::instance()->showCriticalMessage("Error!", "Please first select the firwmare type (AutoQuad or ESC32).");
+        MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please first select the firwmare type (AutoQuad or ESC32)."));
         return;
     }
 
@@ -1884,8 +1885,8 @@ void QGCAutoquad::flashFW()
         msg += tr("WARNING: Flashing firmware will reset all ESC32 settings back to default values. Make sure you have your custom settings saved.\n\n");
     }
 
-    msg += QString("Make sure you are using the %1 port.\n\n").arg(portName);
-    msg += QString("There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\nDo you wish to continue flashing?");
+    msg += tr("Make sure you are using the %1 port.\n\n").arg(portName);
+    msg += tr("There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\nDo you wish to continue flashing?");
 
     QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
     if (qrply == QMessageBox::Cancel)
@@ -2451,8 +2452,8 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         if (interactive) {
             paramSaveType = 0;
 
-            QString msgBoxText = tr("The following parameter%1 %2 been modified:\n").arg((changeList.size() > 1) ? "s" : "").arg((changeList.size() > 1) ? tr("have") : tr("has"));
-            msg = "<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n";
+            QString msgBoxText = tr("%n parameter(s) modified:\n", "one or more params have changed", changeList.size());
+            msg = tr("<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n");
             QMapIterator<QString, QList<float> > i(changeList);
             QString val1, val2;
             while (i.hasNext()) {
@@ -2529,14 +2530,14 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         return true;
     } else {
         if (interactive)
-            MainWindow::instance()->showInfoMessage("Warning", "No changed parameters detected.  Nothing saved.");
+            MainWindow::instance()->showInfoMessage(tr("Warning"), tr("No changed parameters detected.  Nothing saved."));
         return false;
     }
 }
 
 void QGCAutoquad::saveAQSettings() {
     if (!validateRadioSettings(0)) {
-        MainWindow::instance()->showCriticalMessage("Error", "You have the same port assigned to multiple controls!");
+        MainWindow::instance()->showCriticalMessage(tr("Error"), tr("You have the same port assigned to multiple controls!"));
         return;
     }
     saveSettingsToAq(ui->tab_aq_settings);
@@ -2580,13 +2581,13 @@ void QGCAutoquad::convertPidAttValsToFW68Scales() {
     ui->CTRL_MAX->setValue(ui->CTRL_MAX->value() * 4.82f);
 
     if (ok) {
-        QString msg = "<html><p>The <b>Tilt Rate</b>, <b>Tilt Angle</b>, and <b>Yaw Rate</b> PIDs, and the <b>Max. Ctrl. Per Axis</b> (CTRL_MAX) parameter have been converted ";
-        msg += "and are displayed here, but have NOT been sent to AQ (Ctrl. Max. is shown on the Radio & Controls setup screen).</p>";
-        msg += "<p>To return to the old values, simply refresh the onboard parameters list.</p>";
-        msg += "<p>Please note that the conversions are approximate. Each value (except the F term!) has been multipled by 4.82 You may want to round some of the numbers a bit.</p>";
-        msg += "<p>You may also wish to refer to the <a href='http://code.google.com/p/autoquad/source/diff?spec=svn234&r=234&format=side&path=/trunk/onboard/config_default.h#sc_svn233_59'>";
-        msg += "original code changes</a> for reference.</p></html>";
-        MainWindow::instance()->showInfoMessage("Attitude PID values converted.", msg);
+        QString msg = tr("<html><p>The <b>Tilt Rate</b>, <b>Tilt Angle</b>, and <b>Yaw Rate</b> PIDs, and the <b>Max. Ctrl. Per Axis</b> (CTRL_MAX) parameter have been converted \
+                and are displayed here, but have NOT been sent to AQ (Ctrl. Max. is shown on the Radio & Controls setup screen).</p>\
+                <p>To return to the old values, simply refresh the onboard parameters list.</p>\
+                <p>Please note that the conversions are approximate. Each value (except the F term!) has been multipled by 4.82 You may want to round some of the numbers a bit.</p>\
+                <p>You may also wish to refer to the <a href='http://code.google.com/p/autoquad/source/diff?spec=svn234&r=234&format=side&path=/trunk/onboard/config_default.h#sc_svn233_59'>\
+                original code changes</a> for reference.</p></html>");
+        MainWindow::instance()->showInfoMessage(tr("Attitude PID values converted."), msg);
         ui->cmdBtn_ConvertTov68AttPIDs->hide();
     }
 }
@@ -2602,8 +2603,8 @@ bool QGCAutoquad::checkProcRunning(bool warn) {
     if (ps_master.state() == QProcess::Running) {
         if (warn)
             MainWindow::instance()->showCriticalMessage(
-                        "Process already running.",
-                        "There appears to be an external process (calculation step or firmware flashing) already running. Please abort it first.");
+                        tr("Process already running."),
+                        tr("There appears to be an external process (calculation step or firmware flashing) already running. Please abort it first."));
         return true;
     }
     return false;
@@ -2613,7 +2614,7 @@ void QGCAutoquad::prtstexit(int stat) {
     if ( fwFlashActive ) {  // firmware flashing mode
         ui->flashButton->setEnabled(true);
         if (!stat)
-            MainWindow::instance()->showInfoMessage("Restart the device.", "Please cycle power to the AQ/ESC or press the AQ reset button to reboot.");
+            MainWindow::instance()->showInfoMessage(tr("Restart the device."), tr("Please cycle power to the AQ/ESC or press the AQ reset button to reboot."));
         fwFlashActive = false;
         if (connectedLink) {
             connectedLink->connect();
@@ -2646,22 +2647,22 @@ void QGCAutoquad::extProcessError(QProcess::ProcessError err) {
     switch(err)
     {
     case QProcess::FailedToStart:
-        msg = "Failed to start.";
+        msg = tr("Failed to start.");
         break;
     case QProcess::Crashed:
-        msg = "Process terminated (aborted or crashed).";
+        msg = tr("Process terminated (aborted or crashed).");
         break;
     case QProcess::Timedout:
-        msg = "Timeout waiting for process.";
+        msg = tr("Timeout waiting for process.");
         break;
     case QProcess::WriteError:
-        msg = "Cannot write to process, exiting.";
+        msg = tr("Cannot write to process, exiting.");
         break;
     case QProcess::ReadError:
-        msg = "Cannot read from process, exiting.";
+        msg = tr("Cannot read from process, exiting.");
         break;
     default:
-        msg = "Unknown error";
+        msg = tr("Unknown error");
         break;
     }
     activeProcessStatusWdgt->append(msg);
