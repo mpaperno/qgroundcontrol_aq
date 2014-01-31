@@ -1084,7 +1084,7 @@
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="234"/>
         <source>LED 2:</source>
-        <translation>DIODA LED 2:</translation>
+        <translation>LED 2:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="259"/>
@@ -1194,7 +1194,7 @@
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="712"/>
         <source>Select Frame Type:</source>
-        <translation>Wybierz typ ramy:</translation>
+        <translation>Wybierz układ silników:</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="731"/>
@@ -1219,7 +1219,7 @@
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="785"/>
         <source>Predefined</source>
-        <translation>Zdefiniowane</translation>
+        <translation>Predefiniowane</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="798"/>
@@ -1276,17 +1276,17 @@
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1015"/>
         <source>Pitch</source>
-        <translation>Boisko</translation>
+        <translation>Pitch</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1023"/>
         <source>Roll</source>
-        <translation>Rolki</translation>
+        <translation>Roll</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1031"/>
         <source>Yaw</source>
-        <translation>Odchylenia</translation>
+        <translation>Yaw</translation>
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.ui" line="1039"/>
@@ -3613,7 +3613,7 @@ Przerwano.&lt;/font&gt;</translation>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="357"/>
         <source>Radio Values</source>
-        <translation>Wartości radiowe</translation>
+        <translation>Ustawienia nadajnika</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="395"/>
@@ -4120,7 +4120,7 @@ Przerwano.&lt;/font&gt;</translation>
         <location filename="../../src/ui/qgcautoquad.ui" line="4236"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="4344"/>
         <source>I Max:</source>
-        <translation>Mogę Max:</translation>
+        <translation>I Max:</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="3296"/>
@@ -4401,7 +4401,7 @@ Przerwano.&lt;/font&gt;</translation>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5369"/>
         <source>Max. Speed</source>
-        <translation>Max. Prędkość</translation>
+        <translation>Max. Prędkość pozioma</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5388"/>
@@ -4418,7 +4418,7 @@ Przerwano.&lt;/font&gt;</translation>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5407"/>
         <source>Max. Descent Rate</source>
-        <translation>Max. Prędkość opadania</translation>
+        <translation>Max. Prędkość pionowa</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="5426"/>
@@ -4868,17 +4868,17 @@ Przerwano.&lt;/font&gt;</translation>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6909"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Motor direction. 1 = forward, -1 = reverse.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kierunek obrotów. 1 = do przodu, -1 = do tyłu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kierunek obrotów. 1 = normalny, -1 = rewers .&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6913"/>
         <source>Forward</source>
-        <translation>Do przodu</translation>
+        <translation>Normalny</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6918"/>
         <source>Reverse</source>
-        <translation>Do tyłu</translation>
+        <translation>Rewers</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="6943"/>
@@ -5358,14 +5358,14 @@ Przerwano.&lt;/font&gt;</translation>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8066"/>
         <source>Step1: cal --rate</source>
-        <translation>Krok 1: cal - kurs</translation>
+        <translation>Krok 1: cal --rate</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8077"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8124"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="8171"/>
         <source>Start cal.</source>
-        <translation>Start kal.</translation>
+        <translation>Start.</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8087"/>
@@ -5386,7 +5386,7 @@ Przerwano.&lt;/font&gt;</translation>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8160"/>
         <source>Step3: cal --mag</source>
-        <translation>Krok 3: cal - mag</translation>
+        <translation>Krok 3: cal -- mag</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="8178"/>
