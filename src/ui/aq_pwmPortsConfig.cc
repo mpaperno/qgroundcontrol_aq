@@ -308,7 +308,8 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
         return false;
 
     bool ok;
-    float throt=0, pitch=0, roll=0, yaw=0;
+    double throt=0, pitch=0, roll=0, yaw=0;
+	 int acc=1000000;  // digits accuracy when calculating totals (esp. for Quatos) -- this is for display only, not used in onboard config
     QIcon icnBad(QPixmap(":/files/images/actions/cross-small.png"));
     QIcon icnGood(QPixmap(":/files/images/actions/tick-small.png"));
 
@@ -317,16 +318,21 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
     errorInMotorConfigTotals = false;
 
     for (int i=0; i < lastRow; ++i) {
-        throt += ui->table_motMix->item(i, COL_THROT)->data(Qt::EditRole).toFloat();
-        pitch += ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toFloat();
-        roll += ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toFloat();
-        yaw += ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toFloat();
+        throt += ui->table_motMix->item(i, COL_THROT)->data(Qt::EditRole).toDouble() * acc;
+        pitch += ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toDouble() * acc;
+        roll += ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toDouble() * acc;
+        yaw += ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toDouble() * acc;
+//        qDebug() << ui->table_motMix->item(i, COL_THROT)->data(Qt::EditRole).toDouble() <<
+//                    ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toDouble() <<
+//                    ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toDouble() <<
+//                    ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toDouble() <<
+//                    throt << pitch << roll << yaw;
     }
 
-    ui->table_motMix->item(lastRow, COL_THROT)->setData(Qt::DisplayRole, throt);
-    ui->table_motMix->item(lastRow, COL_PITCH)->setData(Qt::DisplayRole, pitch);
-    ui->table_motMix->item(lastRow, COL_ROLL)->setData(Qt::DisplayRole, roll);
-    ui->table_motMix->item(lastRow, COL_YAW)->setData(Qt::DisplayRole, yaw);
+    ui->table_motMix->item(lastRow, COL_THROT)->setData(Qt::DisplayRole, (throt / (double)acc));
+    ui->table_motMix->item(lastRow, COL_PITCH)->setData(Qt::DisplayRole, (pitch / (double)acc));
+    ui->table_motMix->item(lastRow, COL_ROLL)->setData(Qt::DisplayRole, (roll / (double)acc));
+    ui->table_motMix->item(lastRow, COL_YAW)->setData(Qt::DisplayRole, (yaw / (double)acc));
 
     ui->table_motMix->item(lastRow, COL_THROT)->setIcon((ok = throt > 0) ? icnGood : icnBad);
     if (!ok) errorInMotorConfigTotals = true;
