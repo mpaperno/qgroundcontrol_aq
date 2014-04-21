@@ -4,7 +4,7 @@
 <context>
     <name>AQLinechartWidget</name>
     <message>
-        <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="207"/>
+        <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="207" />
         <location filename="../../src/ui/linechart/aqlinechartwidget.cpp" line="208"/>
         <source>Set linear scale for Y axis</source>
         <translation>Lineare Skalierung für y-Achse</translation>
