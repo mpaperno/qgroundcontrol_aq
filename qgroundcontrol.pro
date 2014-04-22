@@ -58,6 +58,8 @@ TRANSLATIONS += files/lang/de.ts \
 
 DEFINES += MAVLINK_NO_DATA
 
+#DEFINES += NO_TEXT_TO_SPEECH
+
 MAVLINK_CONF = "autoquad"
 MAVLINKPATH = $$BASEDIR/libs/mavlink/include/mavlink/v1.0
 
@@ -93,7 +95,11 @@ INCLUDEPATH += \
     libs \
     libs/opmapcontrol
 
-include(libs/QtSpeech/QtSpeech.pri)
+!contains(DEFINES, NO_TEXT_TO_SPEECH) {
+	include(libs/QtSpeech/QtSpeech.pri)
+} else {
+	message("Skipping Text-to-Speech support.")
+}
 
 win32-msvc2008|win32-msvc2010 {
 

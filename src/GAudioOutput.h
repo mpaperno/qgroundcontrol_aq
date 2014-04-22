@@ -36,7 +36,9 @@ This file is part of the PIXHAWK project
 #include <QTimer>
 #include <QStringList>
 #include <QQueue>
+#ifndef NO_TEXT_TO_SPEECH
 #include <QtSpeech>
+#endif
 
 /**
  * @brief Audio Output (speech synthesizer and "beep" output)
@@ -85,7 +87,9 @@ signals:
     void mutedChanged(bool);
 
 protected:
+#ifndef NO_TEXT_TO_SPEECH
     QtSpeech* speech;
+#endif
     int voiceIndex;   ///< The index of the voice to use
     bool emergency;   ///< Emergency status flag
     QTimer* emergencyTimer;

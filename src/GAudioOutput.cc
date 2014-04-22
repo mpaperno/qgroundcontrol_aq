@@ -72,8 +72,10 @@ GAudioOutput::GAudioOutput(QObject* parent) : QObject(parent),
     settings.sync();
     muted = settings.value(QGC_GAUDIOOUTPUT_KEY+"muted", muted).toBool();
 
+#ifndef NO_TEXT_TO_SPEECH
     speech = new QtSpeech(this);
     connect(speech, SIGNAL(finished()), this, SLOT(advanceSpeechQueue()));
+#endif
 
     // Prepare regular emergency signal, will be fired off on calling startEmergency()
     emergencyTimer = new QTimer();
@@ -119,8 +121,10 @@ void GAudioOutput::sayText(QString text)
     if (muted || emergency)
         return;
 
+#ifndef NO_TEXT_TO_SPEECH
     speech->tell(text);
     isSpeaking = true;
+#endif
 }
 
 bool GAudioOutput::say(QString text, int severity)

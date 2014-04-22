@@ -19,15 +19,21 @@ BUILDING FROM SOURCE
 
 Also see http://qgroundcontrol.org/dev/start for building instructions and other details (but read here first as it is the most up-to-date and some things are specific to the AutoQuad version).
 
+_To build without Text-To-Speech_ (and skip the corresponding optional steps below), you need to add "NO_TEXT_TO_SPEECH" to your
+Qt DEFINES variable.  You can do this in the build config, or by un-commenting "#DEFINES += NO_TEXT_TO_SPEECH" in qgroundcontrol.pro.
+
 Linux 
 =====
 
 To build on Ubuntu Linux (others are similar but might use different installer and package names; you may also need to build the Qt 4.8.4 libraries from source):
 
-sudo apt-get install phonon libqt4-dev \
- libphonon-dev libphonon4 phonon-backend-gstreamer \
- qtcreator libsdl1.2-dev libflite1 flite1-dev build-essential \
- libopenscenegraph-dev
+sudo apt-get install build-essential libqt4-dev qtcreator libsdl1.2-dev
+
+Optional for Text To Speech:
+ sudo apt-get install curl libasound2-dev libncurses5-dev festival festival-dev
+
+Optional for Open Scene Graph: 
+ sudo apt-get install libopenscenegraph-dev 
 
 cd directory
 
@@ -35,7 +41,9 @@ git clone https://github.com/AutoQuad/qgroundcontrol.git
 
 go to libs/thirdParty/libxbee and build the library (see README for details)
 
-go to libs/QtSpeech and run: sh ./get-festival.sh
+Optional for Text To Speech:
+ go to libs/QtSpeech and run: sh ./get-festival.sh
+ (this may produce errors during make steps, but you could try building QGC anyway)
 
 Ubuntu Application Menu -> Development -> Qt Creator
 
@@ -60,9 +68,10 @@ Prerequsites:
 
 1) Download and install the Qt 4.8.4 (not 5.x) libraries for Windows from http://qt-project.org/downloads (the Visual Studio 2010 version).
 
-2) For voice support, first follow the instructions in libs/QtSpeech/INSTALL.txt (in the qgroundcontrol root folder).
+Optional for Text To Speech:
+ 2) For voice support, first follow the instructions in libs/QtSpeech/INSTALL.txt (in the qgroundcontrol root folder).
 
-3) If you do not have Visual Studio PRO version installed, you also need the ATL MFC developer package.  The simplest way to get this is to download the Windows Driver Kit Version 7.1.0 (http://www.microsoft.com/en-us/download/details.aspx?id=11800).  Mount the ISO and run the installer, then select the "Build Environments" feature (also keep Debuggin Tools checked if it is already).  Install it to the folder of your choice (you can remove it later).  Once installed, find the inc/atl71 folder and copy the contents to C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\atlmfc.  Then find the lib/ATL/i386 folder and copy the contents to C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib.  (For 32-bit systems, adjust the paths accordingly and then edit the path definitions in the /libs/QtSpeech/qtspeech.pri file.)
+ 3) If you do not have Visual Studio PRO version installed, you also need the ATL MFC developer package.  The simplest way to get this is to download the Windows Driver Kit Version 7.1.0 (http://www.microsoft.com/en-us/download/details.aspx?id=11800).  Mount the ISO and run the installer, then select the "Build Environments" feature (also keep Debuggin Tools checked if it is already).  Install it to the folder of your choice (you can remove it later).  Once installed, find the inc/atl71 folder and copy the contents to C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\atlmfc.  Then find the lib/ATL/i386 folder and copy the contents to C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib.  (For 32-bit systems, adjust the paths accordingly and then edit the path definitions in the /libs/QtSpeech/qtspeech.pri file.)
 
 
 Option 1: Qt Creator with Microsoft Windows SDK
@@ -99,7 +108,7 @@ Option 2: Visual Studio 2008/2010
 Mac OS X (somewhat incomplete)
 ==============================
 
-To buld a version with a working Google Earth plugin, one (apparently) must use 32 bit Qt libraries. At the time of this writing, this means building the libraries from source, using the ./configure -arch x386 option.
+To buld a version with a working Google Earth plugin, one must use 32 bit Qt libraries. At the time of this writing, this means building the libraries from source, using the ./configure -arch x386 option.
 
 To build on Mac OS X (10.6 or later):
 
