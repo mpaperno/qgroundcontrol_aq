@@ -188,6 +188,7 @@ public:
     uint8_t maxMotorPorts;          // maximum possible motor outputs (PWM or CAN or ?)
     QList<uint8_t> pwmPortTimers;   // table of timers corresponding to ports
     bool motPortTypeCAN;            // is CAN bus available?
+    bool motPortTypeCAN_H;          // are CAN ports 17-32 available?
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files

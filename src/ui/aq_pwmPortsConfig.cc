@@ -232,6 +232,8 @@ QString AQPWMPortsConfig::motorPortTypeName(uint8_t type) {
     switch (type) {
     case MOT_PORT_TYPE_CAN :
         return "CAN";
+    case MOT_PORT_TYPE_CAN_H :
+        return "CAN_H";
     case MOT_PORT_TYPE_PWM :
     default:
         return "PWM";
@@ -241,6 +243,8 @@ QString AQPWMPortsConfig::motorPortTypeName(uint8_t type) {
 uint8_t AQPWMPortsConfig::motorPortTypeId(QString type) {
     if (type == "CAN")
         return MOT_PORT_TYPE_CAN;
+    else if (type == "CAN_H")
+        return MOT_PORT_TYPE_CAN_H;
     else
         return MOT_PORT_TYPE_PWM;
 }
@@ -354,7 +358,7 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
     uint8_t type;
     QStringList pOrder;
     QList<motorPortSettings> fileConfig;
-    uint16_t motCAN;
+    uint16_t motCAN, motCAN_H;
 
     QFileInfo fInfo(file);
 
@@ -368,6 +372,7 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
     mixConfigId = mixSettings.value("META/ConfigId", 0).toUInt();
     pOrder = mixSettings.value("META/PortOrder").toStringList();
     motCAN = mixSettings.value("META/MOT_CAN", 0).toInt();
+    motCAN_H = mixSettings.value("META/MOT_CANH", 0).toInt();
 
     motorTableConnections(false);
 
@@ -378,7 +383,7 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
         pitch = mixSettings.value("Pitch/Motor" % mot, 0).toFloat();
         roll = mixSettings.value("Roll/Motor" % mot, 0).toFloat();
         yaw = mixSettings.value("Yaw/Motor" % mot, 0).toFloat();
-        type = (motCAN >> (i-1)) & 1;
+        type = ((motCAN >> (i-1)) & 1) ? MOT_PORT_TYPE_CAN : ((motCAN_H >> (i-1)) & 1) ? MOT_PORT_TYPE_CAN_H : MOT_PORT_TYPE_PWM;
 
         if (throt || pitch || roll || yaw) {
             fileConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type));
@@ -432,7 +437,7 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
     QString pname;
     motorPortSettings pconfig, mot;
     QStringList pOrder;
-    uint16_t motCAN = 0;
+    uint16_t motCAN = 0, motCAN_H = 0;
 
     QFile f(file);
     if (!f.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -470,9 +475,12 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
 
         if (pconfig.type == MOT_PORT_TYPE_CAN)
             motCAN |= 1 << (pconfig.port - 1);
+        else if (pconfig.type == MOT_PORT_TYPE_CAN_H)
+            motCAN_H |= 1 << (pconfig.port - 1);
     }
 
     mixSettings.setValue("META/MOT_CAN", motCAN);
+    mixSettings.setValue("META/MOT_CANH", motCAN_H);
 
     mixSettings.sync();
 }
@@ -510,8 +518,11 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
     portOrder = *(uint32_t *) &motConfig;
     motConfig = paramHandler->getParaAQ(portOrder2Param).toFloat();
     portOrder2 = *(uint32_t *) &motConfig;
-    if (paramHandler->paramExistsAQ("MOT_CAN")) {
-        motCAN = paramHandler->getParaAQ("MOT_CAN").toInt();
+    pname = "MOT_CAN";
+    if (!paramHandler->paramExistsAQ(pname))
+        pname = "MOT_CANL";
+    if (paramHandler->paramExistsAQ(pname)) {
+        motCAN = paramHandler->getParaAQ(pname).toInt();
         ui->toolButton_allToCAN->show();
         ui->toolButton_allToPWM->show();
         ui->table_motMix->showColumn(COL_TYPE);
@@ -611,7 +622,7 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
     QString pname; //, porder;
     float val, val_uas;
     uint32_t portOrder=0, portOrder2=0;
-    uint16_t motCAN = 0;
+    uint16_t motCAN = 0, motCAN_H = 0;
     motorPortSettings mot, pconfig;
     QMap<QString, float> configMap;
     QList<float> changeVals;
@@ -660,14 +671,29 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
 
         if (pconfig.type == MOT_PORT_TYPE_CAN)
             motCAN |= 1 << (pconfig.port - 1);
+        else if (pconfig.type == MOT_PORT_TYPE_CAN_H)
+            motCAN_H |= 1 << (pconfig.port - 1);
     }
 
-    if (paramHandler->paramExistsAQ("MOT_CAN")) {
+    pname = "MOT_CAN";
+    if (!paramHandler->paramExistsAQ(pname))
+        pname = "MOT_CANL";
+    if (paramHandler->paramExistsAQ(pname)) {
         val = *(float *) &motCAN;
-        configMap.insert("MOT_CAN", motCAN);
+        configMap.insert(pname, motCAN);
         //  qDebug() << qSetRealNumberPrecision(20) << motCAN << val;
     } else if (motCAN) {
         errors->append(tr("You have selected CAN motor output type but your current firmware does not appear to support it."));
+        err = 1;
+    }
+
+    pname = "MOT_CANH";
+    if (paramHandler->paramExistsAQ(pname)) {
+        val = *(float *) &motCAN_H;
+        configMap.insert(pname, motCAN_H);
+        //  qDebug() << qSetRealNumberPrecision(20) << motCAN_H << val;
+    } else if (motCAN_H) {
+        errors->append(tr("You have selected CAN-HIGH motor output type but your current firmware does not appear to support it."));
         err = 1;
     }
 
@@ -794,7 +820,7 @@ bool AQPWMPortsConfig::validateForm(void) {
             }
 
             // check if any pwm ports don't exist in hardware
-            if (port.toUInt() > aq->maxPwmPorts)
+            if (!aq->getAvailablePwmPorts().contains(port))
                 invalidPwmPorts.append(port);
         }
 
@@ -976,6 +1002,8 @@ QComboBox* AQPWMPortsConfig::makeMotorPortTypeCombo(QWidget *parent) {
     editor->addItem("PWM", MOT_PORT_TYPE_PWM);
     if (aq->motPortTypeCAN)
         editor->addItem("CAN", MOT_PORT_TYPE_CAN);
+    if (aq->motPortTypeCAN_H)
+        editor->addItem("CAN-H", MOT_PORT_TYPE_CAN_H);
 
     return editor;
 }

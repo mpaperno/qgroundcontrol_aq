@@ -43,6 +43,7 @@ public:
     enum motorPortTypes {
         MOT_PORT_TYPE_PWM = 0,
         MOT_PORT_TYPE_CAN,
+        MOT_PORT_TYPE_CAN_H,
         MOT_PORT_TYPE_ENUM_END
     };
 

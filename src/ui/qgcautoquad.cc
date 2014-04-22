@@ -2728,11 +2728,18 @@ void QGCAutoquad::setFirmwareInfo() {
 
     maxMotorPorts = 16;
     motPortTypeCAN = true;
+    motPortTypeCAN_H = true;
 
-    if (aqBuildNumber && aqBuildNumber < 1423)
-        maxMotorPorts = 14;
-    if (aqBuildNumber && aqBuildNumber < 1418)
-        motPortTypeCAN = false;
+    if (aqBuildNumber) {
+        if (aqBuildNumber < 1663)
+            motPortTypeCAN_H = false;
+
+        if (aqBuildNumber < 1423)
+            maxMotorPorts = 14;
+
+        if (aqBuildNumber < 1418)
+            motPortTypeCAN = false;
+    }
 
     emit firmwareInfoUpdated();
 }
