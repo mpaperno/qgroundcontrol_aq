@@ -4,7 +4,7 @@
     QWidget (common for most elements)
 */
 QWidget {
-    background-color: #050508;
+	background-color: #202020;
     color: #DDDDDF;
     background-clip: border;
     font-size: 11px;
@@ -22,13 +22,9 @@ QWidget:disabled {
     MainWindow
 */
  QMainWindow::separator {
-     background: #1A1A33;
-     width: 4px; /* when vertical */
-     height: 5px; /* when horizontal */
-     margin: 3px;
-}
- QMainWindow::separator:hover {
-     background: white;
+ color: #EEEEEE;
+ width: 7px;
+ opacity: 50;
 }
 
 /*
@@ -73,19 +69,12 @@ QWidget::title:disabled {
 /*
     DockWidget
 */
- QDockWidget { /* these don't seem to be having any effect... ? */
-    border: 2px solid #66666B;
-    padding: 2px;
-    margin: 2px;
-    border-radius: 1px;
-    /*background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);*/
-}
 QDockWidget::title {
     text-align: left;
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #3F556A, stop: 1 #293645);
     color: #EDEDED;
     padding: 1px 30px 1px 10px;
-    margin-top: 4px;
+	 margin-top: 4px;
     height: 13px;
     border-radius: 2px;
     /*border-bottom: 1px solid #1B1F22;*/
@@ -455,6 +444,7 @@ QProgressBar:vertical {
 }
 QProgressBar::chunk {
 	background-color: #3C7B9E;
+	border-radius: 3px;
 }
 QProgressBar::chunk#batteryBar {
 	background-color: green;
