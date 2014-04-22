@@ -70,6 +70,9 @@ UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
     this->chargeLevel = 0;
     this->load = 0;
     this->rssi = 0;
+    this->gpsFixType = 0;
+    this->gpsEph = -1;
+    this->gpsEpv = -1;
     receiveLoss = 0;
     sendLoss = 0;
     changed = true;
@@ -111,6 +114,8 @@ void UASInfoWidget::addUAS(UASInterface* uas)
         connect(uas, SIGNAL(loadChanged(UASInterface*, double)), this, SLOT(updateCPULoad(UASInterface*,double)));
         connect(uas, SIGNAL(errCountChanged(int,QString,QString,int)), this, SLOT(updateErrorCount(int,QString,QString,int)));
         connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
+        connect(uas, SIGNAL(valueChanged(int,QString,QString,quint16,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,quint16,quint64)));
+        connect(uas, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsFix(UASInterface*,int)));
 
         // Set this UAS as active if it is the first one
         if (activeUAS == 0) activeUAS = uas;
@@ -171,10 +176,27 @@ void UASInfoWidget::updateRSSI(float rssi)
     this->rssi = rssi;
 }
 
+void UASInfoWidget::updateGpsFix(UASInterface* uas, const int fix) {
+    if (activeUAS == uas)
+        gpsFixType = fix;
+}
+
+void UASInfoWidget::updateGpsAcc(const int uasId, const QString &name, const QString &unit, const quint16 val, const quint64 msec)
+{
+    Q_UNUSED(uasId);
+    Q_UNUSED(unit);
+    Q_UNUSED(msec);
+    if (name.contains(QString("eph")))
+        gpsEph = (float)val/100.0f;
+    else if (name.contains(QString("epv")))
+        gpsEpv = (float)val/100.0f;
+
+}
+
 void UASInfoWidget::setVoltage(UASInterface* uas, double voltage)
 {
-    Q_UNUSED(uas);
-    this->voltage = voltage;
+    if (activeUAS == uas)
+        this->voltage = voltage;
 }
 
 void UASInfoWidget::setChargeLevel(UASInterface* uas, double chargeLevel)
@@ -194,6 +216,7 @@ void UASInfoWidget::setTimeRemaining(UASInterface* uas, double seconds)
 void UASInfoWidget::refresh()
 {
     QString text;
+    QString color;
 
     ui.voltageLabel->setText(QString::number(this->voltage, 'f', voltageDecimals));
     ui.batteryBar->setValue(qMax(0,qMin(static_cast<int>(this->chargeLevel), 100)));
@@ -209,6 +232,24 @@ void UASInfoWidget::refresh()
 
     ui.rssiLabel->setText(text.sprintf("%6.2f", this->rssi));
     ui.rssiBar->setValue(qMax(0, qMin(static_cast<int>(this->rssi), 99)));
+
+    text = "No fix";
+    color = "red";
+    if (gpsFixType == 2) {
+        text = "2D fix";
+        color = "yellow";
+    }
+    else if (gpsFixType == 3) {
+        text = "3D fix";
+        color = "green";
+    }
+    ui.fixTypeLabel->setText(text);
+    ui.fixTypeLabel->setStyleSheet("font-weight: bold; color: " + color + ";");
+
+    if (gpsEph > 0.0f)
+        ui.haccLabel->setText("Hacc: " + QString::number(gpsEph, 'f', 2) + "m");
+    if (gpsEpv > 0.0f)
+        ui.vaccLabel->setText("Vacc: " + QString::number(gpsEpv, 'f', 2) + "m");
 
     QString errorString;
     QMapIterator<QString, int> i(errors);

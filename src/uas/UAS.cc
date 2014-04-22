@@ -775,6 +775,9 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
             emit localizationChanged(this, loc_type);
 
+            emit valueChanged(uasId, "GPS_RAW_INT.eph", "m", pos.eph, time);
+            emit valueChanged(uasId, "GPS_RAW_INT.epv", "m", pos.epv, time);
+
             if ((float)pos.eph/100.0f < 20)
             {
                 latitude = pos.lat/(double)1E7;

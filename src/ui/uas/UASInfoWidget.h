@@ -75,6 +75,8 @@ public slots:
     void updateErrorCount(int uasid, QString component, QString device, int count);
 
     void updateRSSI(float rssi);
+    void updateGpsFix(UASInterface *uas, const int fix);
+    void updateGpsAcc(const int uasId, const QString &name, const QString &unit, const quint16 val, const quint64 msec);
 
     void setVoltage(UASInterface* uas, double voltage);
     void setChargeLevel(UASInterface* uas, double chargeLevel);
@@ -103,6 +105,9 @@ protected:
     float receiveLoss;
     float sendLoss;
     float rssi;
+    float gpsEph;
+    float gpsEpv;
+    quint8 gpsFixType;
     bool changed;
     QTimer* updateTimer;
     QString name;
