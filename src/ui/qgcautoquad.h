@@ -236,6 +236,10 @@ private:
     int Esc32CalibrationMode;
     bool FlashEsc32Active;
     bool skipParamChangeCheck;
+    bool esc32_connected;
+    bool esc32_armed;
+    bool esc32_running;
+    bool esc32_calibrating;
     QString portNameEsc32;
     QString FwFileForEsc32;
     QString ParaNameWritten;

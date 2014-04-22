@@ -482,6 +482,11 @@ void QGCAutoquad::adjustUiForHardware() {
     ui->groupBox_commSerial2->setVisible(aqHardwareVersion == 6);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+     if (aqHardwareVersion == 8) {
+         ui->MOT_START->setMinimum(0);
+         ui->MOT_MIN->setMinimum(0);
+         ui->MOT_ARM->setMinimum(0);
+     }
 }
 
 void QGCAutoquad::adjustUiForFirmware() {
@@ -1243,7 +1248,9 @@ void QGCAutoquad::Esc32BootModFailure(QString err) {
     esc32->Disconnect();
 
     ui->textFlashOutput->append("Failed to enter bootloader mode.\n");
-    if (!err.contains("armed"))
+    if (err.contains("armed"))
+        err += "\n\nESC appears to be active/armed.  Please disarm first!";
+    else
         err += "\n\nYou may need to short the BOOT0 pins manually to enter bootloader mode.  Then attempt flashing again.";
     MainWindow::instance()->showCriticalMessage("Error!", err);
 }
@@ -1301,6 +1308,7 @@ void QGCAutoquad::Esc32LoadConfig(QString Config)
     }
 
     Esc32ShowConfig(paramEsc32);
+    Esc32UpdateStatusText(tr("Loaded current config."));
 }
 
 void QGCAutoquad::Esc32ShowConfig(QMap<QString, QString> paramPairs, bool disableMissing) {
@@ -1491,9 +1499,9 @@ void QGCAutoquad::btnArmEsc32()
 {
     if ( !esc32)
         return;
-    if ( ui->pushButton_esc32_read_arm_disarm->text() == "arm")
+     if ( !esc32_armed)
         esc32->sendCommand(esc32->BINARY_COMMAND_ARM,0.0f, 0.0f, 0, false);
-    else if ( ui->pushButton_esc32_read_arm_disarm->text() == "disarm")
+     else
         esc32->sendCommand(esc32->BINARY_COMMAND_DISARM,0.0f, 0.0f, 0, false);
 
 }
@@ -1503,9 +1511,9 @@ void QGCAutoquad::btnStartStopEsc32()
     if ( !esc32)
         return;
 
-    if ( ui->pushButton_esc32_read_start_stop->text() == "start") {
+    if ( !esc32_running)
         esc32->sendCommand(esc32->BINARY_COMMAND_START,0.0f, 0.0f, 0, false);
-    } else
+    else
         esc32->sendCommand(esc32->BINARY_COMMAND_STOP,0.0f, 0.0f, 0, false);
 }
 
@@ -1533,15 +1541,19 @@ void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2)
     switch (CommandName) {
     case AQEsc32::BINARY_COMMAND_ARM :
         ui->pushButton_esc32_read_arm_disarm->setText(tr("disarm"));
+        esc32_armed = true;
         break;
     case AQEsc32::BINARY_COMMAND_DISARM :
         ui->pushButton_esc32_read_arm_disarm->setText(tr("arm"));
+        esc32_armed = false;
         break;
     case AQEsc32::BINARY_COMMAND_START :
         ui->pushButton_esc32_read_start_stop->setText(tr("stop"));
+        esc32_running = true;
         break;
     case AQEsc32::BINARY_COMMAND_STOP :
         ui->pushButton_esc32_read_start_stop->setText(tr("start"));
+        esc32_running = false;
         break;
     case AQEsc32::BINARY_COMMAND_RPM :
         ui->spinBox_rpm->setValue(V1.toInt());
@@ -1567,12 +1579,13 @@ void QGCAutoquad::CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2)
 
 void QGCAutoquad::btnSetRPM()
 {
-    if (( ui->pushButton_esc32_read_start_stop->text() == tr("stop")) &&( ui->pushButton_esc32_read_arm_disarm->text() == tr("disarm"))) {
-        float rpm = (float)ui->spinBox_rpm->value();
-        if ( ui->FF1TERM->text().toFloat() == 0.0f)
-            MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("The Parameter FF1Term is 0.0, can't set the RPM! Please change it and write config to ESC."));
-        else
-            esc32->sendCommand(esc32->BINARY_COMMAND_RPM, rpm, 0.0f, 1, false);
+     if (esc32_running && esc32_armed) {
+         if ( ui->FF1TERM->text().toFloat() == 0.0f) {
+              MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("The Parameter FF1Term is 0.0, can't set the RPM! Please change it and write config to ESC."));
+              return;
+         }
+         float rpm = (float)ui->spinBox_rpm->value();
+         esc32->sendCommand(esc32->BINARY_COMMAND_RPM, rpm, 0.0f, 1, false);
     }
 }
 
@@ -1598,7 +1611,7 @@ void QGCAutoquad::Esc32Connected(){
         esc32->CheckVersion();
         esc32->ReadConfigEsc32();
         skipParamChangeCheck = false;
-        Esc32UpdateStatusText(tr("Loaded current config."));
+        esc32_connected = true;
     } else {
         ui->textFlashOutput->append(tr("Serial link connected. Attemtping bootloader mode...\n"));
         esc32->SetToBootMode();
@@ -1609,12 +1622,16 @@ void QGCAutoquad::Esc32Connected(){
 void QGCAutoquad::ESc32Disconnected() {
     disconnect(esc32, 0, this, 0);
     esc32 = NULL;
+    esc32_connected = false;
     ui->pushButton_connect_to_esc32->setText(tr("connect esc32"));
     ui->label_esc32_fw_version->setText(tr("FW version: [not connected]"));
     Esc32UpdateStatusText(tr("Disconnected."));
 }
 
 void QGCAutoquad::Esc32StartLogging() {
+    if (!esc32)
+        return;
+
     esc32->StartLogging();
 }
 
@@ -1625,7 +1642,7 @@ void QGCAutoquad::Esc32StartCalibration() {
     QString Esc32LoggingFile = "";
     QString Esc32ResultFile = "";
 
-    if ( ui->pushButton_start_calibration->text() == tr("start calibration")) {
+     if ( !esc32_calibrating) {
         QMessageBox InfomsgBox;
         InfomsgBox.setText(tr("<p style='color: red; font-weight: bold;'>WARNING!! EXPERIMENTAL FEATURE! BETTER TO USE Linux/OS-X COMMAND-LINE TOOLS!</p> \
 <p>This is the calibration routine for ESC32!</p> \
@@ -1686,17 +1703,21 @@ void QGCAutoquad::Esc32StartCalibration() {
 
             esc32->SetCalibrationMode(this->Esc32CalibrationMode);
             esc32->StartCalibration(maxAmps,Esc32LoggingFile,Esc32ResultFile);
+            esc32_calibrating = true;
             ui->pushButton_start_calibration->setText(tr("stop calibration"));
         }
     }
-    else if ( ui->pushButton_start_calibration->text() == tr("stop calibration"))
+     else // stop calibration
     {
+        esc32_calibrating = false;
         ui->pushButton_start_calibration->setText(tr("start calibration"));
         esc32->StopCalibration(true);
     }
 }
 
 void QGCAutoquad::Esc32CalibrationFinished(int mode) {
+    esc32_calibrating = false;
+    ui->pushButton_start_calibration->setText(tr("start calibration"));
     //Emergency exit
     if ( mode == 99) {
         //No values from esc32
@@ -1709,24 +1730,22 @@ void QGCAutoquad::Esc32CalibrationFinished(int mode) {
         //Abort
         return;
     }
-    esc32->StopCalibration(false);
+     esc32->StopCalibration(false);
     if ( mode == 1) {
         ui->FF1TERM->setText(QString::number(esc32->getFF1Term()));
-        ui->FF2TERM->setText(QString::number(esc32->getFF2Term()));
-        ui->pushButton_start_calibration->setText(tr("start calibration"));
+          ui->FF2TERM->setText(QString::number(esc32->getFF2Term()));
         //Esc32LoggingFile
         QMessageBox InfomsgBox;
         InfomsgBox.setText(tr("Updated the fields with FF1Term and FF2Term!"));
         InfomsgBox.exec();
         return;
     }
-    if ( mode == 2) {
+     else if ( mode == 2) {
         ui->CL1TERM->setText(QString::number(esc32->getCL1()));
         ui->CL2TERM->setText(QString::number(esc32->getCL2()));
         ui->CL3TERM->setText(QString::number(esc32->getCL3()));
         ui->CL4TERM->setText(QString::number(esc32->getCL4()));
-        ui->CL5TERM->setText(QString::number(esc32->getCL5()));
-        ui->pushButton_start_calibration->setText(tr("start calibration"));
+          ui->CL5TERM->setText(QString::number(esc32->getCL5()));
         QMessageBox InfomsgBox;
         InfomsgBox.setText(tr("Updated the fields with Currentlimiter 1 to Currentlimiter 5!"));
         InfomsgBox.exec();
@@ -2685,6 +2704,11 @@ void QGCAutoquad::uasConnected() {
 
 void QGCAutoquad::setHardwareInfo(int boardVer) {
     switch (boardVer) {
+     case 8:
+          maxPwmPorts = 4;
+          pwmPortTimers.empty();
+          pwmPortTimers << 1 << 1 << 1 << 1;
+          break;
     case 7:
         maxPwmPorts = 9;
         pwmPortTimers.empty();
