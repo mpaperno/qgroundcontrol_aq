@@ -2293,6 +2293,9 @@ void AQEsc32::StopCalibration(bool withEmergencyExit) {
 
 void AQEsc32::StartLogging(){
 
+	if (!seriallinkEsc32 || !seriallinkEsc32->isConnected())
+		return;
+
     if (!seriallinkEsc32->getEsc32Mode()) {
         seriallinkEsc32->setEsc32Mode(false);
         sendCommand(BINARY_COMMAND_NOP, 0.0f, 0.0f, 0, false);
