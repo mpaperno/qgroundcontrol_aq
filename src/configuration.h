@@ -9,8 +9,6 @@
 /** @brief Heartbeat emission rate, in Hertz (times per second) */
 #define MAVLINK_HEARTBEAT_DEFAULT_RATE 1
 
-#define WITH_TEXT_TO_SPEECH 1
-
 #define QGC_APPLICATION_NAME "QGroundControl"
 #define QGC_APPLICATION_VERSION "v. 1.0.2 (beta)"
 
@@ -25,8 +23,8 @@ const int APPLICATIONVERSION = 102; // 1.0.1
 namespace QGCAUTOQUAD {
     const QString APP_NAME = "QGroundControl for AutoQuad";
     const QString APP_ORG = "AutoQuad";
-    const QString APP_VERSION_TXT = "1.4 ALPHA 1";
-    const float APP_VERSION = 140.01f; // 1.4.0.01
+    const QString APP_VERSION_TXT = "1.4 BETA 1";
+    const float APP_VERSION = 140.02f; // 1.4.0.02
 }
 
 #endif // QGC_CONFIGURATION_H
