@@ -930,7 +930,7 @@ void QGCAQParamWidget::loadParameters()
         uasId = mav->getUASID();
         component = 190;
         
-        if (line.contains(QRegExp("^#define[\\t ]+[A-Z]{2,}"))){
+		  if (line.contains(QRegExp("^#define[\\t ]+[A-Z]{1,}"))){
             fileFormat = 2; // AQ .params format
             paramName = wpParams.at(1);
             paramValue = wpParams.at(2);
