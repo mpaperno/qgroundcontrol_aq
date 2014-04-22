@@ -2741,7 +2741,7 @@ QStringList QGCAutoquad::getAvailablePwmPorts(void) {
     QStringList portsList;
     unsigned short maxport = maxPwmPorts;
 
-    if (ui->RADIO_TYPE->currentIndex() == 3)
+    if (ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt() == 3 && aqHardwareVersion != 8)
         maxport--;
 
     for (int i=1; i <= maxport; i++)
