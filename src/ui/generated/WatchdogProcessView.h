@@ -10,15 +10,15 @@
 #ifndef WATCHDOGPROCESSVIEW_H
 #define WATCHDOGPROCESSVIEW_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QToolButton>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QToolButton>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 

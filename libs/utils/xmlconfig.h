@@ -32,7 +32,7 @@
 #  define XMLCONFIG_EXPORT Q_DECL_IMPORT
 #endif
 
-#include <QtCore/qglobal.h>
+#include <qglobal.h>
 #include <QSettings>
 #include <QDomElement>
 #include <QObject>

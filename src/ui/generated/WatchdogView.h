@@ -10,14 +10,14 @@
 #ifndef WATCHDOGVIEW_H
 #define WATCHDOGVIEW_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGridLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QGridLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 

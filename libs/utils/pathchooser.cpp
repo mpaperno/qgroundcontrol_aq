@@ -31,17 +31,17 @@
 #include "basevalidatinglineedit.h"
 #include "qtcassert.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QDir>
-#include <QtCore/QFileInfo>
-#include <QtCore/QSettings>
+#include <QDebug>
+#include <QDir>
+#include <QFileInfo>
+#include <QSettings>
 
 #include <QtGui/QDesktopServices>
-#include <QtGui/QFileDialog>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QLineEdit>
-#include <QtGui/QToolButton>
-#include <QtGui/QPushButton>
+#include <QFileDialog>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QToolButton>
+#include <QPushButton>
 
 /*static*/ const char * const Utils::PathChooser::browseButtonLabel =
 #ifdef Q_WS_MAC

@@ -31,10 +31,10 @@
 
 #include "abstractprocess.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QProcess>
+#include <QObject>
+#include <QString>
+#include <QStringList>
+#include <QProcess>
 
 #include <QtNetwork/QLocalServer>
 

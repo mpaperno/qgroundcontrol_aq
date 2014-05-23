@@ -8,7 +8,7 @@
 #define _QEXTSERIALENUMERATOR_H_
 
 
-#include <QtCore/qglobal.h>
+#include <qglobal.h>
 
 //#ifdef QEXTSERIALPORT_LIB
 //# define QEXTSERIALPORT_EXPORT Q_DECL_EXPORT

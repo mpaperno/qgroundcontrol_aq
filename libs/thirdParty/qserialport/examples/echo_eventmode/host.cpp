@@ -20,7 +20,7 @@
  */
 
 #include <iostream>
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
 #include <QThread>
 #include <QSerialPort>
 #include <QTimerEvent>

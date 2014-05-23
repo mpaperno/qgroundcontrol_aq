@@ -13,7 +13,7 @@
 #ifndef _MSC_VER
 #include <windows.h>
 #include <dbt.h>
-#include <QtCore/qglobal.h>
+#include <qglobal.h>
 #endif
 #endif
 

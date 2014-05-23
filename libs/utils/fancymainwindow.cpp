@@ -28,10 +28,10 @@
 
 #include "fancymainwindow.h"
 
-#include <QtGui/QAction>
-#include <QtCore/QSettings>
-#include <QtGui/QDockWidget>
-#include <QtCore/QSettings>
+#include <QAction>
+#include <QSettings>
+#include <QDockWidget>
+#include <QSettings>
 
 
 using namespace Utils;

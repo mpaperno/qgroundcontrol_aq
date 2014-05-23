@@ -31,9 +31,9 @@
 
 #include "utils_global.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QFuture>
-#include <QtCore/QMap>
+#include <QStringList>
+#include <QFuture>
+#include <QMap>
 #include <QtGui/QTextDocument>
 
 namespace Utils {

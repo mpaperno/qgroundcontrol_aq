@@ -20,7 +20,7 @@
  */
 
 #include <iostream>
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
 #include <QString>
 #include <QStringList>
 #include <QDateTime>

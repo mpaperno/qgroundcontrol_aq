@@ -28,7 +28,7 @@
 
 #include "basevalidatinglineedit.h"
 
-#include <QtCore/QDebug>
+#include <QDebug>
 
 enum { debug = 0 };
 

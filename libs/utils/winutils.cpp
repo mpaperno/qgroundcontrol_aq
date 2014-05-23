@@ -29,11 +29,11 @@
 #include "winutils.h"
 #include <windows.h>
 
-#include <QtCore/QString>
-#include <QtCore/QVector>
-#include <QtCore/QDebug>
-#include <QtCore/QLibrary>
-#include <QtCore/QTextStream>
+#include <QString>
+#include <QVector>
+#include <QDebug>
+#include <QLibrary>
+#include <QTextStream>
 
 namespace Utils {
 

@@ -29,10 +29,10 @@
 #include "consoleprocess.h"
 #include "winutils.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDir>
-#include <QtCore/QTemporaryFile>
-#include <QtCore/QAbstractEventDispatcher>
+#include <QCoreApplication>
+#include <QDir>
+#include <QTemporaryFile>
+#include <QAbstractEventDispatcher>
 #include "qwineventnotifier_p.h"
 
 #include <QtNetwork/QLocalSocket>

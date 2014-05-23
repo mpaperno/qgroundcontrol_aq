@@ -22,7 +22,7 @@
 #define QWT_VERSION       0x050102
 #define QWT_VERSION_STR   "5.1.2"
 
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
 
 #if defined(_MSC_VER) /* MSVC Compiler */
 /* template-class specialization 'identifier' is already instantiated */
@@ -40,7 +40,7 @@
 
 #endif // QWT_DLL
 
-#endif // Q_WS_WIN
+#endif // Q_OS_WIN
 
 #ifndef QWT_EXPORT
 #define QWT_EXPORT

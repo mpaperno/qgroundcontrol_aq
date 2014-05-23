@@ -298,14 +298,18 @@ win32-msvc2008|win32-msvc2010 {
 
 	# QAxContainer support is needed for the Internet Control
 	# element showing the Google Earth window
-	CONFIG += qaxcontainer
+	greaterThan(QT_MAJOR_VERSION, 4) {
+		QT += axcontainer
+	} else {
+		CONFIG += qaxcontainer
+	}
 
 	# The EIGEN library needs this define
 	# to make the internal min/max functions work
 	DEFINES += NOMINMAX
 
 	# QWebkit is not needed on MS-Windows compilation environment
-	CONFIG -= webkit
+	CONFIG -= webkit webkitwidgets
 
 	# Specify the inclusion of (U)INT*_(MAX/MIN) macros within Visual Studio
 	DEFINES += __STDC_LIMIT_MACROS
@@ -350,10 +354,20 @@ win32-msvc2008|win32-msvc2010 {
 	# Copy dependencies
         BASEDIR_WIN = $$replace(BASEDIR,"/","\\")
         TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\release
-        QTLIBDLLSFX = "4.dll"
+		  greaterThan(QT_MAJOR_VERSION, 4) {
+			QTLIBDLLPFX = "Qt5"
+			QTLIBDLLSFX = ".dll"
+		  } else {
+			QTLIBDLLPFX = "Qt"
+			QTLIBDLLSFX = "4.dll"
+		  }
         CONFIG(debug, debug|release) {
-            TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\debug
-            QTLIBDLLSFX = "d4.dll"
+			  TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\debug
+			  greaterThan(QT_MAJOR_VERSION, 4) {
+					QTLIBDLLSFX = "d.dll"
+			  } else {
+					QTLIBDLLSFX = "d4.dll"
+			  }
         }
 
         # Copy AQ files
@@ -370,7 +384,7 @@ win32-msvc2008|win32-msvc2010 {
         # Copy supporting library DLLs
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\mavlink" "$$TARGETDIR_WIN\\mavlink" /E /I $$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  #QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 
         # Copy application resources
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\files" "$$TARGETDIR_WIN\\files" /E /I $$escape_expand(\\n))
@@ -379,17 +393,18 @@ win32-msvc2008|win32-msvc2010 {
         # Copy Qt DLLs
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins" "$$TARGETDIR_WIN" /E /I $$escape_expand(\\n))
 #        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\phonon$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtCore$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtGui$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtMultimedia$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtNetwork$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtOpenGL$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtSql$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtSvg$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtTest$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtWebKit$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtXml$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\QtXmlPatterns$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Core$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Gui$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Multimedia$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Network$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}OpenGL$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}SerialPort$$replace(QTLIBDLLSFX,4,)" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Sql$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Svg$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Test$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}WebKit$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Xml$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}XmlPatterns$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 
         CONFIG(release, debug|release) {
             QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.exp"$$escape_expand(\\n))

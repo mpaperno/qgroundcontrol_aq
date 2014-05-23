@@ -28,9 +28,9 @@
 
 #include "codegeneration.h"
 
-#include <QtCore/QTextStream>
-#include <QtCore/QStringList>
-#include <QtCore/QFileInfo>
+#include <QTextStream>
+#include <QStringList>
+#include <QFileInfo>
 
 namespace Utils {
 

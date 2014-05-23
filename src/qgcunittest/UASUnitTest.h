@@ -2,7 +2,7 @@
 #define UASUNITTEST_H
 
 #include <QObject>
-#include <QtCore/QString>
+#include <QString>
 #include <QtTest/QtTest>
 #include <QApplication>
 

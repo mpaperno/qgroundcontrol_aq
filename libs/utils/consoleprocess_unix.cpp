@@ -28,10 +28,10 @@
 
 #include "consoleprocess.h"
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDir>
-#include <QtCore/QSettings>
-#include <QtCore/QTemporaryFile>
+#include <QCoreApplication>
+#include <QDir>
+#include <QSettings>
+#include <QTemporaryFile>
 
 #include <QtNetwork/QLocalSocket>
 

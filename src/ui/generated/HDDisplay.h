@@ -10,14 +10,14 @@
 #ifndef HDDISPLAY_H
 #define HDDISPLAY_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGraphicsView>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QGraphicsView>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 

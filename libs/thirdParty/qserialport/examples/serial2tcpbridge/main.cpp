@@ -19,7 +19,7 @@
  * author labs@inbiza.com
  */
 
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
 #include <QStringList>
 #include <QHash>
 #include <QHostAddress>

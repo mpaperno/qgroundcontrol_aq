@@ -28,7 +28,7 @@ This file is part of the PIXHAWK project
  *
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "MAVLinkGen.h"
 
 /**

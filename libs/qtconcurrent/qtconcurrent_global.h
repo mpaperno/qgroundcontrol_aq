@@ -29,7 +29,7 @@
 #ifndef QTCONCURRENT_GLOBAL_H
 #define QTCONCURRENT_GLOBAL_H
 
-#include <QtCore/qglobal.h>
+#include <qglobal.h>
 
 #if defined(BUILD_QTCONCURRENT)
 #  define QTCONCURRENT_EXPORT Q_DECL_EXPORT

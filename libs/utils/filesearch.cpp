@@ -29,13 +29,13 @@
 #include "filesearch.h"
 #include <cctype>
 
-#include <QtCore/QIODevice>
-#include <QtCore/QBuffer>
-#include <QtCore/QFile>
-#include <QtCore/QFutureInterface>
-#include <QtCore/QtConcurrentRun>
-#include <QtCore/QRegExp>
-#include <QtCore/QCoreApplication>
+#include <QIODevice>
+#include <QBuffer>
+#include <QFile>
+#include <QFutureInterface>
+#include <QtConcurrent/QtConcurrentRun>
+#include <QRegExp>
+#include <QCoreApplication>
 
 #include <qtconcurrent/runextensions.h>
 
@@ -44,25 +44,22 @@ using namespace Utils;
 static inline QString msgCanceled(const QString &searchTerm, int numMatches, int numFilesSearched)
 {
     return QCoreApplication::translate("Utils::FileSearch",
-                                       "%1: canceled. %n occurrences found in %2 files.",
-                                       0, QCoreApplication::CodecForTr, numMatches).
-                                       arg(searchTerm).arg(numFilesSearched);
+                                       "%1: canceled. %2 occurrences found in %3 files.").
+                                        arg(searchTerm).arg(numMatches).arg(numFilesSearched);
 }
 
 static inline QString msgFound(const QString &searchTerm, int numMatches, int numFilesSearched)
 {
     return QCoreApplication::translate("Utils::FileSearch",
-                                       "%1: %n occurrences found in %2 files.",
-                                       0, QCoreApplication::CodecForTr, numMatches).
-                                       arg(searchTerm).arg(numFilesSearched);
+                                       "%1: %2 occurrences found in %3 files.").
+                                       arg(searchTerm).arg(numMatches).arg(numFilesSearched);
 }
 
 static inline QString msgFound(const QString &searchTerm, int numMatches, int numFilesSearched, int filesSize)
 {
     return QCoreApplication::translate("Utils::FileSearch",
-                                       "%1: %n occurrences found in %2 of %3 files.",
-                                       0, QCoreApplication::CodecForTr, numMatches).
-                                       arg(searchTerm).arg(numFilesSearched).arg(filesSize);
+                                       "%1: %2 occurrences found in %3 of %4 files.").
+                                       arg(searchTerm).arg(numMatches).arg(numFilesSearched).arg(filesSize);
 }
 
 namespace {

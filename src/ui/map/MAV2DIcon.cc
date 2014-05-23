@@ -250,9 +250,9 @@ void MAV2DIcon::drawAirframePolygon(int airframe, QPainter& painter, int radius,
 
             float yawRotate = (yaw/(float)M_PI)*180.0f + 180.0f;
 
-            painter.rotate(yawRotate);
+            //qDebug() << yawRotate;
 
-            //// qDebug() << "ICON SIZE:" << radius;
+            painter.rotate(yawRotate);
 
             float iconSize = radius*0.9f;
             QPolygonF poly(3);

@@ -28,9 +28,9 @@
 
 #include "reloadpromptutils.h"
 
-#include <QtGui/QMessageBox>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDir>
+#include <QMessageBox>
+#include <QCoreApplication>
+#include <QDir>
 
 using namespace Utils;
 

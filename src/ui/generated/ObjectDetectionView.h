@@ -10,16 +10,16 @@
 #ifndef OBJECTDETECTIONVIEW_H
 #define OBJECTDETECTIONVIEW_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QGridLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QListWidget>
-#include <QtGui/QPushButton>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QGridLayout>
+#include <QHeaderView>
+#include <QLabel>
+#include <QListWidget>
+#include <QPushButton>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 

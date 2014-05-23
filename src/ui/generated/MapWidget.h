@@ -10,12 +10,12 @@
 #ifndef MAPWIDGET_H
 #define MAPWIDGET_H
 
-#include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QHeaderView>
-#include <QtGui/QWidget>
+#include <QVariant>
+#include <QAction>
+#include <QApplication>
+#include <QButtonGroup>
+#include <QHeaderView>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 

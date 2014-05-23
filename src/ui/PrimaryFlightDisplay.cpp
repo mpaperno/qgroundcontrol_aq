@@ -9,7 +9,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QResizeEvent>
-#include <QtCore/qmath.h>
+#include <qmath.h>
 //#include <cmath>
 
 #define SEPARATE_COMPASS_ASPECTRATIO (3.0f/4.0f)
@@ -595,7 +595,8 @@ void PrimaryFlightDisplay::drawAIGlobalFeatures(
 
     //    QTransform forwardTransform;
     //forwardTransform.translate(mainArea.center().x(), mainArea.center().y());
-    painter.rotate(-roll);
+    if (roll == roll) // check for NaN
+        painter.rotate(-roll);
     painter.translate(0, pitchPixels);
 
     // Calculate the radius of area we need to paint to cover all.

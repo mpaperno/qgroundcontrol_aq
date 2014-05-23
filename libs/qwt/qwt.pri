@@ -3,7 +3,7 @@
 ######################################################################
 
 QWTSRCDIR = libs/qwt
-DEPENDPATH += $$QWTSRCDIR
+#DEPENDPATH += $$QWTSRCDIR
 INCLUDEPATH += $$QWTSRCDIR
 
 # Input

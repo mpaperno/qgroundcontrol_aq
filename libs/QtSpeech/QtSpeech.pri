@@ -17,37 +17,41 @@
 # Boston, MA 02110-1301 USA
 #    INCLUDEPATH += "C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/include"
 
-DEPENDPATH += $$PWD
-INCLUDEPATH += $$PWD
+SPEECHSRCDIR = libs/QtSpeech
+
+#DEPENDPATH += $$PWD
+INCLUDEPATH += $$SPEECHSRCDIR
 
 HEADERS += \
-    QtSpeech \
-    QtSpeech.h \
+	 $$SPEECHSRCDIR/QtSpeech \
+	 $$SPEECHSRCDIR/QtSpeech.h \
 
 macx {
-    SOURCES += QtSpeech_mac.cpp
+	 SOURCES += $$SPEECHSRCDIR/QtSpeech_mac.cpp
     LIBS *= -framework AppKit
 }
 
 win32 {
-    SOURCES += QtSpeech_win.cpp
+	 SOURCES += $$SPEECHSRCDIR/QtSpeech_win.cpp
 
     INCLUDEPATH += "C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/atlmfc"
-    INCLUDEPATH += "C:/Program Files (x86)/Microsoft Speech SDK 5.1/Include"
+	 INCLUDEPATH += "C:/Programs/Authoring/Microsoft_SDKs/Windows/v7.1/Include"
+# "C:/Program Files (x86)/Microsoft Speech SDK 5.1/Include"
 
-    LIBS += -L"C:/Program Files (x86)/Microsoft Speech SDK 5.1/Lib/i386"
+	 LIBS += -L"C:/Programs/Authoring/Microsoft_SDKs/Windows/v7.1/Lib"
+#"C:/Program Files (x86)/Microsoft Speech SDK 5.1/Lib/i386"
 }
 
 unix:!mac {
-    HEADERS += QtSpeech_unx.h
-    SOURCES += QtSpeech_unx.cpp
+	 HEADERS += $$SPEECHSRCDIR/QtSpeech_unx.h
+	 SOURCES += $$SPEECHSRCDIR/QtSpeech_unx.cpp
 
-    INCLUDEPATH += $$PWD/festival/speech_tools/include
-    INCLUDEPATH += $$PWD/festival/festival/src/include
+	 INCLUDEPATH += $$SPEECHSRCDIR/festival/speech_tools/include
+	 INCLUDEPATH += $$SPEECHSRCDIR/festival/festival/src/include
 
     LIBS += -lncurses
-    LIBS += -L$$PWD/festival/festival/src/lib -lFestival
-    LIBS += -L$$PWD/festival/speech_tools/lib -lestools -lestbase -leststring
+	 LIBS += -L$$SPEECHSRCDIR/festival/festival/src/lib -lFestival
+	 LIBS += -L$$SPEECHSRCDIR/festival/speech_tools/lib -lestools -lestbase -leststring
 
     # Linux: use asound 
     LIBS += -lasound

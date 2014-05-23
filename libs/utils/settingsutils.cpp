@@ -28,7 +28,7 @@
 
 #include "settingsutils.h"
 
-#include <QtCore/QString>
+#include <QString>
 
 namespace Utils {
 

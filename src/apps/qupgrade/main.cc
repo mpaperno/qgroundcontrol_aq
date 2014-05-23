@@ -28,7 +28,7 @@
  *
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "QUpgradeApp.h"
 
 /**

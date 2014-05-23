@@ -32,12 +32,12 @@
 #include "qtconcurrent_global.h"
 #include "runextensions.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QList>
-#include <QtCore/QEventLoop>
-#include <QtCore/QFutureWatcher>
-#include <QtCore/QtConcurrentRun>
-#include <QtCore/QThreadPool>
+#include <QObject>
+#include <QList>
+#include <QEventLoop>
+#include <QFutureWatcher>
+#include <QtConcurrentRun>
+#include <QThreadPool>
 
 #include <QtDebug>
 

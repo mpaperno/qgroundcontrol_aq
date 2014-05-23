@@ -2321,7 +2321,7 @@ void UAS::setParameter(const int component, const QString& id, const QVariant& v
             // String characters
             if ((int)i < id.length())
             {
-                p.param_id[i] = id.toAscii()[i];
+                p.param_id[i] = id.toLatin1()[i];
             }
             else
             {

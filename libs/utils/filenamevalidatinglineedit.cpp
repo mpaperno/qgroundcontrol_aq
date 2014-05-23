@@ -29,8 +29,8 @@
 #include "filenamevalidatinglineedit.h"
 #include "qtcassert.h"
 
-#include <QtCore/QRegExp>
-#include <QtCore/QDebug>
+#include <QRegExp>
+#include <QDebug>
 
 namespace Utils {
 
