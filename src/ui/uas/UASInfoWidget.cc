@@ -183,9 +183,10 @@ void UASInfoWidget::updateGpsFix(UASInterface* uas, const int fix) {
 
 void UASInfoWidget::updateGpsAcc(const int uasId, const QString &name, const QString &unit, const quint16 val, const quint64 msec)
 {
-    Q_UNUSED(uasId);
     Q_UNUSED(unit);
     Q_UNUSED(msec);
+    if (activeUAS->getUASID() != uasId)
+        return;
     if (name.contains(QString("eph")))
         gpsEph = (float)val/100.0f;
     else if (name.contains(QString("epv")))
