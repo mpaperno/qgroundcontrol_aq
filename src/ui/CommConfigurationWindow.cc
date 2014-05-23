@@ -43,7 +43,7 @@ This file is part of the QGROUNDCONTROL project
 #include "MAVLinkSimulationLink.h"
 #ifdef XBEELINK
 #include "XbeeLink.h"
-#include "XbeeConfigurationWindow.h"
+//#include "XbeeConfigurationWindow.h"
 #endif // XBEELINK
 #ifdef OPAL_RT
 #include "OpalLink.h"
@@ -59,6 +59,8 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
 {
     Q_UNUSED(parent);
     this->link = link;
+
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 
     // Setup the user interface according to link type
     ui.setupUi(this);
@@ -142,18 +144,18 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
         ui.linkGroupBox->setTitle(tr("Opal-RT Link"));
     }
 #endif
-#ifdef XBEELINK
-	XbeeLink* xbee = dynamic_cast<XbeeLink*>(link); // new Konrad
-	if(xbee != 0)
-	{
-		QWidget* conf = new XbeeConfigurationWindow(xbee,this); 
-		ui.linkScrollArea->setWidget(conf);
-		ui.linkGroupBox->setTitle(tr("Xbee Link"));
-		ui.linkType->setCurrentIndex(4);
-		connect(xbee,SIGNAL(tryConnectBegin(bool)),ui.actionConnect,SLOT(setDisabled(bool)));
-		connect(xbee,SIGNAL(tryConnectEnd(bool)),ui.actionConnect,SLOT(setEnabled(bool)));
-	}
-#endif // XBEELINK
+//#ifdef XBEELINK
+//	XbeeLink* xbee = dynamic_cast<XbeeLink*>(link); // new Konrad
+//	if(xbee != 0)
+//	{
+//		QWidget* conf = new XbeeConfigurationWindow(xbee,this);
+//		ui.linkScrollArea->setWidget(conf);
+//		ui.linkGroupBox->setTitle(tr("Xbee Link"));
+//		ui.linkType->setCurrentIndex(4);
+//		connect(xbee,SIGNAL(tryConnectBegin(bool)),ui.actionConnect,SLOT(setDisabled(bool)));
+//		connect(xbee,SIGNAL(tryConnectEnd(bool)),ui.actionConnect,SLOT(setEnabled(bool)));
+//	}
+//#endif // XBEELINK
     if (serial == 0 && udp == 0 && sim == 0
 #ifdef OPAL_RT
             && opal == 0
@@ -329,7 +331,7 @@ void CommConfigurationWindow::remove()
     if(link) {
         LinkManager::instance()->removeLink(link); //remove link from LinkManager list
         link->disconnect(); //disconnect port, and also calls terminate() to stop the thread
-        if (link->isRunning()) link->terminate(); // terminate() the serial thread just in case it is still running
+        //if (link->isRunning()) link->terminate(); // terminate() the serial thread just in case it is still running
         link->wait(); // wait() until thread is stoped before deleting
         link->deleteLater();
     }

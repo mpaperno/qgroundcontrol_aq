@@ -13,9 +13,21 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0" columnstretch="100,1">
-   <property name="margin">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="100,0">
+   <property name="leftMargin">
     <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>5</number>
    </property>
    <item row="0" column="0">
     <widget class="QLabel" name="portlabel">
@@ -27,7 +39,7 @@
    <item row="0" column="1">
     <widget class="QComboBox" name="portName">
      <property name="toolTip">
-      <string>The serial port to which the system is connected. All ports listed here should work.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The serial port to which the system is connected. All ports listed here should work.&lt;/p&gt;&lt;p&gt;If the selector turns &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;red&lt;/span&gt;, that means the currently selected port is not available.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="statusTip">
       <string>The serial port to which the system is connected. All ports listed here should work.</string>
@@ -38,14 +50,15 @@
      <property name="editable">
       <bool>true</bool>
      </property>
-     <property name="sizeAdjustPolicy">
-      <enum>QComboBox::AdjustToContents</enum>
+     <property name="insertPolicy">
+      <enum>QComboBox::NoInsert</enum>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
+     <property name="sizeAdjustPolicy">
+      <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+     </property>
+     <property name="minimumContentsLength">
+      <number>30</number>
+     </property>
     </widget>
    </item>
    <item row="1" column="0">
@@ -207,20 +220,56 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QCheckBox" name="flowControlCheckBox">
-     <property name="toolTip">
-      <string>Activate / deactivate hardware flow control. Commonly deactivated</string>
-     </property>
-     <property name="statusTip">
-      <string>Activate / deactivate hardware flow control. Commonly deactivated</string>
-     </property>
-     <property name="whatsThis">
-      <string>Activate / deactivate hardware flow control. Commonly deactivated</string>
-     </property>
-     <property name="text">
-      <string>Active</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QRadioButton" name="flowControl_none">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>None</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string notr="true">buttonGroup_flowControl</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="flowControl_hw">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>HW</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string notr="true">buttonGroup_flowControl</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="flowControl_sw">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>SW</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string notr="true">buttonGroup_flowControl</string>
+       </attribute>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="portlabel_4">
@@ -234,7 +283,7 @@
      <item>
       <widget class="QRadioButton" name="parNone">
        <property name="toolTip">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the parity. In most cases no parity (None) is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="statusTip">
         <string>Set the parity. In most cases no parity (None) is used.</string>
@@ -248,6 +297,9 @@
        <property name="checked">
         <bool>true</bool>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">buttonGroup_parity</string>
+       </attribute>
       </widget>
      </item>
      <item>
@@ -264,6 +316,9 @@
        <property name="text">
         <string>Odd</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">buttonGroup_parity</string>
+       </attribute>
       </widget>
      </item>
      <item>
@@ -280,42 +335,54 @@
        <property name="text">
         <string>Even</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">buttonGroup_parity</string>
+       </attribute>
       </widget>
      </item>
     </layout>
    </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="portlabel_5">
+     <property name="text">
+      <string>Data bits</string>
+     </property>
+    </widget>
+   </item>
    <item row="4" column="1">
-    <widget class="QSpinBox" name="dataBitsSpinBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
+    <widget class="QComboBox" name="dataBitsCombo">
      <property name="toolTip">
-      <string>Number of data bits per symbol. This is almost always 8.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of data bits per symbol. This is almost always 8.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="statusTip">
       <string>Number of data bits per symbol. This is almost always 8.</string>
      </property>
-     <property name="whatsThis">
-      <string>Number of data bits per symbol. This is almost always 8.</string>
+     <property name="editable">
+      <bool>true</bool>
      </property>
-     <property name="minimum">
-      <number>5</number>
+     <property name="currentIndex">
+      <number>3</number>
      </property>
-     <property name="maximum">
-      <number>8</number>
-     </property>
-     <property name="value">
-      <number>5</number>
-     </property>
+     <item>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>7</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="5" column="0">
@@ -326,37 +393,29 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QSpinBox" name="stopBitsSpinBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+    <widget class="QComboBox" name="stopBitsCombo">
      <property name="toolTip">
-      <string>Number of stop bits per symbol. This is almost always 2.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of stop bits per symbol. This is almost always 2.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="statusTip">
       <string>Number of stop bits per symbol. This is almost always 2.</string>
      </property>
-     <property name="whatsThis">
-      <string>Number of stop bits per symbol. This is almost always 2.</string>
-     </property>
-     <property name="frame">
+     <property name="editable">
       <bool>true</bool>
      </property>
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-     <property name="minimum">
+     <property name="currentIndex">
       <number>1</number>
      </property>
-     <property name="maximum">
-      <number>2</number>
-     </property>
-     <property name="value">
-      <number>2</number>
-     </property>
+     <item>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="6" column="0" colspan="2">
@@ -371,13 +430,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="portlabel_5">
-     <property name="text">
-      <string>Data bits</string>
-     </property>
-    </widget>
    </item>
   </layout>
   <action name="actionDelete">
@@ -442,4 +494,8 @@
    </hints>
   </connection>
  </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroup_parity"/>
+  <buttongroup name="buttonGroup_flowControl"/>
+ </buttongroups>
 </ui>

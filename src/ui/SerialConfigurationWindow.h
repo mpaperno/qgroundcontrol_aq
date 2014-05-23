@@ -38,6 +38,8 @@ This file is part of the QGROUNDCONTROL project
 #include <QTimer>
 #include <QShowEvent>
 #include <QHideEvent>
+#include <QMutex>
+
 #include <LinkInterface.h>
 #include <SerialLinkInterface.h>
 #include "ui_SerialSettings.h"
@@ -54,18 +56,25 @@ public:
 
 public slots:
     void configureCommunication();
-    void enableFlowControl(bool flow);
+    void setupPortList();
+    void setFlowControlNone(bool accept);
+    void setFlowControlHw(bool accept);
+    void setFlowControlSw(bool accept);
     void setParityNone(bool accept);
     void setParityOdd(bool accept);
     void setParityEven(bool accept);
+    void setDataBits(QString bits);
+    void setStopBits(QString bits);
     void setPortName(QString port);
     void setLinkName(QString name);
-    void setupPortList();
 
 protected:
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
     bool userConfigured; ///< Switch to detect if current values are user-selected and shouldn't be overriden
+
+protected slots:
+    void portError(const QString &err);
 
 private:
 
@@ -73,6 +82,7 @@ private:
     SerialLinkInterface* link;
     QAction* action;
     QTimer* portCheckTimer;
+    bool mtx_portListUpdating;
 
 };
 
