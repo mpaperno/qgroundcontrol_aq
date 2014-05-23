@@ -18,16 +18,22 @@
 # -------------------------------------------------
 
 
-# Qt configuration
-CONFIG += qt \
-    thread
 QT += network \
-    opengl \
-    svg \
-    xml \
-    webkit \
-    sql
+	 opengl \
+	 svg \
+	 xml \
+	 webkit \
+	 sql
 
+# Qt configuration
+greaterThan(QT_MAJOR_VERSION, 4) {
+	QT += widgets serialport webkitwidgets
+} else {
+	CONFIG += qt \
+		thread \
+		serialport
+
+}
 #!win32:QT += phonon
 
 TEMPLATE = app
@@ -63,14 +69,14 @@ DEFINES += MAVLINK_NO_DATA
 MAVLINK_CONF = "autoquad"
 MAVLINKPATH = $$BASEDIR/libs/mavlink/include/mavlink/v1.0
 
-win32 {
-    QMAKE_INCDIR_QT = $$(QTDIR)/include
-    QMAKE_LIBDIR_QT = $$(QTDIR)/lib
-    QMAKE_UIC = "$$(QTDIR)/bin/uic.exe"
-    QMAKE_MOC = "$$(QTDIR)/bin/moc.exe"
-    QMAKE_RCC = "$$(QTDIR)/bin/rcc.exe"
-    QMAKE_QMAKE = "$$(QTDIR)/bin/qmake.exe"
-}
+#win32 {
+#    QMAKE_INCDIR_QT = $$(QTDIR)/include
+#    QMAKE_LIBDIR_QT = $$(QTDIR)/lib
+#    QMAKE_UIC = "$$(QTDIR)/bin/uic.exe"
+#    QMAKE_MOC = "$$(QTDIR)/bin/moc.exe"
+#    QMAKE_RCC = "$$(QTDIR)/bin/rcc.exe"
+#    QMAKE_QMAKE = "$$(QTDIR)/bin/qmake.exe"
+#}
 
 
 
@@ -83,17 +89,19 @@ INCLUDEPATH += libs/eigen
 # OPMapControl library (from OpenPilot)
 include(libs/utils/utils_external.pri)
 include(libs/opmapcontrol/opmapcontrol_external.pri)
-DEPENDPATH += \
-    libs/utils \
-    libs/utils/src \
-    libs/opmapcontrol \
-    libs/opmapcontrol/src \
-    libs/opmapcontrol/src/mapwidget
+#DEPENDPATH += \
+#    libs/utils \
+#    libs/utils/src \
+#    libs/opmapcontrol \
+#    libs/opmapcontrol/src \
+#    libs/opmapcontrol/src/mapwidget
 
 INCLUDEPATH += \
     libs/utils \
     libs \
-    libs/opmapcontrol
+	 libs/opmapcontrol \
+	 libs/opmapcontrol/src \
+	 libs/opmapcontrol/src/mapwidget
 
 !contains(DEFINES, NO_TEXT_TO_SPEECH) {
 	include(libs/QtSpeech/QtSpeech.pri)
@@ -141,42 +149,45 @@ include(qgroundcontrol.pri)
 
 # Include MAVLink generator
 # has been deprecated
-DEPENDPATH += \
-    src/apps/mavlinkgen
+#DEPENDPATH += \
+#    src/apps/mavlinkgen
 
-INCLUDEPATH += \
-    src/apps/mavlinkgen \
-    src/apps/mavlinkgen/ui \
-    src/apps/mavlinkgen/generator
+#INCLUDEPATH += \
+#    src/apps/mavlinkgen \
+#    src/apps/mavlinkgen/ui \
+#    src/apps/mavlinkgen/generator
 
-include(src/apps/mavlinkgen/mavlinkgen.pri)
+#include(src/apps/mavlinkgen/mavlinkgen.pri)
 
 
 
 # Include QWT plotting library
 include(libs/qwt/qwt.pri)
-DEPENDPATH += . \
-    plugins \
-    libs/thirdParty/qserialport/include \
-    libs/thirdParty/qserialport/include/QtSerialPort \
-    libs/thirdParty/qserialport \
-    libs/qextserialport
+#INCLUDEPATH += libs/qwt/include
+#LIBS += -Llibs/qwt/lib -lqwt
 
-INCLUDEPATH += . \
-    libs/thirdParty/qserialport/include \
-    libs/thirdParty/qserialport/include/QtSerialPort \
-    libs/thirdParty/qserialport/src \
-    libs/qextserialport
+#DEPENDPATH += .
+#	 plugins
+#    libs/thirdParty/qserialport/include \
+#    libs/thirdParty/qserialport/include/QtSerialPort \
+#    libs/thirdParty/qserialport \
+#    libs/qextserialport
+
+#INCLUDEPATH += . \
+#    libs/thirdParty/qserialport/include \
+#    libs/thirdParty/qserialport/include/QtSerialPort \
+#    libs/thirdParty/qserialport/src \
+#    libs/qextserialport
 
 # Include serial port library (QSerial)
-include(qserialport.pri)
+#include(qserialport.pri)
 
 # Serial port detection (ripped-off from qextserialport library)
-macx|macx-g++|macx-g++42::SOURCES += libs/qextserialport/qextserialenumerator_osx.cpp
-linux-g++::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
-linux-g++-64::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
-win32::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
-win32-msvc2008|win32-msvc2010::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
+#macx|macx-g++|macx-g++42::SOURCES += libs/qextserialport/qextserialenumerator_osx.cpp
+#linux-g++::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
+#linux-g++-64::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
+#win32::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
+#win32-msvc2008|win32-msvc2010::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
 
 # Input
 FORMS += src/ui/MainWindow.ui \
@@ -189,16 +200,16 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/UASView.ui \
     src/ui/ParameterInterface.ui \
     src/ui/WaypointList.ui \    
-    src/ui/ObjectDetectionView.ui \
+#    src/ui/ObjectDetectionView.ui \
 #    src/ui/JoystickWidget.ui \
     src/ui/DebugConsole.ui \
     src/ui/HDDisplay.ui \
     src/ui/MAVLinkSettingsWidget.ui \
-    src/ui/AudioOutputWidget.ui \
+#    src/ui/AudioOutputWidget.ui \
     src/ui/QGCSensorSettingsWidget.ui \
-    src/ui/watchdog/WatchdogControl.ui \
-    src/ui/watchdog/WatchdogProcessView.ui \
-    src/ui/watchdog/WatchdogView.ui \
+#    src/ui/watchdog/WatchdogControl.ui \
+#    src/ui/watchdog/WatchdogProcessView.ui \
+#    src/ui/watchdog/WatchdogView.ui \
 #    src/ui/QGCFirmwareUpdate.ui \
 #    src/ui/QGCPxImuFirmwareUpdate.ui \
     src/ui/QGCDataPlot2D.ui \
@@ -299,19 +310,19 @@ HEADERS += src/MG.h \
     src/ui/linechart/ScrollZoomer.h \
     src/configuration.h \
     src/ui/uas/UASView.h \
-    src/ui/CameraView.h \
+#    src/ui/CameraView.h \
     src/comm/MAVLinkSimulationLink.h \
     src/comm/UDPLink.h \
     src/ui/ParameterInterface.h \
     src/ui/WaypointList.h \
     src/Waypoint.h \   
-    src/ui/ObjectDetectionView.h \
+#    src/ui/ObjectDetectionView.h \
 #    src/input/JoystickInput.h \
 #    src/ui/JoystickWidget.h \
     src/ui/DebugConsole.h \
     src/ui/HDDisplay.h \
     src/ui/MAVLinkSettingsWidget.h \
-    src/ui/AudioOutputWidget.h \
+#    src/ui/AudioOutputWidget.h \
     src/GAudioOutput.h \
     src/LogCompressor.h \
 #    src/ui/QGCParamWidget.h \
@@ -321,9 +332,9 @@ HEADERS += src/MG.h \
 #    src/uas/PxQuadMAV.h \
 #    src/uas/ArduPilotMegaMAV.h \
 #    src/uas/senseSoarMAV.h \
-    src/ui/watchdog/WatchdogControl.h \
-    src/ui/watchdog/WatchdogProcessView.h \
-    src/ui/watchdog/WatchdogView.h \
+#    src/ui/watchdog/WatchdogControl.h \
+#    src/ui/watchdog/WatchdogProcessView.h \
+#    src/ui/watchdog/WatchdogView.h \
     src/uas/UASWaypointManager.h \
     src/ui/HSIDisplay.h \
     src/QGC.h \
@@ -345,7 +356,7 @@ HEADERS += src/MG.h \
 #    src/ui/SlugsHilSim.h \
 #    src/ui/SlugsPadCameraControl.h \
 #    src/ui/QGCMainWindowAPConfigurator.h \
-    src/comm/MAVLinkSwarmSimulationLink.h \
+#    src/comm/MAVLinkSwarmSimulationLink.h \
     src/ui/uas/QGCUnconnectedInfoWidget.h \
     src/ui/designer/QGCToolWidget.h \
     src/ui/designer/QGCParamSlider.h \
@@ -367,7 +378,7 @@ HEADERS += src/MG.h \
     src/ui/map/Waypoint2DIcon.h \
     src/ui/map/QGCMapTool.h \
     src/ui/map/QGCMapToolBar.h \
-    libs/qextserialport/qextserialenumerator.h \
+#    libs/qextserialport/qextserialenumerator.h \
     src/QGCGeo.h \
     src/ui/QGCToolBar.h \
     src/ui/QGCMAVLinkInspector.h \
@@ -478,19 +489,19 @@ SOURCES += src/main.cc \
     src/ui/linechart/Scrollbar.cc \
     src/ui/linechart/ScrollZoomer.cc \
     src/ui/uas/UASView.cc \
-    src/ui/CameraView.cc \
+#    src/ui/CameraView.cc \
     src/comm/MAVLinkSimulationLink.cc \
     src/comm/UDPLink.cc \
     src/ui/ParameterInterface.cc \
     src/ui/WaypointList.cc \
     src/Waypoint.cc \
-    src/ui/ObjectDetectionView.cc \
+#    src/ui/ObjectDetectionView.cc \
 #    src/input/JoystickInput.cc \
 #    src/ui/JoystickWidget.cc \
     src/ui/DebugConsole.cc \
     src/ui/HDDisplay.cc \
     src/ui/MAVLinkSettingsWidget.cc \
-    src/ui/AudioOutputWidget.cc \
+#    src/ui/AudioOutputWidget.cc \
     src/GAudioOutput.cc \
     src/LogCompressor.cc \
 #    src/ui/QGCParamWidget.cc \
@@ -500,9 +511,9 @@ SOURCES += src/main.cc \
 #    src/uas/PxQuadMAV.cc \
 #    src/uas/ArduPilotMegaMAV.cc \
 #    src/uas/senseSoarMAV.cpp \
-    src/ui/watchdog/WatchdogControl.cc \
-    src/ui/watchdog/WatchdogProcessView.cc \
-    src/ui/watchdog/WatchdogView.cc \
+#    src/ui/watchdog/WatchdogControl.cc \
+#    src/ui/watchdog/WatchdogProcessView.cc \
+#    src/ui/watchdog/WatchdogView.cc \
     src/uas/UASWaypointManager.cc \
     src/ui/HSIDisplay.cc \
     src/QGC.cc \
@@ -523,7 +534,7 @@ SOURCES += src/main.cc \
 #    src/ui/SlugsHilSim.cc \
 #    src/ui/SlugsPadCameraControl.cpp \
 #    src/ui/QGCMainWindowAPConfigurator.cc \
-    src/comm/MAVLinkSwarmSimulationLink.cc \
+#    src/comm/MAVLinkSwarmSimulationLink.cc \
     src/ui/uas/QGCUnconnectedInfoWidget.cc \
     src/ui/designer/QGCToolWidget.cc \
     src/ui/designer/QGCParamSlider.cc \
@@ -661,21 +672,21 @@ win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin)
 
 # xbee support
 # libxbee only supported by linux and windows systems
-win32-msvc2008|win32-msvc2010|linux {
-    HEADERS += src/comm/XbeeLinkInterface.h \
-        src/comm/XbeeLink.h \
-        src/comm/HexSpinBox.h \
-        src/ui/XbeeConfigurationWindow.h \
-        src/comm/CallConv.h
-    SOURCES += src/comm/XbeeLink.cpp \
-        src/comm/HexSpinBox.cpp \
-        src/ui/XbeeConfigurationWindow.cpp
-    DEFINES += XBEELINK
-    INCLUDEPATH += libs/thirdParty/libxbee
-# TO DO: build library when it does not exist already
-    LIBS += -L$${BASEDIR}/libs/thirdParty/libxbee/lib \
-        -llibxbee
-}
+#win32-msvc2008|win32-msvc2010|linux {
+#    HEADERS += src/comm/XbeeLinkInterface.h \
+#        src/comm/XbeeLink.h \
+#        src/comm/HexSpinBox.h \
+#        src/ui/XbeeConfigurationWindow.h \
+#        src/comm/CallConv.h
+#    SOURCES += src/comm/XbeeLink.cpp \
+#        src/comm/HexSpinBox.cpp \
+#        src/ui/XbeeConfigurationWindow.cpp
+#    DEFINES += XBEELINK
+#    INCLUDEPATH += libs/thirdParty/libxbee
+## TO DO: build library when it does not exist already
+#    LIBS += -L$${BASEDIR}/libs/thirdParty/libxbee/lib \
+#        -llibxbee
+#}
 
 ###################################################################
 #### --- 3DConnexion 3d Mice support (e.g. spacenavigator) --- ####
