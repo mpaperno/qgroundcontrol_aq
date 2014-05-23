@@ -7,15 +7,15 @@
 #include "MG.h"
 #include <SerialLinkInterface.h>
 #include <SerialLink.h>
-#include <qstringlist.h>
-#include <configuration.h>
-#include <QHBoxLayout>
+#include "../configuration.h"
+#include "GAudioOutput.h"
+
 #include <QWidget>
 #include <QFileDialog>
 #include <QTextBrowser>
 #include <QMessageBox>
 #include <QSignalMapper>
-#include "GAudioOutput.h"
+#include <QStringList>
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
@@ -32,6 +32,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     FwFileForEsc32 = "";
     FlashEsc32Active = false;
     fwFlashActive = false;
+    currentCalcStartBtn = NULL;
+    currentCalcAbortBtn = NULL;
 
     aqFirmwareVersion = "";
     aqFirmwareRevision = 0;
@@ -62,7 +64,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
 
     setHardwareInfo(aqHardwareVersion);  // populate hardware (AQ board) info with defaults
-    setFirmwareInfo();
+    setFirmwareInfo();  // set defaults based on fw version
 
     /*
      * Start the UI
@@ -97,8 +99,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 //    ui->comboBox_in_mode->addItem("CAN",3);
 //    ui->comboBox_in_mode->addItem("OW", 4);
 
-    ui->DoubleMaxCurrent->setValue(30.0);
-
     // baud rates
 
     QList<int> availableBaudRates = MG::SERIAL::getBaudRates();
@@ -115,6 +115,13 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->comboBox_esc32PortSpeed->addItems(baudRates);
 
+    // firmware types
+    ui->comboBox_fwType->addItem(tr("AutoQuad (serial/USB adapter)"), "aq");
+    ui->comboBox_fwType->addItem(tr("AutoQuad (native USB)"), "dfu");
+    ui->comboBox_fwType->addItem(tr("ESC32"), "esc32");
+    ui->comboBox_fwType->setCurrentIndex(0);
+
+    // firmware serial flash baud rates
     QStringList flashBaudRates;
     flashBaudRates << "38400" <<  "57600" << "115200";
     ui->comboBox_fwPortSpeed->addItems(flashBaudRates);
@@ -204,6 +211,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
+    connect(ui->comboBox_fwType, SIGNAL(currentIndexChanged(int)), this, SLOT(fwTypeChange()));
     //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
 //    connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
@@ -388,7 +396,7 @@ void QGCAutoquad::loadSettings()
     ui->lineEdit_insert_inclination->setText(settings.value("INCLINATION_SOURCE").toString());
     ui->lineEdit_cal_inclination->setText(settings.value("INCLINATION_CALC").toString());
 
-    if (settings.contains("AUTOQUAD_FW_FILE")) {
+    if (settings.contains("AUTOQUAD_FW_FILE") && settings.value("AUTOQUAD_FW_FILE").toString().length()) {
         ui->fileLabel->setText(settings.value("AUTOQUAD_FW_FILE").toString());
         ui->fileLabel->setToolTip(settings.value("AUTOQUAD_FW_FILE").toString());
         setFwType();
@@ -482,11 +490,11 @@ void QGCAutoquad::adjustUiForHardware() {
     ui->groupBox_commSerial2->setVisible(aqHardwareVersion == 6);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
-     if (aqHardwareVersion == 8) {
-         ui->MOT_START->setMinimum(0);
-         ui->MOT_MIN->setMinimum(0);
-         ui->MOT_ARM->setMinimum(0);
-     }
+    if (aqHardwareVersion == 8) {
+        ui->MOT_START->setMinimum(0);
+        ui->MOT_MIN->setMinimum(0);
+        ui->MOT_ARM->setMinimum(0);
+    }
 }
 
 void QGCAutoquad::adjustUiForFirmware() {
@@ -519,6 +527,10 @@ void QGCAutoquad::adjustUiForFirmware() {
 
     // auto-triggering options
     ui->groupBox_gmbl_auto_triggering->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
+
+    // restart button
+    if (paramaq)
+        paramaq->setRestartBtnEnabled(aqCanReboot);
 }
 
 void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
@@ -1312,7 +1324,7 @@ void QGCAutoquad::Esc32LoadConfig(QString Config)
 }
 
 void QGCAutoquad::Esc32ShowConfig(QMap<QString, QString> paramPairs, bool disableMissing) {
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32, QRegExp("^[A-Z]{2,}") );
+    QList<QLineEdit*> edtList = ui->tab_aq_esc32->findChildren<QLineEdit*>(QRegExp("^[A-Z]{2,}") );
     for ( int i = 0; i<edtList.count(); i++) {
         QString ParaName = edtList.at(i)->objectName();
         if ( paramPairs.contains(ParaName) )
@@ -1347,7 +1359,7 @@ void QGCAutoquad::btnSaveToEsc32() {
     QString ParaName, valueText, valueEsc32;
     QMap<QString, QString> changedParams;
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+    QList<QLineEdit*> edtList = ui->tab_aq_esc32->findChildren<QLineEdit*>();
     for ( int i = 0; i<edtList.count(); i++) {
         ParaName = edtList.at(i)->objectName();
         valueText = edtList.at(i)->text();
@@ -1441,7 +1453,7 @@ void QGCAutoquad::Esc32SaveParamsToFile()
 
     QTextStream in(&file);
 
-    QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32, QRegExp("^[A-Z]{2,}") );
+    QList<QLineEdit*> edtList = ui->tab_aq_esc32->findChildren<QLineEdit*> (QRegExp("^[A-Z]{2,}"));
     for ( int i = 0; i<edtList.count(); i++) {
         if (edtList.at(i)->text().length())
             in << edtList.at(i)->objectName() << "\t" << edtList.at(i)->text() << "\n";
@@ -1521,7 +1533,7 @@ void QGCAutoquad::ParaWrittenEsc32(QString ParaName) {
     if ( ParaNameWritten == ParaName) {
         WaitForParaWriten = 0;
 
-        QList<QLineEdit*> edtList = qFindChildren<QLineEdit*> ( ui->tab_aq_esc32 );
+        QList<QLineEdit*> edtList = ui->tab_aq_esc32->findChildren<QLineEdit*> ();
         for ( int i = 0; i<edtList.count(); i++) {
             QString ParaNamEedt = edtList.at(i)->objectName();
             if ( ParaNamEedt == ParaName )
@@ -1829,10 +1841,19 @@ void QGCAutoquad::setupPortList()
 }
 
 void QGCAutoquad::setFwType() {
-    if (ui->fileLabel->text().contains(QRegExp("aq.+\\.hex$", Qt::CaseInsensitive)))
-        ui->radioButton_fwType_aq->setChecked(true);
-    else if (ui->fileLabel->text().contains(QRegExp("esc32.+\\.hex$", Qt::CaseInsensitive)))
-        ui->radioButton_fwType_esc32->setChecked(true);
+    QString typ = "aq";
+    if (ui->fileLabel->text().contains(QRegExp("esc32.+\\.hex$", Qt::CaseInsensitive)))
+        typ = "esc32";
+    else if (ui->fileLabel->text().contains(QRegExp(".+\\.bin$", Qt::CaseInsensitive)))
+        typ = "dfu";
+
+    ui->comboBox_fwType->setCurrentIndex(ui->comboBox_fwType->findData(typ));
+}
+
+void QGCAutoquad::fwTypeChange() {
+    bool en = ui->comboBox_fwType->itemData(ui->comboBox_fwType->currentIndex()).toString() != "dfu";
+    ui->comboBox_fwPortSpeed->setEnabled(en);
+    ui->portName->setEnabled(en);
 }
 
 void QGCAutoquad::selectFWToFlash()
@@ -1844,31 +1865,16 @@ void QGCAutoquad::selectFWToFlash()
         dirPath = LastFilePath;
     QFileInfo dir(dirPath);
 
-    // use native file dialog
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select Firmware File"), dir.absoluteFilePath(),
-                                            tr("AQ or ESC32 firmware (*.hex)"));
+                                            tr("AQ or ESC32 firmware") + " (*.hex *.bin)");
 
-    // use Qt file dialog (sometimes very slow! at least on Win)
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setFilter(tr("AQ or ESC32 firmware (*.hex)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    QStringList fileNames;
-//    if (dialog.exec())
-//    {
-//        fileNames = dialog.selectedFiles();
-//    }
-
-//    if (fileNames.size() > 0)
     if (fileName.length())
     {
-//        QString fileNameLocale = QDir::toNativeSeparators(fileNames.first());
         QString fileNameLocale = QDir::toNativeSeparators(fileName);
         QFile file(fileNameLocale);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        if (!file.open(QIODevice::ReadOnly))
         {
-            MainWindow::instance()->showInfoMessage(tr("Warning!"), tr("Could not read hex file. %1").arg(file.errorString()));
+            MainWindow::instance()->showInfoMessage(tr("Warning!"), tr("Could not open firmware file. %1").arg(file.errorString()));
             return;
         }
         ui->fileLabel->setText(fileNameLocale);
@@ -1883,29 +1889,40 @@ void QGCAutoquad::selectFWToFlash()
 
 void QGCAutoquad::flashFW()
 {
-    if (!ui->radioButton_fwType_aq->isChecked() && !ui->radioButton_fwType_esc32->isChecked()) {
-        MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please first select the firwmare type (AutoQuad or ESC32)."));
+    if (ui->comboBox_fwType->currentIndex() == -1) {
+        MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please select the firwmare type (AutoQuad or ESC32)."));
         return;
     }
 
     if (checkProcRunning())
         return;
 
-    QString fwtype = (ui->radioButton_fwType_aq->isChecked()) ? "aq" : "esc";
+    QString fwtype = ui->comboBox_fwType->itemData(ui->comboBox_fwType->currentIndex()).toString();
     QString msg = "";
 
     if ( checkAqSerialConnection(portName) )
         msg = tr("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected and then re-connected afterwards.\n\n");
 
-    if (fwtype == "aq") {
-        msg += tr("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.");
-    }
-    else {
-        msg += tr("WARNING: Flashing firmware will reset all ESC32 settings back to default values. Make sure you have your custom settings saved.\n\n");
-    }
+    if (fwtype == "dfu") {
+        msg += tr("Make sure your AQ is connected via USB and is already in bootloader mode.  To enter bootloader mode,"
+                  "first connect the BOOT pins (or hold the BOOT button) and then turn the AQ on.\n\n");
+#ifndef Q_OS_WIN32
+        msg += tr("Please make sure you have the dfu-util program installed on this computer. See http://dfu-util.gnumonks.org/ ."
+                  "Mac OS X users should install via MacPorts (http://www.macports.org/).\n\n");
+#else
+        msg += tr("An automatic restart of AQ will be attempted after flashing, but may not be possible, depending on the USB driver being used. "
+                  "You may see an error message at the end of the flash utility output messages, which can be ignored. In this case, simply restart AQ manually.\n\n");
+#endif
+    } else { // aq and esc serial flash
+        if (fwtype == "aq")
+            msg += tr("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.\n\n");
+        else
+            msg += tr("WARNING: Flashing firmware will reset all ESC32 settings back to default values. Make sure you have your custom settings saved.\n\n");
 
-    msg += tr("Make sure you are using the %1 port.\n\n").arg(portName);
-    msg += tr("There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\nDo you wish to continue flashing?");
+        msg += tr("Make sure you are using the %1 port.\n").arg(portName);
+        msg += tr("There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!\n\n");
+    }
+    msg += "Do you wish to continue flashing?";
 
     QMessageBox::StandardButton qrply = QMessageBox::warning(this, tr("Confirm Firmware Flashing"), msg, QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Yes);
     if (qrply == QMessageBox::Cancel)
@@ -1919,6 +1936,8 @@ void QGCAutoquad::flashFW()
 
     if (fwtype == "aq")
         flashFwStart();
+    else if (fwtype == "dfu")
+        flashFwDfu();
     else
         flashFWEsc32();
 }
@@ -1932,6 +1951,25 @@ void QGCAutoquad::flashFwStart()
     Arguments.append("-w" );
     Arguments.append(QDir::toNativeSeparators(ui->fileLabel->text()));
     Arguments.append("-v");
+    Arguments.append(portName);
+
+    ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
+}
+
+void QGCAutoquad::flashFwDfu()
+{
+#ifdef Q_OS_WIN32
+    QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "dfu-util" + platformExeExt);
+#else
+    QString AppPath = "dfu-util";
+#endif
+    QStringList Arguments;
+    Arguments.append("-a 0"); // alt 0 is start of internal flash
+    Arguments.append("-d 0483:df11" );  // device ident stm32
+    Arguments.append("-s 0x08000000");  // start address
+    //Arguments.append("-v");  // verbose
+    Arguments.append("-R"); // reset after upload
+    Arguments.append("-D" + QDir::toNativeSeparators(ui->fileLabel->text()));  // fw file, no space after -D or breaks on Win
     Arguments.append(portName);
 
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
@@ -2467,6 +2505,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
     if ( changeList.size() ) {
         paramSaveType = 1;  // save to volatile
+        restartAfterParamSave = false;
 
         if (interactive) {
             paramSaveType = 0;
@@ -2496,6 +2535,13 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             QLabel* prompt2 = new QLabel(tr("Do you wish to continue?"), dialog);
             prompt2->setSizePolicy(sizepol);
 
+            QCheckBox* restartOption = new QCheckBox(tr("Restart after save?"), dialog);
+            restartOption->setToolTip(tr("<html><p>Selecting this option will attempt to automatically restart the flight controller after saving parameters. \
+                                         Only do this when saving to permanent memory.  You may loose the link to the flight controller and need to reconnect.</p></html>"));
+            restartOption->setObjectName("chkbox_restart");
+            restartOption->setSizePolicy(sizepol);
+            restartOption->setVisible(aqCanReboot);
+
             QTextEdit* message = new QTextEdit(msg, dialog);
             message->setReadOnly(true);
             message->setAcceptRichText(true);
@@ -2517,7 +2563,12 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             dlgLayout->setSpacing(8);
             dlgLayout->addWidget(prompt);
             dlgLayout->addWidget(message);
-            dlgLayout->addWidget(prompt2);
+            QHBoxLayout* promptLayout = new QHBoxLayout;
+            promptLayout->setSpacing(8);
+            promptLayout->addWidget(prompt2);
+            promptLayout->addWidget(restartOption);
+            promptLayout->setAlignment(restartOption, Qt::AlignRight);
+            dlgLayout->addLayout(promptLayout);
             dlgLayout->addWidget(bbox);
 
             dialog->setLayout(dlgLayout);
@@ -2526,6 +2577,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
             connect(btn_saveToRom, SIGNAL(clicked()), dialog, SLOT(accept()));
             connect(bbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(saveDialogButtonClicked(QAbstractButton*)));
+            connect(restartOption, SIGNAL(clicked(bool)), this, SLOT(saveDialogRestartOptionChecked(bool)));
 
             bool dlgret = dialog->exec();
             dialog->deleteLater();
@@ -2544,6 +2596,11 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         if (paramSaveType == 2) {
             uas->writeParametersToStorageAQ();
             ui->label_radioChangeWarning->hide();
+        }
+
+        if (restartAfterParamSave) {
+            MainWindow::instance()->showStatusMessage(tr("Restarting flight controller..."), 4000);
+            QTimer::singleShot(3000, paramaq, SLOT(restartUas()));
         }
 
         return true;
@@ -2568,6 +2625,10 @@ void QGCAutoquad::saveDialogButtonClicked(QAbstractButton* btn) {
         paramSaveType = 1;
     else if (btn->objectName() == "btn_saveToRom")
         paramSaveType = 2;
+}
+
+void QGCAutoquad::saveDialogRestartOptionChecked(bool chk) {
+    restartAfterParamSave = chk;
 }
 
 QString QGCAutoquad::paramNameGuiToOnboard(QString paraName) {
@@ -2630,6 +2691,7 @@ bool QGCAutoquad::checkProcRunning(bool warn) {
 }
 
 void QGCAutoquad::prtstexit(int stat) {
+    prtstdout();
     if ( fwFlashActive ) {  // firmware flashing mode
         ui->flashButton->setEnabled(true);
         if (!stat)
@@ -2650,12 +2712,10 @@ void QGCAutoquad::prtstdout() {
         output = output.replace(QRegExp(".\\[[uH]"), "");
         activeProcessStatusWdgt->clear();
     }
-    activeProcessStatusWdgt->append(output);
+    activeProcessStatusWdgt->insertPlainText(output);
+    activeProcessStatusWdgt->ensureCursorVisible();
 }
 
-//void QGCAutoquad::prtstderr() {
-//
-//}
 
 /**
  * @brief Handle external process error code
@@ -2705,10 +2765,10 @@ void QGCAutoquad::uasConnected() {
 void QGCAutoquad::setHardwareInfo(int boardVer) {
     switch (boardVer) {
      case 8:
-          maxPwmPorts = 4;
-          pwmPortTimers.empty();
-          pwmPortTimers << 1 << 1 << 1 << 1;
-          break;
+        maxPwmPorts = 8;
+        pwmPortTimers.empty();
+        pwmPortTimers << 3 << 3 << 4 << 4 << 4 << 4 << 8 << 8;
+        break;
     case 7:
         maxPwmPorts = 9;
         pwmPortTimers.empty();
@@ -2729,6 +2789,7 @@ void QGCAutoquad::setFirmwareInfo() {
     maxMotorPorts = 16;
     motPortTypeCAN = true;
     motPortTypeCAN_H = true;
+    aqCanReboot = false;
 
     if (aqBuildNumber) {
         if (aqBuildNumber < 1663)
@@ -2739,6 +2800,9 @@ void QGCAutoquad::setFirmwareInfo() {
 
         if (aqBuildNumber < 1418)
             motPortTypeCAN = false;
+
+        if (aqBuildNumber >= 1740)
+            aqCanReboot = true;
     }
 
     emit firmwareInfoUpdated();

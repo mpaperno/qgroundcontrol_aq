@@ -13,6 +13,8 @@
 #include "QGCUASParamManager.h"
 #include "UASInterface.h"
 
+class QPushButton;
+
 class QGCAQParamWidget : public QGCUASParamManager
 {
     Q_OBJECT
@@ -79,9 +81,12 @@ public slots:
 
     void loadParaFromSD();
     void saveParaToSD();
+    void restartUas();
+    void restartUasWithPrompt();
     void wpFromSD();
     void wpToSD();
 
+    void setRestartBtnEnabled(const bool enable);
 
 protected:
     QTreeWidget* tree;   ///< The parameter tree
@@ -107,6 +112,8 @@ protected:
     UASInterface* uas;
     QString fileNameFromMaster;
 
+private:
+    QPushButton* restartButton;
 
 };
 class NoEditDelegate: public QStyledItemDelegate {

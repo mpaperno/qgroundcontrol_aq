@@ -75,44 +75,44 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
 
     // Parameter tree
-    horizontalLayout->addWidget(tree, 0, 0, 1, 4);
+    horizontalLayout->addWidget(tree, 0, 0, 1, 3);
 
     // Status line
     statusLabel->setText(tr("Click refresh to download parameters"));
-    horizontalLayout->addWidget(statusLabel, 1, 0, 1, 4);
+    horizontalLayout->addWidget(statusLabel, 1, 0, 1, 3);
 
 
     // BUTTONS
     QPushButton* refreshButton = new QPushButton(tr("Refresh"));
     refreshButton->setToolTip(tr("Load parameters currently in non-permanent memory of aircraft."));
-    refreshButton->setWhatsThis(tr("Load parameters currently in non-permanent memory of aircraft."));
+    refreshButton->setWhatsThis(refreshButton->toolTip());
     connect(refreshButton, SIGNAL(clicked()), this, SLOT(requestParameterList()));
     horizontalLayout->addWidget(refreshButton, 2, 0);
 
     QPushButton* setButton = new QPushButton(tr("Transmit"));
     setButton->setToolTip(tr("Set current parameters in non-permanent onboard memory"));
-    setButton->setWhatsThis(tr("Set current parameters in non-permanent onboard memory"));
+    setButton->setWhatsThis(setButton->toolTip());
     connect(setButton, SIGNAL(clicked()), this, SLOT(setParameters()));
-    horizontalLayout->addWidget(setButton, 2, 1, 1, 2);
+    horizontalLayout->addWidget(setButton, 2, 1);
 
     QPushButton* writeButton = new QPushButton(tr("Write (ROM)"));
     writeButton->setToolTip(tr("Copy current parameters in non-permanent memory of the aircraft to permanent memory. Transmit your parameters first to write these."));
-    writeButton->setWhatsThis(tr("Copy current parameters in non-permanent memory of the aircraft to permanent memory. Transmit your parameters first to write these."));
+    writeButton->setWhatsThis(writeButton->toolTip());
     connect(writeButton, SIGNAL(clicked()), this, SLOT(writeParameters()));
-    horizontalLayout->addWidget(writeButton, 2, 3);
+    horizontalLayout->addWidget(writeButton, 2, 2);
 
 
     QPushButton* loadFileButton = new QPushButton(tr("Load File"));
     loadFileButton->setToolTip(tr("Load parameters from a file on this computer in the view. To write them to the aircraft, use transmit after loading them."));
-    loadFileButton->setWhatsThis(tr("Load parameters from a file on this computer in the view. To write them to the aircraft, use transmit after loading them."));
+    loadFileButton->setWhatsThis(loadFileButton->toolTip());
     connect(loadFileButton, SIGNAL(clicked()), this, SLOT(loadParameters()));
     horizontalLayout->addWidget(loadFileButton, 3, 0);
 
     QPushButton* saveFileButton = new QPushButton(tr("Save File"));
     saveFileButton->setToolTip(tr("Save parameters in this view to a file on this computer."));
-    saveFileButton->setWhatsThis(tr("Save parameters in this view to a file on this computer."));
+    saveFileButton->setWhatsThis(saveFileButton->toolTip());
     connect(saveFileButton, SIGNAL(clicked()), this, SLOT(saveParameters()));
-    horizontalLayout->addWidget(saveFileButton, 3, 1, 1, 2);
+    horizontalLayout->addWidget(saveFileButton, 3, 1);
     QAction* action;
     action =  saveFileMenu.addAction(tr("AQ params.txt format (can also load via QGC v1.3+)"), this, SLOT(saveParamFile()));
     action->setData(1);
@@ -122,21 +122,27 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
 
     QPushButton* readButton = new QPushButton(tr("Read (ROM)"));
     readButton->setToolTip(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
-    readButton->setWhatsThis(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
+    readButton->setWhatsThis(readButton->toolTip());
     connect(readButton, SIGNAL(clicked()), this, SLOT(readParameters()));
-    horizontalLayout->addWidget(readButton, 3, 3);
+    horizontalLayout->addWidget(readButton, 3, 2);
 
-    QPushButton* loadParaFromSDButton = new QPushButton(tr("Load from SD"));
-    loadParaFromSDButton->setToolTip(tr("Load parameters from a file on the SD card. These parameters will be in the aircraft non-permanent memory."));
-    loadParaFromSDButton->setWhatsThis(tr("Load parameters from a file on the SD card. These parameters will be in the aircraft non-permanent memory."));
+    QPushButton* loadParaFromSDButton = new QPushButton(tr("From SD"));
+    loadParaFromSDButton->setToolTip(tr("Load parameters from a PARAMS.txt file on the on-board SD card, if one exists. These parameters will be in the aircraft non-permanent memory."));
+    loadParaFromSDButton->setWhatsThis(loadParaFromSDButton->toolTip());
     connect(loadParaFromSDButton, SIGNAL(clicked()), this, SLOT(loadParaFromSD()));
-    horizontalLayout->addWidget(loadParaFromSDButton, 4, 0, 1, 2);
+    horizontalLayout->addWidget(loadParaFromSDButton, 4, 0);
 
-    QPushButton* saveParaToSDButton = new QPushButton(tr("Save to SD"));
+    QPushButton* saveParaToSDButton = new QPushButton(tr("To SD"));
     saveParaToSDButton->setToolTip(tr("Save parameters in this view to a file on the on-board SD card."));
-    saveParaToSDButton->setWhatsThis(tr("Save parameters in this view to a file on the on-board SD card."));
+    saveParaToSDButton->setWhatsThis(saveParaToSDButton->toolTip());
     connect(saveParaToSDButton, SIGNAL(clicked()), this, SLOT(saveParaToSD()));
-    horizontalLayout->addWidget(saveParaToSDButton, 4, 2, 1, 2);
+    horizontalLayout->addWidget(saveParaToSDButton, 4, 1);
+
+    restartButton = new QPushButton(tr("Restart"));
+    restartButton->setToolTip(tr("Restart the remote system."));
+    restartButton->setWhatsThis(restartButton->toolTip());
+    connect(restartButton, SIGNAL(clicked()), this, SLOT(restartUasWithPrompt()));
+    horizontalLayout->addWidget(restartButton, 4, 2);
 
 //    QPushButton* wpFromSDButton = new QPushButton(tr("WP from SD"));
 //    wpFromSDButton->setToolTip(tr("Load mission plan from on-board SD card."));
@@ -149,12 +155,6 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
 //    wpToSDButton->setWhatsThis(tr("Save on-board mission plan to a file on the on-board SD card."));
 //    connect(wpToSDButton, SIGNAL(clicked()), this, SLOT(wpToSD()));
 //    horizontalLayout->addWidget(wpToSDButton, 5, 1);
-
-
-    horizontalLayout->setColumnStretch(0, 2);
-    horizontalLayout->setColumnStretch(1, 1);
-    horizontalLayout->setColumnStretch(2, 1);
-    horizontalLayout->setColumnStretch(3, 2);
 
     // Set layout
     this->setLayout(horizontalLayout);
@@ -1391,6 +1391,31 @@ void QGCAQParamWidget::saveParaToSD()
     }
 }
 
+void QGCAQParamWidget::restartUas()
+{
+    if (uas != NULL)
+    {
+        uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, 0, 1.0f);
+    }
+}
+
+void QGCAQParamWidget::restartUasWithPrompt()
+{
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.setText(tr("Restarting the UAS"));
+    msgBox.setInformativeText(tr("Are you sure you want to restart the remote system?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    int ret = msgBox.exec();
+
+    // Close the message box shortly after opening to prevent accidental clicks
+    QTimer::singleShot(5000, &msgBox, SLOT(reject()));
+
+    if (ret == QMessageBox::Yes)
+        restartUas();
+}
+
 void QGCAQParamWidget::wpFromSD()
 {
     if (uas != NULL)
@@ -1405,6 +1430,11 @@ void QGCAQParamWidget::wpToSD()
     {
         uas->writeWaypointsToSDAQ();
     }
+}
+
+void QGCAQParamWidget::setRestartBtnEnabled(const bool enable)
+{
+    restartButton->setEnabled(enable);
 }
 
 void QGCAQParamWidget::setFilePath(QString fileName)

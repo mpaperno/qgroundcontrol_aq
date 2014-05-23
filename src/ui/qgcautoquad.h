@@ -69,9 +69,11 @@ private slots:
     void setupPortList();
     void setPortName(QString str);
     void setFwType();
+    void fwTypeChange();
     void selectFWToFlash();
     void flashFW();
     void flashFwStart();
+    void flashFwDfu();
 
     // Calculations
     void startCalculationProcess(QString appName, QStringList appArgs);
@@ -110,6 +112,7 @@ private slots:
     void loadParametersToUI();
     void saveAQSettings();
     void saveDialogButtonClicked(QAbstractButton *btn);
+    void saveDialogRestartOptionChecked(bool chk);
     QString paramNameGuiToOnboard(QString paraName);
     void convertPidAttValsToFW68Scales();
 
@@ -155,7 +158,6 @@ private slots:
     bool checkProcRunning(bool warn = true);
     void prtstexit(int stat);
     void prtstdout();
-//    void prtstderr();
     void extProcessError(QProcess::ProcessError err);
     void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
     void uasConnected();
@@ -189,6 +191,7 @@ public:
     QList<uint8_t> pwmPortTimers;   // table of timers corresponding to ports
     bool motPortTypeCAN;            // is CAN bus available?
     bool motPortTypeCAN_H;          // are CAN ports 17-32 available?
+    bool aqCanReboot;               // can system accept remote restart command?
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files
@@ -257,6 +260,7 @@ private:
     QRegExp dupeFldnameRx;
     QList<QComboBox *> allRadioChanCombos;
     quint8 paramSaveType;
+    bool restartAfterParamSave;
 
     // Tracking
     double lat,lon,alt;
