@@ -31,7 +31,7 @@ This file is part of the QGROUNDCONTROL project
 #ifndef _MAINWINDOW_H_
 #define _MAINWINDOW_H_
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include <QStatusBar>
 #include <QStackedWidget>
 #include <QSettings>
@@ -46,11 +46,11 @@ This file is part of the QGROUNDCONTROL project
 #include "Linecharts.h"
 #include "UASInfoWidget.h"
 #include "WaypointList.h"
-#include "CameraView.h"
+//#include "CameraView.h"
 #include "UASListWidget.h"
 #include "MAVLinkProtocol.h"
 #include "MAVLinkSimulationLink.h"
-#include "ObjectDetectionView.h"
+//#include "ObjectDetectionView.h"
 #include "HUD.h"
 #include "PrimaryFlightDisplay.h"
 //#include "JoystickWidget.h"
@@ -62,7 +62,7 @@ This file is part of the QGROUNDCONTROL project
 #include "ParameterInterface.h"
 //#include "XMLCommProtocolWidget.h"
 #include "HDDisplay.h"
-#include "WatchdogControl.h"
+//#include "WatchdogControl.h"
 #include "HSIDisplay.h"
 #include "QGCDataPlot2D.h"
 #include "QGCRemoteControlView.h"

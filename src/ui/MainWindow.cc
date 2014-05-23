@@ -773,7 +773,7 @@ void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidg
 void MainWindow::showTool(bool show)
 {
     QAction* act = qobject_cast<QAction *>(sender());
-    QWidget* widget = qVariantValue<QWidget *>(act->data());
+    QWidget* widget = act->data().value<QWidget *>();
     widget->setVisible(show);
 }
 
@@ -801,7 +801,7 @@ void MainWindow::addCentralWidget(QWidget* widget, const QString& title)
 void MainWindow::showCentralWidget()
 {
     QAction* act = qobject_cast<QAction *>(sender());
-    QWidget* widget = qVariantValue<QWidget *>(act->data());
+    QWidget* widget = act->data().value<QWidget *>();
     centerStack->setCurrentWidget(widget);
 }
 
@@ -1017,7 +1017,7 @@ void MainWindow::saveScreen()
 
     if (!screenFileName.isEmpty())
     {
-        window.save(screenFileName, format.toAscii());
+        window.save(screenFileName, format.toLatin1());
     }
 }
 
@@ -1089,13 +1089,7 @@ void MainWindow::selectStylesheet()
 
     if (!styleFileName.endsWith(".css"))
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Information);
-        msgBox.setText(tr("QGroundControl did lot load a new style"));
-        msgBox.setInformativeText(tr("No suitable .css file selected. Please select a valid .css file."));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
+        showInfoMessage(tr("QGroundControl did lot load a new style"), tr("No suitable .css file selected. Please select a valid .css file."));
         return;
     }
 
@@ -1119,13 +1113,7 @@ void MainWindow::reloadStylesheet()
     }
     else
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Information);
-        msgBox.setText(tr("QGroundControl did lot load a new style"));
-        msgBox.setInformativeText(tr("Stylesheet file %1 was not readable").arg(styleFileName));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
+        showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(styleFileName));
     }
     delete styleSheet;
 }
@@ -1155,6 +1143,7 @@ void MainWindow::showStatusMessage(const QString& status)
 void MainWindow::showCriticalMessage(const QString& title, const QString& message)
 {
     QMessageBox msgBox(this);
+    msgBox.setWindowFlags(msgBox.windowFlags() | Qt::WindowStaysOnTopHint);
     msgBox.setIcon(QMessageBox::Critical);
     msgBox.setText(title);
     msgBox.setInformativeText(message);
@@ -1166,6 +1155,7 @@ void MainWindow::showCriticalMessage(const QString& title, const QString& messag
 void MainWindow::showInfoMessage(const QString& title, const QString& message)
 {
     QMessageBox msgBox(this);
+    msgBox.setWindowFlags(msgBox.windowFlags() | Qt::WindowStaysOnTopHint);
     msgBox.setIcon(QMessageBox::Information);
     msgBox.setText(title);
     msgBox.setInformativeText(message);
@@ -1285,13 +1275,7 @@ void MainWindow::showHelp()
 {
     if(!QDesktopServices::openUrl(QUrl("http://qgroundcontrol.org/users/start")))
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setText("Could not open help in browser");
-        msgBox.setInformativeText("To get to the online help, please open http://qgroundcontrol.org/user_guide in a browser.");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
+        showInfoMessage(tr("Could not open help in browser"), tr("To get to the online help, please open http://qgroundcontrol.org/user_guide in a browser."));
     }
 }
 
@@ -1299,13 +1283,7 @@ void MainWindow::showCredits()
 {
     if(!QDesktopServices::openUrl(QUrl("http://qgroundcontrol.org/credits")))
     {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setText("Could not open credits in browser");
-        msgBox.setInformativeText("To get to the online help, please open http://qgroundcontrol.org/credits in a browser.");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.exec();
+        showInfoMessage(tr("Could not open credits in browser"), tr("To get to the online help, please open http://qgroundcontrol.org/credits in a browser."));
     }
 }
 
