@@ -12,6 +12,7 @@ QWidget {
 QWidget:disabled {
 	color: #727272;
     border-color: #383838;
+	 background-color: #202020;
     etch-disabled-text: 0;
 }
 
@@ -216,7 +217,7 @@ QSpinBox:disabled,
 QDoubleSpinBox:disabled,
 QCheckBox::indicator:disabled {
     border-color: #383838;
-    background-color: #050508;
+	 background-color: #202020;
 }
 
 /* read-only text fields */
@@ -446,6 +447,9 @@ QProgressBar::chunk {
 	background-color: #3C7B9E;
 	border-radius: 3px;
 }
+QProgressBar::chunk:disabled {
+	background-color: #727272;
+}
 QProgressBar::chunk#batteryBar {
 	background-color: green;
 }
@@ -641,5 +645,15 @@ QLabel#label_chanValue_7 {
     color: #4CBBFF;
     font-weight: bold;
     font-size: 13px;
+}
+QLabel#label_chanValue_0:disabled,
+QLabel#label_chanValue_1:disabled,
+QLabel#label_chanValue_2:disabled,
+QLabel#label_chanValue_3:disabled,
+QLabel#label_chanValue_4:disabled,
+QLabel#label_chanValue_5:disabled,
+QLabel#label_chanValue_6:disabled,
+QLabel#label_chanValue_7:disabled {
+	color: #727272;
 }
 
