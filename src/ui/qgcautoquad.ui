@@ -125,38 +125,28 @@
             <widget class="QLabel" name="fileLabel"/>
            </item>
            <item>
-            <layout class="QFormLayout" name="formLayout_35">
+            <layout class="QGridLayout" name="gridLayout_17">
+             <property name="horizontalSpacing">
+              <number>0</number>
+             </property>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_fwPortSpeed">
+               <property name="text">
+                <string>Speed:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_fwPort">
+               <property name="text">
+                <string>Port:</string>
+               </property>
+              </widget>
+             </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_fwType">
                <property name="text">
                 <string>FW Type:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_29">
-               <item>
-                <widget class="QComboBox" name="comboBox_fwType">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Upload &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  firmware file via Serial connection (USB to serial adapter). Supported in all AutoQuad hardware when connected via serial port.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Native USB&lt;/span&gt;: Upload .bin file via DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Currently supported only on AQ M4.&lt;/span&gt; Choose this option if your AutoQuad is connected directly via USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;not&lt;/span&gt; a USB-to-serial adapter, and you have a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32&lt;/span&gt;: Flash ESC32 firmware &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  file via serial connection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QComboBox::AdjustToContents</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Port:</string>
                </property>
               </widget>
              </item>
@@ -173,14 +163,30 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_11">
+             <item row="1" column="2">
+              <widget class="QToolButton" name="toolButton_fwReloadPorts">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh ports list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
                <property name="text">
-                <string>Speed:</string>
+                <string>Reload Ports List</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../qgroundcontrol.qrc">
+                 <normaloff>:/files/images/actions/view-refresh.svg</normaloff>:/files/images/actions/view-refresh.svg</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>14</width>
+                 <height>14</height>
+                </size>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
+             <item row="2" column="1" colspan="2">
               <widget class="QComboBox" name="comboBox_fwPortSpeed">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -193,19 +199,35 @@
                </property>
               </widget>
              </item>
+             <item row="0" column="1" colspan="2">
+              <widget class="QComboBox" name="comboBox_fwType">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Upload &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt; or &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt; firmware file via serial connection. Supported in all AutoQuad hardware when connected via serial port (USB to serial adapter).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Native USB&lt;/span&gt;: Upload .bin file via DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Currently supported only on AQ M4.&lt;/span&gt; Choose this option if your AutoQuad is connected directly via USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;not&lt;/span&gt; a USB-to-serial adapter, and you have a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;   firmware file.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32&lt;/span&gt;: Flash ESC32 firmware &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt; file via serial connection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
             </layout>
-           </item>
-           <item>
-            <widget class="QLabel" name="ComPortLabel">
-             <property name="text">
-              <string>Com Port</string>
-             </property>
-            </widget>
            </item>
            <item>
             <widget class="QPushButton" name="flashButton">
              <property name="text">
               <string>Flash Firmware</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_fwFlashOutput">
+             <property name="text">
+              <string>Firmware Update Results:</string>
              </property>
             </widget>
            </item>
@@ -218,19 +240,6 @@
               </size>
              </property>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
           </layout>
          </widget>
@@ -6945,14 +6954,41 @@ padding: 1px 5px;</string>
                <number>7</number>
               </property>
               <item>
-               <widget class="QComboBox" name="comboBox_port_esc32">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_20">
+                <item>
+                 <widget class="QComboBox" name="comboBox_port_esc32">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="toolButton_esc32ReloadPorts">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh ports list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>Reload Ports List</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../qgroundcontrol.qrc">
+                    <normaloff>:/files/images/actions/view-refresh.svg</normaloff>:/files/images/actions/view-refresh.svg</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>14</width>
+                    <height>14</height>
+                   </size>
+                  </property>
+                  <property name="autoRaise">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <widget class="QComboBox" name="comboBox_esc32PortSpeed">
@@ -9291,9 +9327,9 @@ padding: 1px 5px;</string>
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="COMM_STREAM_TYP3"/>
-  <buttongroup name="COMM_STREAM_TYP4"/>
   <buttongroup name="COMM_STREAM_TYP1"/>
   <buttongroup name="COMM_STREAM_TYP2"/>
+  <buttongroup name="COMM_STREAM_TYP3"/>
+  <buttongroup name="COMM_STREAM_TYP4"/>
  </buttongroups>
 </ui>

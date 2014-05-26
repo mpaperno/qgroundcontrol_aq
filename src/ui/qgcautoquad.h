@@ -200,7 +200,7 @@ public:
 protected:
     Ui::QGCAutoquad *ui;
     UASInterface* uas;
-    SerialLink* seriallink;
+//    SerialLink* seriallink;
     QGCAQParamWidget* paramaq;
     AQEsc32 *esc32;
     AQPWMPortsConfig* aqPwmPortConfig;

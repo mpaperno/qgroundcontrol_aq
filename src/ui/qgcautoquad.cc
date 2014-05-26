@@ -16,6 +16,7 @@
 #include <QMessageBox>
 #include <QSignalMapper>
 #include <QStringList>
+#include <QSerialPortInfo>
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
@@ -175,7 +176,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // hide these permanently, for now... (possible future use for these)
     ui->checkBox_raw_value->hide();
-    ui->ComPortLabel->hide();
     ui->label_portName_esc32->hide();
 
     ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
@@ -212,6 +212,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->comboBox_fwType, SIGNAL(currentIndexChanged(int)), this, SLOT(fwTypeChange()));
+    connect(ui->toolButton_fwReloadPorts, SIGNAL(clicked()), this, SLOT(setupPortList()));
+    connect(ui->toolButton_esc32ReloadPorts, SIGNAL(clicked()), this, SLOT(setupPortList()));
     //connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
 
 //    connect(ui->comboBox_port_esc32, SIGNAL(editTextChanged(QString)), this, SLOT(setPortNameEsc32(QString)));
@@ -1193,11 +1195,12 @@ void QGCAutoquad::setPortNameEsc32(QString port)
 {
     Q_UNUSED(port);
 
-    portNameEsc32 = ui->comboBox_port_esc32->currentText();
-#ifdef Q_OS_WIN
-    portNameEsc32 = portNameEsc32.split("-").first();
-#endif
-    portNameEsc32 = portNameEsc32.remove(" ");
+    portNameEsc32 = ui->comboBox_port_esc32->itemData(ui->comboBox_port_esc32->currentIndex()).toString();
+//    portNameEsc32 = ui->comboBox_port_esc32->currentText();
+//#ifdef Q_OS_WIN
+//    portNameEsc32 = portNameEsc32.split("-").first();
+//#endif
+//    portNameEsc32 = portNameEsc32.remove(" ");
     QString portSpeed = ui->comboBox_esc32PortSpeed->currentText();
     ui->label_portName_esc32->setText(QString("%1 @ %2 bps").arg(portNameEsc32).arg(portSpeed));
     ui->comboBox_port_esc32->setToolTip(ui->comboBox_port_esc32->currentText());
@@ -1802,42 +1805,57 @@ void QGCAutoquad::setPortName(QString str)
 {
     Q_UNUSED(str);
 
-    portName = ui->portName->currentText();
-#ifdef Q_OS_WIN
-    portName = portName.split("-").first();
-#endif
-    portName = portName.remove(" ");
-    QString portSpeed = ui->comboBox_fwPortSpeed->currentText();
-    ui->ComPortLabel->setText(QString("%1 @ %2 bps").arg(portName).arg(portSpeed));
+    portName = ui->portName->itemData(ui->portName->currentIndex()).toString();
+//#ifdef Q_OS_WIN
+//    portName = portName.split("-").first();
+//#endif
+//    portName = portName.remove(" ");
+//    QString portSpeed = ui->comboBox_fwPortSpeed->currentText();
     ui->portName->setToolTip(ui->portName->currentText());
 }
 
 void QGCAutoquad::setupPortList()
 {
+    QString pdispname;
+    int cidxfw = ui->portName->currentIndex();
+    int cidxesc = ui->comboBox_port_esc32->currentIndex();
     ui->portName->clear();
-    ui->portName->clearEditText();
-
     ui->comboBox_port_esc32->clear();
-    ui->comboBox_port_esc32->clearEditText();
     // Get the ports available on this system
-    seriallink = new SerialLink();
-    QVector<QString>* ports = seriallink->getCurrentPorts();
-
-    // Add the ports in reverse order, because we prepend them to the list
-    for (int i = ports->size() - 1; i >= 0; --i)
-    {
-        // Prepend newly found port to the list
-        if (ui->portName->findText(ports->at(i)) == -1)
-        {
-            ui->portName->insertItem(0, ports->at(i));
-        }
-        if (ui->comboBox_port_esc32->findText(ports->at(i)) == -1)
-        {
-            ui->comboBox_port_esc32->insertItem(0, ports->at(i));
+    foreach (const QSerialPortInfo &p, QSerialPortInfo::availablePorts()) {
+        if (p.isValid()) {
+            pdispname = p.portName() + " - " + p.description();
+            ui->portName->addItem(pdispname, p.portName());
+            ui->comboBox_port_esc32->addItem(pdispname, p.portName());
         }
     }
-    ui->portName->setEditText(seriallink->getPortName());
-    ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
+    if (cidxfw < ui->portName->count())
+        ui->portName->setCurrentIndex(cidxfw);
+    else
+        ui->portName->setCurrentIndex(-1);
+
+    if (cidxesc < ui->comboBox_port_esc32->count())
+        ui->comboBox_port_esc32->setCurrentIndex(cidxesc);
+    else
+        ui->comboBox_port_esc32->setCurrentIndex(-1);
+//    SerialLink *seriallink = new SerialLink();
+//    QVector<QString>* ports = seriallink->getCurrentPorts();
+
+//    // Add the ports in reverse order, because we prepend them to the list
+//    for (int i = ports->size() - 1; i >= 0; --i)
+//    {
+//        // Prepend newly found port to the list
+//        if (ui->portName->findText(ports->at(i)) == -1)
+//        {
+//            ui->portName->insertItem(0, ports->at(i));
+//        }
+//        if (ui->comboBox_port_esc32->findText(ports->at(i)) == -1)
+//        {
+//            ui->comboBox_port_esc32->insertItem(0, ports->at(i));
+//        }
+//    }
+//    ui->portName->setEditText(seriallink->getPortName());
+//    ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
 }
 
 void QGCAutoquad::setFwType() {
@@ -1854,6 +1872,8 @@ void QGCAutoquad::fwTypeChange() {
     bool en = ui->comboBox_fwType->itemData(ui->comboBox_fwType->currentIndex()).toString() != "dfu";
     ui->comboBox_fwPortSpeed->setEnabled(en);
     ui->portName->setEnabled(en);
+    ui->label_fwPort->setEnabled(en);
+    ui->label_fwPortSpeed->setEnabled(en);
 }
 
 void QGCAutoquad::selectFWToFlash()
@@ -1914,6 +1934,12 @@ void QGCAutoquad::flashFW()
                   "You may see an error message at the end of the flash utility output messages, which can be ignored. In this case, simply restart AQ manually.\n\n");
 #endif
     } else { // aq and esc serial flash
+
+        if (!portName.length()) {
+            MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please select an available COM port."));
+            return;
+        }
+
         if (fwtype == "aq")
             msg += tr("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.\n\n");
         else
@@ -1966,7 +1992,7 @@ void QGCAutoquad::flashFwDfu()
     QStringList Arguments;
     Arguments.append("-a 0"); // alt 0 is start of internal flash
     Arguments.append("-d 0483:df11" );  // device ident stm32
-    Arguments.append("-s 0x08000000");  // start address
+    Arguments.append("-s 0x08000000:leave");  // start address
     //Arguments.append("-v");  // verbose
     Arguments.append("-R"); // reset after upload
     Arguments.append("-D" + QDir::toNativeSeparators(ui->fileLabel->text()));  // fw file, no space after -D or breaks on Win
@@ -1982,7 +2008,7 @@ void QGCAutoquad::flashFwDfu()
 void QGCAutoquad::radioType_changed(int idx) {
     emit hardwareInfoUpdated();
 
-    if (ui->RADIO_TYPE->currentText() == "PPM") {
+    if (ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt() == 3) { // PPM
         ui->groupBox_ppmOptions->show();
         ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     } else {
