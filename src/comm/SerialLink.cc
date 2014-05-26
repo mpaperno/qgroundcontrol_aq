@@ -473,21 +473,16 @@ void SerialLink::writeBytes(const char* data, qint64 size)
 {
     if (!validateConnection())
         return;
-//    if(port && port->isOpen() && port->isWritable()) {
-        int b = port->write(data, size);
+    int b = port->write(data, size);
 
-        if (b > 0) {
-            // Increase write counter
-            bitsSentTotal += b * 8;
-            qDebug() << "Serial link " << this->getName() << "transmitted" << b << "bytes:";
-        } else if (b == -1) {
-            emit portError();
-            emit communicationError(this->getName(), tr("Could not send data - error on link %1: %2").arg(this->getName()).arg(port->errorString()));
-        }
-//    } else {
-//        this->disconnect();
-//        emit communicationError(this->getName(), tr("Could not send data - link %1 is disconnected!").arg(this->getName()));
-//    }
+    if (b > 0) {
+        // Increase write counter
+        bitsSentTotal += b * 8;
+        //qDebug() << "Serial link " << this->getName() << "transmitted" << b << "bytes:";
+    } else if (b == -1) {
+        emit portError();
+        emit communicationError(this->getName(), tr("Could not send data - error on link %1: %2").arg(this->getName()).arg(port->errorString()));
+    }
 }
 
 /**
@@ -745,26 +740,23 @@ bool SerialLink::hardwareConnect()
         QSerialPortInfo pi(this->porthandle);
         port->setPort(pi);
 
-        if (port->open(portSettings.openMode)) {
+        if (!port->setBaudRate(portSettings.baudRate))
+            err = tr("Failed to set Baud Rate to %1 with error: %2").arg((quint64)portSettings.baudRate).arg(port->errorString());
 
-            if (!port->setBaudRate(portSettings.baudRate))
-                err = tr("Failed to set Baud Rate to %1 with error: %2").arg((quint64)portSettings.baudRate).arg(port->errorString());
+        else if (!port->setDataBits(portSettings.dataBits))
+            err = tr("Failed to set Data Bits to %1 with error: %2").arg((int)portSettings.dataBits).arg(port->errorString());
 
-            if (!port->setDataBits(portSettings.dataBits))
-                err = tr("Failed to set Data Bits to %1 with error: %2").arg((int)portSettings.dataBits).arg(port->errorString());
+        else if (!port->setParity(portSettings.parity))
+            err = tr("Failed to set Parity to %1 with error: %2").arg((int)portSettings.parity).arg(port->errorString());
 
-            if (!port->setParity(portSettings.parity))
-                err = tr("Failed to set Parity to %1 with error: %2").arg((int)portSettings.parity).arg(port->errorString());
+        else if (!port->setStopBits(portSettings.stopBits))
+            err = tr("Failed to set Stop Bits to %1 with error: %2").arg((int)portSettings.stopBits).arg(port->errorString());
 
-            if (!port->setStopBits(portSettings.stopBits))
-                err = tr("Failed to set Stop Bits to %1 with error: %2").arg((int)portSettings.stopBits).arg(port->errorString());
+        else if (!port->setFlowControl(portSettings.flowControl))
+            err = tr("Failed to set Flow Control to %1 with error: %2").arg((int)portSettings.flowControl).arg(port->errorString());
 
-            if (!port->setFlowControl(portSettings.flowControl))
-                err = tr("Failed to set Flow Control to %1 with error: %2").arg((int)portSettings.flowControl).arg(port->errorString());
-
-        } else {
+        else if (!port->open(portSettings.openMode))
             err = tr("Failed to open serial port %1 with error: %2 (%3)").arg(this->porthandle).arg(port->errorString()).arg(port->error());
-        }
     }
 
     if (err.length()) {

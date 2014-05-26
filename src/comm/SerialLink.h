@@ -37,7 +37,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QMutex>
 #include <QString>
 #include <QSerialPort>
-#include <QWaitCondition>
+//#include <QWaitCondition>
 
 //#include "qserialport.h"
 #include "../configuration.h"
@@ -240,7 +240,7 @@ protected:
 private:
 	volatile bool m_stopp;
 	QMutex m_stoppMutex;
-    QWaitCondition m_waitCond;
+//    QWaitCondition m_waitCond;
 
     void setName(QString name);
     bool hardwareConnect();
