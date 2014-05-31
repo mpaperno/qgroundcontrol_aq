@@ -1,0 +1,3 @@
+[submodule "libs/thirdParty/qextserialport"]
+	path = libs/thirdParty/qextserialport
+	url = https://code.google.com/p/qextserialport/
