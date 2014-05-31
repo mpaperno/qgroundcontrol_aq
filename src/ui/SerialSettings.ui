@@ -39,13 +39,7 @@
    <item row="0" column="1">
     <widget class="QComboBox" name="portName">
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The serial port to which the system is connected. All ports listed here should work.&lt;/p&gt;&lt;p&gt;If the selector turns &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;red&lt;/span&gt;, that means the currently selected port is not available.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="statusTip">
-      <string>The serial port to which the system is connected. All ports listed here should work.</string>
-     </property>
-     <property name="whatsThis">
-      <string>The serial port to which the system is connected. All ports listed here should work.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The serial port to which the system is connected. All ports listed here should work, unless marked INVALID (this can happen if a port has been removed from the system after this dialog was first used).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="editable">
       <bool>true</bool>
@@ -71,13 +65,7 @@
    <item row="1" column="1">
     <widget class="QComboBox" name="baudRate">
      <property name="toolTip">
-      <string>The data transmission rate. If unsure 57600 and 115200 are very common rates.</string>
-     </property>
-     <property name="statusTip">
-      <string>The data transmission rate. If unsure 57600 and 115200 are very common rates.</string>
-     </property>
-     <property name="whatsThis">
-      <string>The data transmission rate. If unsure 57600 and 115200 are very common rates.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data transmission rate. If unsure 57600 and 115200 are very common rates.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="editable">
       <bool>false</bool>
@@ -226,9 +214,6 @@
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
-       <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
        <property name="text">
         <string>None</string>
        </property>
@@ -242,9 +227,6 @@
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
-       <property name="whatsThis">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
        <property name="text">
         <string>HW</string>
        </property>
@@ -256,9 +238,6 @@
      <item>
       <widget class="QRadioButton" name="flowControl_sw">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
@@ -285,12 +264,6 @@
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the parity. In most cases no parity (None) is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
-       <property name="statusTip">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
-       <property name="whatsThis">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
        <property name="text">
         <string>None</string>
        </property>
@@ -307,12 +280,6 @@
        <property name="toolTip">
         <string>Set the parity. In most cases no parity (None) is used.</string>
        </property>
-       <property name="statusTip">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
-       <property name="whatsThis">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
        <property name="text">
         <string>Odd</string>
        </property>
@@ -324,12 +291,6 @@
      <item>
       <widget class="QRadioButton" name="parEven">
        <property name="toolTip">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
-       <property name="statusTip">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
-       <property name="whatsThis">
         <string>Set the parity. In most cases no parity (None) is used.</string>
        </property>
        <property name="text">
@@ -353,9 +314,6 @@
     <widget class="QComboBox" name="dataBitsCombo">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of data bits per symbol. This is almost always 8.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="statusTip">
-      <string>Number of data bits per symbol. This is almost always 8.</string>
      </property>
      <property name="editable">
       <bool>true</bool>
@@ -396,9 +354,6 @@
     <widget class="QComboBox" name="stopBitsCombo">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of stop bits per symbol. This is almost always 2.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="statusTip">
-      <string>Number of stop bits per symbol. This is almost always 2.</string>
      </property>
      <property name="editable">
       <bool>true</bool>

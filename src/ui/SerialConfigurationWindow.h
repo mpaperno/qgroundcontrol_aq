@@ -44,6 +44,8 @@ This file is part of the QGROUNDCONTROL project
 #include <SerialLinkInterface.h>
 #include "ui_SerialSettings.h"
 
+class QextSerialEnumerator;
+
 class SerialConfigurationWindow : public QWidget
 {
     Q_OBJECT
@@ -80,9 +82,9 @@ private:
 
     Ui::serialSettings ui;
     SerialLinkInterface* link;
+    QextSerialEnumerator *portEnumerator;
     QAction* action;
-    QTimer* portCheckTimer;
-    bool mtx_portListUpdating;
+    //QTimer* portCheckTimer;
 
 };
 

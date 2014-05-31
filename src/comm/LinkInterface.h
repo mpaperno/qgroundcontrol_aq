@@ -181,6 +181,11 @@ public:
      **/
     virtual qint64 bytesAvailable() = 0;
 
+    /**
+     * @brief Informs the link manager that a loss of link is expected (don't emit error)
+     **/
+    virtual void linkLossExpected(const bool yes) { Q_UNUSED(yes) }
+
 public slots:
 
     /**

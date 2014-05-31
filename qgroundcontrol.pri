@@ -383,7 +383,7 @@ win32-msvc2008|win32-msvc2010 {
 
         # Copy supporting library DLLs
         QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\mavlink" "$$TARGETDIR_WIN\\mavlink" /E /I $$escape_expand(\\n))
+#        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\mavlink" "$$TARGETDIR_WIN\\mavlink" /E /I $$escape_expand(\\n))
 		  #QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 
         # Copy application resources
@@ -391,14 +391,21 @@ win32-msvc2008|win32-msvc2010 {
 #	QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\models" "$$TARGETDIR_WIN\\models" /E /I $$escape_expand(\\n))
 
         # Copy Qt DLLs
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins" "$$TARGETDIR_WIN" /E /I $$escape_expand(\\n))
+#        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins" "$$TARGETDIR_WIN" /E /I $$escape_expand(\\n))
 #        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\phonon$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins\\imageformats\\*$${QTLIBDLLSFX}" "$$TARGETDIR_WIN\\imageformats" /E /I $$escape_expand(\\n))
+		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins\\iconengines\\*$${QTLIBDLLSFX}" "$$TARGETDIR_WIN\\iconengines" /E /I $$escape_expand(\\n))
+		  # clean up plugin dll debug versions if not needed
+		  CONFIG(release, debug|release) {
+				QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\imageformats\\*d4.dll" $$escape_expand(\\n))
+				QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\iconengines\\*d4.dll" $$escape_expand(\\n))
+		  }
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Core$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Gui$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Multimedia$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Network$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}OpenGL$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}SerialPort$$replace(QTLIBDLLSFX,4,)" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+#		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}SerialPort$$replace(QTLIBDLLSFX,4,)" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Sql$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Svg$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Test$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
@@ -417,85 +424,4 @@ win32-msvc2008|win32-msvc2010 {
                 QMAKE_POST_LINK += $$quote(xcopy /D /Y "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\*.dll\""  "$$TARGETDIR_WIN\\"$$escape_expand(\\n))
             }
 	}
-}
-
-# Windows (32bit)
-win32-g++ {
-
-	message(Building for Windows Platform (32bit))
-
-	# Special settings for debug
-	CONFIG += CONSOLE
-	OUTPUT += CONSOLE
-
-	# The EIGEN library needs this define
-	# to make the internal min/max functions work
-	DEFINES += NOMINMAX
-
-	INCLUDEPATH += $$BASEDIR/libs/lib/sdl/include \
-				$$BASEDIR/libs/lib/opal/include
-
-	LIBS += -L$$BASEDIR/libs/lib/sdl/win32 \
-			-lmingw32 -lSDLmain -lSDL -mwindows \
-			-lsetupapi
-
-	CONFIG += windows
-
-
-
-	debug {
-		CONFIG += console
-	}
-
-	release {
-		CONFIG -= console
-		DEFINES += QT_NO_DEBUG
-	}
-
-	RC_FILE = $$BASEDIR/qgroundcontrol.rc
-
-	# Copy dependencies
-
-	system(cp): {
-		# CP command is available, use it instead of copy / xcopy
-		message("Using cp to copy image and audio files to executable")
-		debug {
-			QMAKE_POST_LINK += && cp $$BASEDIR/libs/lib/sdl/win32/SDL.dll $$TARGETDIR/debug/SDL.dll
-			QMAKE_POST_LINK += && cp -r $$BASEDIR/files $$TARGETDIR/debug/files
-                        QMAKE_POST_LINK += && cp -r $$BASEDIR/libs/mavlink $$TARGETDIR/debug/mavlink
-			QMAKE_POST_LINK += && cp -r $$BASEDIR/models $$TARGETDIR/debug/models
-		}
-
-		release {
-			QMAKE_POST_LINK += && cp $$BASEDIR/libs/lib/sdl/win32/SDL.dll $$TARGETDIR/release/SDL.dll
-			QMAKE_POST_LINK += && cp -r $$BASEDIR/files $$TARGETDIR/release/files
-                        QMAKE_POST_LINK += && cp -r $$BASEDIR/libs/mavlink $$TARGETDIR/release/mavlink
-			QMAKE_POST_LINK += && cp -r $$BASEDIR/models $$TARGETDIR/release/models
-		}
-
-	} else {
-		# No cp command available, go for copy / xcopy
-		# Copy dependencies
-		BASEDIR_WIN = $$replace(BASEDIR,"/","\\")
-		TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")
-
-		exists($$TARGETDIR/debug) {
-			QMAKE_POST_LINK += && copy /Y \"$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll\" \"$$TARGETDIR_WIN\\debug\\SDL.dll\"
-			QMAKE_POST_LINK += && xcopy \"$$BASEDIR_WIN\\files\" \"$$TARGETDIR_WIN\\debug\\files\\\" /S /E /Y
-			QMAKE_POST_LINK += && xcopy \"$$BASEDIR_WIN\\libs\\mavlink\" \"$$TARGETDIR_WIN\\debug\\mavlink\\\" /S /E /Y
-			QMAKE_POST_LINK += && xcopy \"$$BASEDIR_WIN\\models\" \"$$TARGETDIR_WIN\\debug\\models\\\" /S /E /Y
-		}
-
-		exists($$TARGETDIR/release) {
-			QMAKE_POST_LINK += && copy /Y \"$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll\" \"$$TARGETDIR_WIN\\release\\SDL.dll\"
-			QMAKE_POST_LINK += && xcopy \"$$BASEDIR_WIN\\files\" \"$$TARGETDIR_WIN\\release\\files\\\" /S /E /Y
-			QMAKE_POST_LINK += && xcopy \"$$BASEDIR_WIN\\libs\\mavlink\" \"$$TARGETDIR_WIN\\release\\mavlink\\\" /S /E /Y
-			QMAKE_POST_LINK += && xcopy \"$$BASEDIR_WIN\\models\" \"$$TARGETDIR_WIN\\release\\models\\\" /S /E /Y
-		}
-
-	}
-
-	# osg/osgEarth dynamic casts might fail without this compiler option.
-	# see http://osgearth.org/wiki/FAQ for details.
-	QMAKE_CXXFLAGS += -Wl,-E
 }

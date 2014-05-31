@@ -127,65 +127,8 @@
            <item>
             <layout class="QGridLayout" name="gridLayout_17">
              <property name="horizontalSpacing">
-              <number>0</number>
+              <number>4</number>
              </property>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_fwPortSpeed">
-               <property name="text">
-                <string>Speed:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_fwPort">
-               <property name="text">
-                <string>Port:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_fwType">
-               <property name="text">
-                <string>FW Type:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QComboBox" name="portName">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="sizeAdjustPolicy">
-                <enum>QComboBox::AdjustToContents</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QToolButton" name="toolButton_fwReloadPorts">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh ports list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Reload Ports List</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../../qgroundcontrol.qrc">
-                 <normaloff>:/files/images/actions/view-refresh.svg</normaloff>:/files/images/actions/view-refresh.svg</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>14</width>
-                 <height>14</height>
-                </size>
-               </property>
-               <property name="autoRaise">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
              <item row="2" column="1" colspan="2">
               <widget class="QComboBox" name="comboBox_fwPortSpeed">
                <property name="sizePolicy">
@@ -196,6 +139,13 @@
                </property>
                <property name="sizeAdjustPolicy">
                 <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_fwType">
+               <property name="text">
+                <string>FW Type:</string>
                </property>
               </widget>
              </item>
@@ -214,6 +164,72 @@
                 <enum>QComboBox::AdjustToContents</enum>
                </property>
               </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_fwPort">
+               <property name="text">
+                <string>Port:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_fwPortSpeed">
+               <property name="text">
+                <string>Speed:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_29">
+               <property name="spacing">
+                <number>1</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QComboBox" name="portName">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="sizeAdjustPolicy">
+                  <enum>QComboBox::AdjustToContents</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_fwReloadPorts">
+                 <property name="maximumSize">
+                  <size>
+                   <width>18</width>
+                   <height>18</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh ports list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>Reload Ports List</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../qgroundcontrol.qrc">
+                   <normaloff>:/files/images/actions/view-refresh.svg</normaloff>:/files/images/actions/view-refresh.svg</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>12</width>
+                   <height>12</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </item>
@@ -6955,6 +6971,9 @@ padding: 1px 5px;</string>
               </property>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_20">
+                <property name="spacing">
+                 <number>1</number>
+                </property>
                 <item>
                  <widget class="QComboBox" name="comboBox_port_esc32">
                   <property name="sizePolicy">
@@ -6967,6 +6986,12 @@ padding: 1px 5px;</string>
                 </item>
                 <item>
                  <widget class="QToolButton" name="toolButton_esc32ReloadPorts">
+                  <property name="maximumSize">
+                   <size>
+                    <width>18</width>
+                    <height>18</height>
+                   </size>
+                  </property>
                   <property name="toolTip">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh ports list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
@@ -6979,8 +7004,8 @@ padding: 1px 5px;</string>
                   </property>
                   <property name="iconSize">
                    <size>
-                    <width>14</width>
-                    <height>14</height>
+                    <width>12</width>
+                    <height>12</height>
                    </size>
                   </property>
                   <property name="autoRaise">

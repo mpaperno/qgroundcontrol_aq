@@ -16,7 +16,8 @@
 #include <QMessageBox>
 #include <QSignalMapper>
 #include <QStringList>
-#include <QSerialPortInfo>
+
+#include "qextserialenumerator.h"
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
@@ -1817,45 +1818,20 @@ void QGCAutoquad::setPortName(QString str)
 void QGCAutoquad::setupPortList()
 {
     QString pdispname;
-    int cidxfw = ui->portName->currentIndex();
-    int cidxesc = ui->comboBox_port_esc32->currentIndex();
+    QString cidxfw = ui->portName->currentText();
+    QString cidxesc = ui->comboBox_port_esc32->currentText();
     ui->portName->clear();
     ui->comboBox_port_esc32->clear();
     // Get the ports available on this system
-    foreach (const QSerialPortInfo &p, QSerialPortInfo::availablePorts()) {
-        if (p.isValid()) {
-            pdispname = p.portName() + " - " + p.description();
-            ui->portName->addItem(pdispname, p.portName());
-            ui->comboBox_port_esc32->addItem(pdispname, p.portName());
-        }
+    foreach (const QextPortInfo &p, QextSerialEnumerator::getPorts()) {
+        if (!p.portName.length())
+            continue;
+        pdispname = p.portName + " - " + p.friendName.split("(").first();
+        ui->portName->addItem(pdispname, p.portName);
+        ui->comboBox_port_esc32->addItem(pdispname, p.portName);
     }
-    if (cidxfw < ui->portName->count())
-        ui->portName->setCurrentIndex(cidxfw);
-    else
-        ui->portName->setCurrentIndex(-1);
-
-    if (cidxesc < ui->comboBox_port_esc32->count())
-        ui->comboBox_port_esc32->setCurrentIndex(cidxesc);
-    else
-        ui->comboBox_port_esc32->setCurrentIndex(-1);
-//    SerialLink *seriallink = new SerialLink();
-//    QVector<QString>* ports = seriallink->getCurrentPorts();
-
-//    // Add the ports in reverse order, because we prepend them to the list
-//    for (int i = ports->size() - 1; i >= 0; --i)
-//    {
-//        // Prepend newly found port to the list
-//        if (ui->portName->findText(ports->at(i)) == -1)
-//        {
-//            ui->portName->insertItem(0, ports->at(i));
-//        }
-//        if (ui->comboBox_port_esc32->findText(ports->at(i)) == -1)
-//        {
-//            ui->comboBox_port_esc32->insertItem(0, ports->at(i));
-//        }
-//    }
-//    ui->portName->setEditText(seriallink->getPortName());
-//    ui->comboBox_port_esc32->setEditText(seriallink->getPortName());
+    ui->portName->setCurrentIndex(ui->portName->findText(cidxfw));
+    ui->comboBox_port_esc32->setCurrentIndex(ui->comboBox_port_esc32->findText(cidxesc));
 }
 
 void QGCAutoquad::setFwType() {
@@ -1920,9 +1896,6 @@ void QGCAutoquad::flashFW()
     QString fwtype = ui->comboBox_fwType->itemData(ui->comboBox_fwType->currentIndex()).toString();
     QString msg = "";
 
-    if ( checkAqSerialConnection(portName) )
-        msg = tr("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected and then re-connected afterwards.\n\n");
-
     if (fwtype == "dfu") {
         msg += tr("Make sure your AQ is connected via USB and is already in bootloader mode.  To enter bootloader mode,"
                   "first connect the BOOT pins (or hold the BOOT button) and then turn the AQ on.\n\n");
@@ -1939,6 +1912,9 @@ void QGCAutoquad::flashFW()
             MainWindow::instance()->showCriticalMessage(tr("Error!"), tr("Please select an available COM port."));
             return;
         }
+
+        if ( checkAqSerialConnection(portName) )
+            msg = tr("WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected and then re-connected afterwards.\n\n");
 
         if (fwtype == "aq")
             msg += tr("WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.\n\n");
@@ -2626,7 +2602,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
         if (restartAfterParamSave) {
             MainWindow::instance()->showStatusMessage(tr("Restarting flight controller..."), 4000);
-            QTimer::singleShot(3000, paramaq, SLOT(restartUas()));
+            QTimer::singleShot(2000, paramaq, SLOT(restartUas()));
         }
 
         return true;

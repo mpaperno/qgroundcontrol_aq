@@ -36,16 +36,12 @@ This file is part of the QGROUNDCONTROL project
 #include <QThread>
 #include <QMutex>
 #include <QString>
-#include <QSerialPort>
-//#include <QWaitCondition>
 
-//#include "qserialport.h"
 #include "../configuration.h"
 #include "SerialLinkInterface.h"
-//#ifdef _WIN32
-//#include "windows.h"
-//#endif
 
+#include "qextserialport.h"
+#include "qextserialenumerator.h"
 
 /**
  * @brief The SerialLink class provides cross-platform access to serial links.
@@ -62,60 +58,6 @@ class SerialLink : public SerialLinkInterface
 
 public:
 
-    enum BaudRate {
-#if defined(Q_OS_UNIX) || defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
-        Baud50 = 50,
-        Baud75 = 75,
-        Baud134 = 134,
-        Baud150 = 150,
-        Baud200 = 200,
-        Baud1800 = 1800,
-#endif
-#if defined(Q_OS_WIN32) || defined(Q_OS_WINCE)
-        Baud14400 = 14400,
-        Baud56000 = 56000,
-        Baud128000 = 128000,
-        Baud256000 = 256000,
-#endif
-        Baud1200 = 1200,
-        Baud2400 = 2400,
-        Baud4800 = 4800,
-        Baud9600 = 9600,
-        Baud19200 = 19200,
-        Baud38400 = 38400,
-        Baud57600 = 57600,
-        Baud115200 = 115200,
-        Baud230400 = 230400,
-        Baud460800 = 460800,
-        Baud500000 = 500000,
-        Baud576000 = 576000,
-        Baud921600 = 921600
-    };
-
-    /**
-     * structure to contain port settings
-     */
-    struct PortSettings
-    {
-        QString portName;
-        BaudRate baudRate;
-        QSerialPort::DataBits dataBits;
-        QSerialPort::Parity parity;
-        QSerialPort::StopBits stopBits;
-        QSerialPort::FlowControl flowControl;
-        QIODevice::OpenMode openMode;
-        //long timeout_millis;
-
-        PortSettings() :
-            portName(QString()),
-            baudRate(Baud57600),
-            dataBits(QSerialPort::Data8),
-            parity(QSerialPort::NoParity),
-            stopBits(QSerialPort::OneStop),
-            flowControl(QSerialPort::NoFlowControl),
-            openMode(QIODevice::ReadWrite) {}
-    };
-
     SerialLink(QString portname = "",
                int baudrate=57600,
                bool flow=false,
@@ -125,10 +67,7 @@ public:
     ~SerialLink();
 
     static const int poll_interval = SERIAL_POLL_INTERVAL;  ///< ms to sleep between run() loops, defined in configuration.h
-    static const int readywait_interval = 1000;             ///< ms to wait for readyRead signal within run() loop (blocks this thread)
-
-    /** @brief Get a list of the currently available ports */
-    QVector<QString>* getCurrentPorts();
+    static const int reconnect_wait_timeout = 10 * 1000;  ///< ms to wait for an automatic reconnection attempt
 
     bool isConnected();
     bool isPortValid(const QString &pname);
@@ -144,8 +83,6 @@ public:
      */
     QString getName();
     int getBaudRate();
-    int getDataBits();
-    int getStopBits();
 
     // ENUM values
     int getBaudRateType();
@@ -174,24 +111,28 @@ public:
     bool isFullDuplex();
     int getId();
     //unsigned char read();
+    void linkLossExpected(const bool yes);
 
 public slots:
+    /** @brief Get a list of the currently available ports */
+    QVector<QString>* getCurrentPorts();
+
     bool setPortName(QString portName);
     bool setBaudRate(int rate);
+    bool setTimeoutMillis(const long &ms);
 
     // Set string rate
     bool setBaudRateString(const QString& rate);
 
     // Set ENUM values
-//    bool setBaudRateType(int rateIndex);
     bool setFlowType(int flow);
     bool setParityType(int parity);
     bool setDataBitsType(int dataBits);
     bool setStopBitsType(int stopBits);
 
     void readBytes();
-//    TNX::QSerialPort *getPort();
-    QSerialPort *getPort();
+
+    QextSerialPort *getPort();
     void setEsc32Mode(bool mode);
     bool getEsc32Mode();
     void readEsc32Tele();
@@ -208,20 +149,16 @@ public slots:
 protected slots:
 //    void checkForBytes();
     bool validateConnection();
-    void handleError(QSerialPort::SerialPortError error);
+    void deviceRemoved(const QextPortInfo &pi);
+    void deviceDiscovered(const QextPortInfo &pi);
 
 protected:
-    QSerialPort * port;
+    QextSerialPort * port;
     PortSettings portSettings;
-//    TNX::QSerialPort * port;
-//    TNX::QPortSettings portSettings;
-//#ifdef _WIN32
-//    HANDLE winPort;
-//    DCB winPortSettings;
-//#endif
+    QIODevice::OpenMode portOpenMode;
+    QextSerialEnumerator *portEnumerator;
     QString porthandle;
     QString name;
-    int timeout;
     int id;
 
     quint64 bitsSentTotal;
@@ -236,15 +173,17 @@ protected:
     QMutex statisticsMutex;
     QMutex dataMutex;
     QVector<QString>* ports;
+    quint64 waitingToReconnect;  // msec while waiting to reconnect automatically, zero if not waiting
+    bool m_linkLossExpected;
 
 private:
 	volatile bool m_stopp;
-	QMutex m_stoppMutex;
-//    QWaitCondition m_waitCond;
+    QMutex m_stoppMutex;
 
     void setName(QString name);
     bool hardwareConnect();
-    bool mode_port;
+
+    bool mode_port;  // esc32 mode
     //char SerialIn[1];
     int countRetry;
     int maxLength;

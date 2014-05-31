@@ -13,7 +13,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <QMutexLocker>
-#include <QSerialPortInfo>
+//#include <QSerialPortInfo>
 
 #include "SerialLink.h"
 #include "LinkManager.h"
@@ -217,7 +217,7 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
                        int dataBits, int stopBits) :
     port(0),
     portSettings(PortSettings()),
-    ports(new QVector<QString>()),
+    portOpenMode(QIODevice::ReadWrite),
     bitsSentTotal(0),
     bitsSentShortTerm(0),
     bitsSentCurrent(0),
@@ -227,6 +227,9 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     bitsReceivedCurrent(0),
     bitsReceivedMax(0),
     connectionStartTime(0),
+    ports(new QVector<QString>()),
+    waitingToReconnect(0),
+    m_linkLossExpected(false),
     m_stopp(false),
     mode_port(false),
     countRetry(0),
@@ -235,13 +238,19 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     cols(0),
     firstRead(0)
 {
-    //port = new QSerialPort();
+    portEnumerator = new QextSerialEnumerator();
+    portEnumerator->setUpNotifications();
+    QObject::connect(portEnumerator, SIGNAL(deviceDiscovered(const QextPortInfo &)), this, SLOT(deviceDiscovered(const QextPortInfo &)));
+    QObject::connect(portEnumerator, SIGNAL(deviceRemoved(const QextPortInfo &)), this, SLOT(deviceRemoved(const QextPortInfo &)));
+
+    getCurrentPorts();
 
     // Setup settings
     this->porthandle = portname.trimmed();
-    QVector<QString> *cp = getCurrentPorts();
-    if ((this->porthandle == "" || !cp->contains(porthandle)) && cp->size() > 0)
-        this->porthandle = getCurrentPorts()->first().trimmed();
+    if (!ports->contains(porthandle))
+        porthandle = "";
+    if (this->porthandle == "" && ports->size() > 0)
+        this->porthandle = ports->first();
 
 /*
 //#ifdef _WIN32
@@ -257,19 +266,24 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     // Set unique ID and add link to the list of links
     this->id = getNextLinkId();
 
-    int par = parity ? (int)QSerialPort::EvenParity : (int)QSerialPort::NoParity;
-    int fc = hardwareFlowControl ? (int)QSerialPort::HardwareControl : (int)QSerialPort::NoFlowControl;
+    int par = parity ? (int)PAR_EVEN : (int)PAR_NONE;
+    int fc = hardwareFlowControl ? (int)FLOW_HARDWARE : (int)FLOW_OFF;
 
     setBaudRate(baudRate);
     setFlowType(fc);
     setParityType(par);
     setDataBitsType(dataBits);
     setStopBitsType(stopBits);
+
+    setTimeoutMillis(10);
+
     // Set the port name
     name = this->porthandle.length() ? this->porthandle : tr("Serial Link ") + QString::number(getId());
 
     if (name == this->porthandle || name == "")
         loadSettings();
+
+    QObject::connect(this, SIGNAL(portError()), this, SLOT(disconnect()));
 
 }
 
@@ -287,19 +301,9 @@ SerialLink::~SerialLink()
 QVector<QString>* SerialLink::getCurrentPorts()
 {
     ports->clear();
-    foreach (const QSerialPortInfo &p, QSerialPortInfo::availablePorts()) {
-        if (p.isValid())
-            ports->append(p.portName()  + " - " + p.description());
-
-//        qDebug() << p.portName()
-//             << p.description()
-//             << p.manufacturer()
-//             << p.serialNumber()
-//             << p.systemLocation()
-//             << QString::number(p.vendorIdentifier(), 16)
-//             << QString::number(p.productIdentifier(), 16)
-//             << p.isBusy() << p.isNull() << p.isValid();
-
+    foreach (const QextPortInfo &p, portEnumerator->getPorts()) {
+        ports->append(p.portName);//  + " - " + p.friendName);
+//        qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
     }
 /* old Linux and Mac code
 //#ifdef __linux
@@ -385,8 +389,8 @@ void SerialLink::writeSettings()
     settings.setValue("SERIALLINK_COMM_PORT", getPortName());
     settings.setValue("SERIALLINK_COMM_BAUD", getBaudRateType());
     settings.setValue("SERIALLINK_COMM_PARITY", getParityType());
-    settings.setValue("SERIALLINK_COMM_STOPBITS", getStopBits());
-    settings.setValue("SERIALLINK_COMM_DATABITS", getDataBits());
+    settings.setValue("SERIALLINK_COMM_STOPBITS", getStopBitsType());
+    settings.setValue("SERIALLINK_COMM_DATABITS", getDataBitsType());
     settings.setValue("SERIALLINK_COMM_FLOW_CONTROL", getFlowType());
     settings.sync();
 }
@@ -411,8 +415,8 @@ void SerialLink::run()
             break;
         }
 
-        port->waitForReadyRead(SerialLink::readywait_interval);
-        //this->readBytes();
+        //port->waitForReadyRead(SerialLink::readywait_interval);
+        this->readBytes();
 
         // Serial data isn't arriving that fast normally, this saves the thread
         // from consuming too much processing time
@@ -423,51 +427,53 @@ void SerialLink::run()
 }
 
 bool SerialLink::validateConnection() {
-    bool ok = this->isConnected(); // && (!port->error() || port->error() == QSerialPort::TimeoutError)
-    if (ok && (portSettings.openMode & QSerialPort::ReadOnly) && !port->isReadable())
+    bool ok = this->isConnected() && !port->lastError(); // && (!port->error() || port->error() == QSerialPort::TimeoutError)
+    if (ok && (portOpenMode & QIODevice::ReadOnly) && !port->isReadable())
         ok = false;
-    if (ok && (portSettings.openMode & QSerialPort::WriteOnly) && !port->isWritable())
+    if (ok && (portOpenMode & QIODevice::WriteOnly) && !port->isWritable())
         ok = false;
     if(!ok) {
         emit portError();
         emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
-        qWarning() << __FILE__ << __LINE__ << ok << port->error() << port->errorString();
+        //qWarning() << __FILE__ << __LINE__ << ok << port->lastError() << port->errorString();
         //this->disconnect();
         return false;
     }
     return true;
 }
 
-/* // checkForBytes() is unused, just use readBytes() intead
-//void SerialLink::checkForBytes()
-//{
-//    // Check if bytes are available
-//    if(port && port->isOpen() && port->isWritable())
-//    {
-//        dataMutex.lock();
-//        qint64 available = port->bytesAvailable();
-//        dataMutex.unlock();
+void SerialLink::deviceRemoved(const QextPortInfo &pi)
+{
+    bool isValid = isPortHandleValid();
 
-//        //qDebug() << "SerialLink::checkForBytes" << available;
+    if (!isValid && pi.vendorID == 1155 && pi.productID == 22352)
+        waitingToReconnect = MG::TIME::getGroundTimeNow();
 
-//        if(available > 0)
-//        {
-//            readBytes();
-//        }
-//        else if (available < 0) {
-//            // Error, close port
-//            port->close();
-//            emit disconnected();
-//            emit connected(false);
-//            emit communicationError(this->getName(), tr("Could not send data - link %1 is disconnected!").arg(this->getName()));
-//        }
-//    }
-////    else
-////    {
-////        emit disconnected();
-////        emit connected(false);
-////    }
-//} */
+//    qDebug() << __FILE__ << __LINE__ << pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
+
+    if (!port || !port->isOpen() || isValid)
+        return;
+
+    emit portError();
+    if (!m_linkLossExpected)
+        emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
+    //qWarning() << __FILE__ << __LINE__ << "device removed" << port->lastError() << port->errorString();
+}
+
+void SerialLink::deviceDiscovered(const QextPortInfo &pi)
+{
+//    qDebug() << __FILE__ << __LINE__ << pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName()
+//             << waitingToReconnect << MG::TIME::getGroundTimeNow() << MG::TIME::getGroundTimeNow() - waitingToReconnect;
+    Q_UNUSED(pi);
+    if (waitingToReconnect && !port) {
+        if (MG::TIME::getGroundTimeNow() - waitingToReconnect > reconnect_wait_timeout) {
+            waitingToReconnect = 0;
+            return;
+        }
+        if (isPortHandleValid())
+            this->connect();
+    }
+}
 
 void SerialLink::writeBytes(const char* data, qint64 size)
 {
@@ -481,7 +487,7 @@ void SerialLink::writeBytes(const char* data, qint64 size)
         //qDebug() << "Serial link " << this->getName() << "transmitted" << b << "bytes:";
     } else if (b == -1) {
         emit portError();
-        emit communicationError(this->getName(), tr("Could not send data - error on link %1: %2").arg(this->getName()).arg(port->errorString()));
+        emit communicationError(this->getName(), tr("Could not send data - error on link %1").arg(this->porthandle));
     }
 }
 
@@ -672,7 +678,7 @@ bool SerialLink::disconnect()
         port->close();
 
     // delete (invalid) port. not sure this is necessary.
-    if (port && !isPortHandleValid()) { //
+    if (port) { //  && !isPortHandleValid()
         port->deleteLater();
         port = NULL;
     }
@@ -699,6 +705,9 @@ bool SerialLink::connect()
     m_stopp = false;
     m_stoppMutex.unlock();
 
+    waitingToReconnect = 0;
+    m_linkLossExpected = false;
+
     this->start(QThread::LowPriority);
     return this->isRunning();
 }
@@ -713,60 +722,47 @@ bool SerialLink::connect()
  **/
 bool SerialLink::hardwareConnect()
 {
-    QString err;
-
-    if (!port) {
-        port = new QSerialPort(0);
-        port->setSettingsRestoredOnClose(false);
-        QObject::connect(port, SIGNAL(aboutToClose()), this, SIGNAL(disconnected()));
-        QObject::connect(port, SIGNAL(readyRead()), this, SLOT(readBytes()), Qt::DirectConnection);
-        QObject::connect(this, SIGNAL(portError()), this, SLOT(disconnect()));
-        // connecting to error() signal is the "proper" way to detect disconnect errors, but doesn't work with AQ native USB
-//        QObject::connect(port, SIGNAL(error(QSerialPort::SerialPortError)), this,
-//                         SLOT(handleError(QSerialPort::SerialPortError)), Qt::DirectConnection);
-    }
-
-    if (!port) {
-        emit communicationError(this->getName(), tr("Could not create serial port object."));
+    if (!isPortHandleValid()) {
+        emit communicationError(this->getName(), tr("Failed to open serial port %1 because it no longer exists in the system.").arg(porthandle));
         return false;
     }
 
-    if(port->isOpen())
+    if (!port) {
+        port = new QextSerialPort(QextSerialPort::Polling);
+        if (!port) {
+            emit communicationError(this->getName(), tr("Could not create serial port object."));
+            return false;
+        }
+        QObject::connect(port, SIGNAL(aboutToClose()), this, SIGNAL(disconnected()));
+        //QObject::connect(port, SIGNAL(readyRead()), this, SLOT(readBytes()), Qt::DirectConnection);
+    }
+
+    if (port->isOpen())
         port->close();
 
-    if (!isPortHandleValid())
-        err = tr("Failed to open serial port %1 because it no longer exists in the system.").arg(this->porthandle);
-    else {
-        QSerialPortInfo pi(this->porthandle);
-        port->setPort(pi);
+    QString err;
 
-        if (!port->setBaudRate(portSettings.baudRate))
-            err = tr("Failed to set Baud Rate to %1 with error: %2").arg((quint64)portSettings.baudRate).arg(port->errorString());
+    port->setPortName(porthandle);
+    port->setBaudRate(portSettings.BaudRate);
+    port->setDataBits(portSettings.DataBits);
+    port->setParity(portSettings.Parity);
+    port->setStopBits(portSettings.StopBits);
+    port->setFlowControl(portSettings.FlowControl);
+    port->setTimeout(portSettings.Timeout_Millisec);
 
-        else if (!port->setDataBits(portSettings.dataBits))
-            err = tr("Failed to set Data Bits to %1 with error: %2").arg((int)portSettings.dataBits).arg(port->errorString());
-
-        else if (!port->setParity(portSettings.parity))
-            err = tr("Failed to set Parity to %1 with error: %2").arg((int)portSettings.parity).arg(port->errorString());
-
-        else if (!port->setStopBits(portSettings.stopBits))
-            err = tr("Failed to set Stop Bits to %1 with error: %2").arg((int)portSettings.stopBits).arg(port->errorString());
-
-        else if (!port->setFlowControl(portSettings.flowControl))
-            err = tr("Failed to set Flow Control to %1 with error: %2").arg((int)portSettings.flowControl).arg(port->errorString());
-
-        else if (!port->open(portSettings.openMode))
-            err = tr("Failed to open serial port %1 with error: %2 (%3)").arg(this->porthandle).arg(port->errorString()).arg(port->error());
-    }
+    if (!port->open(portOpenMode))
+        err = tr("Failed to open serial port %1 with error: %2 (%3)").arg(this->porthandle).arg(port->errorString()).arg(port->lastError());
 
     if (err.length()) {
         emit communicationError(this->getName(), err);
         qWarning() << __FILE__ << __LINE__ << err << port->portName() << port->baudRate() << "db:" << port->dataBits() \
                    << "p:" << port->parity() << "sb:" << port->stopBits() << "fc:" << port->flowControl();
+
         if (port->isOpen())
             port->close();
         port->deleteLater();
         port = NULL;
+
         return false;
     }
 
@@ -789,8 +785,9 @@ bool SerialLink::hardwareConnect()
 
 // verify that a port still exists on the system
 bool SerialLink::isPortValid(const QString &pname) {
-    QSerialPortInfo pi(pname);
-    return pi.isValid();
+//    QSerialPortInfo pi(pname);
+//    return pi.isValid();
+    return getCurrentPorts()->contains(pname);
 }
 
 // verify that the current port still exists on the system
@@ -801,7 +798,7 @@ bool SerialLink::isPortHandleValid() {
 bool SerialLink::isConnected()
 {
     if (port)
-        return isPortHandleValid() && port->isOpen();
+        return port->isOpen(); //isPortHandleValid() &&
     else
         return false;
 }
@@ -818,14 +815,14 @@ qint64 SerialLink::bytesAvailable()
 }
 
 // not used at the moment, doesn't detect disconnect with "native" USB connection (eg. AQ M4)
-void SerialLink::handleError(QSerialPort::SerialPortError error)
-{
-    //qDebug() << __FILE__ << __LINE__ << error << port->error() << port->errorString();
-    if (error == QSerialPort::ResourceError) {
-        emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected with error: %2").arg(this->getName()).arg(port->errorString()));
-        this->disconnect();
-    }
-}
+//void SerialLink::handleError(QSerialPort::SerialPortError error)
+//{
+//    //qDebug() << __FILE__ << __LINE__ << error << port->error() << port->errorString();
+//    if (error == QSerialPort::ResourceError) {
+//        emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected with error: %2").arg(this->getName()).arg(port->errorString()));
+//        this->disconnect();
+//    }
+//}
 
 
 //
@@ -854,12 +851,11 @@ bool SerialLink::setPortName(QString portName)
 //        }
 //#endif
 
-        if(reconnect)
-            this->connect();
-        return true;
-    } else {
-        return false;
+        // do not auto-reconnect
+        //if(reconnect)
+        //    this->connect();
     }
+    return true;
 }
 
 
@@ -870,9 +866,6 @@ void SerialLink::setName(QString name)
         emit nameChanged(this->name);
     }
 }
-
-// setBaudRateType() is not needed, was same as setBaudRate()
-//bool SerialLink::setBaudRateType(int rateIndex) {}
 
 // doesn't seem to be used anywhere
 bool SerialLink::setBaudRateString(const QString& rate)
@@ -885,54 +878,46 @@ bool SerialLink::setBaudRateString(const QString& rate)
 
 bool SerialLink::setBaudRate(int rate)
 {
-    bool accepted = false; // This is changed if none of the data rates matches
-    bool reconnect = isConnected();
-    if (reconnect)
-        this->disconnect();
-
-    BaudRate br = (BaudRate)(rate);
+    bool accepted = false;
+    BaudRateType br = (BaudRateType)(rate);
     if (br) {
-        portSettings.baudRate = br;
-        if(reconnect)
-            this->connect();
+        portSettings.BaudRate = br;
+        if (port)
+            port->setBaudRate(portSettings.BaudRate);
         accepted = true;
     }
-
     return accepted;
+}
 
+bool SerialLink::setTimeoutMillis(const long &ms)
+{
+    portSettings.Timeout_Millisec = ms;
+    if (port)
+        port->setTimeout(portSettings.Timeout_Millisec);
+    return true;
 }
 
 bool SerialLink::setFlowType(int flow)
 {
     bool accepted = false;
-    bool reconnect = isConnected();
-    if (reconnect)
-        this->disconnect();
-
-    if (flow >= (int)QSerialPort::NoFlowControl && flow <= (int)QSerialPort::SoftwareControl) {
-        portSettings.flowControl = (QSerialPort::FlowControl)flow;
-        if (reconnect)
-            this->connect();
+    if (flow >= (int)FLOW_OFF && flow <= (int)FLOW_XONXOFF) {
+        portSettings.FlowControl = (FlowType)flow;
+        if (port)
+            port->setFlowControl(portSettings.FlowControl);
         accepted = true;
     }
-
     return accepted;
 }
 
 bool SerialLink::setParityType(int parity)
 {
     bool accepted = false;
-    bool reconnect = isConnected();
-    if (reconnect)
-        this->disconnect();
-
-    if (parity >= (int)QSerialPort::NoParity && parity <= (int)QSerialPort::MarkParity) {
-        portSettings.parity = (QSerialPort::Parity)parity;
-        if (reconnect)
-            this->connect();
+    if (parity >= (int)PAR_NONE && parity <= (int)PAR_SPACE) {
+        portSettings.Parity = (ParityType)parity;
+        if (port)
+            port->setParity(portSettings.Parity);
         accepted = true;
     }
-
     return accepted;
 }
 
@@ -940,37 +925,24 @@ bool SerialLink::setParityType(int parity)
 bool SerialLink::setDataBitsType(int dataBits)
 {
     bool accepted = false;
-    bool reconnect = isConnected();
-    if (reconnect)
-        this->disconnect();
-
-    if (dataBits >= (int)QSerialPort::Data5 && dataBits <= (int)QSerialPort::Data8) {
-        portSettings.dataBits = (QSerialPort::DataBits)dataBits;
-
-        if(reconnect)
-            this->connect();
+    if (dataBits >= (int)DATA_5 && dataBits <= (int)DATA_8) {
+        portSettings.DataBits = (DataBitsType)dataBits;
+        if (port)
+            port->setDataBits(portSettings.DataBits);
         accepted = true;
     }
-
     return accepted;
 }
 
 bool SerialLink::setStopBitsType(int stopBits)
 {
     bool accepted = false;
-    bool reconnect = isConnected();
-    if (reconnect)
-        this->disconnect();
-
-    if (stopBits >= (int)QSerialPort::OneStop && stopBits <= (int)QSerialPort::TwoStop) {
-        portSettings.stopBits = (QSerialPort::StopBits)stopBits;
-
-        if(reconnect)
-            this->connect();
+    if (stopBits == 1 || stopBits == 2) {
+        portSettings.StopBits = stopBits == 1 ? STOP_1 : STOP_2;
+        if (port)
+            port->setStopBits(portSettings.StopBits);
         accepted = true;
     }
-
-    //if(reconnect) connect();
     return accepted;
 }
 
@@ -987,13 +959,18 @@ void SerialLink::setEsc32Mode(bool mode) {
 // Misc. getters
 //
 
-QSerialPort * SerialLink::getPort() {
+QextSerialPort * SerialLink::getPort() {
     return port;
 }
 
 int SerialLink::getId()
 {
     return id;
+}
+
+void SerialLink::linkLossExpected(const bool yes)
+{
+    m_linkLossExpected = yes;
 }
 
 QString SerialLink::getName()
@@ -1007,7 +984,7 @@ bool SerialLink::getEsc32Mode() {
 
 qint64 SerialLink::getNominalDataRate()
 {
-    return (qint64)portSettings.baudRate;
+    return (qint64)portSettings.BaudRate;
 }
 
 qint64 SerialLink::getTotalUpstream()
@@ -1076,35 +1053,48 @@ int SerialLink::getBaudRate()
 
 int SerialLink::getBaudRateType()
 {
-    return (quint64)portSettings.baudRate;
+    return getNominalDataRate();
 }
 
 int SerialLink::getFlowType()
 {
-    return (int)portSettings.flowControl;
+    return (int)portSettings.FlowControl;
 }
 
 int SerialLink::getParityType()
 {
-    return (int)portSettings.parity;
+    return (int)portSettings.Parity;
 }
 
 int SerialLink::getDataBitsType()
 {
-    return (int)portSettings.dataBits;
+    return (int)portSettings.DataBits;
 }
 
 int SerialLink::getStopBitsType()
 {
-    return (int)portSettings.stopBits;
+    switch (portSettings.StopBits) {
+    case STOP_1 :
+        return 1;
+    case STOP_2 :
+        return 2;
+    default :
+        return -1;
+    }
 }
 
-int SerialLink::getDataBits()
-{
-    return (int)portSettings.dataBits;
-}
+//int SerialLink::getDataBits()
+//{
+//    return (int)portSettings.DataBits;
+//}
 
-int SerialLink::getStopBits()
-{
-    return (int)portSettings.stopBits;
-}
+//int SerialLink::getStopBits()
+//{
+//    switch (portSettings.StopBits) {
+//    case STOP_1 :
+//    case STOP_1_5 :
+//        return 1;
+//    case STOP_2 :
+//        return 2;
+//    }
+//}

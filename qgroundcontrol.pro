@@ -181,6 +181,7 @@ include(libs/qwt/qwt.pri)
 
 # Include serial port library (QSerial)
 #include(qserialport.pri)
+include(libs/thirdParty/qextserialport/src/qextserialport.pri)
 
 # Serial port detection (ripped-off from qextserialport library)
 #macx|macx-g++|macx-g++42::SOURCES += libs/qextserialport/qextserialenumerator_osx.cpp

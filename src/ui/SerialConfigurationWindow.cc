@@ -37,6 +37,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QSettings>
 #include <QFileInfoList>
 #include <QMessageBox>
+#include "qextserialenumerator.h"
 
 SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidget *parent, Qt::WindowFlags flags) : QWidget(parent, flags),
     userConfigured(false)
@@ -56,6 +57,12 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
         // Connect the current UAS
         action = new QAction(QIcon(":/files/images/devices/network-wireless.svg"), "", link);
         setLinkName(link->getName());
+
+
+        portEnumerator = new QextSerialEnumerator();
+        portEnumerator->setUpNotifications();
+        QObject::connect(portEnumerator, SIGNAL(deviceDiscovered(QextPortInfo)), this, SLOT(setupPortList()));
+        QObject::connect(portEnumerator, SIGNAL(deviceRemoved(QextPortInfo)), this, SLOT(setupPortList()));
 
         setupPortList();
 
@@ -93,7 +100,7 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
         ui.baudRate->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 
         switch(this->link->getParityType()) {
-        case 3:
+        case 1:
             ui.parOdd->setChecked(true);
             break;
         case 2:
@@ -120,12 +127,12 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
 
         ui.baudRate->setCurrentIndex(ui.baudRate->findText(QString("%1").arg(this->link->getBaudRate())));
 
-        ui.dataBitsCombo->setEditText(QString::number(this->link->getDataBits()));
-        ui.stopBitsCombo->setEditText(QString::number(this->link->getStopBits()));
+        ui.dataBitsCombo->setEditText(QString::number(this->link->getDataBitsType()));
+        ui.stopBitsCombo->setEditText(QString::number(this->link->getStopBitsType()));
 
-        portCheckTimer = new QTimer(this);
-        portCheckTimer->setInterval(2000);
-        connect(portCheckTimer, SIGNAL(timeout()), this, SLOT(setupPortList()));
+        //portCheckTimer = new QTimer(this);
+        //portCheckTimer->setInterval(5000);
+        //connect(portCheckTimer, SIGNAL(timeout()), this, SLOT(setupPortList()));
 
         // Display the widget
         this->window()->setWindowTitle(tr("Serial Communication Settings"));
@@ -144,13 +151,13 @@ SerialConfigurationWindow::~SerialConfigurationWindow()
 void SerialConfigurationWindow::showEvent(QShowEvent* event)
 {
     Q_UNUSED(event);
-    portCheckTimer->start();
+    //portCheckTimer->start();
 }
 
 void SerialConfigurationWindow::hideEvent(QHideEvent* event)
 {
     Q_UNUSED(event);
-    portCheckTimer->stop();
+    //portCheckTimer->stop();
 }
 
 QAction* SerialConfigurationWindow::getAction()
@@ -173,20 +180,29 @@ void SerialConfigurationWindow::setupPortList()
 
     QString selected = ui.portName->currentText();
 
+    ui.portName->blockSignals(true);
     // Get the ports available on this system
-    QVector<QString>* ports = link->getCurrentPorts();
+    //QVector<QString>* ports = link->getCurrentPorts();
+    QList<QextPortInfo> ports = portEnumerator->getPorts();
+    QList<QString> portNames;
     QString txt;
+
+    // add any new ports
+    foreach (const QextPortInfo &p, ports) {
+        //qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
+        if (!p.portName.length())
+            continue;
+        portNames.append(p.portName);
+        txt = p.portName + " - " + p.friendName.split("(").first();
+        if (ui.portName->findData(txt) == -1)
+            ui.portName->addItem(txt, txt);
+    }
     // mark any invalid items in the selector (eg. port was disconnected)
     for (int i = 0; i < ui.portName->count(); ++i) {
         txt = ui.portName->itemData(i).toString();
-        if (!ports->contains(txt))
+        if (!portNames.contains(txt.split("-").first().remove(" ")))
             txt += " [INVALID PORT]";
         ui.portName->setItemText(i, txt);
-    }
-    // add any new ports
-    for (int i = 0; i < ports->size(); ++i) {
-        if (ui.portName->findData(ports->at(i)) == -1)
-            ui.portName->addItem(ports->at(i), ports->at(i));
     }
 
     if (!selected.length() && ui.portName->count())
@@ -194,20 +210,10 @@ void SerialConfigurationWindow::setupPortList()
 
     selected = selected.split("-").first().remove(" ");
 
-    if (!userConfigured && selected.length() && link->isPortValid(selected))
-        setPortName(selected);
+//    if (!userConfigured && selected.length() && link->isPortValid(selected))
+//        setPortName(selected);
 
-    // Add the ports in reverse order, because we prepend them to the list
-//    for (int i = ports->size() - 1; i >= 0; --i)
-//    {
-//        // Prepend newly found port to the list
-//        if (ui.portName->findText(ports->at(i)) == -1)
-//        {
-//            ui.portName->insertItem(0, ports->at(i));
-//            if (!userConfigured) ui.portName->setEditText(ports->at(i));
-//        }
-//    }
-//    ui.portName->setEditText(this->link->getPortName());
+    ui.portName->blockSignals(false);
 }
 
 void SerialConfigurationWindow::portError(const QString &err) {
@@ -253,7 +259,7 @@ void SerialConfigurationWindow::setParityNone(bool accept)
 void SerialConfigurationWindow::setParityOdd(bool accept)
 {
     if (accept) {
-        if (!link->setParityType(3))
+        if (!link->setParityType(1))
             portError(tr("Parity Type Odd"));
     }
 }
@@ -285,7 +291,7 @@ void SerialConfigurationWindow::setPortName(QString port)
 //#endif
 //    port = port.remove(" ");
 
-    if (link->isPortValid(port) && this->link->getPortName() != port) {
+    if (link->isPortValid(port) && link->getPortName() != port) {
         if (link->setPortName(port))
             userConfigured = true;
         else

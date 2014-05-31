@@ -46,14 +46,15 @@ public:
     virtual QString getPortName() = 0;
     virtual bool isPortValid(const QString &pname) = 0;
     virtual int getBaudRate() = 0;
-    virtual int getDataBits() = 0;
-    virtual int getStopBits() = 0;
+//    virtual int getDataBits() = 0;
+//    virtual int getStopBits() = 0;
 
     virtual int getBaudRateType() = 0;
     virtual int getFlowType() = 0;
     virtual int getParityType() = 0;
     virtual int getDataBitsType() = 0;
     virtual int getStopBitsType() = 0;
+    virtual void linkLossExpected(const bool yes) = 0;
 
 public slots:
     virtual bool setPortName(QString portName) = 0;

@@ -1395,6 +1395,9 @@ void QGCAQParamWidget::restartUas()
 {
     if (uas != NULL)
     {
+        for ( int i=0; i < uas->getLinks()->count(); i++)
+            uas->getLinks()->at(i)->linkLossExpected(true);
+
         uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, 0, 1.0f);
     }
 }
