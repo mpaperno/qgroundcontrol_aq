@@ -20,6 +20,7 @@ class QProgressBar;
 class QLabel;
 class QGCAQParamWidget;
 class QTextEdit;
+class QToolButton;
 
 namespace Ui {
 class QGCAutoquad;
@@ -63,6 +64,8 @@ private slots:
     void on_tab_aq_settings_currentChanged(QWidget *arg1);
     void on_groupBox_controlAdvancedSettings_toggled(bool arg1);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
+    void splitterCollapseToggle();
+    void splitterMoved();
 //  void on_groupBox_ppmOptions_toggled(bool arg1);
 
     // AQ FW flashing
@@ -220,6 +223,7 @@ protected:
 
 private:
     QSettings settings;
+    QToolButton *splitterToggleBtn;
 
     // Calculations
     QStringList StaticFiles;

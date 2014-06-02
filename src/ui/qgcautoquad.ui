@@ -28,11 +28,14 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="handleWidth">
-      <number>4</number>
+      <number>16</number>
      </property>
      <widget class="QTabWidget" name="tabWidget_aq_left">
       <property name="sizePolicy">
@@ -122,51 +125,25 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="fileLabel"/>
+            <widget class="QLabel" name="fileLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
            </item>
            <item>
             <layout class="QGridLayout" name="gridLayout_17">
-             <property name="horizontalSpacing">
-              <number>4</number>
-             </property>
-             <item row="2" column="1" colspan="2">
-              <widget class="QComboBox" name="comboBox_fwPortSpeed">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="sizeAdjustPolicy">
-                <enum>QComboBox::AdjustToContents</enum>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_fwType">
-               <property name="text">
-                <string>FW Type:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1" colspan="2">
-              <widget class="QComboBox" name="comboBox_fwType">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Upload &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt; or &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt; firmware file via serial connection. Supported in all AutoQuad hardware when connected via serial port (USB to serial adapter).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Native USB&lt;/span&gt;: Upload .bin file via DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Currently supported only on AQ M4.&lt;/span&gt; Choose this option if your AutoQuad is connected directly via USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;not&lt;/span&gt; a USB-to-serial adapter, and you have a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;   firmware file.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32&lt;/span&gt;: Flash ESC32 firmware &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt; file via serial connection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="sizeAdjustPolicy">
-                <enum>QComboBox::AdjustToContents</enum>
-               </property>
-              </widget>
-             </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_fwPort">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Port:</string>
                </property>
@@ -174,12 +151,31 @@
              </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_fwPortSpeed">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Speed:</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_fwType">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>FW Type:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1" colspan="4">
               <layout class="QHBoxLayout" name="horizontalLayout_29">
                <property name="spacing">
                 <number>1</number>
@@ -194,6 +190,9 @@
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a serial port to use for flashing. &lt;span style=&quot; text-decoration: underline;&quot;&gt;Make sure this port is not already in use, including by QGC itself.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;When flashing via DFU (native USB), the port selection and speed are not applicable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QComboBox::AdjustToContents</enum>
@@ -231,17 +230,84 @@
                </item>
               </layout>
              </item>
+             <item row="0" column="1" colspan="4">
+              <widget class="QComboBox" name="comboBox_fwType">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Upload &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  or &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file via serial connection. Supported in all AutoQuad hardware when connected via serial port (USB to serial adapter).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Native USB&lt;/span&gt;: Upload .bin file via DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Currently supported only on AQ M4.&lt;/span&gt; Choose this option if your AutoQuad is connected directly via USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;not&lt;/span&gt; a USB-to-serial adapter, and you have a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file. &lt;span style=&quot; text-decoration: underline;&quot;&gt;When using DFU, make sure only one flashable device is attached to your system.&lt;/span&gt; You cannot select the port or speed for flashing.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32 Serial&lt;/span&gt;: Flash ESC32 firmware &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  file via serial connection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1" colspan="4">
+              <widget class="QComboBox" name="comboBox_fwPortSpeed">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the speed (baud rate) to use for flashing. 115200 is usually best.  Lower the rate if you get errors.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
-            <widget class="QPushButton" name="flashButton">
-             <property name="text">
-              <string>Flash Firmware</string>
+            <layout class="QHBoxLayout" name="horizontalLayout_31">
+             <property name="spacing">
+              <number>10</number>
              </property>
-            </widget>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="flashButton">
+               <property name="text">
+                <string>Flash Firmware...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBox_verifyFwFlash">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Verify firmware after flashing (takes longer but is safer).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Verify</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QLabel" name="label_fwFlashOutput">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Firmware Update Results:</string>
              </property>
@@ -1142,7 +1208,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>633</width>
+                <width>621</width>
                 <height>778</height>
                </rect>
               </property>
@@ -5710,7 +5776,7 @@ padding: 1px 5px;</string>
                     <string> µs</string>
                    </property>
                    <property name="minimum">
-                    <number>750</number>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
                     <number>2250</number>
@@ -5754,7 +5820,7 @@ padding: 1px 5px;</string>
                     <string> µs</string>
                    </property>
                    <property name="minimum">
-                    <number>750</number>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
                     <number>2250</number>
@@ -5798,7 +5864,7 @@ padding: 1px 5px;</string>
                     <string> µs</string>
                    </property>
                    <property name="minimum">
-                    <number>750</number>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
                     <number>2250</number>
@@ -5842,7 +5908,7 @@ padding: 1px 5px;</string>
                     <string> µs</string>
                    </property>
                    <property name="minimum">
-                    <number>750</number>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
                     <number>2250</number>
@@ -7050,7 +7116,7 @@ padding: 1px 5px;</string>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>40</height>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
@@ -7119,24 +7185,28 @@ padding: 1px 5px;</string>
                </spacer>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_esc32_saveToFile">
-                <property name="toolTip">
-                 <string>Save displayed values to a text file on your computer (esc32.txt format).</string>
-                </property>
-                <property name="text">
-                 <string>save to file</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_esc32_loadFromFile">
-                <property name="toolTip">
-                 <string>Load saved values from a text file on your computer (esc32.txt format), and display them (does not send to ESC32).</string>
-                </property>
-                <property name="text">
-                 <string>load from file</string>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_30">
+                <item>
+                 <widget class="QPushButton" name="pushButton_esc32_saveToFile">
+                  <property name="toolTip">
+                   <string>Save displayed values to a text file on your computer (esc32.txt format).</string>
+                  </property>
+                  <property name="text">
+                   <string>save to file</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_esc32_loadFromFile">
+                  <property name="toolTip">
+                   <string>Load saved values from a text file on your computer (esc32.txt format), and display them (does not send to ESC32).</string>
+                  </property>
+                  <property name="text">
+                   <string>load file</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <spacer name="verticalSpacer_28">
@@ -7189,7 +7259,7 @@ padding: 1px 5px;</string>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>40</height>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
@@ -7202,18 +7272,25 @@ padding: 1px 5px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_esc32_read_arm_disarm">
-                <property name="text">
-                 <string>arm</string>
+               <layout class="QHBoxLayout" name="horizontalLayout_25">
+                <property name="topMargin">
+                 <number>0</number>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_esc32_read_start_stop">
-                <property name="text">
-                 <string>start</string>
-                </property>
-               </widget>
+                <item>
+                 <widget class="QPushButton" name="pushButton_esc32_read_arm_disarm">
+                  <property name="text">
+                   <string>arm</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_esc32_read_start_stop">
+                  <property name="text">
+                   <string>start</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,2,0">
@@ -7306,7 +7383,7 @@ padding: 1px 5px;</string>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>40</height>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
@@ -7377,14 +7454,14 @@ padding: 1px 5px;</string>
                </widget>
               </item>
               <item>
-               <spacer name="verticalSpacer_16">
+               <spacer name="verticalSpacer_logging">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>40</height>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
@@ -9325,12 +9402,12 @@ padding: 1px 5px;</string>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>387</x>
-     <y>563</y>
+     <x>403</x>
+     <y>507</y>
     </hint>
     <hint type="destinationlabel">
-     <x>428</x>
-     <y>595</y>
+     <x>444</x>
+     <y>539</y>
     </hint>
    </hints>
   </connection>
@@ -9341,12 +9418,12 @@ padding: 1px 5px;</string>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>428</x>
-     <y>595</y>
+     <x>444</x>
+     <y>539</y>
     </hint>
     <hint type="destinationlabel">
-     <x>387</x>
-     <y>563</y>
+     <x>403</x>
+     <y>507</y>
     </hint>
    </hints>
   </connection>

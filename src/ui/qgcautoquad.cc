@@ -79,6 +79,21 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->tabLayout_aqMixingOutput->addWidget(aqPwmPortConfig);
     //ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
+    // set up the splitter expand/collapse button
+    ui->splitter->setStyleSheet("QSplitter#splitter {width: 14px;}");
+    QSplitterHandle *shandle = ui->splitter->handle(1);
+    shandle->setContentsMargins(0, 15, 0, 0);
+    QVBoxLayout *hlayout = new QVBoxLayout;
+    hlayout->setContentsMargins(0, 0, 0, 0);
+    splitterToggleBtn = new QToolButton(shandle);
+    splitterToggleBtn->setObjectName("toolButton_splitterToggleBtn");
+    splitterToggleBtn->setArrowType(Qt::LeftArrow);
+    splitterToggleBtn->setCursor(QCursor(Qt::ArrowCursor));
+    hlayout->addWidget(splitterToggleBtn);
+    hlayout->setAlignment(splitterToggleBtn, Qt::AlignTop);
+    hlayout->addStretch(3);
+    shandle->setLayout(hlayout);
+
     // populate field values
 
     ui->checkBox_raw_value->setChecked(true);
@@ -118,9 +133,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_esc32PortSpeed->addItems(baudRates);
 
     // firmware types
-    ui->comboBox_fwType->addItem(tr("AutoQuad (serial/USB adapter)"), "aq");
-    ui->comboBox_fwType->addItem(tr("AutoQuad (native USB)"), "dfu");
-    ui->comboBox_fwType->addItem(tr("ESC32"), "esc32");
+    ui->comboBox_fwType->addItem(tr("AutoQuad Serial"), "aq");
+    ui->comboBox_fwType->addItem(tr("AutoQuad Native USB"), "dfu");
+    ui->comboBox_fwType->addItem(tr("ESC32 Serial"), "esc32");
     ui->comboBox_fwType->setCurrentIndex(0);
 
     // firmware serial flash baud rates
@@ -178,6 +193,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // hide these permanently, for now... (possible future use for these)
     ui->checkBox_raw_value->hide();
     ui->label_portName_esc32->hide();
+    ui->pushButton_logging->hide();
 
     ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
 //    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
@@ -207,7 +223,13 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(this, SIGNAL(hardwareInfoUpdated()), this, SLOT(adjustUiForHardware()));
     connect(this, SIGNAL(firmwareInfoUpdated()), this, SLOT(adjustUiForFirmware()));
 
-    //GUI slots
+    //
+    // GUI slots
+
+    // splitter
+    connect(splitterToggleBtn, SIGNAL(clicked()), this, SLOT(splitterCollapseToggle()));
+    connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
+
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
@@ -402,6 +424,7 @@ void QGCAutoquad::loadSettings()
     if (settings.contains("AUTOQUAD_FW_FILE") && settings.value("AUTOQUAD_FW_FILE").toString().length()) {
         ui->fileLabel->setText(settings.value("AUTOQUAD_FW_FILE").toString());
         ui->fileLabel->setToolTip(settings.value("AUTOQUAD_FW_FILE").toString());
+        ui->checkBox_verifyFwFlash->setChecked(settings.value("AUTOQUAD_FW_VERIFY", true).toBool());
         setFwType();
     }
     ui->comboBox_fwPortSpeed->setCurrentIndex(ui->comboBox_fwPortSpeed->findText(settings.value("FW_FLASH_BAUD_RATE", 57600).toString()));
@@ -425,8 +448,10 @@ void QGCAutoquad::loadSettings()
 
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
-    if (settings.contains("SETTINGS_SPLITTER_SIZES"))
+    if (settings.contains("SETTINGS_SPLITTER_SIZES")) {
         ui->splitter->restoreState(settings.value("SETTINGS_SPLITTER_SIZES").toByteArray());
+        splitterMoved();
+    }
 
     ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
     ui->pushButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
@@ -460,6 +485,7 @@ void QGCAutoquad::writeSettings()
     settings.setValue("USERS_PARAMS_FILE", UsersParamsFile);
 
     settings.setValue("AUTOQUAD_FW_FILE", ui->fileLabel->text());
+    settings.setValue("AUTOQUAD_FW_VERIFY", ui->checkBox_verifyFwFlash->isChecked());
     settings.setValue("FW_FLASH_BAUD_RATE", ui->comboBox_fwPortSpeed->currentText());
     settings.setValue("ESC32_BAUD_RATE", ui->comboBox_esc32PortSpeed->currentText());
 
@@ -493,11 +519,6 @@ void QGCAutoquad::adjustUiForHardware() {
     ui->groupBox_commSerial2->setVisible(aqHardwareVersion == 6);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
-    if (aqHardwareVersion == 8) {
-        ui->MOT_START->setMinimum(0);
-        ui->MOT_MIN->setMinimum(0);
-        ui->MOT_ARM->setMinimum(0);
-    }
 }
 
 void QGCAutoquad::adjustUiForFirmware() {
@@ -555,6 +576,28 @@ void QGCAutoquad::on_SPVR_FS_RAD_ST2_currentIndexChanged(int index)
     ui->SPVR_FS_ADD_ALT->setVisible(index == 2);
 }
 
+void QGCAutoquad::splitterCollapseToggle() {
+    QList<int> sz = ui->splitter->sizes();
+    static int leftW = qMax(sz.at(0), ui->tabWidget_aq_left->minimumWidth());
+    QList<int> newsz;
+    if (sz.at(0) > 0) {
+        leftW = sz.at(0);
+        newsz << 0 << leftW + sz.at(1);
+        splitterToggleBtn->setArrowType(Qt::RightArrow);
+    } else {
+        newsz << leftW << sz.at(1) - leftW;
+        splitterToggleBtn->setArrowType(Qt::LeftArrow);
+    }
+    ui->splitter->setSizes(newsz);
+}
+
+void QGCAutoquad::splitterMoved() {
+    if (ui->splitter->sizes().at(0) > 0)
+        splitterToggleBtn->setArrowType(Qt::LeftArrow);
+    else
+        splitterToggleBtn->setArrowType(Qt::RightArrow);
+}
+
 //void QGCAutoquad::on_groupBox_ppmOptions_toggled(bool arg1)
 //{
 //    ui->widget_ppmOptions->setVisible(arg1);
@@ -578,27 +621,11 @@ void QGCAutoquad::addStatic()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Static Log File"), dir.absoluteFilePath(),
                                             tr("AQ Log File") + " (*.LOG);;" + tr("All File Types") + " (*.*)");
 
-    // use Qt file dialog (sometimes very slow! at least on Win)
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setFilter(tr("AQ Log (*.LOG)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    QStringList fileNames;
-//    if (dialog.exec())
-//    {
-//        fileNames = dialog.selectedFiles();
-//    }
-
-//    if (fileNames.size() > 0) {
     if (fileName.length()) {
-//        for ( int i=0; i<fileNames.size(); i++) {
-//            QString fileNameLocale = QDir::toNativeSeparators(fileNames.at(i));
         QString fileNameLocale = QDir::toNativeSeparators(fileName);
         ui->listWidgetStatic->addItem(fileNameLocale);
         StaticFiles.append(fileNameLocale);
         LastFilePath = fileNameLocale;
-//        }
     }
 }
 
@@ -625,27 +652,11 @@ void QGCAutoquad::addDynamic()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Dynamic Log File"), dir.absoluteFilePath(),
                                             tr("AQ Log File") + " (*.LOG);;" + tr("All File Types") + " (*.*)");
 
-    // use Qt file dialog (sometimes very slow! at least on Win)
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setFilter(tr("AQ Log (*.LOG)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    QStringList fileNames;
-//    if (dialog.exec())
-//    {
-//        fileNames = dialog.selectedFiles();
-//    }
-
-//    if (fileNames.size() > 0) {
     if (fileName.length()) {
-//        for ( int i=0; i<fileNames.size(); i++) {
-//            QString fileNameLocale = QDir::toNativeSeparators(fileNames.at(i));
         QString fileNameLocale = QDir::toNativeSeparators(fileName);
         ui->listWidgetDynamic->addItem(fileNameLocale);
         DynamicFiles.append(fileNameLocale);
         LastFilePath = fileNameLocale;
-//        }
     }
 
 }
@@ -673,23 +684,6 @@ void QGCAutoquad::setUsersParams() {
         ShowUsersParams(QDir::toNativeSeparators(fileName));
     else
         return;
-
-    // use Qt file dialog (sometimes very slow! at least on Win)
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setFilter(tr("AQ Parameters (*.params)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    QStringList fileNames;
-//    if (dialog.exec())
-//    {
-//        fileNames = dialog.selectedFiles();
-//    }
-
-//    if (fileNames.size() > 0)
-//    {
-//        ShowUsersParams(QDir::toNativeSeparators(fileNames.at(0)));
-//    }
 }
 
 void QGCAutoquad::ShowUsersParams(QString fileName) {
@@ -713,23 +707,6 @@ void QGCAutoquad::CreateUsersParams() {
         UsersParamsFile = fileName;
     else
         return;
-
-    // use Qt file dialog (sometimes very slow! at least on Win)
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setFilter(tr("AQ Parameter-File (*.params)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    QStringList fileNames;
-//    if (dialog.exec())
-//    {
-//        fileNames = dialog.selectedFiles();
-//    }
-
-//    if (fileNames.size() > 0)
-//    {
-//        UsersParamsFile = fileNames.at(0);
-//    }
 
     if (!UsersParamsFile.endsWith(".params") )
         UsersParamsFile += ".params";
@@ -931,15 +908,15 @@ void QGCAutoquad::startCalculationProcess(QString appName, QStringList appArgs) 
     activeProcessStatusWdgt->append(appPath);
 
 // FIXME
-#ifdef Q_OS_MAC
-    if (appName == "sim3") {
-        activeProcessStatusWdgt->append("\n\nThe sim3 calculation steps are currently not working on Mac OS X via QGC. :-(  But all is not lost!\n\n\
-To continue calibration, please copy the complete command line you see above and paste it into a terminal window. sim3 should start and produce output.  \
-Once you are satisfied with the result, press CTRL-C to stop the sim3 program, copy the parameters from the terminal window into the \
-All Generated Parameters window (here in QGC) and save the file.  You will need to repeat this process for each sim3 step (4a, 4b, 5, and 6).");
-        return;
-    }
-#endif
+//#ifdef Q_OS_MAC
+//    if (appName == "sim3") {
+//        activeProcessStatusWdgt->append("\n\nThe sim3 calculation steps are currently not working on Mac OS X via QGC. :-(  But all is not lost!\n\n\
+//To continue calibration, please copy the complete command line you see above and paste it into a terminal window. sim3 should start and produce output.  \
+//Once you are satisfied with the result, press CTRL-C to stop the sim3 program, copy the parameters from the terminal window into the \
+//All Generated Parameters window (here in QGC) and save the file.  You will need to repeat this process for each sim3 step (4a, 4b, 5, and 6).");
+//        return;
+//    }
+//#endif
 
     currentCalcStartBtn->setEnabled(false);
     currentCalcAbortBtn->setEnabled(true);
@@ -1850,6 +1827,8 @@ void QGCAutoquad::fwTypeChange() {
     ui->portName->setEnabled(en);
     ui->label_fwPort->setEnabled(en);
     ui->label_fwPortSpeed->setEnabled(en);
+    ui->toolButton_fwReloadPorts->setEnabled(en);
+    ui->checkBox_verifyFwFlash->setEnabled(en);
 }
 
 void QGCAutoquad::selectFWToFlash()
@@ -1950,9 +1929,11 @@ void QGCAutoquad::flashFwStart()
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
     QStringList Arguments;
     Arguments.append(QString("-b %1").arg(ui->comboBox_fwPortSpeed->currentText()));
-    Arguments.append("-w" );
-    Arguments.append(QDir::toNativeSeparators(ui->fileLabel->text()));
-    Arguments.append("-v");
+    Arguments.append(QString("-w %1").arg(QDir::toNativeSeparators(ui->fileLabel->text())));
+    if (ui->fileLabel->text().endsWith(".bin", Qt::CaseInsensitive))
+        Arguments.append("-s 0x08000000");
+    if (ui->checkBox_verifyFwFlash->isChecked())
+        Arguments.append("-v");
     Arguments.append(portName);
 
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
