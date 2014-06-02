@@ -69,7 +69,9 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
     ui.linkType->addItem(tr("Serial"), QGC_LINK_SERIAL);
     ui.linkType->addItem(tr("UDP"), QGC_LINK_UDP);
     ui.linkType->addItem(tr("Simulation"), QGC_LINK_SIMULATION);
+#ifdef OPAL_RT
     ui.linkType->addItem(tr("Opal-RT Link"), QGC_LINK_OPAL);
+#endif // OPAL_RT
 #ifdef XBEELINK
 	ui.linkType->addItem(tr("Xbee API"),QGC_LINK_XBEE);
 #endif // XBEELINK
@@ -144,18 +146,18 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
         ui.linkGroupBox->setTitle(tr("Opal-RT Link"));
     }
 #endif
-//#ifdef XBEELINK
-//	XbeeLink* xbee = dynamic_cast<XbeeLink*>(link); // new Konrad
-//	if(xbee != 0)
-//	{
-//		QWidget* conf = new XbeeConfigurationWindow(xbee,this);
-//		ui.linkScrollArea->setWidget(conf);
-//		ui.linkGroupBox->setTitle(tr("Xbee Link"));
-//		ui.linkType->setCurrentIndex(4);
-//		connect(xbee,SIGNAL(tryConnectBegin(bool)),ui.actionConnect,SLOT(setDisabled(bool)));
-//		connect(xbee,SIGNAL(tryConnectEnd(bool)),ui.actionConnect,SLOT(setEnabled(bool)));
-//	}
-//#endif // XBEELINK
+#ifdef XBEELINK
+    XbeeLink* xbee = dynamic_cast<XbeeLink*>(link); // new Konrad
+    if(xbee != 0)
+    {
+        QWidget* conf = new XbeeConfigurationWindow(xbee,this);
+        ui.linkScrollArea->setWidget(conf);
+        ui.linkGroupBox->setTitle(tr("Xbee Link"));
+        ui.linkType->setCurrentIndex(4);
+        connect(xbee,SIGNAL(tryConnectBegin(bool)),ui.actionConnect,SLOT(setDisabled(bool)));
+        connect(xbee,SIGNAL(tryConnectEnd(bool)),ui.actionConnect,SLOT(setEnabled(bool)));
+    }
+#endif // XBEELINK
     if (serial == 0 && udp == 0 && sim == 0
 #ifdef OPAL_RT
             && opal == 0
@@ -167,9 +169,9 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
         qDebug() << "Link is NOT a known link, can't open configuration window";
     }
 
-#ifdef XBEELINK
+//#ifdef XBEELINK
 	connect(ui.linkType,SIGNAL(currentIndexChanged(int)),this,SLOT(setLinkType(int)));
-#endif // XBEELINK
+//#endif // XBEELINK
 
     // Open details pane for MAVLink if necessary
     MAVLinkProtocol* mavlink = dynamic_cast<MAVLinkProtocol*>(protocol);
@@ -248,23 +250,21 @@ void CommConfigurationWindow::setLinkType(int linktype)
 
 	LinkInterface *tmpLink(NULL);
 	switch(linktype)
-	{
-#ifdef XBEELINK
-		case 4:
-			{
-				XbeeLink *xbee = new XbeeLink();
-				tmpLink = xbee;
-				MainWindow::instance()->addLink(tmpLink);
-				break;
-			}
-#endif // XBEELINK
-		case 1:
-			{
-				UDPLink *udp = new UDPLink();
-				tmpLink = udp;
-				MainWindow::instance()->addLink(tmpLink);
-				break;
-			}
+    {
+        case 1:
+            {
+                UDPLink *udp = new UDPLink();
+                tmpLink = udp;
+                MainWindow::instance()->addLink(tmpLink);
+                break;
+            }
+        case 2:
+            {
+                MAVLinkSimulationLink *sim = new MAVLinkSimulationLink();
+                tmpLink = sim;
+                MainWindow::instance()->addLink(tmpLink);
+                break;
+            }
 			
 #ifdef OPAL_RT
 		case 3:
@@ -275,16 +275,21 @@ void CommConfigurationWindow::setLinkType(int linktype)
 				break;
 			}
 #endif // OPAL_RT
-		default:
-			{
-			}
-		case 0:
-			{
-				SerialLink *serial = new SerialLink();
-				tmpLink = serial;
-				MainWindow::instance()->addLink(tmpLink);
-				break;
-			}
+#ifdef XBEELINK
+        case 4:
+            {
+                XbeeLink *xbee = new XbeeLink();
+                tmpLink = xbee;
+                MainWindow::instance()->addLink(tmpLink);
+                break;
+            }
+#endif // XBEELINK
+        default:
+        case 0:
+            SerialLink *serial = new SerialLink();
+            tmpLink = serial;
+            MainWindow::instance()->addLink(tmpLink);
+            break;
 	}
 	// trigger new window
 

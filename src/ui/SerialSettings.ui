@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="100,0">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0">
    <property name="leftMargin">
     <number>6</number>
    </property>
@@ -27,8 +27,147 @@
     <number>6</number>
    </property>
    <property name="verticalSpacing">
-    <number>5</number>
+    <number>6</number>
    </property>
+   <item row="4" column="0" colspan="5">
+    <widget class="QGroupBox" name="groupBox_advanced">
+     <property name="title">
+      <string>Advanced</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <item row="0" column="4">
+       <widget class="QWidget" name="widget_advanced" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="leftMargin">
+          <number>4</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="rightMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_timeout">
+           <property name="text">
+            <string>Timeout</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_timeout">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Connection read/write timeout. Default of -1 means non-blocking operation (no timeout). Zero (0) is not allowed here.  This setting is experimental, you could try adjusting it if you have frequent communication drops or many errors between computer and serial device.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="suffix">
+            <string>ms</string>
+           </property>
+           <property name="minimum">
+            <number>-1</number>
+           </property>
+           <property name="maximum">
+            <number>250</number>
+           </property>
+           <property name="value">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>10</width>
+             <height>1</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_reconnectDelay">
+           <property name="text">
+            <string>Reconn. Dly.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_reconnectDelay">
+           <property name="toolTip">
+            <string>Reconnect delay (M4 only, experimental)</string>
+           </property>
+           <property name="suffix">
+            <string>ms</string>
+           </property>
+           <property name="minimum">
+            <number>0</number>
+           </property>
+           <property name="maximum">
+            <number>9999</number>
+           </property>
+           <property name="value">
+            <number>10</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="4">
+    <widget class="QComboBox" name="stopBitsCombo">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of stop bits per symbol. This is almost always 1.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="portlabel">
      <property name="text">
@@ -36,7 +175,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="0" column="1" colspan="4">
     <widget class="QComboBox" name="portName">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The serial port to which the system is connected. All ports listed here should work, unless marked INVALID (this can happen if a port has been removed from the system after this dialog was first used).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -62,13 +201,10 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="1" column="1" colspan="4">
     <widget class="QComboBox" name="baudRate">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The data transmission rate. If unsure 57600 and 115200 are very common rates.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="editable">
-      <bool>false</bool>
      </property>
      <property name="sizeAdjustPolicy">
       <enum>QComboBox::AdjustToContents</enum>
@@ -200,123 +336,17 @@
      </item>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="portlabel_3">
-     <property name="text">
-      <string>Flow Control</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QRadioButton" name="flowControl_none">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>None</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_flowControl</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="flowControl_hw">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>HW</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_flowControl</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="flowControl_sw">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>SW</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_flowControl</string>
-       </attribute>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="portlabel_4">
-     <property name="text">
-      <string>Parity</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QRadioButton" name="parNone">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the parity. In most cases no parity (None) is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>None</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_parity</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="parOdd">
-       <property name="toolTip">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
-       <property name="text">
-        <string>Odd</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_parity</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="parEven">
-       <property name="toolTip">
-        <string>Set the parity. In most cases no parity (None) is used.</string>
-       </property>
-       <property name="text">
-        <string>Even</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttonGroup_parity</string>
-       </attribute>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="4" column="0">
     <widget class="QLabel" name="portlabel_5">
      <property name="text">
       <string>Data bits</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="3" column="1">
     <widget class="QComboBox" name="dataBitsCombo">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of data bits per symbol. This is almost always 8.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="editable">
-      <bool>true</bool>
      </property>
      <property name="currentIndex">
       <number>3</number>
@@ -343,37 +373,14 @@
      </item>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="3" column="3">
     <widget class="QLabel" name="portlabel_6">
      <property name="text">
       <string>Stop bits</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="QComboBox" name="stopBitsCombo">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of stop bits per symbol. This is almost always 2.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="editable">
-      <bool>true</bool>
-     </property>
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <item>
-      <property name="text">
-       <string>1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>2</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
+   <item row="5" column="0" colspan="5">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -382,6 +389,102 @@
       <size>
        <width>0</width>
        <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLabel" name="label_Parity">
+     <property name="text">
+      <string>Parity</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QComboBox" name="comboBox_Parity">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the parity. In most cases no parity (None) is used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>None</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Odd</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Even</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QComboBox" name="comboBox_flowControl">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the flow control type. In most cases this is None or HW (aka. DTS/RTS). SW type is aka. XON/XOFF.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>None</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>HW</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>SW</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_flowControl">
+     <property name="text">
+      <string>Flow Control</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>1</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="2">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>10</width>
+       <height>1</height>
       </size>
      </property>
     </spacer>

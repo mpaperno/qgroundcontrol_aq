@@ -57,18 +57,18 @@ public:
     QAction* getAction();
 
 public slots:
+    void loadSettings();
+    void writeSettings();
     void configureCommunication();
     void setupPortList();
-    void setFlowControlNone(bool accept);
-    void setFlowControlHw(bool accept);
-    void setFlowControlSw(bool accept);
-    void setParityNone(bool accept);
-    void setParityOdd(bool accept);
-    void setParityEven(bool accept);
+    void setFlowControl();
+    void setParity();
     void setDataBits(QString bits);
     void setStopBits(QString bits);
     void setPortName(QString port);
     void setLinkName(QString name);
+    void setTimeoutMs();
+    void setReconnectDelay();
 
 protected:
     void showEvent(QShowEvent* event);
@@ -77,6 +77,9 @@ protected:
 
 protected slots:
     void portError(const QString &err);
+
+private slots:
+    void on_groupBox_advanced_toggled(bool arg1);
 
 private:
 

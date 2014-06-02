@@ -48,7 +48,9 @@ enum qgc_link_t {
 #ifdef XBEELINK
 	QGC_LINK_XBEE,
 #endif
-    QGC_LINK_OPAL
+#ifdef OPAL_RT
+    QGC_LINK_OPAL,
+#endif
 };
 
 enum qgc_protocol_t {
