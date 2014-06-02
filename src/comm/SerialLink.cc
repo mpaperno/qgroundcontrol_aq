@@ -9,7 +9,7 @@
  *
  */
 
-//#include <QTimer>
+#include <QTimer>
 #include <QDebug>
 #include <QSettings>
 #include <QMutexLocker>
@@ -229,6 +229,7 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     connectionStartTime(0),
     ports(new QVector<QString>()),
     waitingToReconnect(0),
+    m_reconnectDelayMs(0),
     m_linkLossExpected(false),
     m_stopp(false),
     mode_port(false),
@@ -274,8 +275,8 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     setParityType(par);
     setDataBitsType(dataBits);
     setStopBitsType(stopBits);
-
-    setTimeoutMillis(10);
+    setTimeoutMillis(-1);  // -1 means do not block on serial read/write. Do not use zero.
+    setReconnectDelayMs(10);  // default 10ms before reconnecting to M4, after detecting that COM port is back
 
     // Set the port name
     name = this->porthandle.length() ? this->porthandle : tr("Serial Link ") + QString::number(getId());
@@ -302,8 +303,9 @@ QVector<QString>* SerialLink::getCurrentPorts()
 {
     ports->clear();
     foreach (const QextPortInfo &p, portEnumerator->getPorts()) {
-        ports->append(p.portName);//  + " - " + p.friendName);
-//        qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
+        if (p.portName.length())
+            ports->append(p.portName);//  + " - " + p.friendName);
+//      qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
     }
 /* old Linux and Mac code
 //#ifdef __linux
@@ -379,6 +381,8 @@ void SerialLink::loadSettings()
         setStopBitsType(settings.value("SERIALLINK_COMM_STOPBITS").toInt());
         setDataBitsType(settings.value("SERIALLINK_COMM_DATABITS").toInt());
         setFlowType(settings.value("SERIALLINK_COMM_FLOW_CONTROL").toInt());
+        setTimeoutMillis(settings.value("SERIALLINK_COMM_TIMEOUT", portSettings.Timeout_Millisec).toInt());
+        setReconnectDelayMs(settings.value("SERIALLINK_COMM_RECONDELAY", m_reconnectDelayMs).toInt());
     }
 }
 
@@ -392,6 +396,8 @@ void SerialLink::writeSettings()
     settings.setValue("SERIALLINK_COMM_STOPBITS", getStopBitsType());
     settings.setValue("SERIALLINK_COMM_DATABITS", getDataBitsType());
     settings.setValue("SERIALLINK_COMM_FLOW_CONTROL", getFlowType());
+    settings.setValue("SERIALLINK_COMM_TIMEOUT", getTimeoutMillis());
+    settings.setValue("SERIALLINK_COMM_RECONDELAY", reconnectDelayMs());
     settings.sync();
 }
 
@@ -434,7 +440,8 @@ bool SerialLink::validateConnection() {
         ok = false;
     if(!ok) {
         emit portError();
-        emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
+        if (!m_linkLossExpected)
+            emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
         //qWarning() << __FILE__ << __LINE__ << ok << port->lastError() << port->errorString();
         //this->disconnect();
         return false;
@@ -470,8 +477,11 @@ void SerialLink::deviceDiscovered(const QextPortInfo &pi)
             waitingToReconnect = 0;
             return;
         }
-        if (isPortHandleValid())
-            this->connect();
+        if (isPortHandleValid()) {
+            QTimer::singleShot(m_reconnectDelayMs, this, SLOT(connect()));
+            waitingToReconnect = 0;
+            //this->connect();
+        }
     }
 }
 
@@ -487,7 +497,8 @@ void SerialLink::writeBytes(const char* data, qint64 size)
         //qDebug() << "Serial link " << this->getName() << "transmitted" << b << "bytes:";
     } else if (b == -1) {
         emit portError();
-        emit communicationError(this->getName(), tr("Could not send data - error on link %1").arg(this->porthandle));
+        if (!m_linkLossExpected)
+            emit communicationError(this->getName(), tr("Could not send data - error on link %1").arg(this->porthandle));
     }
 }
 
@@ -519,7 +530,8 @@ void SerialLink::readBytes()
 
         if (port->read(data, rBytes) == -1) { // -1 result means error
             emit portError();
-            emit communicationError(this->getName(), tr("Could not read data - link %1 is disconnected!").arg(this->getName()));
+            if (!m_linkLossExpected)
+                emit communicationError(this->getName(), tr("Could not read data - link %1 is disconnected!").arg(this->getName()));
             return;
         }
 
@@ -955,6 +967,16 @@ void SerialLink::setEsc32Mode(bool mode) {
     }
 }
 
+void SerialLink::setReconnectDelayMs(const quint16 &ms)
+{
+    m_reconnectDelayMs = ms;
+}
+
+void SerialLink::linkLossExpected(const bool yes)
+{
+    m_linkLossExpected = yes;
+}
+
 //
 // Misc. getters
 //
@@ -966,11 +988,6 @@ QextSerialPort * SerialLink::getPort() {
 int SerialLink::getId()
 {
     return id;
-}
-
-void SerialLink::linkLossExpected(const bool yes)
-{
-    m_linkLossExpected = yes;
 }
 
 QString SerialLink::getName()

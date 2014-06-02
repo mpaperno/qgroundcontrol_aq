@@ -83,6 +83,7 @@ public:
      */
     QString getName();
     int getBaudRate();
+    long getTimeoutMillis() { return portSettings.Timeout_Millisec; }
 
     // ENUM values
     int getBaudRateType();
@@ -111,7 +112,7 @@ public:
     bool isFullDuplex();
     int getId();
     //unsigned char read();
-    void linkLossExpected(const bool yes);
+    quint16 reconnectDelayMs() const { return m_reconnectDelayMs; }
 
 public slots:
     /** @brief Get a list of the currently available ports */
@@ -136,6 +137,10 @@ public slots:
     void setEsc32Mode(bool mode);
     bool getEsc32Mode();
     void readEsc32Tele();
+
+    void linkLossExpected(const bool yes);
+    void setReconnectDelayMs(const quint16 &ms);
+
     /**
      * @brief Write a number of bytes to the interface.
      *
@@ -174,6 +179,7 @@ protected:
     QMutex dataMutex;
     QVector<QString>* ports;
     quint64 waitingToReconnect;  // msec while waiting to reconnect automatically, zero if not waiting
+    quint16 m_reconnectDelayMs;    // msec to wait before reconnecting, after device is discovered
     bool m_linkLossExpected;
 
 private:
