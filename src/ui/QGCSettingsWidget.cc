@@ -1,5 +1,6 @@
 #include <QSettings>
 
+#include "QGCCore.h"
 #include "QGCSettingsWidget.h"
 #include "MainWindow.h"
 #include "ui_QGCSettingsWidget.h"
@@ -29,6 +30,15 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
 
     this->window()->setWindowTitle(tr("QGroundControl Settings"));
 
+
+    QString langPath = QGCCore::getLangFilePath();
+    foreach (QString lang, QGCCore::availableLanguages()) {
+        QLocale locale(lang);
+        QString name = QLocale::languageToString(locale.language());
+        QIcon ico(QString("%1/flags/%2.png").arg(langPath).arg(lang));
+        ui->comboBox_language->addItem(ico, name, lang);
+    }
+
     // Audio preferences
     ui->audioMuteCheckBox->setChecked(GAudioOutput::instance()->isMuted());
     connect(ui->audioMuteCheckBox, SIGNAL(toggled(bool)), GAudioOutput::instance(), SLOT(mute(bool)));
@@ -41,6 +51,10 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
     // Low power mode
     ui->lowPowerCheckBox->setChecked(MainWindow::instance()->lowPowerModeEnabled());
     connect(ui->lowPowerCheckBox, SIGNAL(clicked(bool)), MainWindow::instance(), SLOT(enableLowPowerMode(bool)));
+
+    // Language
+    ui->comboBox_language->setCurrentIndex(ui->comboBox_language->findData(MainWindow::instance()->getCurrentLanguage()));
+    connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), this, SLOT(loadLanguage(int)));
 
     // Style
     MainWindow::QGC_MAINWINDOW_STYLE style = (MainWindow::QGC_MAINWINDOW_STYLE)MainWindow::instance()->getStyle();
@@ -73,4 +87,8 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
 QGCSettingsWidget::~QGCSettingsWidget()
 {
     delete ui;
+}
+
+void QGCSettingsWidget::loadLanguage(int idx) {
+    MainWindow::instance()->loadLanguage(ui->comboBox_language->itemData(idx).toString());
 }

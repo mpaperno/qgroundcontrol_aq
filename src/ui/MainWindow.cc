@@ -1244,6 +1244,7 @@ void MainWindow::connectCommonActions()
     connect(ui.actionSelectStylesheet, SIGNAL(triggered()), this, SLOT(selectStylesheet()));
 
     // Help Actions
+    connect(ui.actionAutoQuad_Documentation, SIGNAL(triggered()), this, SLOT(showAQHelp()));
     connect(ui.actionOnline_Documentation, SIGNAL(triggered()), this, SLOT(showHelp()));
     connect(ui.actionDeveloper_Credits, SIGNAL(triggered()), this, SLOT(showCredits()));
 //    connect(ui.actionProject_Roadmap_2, SIGNAL(triggered()), this, SLOT(showRoadMap()));
@@ -1271,11 +1272,19 @@ void MainWindow::connectCommonActions()
     connect(ui.actionSettings, SIGNAL(triggered()), this, SLOT(showSettings()));
 }
 
+void MainWindow::showAQHelp()
+{
+    if(!QDesktopServices::openUrl(QUrl("http://autoquad.org/wiki/wiki/")))
+    {
+        showInfoMessage(tr("Could not open help in browser"), tr("To get to the online help, please open http://autoquad.org/wiki/wiki/ in a browser."));
+    }
+}
+
 void MainWindow::showHelp()
 {
     if(!QDesktopServices::openUrl(QUrl("http://qgroundcontrol.org/users/start")))
     {
-        showInfoMessage(tr("Could not open help in browser"), tr("To get to the online help, please open http://qgroundcontrol.org/user_guide in a browser."));
+        showInfoMessage(tr("Could not open help in browser"), tr("To get to the online help, please open http://qgroundcontrol.org/users/start in a browser."));
     }
 }
 

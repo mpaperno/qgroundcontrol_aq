@@ -298,9 +298,9 @@ QRadioButton::indicator:disabled {
 /*
     Splitter
 */
-QSplitter {
+/*QSplitter {
     width: 7px;
-}
+}*/
 
 /*
     ProgressBar

@@ -126,6 +126,8 @@ public:
         return lowPowerMode;
     }
 
+    QString getCurrentLanguage() { return currentLanguage; }
+
     QGCMAVLinkLogPlayer* getLogPlayer()
     {
         return logPlayer;
@@ -192,6 +194,10 @@ public slots:
     void showCredits();
     /** @brief Show the project roadmap */
 //    void showRoadMap();
+    void showAQHelp();
+
+    /** @brief loads a language by the given language shortcur (e.g. de, en, ...) */
+    void loadLanguage(const QString& lang);
 
     /** @brief Reload the CSS style sheet */
     void reloadStylesheet();
@@ -435,8 +441,6 @@ private:
 
     /** @brief creates the language menu dynamically from the content of m_langPath */
     void createLanguageMenu(void);
-    /** @brief loads a language by the given language shortcur (e.g. de, en, ...) */
-    void loadLanguage(const QString& lang);
 
     //void switchTranslator(QTranslator &translator, const QString &filename);
 

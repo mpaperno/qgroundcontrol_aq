@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>535</width>
-    <height>427</height>
+    <width>448</width>
+    <height>320</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,51 +24,73 @@
        <string>General Settings</string>
       </attribute>
       <layout class="QGridLayout" name="generalPaneGridLayout">
-       <item row="6" column="0">
-        <widget class="QRadioButton" name="outdoorStyle">
-         <property name="text">
-          <string>Use outdoor mission style (light background)</string>
+       <property name="verticalSpacing">
+        <number>10</number>
+       </property>
+       <item row="4" column="0" alignment="Qt::AlignTop">
+        <widget class="QGroupBox" name="groupBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QRadioButton" name="nativeStyle">
-         <property name="text">
-          <string>Use native platform look and feel (requires restart)</string>
+         <property name="title">
+          <string>Application Style</string>
          </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="audioMuteCheckBox">
-         <property name="text">
-          <string>Mute all audio output</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../qgroundcontrol.qrc">
-           <normaloff>:/files/images/status/audio-volume-muted.svg</normaloff>:/files/images/status/audio-volume-muted.svg</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="reconnectCheckBox">
-         <property name="text">
-          <string>Automatically reconnect last link on application startup</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../qgroundcontrol.qrc">
-           <normaloff>:/files/images/devices/network-wireless.svg</normaloff>:/files/images/devices/network-wireless.svg</iconset>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="nativeStyle">
+            <property name="text">
+             <string>Use native platform look and feel (requires restart)</string>
+            </property>
+            <property name="autoExclusive">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="plastiqueStyle">
+            <property name="text">
+             <string>Use native Qt &quot;Plastique&quot; style</string>
+            </property>
+            <property name="autoExclusive">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="indoorStyle">
+            <property name="text">
+             <string>Use indoor mission style (black background)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="outdoorStyle">
+            <property name="text">
+             <string>Use outdoor mission style (light background)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QRadioButton" name="indoorStyle">
-         <property name="text">
-          <string>Use indoor mission style (black background)</string>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="2" column="0">
         <widget class="QCheckBox" name="lowPowerCheckBox">
@@ -80,15 +102,54 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QRadioButton" name="plastiqueStyle">
+       <item row="1" column="0" alignment="Qt::AlignTop">
+        <widget class="QCheckBox" name="reconnectCheckBox">
          <property name="text">
-          <string>Use native Qt &quot;Plastique&quot; style</string>
+          <string>Automatically reconnect last Serial link on startup (not recommended)</string>
          </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
+         <property name="icon">
+          <iconset resource="../../qgroundcontrol.qrc">
+           <normaloff>:/files/images/devices/network-wireless.svg</normaloff>:/files/images/devices/network-wireless.svg</iconset>
          </property>
         </widget>
+       </item>
+       <item row="0" column="0" alignment="Qt::AlignTop">
+        <widget class="QCheckBox" name="audioMuteCheckBox">
+         <property name="text">
+          <string>Mute all audio output</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../qgroundcontrol.qrc">
+           <normaloff>:/files/images/status/audio-volume-muted.svg</normaloff>:/files/images/status/audio-volume-muted.svg</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_language">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Language</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_language">
+           <property name="sizeAdjustPolicy">
+            <enum>QComboBox::AdjustToContents</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

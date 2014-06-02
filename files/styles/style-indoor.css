@@ -413,10 +413,21 @@ QLabel {
 /*
     Splitter
 */
-QSplitter {
+/*QSplitter {
     color: #EEEEEE;
-    width: 7px;
+	 width: 7px;
+}*/
+
+QSplitter:handle {
+	background-color: #202020;
 }
+QSplitter::handle:hover {
+	background-color: #303030;
+}
+
+/*QSplitter#splitter {
+	 width: 18px;
+}*/
 
 /*
     H/V Line

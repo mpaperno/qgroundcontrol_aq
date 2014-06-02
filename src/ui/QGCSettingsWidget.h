@@ -17,6 +17,7 @@ public:
     ~QGCSettingsWidget();
 
 public slots:
+    void loadLanguage(int idx);
 
 private:
     Ui::QGCSettingsWidget *ui;

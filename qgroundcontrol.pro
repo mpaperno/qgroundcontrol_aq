@@ -422,6 +422,8 @@ HEADERS += src/MG.h \
     src/ui/aq_LogViewer.h \
     src/ui/QGCDataViewWidget.h
 
+OTHER_FILES += files/styles/*.css
+
 # Google Earth is only supported on Mac OS and Windows with Visual Studio Compiler
 macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::HEADERS += src/ui/map3D/QGCGoogleEarthView.h
 

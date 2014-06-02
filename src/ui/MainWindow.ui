@@ -53,7 +53,7 @@
    </property>
    <widget class="QMenu" name="menuMGround">
     <property name="title">
-     <string>File</string>
+     <string>Options</string>
     </property>
     <widget class="QMenu" name="menuPreferences">
      <property name="title">
@@ -118,6 +118,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionAutoQuad_Documentation"/>
     <addaction name="actionOnline_Documentation"/>
     <addaction name="actionDeveloper_Credits"/>
    </widget>
@@ -260,7 +261,10 @@
      <normaloff>:/files/images/apps/utilities-system-monitor.svg</normaloff>:/files/images/apps/utilities-system-monitor.svg</iconset>
    </property>
    <property name="text">
-    <string>Online Documentation</string>
+    <string>QGC Online Documentation</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Original QGC Online Documentation from qgroundcontrol.org&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionProject_Roadmap_2">
@@ -278,7 +282,10 @@
      <normaloff>:/files/images/categories/preferences-system.svg</normaloff>:/files/images/categories/preferences-system.svg</iconset>
    </property>
    <property name="text">
-    <string>Developer Credits</string>
+    <string>QGC Developer Credits</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Original QGC Developer Credits at qgroundcontrol.org&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
   <action name="actionOperatorsView">
@@ -434,10 +441,22 @@
     <string>Data</string>
    </property>
    <property name="toolTip">
-    <string>Log viewing and export, live telemetry views, and other diagnostic tools.</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Log viewing and export, live telemetry views, and other diagnostic tools.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="shortcut">
     <string>Alt+D</string>
+   </property>
+  </action>
+  <action name="actionAutoQuad_Documentation">
+   <property name="icon">
+    <iconset resource="../../qgroundcontrol.qrc">
+     <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
+   </property>
+   <property name="text">
+    <string>AutoQuad Documentation</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;AutoQuad Documentation Wiki at autoquad.org&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>
