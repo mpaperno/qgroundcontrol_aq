@@ -1399,6 +1399,9 @@ void QGCAQParamWidget::restartUas()
             uas->getLinks()->at(i)->linkLossExpected(true);
 
         uas->sendCommmandToAq(MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, 0, 1.0f);
+
+        // schedule to reset link loss expeted flag
+        QTimer::singleShot(10000, this, SLOT(resetLinkLossExpected()));
     }
 }
 
@@ -1410,13 +1413,21 @@ void QGCAQParamWidget::restartUasWithPrompt()
     msgBox.setInformativeText(tr("Are you sure you want to restart the remote system?"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
 
     // Close the message box shortly after opening to prevent accidental clicks
-    QTimer::singleShot(5000, &msgBox, SLOT(reject()));
+    QTimer::singleShot(8000, &msgBox, SLOT(reject()));
+
+    int ret = msgBox.exec();
 
     if (ret == QMessageBox::Yes)
         restartUas();
+}
+
+void QGCAQParamWidget::resetLinkLossExpected() {
+    if (uas != NULL) {
+        for ( int i=0; i < uas->getLinks()->count(); i++)
+            uas->getLinks()->at(i)->linkLossExpected(false);
+    }
 }
 
 void QGCAQParamWidget::wpFromSD()

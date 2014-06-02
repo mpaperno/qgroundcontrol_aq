@@ -81,12 +81,13 @@ public slots:
 
     void loadParaFromSD();
     void saveParaToSD();
-    void restartUas();
-    void restartUasWithPrompt();
     void wpFromSD();
     void wpToSD();
 
     void setRestartBtnEnabled(const bool enable);
+    void restartUas();
+    void restartUasWithPrompt();
+    void resetLinkLossExpected();
 
 protected:
     QTreeWidget* tree;   ///< The parameter tree
