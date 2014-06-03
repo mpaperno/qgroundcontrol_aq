@@ -83,6 +83,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->splitter->setStyleSheet("QSplitter#splitter {width: 14px;}");
     QSplitterHandle *shandle = ui->splitter->handle(1);
     shandle->setContentsMargins(0, 15, 0, 0);
+    shandle->setToolTip(tr("<html><head/><body><p>Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.</p></body></html>"));
     QVBoxLayout *hlayout = new QVBoxLayout;
     hlayout->setContentsMargins(0, 0, 0, 0);
     splitterToggleBtn = new QToolButton(shandle);

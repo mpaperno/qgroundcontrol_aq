@@ -381,7 +381,7 @@ void SerialLink::loadSettings()
         setStopBitsType(settings.value("SERIALLINK_COMM_STOPBITS").toInt());
         setDataBitsType(settings.value("SERIALLINK_COMM_DATABITS").toInt());
         setFlowType(settings.value("SERIALLINK_COMM_FLOW_CONTROL").toInt());
-        setTimeoutMillis(settings.value("SERIALLINK_COMM_TIMEOUT", portSettings.Timeout_Millisec).toInt());
+        setTimeoutMillis(settings.value("SERIALLINK_COMM_TIMEOUT", (qint32)portSettings.Timeout_Millisec).toInt());
         setReconnectDelayMs(settings.value("SERIALLINK_COMM_RECONDELAY", m_reconnectDelayMs).toInt());
     }
 }
@@ -396,7 +396,7 @@ void SerialLink::writeSettings()
     settings.setValue("SERIALLINK_COMM_STOPBITS", getStopBitsType());
     settings.setValue("SERIALLINK_COMM_DATABITS", getDataBitsType());
     settings.setValue("SERIALLINK_COMM_FLOW_CONTROL", getFlowType());
-    settings.setValue("SERIALLINK_COMM_TIMEOUT", getTimeoutMillis());
+    settings.setValue("SERIALLINK_COMM_TIMEOUT", (qint32)getTimeoutMillis());
     settings.setValue("SERIALLINK_COMM_RECONDELAY", reconnectDelayMs());
     settings.sync();
 }
@@ -414,22 +414,12 @@ void SerialLink::run()
 
     while (!m_stopp)
     {
-        if (!this->validateConnection()) {
-            m_stoppMutex.lock();
-            this->m_stopp = true;
-            m_stoppMutex.unlock();
-            break;
-        }
-
-        //port->waitForReadyRead(SerialLink::readywait_interval);
         this->readBytes();
 
         // Serial data isn't arriving that fast normally, this saves the thread
         // from consuming too much processing time
         msleep(SerialLink::poll_interval);
     }
-//    if (this->isConnected())
-//        port->close();
 }
 
 bool SerialLink::validateConnection() {
