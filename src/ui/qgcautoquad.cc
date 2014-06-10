@@ -62,7 +62,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     }
 
     // these regexes are used for matching field names to AQ params
-    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100)_[A-Z0-9_]+$"); // strict field name matching
+    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
 
     setHardwareInfo(aqHardwareVersion);  // populate hardware (AQ board) info with defaults
@@ -80,10 +80,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     //ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
     // set up the splitter expand/collapse button
-    ui->splitter->setStyleSheet("QSplitter#splitter {width: 14px;}");
+    ui->splitter->setStyleSheet("QSplitter#splitter {width: 15px;}");
     QSplitterHandle *shandle = ui->splitter->handle(1);
     shandle->setContentsMargins(0, 15, 0, 0);
-    shandle->setToolTip(tr("<html><head/><body><p>Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.</p></body></html>"));
+    shandle->setToolTip(tr("<html><body><p>Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.</p></body></html>"));
     QVBoxLayout *hlayout = new QVBoxLayout;
     hlayout->setContentsMargins(0, 0, 0, 0);
     splitterToggleBtn = new QToolButton(shandle);
@@ -231,6 +231,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(splitterToggleBtn, SIGNAL(clicked()), this, SLOT(splitterCollapseToggle()));
     connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
 
+    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
@@ -422,15 +423,17 @@ void QGCAutoquad::loadSettings()
     ui->lineEdit_insert_inclination->setText(settings.value("INCLINATION_SOURCE").toString());
     ui->lineEdit_cal_inclination->setText(settings.value("INCLINATION_CALC").toString());
 
+    ui->portName->setCurrentIndex(ui->portName->findText(settings.value("FW_FLASH_PORT_NAME", "").toString()));
+    ui->comboBox_fwPortSpeed->setCurrentIndex(ui->comboBox_fwPortSpeed->findText(settings.value("FW_FLASH_BAUD_RATE", 115200).toString()));
+    ui->comboBox_port_esc32->setCurrentIndex(ui->comboBox_port_esc32->findText(settings.value("ESC32_FLASH_PORT_NAME", "").toString()));
+    ui->comboBox_esc32PortSpeed->setCurrentIndex(ui->comboBox_esc32PortSpeed->findText(settings.value("ESC32_BAUD_RATE", 230400).toString()));
+
     if (settings.contains("AUTOQUAD_FW_FILE") && settings.value("AUTOQUAD_FW_FILE").toString().length()) {
         ui->fileLabel->setText(settings.value("AUTOQUAD_FW_FILE").toString());
         ui->fileLabel->setToolTip(settings.value("AUTOQUAD_FW_FILE").toString());
         ui->checkBox_verifyFwFlash->setChecked(settings.value("AUTOQUAD_FW_VERIFY", true).toBool());
         setFwType();
     }
-    ui->comboBox_fwPortSpeed->setCurrentIndex(ui->comboBox_fwPortSpeed->findText(settings.value("FW_FLASH_BAUD_RATE", 57600).toString()));
-    ui->comboBox_esc32PortSpeed->setCurrentIndex(ui->comboBox_esc32PortSpeed->findText(settings.value("ESC32_BAUD_RATE", 230400).toString()));
-
     if (settings.contains("USERS_PARAMS_FILE")) {
         UsersParamsFile = settings.value("USERS_PARAMS_FILE").toString();
         if (QFile::exists(UsersParamsFile))
@@ -487,7 +490,9 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("AUTOQUAD_FW_FILE", ui->fileLabel->text());
     settings.setValue("AUTOQUAD_FW_VERIFY", ui->checkBox_verifyFwFlash->isChecked());
+    settings.setValue("FW_FLASH_PORT_NAME", ui->portName->currentText());
     settings.setValue("FW_FLASH_BAUD_RATE", ui->comboBox_fwPortSpeed->currentText());
+    settings.setValue("ESC32_FLASH_PORT_NAME", ui->comboBox_port_esc32->currentText());
     settings.setValue("ESC32_BAUD_RATE", ui->comboBox_esc32PortSpeed->currentText());
 
     settings.setValue("AUTOQUAD_VARIANCE1", ui->sim3_4_var_1->text());
@@ -523,10 +528,9 @@ void QGCAutoquad::adjustUiForHardware() {
 }
 
 void QGCAutoquad::adjustUiForFirmware() {
-    uint8_t idx;
 
-    disconnect(ui->RADIO_TYPE, 0, this, 0);
-    idx = ui->RADIO_TYPE->currentIndex();
+    uint8_t idx = ui->RADIO_TYPE->currentIndex();
+    ui->RADIO_TYPE->blockSignals(true);
     ui->RADIO_TYPE->clear();
     ui->RADIO_TYPE->addItem("Select...", -1);
     ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
@@ -537,9 +541,9 @@ void QGCAutoquad::adjustUiForFirmware() {
         ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
     if (!aqBuildNumber || aqBuildNumber >= 1350)
         ui->RADIO_TYPE->addItem("M-Link (Multiplex)", 5);
-    if (idx > -1 && idx <= ui->RADIO_TYPE->count())
+    if (idx < ui->RADIO_TYPE->count())
         ui->RADIO_TYPE->setCurrentIndex(idx);
-    connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+    ui->RADIO_TYPE->blockSignals(false);
 
     idx = ui->SPVR_FS_RAD_ST2->currentIndex();
     ui->SPVR_FS_RAD_ST2->clear();
@@ -547,15 +551,17 @@ void QGCAutoquad::adjustUiForFirmware() {
     ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
     if (!aqBuildNumber || aqBuildNumber >= 1304)
         ui->SPVR_FS_RAD_ST2->addItem("Ascend, RTH, Land", 2);
-    if (idx > -1 && idx < ui->SPVR_FS_RAD_ST2->count())
+    if (idx < ui->SPVR_FS_RAD_ST2->count())
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
 
     // auto-triggering options
     ui->groupBox_gmbl_auto_triggering->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
 
-    // restart button
-    if (paramaq)
+    // param widget buttons
+    if (paramaq) {
         paramaq->setRestartBtnEnabled(aqCanReboot);
+        paramaq->setCalibBtnsEnabled(!aqBuildNumber || aqBuildNumber >= 1760);
+    }
 }
 
 void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
@@ -1188,39 +1194,42 @@ void QGCAutoquad::setPortNameEsc32(QString port)
 
 void QGCAutoquad::flashFWEsc32() {
 
-    if (esc32) {
+    if (esc32)
         esc32->Disconnect();
-    }
+
+    ui->textFlashOutput->append(tr("Testing for ESC32 bootloader mode...\n"));
 
     QProcess stmflash;
     stmflash.setProcessChannelMode(QProcess::MergedChannels);
 
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
+
+    ui->textFlashOutput->append(AppPath + " " + portName + "\n");
+
     stmflash.start(AppPath , QStringList() << portName);
     if (!stmflash.waitForFinished(3000)) {
-        qDebug() << "stm32flash failed:" << stmflash.errorString();
-        ui->textFlashOutput->append(tr("stm32flash failed to connect on %1!\n").arg(portName));
+        ui->textFlashOutput->append(tr("stm32flash failed to connect on %1 with error: %2\n").arg(portName).arg(stmflash.errorString()));
         return;
     } else {
         QByteArray stmout = stmflash.readAll();
-        qDebug() << stmout;
+        //qDebug() << stmout;
         if (stmout.contains("Version")) {
+            ui->textFlashOutput->append(tr("ESC32 in bootloader mode already, flashing...\n"));
             flashFwStart();
             return;
         } else {
-            ui->textFlashOutput->append(tr("ESC32 not in bootloader mode already...\n"));
+            ui->textFlashOutput->append(tr("ESC32 not in bootloader mode...\n"));
         }
     }
 
     esc32 = new AQEsc32();
-
     connect(esc32, SIGNAL(Esc32Connected()), this, SLOT(Esc32Connected()));
     connect(esc32, SIGNAL(ESc32Disconnected()), this, SLOT(ESc32Disconnected()));
     connect(esc32, SIGNAL(EnteredBootMode()), this, SLOT(Esc32BootModOk()));
     connect(esc32, SIGNAL(NoBootModeArmed(QString)), this, SLOT(Esc32BootModFailure(QString)));
     connect(esc32, SIGNAL(BootModeTimeout()), this, SLOT(Esc32BootModeTimeout()));
 
-    ui->textFlashOutput->append("Connecting to ESC32...\n");
+    ui->textFlashOutput->append("Attempting to force bootloader mode. Connecting to ESC32...\n");
 
     FlashEsc32Active = true;
     esc32->Connect(portName, ui->comboBox_esc32PortSpeed->currentText());
@@ -1241,16 +1250,16 @@ void QGCAutoquad::Esc32BootModFailure(QString err) {
     FlashEsc32Active = false;
     esc32->Disconnect();
 
-    ui->textFlashOutput->append("Failed to enter bootloader mode.\n");
+    ui->textFlashOutput->append(tr("Failed to enter bootloader mode.\n"));
     if (err.contains("armed"))
-        err += "\n\nESC appears to be active/armed.  Please disarm first!";
+        err += tr("\n\nESC appears to be active/armed.  Please disarm first!");
     else
-        err += "\n\nYou may need to short the BOOT0 pins manually to enter bootloader mode.  Then attempt flashing again.";
+        err += tr("\n\nYou may need to short the BOOT0 pins manually to enter bootloader mode.  Then attempt flashing again.");
     MainWindow::instance()->showCriticalMessage("Error!", err);
 }
 
 void QGCAutoquad::Esc32BootModeTimeout() {
-    Esc32BootModFailure("Bootloader mode timeout.");
+    Esc32BootModFailure(tr("Bootloader mode timeout."));
 }
 
 void QGCAutoquad::Esc32GotFirmwareVersion(QString ver) {
@@ -1804,7 +1813,9 @@ void QGCAutoquad::setupPortList()
     foreach (const QextPortInfo &p, QextSerialEnumerator::getPorts()) {
         if (!p.portName.length())
             continue;
-        pdispname = p.portName + " - " + p.friendName.split("(").first();
+        pdispname = p.portName;
+        if (p.friendName.length())
+            pdispname += " - " + p.friendName.split(QRegExp(" ?\\(")).first();
         ui->portName->addItem(pdispname, p.portName);
         ui->comboBox_port_esc32->addItem(pdispname, p.portName);
     }
@@ -1814,9 +1825,11 @@ void QGCAutoquad::setupPortList()
 
 void QGCAutoquad::setFwType() {
     QString typ = "aq";
+    // test for esc32 in the fw file name
     if (ui->fileLabel->text().contains(QRegExp("esc32.+\\.hex$", Qt::CaseInsensitive)))
         typ = "esc32";
-    else if (ui->fileLabel->text().contains(QRegExp(".+\\.bin$", Qt::CaseInsensitive)))
+    // test for aq M4 or v7/8 hardware in fw file name
+    else if (ui->fileLabel->text().contains(QRegExp("(aq|autoquad).+(hwv[78]\\.[\\d]|m4).+\\.bin$", Qt::CaseInsensitive)))
         typ = "dfu";
 
     ui->comboBox_fwType->setCurrentIndex(ui->comboBox_fwType->findData(typ));
@@ -1929,13 +1942,20 @@ void QGCAutoquad::flashFwStart()
 {
     QString AppPath = QDir::toNativeSeparators(aqBinFolderPath + "stm32flash" + platformExeExt);
     QStringList Arguments;
-    Arguments.append(QString("-b %1").arg(ui->comboBox_fwPortSpeed->currentText()));
-    Arguments.append(QString("-w %1").arg(QDir::toNativeSeparators(ui->fileLabel->text())));
+    Arguments.append(QString("-b"));
+    Arguments.append(ui->comboBox_fwPortSpeed->currentText());
+    Arguments.append(QString("-w"));
+    Arguments.append(QDir::toNativeSeparators(ui->fileLabel->text()));
     if (ui->fileLabel->text().endsWith(".bin", Qt::CaseInsensitive))
         Arguments.append("-s 0x08000000");
     if (ui->checkBox_verifyFwFlash->isChecked())
         Arguments.append("-v");
     Arguments.append(portName);
+
+    QString cmdLine = AppPath;
+    foreach (const QString arg, Arguments)
+        cmdLine += " " + arg;
+    ui->textFlashOutput->append(cmdLine + "\n\n");
 
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
 }
@@ -1948,13 +1968,18 @@ void QGCAutoquad::flashFwDfu()
     QString AppPath = "dfu-util";
 #endif
     QStringList Arguments;
-    Arguments.append("-a 0"); // alt 0 is start of internal flash
-    Arguments.append("-d 0483:df11" );  // device ident stm32
-    Arguments.append("-s 0x08000000:leave");  // start address
-    //Arguments.append("-v");  // verbose
-    Arguments.append("-R"); // reset after upload
-    Arguments.append("-D" + QDir::toNativeSeparators(ui->fileLabel->text()));  // fw file, no space after -D or breaks on Win
-    Arguments.append(portName);
+    Arguments.append("-a 0");                   // alt 0 is start of internal flash
+    Arguments.append("-d 0483:df11" );          // device ident stm32
+    Arguments.append("-s 0x08000000:leave");    // start address (:leave to exit DFU mode after flash)
+    //Arguments.append("-v");                   // verbose
+    Arguments.append("-R");                     // reset after upload
+    Arguments.append("-D");                     // firmware file
+    Arguments.append(QDir::toNativeSeparators(ui->fileLabel->text()));
+
+    QString cmdLine = AppPath;
+    foreach (const QString arg, Arguments)
+        cmdLine += " " + arg;
+    ui->textFlashOutput->append(cmdLine + "\n\n");
 
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
 }
