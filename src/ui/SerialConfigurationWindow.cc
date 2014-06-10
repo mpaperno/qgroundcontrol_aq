@@ -172,7 +172,7 @@ void SerialConfigurationWindow::setupPortList()
     if (!link)
         return;
 
-    QString selected = ui.portName->currentText();
+//    QString selected = ui.portName->currentText();
 
     ui.portName->blockSignals(true);
     // Get the ports available on this system
@@ -187,22 +187,28 @@ void SerialConfigurationWindow::setupPortList()
         if (!p.portName.length())
             continue;
         portNames.append(p.portName);
-        txt = p.portName + " - " + p.friendName.split("(").first();
-        if (ui.portName->findData(txt) == -1)
-            ui.portName->addItem(txt, txt);
+        txt = p.portName;
+        if (ui.portName->findData(txt) > -1)
+            continue;
+        if (p.friendName.length())
+            txt += " - " + p.friendName.split(QRegExp(" ?\\(")).first();
+        ui.portName->addItem(txt, p.portName);
     }
     // mark any invalid items in the selector (eg. port was disconnected)
+    bool isval = true, isinv = false;
     for (int i = 0; i < ui.portName->count(); ++i) {
-        txt = ui.portName->itemData(i).toString();
-        if (!portNames.contains(txt.split("-").first().remove(" ")))
-            txt += " [INVALID PORT]";
-        ui.portName->setItemText(i, txt);
+        isval = portNames.contains(ui.portName->itemData(i).toString());
+        isinv = ui.portName->itemText(i).contains("INVALID PORT");
+        if (!isval && !isinv)
+            ui.portName->setItemText(i, ui.portName->itemText(i) +  " [INVALID PORT]");
+        else if (isval && isinv)
+            ui.portName->setItemText(i, ui.portName->itemText(i).replace(" [INVALID PORT]", ""));
     }
 
-    if (!selected.length() && ui.portName->count())
-        selected = ui.portName->itemText(0);
+//    if (!selected.length() && ui.portName->count())
+//        selected = ui.portName->itemData(0);
 
-    selected = selected.split("-").first().remove(" ");
+//    selected = selected.split(" - ").first().remove(" ");
 
 //    if (!userConfigured && selected.length() && link->isPortValid(selected))
 //        setPortName(selected);
@@ -246,10 +252,11 @@ void SerialConfigurationWindow::setStopBits(QString bits)
 
 void SerialConfigurationWindow::setPortName(QString port)
 {
-//#ifdef Q_OS_WIN
-    port = port.split("-").first().remove(" ");
-//#endif
-//    port = port.remove(" ");
+    // if current text is unedited, then use port name from item data
+    if (ui.portName->currentText() == ui.portName->itemText(ui.portName->currentIndex()))
+        port = ui.portName->itemData(ui.portName->currentIndex()).toString();
+    else
+        port = port.split(" - ").first().remove(" ");
 
     if (link->isPortValid(port) && link->getPortName() != port) {
         if (link->setPortName(port))
