@@ -1983,7 +1983,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                 if ( LIST_MessageFromEsc32.contains("\r\n\r\n")) {
                     //decodeParameterFromEsc32(LIST_MessageFromEsc32);
                     emit ShowConfig(LIST_MessageFromEsc32);
-                    qDebug() << LIST_MessageFromEsc32;
+                    //qDebug() << LIST_MessageFromEsc32;
                     LIST_MessageFromEsc32 = "";
                     SwitchFromAsciiToBinary();
                 }
@@ -2097,7 +2097,7 @@ void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
                     emit NoBootModeArmed(BootloaderMessage.remove(QRegExp("[^\\w\\s]")));
                 }
 
-                qDebug() << BootloaderMessage;
+                //qDebug() << BootloaderMessage;
             break;
 
             case 6:
