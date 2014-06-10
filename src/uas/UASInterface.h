@@ -291,7 +291,10 @@ public slots:
     virtual void readParametersFromStorageAQ() = 0;
     virtual void readParametersFromSDAQ() = 0;
     virtual void readWaypointsFromSDAQ() = 0;
+    virtual void loadDefaultParametersAQ() = 0;
     virtual void sendCommmandToAq(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0) = 0;
+    virtual void sendCommmandToIMU(int command,int confirm, float para1=0,float para2=0,float para3=0,float para4=0,float para5=0,float para6=0,float para7=0) = 0;
+
     /** @brief Set a system parameter
      * @param component ID of the system component to write the parameter to
      * @param id String identifying the parameter
@@ -374,6 +377,9 @@ signals:
 
     /** @brief A text message from the system has been received */
     void textMessageReceived(int uasid, int componentid, int severity, QString text);
+
+    /** @brief A command to the system has been acknowledged */
+    void commandAcked(int uasid, int componentid, uint16_t command, uint8_t result);
 
     void navModeChanged(int uasid, int mode, const QString& text);
 

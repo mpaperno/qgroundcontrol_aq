@@ -54,95 +54,86 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
 {
     OverrideCheckValue = 0;
     uas = uas_ext;
-    // Load settings
-    loadSettings();
 
-    loadParameterInfoCSV(uas_ext->getAutopilotTypeName(), uas_ext->getSystemTypeName());
+    QGridLayout* horizontalLayout = new QGridLayout(this);
+    horizontalLayout->setSpacing(6);
+    horizontalLayout->setContentsMargins(0, 0, 0, 0);
+    horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
 
     // Create tree widget
     tree = new QTreeWidget(this);
-    statusLabel = new QLabel();
-    statusLabel->setAutoFillBackground(true);
-    tree->header()->resizeSection(0, 175);
+    tree->setColumnCount(2);
+    tree->setIndentation(5);
+    tree->header()->setResizeMode(0, QHeaderView::Interactive);
+    tree->header()->setResizeMode(1, QHeaderView::Stretch);
+    tree->header()->setStretchLastSection(false);
     tree->setItemDelegateForColumn(0, new NoEditDelegate(this));
-
-    // Set tree widget as widget onto this component
-    QGridLayout* horizontalLayout;
-    //form->setAutoFillBackground(false);
-    horizontalLayout = new QGridLayout(this);
-    horizontalLayout->setSpacing(6);
-    horizontalLayout->setMargin(0);
-    horizontalLayout->setSizeConstraint(QLayout::SetMinimumSize);
-
-    // Parameter tree
+    tree->setExpandsOnDoubleClick(true);
+    tree->setUniformRowHeights(true);
     horizontalLayout->addWidget(tree, 0, 0, 1, 3);
 
     // Status line
-    statusLabel->setText(tr("Click refresh to download parameters"));
+    statusLabel = new QLabel();
+    statusLabel->setAutoFillBackground(true);
     horizontalLayout->addWidget(statusLabel, 1, 0, 1, 3);
 
-
     // BUTTONS
-    QPushButton* refreshButton = new QPushButton(tr("Refresh"));
-    refreshButton->setToolTip(tr("Load parameters currently in non-permanent memory of aircraft."));
-    refreshButton->setWhatsThis(refreshButton->toolTip());
+    refreshButton = new QPushButton();
     connect(refreshButton, SIGNAL(clicked()), this, SLOT(requestParameterList()));
     horizontalLayout->addWidget(refreshButton, 2, 0);
 
-    QPushButton* setButton = new QPushButton(tr("Transmit"));
-    setButton->setToolTip(tr("Set current parameters in non-permanent onboard memory"));
-    setButton->setWhatsThis(setButton->toolTip());
+    setButton = new QPushButton();
     connect(setButton, SIGNAL(clicked()), this, SLOT(setParameters()));
     horizontalLayout->addWidget(setButton, 2, 1);
 
-    QPushButton* writeButton = new QPushButton(tr("Write (ROM)"));
-    writeButton->setToolTip(tr("Copy current parameters in non-permanent memory of the aircraft to permanent memory. Transmit your parameters first to write these."));
-    writeButton->setWhatsThis(writeButton->toolTip());
+    writeButton = new QPushButton();
     connect(writeButton, SIGNAL(clicked()), this, SLOT(writeParameters()));
     horizontalLayout->addWidget(writeButton, 2, 2);
 
-
-    QPushButton* loadFileButton = new QPushButton(tr("Load File"));
-    loadFileButton->setToolTip(tr("Load parameters from a file on this computer in the view. To write them to the aircraft, use transmit after loading them."));
-    loadFileButton->setWhatsThis(loadFileButton->toolTip());
+    loadFileButton = new QPushButton();
     connect(loadFileButton, SIGNAL(clicked()), this, SLOT(loadParameters()));
     horizontalLayout->addWidget(loadFileButton, 3, 0);
 
-    QPushButton* saveFileButton = new QPushButton(tr("Save File"));
-    saveFileButton->setToolTip(tr("Save parameters in this view to a file on this computer."));
-    saveFileButton->setWhatsThis(saveFileButton->toolTip());
-    connect(saveFileButton, SIGNAL(clicked()), this, SLOT(saveParameters()));
-    horizontalLayout->addWidget(saveFileButton, 3, 1);
-    QAction* action;
-    action =  saveFileMenu.addAction(tr("AQ params.txt format (can also load via QGC v1.3+)"), this, SLOT(saveParamFile()));
-    action->setData(1);
-    action =  saveFileMenu.addAction(tr("QGC format (for loading with older QGC versions)"), this, SLOT(saveParamFile()));
-    action->setData(0);
+    saveFileButton = new QPushButton();
+    //connect(saveFileButton, SIGNAL(clicked()), this, SLOT(saveParameters()));
     saveFileButton->setMenu(&saveFileMenu);
+    horizontalLayout->addWidget(saveFileButton, 3, 1);
 
-    QPushButton* readButton = new QPushButton(tr("Read (ROM)"));
-    readButton->setToolTip(tr("Copy parameters from permanent memory to non-permanent current memory of aircraft. DOES NOT update the parameters in this view, click refresh after copying them to get them."));
-    readButton->setWhatsThis(readButton->toolTip());
+    readButton = new QPushButton();
     connect(readButton, SIGNAL(clicked()), this, SLOT(readParameters()));
     horizontalLayout->addWidget(readButton, 3, 2);
 
-    QPushButton* loadParaFromSDButton = new QPushButton(tr("From SD"));
-    loadParaFromSDButton->setToolTip(tr("Load parameters from a PARAMS.txt file on the on-board SD card, if one exists. These parameters will be in the aircraft non-permanent memory."));
-    loadParaFromSDButton->setWhatsThis(loadParaFromSDButton->toolTip());
+    loadParaFromSDButton = new QPushButton();
     connect(loadParaFromSDButton, SIGNAL(clicked()), this, SLOT(loadParaFromSD()));
     horizontalLayout->addWidget(loadParaFromSDButton, 4, 0);
 
-    QPushButton* saveParaToSDButton = new QPushButton(tr("To SD"));
-    saveParaToSDButton->setToolTip(tr("Save parameters in this view to a file on the on-board SD card."));
-    saveParaToSDButton->setWhatsThis(saveParaToSDButton->toolTip());
+    saveParaToSDButton = new QPushButton();
     connect(saveParaToSDButton, SIGNAL(clicked()), this, SLOT(saveParaToSD()));
     horizontalLayout->addWidget(saveParaToSDButton, 4, 1);
+    
+    loadDefaultsButton = new QPushButton();
+    connect(loadDefaultsButton, SIGNAL(clicked()), this, SLOT(loadOnboardDefaults()));
+    horizontalLayout->addWidget(loadDefaultsButton, 4, 2);
 
-    restartButton = new QPushButton(tr("Restart"));
-    restartButton->setToolTip(tr("Restart the remote system."));
-    restartButton->setWhatsThis(restartButton->toolTip());
+    calibrateAccButton = new QPushButton();
+    connect(calibrateAccButton, SIGNAL(clicked()), this, SLOT(calibrationAccStart()));
+    horizontalLayout->addWidget(calibrateAccButton, 5, 0);
+
+    calibrateMagButton = new QPushButton();
+    connect(calibrateMagButton, SIGNAL(clicked()), this, SLOT(calibrationMagStart()));
+    horizontalLayout->addWidget(calibrateMagButton, 5, 1);
+
+    calibrateSaveButton = new QPushButton();
+    connect(calibrateSaveButton, SIGNAL(clicked()), this, SLOT(calibrationSave()));
+    horizontalLayout->addWidget(calibrateSaveButton, 6, 0);
+
+    calibrateReadButton = new QPushButton();
+    connect(calibrateReadButton, SIGNAL(clicked()), this, SLOT(calibrationLoad()));
+    horizontalLayout->addWidget(calibrateReadButton, 6, 1);
+
+    restartButton = new QPushButton();
     connect(restartButton, SIGNAL(clicked()), this, SLOT(restartUasWithPrompt()));
-    horizontalLayout->addWidget(restartButton, 4, 2);
+    horizontalLayout->addWidget(restartButton, 5, 2, 2, 1, Qt::AlignVCenter);
 
 //    QPushButton* wpFromSDButton = new QPushButton(tr("WP from SD"));
 //    wpFromSDButton->setToolTip(tr("Load mission plan from on-board SD card."));
@@ -159,13 +150,9 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     // Set layout
     this->setLayout(horizontalLayout);
 
-    // Set header
-    QStringList headerItems;
-    headerItems.append("Parameter");
-    headerItems.append("Value");
-    tree->setHeaderLabels(headerItems);
-    tree->setColumnCount(2);
-    tree->setExpandsOnDoubleClick(true);
+    // Load settings
+    loadSettings();
+    loadParameterInfoCSV(uas_ext->getAutopilotTypeName(), uas_ext->getSystemTypeName());
 
     // Connect signals/slots
     connect(this, SIGNAL(parameterChanged(int,QString,QVariant)), mav, SLOT(setParameter(int,QString,QVariant)));
@@ -179,8 +166,98 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     connect(this, SIGNAL(requestParameter(int,int)), uas_ext, SLOT(requestParameter(int,int)));
     connect(&retransmissionTimer, SIGNAL(timeout()), this, SLOT(retransmissionGuardTick()));
 
+    retranslateUi();
     // Get parameters
     //if (uas_ext) requestParameterList();
+}
+
+QGCAQParamWidget::~QGCAQParamWidget() {
+    saveSettings();
+}
+
+void QGCAQParamWidget::changeEvent(QEvent* event)
+{
+    if (event->type() == QEvent::LanguageChange)
+        retranslateUi();
+
+    QWidget::changeEvent(event);
+}
+
+void QGCAQParamWidget::retranslateUi() {
+
+    if (!statusLabel->text().length())
+        statusLabel->setText(tr("Click refresh to download parameters"));
+
+    // save to file button menu actions
+    saveFileMenu.clear();
+    QAction* action;
+    action =  saveFileMenu.addAction(tr("AQ params.txt format (can also load via QGC v1.3+)"), this, SLOT(saveParamFile()));
+    action->setData(1);
+    action =  saveFileMenu.addAction(tr("QGC format (for loading with older QGC versions)"), this, SLOT(saveParamFile()));
+    action->setData(0);
+
+    // Set treeview header
+    QStringList headerItems;
+    headerItems.append(tr("Parameter"));
+    headerItems.append(tr("Value"));
+    tree->setHeaderLabels(headerItems);
+
+    // Buttons
+    refreshButton->setText(tr("Refresh"));
+    refreshButton->setToolTip(tr("<html><body><p>Load parameters currently in non-permanent memory of aircraft.</p></body></html>"));
+    refreshButton->setWhatsThis(refreshButton->toolTip());
+
+    setButton->setText(tr("Transmit"));
+    setButton->setToolTip(tr("<html><body><p>Set current parameters in non-permanent onboard memory.</p></body></html>"));
+    setButton->setWhatsThis(setButton->toolTip());
+
+    writeButton->setText(tr("Write Flash"));
+    writeButton->setToolTip(tr("<html><body><p>Copy current parameters in non-permanent memory of the aircraft to permanent memory. If you have modified any parameters, save or transmit them first.</p></body></html>"));
+    writeButton->setWhatsThis(writeButton->toolTip());
+
+    loadFileButton->setText(tr("Load File"));
+    loadFileButton->setToolTip(tr("<html><body><p>Load parameters from a file on this computer. To write them to the aircraft, use transmit after loading them.</p></body></html>"));
+    loadFileButton->setWhatsThis(loadFileButton->toolTip());
+
+    saveFileButton->setText(tr("Save File"));
+    saveFileButton->setToolTip(tr("<html><body><p>Save parameters in the current view to a file on this computer.</p></body></html>"));
+    saveFileButton->setWhatsThis(saveFileButton->toolTip());
+
+    readButton->setText(tr("Read Flash"));
+    readButton->setToolTip(tr("<html><body><p>Copy parameters from permanent memory to non-permanent current memory of aircraft and reloads the values for display.</p></body></html>"));
+    readButton->setWhatsThis(readButton->toolTip());
+
+    loadParaFromSDButton->setText(tr("From SD"));
+    loadParaFromSDButton->setToolTip(tr("<html><body><p>Load parameters from a PARAMS.txt file on the on-board SD card, if one exists, and reloads the values for display. These parameters will be in the aircraft non-permanent memory.</p></body></html>"));
+    loadParaFromSDButton->setWhatsThis(loadParaFromSDButton->toolTip());
+
+    saveParaToSDButton->setText(tr("To SD"));
+    saveParaToSDButton->setToolTip(tr("<html><body><p>Save parameters in this view to a file on the on-board SD card.</p></body></html>"));
+    saveParaToSDButton->setWhatsThis(saveParaToSDButton->toolTip());
+
+    loadDefaultsButton->setText(tr("Defaults"));
+    loadDefaultsButton->setToolTip(tr("<html><body><p>Load system default parameter values to non-permanent onboard memory and reloads the values for display.</p></body></html>"));
+    loadDefaultsButton->setWhatsThis(loadDefaultsButton->toolTip());
+
+    calibrateAccButton->setText(tr("DIMU Tare"));
+    calibrateAccButton->setToolTip(tr("<html><body><p>Initate a quick accelerometer calibration of AQ equipped with Digital IMU. Place aircraft on a level surface first.</p></body></html>"));
+    calibrateAccButton->setWhatsThis(calibrateAccButton->toolTip());
+
+    calibrateMagButton->setText(tr("MAG Calib."));
+    calibrateMagButton->setToolTip(tr("<html><body><p>Initate calibration of onboard Magnetometer sensor. See AQ documentation for detailed procedure.</p></body></html>"));
+    calibrateMagButton->setWhatsThis(calibrateMagButton->toolTip());
+
+    calibrateSaveButton->setText(tr("Calib. Save"));
+    calibrateSaveButton->setToolTip(tr("<html><body><p>Save Digital IMU calibration parameters to EEPROM (permanent storage). See AQ documentation for details.</p></body></html>"));
+    calibrateSaveButton->setWhatsThis(calibrateSaveButton->toolTip());
+
+    calibrateReadButton->setText(tr("Calib. Read"));
+    calibrateReadButton->setToolTip(tr("<html><body><p>Load Digital IMU calibration parameters from EEPROM (permanent storage) and reloads the values for display. See AQ documentation for details.</p></body></html>"));
+    calibrateReadButton->setWhatsThis(calibrateReadButton->toolTip());
+
+    restartButton->setText(tr("Restart"));
+    restartButton->setToolTip(tr("<html><body><p>Restart the remote system.</p></body></html>"));
+    restartButton->setWhatsThis(restartButton->toolTip());
 }
 
 void QGCAQParamWidget::loadSettings()
@@ -193,6 +270,18 @@ void QGCAQParamWidget::loadSettings()
     temp = settings.value("PARAMETER_REWRITE_TIMEOUT", rewriteTimeout).toInt(&ok);
     if (ok) rewriteTimeout = temp;
     settings.endGroup();
+
+    settings.beginGroup("QGC_PARAMS_WIDGET");
+    tree->header()->resizeSection(0, settings.value("FIRST_COL_WIDTH", 130).toInt());
+    settings.endGroup();
+}
+
+void QGCAQParamWidget::saveSettings() {
+    QSettings settings;
+    settings.beginGroup("QGC_PARAMS_WIDGET");
+    settings.setValue("FIRST_COL_WIDTH", tree->header()->sectionSize(0));
+    settings.endGroup();
+    settings.sync();
 }
 
 void QGCAQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QString& airframe)
@@ -203,8 +292,7 @@ void QGCAQParamWidget::loadParameterInfoCSV(const QString& autopilot, const QStr
     QString fileName = QString("%1/%2/parameter_tooltips/tooltips.txt").arg(appDir.canonicalPath()).arg(autopilot.toLower());
     QFile paramMetaFile(fileName);
 
-    qDebug() << "AUTOPILOT:" << autopilot;
-    qDebug() << "FILENAME: " << fileName;
+    qDebug() << "AUTOPILOT:" << autopilot << "FILENAME: " << fileName;
 
     // Load CSV data
     if (!paramMetaFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -345,12 +433,12 @@ void QGCAQParamWidget::addComponent(int uas, int component, QString componentNam
     Q_UNUSED(uas);
     if (components->contains(component)) {
         // Update existing
-        components->value(component)->setData(0, Qt::DisplayRole, QString("%1 (#%2)").arg(componentName).arg(component));
+        components->value(component)->setData(0, Qt::DisplayRole, componentName);
         //components->value(component)->setData(1, Qt::DisplayRole, QString::number(component));
         components->value(component)->setFirstColumnSpanned(true);
     } else {
         // Add new
-        QStringList list(QString("%1 (#%2)").arg(componentName).arg(component));
+        QStringList list(componentName);
         QTreeWidgetItem* comp = new QTreeWidgetItem(list);
         comp->setFirstColumnSpanned(true);
         components->insert(component, comp);
@@ -535,20 +623,20 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
     // Get component
     if (!components->contains(component))
     {
-//        QString componentName;
-//        switch (component)
-//        {
-//        case MAV_COMP_ID_CAMERA:
-//            componentName = tr("Camera (#%1)").arg(component);
-//            break;
-//        case MAV_COMP_ID_IMU:
-//            componentName = tr("IMU (#%1)").arg(component);
-//            break;
-//        default:
-//            componentName = tr("Component #").arg(component);
-//            break;
-//        }
-        QString componentName = tr("Component #%1").arg(component);
+        QString componentName;
+        switch (component)
+        {
+        case MAV_COMP_ID_CAMERA:
+            componentName = tr("Camera");
+            break;
+        case MAV_COMP_ID_IMU:
+            componentName = tr("IMU");
+            break;
+        default:
+            componentName = tr("System ") + this->uas->getUASName();
+            break;
+        }
+        //QString componentName = tr("Component #%1").arg(component);
         addComponent(uas, component, componentName);
     }
 
@@ -1341,7 +1429,10 @@ void QGCAQParamWidget::writeParameters()
 void QGCAQParamWidget::readParameters()
 {
     if (!mav) return;
-    mav->readParametersFromStorage();
+    mav->readParametersFromStorageAQ();
+    // schedule reload of params
+    connect(mav, SIGNAL(commandAcked(int,int,uint16_t,uint8_t)), this, SLOT(commandAckReceived(int,int,uint16_t,uint8_t)));
+    //requestParameterList();
 }
 
 /**
@@ -1380,6 +1471,8 @@ void QGCAQParamWidget::loadParaFromSD()
     if (uas != NULL)
     {
         uas->readParametersFromSDAQ();
+        // schedule reload of params
+        connect(mav, SIGNAL(commandAcked(int,int,uint16_t,uint8_t)), this, SLOT(commandAckReceived(int,int,uint16_t,uint8_t)));
     }
 }
 
@@ -1423,11 +1516,46 @@ void QGCAQParamWidget::restartUasWithPrompt()
         restartUas();
 }
 
-void QGCAQParamWidget::resetLinkLossExpected() {
-    if (uas != NULL) {
-        for ( int i=0; i < uas->getLinks()->count(); i++)
-            uas->getLinks()->at(i)->linkLossExpected(false);
-    }
+void QGCAQParamWidget::calibrationAccStart()
+{
+    if (!mav)
+        return;
+
+    mav->sendCommmandToAq(MAV_CMD_PREFLIGHT_CALIBRATION, 1, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void QGCAQParamWidget::calibrationMagStart()
+{
+    if (!mav)
+        return;
+
+    mav->sendCommmandToAq(MAV_CMD_PREFLIGHT_CALIBRATION, 1, 0.0f, 1.0f);
+}
+
+void QGCAQParamWidget::calibrationSave()
+{
+    if (!mav)
+        return;
+
+    mav->sendCommmandToIMU(MAV_CMD_PREFLIGHT_STORAGE, 1, 1.0f);
+}
+
+void QGCAQParamWidget::calibrationLoad()
+{
+    if (!mav)
+        return;
+
+    mav->sendCommmandToIMU(MAV_CMD_PREFLIGHT_STORAGE, 1, 0.0f);
+    // schedule reload of params
+    connect(mav, SIGNAL(commandAcked(int,int,uint16_t,uint8_t)), this, SLOT(commandAckReceived(int,int,uint16_t,uint8_t)));
+}
+
+void QGCAQParamWidget::loadOnboardDefaults()
+{
+    if (!mav) return;
+    mav->loadDefaultParametersAQ();
+    // schedule reload of params
+    connect(mav, SIGNAL(commandAcked(int,int,uint16_t,uint8_t)), this, SLOT(commandAckReceived(int,int,uint16_t,uint8_t)));
 }
 
 void QGCAQParamWidget::wpFromSD()
@@ -1451,7 +1579,37 @@ void QGCAQParamWidget::setRestartBtnEnabled(const bool enable)
     restartButton->setEnabled(enable);
 }
 
+void QGCAQParamWidget::setCalibBtnsEnabled(const bool enable)
+{
+    loadDefaultsButton->setEnabled(enable);
+    calibrateAccButton->setEnabled(enable);
+    calibrateMagButton->setEnabled(enable);
+    calibrateSaveButton->setEnabled(enable);
+    calibrateReadButton->setEnabled(enable);
+}
+
 void QGCAQParamWidget::setFilePath(QString fileName)
 {
     fileNameFromMaster = fileName;
+}
+
+void QGCAQParamWidget::resetLinkLossExpected() {
+    if (uas != NULL) {
+        for ( int i=0; i < uas->getLinks()->count(); i++)
+            uas->getLinks()->at(i)->linkLossExpected(false);
+    }
+}
+
+void QGCAQParamWidget::commandAckReceived(int uasid, int compid, uint16_t command, uint8_t result)
+{
+    Q_UNUSED(compid)
+    if (uas && uas->getUASID() == uasid) {
+        switch (command) {
+        case MAV_CMD_PREFLIGHT_STORAGE :
+            disconnect(mav, SIGNAL(commandAcked(int,int,uint16_t,uint8_t)), this, SLOT(commandAckReceived(int,int,uint16_t,uint8_t)));
+            if (result == MAV_CMD_ACK_OK)
+                requestParameterList();
+            break;
+        }
+    }
 }

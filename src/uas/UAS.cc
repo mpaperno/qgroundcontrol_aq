@@ -921,9 +921,27 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             mavlink_command_ack_t ack;
             mavlink_msg_command_ack_decode(&message, &ack);
 
-            /*for later
+            emit commandAcked(uasId, message.compid, ack.command, ack.result);
+
             switch (ack.result)
             {
+            case MAV_CMD_ACK_OK:
+            {
+                emit textMessageReceived(uasId, message.compid, 0, tr("SUCCESS: Executed CMD: %1").arg(ack.command));
+            }
+                break;
+            case MAV_CMD_ACK_ERR_FAIL:
+            {
+                emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Temporarily rejected CMD: %1").arg(ack.command));
+            }
+                break;
+            case MAV_CMD_ACK_ERR_NOT_SUPPORTED:
+            {
+                emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Unsupported CMD: %1").arg(ack.command));
+            }
+                break;
+
+            /*for later
             case MAV_RESULT_ACCEPTED:
             {
                 emit textMessageReceived(uasId, message.compid, 0, tr("SUCCESS: Executed CMD: %1").arg(ack.command));
@@ -949,25 +967,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Failed CMD: %1").arg(ack.command));
             }
                 break;
-            }
             */
-            switch (ack.result)
-            {
-            case MAV_CMD_ACK_OK:
-            {
-                emit textMessageReceived(uasId, message.compid, 0, tr("SUCCESS: Executed CMD: %1").arg(ack.command));
-            }
-                break;
-            case MAV_CMD_ACK_ERR_FAIL:
-            {
-                emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Temporarily rejected CMD: %1").arg(ack.command));
-            }
-                break;
-            case MAV_CMD_ACK_ERR_NOT_SUPPORTED:
-            {
-                emit textMessageReceived(uasId, message.compid, 0, tr("FAILURE: Unsupported CMD: %1").arg(ack.command));
-            }
-                break;
             }
         }
         case MAVLINK_MSG_ID_ROLL_PITCH_YAW_THRUST_SETPOINT:
@@ -1982,24 +1982,9 @@ void UAS::readParametersFromStorage()
     sendMessage(msg);
 }
 
-void UAS::readParametersFromSDAQ()
-{
-    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 2.0f);
-}
-
 void UAS::readParametersFromStorageAQ()
 {
     sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 0.0f);
-}
-
-void UAS::readWaypointsFromSDAQ()
-{
-    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 4.0f);
-}
-
-void UAS::writeParametersToSDAQ()
-{
-    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 3.0f);
 }
 
 void UAS::writeParametersToStorageAQ()
@@ -2007,9 +1992,29 @@ void UAS::writeParametersToStorageAQ()
     sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 1.0f);
 }
 
+void UAS::readParametersFromSDAQ()
+{
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 2.0f);
+}
+
+void UAS::writeParametersToSDAQ()
+{
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 3.0f);
+}
+
+void UAS::loadDefaultParametersAQ()
+{
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 4.0f);
+}
+
+void UAS::readWaypointsFromSDAQ()
+{
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, -1.0f, 0.0f);
+}
+
 void UAS::writeWaypointsToSDAQ()
 {
-    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, 5.0f);
+    sendCommmandToAq(MAV_CMD_PREFLIGHT_STORAGE, 1, -1.0f, 1.0f);
 }
 
 void UAS::startStopTelemetry(bool enable, float frequenz, uint8_t dataset){
@@ -2019,6 +2024,13 @@ void UAS::startStopTelemetry(bool enable, float frequenz, uint8_t dataset){
 void UAS::sendCommmandToAq(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7){
     mavlink_message_t msg;
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, 0, command, confirm, para1, para2, para3, para4, para5, para6, para7);
+    //qDebug() << "SENT COMMAND" << command << "para1:" << para1 << "para2:" << para2 << "para3:" << para3 << "para4:" << para4;
+    sendMessage(msg);
+}
+
+void UAS::sendCommmandToIMU(int command,int confirm, float para1,float para2,float para3,float para4,float para5,float para6,float para7){
+    mavlink_message_t msg;
+    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_IMU, command, confirm, para1, para2, para3, para4, para5, para6, para7);
     //qDebug() << "SENT COMMAND" << command << "para1:" << para1 << "para2:" << para2 << "para3:" << para3 << "para4:" << para4;
     sendMessage(msg);
 }

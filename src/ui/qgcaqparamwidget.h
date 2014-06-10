@@ -20,6 +20,7 @@ class QGCAQParamWidget : public QGCUASParamManager
     Q_OBJECT
 public:
     QGCAQParamWidget(UASInterface* uas, QWidget *parent = 0);
+    ~QGCAQParamWidget();
     /** @brief Get the UAS of this widget */
     UASInterface* getUAS();
 	QVariant getParaAQ(QString parameterName);
@@ -47,6 +48,7 @@ signals:
     void parameterListRequested();
 
 public slots:
+    void retranslateUi();
     /** @brief Add a component to the list */
     void addComponent(int uas, int component, QString componentName);
     /** @brief Add a parameter to the list with retransmission / safety checks */
@@ -83,11 +85,20 @@ public slots:
     void saveParaToSD();
     void wpFromSD();
     void wpToSD();
+    void loadOnboardDefaults();
 
-    void setRestartBtnEnabled(const bool enable);
     void restartUas();
     void restartUasWithPrompt();
+
+    void calibrationAccStart();
+    void calibrationMagStart();
+    void calibrationSave();
+    void calibrationLoad();
+
+    void setRestartBtnEnabled(const bool enable);
+    void setCalibBtnsEnabled(const bool enable);
     void resetLinkLossExpected();
+    void commandAckReceived(int uasid, int compid, uint16_t command, uint8_t result);
 
 protected:
     QTreeWidget* tree;   ///< The parameter tree
@@ -107,13 +118,29 @@ protected:
     void setRetransmissionGuardEnabled(bool enabled);
     /** @brief Load  settings */
     void loadSettings();
+    void saveSettings();
     /** @brief Load meta information from CSV */
     void loadParameterInfoCSV(const QString& autopilot, const QString& airframe);
     int OverrideCheckValue;
     UASInterface* uas;
     QString fileNameFromMaster;
 
+    void changeEvent(QEvent *event);
+
 private:
+    QPushButton* refreshButton;
+    QPushButton* setButton;
+    QPushButton* writeButton;
+    QPushButton* loadFileButton;
+    QPushButton* saveFileButton;
+    QPushButton* readButton;
+    QPushButton* loadParaFromSDButton;
+    QPushButton* saveParaToSDButton;
+    QPushButton* loadDefaultsButton;
+    QPushButton* calibrateAccButton;
+    QPushButton* calibrateMagButton;
+    QPushButton* calibrateSaveButton;
+    QPushButton* calibrateReadButton;
     QPushButton* restartButton;
 
 };
