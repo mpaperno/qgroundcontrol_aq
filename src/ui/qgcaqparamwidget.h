@@ -114,6 +114,8 @@ protected:
     QMap<QString, double> paramDefault; ///< Default param values
     QMap<QString, double> paramMax; ///< Minimum param values
 
+    QStringList expandedTreeItems;
+
     /** @brief Activate / deactivate parameter retransmission */
     void setRetransmissionGuardEnabled(bool enabled);
     /** @brief Load  settings */
@@ -125,7 +127,9 @@ protected:
     UASInterface* uas;
     QString fileNameFromMaster;
 
+protected slots:
     void changeEvent(QEvent *event);
+    void trackExpandedItems(QTreeWidgetItem *item);
 
 private:
     QPushButton* refreshButton;

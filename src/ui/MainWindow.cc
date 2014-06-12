@@ -580,13 +580,13 @@ void MainWindow::buildCommonWidgets()
 //    QStringList* acceptList2 = new QStringList();
 //    acceptList2->append("0,RAW_PRESSURE.pres_abs,hPa,65500");
 
-    if (!parametersDockWidget)
-    {
-        parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
-        parametersDockWidget->setWidget( new ParameterInterface(this) );
-        parametersDockWidget->setObjectName("PARAMETER_INTERFACE_DOCKWIDGET");
-        addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
-    }
+//    if (!parametersDockWidget)
+//    {
+//        parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
+//        parametersDockWidget->setWidget( new ParameterInterface(this) );
+//        parametersDockWidget->setObjectName("PARAMETER_INTERFACE_DOCKWIDGET");
+//        addTool(parametersDockWidget, tr("Onboard Parameters"), Qt::RightDockWidgetArea);
+//    }
 	
     if (!hsiDockWidget)
     {
@@ -1703,7 +1703,7 @@ void MainWindow::loadViewState()
             logPlayerDockWidget->hide();
             mavlinkInspectorWidget->show();
             //mavlinkSenderWidget->show();
-            parametersDockWidget->hide();
+            //parametersDockWidget->hide();
             hsiDockWidget->hide();
             headDown1DockWidget->hide();
             //headDown2DockWidget->hide();
@@ -1722,7 +1722,7 @@ void MainWindow::loadViewState()
             debugConsoleDockWidget->hide();
             logPlayerDockWidget->hide();
             mavlinkInspectorWidget->hide();
-            parametersDockWidget->hide();
+            //parametersDockWidget->hide();
             hsiDockWidget->show();
             headDown1DockWidget->hide();
             //headDown2DockWidget->show();
@@ -1741,7 +1741,7 @@ void MainWindow::loadViewState()
             debugConsoleDockWidget->hide();
             logPlayerDockWidget->hide();
             mavlinkInspectorWidget->hide();
-            parametersDockWidget->hide();
+            //parametersDockWidget->hide();
             hsiDockWidget->hide();
             headDown1DockWidget->hide();
             //headDown2DockWidget->show();
@@ -1800,7 +1800,7 @@ void MainWindow::loadViewState()
             infoDockWidget->hide();
             debugConsoleDockWidget->show();
             logPlayerDockWidget->hide();
-            parametersDockWidget->hide();
+            //parametersDockWidget->hide();
             hsiDockWidget->hide();
             headDown1DockWidget->hide();
             //headDown2DockWidget->hide();

@@ -890,7 +890,8 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
 
             // Insert parameter into registry
-            if (parameters.value(component)->contains(parameterName)) parameters.value(component)->remove(parameterName);
+            if (parameters.value(component)->contains(parameterName))
+                parameters.value(component)->remove(parameterName);
 
             // Insert with correct type
             switch (value.param_type)
@@ -913,7 +914,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             // Emit change
             emit parameterChanged(uasId, message.compid, parameterName, param);
             emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
-//          qDebug() << "RECEIVED PARAM:" << param;
+            //qDebug() << __FILE__ << __LINE__ << "RECEIVED PARAM:" << parameterName << param;
         }
             break;
         case MAVLINK_MSG_ID_COMMAND_ACK:
