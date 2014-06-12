@@ -2965,10 +2965,8 @@
         <translation>MAVLink-Inspektor</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="585"/>
-        <location filename="../../src/ui/MainWindow.cc" line="588"/>
         <source>Onboard Parameters</source>
-        <translation>Onboard Parameter</translation>
+        <translation type="obsolete">Onboard Parameter</translation>
     </message>
     <message>
         <location filename="../../src/ui/MainWindow.cc" line="593"/>
@@ -3284,22 +3282,22 @@
 <context>
     <name>QGCAQParamWidget</name>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="189"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="191"/>
         <source>Click refresh to download parameters</source>
         <translation>Klicken Sie auf aktualisieren, um die Parameter-download</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="201"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="203"/>
         <source>Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="202"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="204"/>
         <source>Value</source>
         <translation type="unfinished">Wert</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="206"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="208"/>
         <source>Refresh</source>
         <translation>Aktualisieren</translation>
     </message>
@@ -3308,7 +3306,7 @@
         <translation type="obsolete">Laden Sie die Parameter im nicht-permanente Speicher von Flugzeugen.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="210"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="212"/>
         <source>Transmit</source>
         <translation>Übertragen</translation>
     </message>
@@ -3325,7 +3323,7 @@
         <translation type="obsolete">Kopieren Sie aktuelle Parameter in nicht-ständigen Erinnerung an das Flugzeug, das dem permanenten Speicher. Übertragen Sie Ihre Parameter zuerst um diese schreiben.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="218"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="220"/>
         <source>Load File</source>
         <translation>Datei laden</translation>
     </message>
@@ -3334,8 +3332,8 @@
         <translation type="obsolete">Laden Sie Parameter aus einer Datei auf diesem Computer in der Ansicht. Um sie in das Flugzeug zu schreiben, verwenden nach dem Laden sie übertragen.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="222"/>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="885"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="224"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="882"/>
         <source>Save File</source>
         <translation>Speichern Sie Datei</translation>
     </message>
@@ -3344,12 +3342,12 @@
         <translation type="obsolete">Speichern Sie die Parameter in dieser Ansicht in einer Datei auf diesem Computer.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="194"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="196"/>
         <source>AQ params.txt format (can also load via QGC v1.3+)</source>
         <translation>AQ-params.txt-Format (kann auch via QGC v1. 3 + Laden)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="196"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="198"/>
         <source>QGC format (for loading with older QGC versions)</source>
         <translation>QGC-Format (für die Belastung mit älteren QGC-Versionen)</translation>
     </message>
@@ -3362,22 +3360,22 @@
         <translation type="obsolete">Kopieren Sie Parameter aus dem permanenten Speicher in nicht-ständigen aktuellen Speicher von Flugzeugen. Die Parameter in dieser Ansicht, klicken Sie auf Aktualisierung nach dem Kopieren, um sie zu erhalten wird nicht aktualisiert werden.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="230"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="232"/>
         <source>From SD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="234"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="236"/>
         <source>To SD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1505"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1476"/>
         <source>Restarting the UAS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1506"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1477"/>
         <source>Are you sure you want to restart the remote system?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3398,173 +3396,178 @@
         <translation type="obsolete">Speichern Sie die Parameter in dieser Ansicht in eine Datei auf die on-Board-SD-Karte.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="258"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="260"/>
         <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="207"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="209"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Load parameters currently in non-permanent memory of aircraft.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="211"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="213"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Set current parameters in non-permanent onboard memory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="214"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="216"/>
         <source>Write Flash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="215"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="217"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Copy current parameters in non-permanent memory of the aircraft to permanent memory. If you have modified any parameters, save or transmit them first.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="219"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="221"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Load parameters from a file on this computer. To write them to the aircraft, use transmit after loading them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="223"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="225"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Save parameters in the current view to a file on this computer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="226"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="228"/>
         <source>Read Flash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="227"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="229"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Copy parameters from permanent memory to non-permanent current memory of aircraft and reloads the values for display.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="231"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="233"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Load parameters from a PARAMS.txt file on the on-board SD card, if one exists, and reloads the values for display. These parameters will be in the aircraft non-permanent memory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="235"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="237"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Save parameters in this view to a file on the on-board SD card.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="238"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="240"/>
         <source>Defaults</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="239"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="241"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Load system default parameter values to non-permanent onboard memory and reloads the values for display.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="242"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="244"/>
         <source>DIMU Tare</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="243"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="245"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Initate a quick accelerometer calibration of AQ equipped with Digital IMU. Place aircraft on a level surface first.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="246"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="248"/>
         <source>MAG Calib.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="247"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="249"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Initate calibration of onboard Magnetometer sensor. See AQ documentation for detailed procedure.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="250"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="252"/>
         <source>Calib. Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="251"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="253"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Save Digital IMU calibration parameters to EEPROM (permanent storage). See AQ documentation for details.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="254"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="256"/>
         <source>Calib. Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="255"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="257"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Load Digital IMU calibration parameters from EEPROM (permanent storage) and reloads the values for display. See AQ documentation for details.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="259"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="261"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Restart the remote system.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="545"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="550"/>
         <source>SUCCESS: WROTE ALL PARAMETERS</source>
         <translation>ERFOLG: SCHRIEB ALLE PARAMETER</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="551"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="556"/>
         <source>SUCCESS: Wrote %2 (#%1/%4): %3</source>
         <translation>Erfolg: Schrieb &quot;%2&quot; (#%1 / %4): %3</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="561"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="566"/>
         <source>FAILURE: Wrote %1: sent %2 != onboard %3</source>
         <translation>Fehler: Schrieb %1: %2 gesendet! = onboard %3</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="584"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="589"/>
         <source>All received. (updated at %1)</source>
         <translation>Alles empfangen. (aktualisiert am %1)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="630"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="638"/>
         <source>Camera</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="633"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="641"/>
         <source>IMU</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="636"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="644"/>
         <source>System </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="885"/>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="974"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="756"/>
+        <source>Default: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="882"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="971"/>
         <source>Parameter File</source>
         <translation>Parameter-Datei</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="974"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="971"/>
         <source>All File Types</source>
         <translation type="unfinished">Alle Dateitypen</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1002"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="981"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1002"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="981"/>
         <source>Could not open saved parameters file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1371"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1332"/>
         <source>Transmitting %n parameter(s).</source>
         <translation type="unfinished">
             <numerusform>Übertragung von %n Parameter.</numerusform>
@@ -3580,17 +3583,16 @@
         <translation type="obsolete">Komponente #%1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="748"/>
         <source>Default: %1, %2</source>
-        <translation>Standard: %1, %2</translation>
+        <translation type="obsolete">Standard: %1, %2</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="792"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="798"/>
         <source>Requested param list.. waiting</source>
         <translation>Angeforderte Param-List... Wartende</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="814"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="822"/>
         <source>Changed Param %1:%2: %3</source>
         <translation>Geändert von Param %1: %2: %3</translation>
     </message>
@@ -3599,17 +3601,17 @@
         <translation type="obsolete">Parameter-Datei (*.txt)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="891"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="888"/>
         <source>Could not open params file. %1</source>
         <translation>Params-Datei konnte nicht geöffnet werden. &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="891"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="888"/>
         <source>Error!</source>
         <translation>Fehler!</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="973"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="970"/>
         <source>Select Saved Parameters File</source>
         <translation>Wählen Sie Parameterdatei gespeichert</translation>
     </message>
@@ -3618,32 +3620,32 @@
         <translation type="obsolete">Parameterdateien (*.params *.txt)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1172"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1155"/>
         <source>TIMEOUT! MISSING: %1 read, %2 write.</source>
         <translation>TIMEOUT! FEHLENDE: &quot;%1&quot; lesen, &quot;%2&quot; schreiben.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1190"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1173"/>
         <source>Requested retransmission of #%1</source>
         <translation>Angeforderte Weiterverbreitung von #%1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1240"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1213"/>
         <source>Requested rewrite of: %1: %2</source>
         <translation>Angeforderte Neufassung von: %1: %2</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1272"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1245"/>
         <source>REJ. %1 &lt; min</source>
         <translation>REJ. %1 &lt; min</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1277"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1250"/>
         <source>REJ. %1 &gt; max</source>
         <translation>REJ. %1 &gt; max</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1369"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1330"/>
         <source>No transmission: No changed values.</source>
         <translation>Keine Übertragung: keine veränderten Werte.</translation>
     </message>
@@ -3652,7 +3654,7 @@
         <translation type="obsolete">Übertragung von &quot;%1&quot;-Parameter.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1416"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1377"/>
         <source>There are locally changed parameters. Please transmit them first (&lt;TRANSMIT&gt;) or update them with the onboard values (&lt;REFRESH&gt;) before storing onboard from RAM to ROM.</source>
         <translation>Lokal geänderte Parameter sind vorhanden. Bitte übertragen sie erste (&lt;TRANSMIT&gt;) oder aktualisieren Sie sie mit den integrierten Werten (&lt;REFRESH&gt;) vor dem Speichern an Bord von RAM, Rom.</translation>
     </message>
@@ -5652,9 +5654,8 @@ Sind beide aktiviert wird der Zustand angenommer welcher zuerst eintritt (Zeit w
         <translation>Datei speichern</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9113"/>
         <source>Options</source>
-        <translation type="unfinished">Optionen</translation>
+        <translation type="obsolete">Optionen</translation>
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9137"/>
@@ -5679,11 +5680,6 @@ Sind beide aktiviert wird der Zustand angenommer welcher zuerst eintritt (Zeit w
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="9214"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use this area to convert magnetic inclination and declination from degrees &amp;amp; minutes format to decimal degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9217"/>
-        <source>Magnetic Format Converter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5870,6 +5866,16 @@ Sind beide aktiviert wird der Zustand angenommer welcher zuerst eintritt (Zeit w
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="7268"/>
         <source>Load file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9113"/>
+        <source>Calibration Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9217"/>
+        <source>Geographic Coordinates Format Converter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -9676,22 +9682,22 @@ Wenn Sie Kommunikationsprobleme auf Ihren Link (z. B. keine MAV wird in der List
 <context>
     <name>UAS</name>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="930"/>
+        <location filename="../../src/uas/UAS.cc" line="931"/>
         <source>SUCCESS: Executed CMD: %1</source>
         <translation>Erfolg: Ausgeführt CMD: %1</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="935"/>
+        <location filename="../../src/uas/UAS.cc" line="936"/>
         <source>FAILURE: Temporarily rejected CMD: %1</source>
         <translation>Fehler: Vorübergehend abgelehnt CMD: %1</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="940"/>
+        <location filename="../../src/uas/UAS.cc" line="941"/>
         <source>FAILURE: Unsupported CMD: %1</source>
         <translation>Fehler: Nicht unterstützte CMD: %1</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1044"/>
+        <location filename="../../src/uas/UAS.cc" line="1045"/>
         <source>%1 reached waypoint %2</source>
         <translation>%1 %2 Wegpunkt erreicht</translation>
     </message>
@@ -9700,89 +9706,89 @@ Wenn Sie Kommunikationsprobleme auf Ihren Link (z. B. keine MAV wird in der List
         <translation type="obsolete">NICHT IN DER LAGE, MELDUNGSNUMMER %1 ZU DECODIEREN</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1821"/>
+        <location filename="../../src/uas/UAS.cc" line="1822"/>
         <source>UNINIT</source>
         <translation>UNINIT</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1822"/>
+        <location filename="../../src/uas/UAS.cc" line="1823"/>
         <source>Unitialized, booting up.</source>
         <translation>Unitialized, Hochfahren.</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1825"/>
+        <location filename="../../src/uas/UAS.cc" line="1826"/>
         <source>BOOT</source>
         <translation>BOOT</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1826"/>
+        <location filename="../../src/uas/UAS.cc" line="1827"/>
         <source>Booting system, please wait.</source>
         <translation>Warten Sie System zu booten, bitte.</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1829"/>
+        <location filename="../../src/uas/UAS.cc" line="1830"/>
         <source>CALIBRATING</source>
         <translation>KALIBRIEREN</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1830"/>
+        <location filename="../../src/uas/UAS.cc" line="1831"/>
         <source>Calibrating sensors, please wait.</source>
         <translation>Kalibrieren der Sensoren, bitte warten.</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1833"/>
+        <location filename="../../src/uas/UAS.cc" line="1834"/>
         <source>ACTIVE</source>
         <translation>AKTIVE</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1834"/>
+        <location filename="../../src/uas/UAS.cc" line="1835"/>
         <source>Active, normal operation.</source>
         <translation>Aktive, normaler Betrieb.</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1837"/>
+        <location filename="../../src/uas/UAS.cc" line="1838"/>
         <source>STANDBY</source>
         <translation>STANDBY-MODUS</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1838"/>
+        <location filename="../../src/uas/UAS.cc" line="1839"/>
         <source>Standby mode, ready for launch.</source>
         <translation>Standby-Modus, bereit für den Start.</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1841"/>
+        <location filename="../../src/uas/UAS.cc" line="1842"/>
         <source>CRITICAL</source>
         <translation>KRITISCHE</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1842"/>
+        <location filename="../../src/uas/UAS.cc" line="1843"/>
         <source>FAILURE: Continuing operation.</source>
         <translation>Fehler: Sie Vorgang fortsetzen.</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1845"/>
+        <location filename="../../src/uas/UAS.cc" line="1846"/>
         <source>EMERGENCY</source>
         <translation>NOTFALL</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1846"/>
+        <location filename="../../src/uas/UAS.cc" line="1847"/>
         <source>EMERGENCY: Land Immediately!</source>
         <translation>Notfall: Land sofort!</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1854"/>
+        <location filename="../../src/uas/UAS.cc" line="1855"/>
         <source>SHUTDOWN</source>
         <translation>HERUNTERFAHREN</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1855"/>
+        <location filename="../../src/uas/UAS.cc" line="1856"/>
         <source>Powering off system.</source>
         <translation>System ausschalten.</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1796"/>
-        <location filename="../../src/uas/UAS.cc" line="1859"/>
-        <location filename="../../src/uas/UAS.cc" line="2932"/>
+        <location filename="../../src/uas/UAS.cc" line="1797"/>
+        <location filename="../../src/uas/UAS.cc" line="1860"/>
+        <location filename="../../src/uas/UAS.cc" line="2933"/>
         <source>UNKNOWN</source>
         <translation>UNBEKANNT</translation>
     </message>
@@ -9893,124 +9899,124 @@ Wenn Sie Kommunikationsprobleme auf Ihren Link (z. B. keine MAV wird in der List
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1284"/>
+        <location filename="../../src/uas/UAS.cc" line="1285"/>
         <source>GCS: UNABLE TO DECODE MESSAGE NUMBER %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1443"/>
+        <location filename="../../src/uas/UAS.cc" line="1444"/>
         <source>Setting new World Coordinate Frame Origin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1444"/>
+        <location filename="../../src/uas/UAS.cc" line="1445"/>
         <source>Do you want to set a new origin? Waypoints defined in the local frame will be shifted in their physical location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1802"/>
-        <location filename="../../src/uas/UAS.cc" line="2930"/>
+        <location filename="../../src/uas/UAS.cc" line="1803"/>
+        <location filename="../../src/uas/UAS.cc" line="2931"/>
         <source>PREFLIGHT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="1860"/>
+        <location filename="../../src/uas/UAS.cc" line="1861"/>
         <source>Unknown system state</source>
         <translation>Unbekannte Systemstatus</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2377"/>
+        <location filename="../../src/uas/UAS.cc" line="2378"/>
         <source>QGC WARNING: Parameter name %1 is more than %2 bytes long. This might lead to errors and mishaps!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2795"/>
+        <location filename="../../src/uas/UAS.cc" line="2796"/>
         <source>Shutting down the UAS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2796"/>
+        <location filename="../../src/uas/UAS.cc" line="2797"/>
         <source>Do you want to shut down the onboard computer?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2835"/>
+        <location filename="../../src/uas/UAS.cc" line="2836"/>
         <source>MAV </source>
         <translation>MAV </translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2865"/>
+        <location filename="../../src/uas/UAS.cc" line="2866"/>
         <source>autonomous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2869"/>
+        <location filename="../../src/uas/UAS.cc" line="2870"/>
         <source>guided</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2873"/>
+        <location filename="../../src/uas/UAS.cc" line="2874"/>
         <source>stabilized</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2877"/>
+        <location filename="../../src/uas/UAS.cc" line="2878"/>
         <source>manual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2882"/>
+        <location filename="../../src/uas/UAS.cc" line="2883"/>
         <source>preflight</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2887"/>
+        <location filename="../../src/uas/UAS.cc" line="2888"/>
         <source> mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2899"/>
+        <location filename="../../src/uas/UAS.cc" line="2900"/>
         <source> using hardware in the loop simulation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2919"/>
+        <location filename="../../src/uas/UAS.cc" line="2920"/>
         <source>AUTO</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2921"/>
+        <location filename="../../src/uas/UAS.cc" line="2922"/>
         <source>VECTOR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2924"/>
+        <location filename="../../src/uas/UAS.cc" line="2925"/>
         <source>STABILIZED</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2926"/>
+        <location filename="../../src/uas/UAS.cc" line="2927"/>
         <source>TEST</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="2928"/>
+        <location filename="../../src/uas/UAS.cc" line="2929"/>
         <source>MANUAL</source>
         <translation type="unfinished">MANUELLE</translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="3048"/>
-        <location filename="../../src/uas/UAS.cc" line="3074"/>
+        <location filename="../../src/uas/UAS.cc" line="3049"/>
+        <location filename="../../src/uas/UAS.cc" line="3075"/>
         <source>Could not set battery options, format is wrong</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="3137"/>
+        <location filename="../../src/uas/UAS.cc" line="3138"/>
         <source>on System %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/uas/UAS.cc" line="3141"/>
+        <location filename="../../src/uas/UAS.cc" line="3142"/>
         <source>Low battery detected %1</source>
         <translation>Batterie erkannt &quot;%1&quot;</translation>
     </message>

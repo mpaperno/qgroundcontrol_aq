@@ -43,9 +43,14 @@ user_config.pri
 *.suo
 *.uhf.txt
 *.opensdf
+*.bak
+*.bak.*
+*-?Copy.*
 
 thirdParty/qserialport-build-desktop/
 thirdParty/qserialport/bin/
 thirdParty/qserialport/lib/
 /libs/thirdParty/qserialport
 /libs/qextserialport
+/fixqt4headers.pl
+/fixqt.txt

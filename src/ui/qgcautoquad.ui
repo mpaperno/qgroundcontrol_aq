@@ -9110,7 +9110,7 @@ padding: 1px 5px;</string>
                  </sizepolicy>
                 </property>
                 <property name="title">
-                 <string>Options</string>
+                 <string>Calibration Options</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_11">
                  <property name="leftMargin">
@@ -9214,7 +9214,7 @@ padding: 1px 5px;</string>
                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use this area to convert magnetic inclination and declination from degrees &amp;amp; minutes format to decimal degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="title">
-                 <string>Magnetic Format Converter</string>
+                 <string>Geographic Coordinates Format Converter</string>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
                  <property name="leftMargin">
