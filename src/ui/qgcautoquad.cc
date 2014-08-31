@@ -1,7 +1,6 @@
 #include "MainWindow.h"
 #include "qgcautoquad.h"
 #include "ui_qgcautoquad.h"
-#include "aq_LogExporter.h"
 #include "LinkManager.h"
 #include "UASManager.h"
 #include "MG.h"

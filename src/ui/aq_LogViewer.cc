@@ -1,6 +1,5 @@
 #include "aq_LogViewer.h"
 #include "ui_aq_LogViewer.h"
-#include "aq_LogExporter.h"
 #include "MainWindow.h"
 
 #include <QFileDialog>
@@ -9,6 +8,7 @@
 #include <QSvgGenerator>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QProcess>
 
 AQLogViewer::AQLogViewer(QWidget *parent) :
     QWidget(parent),
@@ -148,20 +148,32 @@ void AQLogViewer::OpenLogFile()
 }
 
 void AQLogViewer::openExportOptionsDlg() {
-    static QWeakPointer<AQLogExporter> dlg_;
 
-    if (!dlg_)
-        dlg_ = new AQLogExporter(this);
+    QString platformExt = "";
+#if defined(Q_OS_WIN)
+     platformExt = ".exe";
+#endif
+    QString app = QCoreApplication::applicationDirPath() + "/AQ_Log_Export" + platformExt;
+    QStringList arg;
+    if (LogFile.length() && QFileInfo::QFileInfo(LogFile).exists())
+        arg << LogFile;
 
-    AQLogExporter *dlg = dlg_.data();
+    QProcess::startDetached(app, arg, QCoreApplication::applicationDirPath());
 
-    if (LogFile.length())
-        dlg->setLogFile(LogFile);
+//    static QWeakPointer<AQLogExporter> dlg_;
 
-    dlg->setAttribute(Qt::WA_DeleteOnClose);
-    dlg->show();
-    dlg->raise();
-    dlg->activateWindow();
+//    if (!dlg_)
+//        dlg_ = new AQLogExporter(this);
+
+//    AQLogExporter *dlg = dlg_.data();
+
+//    if (LogFile.length())
+//        dlg->setLogFile(LogFile);
+
+//    dlg->setAttribute(Qt::WA_DeleteOnClose);
+//    dlg->show();
+//    dlg->raise();
+//    dlg->activateWindow();
 }
 
 

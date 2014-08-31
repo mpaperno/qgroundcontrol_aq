@@ -263,7 +263,7 @@ FORMS += src/ui/MainWindow.ui \
 #    src/ui/QGCHilXPlaneConfiguration.ui \
     src/ui/qgcautoquad.ui \
     src/ui/AQLinechart.ui \
-    src/ui/aq_LogExporter.ui \
+#    src/ui/aq_LogExporter.ui \
     src/ui/aq_telemetryView.ui \
     src/ui/aq_pwmPortsConfig.ui \
     src/ui/aq_LogViewer.ui
@@ -415,7 +415,7 @@ HEADERS += src/MG.h \
     src/ui/qgcaqparamwidget.h \
     src/aq_comm.h \
     src/ui/linechart/aqlinechartwidget.h \
-    src/ui/aq_LogExporter.h \
+#    src/ui/aq_LogExporter.h \
     src/ui/aq_telemetryView.h \
     src/ui/aq_pwmPortsConfig.h \
     src/ui/PrimaryFlightDisplay.h \
@@ -591,7 +591,7 @@ SOURCES += src/main.cc \
     src/ui/qgcaqparamwidget.cc \
     src/aq_comm.cpp \
     src/ui/linechart/aqlinechartwidget.cpp \
-    src/ui/aq_LogExporter.cpp \
+#    src/ui/aq_LogExporter.cpp \
     src/ui/aq_telemetryView.cpp \
     src/ui/aq_pwmPortsConfig.cc \
     src/ui/PrimaryFlightDisplay.cpp \

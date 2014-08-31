@@ -476,6 +476,13 @@ void MainWindow::createExternalToolsMenu()
         ui.menuOtherTools->addAction(act);
         toolGroup->addAction(act);
     }
+    fpath = QCoreApplication::applicationDirPath() + "/AQ_Log_Export" + platformExeExt;
+    if (QFileInfo::QFileInfo(fpath).exists()) {
+        act = new QAction(aqIcon, tr("AQ Log Export"), this);
+        act->setData(fpath);
+        ui.menuOtherTools->addAction(act);
+        toolGroup->addAction(act);
+    }
 
     if (!toolGroup->actions().size())
         ui.menuOtherTools->setDisabled(true);
