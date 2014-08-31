@@ -256,6 +256,8 @@ public slots:
     /** @brief Update the window name */
     void configureWindowName();
 
+    void launchExternalTool(QAction *action);
+
 signals:
     void initStatusChanged(const QString& message);
 #ifdef MOUSE_ENABLED_LINUX
@@ -441,6 +443,9 @@ private:
 
     /** @brief creates the language menu dynamically from the content of m_langPath */
     void createLanguageMenu(void);
+
+    /** @brief creates the external tools menu dynamically */
+    void createExternalToolsMenu(void);
 
     //void switchTranslator(QTranslator &translator, const QString &filename);
 

@@ -82,35 +82,6 @@ private slots:
     void flashFwStart();
     void flashFwDfu();
 
-    // Calculations
-    void startCalculationProcess(QString appName, QStringList appArgs);
-    void startcal1();
-    void startcal2();
-    void startcal3();
-    void checkVaraince();
-    void calcAppendStaticFiles(QStringList *args);
-    void calcAppendDynamicFiles(QStringList *args);
-    void calcAppendParamsFile(QStringList *args);
-    QString calcGetSim3ParamPath();
-    void startsim1();
-    void startsim1b();
-    void startsim2();
-    void startsim3();
-    void abortcalc();
-    void check_var();
-    void check_stop();
-    void addStatic();
-    void delStatic();
-    void addDynamic();
-    void delDynamic();
-    void setUsersParams();
-    void CreateUsersParams();
-    void WriteUsersParams();
-    void ShowUsersParams(QString fileName);
-    double Round(double Zahl, unsigned int Stellen);
-    void CalculatDeclination();
-    void CalculatInclination();
-
     // UAS setup
     void addUAS(UASInterface* uas_ext);
     void setActiveUAS(UASInterface* uas_ext);
@@ -229,15 +200,6 @@ private:
     QSettings settings;
     QToolButton *splitterToggleBtn;
 
-    // Calculations
-    QStringList StaticFiles;
-    QStringList DynamicFiles;
-    QString UsersParamsFile;
-    float calVersion;
-    QTextEdit* activeProcessStatusWdgt;
-    QPushButton* currentCalcStartBtn;
-    QPushButton* currentCalcAbortBtn;
-
     // FW flashing
     QString fileToFlash;
     QString portName;
@@ -297,6 +259,9 @@ private:
     int devCommand;
     QProcess ps_master;
     bool mtx_paramsAreLoading;
+    QString UsersParamsFile;
+    QTextEdit* activeProcessStatusWdgt;
+
 };
 
 #endif // QGCAUTOQUAD_H

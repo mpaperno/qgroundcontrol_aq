@@ -142,6 +142,8 @@ MainWindow::MainWindow(QWidget *parent):
 
     // load language choices
     createLanguageMenu();
+    // load external tool choices
+    createExternalToolsMenu();
 
     // Setup corners
     setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
@@ -452,6 +454,38 @@ void MainWindow::loadLanguage(const QString& lang)
         QString languageName = QLocale::languageToString(l.language());
         ui.statusBar->showMessage(tr("Current Language changed to %1").arg(languageName));
     }
+}
+
+void MainWindow::createExternalToolsMenu()
+{
+#if defined(Q_OS_WIN)
+    QString platformExeExt = ".exe";
+#else
+    QString platformExeExt = "";
+#endif
+    QIcon aqIcon(":/files/images/contrib/AQ_logo_quad-only_outlined_112px.png");
+    QAction *act;
+    QActionGroup* toolGroup = new QActionGroup(ui.menuOtherTools);
+    toolGroup->setExclusive(false);
+    connect(toolGroup, SIGNAL(triggered(QAction *)), this, SLOT(launchExternalTool(QAction *)));
+
+    QString fpath = QCoreApplication::applicationDirPath() + "/AQ_IMU_Calibration" + platformExeExt;
+    if (QFileInfo::QFileInfo(fpath).exists()) {
+        act = new QAction(aqIcon, tr("AQ IMU Calibration"), this);
+        act->setData(fpath);
+        ui.menuOtherTools->addAction(act);
+        toolGroup->addAction(act);
+    }
+
+    if (!toolGroup->actions().size())
+        ui.menuOtherTools->setDisabled(true);
+}
+
+// Called to launch an external program from the Other Tools menu
+void MainWindow::launchExternalTool(QAction* action)
+{
+    if(action)
+        QProcess::startDetached(action->data().toString());
 }
 
 void MainWindow::buildCustomWidget()

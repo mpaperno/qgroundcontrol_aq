@@ -139,6 +139,11 @@
      <string>Main Widget</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuOtherTools">
+    <property name="title">
+     <string>Other Tools</string>
+    </property>
+   </widget>
    <addaction name="menuMGround"/>
    <addaction name="menuNetwork"/>
    <addaction name="menuConnected_Systems"/>
@@ -146,6 +151,7 @@
    <addaction name="menuPerspectives"/>
    <addaction name="menuMain"/>
    <addaction name="menuTools"/>
+   <addaction name="menuOtherTools"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
