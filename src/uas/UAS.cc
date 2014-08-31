@@ -3053,8 +3053,7 @@ void UAS::setBatterySpecs(const QString& specs)
     {
         batteryRemainingEstimateEnabled = true;
         QString stringList = specs;
-        stringList = stringList.remove("V");
-        stringList = stringList.remove("v");
+        stringList = stringList.remove(QRegExp("[^\\d,\\.]", Qt::CaseInsensitive));
         QStringList parts = stringList.split(",");
         if (parts.length() == 3)
         {
@@ -3084,7 +3083,7 @@ QString UAS::getBatterySpecs()
 {
     if (batteryRemainingEstimateEnabled)
     {
-        return QString("%1V,%2V,%3V").arg(emptyVoltage).arg(warnVoltage).arg(fullVoltage);
+        return QString("%1V, %2V, %3V").arg(emptyVoltage).arg(warnVoltage).arg(fullVoltage);
     }
     else
     {

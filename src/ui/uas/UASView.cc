@@ -514,15 +514,22 @@ void UASView::contextMenuEvent (QContextMenuEvent* event)
 
 void UASView::setBatterySpecs()
 {
-    if (uas)
-    {
-        bool ok;
-        QString newName = QInputDialog::getText(this, tr("Set Battery Specifications for %1").arg(uas->getUASName()),
-                                                tr("Specs: (empty,warn,full), e.g. (9V,9.5V,12.6V) or just warn level in percent (e.g. 15%) to use estimate from MAV"), QLineEdit::Normal,
-                                                uas->getBatterySpecs(), &ok);
+    if (!uas)
+        return;
 
-        if (ok && !newName.isEmpty()) uas->setBatterySpecs(newName);
-    }
+    bool ok;
+    QString dlgTitle = tr("Set Battery Specifications for %1").arg(uas->getUASName());
+    QString dlgLabel = tr("\
+Specify voltages for battery empty, warning, and full levels,\n \
+separated by commas (example: 9, 9.5, 12.6),\n \
+OR a warning level in percent to use estimate from UAV (example: 15%).\n \
+NOTE: Always use period as decimal separator.");
+
+    QString newName = QInputDialog::getText(0, dlgTitle, dlgLabel, QLineEdit::Normal, uas->getBatterySpecs(), &ok);
+
+    if (ok && !newName.isEmpty())
+        uas->setBatterySpecs(newName);
+
 }
 
 void UASView::rename()
