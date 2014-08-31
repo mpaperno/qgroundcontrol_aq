@@ -281,8 +281,8 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     // Set the port name
     name = this->porthandle.length() ? this->porthandle : tr("Serial Link ") + QString::number(getId());
 
-    if (name == this->porthandle || name == "")
-        loadSettings();
+//    if (name == this->porthandle || name == "")
+//        loadSettings();
 
     QObject::connect(this, SIGNAL(portError()), this, SLOT(disconnect()));
 
@@ -779,7 +779,7 @@ bool SerialLink::hardwareConnect()
     } else
         return false;
 
-    writeSettings();
+//    writeSettings();
 
     return true;
 }

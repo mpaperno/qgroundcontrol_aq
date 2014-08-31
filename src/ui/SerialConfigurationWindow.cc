@@ -44,78 +44,76 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
 {
     SerialLinkInterface* serialLink = dynamic_cast<SerialLinkInterface*>(link);
 
-    if(serialLink != 0)
-    {
-        serialLink->loadSettings();
-        this->link = serialLink;
-
-        // Setup the user interface according to link type
-        ui.setupUi(this);
-
-        // Create action to open this menu
-        // Create configuration action for this link
-        // Connect the current UAS
-        action = new QAction(QIcon(":/files/images/devices/network-wireless.svg"), "", link);
-        setLinkName(link->getName());
-
-
-        portEnumerator = new QextSerialEnumerator();
-        portEnumerator->setUpNotifications();
-        QObject::connect(portEnumerator, SIGNAL(deviceDiscovered(QextPortInfo)), this, SLOT(setupPortList()));
-        QObject::connect(portEnumerator, SIGNAL(deviceRemoved(QextPortInfo)), this, SLOT(setupPortList()));
-
-        setupPortList();
-
-        ui.portName->setCurrentIndex(ui.portName->findText(this->link->getPortName(), Qt::MatchStartsWith));
-
-        // Set up baud rates
-        QList<int> supportedBaudRates = MG::SERIAL::getBaudRates();
-        ui.baudRate->clear();
-		for (int i = 0; i < supportedBaudRates.size(); ++i) {
-			ui.baudRate->addItem(QString::number(supportedBaudRates.at(i)), supportedBaudRates.at(i));
-		}
-
-        ui.portName->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-        ui.baudRate->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-
-        ui.baudRate->setCurrentIndex(ui.baudRate->findText(QString::number(this->link->getBaudRate())));
-        ui.comboBox_flowControl->setCurrentIndex(this->link->getFlowType());
-        ui.comboBox_Parity->setCurrentIndex(this->link->getParityType());
-        ui.dataBitsCombo->setCurrentIndex(ui.dataBitsCombo->findText(QString::number(this->link->getDataBitsType())));
-        ui.stopBitsCombo->setCurrentIndex(ui.stopBitsCombo->findText(QString::number(this->link->getStopBitsType())));
-        ui.spinBox_timeout->setValue(this->link->getTimeoutMillis());
-        ui.spinBox_reconnectDelay->setValue(this->link->reconnectDelayMs());
-
-        ui.widget_advanced->setVisible(ui.groupBox_advanced->isChecked());
-
-        connect(action, SIGNAL(triggered()), this, SLOT(configureCommunication()));
-
-        // Make sure that a change in the link name will be reflected in the UI
-        connect(link, SIGNAL(nameChanged(QString)), this, SLOT(setLinkName(QString)));
-
-        // Connect the individual user interface inputs
-        connect(ui.portName, SIGNAL(activated(QString)), this, SLOT(setPortName(QString)));
-        connect(ui.portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
-        connect(ui.baudRate, SIGNAL(activated(QString)), this->link, SLOT(setBaudRateString(QString)));
-        connect(ui.comboBox_flowControl, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlowControl()));
-        connect(ui.comboBox_Parity, SIGNAL(currentIndexChanged(int)), this, SLOT(setParity()));
-        connect(ui.dataBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setDataBits(QString)));
-        connect(ui.stopBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setStopBits(QString)));
-        connect(ui.spinBox_timeout, SIGNAL(valueChanged(int)), this, SLOT(setTimeoutMs()));
-        connect(ui.spinBox_reconnectDelay, SIGNAL(valueChanged(int)), this, SLOT(setReconnectDelay()));
-
-        //connect(this->link, SIGNAL(connected(bool)), this, SLOT());
-        //portCheckTimer = new QTimer(this);
-        //portCheckTimer->setInterval(5000);
-        //connect(portCheckTimer, SIGNAL(timeout()), this, SLOT(setupPortList()));
-
-        // Display the widget
-        this->window()->setWindowTitle(tr("Serial Communication Settings"));
-    }
-    else
-    {
+    if (!serialLink) {
         qDebug() << "Link is NOT a serial link, can't open configuration window";
+        return;
     }
+
+    serialLink->loadSettings();
+    this->link = serialLink;
+
+    // Setup the user interface according to link type
+    ui.setupUi(this);
+
+    // Create action to open this menu
+    // Create configuration action for this link
+    // Connect the current UAS
+    action = new QAction(QIcon(":/files/images/devices/network-wireless.svg"), "", link);
+    setLinkName(link->getName());
+
+
+    portEnumerator = new QextSerialEnumerator();
+    portEnumerator->setUpNotifications();
+    QObject::connect(portEnumerator, SIGNAL(deviceDiscovered(QextPortInfo)), this, SLOT(setupPortList()));
+    QObject::connect(portEnumerator, SIGNAL(deviceRemoved(QextPortInfo)), this, SLOT(setupPortList()));
+
+    setupPortList();
+
+    ui.portName->setCurrentIndex(ui.portName->findText(this->link->getPortName(), Qt::MatchStartsWith));
+
+    // Set up baud rates
+    QList<int> supportedBaudRates = MG::SERIAL::getBaudRates();
+    ui.baudRate->clear();
+    for (int i = 0; i < supportedBaudRates.size(); ++i) {
+        ui.baudRate->addItem(QString::number(supportedBaudRates.at(i)), supportedBaudRates.at(i));
+    }
+
+    ui.portName->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    ui.baudRate->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+
+    ui.baudRate->setCurrentIndex(ui.baudRate->findText(QString::number(this->link->getBaudRate())));
+    ui.comboBox_flowControl->setCurrentIndex(this->link->getFlowType());
+    ui.comboBox_Parity->setCurrentIndex(this->link->getParityType());
+    ui.dataBitsCombo->setCurrentIndex(ui.dataBitsCombo->findText(QString::number(this->link->getDataBitsType())));
+    ui.stopBitsCombo->setCurrentIndex(ui.stopBitsCombo->findText(QString::number(this->link->getStopBitsType())));
+    ui.spinBox_timeout->setValue(this->link->getTimeoutMillis());
+    ui.spinBox_reconnectDelay->setValue(this->link->reconnectDelayMs());
+
+    ui.widget_advanced->setVisible(ui.groupBox_advanced->isChecked());
+
+    connect(action, SIGNAL(triggered()), this, SLOT(configureCommunication()));
+
+    // Make sure that a change in the link name will be reflected in the UI
+    connect(link, SIGNAL(nameChanged(QString)), this, SLOT(setLinkName(QString)));
+
+    // Connect the individual user interface inputs
+    connect(ui.portName, SIGNAL(activated(QString)), this, SLOT(setPortName(QString)));
+    connect(ui.portName, SIGNAL(editTextChanged(QString)), this, SLOT(setPortName(QString)));
+    connect(ui.baudRate, SIGNAL(activated(QString)), this->link, SLOT(setBaudRateString(QString)));
+    connect(ui.comboBox_flowControl, SIGNAL(currentIndexChanged(int)), this, SLOT(setFlowControl()));
+    connect(ui.comboBox_Parity, SIGNAL(currentIndexChanged(int)), this, SLOT(setParity()));
+    connect(ui.dataBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setDataBits(QString)));
+    connect(ui.stopBitsCombo, SIGNAL(currentIndexChanged(QString)), this, SLOT(setStopBits(QString)));
+    connect(ui.spinBox_timeout, SIGNAL(valueChanged(int)), this, SLOT(setTimeoutMs()));
+    connect(ui.spinBox_reconnectDelay, SIGNAL(valueChanged(int)), this, SLOT(setReconnectDelay()));
+
+    //connect(this->link, SIGNAL(connected(bool)), this, SLOT());
+    //portCheckTimer = new QTimer(this);
+    //portCheckTimer->setInterval(5000);
+    //connect(portCheckTimer, SIGNAL(timeout()), this, SLOT(setupPortList()));
+
+    // Display the widget
+    this->window()->setWindowTitle(tr("Serial Communication Settings"));
 }
 
 SerialConfigurationWindow::~SerialConfigurationWindow()
@@ -135,6 +133,8 @@ void SerialConfigurationWindow::hideEvent(QHideEvent* event)
     Q_UNUSED(event);
     writeSettings();
     //portCheckTimer->stop();
+    if (this->link)
+        this->link->writeSettings();
 }
 
 void SerialConfigurationWindow::loadSettings()
