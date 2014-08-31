@@ -61,11 +61,15 @@ private slots:
     // UI handlers
     void adjustUiForHardware();
     void adjustUiForFirmware();
+    void setupRadioTypes(const QStringList &radioTypes);
+    bool radioHasPPM();
+    void radioType_changed(int idx);
     void on_tab_aq_settings_currentChanged(QWidget *arg1);
     void on_groupBox_controlAdvancedSettings_toggled(bool arg1);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void splitterCollapseToggle();
     void splitterMoved();
+    bool validateRadioSettings(int);
 //  void on_groupBox_ppmOptions_toggled(bool arg1);
 
     // AQ FW flashing
@@ -117,11 +121,10 @@ private slots:
     void saveDialogButtonClicked(QAbstractButton *btn);
     void saveDialogRestartOptionChecked(bool chk);
     QString paramNameGuiToOnboard(QString paraName);
+    int calcRadioSetting();
     void convertPidAttValsToFW68Scales();
 
-    // Radio setup
-    void radioType_changed(int idx);
-    bool validateRadioSettings(int);
+    // Radio channels display
     void toggleRadioValuesUpdate();
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
@@ -195,6 +198,7 @@ public:
     bool motPortTypeCAN;            // is CAN bus available?
     bool motPortTypeCAN_H;          // are CAN ports 17-32 available?
     bool aqCanReboot;               // can system accept remote restart command?
+    bool useRadioSetupParam;        // firmware uses newer RADIO_SETUP parameter
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files

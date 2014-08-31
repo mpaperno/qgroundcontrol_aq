@@ -99,6 +99,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->checkBox_raw_value->setChecked(true);
 
+    // multiple-radio mode selector
+    ui->comboBox_multiRadioMode->addItem("Diversity", 0);
+    ui->comboBox_multiRadioMode->addItem("Split", 1);
+
     ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
 
 //    ui->CTRL_HF_ON_POS->addItem("High", 250);
@@ -179,6 +183,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->conatiner_radioGraphValues->setEnabled(false);
 
     // hide some controls which may get shown later based on AQ fw version
+    ui->comboBox_multiRadioMode->hide();
+    ui->label_multiRadioMode->hide();
     ui->DOWNLINK_BAUD->hide();
     ui->label_DOWNLINK_BAUD->hide();
     ui->MOT_MIN->hide();
@@ -232,6 +238,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
 
     connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+    connect(ui->RADIO_SETUP, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+    connect(ui->comboBox_radioSetup2, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
@@ -529,23 +537,27 @@ void QGCAutoquad::adjustUiForHardware() {
 
 void QGCAutoquad::adjustUiForFirmware() {
 
-    uint8_t idx = ui->RADIO_TYPE->currentIndex();
-    ui->RADIO_TYPE->blockSignals(true);
-    ui->RADIO_TYPE->clear();
-    ui->RADIO_TYPE->addItem("Select...", -1);
-    ui->RADIO_TYPE->addItem("Spektrum 11Bit", 0);
-    ui->RADIO_TYPE->addItem("Spektrum 10Bit", 1);
-    ui->RADIO_TYPE->addItem("S-BUS (Futaba, others)", 2);
-    ui->RADIO_TYPE->addItem("PPM", 3);
+    // which radio types are available
+    QStringList radioTypes;
+    radioTypes << "No Radio" << "Spektrum 11Bit" << "Spektrum 10Bit" << "S-BUS (Futaba, others)" << "PPM";
     if (!aqBuildNumber || aqBuildNumber >= 1149)
-        ui->RADIO_TYPE->addItem("SUMD (Graupner)", 4);
+        radioTypes << "SUMD (Graupner)";
     if (!aqBuildNumber || aqBuildNumber >= 1350)
-        ui->RADIO_TYPE->addItem("M-Link (Multiplex)", 5);
-    if (idx < ui->RADIO_TYPE->count())
-        ui->RADIO_TYPE->setCurrentIndex(idx);
-    ui->RADIO_TYPE->blockSignals(false);
+        radioTypes << "M-Link (Multiplex)";
+    if (!aqBuildNumber || aqBuildNumber >= 1739)
+        radioTypes << "Deltang";
 
-    idx = ui->SPVR_FS_RAD_ST2->currentIndex();
+    setupRadioTypes(radioTypes);
+
+    ui->RADIO_TYPE->setVisible(!useRadioSetupParam);
+    ui->label_RADIO_TYPE->setVisible(!useRadioSetupParam);
+    ui->comboBox_radioSetup2->setVisible(useRadioSetupParam);
+    ui->label_radioSetup2->setVisible(useRadioSetupParam);
+//    ui->comboBox_multiRadioMode->setVisible(useRadioSetupParam);
+//    ui->label_multiRadioMode->setVisible(useRadioSetupParam);
+
+    // radio loss stage 2 failsafe options
+    uint8_t idx = ui->SPVR_FS_RAD_ST2->currentIndex();
     ui->SPVR_FS_RAD_ST2->clear();
     ui->SPVR_FS_RAD_ST2->addItem("Land", 0);
     ui->SPVR_FS_RAD_ST2->addItem("RTH, Land", 1);
@@ -554,7 +566,7 @@ void QGCAutoquad::adjustUiForFirmware() {
     if (idx < ui->SPVR_FS_RAD_ST2->count())
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
 
-    // auto-triggering options
+    // gimbal auto-triggering options
     ui->groupBox_gmbl_auto_triggering->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
 
     // param widget buttons
@@ -562,6 +574,89 @@ void QGCAutoquad::adjustUiForFirmware() {
         paramaq->setRestartBtnEnabled(aqCanReboot);
         paramaq->setCalibBtnsEnabled(!aqBuildNumber || aqBuildNumber >= 1760);
     }
+}
+
+void QGCAutoquad::setupRadioTypes(const QStringList &radioTypes)
+{
+    uint8_t idx = ui->RADIO_TYPE->currentIndex(),
+            idx2 = ui->RADIO_SETUP->currentIndex(),
+            idx3 = ui->comboBox_radioSetup2->currentIndex();
+
+    ui->RADIO_TYPE->blockSignals(true);
+    ui->RADIO_SETUP->blockSignals(true);
+    ui->comboBox_radioSetup2->blockSignals(true);
+
+    ui->RADIO_TYPE->clear();
+    ui->RADIO_SETUP->clear();
+    ui->comboBox_radioSetup2->clear();
+
+    for (int i=0; i < radioTypes.size(); ++i) {
+        ui->RADIO_TYPE->addItem(radioTypes.at(i), i-1);
+        ui->RADIO_SETUP->addItem(radioTypes.at(i), i);
+        ui->comboBox_radioSetup2->addItem(radioTypes.at(i), i);
+    }
+
+    if (idx < ui->RADIO_TYPE->count())
+        ui->RADIO_TYPE->setCurrentIndex(idx);
+    if (idx2 < ui->RADIO_SETUP->count())
+        ui->RADIO_SETUP->setCurrentIndex(idx2);
+    if (idx3 < ui->comboBox_radioSetup2->count())
+        ui->comboBox_radioSetup2->setCurrentIndex(idx3);
+
+    ui->RADIO_TYPE->blockSignals(false);
+    ui->RADIO_SETUP->blockSignals(false);
+    ui->comboBox_radioSetup2->blockSignals(false);
+}
+
+bool QGCAutoquad::radioHasPPM()
+{
+    bool hasPPM = (!useRadioSetupParam && ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt() == 3) ||
+            (useRadioSetupParam && (
+                ui->RADIO_SETUP->itemData(ui->RADIO_SETUP->currentIndex()).toInt() == 4 ||
+                ui->comboBox_radioSetup2->itemData(ui->comboBox_radioSetup2->currentIndex()).toInt() == 4 ));
+
+    return hasPPM;
+}
+
+void QGCAutoquad::radioType_changed(int idx) {
+    emit hardwareInfoUpdated();
+
+    if (radioHasPPM()) { // PPM
+        ui->groupBox_ppmOptions->show();
+        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    } else {
+        ui->groupBox_ppmOptions->hide();
+        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
+    }
+
+    if (useRadioSetupParam && ui->RADIO_SETUP->currentIndex() > 0 && ui->comboBox_radioSetup2->currentIndex() > 0) {
+        ui->comboBox_multiRadioMode->show();
+        ui->label_multiRadioMode->show();
+    } else {
+        ui->comboBox_multiRadioMode->hide();
+        ui->label_multiRadioMode->hide();
+    }
+
+    if (!paramaq)
+        return;
+
+    bool ok;
+    int prevRadioValue;
+    int newRadioValue;
+
+    if (useRadioSetupParam) {
+        prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
+        newRadioValue = calcRadioSetting();
+    } else {
+        prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
+        newRadioValue = ui->RADIO_TYPE->itemData(idx).toInt(&ok);
+    }
+
+    if (ok && newRadioValue != prevRadioValue)
+        ui->label_radioChangeWarning->show();
+    else
+        ui->label_radioChangeWarning->hide();
+
 }
 
 void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
@@ -609,6 +704,45 @@ void QGCAutoquad::splitterMoved() {
 //{
 //    ui->widget_ppmOptions->setVisible(arg1);
 //}
+
+
+// make sure no radio channel assignments conflict
+bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
+    QList<QString> conflictPorts, portsUsed, essentialPorts;
+    QString cbname, cbtxt, xtraChan;
+
+    foreach (QComboBox* cb, allRadioChanCombos) {
+        cbname = cb->objectName();
+        cbtxt = cb->currentText();
+        if (cbname.contains(QRegExp("^(NAV_HDFRE_CHAN|GMBL_PSTHR_CHAN)")))
+            continue;
+        if (portsUsed.contains(cbtxt))
+            conflictPorts.append(cbtxt);
+        if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP|AUX2)_CH")))
+            essentialPorts.append(cbtxt);
+        portsUsed.append(cbtxt);
+    }
+    // validate heading-free controls
+    xtraChan = ui->NAV_HDFRE_CHAN->currentText();
+    if (ui->NAV_HDFRE_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
+        conflictPorts.append(xtraChan);
+    // validate passthrough 1
+    xtraChan = ui->GMBL_PSTHR_CHAN->currentText();
+    if (ui->GMBL_PSTHR_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
+        conflictPorts.append(xtraChan);
+
+    foreach (QComboBox* cb, allRadioChanCombos) {
+        if (conflictPorts.contains(cb->currentText()))
+            cb->setStyleSheet("background-color: rgba(255, 0, 0, 200)");
+        else
+            cb->setStyleSheet("");
+    }
+
+    if (conflictPorts.size())
+        return false;
+
+    return true;
+}
 
 
 //
@@ -1985,69 +2119,8 @@ void QGCAutoquad::flashFwDfu()
 }
 
 //
-// Radio view
+// Radio values view
 //
-
-void QGCAutoquad::radioType_changed(int idx) {
-    emit hardwareInfoUpdated();
-
-    if (ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt() == 3) { // PPM
-        ui->groupBox_ppmOptions->show();
-        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    } else {
-        ui->groupBox_ppmOptions->hide();
-        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
-    }
-
-    if (!paramaq)
-        return;
-
-    bool ok;
-    int prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
-
-    if (ok && ui->RADIO_TYPE->itemData(idx).toInt() != prevRadioValue)
-        ui->label_radioChangeWarning->show();
-    else
-        ui->label_radioChangeWarning->hide();
-
-}
-
-bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
-    QList<QString> conflictPorts, portsUsed, essentialPorts;
-    QString cbname, cbtxt, xtraChan;
-
-    foreach (QComboBox* cb, allRadioChanCombos) {
-        cbname = cb->objectName();
-        cbtxt = cb->currentText();
-        if (cbname.contains(QRegExp("^(NAV_HDFRE_CHAN|GMBL_PSTHR_CHAN)")))
-            continue;
-        if (portsUsed.contains(cbtxt))
-            conflictPorts.append(cbtxt);
-        if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP|AUX2)_CH")))
-            essentialPorts.append(cbtxt);
-        portsUsed.append(cbtxt);
-    }
-    // validate heading-free controls
-    xtraChan = ui->NAV_HDFRE_CHAN->currentText();
-    if (ui->NAV_HDFRE_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
-        conflictPorts.append(xtraChan);
-    // validate passthrough 1
-    xtraChan = ui->GMBL_PSTHR_CHAN->currentText();
-    if (ui->GMBL_PSTHR_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
-        conflictPorts.append(xtraChan);
-
-    foreach (QComboBox* cb, allRadioChanCombos) {
-        if (conflictPorts.contains(cb->currentText()))
-            cb->setStyleSheet("background-color: rgba(255, 0, 0, 200)");
-        else
-            cb->setStyleSheet("");
-    }
-
-    if (conflictPorts.size())
-        return false;
-
-    return true;
-}
 
 void QGCAutoquad::toggleRadioValuesUpdate() {
     if (!uas) {
@@ -2292,11 +2365,12 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             paraLabel->show();
         ok = true;
         precision = 6;
+        val = paramaq->getParaAQ(paraName);
         if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL"){
-            val = fabs(paramaq->getParaAQ(paraName).toFloat());
+            val = fabs(val.toFloat());
             precision = 8;
-        }  else
-            val = paramaq->getParaAQ(paraName);
+        } else if (paraName == "RADIO_SETUP")
+            val = val.toInt() & 0x0f;
 
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w)){
             valstr.setNum(val.toFloat(), 'g', precision);
@@ -2330,6 +2404,13 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     }
 
     if (parent->objectName() == "tab_aq_settings") {
+        // radio port 2 and mode select boxes
+        if (useRadioSetupParam) {
+            tmp = paramaq->getParaAQ("RADIO_SETUP").toInt();
+            ui->comboBox_radioSetup2->setCurrentIndex(ui->comboBox_radioSetup2->findData((tmp >> 4) & 0x0f));
+            ui->comboBox_multiRadioMode->setCurrentIndex(ui->comboBox_multiRadioMode->findData((tmp >> 12) & 0x0f));
+        }
+
         // gimbal pitch/roll revese checkboxes
         ui->reverse_gimbal_pitch->setChecked(paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat() < 0);
         ui->reverse_gimbal_roll->setChecked(paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat() < 0);
@@ -2378,6 +2459,13 @@ void QGCAutoquad::loadParametersToUI() {
         ui->cmdBtn_ConvertTov68AttPIDs->show();
     else
         ui->cmdBtn_ConvertTov68AttPIDs->hide();
+
+    // convert old radio type value if switching to new system
+    if (useRadioSetupParam && paramaq->getParaAQ("RADIO_SETUP").toInt() == 0 && paramaq->paramExistsAQ("RADIO_TYPE")) {
+        int idx = ui->RADIO_SETUP->findData(paramaq->getParaAQ("RADIO_TYPE").toInt() + 1);
+        ui->RADIO_SETUP->setCurrentIndex(idx);
+        radioType_changed(idx);
+    }
 
     mtx_paramsAreLoading = false;
 }
@@ -2469,6 +2557,8 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
             if (chkstate)
                 val_local = 0.0f - val_local;
+        } else if (paraName == "RADIO_SETUP") {
+            val_local = (float)calcRadioSetting();
         }
 
         // FIXME with a real float comparator
@@ -2654,7 +2744,21 @@ QString QGCAutoquad::paramNameGuiToOnboard(QString paraName) {
             paraName = tmpstr;
     }
 
+    // ignore depricated radio_type param
+    if (paraName == "RADIO_TYPE" && useRadioSetupParam)
+        paraName += "_void";
+
     return paraName;
+}
+
+int QGCAutoquad::calcRadioSetting()
+{
+    int radioSetup = ui->RADIO_SETUP->itemData(ui->RADIO_SETUP->currentIndex()).toInt() |
+                    (ui->comboBox_radioSetup2->itemData(ui->comboBox_radioSetup2->currentIndex()).toInt() << 4) |
+                    (ui->comboBox_multiRadioMode->itemData(ui->comboBox_multiRadioMode->currentIndex()).toInt() << 12);
+
+    //qDebug() << radioSetup;
+    return radioSetup;
 }
 
 void QGCAutoquad::convertPidAttValsToFW68Scales() {
@@ -2798,6 +2902,7 @@ void QGCAutoquad::setFirmwareInfo() {
     maxMotorPorts = 16;
     motPortTypeCAN = true;
     motPortTypeCAN_H = true;
+    useRadioSetupParam = true;
     aqCanReboot = false;
 
     if (aqBuildNumber) {
@@ -2810,8 +2915,12 @@ void QGCAutoquad::setFirmwareInfo() {
         if (aqBuildNumber < 1418)
             motPortTypeCAN = false;
 
+        if (aqBuildNumber < 1790)
+            useRadioSetupParam = false;
+
         if (aqBuildNumber >= 1740)
             aqCanReboot = true;
+
     }
 
     emit firmwareInfoUpdated();
@@ -2821,7 +2930,7 @@ QStringList QGCAutoquad::getAvailablePwmPorts(void) {
     QStringList portsList;
     unsigned short maxport = maxPwmPorts;
 
-    if (ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt() == 3 && aqHardwareVersion != 8)
+    if (aqHardwareVersion != 8 && radioHasPPM())
         maxport--;
 
     for (int i=1; i <= maxport; i++)
