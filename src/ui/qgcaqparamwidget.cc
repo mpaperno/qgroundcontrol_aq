@@ -990,7 +990,7 @@ void QGCAQParamWidget::loadParameters()
 
         if ( line.contains("DEFAULT_"))
             line.replace("DEFAULT_", "");
-        
+
         wpParams = line.split(QRegExp("[\\t ]"), QString::SkipEmptyParts);
 
         changed = false;
@@ -1030,6 +1030,8 @@ void QGCAQParamWidget::loadParameters()
             paramName = paramName.replace(QRegExp("NAV_ATL_SPED_(.+)"), "NAV_ALT_SPED_\\1");
         if ( paramName.contains("L1_") && paramExistsAQ("QUATOS_AM1"))
             paramName = paramName.replace(QRegExp("L1_(.+)"), "QUATOS_\\1");
+        if ( paramName.contains("MOT_FRAME_H") && !paramExistsAQ("MOT_FRAME_H"))
+            paramName = "TELEMETRY_RATE";
 
         if (!paramExistsAQ(paramName)) {
             qDebug() << "Param does not exist onboard: " << paramName;

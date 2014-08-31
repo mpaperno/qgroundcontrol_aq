@@ -405,18 +405,24 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
 
     drawMotorsTable();
 
+    QString mixFile;
+    motorMixType = 0;
     if (mixConfigId) {
-        motorMixType = 1;
-        ui->comboBox_mixSelector->setCurrentIndex(ui->comboBox_mixSelector->findData(fInfo.fileName()));
-    } else {
-        motorMixType = 0;
-        ui->comboBox_mixSelector->setCurrentIndex(0);
+        mixFile = getMixFileByConfigId(mixConfigId);
+        if (mixFile.length()) {
+            motorMixType = 1;
+            ui->comboBox_mixSelector->setCurrentIndex(ui->comboBox_mixSelector->findData(mixFile));
+        }
     }
+    if (!motorMixType)
+        ui->comboBox_mixSelector->setCurrentIndex(0);
 
     customFrameImg = false;
     frameImageFile = mixSettings.value("META/ImageFile", "").toString();
     if (frameImageFile.length())
         customFrameImg = true;
+    else if (mixFile.length())
+        frameImageFile = mixFile;
     else
         frameImageFile = fInfo.fileName();
 
@@ -512,7 +518,7 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
     uint16_t motCAN = 0;
     QList<motorPortSettings> onboardConfig;
 
-    portOrder2Param = (paramHandler->paramExistsAQ("MOT_CONFIG_PO2")) ? "MOT_CONFIG_PO2" : "TELEMETRY_RATE";
+    portOrder2Param = (paramHandler->paramExistsAQ("MOT_FRAME_H")) ? "MOT_FRAME_H" : "TELEMETRY_RATE";
 
     motConfig = paramHandler->getParaAQ("MOT_FRAME").toFloat();
     portOrder = *(uint32_t *) &motConfig;
