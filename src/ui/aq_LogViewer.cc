@@ -155,7 +155,7 @@ void AQLogViewer::openExportOptionsDlg() {
 #endif
     QString app = QCoreApplication::applicationDirPath() + "/AQ_Log_Export" + platformExt;
     QStringList arg;
-    if (LogFile.length() && QFileInfo::QFileInfo(LogFile).exists())
+    if (LogFile.length() && QFileInfo(LogFile).exists())
         arg << LogFile;
 
     QProcess::startDetached(app, arg, QCoreApplication::applicationDirPath());
