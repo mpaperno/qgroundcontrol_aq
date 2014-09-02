@@ -40,6 +40,14 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 		DEFINES += QT_NO_DEBUG
 	}
 
+	MACBITS = "mac32"
+	DEFINES += USE_GOOGLE_EARTH_PLUGIN
+	mac-*64 {
+		message("Building Mac64 version")
+		MACBITS = "mac64"
+		DEFINES -= USE_GOOGLE_EARTH_PLUGIN
+	}
+
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 
         INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
@@ -72,7 +80,7 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/mavlink $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
 	# Copy libraries
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/mac32/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
+		  QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
 	# Copy frameworks
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
@@ -144,12 +152,11 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	# Include OpenSceneGraph libraries
 	INCLUDEPATH += -framework GLUT \
         -framework Cocoa \
-        $$BASEDIR/libs/lib/mac32/include
+		  $$BASEDIR/libs/lib/$${MACBITS}/include
 
 	LIBS += -framework GLUT \
-        -framework Cocoa \
-#        -L$$BASEDIR/libs/lib/mac64/lib \
-        -L$$BASEDIR/libs/lib/mac32/lib \
+		  -framework Cocoa \
+		  -L$$BASEDIR/libs/lib/$${MACBITS}/lib \
         -lOpenThreads \
         -losg \
         -losgViewer \
@@ -303,6 +310,8 @@ win32-msvc2008|win32-msvc2010 {
 	} else {
 		CONFIG += qaxcontainer
 	}
+
+	DEFINES += USE_GOOGLE_EARTH_PLUGIN
 
 	# The EIGEN library needs this define
 	# to make the internal min/max functions work
