@@ -67,7 +67,7 @@ This file is part of the QGROUNDCONTROL project
 #include "QGCDataPlot2D.h"
 #include "QGCRemoteControlView.h"
 #include "opmapcontrol.h"
-#if (defined Q_OS_MAC) | (defined _MSC_VER)
+#ifdef USE_GOOGLE_EARTH_PLUGIN
 #include "QGCGoogleEarthView.h"
 #endif
 #include "QGCToolBar.h"
@@ -353,7 +353,7 @@ protected:
 #ifdef QGC_OSG_ENABLED
     QPointer<QWidget> _3DWidget;
 #endif
-#if (defined _MSC_VER) || (defined Q_OS_MAC)
+#ifdef USE_GOOGLE_EARTH_PLUGIN
     QPointer<QGCGoogleEarthView> gEarthWidget;
 #endif
 //    QPointer<QGCFirmwareUpdate> firmwareUpdateWidget;
