@@ -191,6 +191,7 @@ QMap<QLabel*, QProgressBar*> *QGCRemoteControlView::drawDataDisplay(int min, int
     pb->setMinimum(min);
     pb->setMaximum(max);
     pb->setFormat("%p%");
+    pb->setValue(min);
     layout->addWidget(pb);
     channelLayout->addLayout(layout);
 
