@@ -447,29 +447,29 @@ void MAVLinkSimulationMAV::handleMessage(const mavlink_message_t& msg)
     //            link->sendMAVLinkMessage(&r_msg);
     //        }
     //    }
-    break;
-    case MAVLINK_MSG_ID_SET_LOCAL_POSITION_SETPOINT: {
-        mavlink_set_local_position_setpoint_t sp;
-        mavlink_msg_set_local_position_setpoint_decode(&msg, &sp);
-        if (sp.target_system == this->systemid) {
-            nav_mode = 0;
-            previousSPX = nextSPX;
-            previousSPY = nextSPY;
-            previousSPZ = nextSPZ;
-            nextSPX = sp.x;
-            nextSPY = sp.y;
-            nextSPZ = sp.z;
+    //break;
+//    case MAVLINK_MSG_ID_SET_LOCAL_POSITION_SETPOINT: {
+//        mavlink_set_local_position_setpoint_t sp;
+//        mavlink_msg_set_local_position_setpoint_decode(&msg, &sp);
+//        if (sp.target_system == this->systemid) {
+//            nav_mode = 0;
+//            previousSPX = nextSPX;
+//            previousSPY = nextSPY;
+//            previousSPZ = nextSPZ;
+//            nextSPX = sp.x;
+//            nextSPY = sp.y;
+//            nextSPZ = sp.z;
 
-            // Rotary wing
-            //nextSPYaw = sp.yaw;
+//            // Rotary wing
+//            //nextSPYaw = sp.yaw;
 
-            // Airplane
-            //yaw = atan2(previousSPX-nextSPX, previousSPY-nextSPY);
+//            // Airplane
+//            //yaw = atan2(previousSPX-nextSPX, previousSPY-nextSPY);
 
-            //if (!firstWP) firstWP = true;
-        }
-        //qDebug() << "UPDATED SP:" << "X" << nextSPX << "Y" << nextSPY << "Z" << nextSPZ;
-    }
-    break;
+//            //if (!firstWP) firstWP = true;
+//        }
+//        //qDebug() << "UPDATED SP:" << "X" << nextSPX << "Y" << nextSPY << "Z" << nextSPZ;
+//    }
+//    break;
     }
 }
