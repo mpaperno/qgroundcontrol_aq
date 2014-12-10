@@ -96,11 +96,10 @@ MainWindow* MainWindow::instance(QSplashScreen* screen)
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
     currentView(VIEW_OPERATOR),
-    currentStyle(QGC_MAINWINDOW_STYLE_INDOOR),
+    currentStyle(QGC_MAINWINDOW_STYLE_NONE),
     aboutToCloseFlag(false),
     changingViewsFlag(false),
     centerStackActionGroup(new QActionGroup(this)),
-    styleFileName(QCoreApplication::applicationDirPath() + "/style-indoor.css"),
     autoReconnect(false),
     lowPowerMode(false)
 {
@@ -125,6 +124,7 @@ MainWindow::MainWindow(QWidget *parent):
     settings.sync();
 
     emit initStatusChanged("Loading Style.");
+    setAvailableStyles();
     loadStyle(currentStyle);
 
     emit initStatusChanged("Setting up user interface.");
@@ -634,7 +634,7 @@ void MainWindow::buildCommonWidgets()
         hsiDockWidget = new QDockWidget(tr("Horizontal Situation Indicator"), this);
         hsiDockWidget->setWidget( new HSIDisplay(this) );
         hsiDockWidget->setObjectName("HORIZONTAL_SITUATION_INDICATOR_DOCK_WIDGET");
-        addTool(hsiDockWidget, tr("Horizontal Situation"), Qt::BottomDockWidgetArea);
+        addTool(hsiDockWidget, tr("Horizontal Situation"), Qt::RightDockWidgetArea);
     }
 	
     if (!headDown1DockWidget)
@@ -662,7 +662,7 @@ void MainWindow::buildCommonWidgets()
         rcViewDockWidget = new QDockWidget(tr("Channels Monitor"), this);
         rcViewDockWidget->setWidget( new QGCRemoteControlView(this) );
         rcViewDockWidget->setObjectName("RADIO_CONTROL_CHANNELS_DOCK_WIDGET");
-        addTool(rcViewDockWidget, tr("Channels Monitor"), Qt::BottomDockWidgetArea);
+        addTool(rcViewDockWidget, tr("Channels Monitor"), Qt::RightDockWidgetArea);
     }
 
     if (!headUpDockWidget)
@@ -972,7 +972,7 @@ void MainWindow::loadSettings()
     QSettings settings;
     settings.beginGroup("QGC_MAINWINDOW");
     autoReconnect = settings.value("AUTO_RECONNECT", autoReconnect).toBool();
-    currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", currentStyle).toInt();
+    currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", QGC_MAINWINDOW_STYLE_INDOOR).toInt();
     lowPowerMode = settings.value("LOW_POWER_MODE", lowPowerMode).toBool();
     defaultLanguage = settings.value("UI_LANGUAGE", defaultLanguage).toString();
     settings.endGroup();
@@ -1067,95 +1067,115 @@ void MainWindow::enableAutoReconnect(bool enabled)
     autoReconnect = enabled;
 }
 
-void MainWindow::loadNativeStyle()
+void MainWindow::loadStyleByName(const QString style)
 {
-    loadStyle(QGC_MAINWINDOW_STYLE_NATIVE);
-}
-
-void MainWindow::loadIndoorStyle()
-{
-    loadStyle(QGC_MAINWINDOW_STYLE_INDOOR);
-}
-
-void MainWindow::loadOutdoorStyle()
-{
-    loadStyle(QGC_MAINWINDOW_STYLE_OUTDOOR);
-}
-
-void MainWindow::loadPlastiqueStyle()
-{
-    loadStyle(QGC_MAINWINDOW_STYLE_PLASTIQUE);
+    loadStyle((QGC_MAINWINDOW_STYLE)m_windowStyleNames.key(style));
 }
 
 void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
 {
+//    if (style == currentStyle)
+//        return;
+
+    qApp->setStyleSheet("");
+    QString styleFileName = ":files/styles/style-default.css";
+
     switch (style) {
-    case QGC_MAINWINDOW_STYLE_NATIVE: {
-        // Native mode means setting no style
-        // so if we were already in native mode
-        // take no action
-        // Only if a style was set, remove it.
-        if (style != currentStyle) {
-            qApp->setStyleSheet("");
+        case QGC_MAINWINDOW_STYLE_NATIVE: {
             showInfoMessage(tr("Please restart QGroundControl"), tr("Please restart QGroundControl to switch to fully native look and feel. Currently you have loaded Qt's plastique style."));
+            styleFileName = ":files/styles/style-native.css";
         }
-        styleFileName = ":files/styles/style-native.css";
-        reloadStylesheet();
+        break;
+        case QGC_MAINWINDOW_STYLE_INDOOR:
+            qApp->setStyle("plastique");
+            styleFileName = ":files/styles/style-indoor.css";
+            break;
+        case QGC_MAINWINDOW_STYLE_OUTDOOR:
+            qApp->setStyle("plastique");
+            styleFileName = ":files/styles/style-outdoor.css";
+            break;
+        default:
+            qApp->setStyle(m_windowStyleNames.value(style, "plastique"));
+            break;
     }
-    break;
-    case QGC_MAINWINDOW_STYLE_INDOOR:
-        qApp->setStyle("plastique");
-        styleFileName = ":files/styles/style-indoor.css";
-        reloadStylesheet();
-        break;
-    case QGC_MAINWINDOW_STYLE_OUTDOOR:
-        qApp->setStyle("plastique");
-        styleFileName = ":files/styles/style-outdoor.css";
-        reloadStylesheet();
-        break;
-    case QGC_MAINWINDOW_STYLE_PLASTIQUE:
-        qApp->setStyleSheet("");
-        qApp->setStyle("plastique");
-        styleFileName = ":files/styles/style-default.css";
-        reloadStylesheet();
-        break;
-    }
+    reloadStylesheet(styleFileName);
     currentStyle = style;
+}
+
+void MainWindow::setAvailableStyles()
+{
+    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_NATIVE, "Operating System Native");
+    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_INDOOR, "QGC Dark");
+    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_OUTDOOR, "QGC Light");
+
+    int sid;
+    QString s;
+    foreach (const QString style, QStyleFactory::keys()) {
+        s = style.toLower();
+        if (s == "plastique")
+            sid = QGC_MAINWINDOW_STYLE_PLASTIQUE;
+        else if (s.startsWith("gtk"))
+            sid = QGC_MAINWINDOW_STYLE_GTK;
+        else if (s == "cleanlooks")
+            sid = QGC_MAINWINDOW_STYLE_CLEANLOOKS;
+        else if (s.startsWith("macintosh"))
+            sid = QGC_MAINWINDOW_STYLE_MAC;
+        else if (s == "windows")
+            sid = QGC_MAINWINDOW_STYLE_WIN;
+        else if (s == "windowsxp")
+            sid = QGC_MAINWINDOW_STYLE_WINXP;
+        else if (s == "windowsvista")
+            sid = QGC_MAINWINDOW_STYLE_WINVISTA;
+        else if (s == "motif")
+            sid = QGC_MAINWINDOW_STYLE_MOTIF;
+        else if (s == "cde")
+            sid = QGC_MAINWINDOW_STYLE_CDE;
+        else
+            continue;
+
+        m_windowStyleNames.insert(sid, style);
+    }
 }
 
 void MainWindow::selectStylesheet()
 {
     // Let user select style sheet
-    styleFileName = QFileDialog::getOpenFileName(this, tr("Specify stylesheet"), styleFileName, tr("CSS Stylesheet") + " (*.css)");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select a stylesheet"), QFileInfo(styleFileName).absolutePath(), tr("CSS Stylesheet") + " (*.css)");
 
-    if (!styleFileName.endsWith(".css"))
+    if (fileName == "")
+        return;
+
+    if (!fileName.endsWith(".css"))
     {
         showInfoMessage(tr("QGroundControl did lot load a new style"), tr("No suitable .css file selected. Please select a valid .css file."));
         return;
     }
 
     // Load style sheet
-    reloadStylesheet();
+    reloadStylesheet(fileName);
 }
 
-void MainWindow::reloadStylesheet()
+void MainWindow::reloadStylesheet(const QString file)
 {
-    // Load style sheet
-    QFile* styleSheet = new QFile(styleFileName);
-    if (!styleSheet->exists())
-    {
-        styleSheet = new QFile(":files/styles/style-indoor.css");
+    QFile *styleSheet;
+    if (file != "")
+        styleSheet = new QFile(file);
+    else
+        styleSheet = new QFile(styleFileName);
+
+    if (!styleSheet || !styleSheet->exists()) {
+        showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file '%1'' was not found").arg(file));
+        return;
     }
-    if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text))
-    {
+    if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString style = QString(styleSheet->readAll());
         style.replace("ICONDIR", QCoreApplication::applicationDirPath()+ "files/styles/");
         qApp->setStyleSheet(style);
+        styleFileName = file;
     }
     else
-    {
-        showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(styleFileName));
-    }
+        showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(file));
+
     delete styleSheet;
 }
 
@@ -1753,6 +1773,7 @@ void MainWindow::loadViewState()
             pfdDockWidget->hide();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
+            escTelemetryWidget->hide();
             break;
         case VIEW_PILOT:
             centerStack->setCurrentWidget(mapWidget);
@@ -1772,6 +1793,7 @@ void MainWindow::loadViewState()
             pfdDockWidget->hide();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
+            escTelemetryWidget->hide();
             break;
         case VIEW_DATA:
             centerStack->setCurrentWidget(dataViewWidget);
@@ -1791,6 +1813,7 @@ void MainWindow::loadViewState()
             pfdDockWidget->hide();
             //video1DockWidget->hide();
             //video2DockWidget->hide();
+            escTelemetryWidget->hide();
             break;
 //        case VIEW_MAVLINK:
 //            centerStack->setCurrentWidget(protocolWidget);
@@ -1851,6 +1874,7 @@ void MainWindow::loadViewState()
             //video1DockWidget->hide();
             //video2DockWidget->hide();
             mavlinkInspectorWidget->hide();
+            escTelemetryWidget->hide();
             break;
         }
     }

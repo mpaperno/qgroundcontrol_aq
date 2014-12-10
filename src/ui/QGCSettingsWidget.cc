@@ -57,25 +57,9 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
     connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), this, SLOT(loadLanguage(int)));
 
     // Style
-    MainWindow::QGC_MAINWINDOW_STYLE style = (MainWindow::QGC_MAINWINDOW_STYLE)MainWindow::instance()->getStyle();
-    switch (style) {
-    case MainWindow::QGC_MAINWINDOW_STYLE_NATIVE:
-        ui->nativeStyle->setChecked(true);
-        break;
-    case MainWindow::QGC_MAINWINDOW_STYLE_INDOOR:
-        ui->indoorStyle->setChecked(true);
-        break;
-    case MainWindow::QGC_MAINWINDOW_STYLE_OUTDOOR:
-        ui->outdoorStyle->setChecked(true);
-        break;
-    case MainWindow::QGC_MAINWINDOW_STYLE_PLASTIQUE:
-        ui->plastiqueStyle->setChecked(true);
-        break;
-    }
-    connect(ui->nativeStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadNativeStyle()));
-    connect(ui->indoorStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadIndoorStyle()));
-    connect(ui->outdoorStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadOutdoorStyle()));
-    connect(ui->plastiqueStyle, SIGNAL(clicked()), MainWindow::instance(), SLOT(loadPlastiqueStyle()));
+    ui->comboBox_style->addItems(MainWindow::instance()->getAvailableStyles());
+    ui->comboBox_style->setCurrentIndex(ui->comboBox_style->findText(MainWindow::instance()->getStyleName()));
+    connect(ui->comboBox_style, SIGNAL(currentIndexChanged(QString)), this, SLOT(loadStyle(QString)));
 
     // Close / destroy
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(deleteLater()));
@@ -91,4 +75,8 @@ QGCSettingsWidget::~QGCSettingsWidget()
 
 void QGCSettingsWidget::loadLanguage(int idx) {
     MainWindow::instance()->loadLanguage(ui->comboBox_language->itemData(idx).toString());
+}
+
+void QGCSettingsWidget::loadStyle(QString style) {
+    MainWindow::instance()->loadStyleByName(style);
 }

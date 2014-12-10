@@ -6,12 +6,12 @@
 QWidget {
 	background-color: #202020;
     color: #DDDDDF;
-    background-clip: border;
+	 background-clip: border;
     font-size: 11px;
 }
 QWidget:disabled {
 	color: #727272;
-    border-color: #383838;
+	 border-color: #383838;
 	 background-color: #202020;
     etch-disabled-text: 0;
 }
@@ -168,9 +168,9 @@ QTabWidget  {
     TableWidget
 */
 /*QTableWidget {
-    background-color: #727272;
+	 background-color: #727272;
     color: #DDDDDF;
-    alternate-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
+	 alternate-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
 }*/
 QHeaderView::section, QHeaderView::section:checked, QHeaderView::section:hover {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
@@ -500,6 +500,18 @@ QCalendarWidget QTableView  {
     alternate-background-color: #6D6D6D;
 }
 
+/*
+	LCD Number display
+*/
+QLCDNumber {
+	background-color: rgba(187, 230, 187, 240);
+	color: rgba(45, 45, 45, 245);
+}
+
+QLCDNumber:disabled {
+	background-color: rgba(187, 230, 187, 30);
+	color: rgba(45, 45, 45, 200);
+}
 
 /* Specific elements */
 

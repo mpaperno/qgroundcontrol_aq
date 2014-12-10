@@ -84,6 +84,8 @@ This file is part of the QGROUNDCONTROL project
 #include "QGCVehicleConfig.h"
 #include "MAVLinkDecoder.h"
 
+#include <cstring>
+
 class QGCMapTool;
 class QGCMAVLinkMessageSender;
 class QGCFirmwareUpdate;
@@ -103,17 +105,28 @@ public:
 
     enum QGC_MAINWINDOW_STYLE
     {
+        QGC_MAINWINDOW_STYLE_NONE,
         QGC_MAINWINDOW_STYLE_NATIVE,
         QGC_MAINWINDOW_STYLE_INDOOR,
         QGC_MAINWINDOW_STYLE_OUTDOOR,
-        QGC_MAINWINDOW_STYLE_PLASTIQUE
+        QGC_MAINWINDOW_STYLE_PLASTIQUE,
+        QGC_MAINWINDOW_STYLE_GTK,
+        QGC_MAINWINDOW_STYLE_CLEANLOOKS,
+        QGC_MAINWINDOW_STYLE_MAC,
+        QGC_MAINWINDOW_STYLE_WIN,
+        QGC_MAINWINDOW_STYLE_WINXP,
+        QGC_MAINWINDOW_STYLE_WINVISTA,
+        QGC_MAINWINDOW_STYLE_MOTIF,
+        QGC_MAINWINDOW_STYLE_CDE
     };
 
     /** @brief Get current visual style */
-    int getStyle()
-    {
-        return currentStyle;
-    }
+    int getStyle() { return currentStyle; }
+    /** @brief Get current visual style by name */
+    QString getStyleName() { return m_windowStyleNames.value(currentStyle); }
+    /** @brief Get a list of available style names */
+    QStringList getAvailableStyles() { return m_windowStyleNames.values(); }
+
     /** @brief Get auto link reconnect setting */
     bool autoReconnectEnabled()
     {
@@ -200,23 +213,20 @@ public slots:
     void loadLanguage(const QString& lang);
 
     /** @brief Reload the CSS style sheet */
-    void reloadStylesheet();
+    void reloadStylesheet(const QString file = "");
     /** @brief Let the user select the CSS style sheet */
     void selectStylesheet();
     /** @brief Automatically reconnect last link */
     void enableAutoReconnect(bool enabled);
     /** @brief Save power by reducing update rates */
     void enableLowPowerMode(bool enabled) { lowPowerMode = enabled; }
-    /** @brief Switch to native application style */
-    void loadNativeStyle();
-    /** @brief Switch to indoor mission style */
-    void loadIndoorStyle();
-    /** @brief Switch to outdoor mission style */
-    void loadOutdoorStyle();
-    /** @brief Switch to Qt application style */
-    void loadPlastiqueStyle();
+
+    /** @brief Switch to named style */
+    void loadStyleByName(const QString style);
     /** @brief Load a specific style */
     void loadStyle(QGC_MAINWINDOW_STYLE style);
+    /** @brief Set up list of available styles */
+    void setAvailableStyles();
 
     /** @brief Add a custom tool widget */
     void createCustomWidget();
@@ -392,6 +402,7 @@ protected:
     QPointer<QDockWidget> mavlinkInspectorWidget;
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<QDockWidget> mavlinkSenderWidget;
+
     QGCMAVLinkLogPlayer* logPlayer;
 
     // Popup widgets
@@ -436,6 +447,8 @@ private:
 
     QString defaultLanguage;     /**< contains the default language */
     QString currentLanguage;     /**< contains the currently loaded language */
+
+    QMap<int, QString> m_windowStyleNames;
 
     void retranslateUi(/*QMainWindow *MainWindow*/);
     QString getWindowStateKey();

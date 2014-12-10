@@ -1,3 +1,22 @@
+/*
+	 This style sheet is loaded for native application style only
+*/
+
+
+/*
+	LCD Number display
+*/
+QLCDNumber {
+	background-color: rgba(187, 230, 187, 240);
+	color: rgba(45, 45, 45, 245);
+}
+
+QLCDNumber:disabled {
+	background-color: rgba(187, 230, 187, 30);
+	color: rgba(45, 45, 45, 100);
+}
+
+
 QScrollArea { background: transparent; }
 QScrollArea > QWidget > QWidget { background: transparent; }
 
