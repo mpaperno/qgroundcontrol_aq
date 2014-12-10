@@ -164,6 +164,10 @@ public:
         LOG_ACC_BIAS_X,
         LOG_ACC_BIAS_Y,
         LOG_ACC_BIAS_Z,
+        LOG_CURRENT_PDB,
+        LOG_CURRENT_EXT,
+        LOG_VIN_PDB,
+        LOG_UKF_ALT_VEL,
         LOG_NUM_IDS
     };
 

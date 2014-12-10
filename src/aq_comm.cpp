@@ -450,11 +450,23 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
     case LOG_ACC_BIAS_Z:
         return "LOG_ACC_BIAS_Z";
         break;
+    case LOG_CURRENT_PDB:
+        return "LOG_CURRENT_PDB";
+        break;
+    case LOG_CURRENT_EXT:
+        return "LOG_CURRENT_EXT";
+        break;
+    case LOG_VIN_PDB:
+        return "LOG_VIN_PDB";
+        break;
+    case LOG_UKF_ALT_VEL:
+        return "LOG_UKF_ALT_VEL";
+        break;
 //    case LOG_NUM_IDS:
 //        return "LOG_NUM_IDS";
 //        break;
     default:
-        return "Not connected" + QString::number(fieldId);
+        return "Log_Field_ID " + QString::number(fieldId);
         break;
 
     }
