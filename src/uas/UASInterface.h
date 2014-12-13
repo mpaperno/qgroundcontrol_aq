@@ -319,6 +319,7 @@ public slots:
      */
     virtual void setSelected() = 0;
 
+    virtual void enableDataStream(const int streamId, const int rate) = 0;
     virtual void enableAllDataTransmission(int rate) = 0;
     virtual void enableRawSensorDataTransmission(int rate) = 0;
     virtual void enableExtendedSystemStatusTransmission(int rate) = 0;
@@ -342,6 +343,8 @@ public slots:
     virtual void setBatterySpecs(const QString& specs) = 0;
     /** @brief Get the current battery type and specs */
     virtual QString getBatterySpecs() = 0;
+    virtual float getBatteryEmptyVoltage() = 0;
+    virtual float getBatteryWarnVoltage() = 0;
 
 protected:
     QColor color;
@@ -433,6 +436,9 @@ signals:
     /** @brief The robot is manually controlled **/
     void manualControl();
 
+    /** @brief DATA_STREAM message received from UAS **/
+    void dataStreamAnnounced(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
+
     /** @brief A value of the robot has changed.
       *
       * Typically this is used to send lowlevel information like the battery voltage to the plotting facilities of
@@ -445,7 +451,6 @@ signals:
       * @param value the value that changed
       * @param msec the timestamp of the message, in milliseconds
       */
-    void TelemetryChangedF(const int uasId, mavlink_aq_telemetry_f_t values);
     void valueChanged(const int uasId, const QString& name, const QString& unit, const quint8 value, const quint64 msec);
     void valueChanged(const int uasId, const QString& name, const QString& unit, const qint8 value, const quint64 msec);
     void valueChanged(const int uasId, const QString& name, const QString& unit, const quint16 value, const quint64 msec);
@@ -575,6 +580,12 @@ signals:
      * @param fix 0: No IR/Ultrasound sensor, N > 0: Found N active sensors
      */
     void irUltraSoundLocalizationChanged(UASInterface* uas, int fix);
+
+    /** @brief AutoQuad custom telemetry messages */
+    void TelemetryChangedF(const int uasId, mavlink_aq_telemetry_f_t values);
+
+    /** @brief Telemetry message from ESC */
+    void escTelemetryUpdate(uint8_t escId, uint8_t version, uint16_t age, uint8_t state, float volts, float amps, uint16_t rpm, float duty, float temp, uint16_t errCount, uint8_t errCode);
 
     // ERROR AND STATUS SIGNALS
     /** @brief Heartbeat timed out or was regained */

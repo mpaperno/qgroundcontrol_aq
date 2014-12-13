@@ -519,6 +519,8 @@ public slots:
     void setBatterySpecs(const QString& specs);
     /** @brief Get the current battery type and specs */
     QString getBatterySpecs();
+    float getBatteryEmptyVoltage();
+    float getBatteryWarnVoltage();
 
     /** @brief Launches the system **/
     void launch();
@@ -577,7 +579,7 @@ public slots:
     void receiveButton(int buttonIndex);
 
     /** @brief Set the values for the 6dof manual control of the vehicle */
-    void setManual6DOFControlCommands(double x, double y, double z, double roll, double pitch, double yaw);
+//    void setManual6DOFControlCommands(double x, double y, double z, double roll, double pitch, double yaw);
 
     /** @brief Add a link associated with this robot */
     void addLink(LinkInterface* link);
@@ -640,6 +642,7 @@ public slots:
     /** @brief Get the ids of all components */
     QList<int> getComponentIds();
 
+    void enableDataStream(const int streamId, const int rate);
     void enableAllDataTransmission(int rate);
     void enableRawSensorDataTransmission(int rate);
     void enableExtendedSystemStatusTransmission(int rate);
