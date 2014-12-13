@@ -3,6 +3,8 @@
 #include "UASManager.h"
 #include <QLineEdit>
 
+using namespace AUTOQUADMAV;
+
 AQTelemetryView::AQTelemetryView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AQTelemetryView),
@@ -31,8 +33,8 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 
     btnsDataSets = new QButtonGroup(this);
     btnsDataSets->setExclusive(false);
-	 QCheckBox* cb = new QCheckBox(tr("Default"), this);
-	 cb->setChecked(true);
+    QCheckBox* cb = new QCheckBox(tr("Default"), this);
+    cb->setChecked(true);
     btnsDataSets->addButton(cb, AQMAV_DATASET_LEGACY1);
     ui->hLayout_dataSets->addWidget(cb);
     cb = new QCheckBox(tr("Gimbal"), this);
