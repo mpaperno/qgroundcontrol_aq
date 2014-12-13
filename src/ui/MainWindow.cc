@@ -1081,18 +1081,16 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
     QString styleFileName = ":files/styles/style-default.css";
 
     switch (style) {
-        case QGC_MAINWINDOW_STYLE_NATIVE: {
-            showInfoMessage(tr("Please restart QGroundControl"), tr("Please restart QGroundControl to switch to fully native look and feel. Currently you have loaded Qt's plastique style."));
+        case QGC_MAINWINDOW_STYLE_NATIVE:
             styleFileName = ":files/styles/style-native.css";
-        }
         break;
         case QGC_MAINWINDOW_STYLE_INDOOR:
             qApp->setStyle("plastique");
-            styleFileName = ":files/styles/style-indoor.css";
+            styleFileName = ":files/styles/style-dark.css";
             break;
         case QGC_MAINWINDOW_STYLE_OUTDOOR:
             qApp->setStyle("plastique");
-            styleFileName = ":files/styles/style-outdoor.css";
+            styleFileName = ":files/styles/style-light.css";
             break;
         default:
             qApp->setStyle(m_windowStyleNames.value(style, "plastique"));
@@ -1158,7 +1156,7 @@ void MainWindow::selectStylesheet()
 void MainWindow::reloadStylesheet(const QString file)
 {
     QFile *styleSheet;
-    if (file != "")
+    if (file.length())
         styleSheet = new QFile(file);
     else
         styleSheet = new QFile(styleFileName);
@@ -1171,7 +1169,7 @@ void MainWindow::reloadStylesheet(const QString file)
         QString style = QString(styleSheet->readAll());
         style.replace("ICONDIR", QCoreApplication::applicationDirPath()+ "files/styles/");
         qApp->setStyleSheet(style);
-        styleFileName = file;
+        styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
     }
     else
         showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(file));

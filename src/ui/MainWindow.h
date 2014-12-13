@@ -126,6 +126,8 @@ public:
     QString getStyleName() { return m_windowStyleNames.value(currentStyle); }
     /** @brief Get a list of available style names */
     QStringList getAvailableStyles() { return m_windowStyleNames.values(); }
+    /** @brief Get id of visual style by name */
+    int getStyleIdByName(const QString &style) { return m_windowStyleNames.key(style); }
 
     /** @brief Get auto link reconnect setting */
     bool autoReconnectEnabled()

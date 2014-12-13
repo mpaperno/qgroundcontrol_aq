@@ -79,4 +79,6 @@ void QGCSettingsWidget::loadLanguage(int idx) {
 
 void QGCSettingsWidget::loadStyle(QString style) {
     MainWindow::instance()->loadStyleByName(style);
+    if (MainWindow::instance()->getStyleIdByName(style) == MainWindow::QGC_MAINWINDOW_STYLE_NATIVE)
+        MainWindow::instance()->showInfoMessage(tr("Please restart QGroundControl"), tr("Please restart QGroundControl to switch to fully native look and feel. Currently you have loaded Qt's default Plastique style."));
 }

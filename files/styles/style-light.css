@@ -26,6 +26,7 @@ QWidget {
 QWidget:disabled {
 	color: #727272;
     border-color: #383838;
+	 etch-disabled-text: 0;
 }
 
 
@@ -220,8 +221,7 @@ QPlainTextEdit:disabled,
 QComboBox:disabled,
 QDateTimeEdit:disabled,
 QSpinBox:disabled,
-QDoubleSpinBox:disabled,
-QCheckBox::indicator:disabled {
+QDoubleSpinBox:disabled {
     border-color: #BCBCBC;
     background-color: #F1F1F1;
 }
@@ -274,22 +274,6 @@ QSpinBox::down-button, QDoubleSpinBox::down-button {
     subcontrol-position: bottom right; /* position at the top right corner */
     border-image: url(:/files/images/actions/go-down.svg) 1;
     /*border-width: 1px;*/
-}
-
-/*
-    CheckBox
-*/
-QCheckBox::indicator:disabled {
-    border: 1px solid #E3E3E3;
-    border-radius: 1px;
-}
-
-/*
-    RadioButton
-*/
-QRadioButton::indicator:disabled {
-    border: 1px solid #E3E3E3;
-    border-radius: 6px;
 }
 
 
@@ -351,14 +335,24 @@ QCalendarWidget QTableView  {
 /*
 	LCD Number display
 */
-QLCDNumber {
+QLCDNumber,
+QLCDNumber[status="ok"] {
 	background-color: rgba(187, 230, 187, 240);
 	color: rgba(45, 45, 45, 245);
 }
-
+QLCDNumber[status="warning"],
+QLCDNumber[status="warningH"],
+QLCDNumber[status="warningL"] {
+	background-color: rgba(255, 140, 0, 200);
+}
+QLCDNumber[status="error"],
+QLCDNumber[status="errorH"],
+QLCDNumber[status="errorL"] {
+	background-color: rgba(255, 0, 0, 200);
+}
 QLCDNumber:disabled {
 	background-color: rgba(187, 230, 187, 30);
-	color: rgba(45, 45, 45, 150);
+	color: rgba(45, 45, 45, 200);
 }
 
 

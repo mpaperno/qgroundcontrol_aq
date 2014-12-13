@@ -61,10 +61,12 @@ QGroupBox::title {
     font-weight: bold;
     font-size: 8px;
     color: #DDDDDF;
+	 etch-disabled-text: 0;
 }
-QWidget::title:disabled {
+QGroupBox::title:disabled {
     color: #727272;
     font-weight: normal;
+	 etch-disabled-text: 0;
 }
 
 /*
@@ -278,11 +280,17 @@ QCheckBox::indicator {
     width: 10px;
     height: 10px;
 }
- QCheckBox::indicator:checked, QCheckBox::indicator:checked:hover, QCheckBox::indicator:checked:pressed {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #056991, stop: 1 #379AC3);
+QCheckBox::indicator:checked, QCheckBox::indicator:checked:hover, QCheckBox::indicator:checked:pressed {
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #056991, stop: 1 #379AC3);
 }
- QCheckBox::indicator:indeterminate,  QCheckBox::indicator:indeterminate:pressed {
-     background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #379AC3, stop: 1 #000000);
+QCheckBox::indicator:indeterminate,  QCheckBox::indicator:indeterminate:pressed {
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1, stop: 0 #379AC3, stop: 1 #000000);
+}
+QCheckBox::indicator:checked:disabled {
+	background-color: rgba(5, 105, 145, 100);
+}
+QCheckBox::indicator:indeterminate:disabled {
+	background-color: rgba(55, 154, 195, 100);
 }
 
 /*
@@ -433,9 +441,9 @@ QSplitter::handle:hover {
     H/V Line
 */
 QFrame[frameShape="4"], QFrame[frameShape="5"] {
-    color: #666666;
+	 color: #666666;
+	 background-color: #666666;
 }
-
 /*
     ProgressBar
 */
@@ -503,15 +511,26 @@ QCalendarWidget QTableView  {
 /*
 	LCD Number display
 */
-QLCDNumber {
+QLCDNumber,
+QLCDNumber[status="ok"] {
 	background-color: rgba(187, 230, 187, 240);
 	color: rgba(45, 45, 45, 245);
 }
-
+QLCDNumber[status="warning"],
+QLCDNumber[status="warningH"],
+QLCDNumber[status="warningL"] {
+	background-color: rgba(255, 140, 0, 200);
+}
+QLCDNumber[status="error"],
+QLCDNumber[status="errorH"],
+QLCDNumber[status="errorL"] {
+	background-color: rgba(255, 0, 0, 200);
+}
 QLCDNumber:disabled {
 	background-color: rgba(187, 230, 187, 30);
 	color: rgba(45, 45, 45, 200);
 }
+
 
 /* Specific elements */
 
