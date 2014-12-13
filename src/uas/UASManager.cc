@@ -268,7 +268,7 @@ void UASManager::addUAS(UASInterface* uas)
     if (!systems.contains(uas))
     {
         systems.append(uas);
-        connect(uas, SIGNAL(destroyed(QObject*)), this, SLOT(removeUAS(QObject*)));
+        //connect(uas, SIGNAL(destroyed(QObject*)), this, SLOT(removeUAS(QObject*)));
         // Set home position on UAV if set in UI
         // - this is done on a per-UAV basis
         // Set home position in UI if UAV chooses a new one (caution! if multiple UAVs are connected, take care!)
@@ -283,42 +283,18 @@ void UASManager::addUAS(UASInterface* uas)
     }
 }
 
-void UASManager::removeUAS(QObject* uas)
+void UASManager::removeUAS(UASInterface *uas)
 {
-    UASInterface* mav = qobject_cast<UASInterface*>(uas);
-
-    if (mav) {
-        int listindex = systems.indexOf(mav);
-
-        if (mav == activeUAS)
-        {
-            if (systems.count() > 1)
-            {
-                // We only set a new UAS if more than one is present
-                if (listindex != 0)
-                {
-                    // The system to be removed is not at position 1
-                    // set position one as new active system
-                    setActiveUAS(systems.first());
-                }
-                else
-                {
-                    // The system to be removed is at position 1,
-                    // select the next system
-                    setActiveUAS(systems.at(1));
-                }
-            }
-            else
-            {
-                // TODO send a null pointer if no UAS is present any more
-                // This has to be properly tested however, since it might
-                // crash code parts not handling null pointers correctly.
-                activeUAS = NULL;
-                // XXX Not emitting the null pointer yet
-            }
-        }
-        systems.removeAt(listindex);
-        emit UASDeleted(mav);
+    if (uas) {
+        for ( int i=0; i < uas->getLinks()->count(); i++)
+            uas->getLinks()->at(i)->disconnect();
+        emit UASDeleted(uas);
+        systems.removeAll(uas);
+        if (systems.size()) {
+            if (uas == activeUAS)
+                setActiveUAS(systems.first());
+        } else
+            activeUAS = NULL;
     }
 }
 

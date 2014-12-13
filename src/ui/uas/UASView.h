@@ -78,6 +78,8 @@ public slots:
     void setUASasActive(bool);
     /** @brief Update the view if an UAS has been set to active */
     void updateActiveUAS(UASInterface* uas, bool active);
+    /** @brief Remove this system */
+    void removeUAS();
     /** @brief Set the widget into critical mode */
     void heartbeatTimeout(bool timeout, unsigned int ms);
     /** @brief Set the background color for the widget */

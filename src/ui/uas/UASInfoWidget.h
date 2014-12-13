@@ -52,6 +52,7 @@ public:
 
 public slots:
     void addUAS(UASInterface* uas);
+    void removeUAS(UASInterface* uas);
 
     void setActiveUAS(UASInterface* uas);
 

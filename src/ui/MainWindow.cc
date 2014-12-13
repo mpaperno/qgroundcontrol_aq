@@ -1280,6 +1280,7 @@ void MainWindow::connectCommonActions()
     // Connect internal actions
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(UASCreated(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(UASDeleted(UASInterface*)));
 
     // Unmanned System controls
     connect(ui.actionLiftoff, SIGNAL(triggered()), UASManager::instance(), SLOT(launchActiveUAS()));
@@ -1571,99 +1572,40 @@ void MainWindow::UASCreated(UASInterface* uas)
         ui.menuConnected_Systems->addAction(uasAction);
 
         // FIXME Should be not inside the mainwindow
-        if (debugConsoleDockWidget)
-        {
-            DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(debugConsoleDockWidget->widget());
-            if (debugConsole)
-            {
-                connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)),
-                        debugConsole, SLOT(receiveTextMessage(int,int,int,QString)));
-            }
+        if (debugConsoleDockWidget) {
+            if (DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(debugConsoleDockWidget->widget()))
+                connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), debugConsole, SLOT(receiveTextMessage(int,int,int,QString)));
         }
 
         // Health / System status indicator
-        if (infoDockWidget)
-        {
-            UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget());
-            if (infoWidget)
-            {
+        if (infoDockWidget) {
+            if (UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget()))
                 infoWidget->addUAS(uas);
             }
-        }
 
         // UAS List
-        if (listDockWidget)
-        {
-            UASListWidget *listWidget = dynamic_cast<UASListWidget*>(listDockWidget->widget());
-            if (listWidget)
-            {
+        if (listDockWidget) {
+            if (UASListWidget *listWidget = dynamic_cast<UASListWidget*>(listDockWidget->widget()))
                 listWidget->addUAS(uas);
             }
-        }
-
-        // Line chart
-//        if (!linechartWidget)
-//        {
-//            // Center widgets
-//            linechartWidget = new Linecharts(this);
-//            linechartWidget->addSource(mavlinkDecoder);
-//            addCentralWidget(linechartWidget, tr("Realtime Plot"));
-//        }
 
         // Load default custom widgets for this autopilot type
         loadCustomWidgetsFromDefaults(uas->getSystemTypeName(), uas->getAutopilotTypeName());
-
-
-//        if (uas->getAutopilotType() == MAV_AUTOPILOT_PIXHAWK)
-//        {
-//            // Dock widgets
-//            if (!detectionDockWidget)
-//            {
-//                detectionDockWidget = new QDockWidget(tr("Object Recognition"), this);
-//                detectionDockWidget->setWidget( new ObjectDetectionView("files/images/patterns", this) );
-//                detectionDockWidget->setObjectName("OBJECT_DETECTION_DOCK_WIDGET");
-//                addTool(detectionDockWidget, tr("Object Recognition"), Qt::RightDockWidgetArea);
-//            }
-
-//            if (!watchdogControlDockWidget)
-//            {
-//                watchdogControlDockWidget = new QDockWidget(tr("Process Control"), this);
-//                watchdogControlDockWidget->setWidget( new WatchdogControl(this) );
-//                watchdogControlDockWidget->setObjectName("WATCHDOG_CONTROL_DOCKWIDGET");
-//                addTool(watchdogControlDockWidget, tr("Process Control"), Qt::BottomDockWidgetArea);
-//            }
-//        }
 
         // Change the view only if this is the first UAS
 
         // If this is the first connected UAS, it is both created as well as
         // the currently active UAS
-        if (UASManager::instance()->getUASList().size() == 1)
-        {
+        if (UASManager::instance()->getUASList().size() == 1) {
             // Load last view if setting is present
-            if (settings.contains("QGC_MAINWINDOW/CURRENT_VIEW_WITH_UAS_CONNECTED"))
-            {
-                int view = settings.value("QGC_MAINWINDOW/CURRENT_VIEW_WITH_UAS_CONNECTED").toInt();
-                switch (view)
-                {
+            int view = settings.value("QGC_MAINWINDOW/CURRENT_VIEW_WITH_UAS_CONNECTED", (int)VIEW_OPERATOR).toInt();
+            switch (view) {
                 case VIEW_ENGINEER:
                     loadEngineerView();
                     break;
-//                case VIEW_MAVLINK:
-//                    loadMAVLinkView();
-//                    break;
-//                case VIEW_FIRMWAREUPDATE:
-//                    loadFirmwareUpdateView();
-//                    break;
-//				case VIEW_AQ:
-//					loadAQView();
-//					break;
                 case VIEW_PILOT:
                     loadPilotView();
                     break;
-//                case VIEW_UNCONNECTED:
-//                    loadUnconnectedView();
-//                    break;
                 case VIEW_DATA:
                     loadDataView();
                     break;
@@ -1673,16 +1615,11 @@ void MainWindow::UASCreated(UASInterface* uas)
                     break;
                 }
             }
-            else
-            {
-                loadOperatorView();
-            }
-        }
 
     //}
 
-    if (!ui.menuConnected_Systems->isEnabled()) ui.menuConnected_Systems->setEnabled(true);
-//    if (!ui.menuUnmanned_System->isEnabled()) ui.menuUnmanned_System->setEnabled(true);
+    ui.menuConnected_Systems->setEnabled(true);
+//  ui.menuUnmanned_System->setEnabled(true);
 
     // Reload view state in case new widgets were added
     loadViewState();
@@ -1697,11 +1634,27 @@ void MainWindow::UASDeleted(UASInterface* uas)
         ui.menuUnmanned_System->setEnabled(false);
     }
 
+    // FIXME Should be not inside the mainwindow
+    if (debugConsoleDockWidget) {
+        if (DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(debugConsoleDockWidget->widget()))
+            disconnect(uas, 0, debugConsole, 0);
+    }
+
+    // Health / System status indicator
+    if (infoDockWidget) {
+        if (UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget()))
+            infoWidget->removeUAS(uas);
+    }
+
+    // UAS List
+    if (listDockWidget) {
+        if (UASListWidget *listWidget = dynamic_cast<UASListWidget*>(listDockWidget->widget()))
+            listWidget->removeUAS(uas);
+    }
+
     QAction* act;
     QList<QAction*> actions = ui.menuConnected_Systems->actions();
-
-    foreach (act, actions)
-    {
+    foreach (act, actions) {
         if (act->text().contains(uas->getUASName()))
             ui.menuConnected_Systems->removeAction(act);
     }

@@ -122,6 +122,13 @@ void UASInfoWidget::addUAS(UASInterface* uas)
     }
 }
 
+void UASInfoWidget::removeUAS(UASInterface *uas)
+{
+    disconnect(uas, 0, this, 0);
+    if (activeUAS && activeUAS->getUASID() == uas->getUASID())
+        activeUAS = NULL;
+}
+
 void UASInfoWidget::setActiveUAS(UASInterface* uas)
 {
     activeUAS = uas;

@@ -123,7 +123,7 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     connect(m_ui->shutdownButton, SIGNAL(clicked()), uas, SLOT(shutdown()));
 
     // Allow to delete this widget
-    connect(removeAction, SIGNAL(triggered()), this, SLOT(deleteLater()));
+    connect(removeAction, SIGNAL(triggered()), this, SLOT(removeUAS()));
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     connect(selectAction, SIGNAL(triggered()), uas, SLOT(setSelected()));
 //    connect(hilAction, SIGNAL(triggered(bool)), this, SLOT(showHILUi()));
@@ -239,6 +239,11 @@ void UASView::updateActiveUAS(UASInterface* uas, bool active)
         this->isActive = active;
         setBackgroundColor();
     }
+}
+
+void UASView::removeUAS()
+{
+    UASManager::instance()->removeUAS(this->uas);
 }
 
 void UASView::updateMode(int sysId, QString status, QString description)
@@ -525,7 +530,7 @@ separated by commas (example: 9, 9.5, 12.6),\n \
 OR a warning level in percent to use estimate from UAV (example: 15%).\n \
 NOTE: Always use period as decimal separator.");
 
-    QString newName = QInputDialog::getText(0, dlgTitle, dlgLabel, QLineEdit::Normal, uas->getBatterySpecs(), &ok);
+    QString newName = QInputDialog::getText(this, dlgTitle, dlgLabel, QLineEdit::Normal, uas->getBatterySpecs(), &ok);
 
     if (ok && !newName.isEmpty())
         uas->setBatterySpecs(newName);
