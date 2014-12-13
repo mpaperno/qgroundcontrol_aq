@@ -118,7 +118,7 @@ void GAudioOutput::advanceSpeechQueue() {
 
 void GAudioOutput::sayText(QString text)
 {
-    if (muted || emergency)
+    if (muted)
         return;
 
 #ifndef NO_TEXT_TO_SPEECH
@@ -132,7 +132,7 @@ bool GAudioOutput::say(QString text, int severity)
     // TODO Add severity filter
     Q_UNUSED(severity);
 
-    if (muted || emergency)
+    if (muted)
         return false;
 
     voiceQueue.enqueue(text);
@@ -147,18 +147,10 @@ bool GAudioOutput::say(QString text, int severity)
  */
 bool GAudioOutput::alert(QString text)
 {
-    if (!emergency && !muted)
-    {
-        // Play alert sound
-        beep();
-        // Say alert message
-        say(text, 2);
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    // Play alert sound
+    beep();
+    // Say alert message
+    return say(text, 2);
 }
 
 void GAudioOutput::notifyPositive()
@@ -188,13 +180,16 @@ void GAudioOutput::beep()
  */
 bool GAudioOutput::startEmergency()
 {
+    if (muted)
+        return false;
     if (!emergency)
     {
         emergency = true;
         // Beep immediately and then start timer
-        if (!muted) beep();
-        emergencyTimer->start(1500);
-        QTimer::singleShot(8000, this, SLOT(stopEmergency()));
+        beep();
+        emergencyTimer->start(3000);
+        // FIXME - cancel emergency after a certain time (in case nothing else does?)
+        QTimer::singleShot(15000, this, SLOT(stopEmergency()));
     }
     return true;
 }
