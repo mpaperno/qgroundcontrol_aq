@@ -19,19 +19,13 @@
 
 message(Qt version $$[QT_VERSION])
 
-win32-msvc2008|win32-msvc2010 {
-	QMAKE_POST_LINK += $$quote(echo "Copying files"$$escape_expand(\\n))
-} else {
-	QMAKE_POST_LINK += $$quote(echo "Copying files")
-}
-
 # Turn off serial port warnings
 DEFINES += _TTY_NOWARN_
 
 # MAC OS X
 macx|macx-g++42|macx-g++|macx-llvm: {
 
-        CONFIG += cocoa #phonon
+	CONFIG += cocoa
 #	CONFIG += x86_64 cocoa phonon
 #	CONFIG -= x86
 
@@ -50,7 +44,7 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 
 	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 
-        INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
+	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 
 	LIBS += -framework IOKit \
 #		-F$$BASEDIR/libs/lib/Frameworks \
@@ -61,26 +55,25 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 
 	ICON = $$BASEDIR/files/images/icons/macx.icns
 
+	QMAKE_POST_LINK += $$quote(echo "Copying files")
+
 	# Copy AQ files
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
-        QMAKE_POST_LINK += && chmod +x $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin/*
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
+	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin/*
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
 
 	# Copy google earth starter file
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/images/earth.html $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
-	# Copy CSS stylesheets
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/styles/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
-	# Copy audio files (this is taken from the mac deployment script)
-	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/.
-    # Copy support files
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
-	# Copy MAVLink
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/mavlink $$TARGETDIR/qgroundcontrol.app/Contents/MacOS
+	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
+	# Copy audio files
+	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
+	 # Copy language files
+	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
 	# Copy libraries
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
-		  QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
 	# Copy frameworks
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
@@ -191,14 +184,14 @@ linux-g++|linux-g++-64{
 
 	CONFIG -= console
 	DEFINES += __STDC_LIMIT_MACROS
+	DESTDIR = $$TARGETDIR
 
 	release {
 		DEFINES += QT_NO_DEBUG
 	}
 
 	INCLUDEPATH += /usr/include \
-        /usr/local/include \
-#        /usr/include/qt4/phonon
+		  /usr/local/include \
 
 	LIBS += \
 		-L/usr/lib \
@@ -253,19 +246,25 @@ linux-g++|linux-g++-64{
 		DEFINES += QGC_LIBFREENECT_ENABLED
 	}
 
+
+	QMAKE_POST_LINK += $$quote(echo "Copying files")
+
 	# Validated copy commands
 	!exists($$TARGETDIR){
 		QMAKE_POST_LINK += && mkdir -p $$TARGETDIR
 	}
-	DESTDIR = $$TARGETDIR
+
 	# Copy AQ files
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/bin
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_unix_all/* $$TARGETDIR/aq/bin
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/mixes
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/aq/mixes
-        QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq/bin/*
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files $$TARGETDIR
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/data $$TARGETDIR
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/bin
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_unix_all/* $$TARGETDIR/aq/bin
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/mixes
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/aq/mixes
+	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq/bin/*
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/*.* $$TARGETDIR/files
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/audio $$TARGETDIR/files/audio
+	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/files/lang
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/files/lang/flags
+	#QMAKE_POST_LINK += && cp -rf $$BASEDIR/data $$TARGETDIR
 
 	# osg/osgEarth dynamic casts might fail without this compiler option.
 	# see http://osgearth.org/wiki/FAQ for details.
@@ -296,12 +295,12 @@ win32-msvc2008|win32-msvc2010 {
 		message(Building for Windows Visual Studio 2010 (32bit))
 	}
 
-		# Specify multi-process compilation within Visual Studio.
+	# Specify multi-process compilation within Visual Studio.
 	# (drastically improves compilation times for multi-core computers)
-        QMAKE_CFLAGS_DEBUG += /MP
-        QMAKE_CXXFLAGS_DEBUG += /MP
-        QMAKE_CFLAGS_RELEASE += /MP
-        QMAKE_CXXFLAGS_RELEASE += /MP
+	QMAKE_CFLAGS_DEBUG += /MP
+	QMAKE_CXXFLAGS_DEBUG += /MP
+	QMAKE_CFLAGS_RELEASE += /MP
+	QMAKE_CXXFLAGS_RELEASE += /MP
 
 	# QAxContainer support is needed for the Internet Control
 	# element showing the Google Earth window
@@ -361,76 +360,77 @@ win32-msvc2008|win32-msvc2010 {
 	RC_FILE = $$BASEDIR/qgroundcontrol.rc
 
 	# Copy dependencies
-        BASEDIR_WIN = $$replace(BASEDIR,"/","\\")
-        TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\release
-		  greaterThan(QT_MAJOR_VERSION, 4) {
-			QTLIBDLLPFX = "Qt5"
-			QTLIBDLLSFX = ".dll"
-		  } else {
-			QTLIBDLLPFX = "Qt"
-			QTLIBDLLSFX = "4.dll"
-		  }
-        CONFIG(debug, debug|release) {
-			  TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\debug
-			  greaterThan(QT_MAJOR_VERSION, 4) {
-					QTLIBDLLSFX = "d.dll"
-			  } else {
-					QTLIBDLLSFX = "d4.dll"
-			  }
-        }
+	BASEDIR_WIN = $$replace(BASEDIR,"/","\\")
+	TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\release
+	greaterThan(QT_MAJOR_VERSION, 4) {
+		QTLIBDLLPFX = "Qt5"
+		QTLIBDLLSFX = ".dll"
+	} else {
+		QTLIBDLLPFX = "Qt"
+		QTLIBDLLSFX = "4.dll"
+	}
+	CONFIG(debug, debug|release) {
+		TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\debug
+		greaterThan(QT_MAJOR_VERSION, 4) {
+			QTLIBDLLSFX = "d.dll"
+		} else {
+			QTLIBDLLSFX = "d4.dll"
+		}
+	}
 
-        # Copy AQ files
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\aq\\bin" /E /I $$escape_expand(\\n))
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\mixes\\*" "$$TARGETDIR_WIN\\aq\\mixes" /E /I $$escape_expand(\\n))
+	QMAKE_POST_LINK += $$quote(echo "Copying files"$$escape_expand(\\n))
 
-        # Copy VLC files
-        contains(DEFINES, QGC_USE_VLC) {
-            QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\plugins\\*"  "$$TARGETDIR_WIN\\plugins" /E /I $$escape_expand(\\n))
-            QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlccore.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-            QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlc.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-        }
+	# Copy AQ files
+	QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\aq\\bin" /E /I $$escape_expand(\\n))
+	QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\aq\\mixes\\*" "$$TARGETDIR_WIN\\aq\\mixes" /E /I $$escape_expand(\\n))
 
-        # Copy supporting library DLLs
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-#        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\mavlink" "$$TARGETDIR_WIN\\mavlink" /E /I $$escape_expand(\\n))
-		  #QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+	# Copy VLC files  --  just install VNC instaed!
+#	contains(DEFINES, QGC_USE_VLC) {
+#		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\plugins\\*"  "$$TARGETDIR_WIN\\plugins" /E /I $$escape_expand(\\n))
+#		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlccore.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+#		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlc.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+#	}
 
-        # Copy application resources
-        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\files" "$$TARGETDIR_WIN\\files" /E /I $$escape_expand(\\n))
-#	QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\models" "$$TARGETDIR_WIN\\models" /E /I $$escape_expand(\\n))
+	# Copy application resources
+	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\*.*" "$$TARGETDIR_WIN\\files\\" $$escape_expand(\\n))
+	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\audio" "$$TARGETDIR_WIN\\files\\audio" $$escape_expand(\\n))
+	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\lang\\*.qm" "$$TARGETDIR_WIN\\files\\lang" $$escape_expand(\\n))
+	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\lang" "$$TARGETDIR_WIN\\files\\lang" $$escape_expand(\\n))
 
-        # Copy Qt DLLs
-#        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins" "$$TARGETDIR_WIN" /E /I $$escape_expand(\\n))
-#        QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\phonon$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins\\imageformats\\*$${QTLIBDLLSFX}" "$$TARGETDIR_WIN\\imageformats" /E /I $$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins\\iconengines\\*$${QTLIBDLLSFX}" "$$TARGETDIR_WIN\\iconengines" /E /I $$escape_expand(\\n))
-		  # clean up plugin dll debug versions if not needed
-		  CONFIG(release, debug|release) {
-				QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\imageformats\\*d4.dll" $$escape_expand(\\n))
-				QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\iconengines\\*d4.dll" $$escape_expand(\\n))
-		  }
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Core$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Gui$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Multimedia$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Network$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}OpenGL$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-#		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}SerialPort$$replace(QTLIBDLLSFX,4,)" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Sql$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Svg$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Test$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}WebKit$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Xml$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		  QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}XmlPatterns$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+	CONFIG(release, debug|release) {
+		# Copy supporting library DLLs
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		#QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 
-        CONFIG(release, debug|release) {
-            QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.exp"$$escape_expand(\\n))
-            QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.lib"$$escape_expand(\\n))
+		# Copy Qt DLLs
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins\\imageformats\\*$${QTLIBDLLSFX}" "$$TARGETDIR_WIN\\imageformats" /E /I $$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins\\iconengines\\*$${QTLIBDLLSFX}" "$$TARGETDIR_WIN\\iconengines" /E /I $$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\plugins\\sqldrivers\\*$${QTLIBDLLSFX}" "$$TARGETDIR_WIN\\sqldrivers" /E /I $$escape_expand(\\n))
+		CONFIG(release, debug|release) {
+		}
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Core$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Gui$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Multimedia$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Network$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}OpenGL$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Sql$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Svg$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Test$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}WebKit$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Xml$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}XmlPatterns$$QTLIBDLLSFX" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 
-            # Copy Visual Studio DLLs
-            # Note that this is only done for release because the debugging versions of these DLLs cannot be redistributed.
-            # I'm not certain of the path for VS2008, so this only works for VS2010.
-            win32-msvc2010 {
-                QMAKE_POST_LINK += $$quote(xcopy /D /Y "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\*.dll\""  "$$TARGETDIR_WIN\\"$$escape_expand(\\n))
-            }
+		# clean up stuff not needed by release versions
+		QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\imageformats\\*d4.dll" $$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\iconengines\\*d4.dll" $$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\sqldrivers\\*d4.dll" $$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.exp"$$escape_expand(\\n))
+		QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.lib"$$escape_expand(\\n))
+
+		# Copy Visual Studio DLLs
+		# I'm not certain of the path for VS2008, so this only works for VS2010.
+		win32-msvc2010 {
+			QMAKE_POST_LINK += $$quote(xcopy /D /Y "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\*.dll\""  "$$TARGETDIR_WIN\\"$$escape_expand(\\n))
+		}
 	}
 }
