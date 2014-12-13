@@ -432,8 +432,12 @@ void QGCAutoquad::adjustUiForFirmware() {
         radioTypes << "SUMD (Graupner)";
     if (!aqBuildNumber || aqBuildNumber >= 1350)
         radioTypes << "M-Link (Multiplex)";
-    if (!aqBuildNumber || aqBuildNumber >= 1739)
-        radioTypes << "Deltang";
+    if (!aqHardwareVersion || aqHardwareVersion == 8) {
+        if (!aqBuildNumber || aqBuildNumber >= 1739)
+            radioTypes << "Deltang (onboard M4v1)";
+        if (!aqBuildNumber || aqBuildNumber >= 1798)
+            radioTypes << "CYRF (onboard M4v2+)";
+    }
 
     setupRadioTypes(radioTypes);
 
