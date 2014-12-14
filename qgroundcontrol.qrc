@@ -115,11 +115,12 @@
         <file>files/images/actions/folder_table.png</file>
         <file>files/images/actions/disk.png</file>
         <file>files/images/contrib/AQ_logo_quad-only_outlined_112px.png</file>
-        <file>files/images/contrib/aq_ports_reference.png</file>
         <file>files/styles/style-native.css</file>
         <file>files/styles/style-default.css</file>
         <file>files/images/actions/database-network.png</file>
         <file>files/images/actions/view-refresh.svg</file>
+        <file>files/images/contrib/aq6_ports_reference.png</file>
+        <file>files/images/contrib/m4_ports_reference.png</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>
