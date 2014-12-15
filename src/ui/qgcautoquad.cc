@@ -253,7 +253,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
     connect(ui->pushButton_toggleRadioGraph, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
-    connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq(int)));
+    connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(editingFinished()), this, SLOT(delayedSendRcRefreshFreq()));
     foreach (QComboBox* cb, allRadioChanCombos)
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
 
@@ -281,13 +281,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     loadSettings();
 
     // UAS slots
-    QList<UASInterface*> mavs = UASManager::instance()->getUASList();
-    foreach (UASInterface* currMav, mavs) {
-        addUAS(currMav);
-    }
+//    QList<UASInterface*> mavs = UASManager::instance()->getUASList();
+//    foreach (UASInterface* currMav, mavs) {
+//        addUAS(currMav);
+//    }
     setActiveUAS(UASManager::instance()->getActiveUAS());
-    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
+    //connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)), Qt::UniqueConnection);
+    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
 
 }
 
@@ -435,7 +436,7 @@ void QGCAutoquad::adjustUiForFirmware() {
     if (!aqHardwareVersion || aqHardwareVersion == 8) {
         if (!aqBuildNumber || aqBuildNumber >= 1739)
             radioTypes << "Deltang (onboard M4v1)";
-        if (!aqBuildNumber || aqBuildNumber >= 1798)
+        if (!aqHardwareRevision || aqHardwareRevision >= 6)
             radioTypes << "CYRF (onboard M4v2+)";
     }
 
@@ -1588,9 +1589,8 @@ void QGCAutoquad::setRssiDisplayValue(float normalized) {
         bar->setValue(val);
 }
 
-void QGCAutoquad::delayedSendRcRefreshFreq(int rate)
+void QGCAutoquad::delayedSendRcRefreshFreq()
 {
-    Q_UNUSED(rate);
     delayedSendRCTimer.start();
 }
 
@@ -1607,24 +1607,17 @@ void QGCAutoquad::sendRcRefreshFreq()
 // UAS Interfaces
 //
 
-void QGCAutoquad::addUAS(UASInterface* uas_ext)
-{
-    QString uasColor = uas_ext->getColor().name().remove(0, 1);
+//void QGCAutoquad::addUAS(UASInterface* uas_ext)
+//{
+//    QString uasColor = uas_ext->getColor().name().remove(0, 1);
 
-}
+//}
 
 void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
     if (uas_ext)
     {
-        if (uas)
-            disconnect(uas, 0, this, 0);
-        if (paramaq) {
-            disconnect(paramaq, 0, this, 0);
-            ui->tabLayout_paramHandler->removeWidget(paramaq);
-            delete paramaq;
-        }
-
+        uasDeleted(uas);
         uas = uas_ext;
         paramaq = new QGCAQParamWidget(uas, this);
         ui->label_params_no_aq->hide();
@@ -1637,6 +1630,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
         connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
         connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
+        connect(uas, SIGNAL(dataStreamAnnounced(int,uint8_t,uint16_t,bool)), this, SLOT(dataStreamUpdate(int,uint8_t,uint16_t,bool)));
         //connect(uas, SIGNAL(connected()), this, SLOT(uasConnected())); // this doesn't do anything
 
         connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
@@ -1657,6 +1651,29 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         VisibleWidget = 2;
 //        aqTelemetryView->initChart(uas);
         toggleRadioValuesUpdate();
+    }
+}
+
+void QGCAutoquad::uasDeleted(UASInterface *mav)
+{
+    if (uas && mav->getUASID() == uas->getUASID()) {
+        disconnect(uas, 0, this, 0);
+        uas = NULL;
+        if (paramaq) {
+            disconnect(paramaq, 0, this, 0);
+            ui->tabLayout_paramHandler->removeWidget(paramaq);
+            ui->label_params_no_aq->show();
+            paramaq->deleteLater();
+            paramaq = NULL;
+        }
+    }
+}
+
+void QGCAutoquad::dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off)
+{
+    if (uas && uas->getUASID() == uasId && stream_id == MAV_DATA_STREAM_RC_CHANNELS) {
+        ui->pushButton_toggleRadioGraph->setChecked(on_off);
+        ui->spinBox_rcGraphRefreshFreq->setValue(rate);
     }
 }
 

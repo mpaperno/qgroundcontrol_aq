@@ -286,8 +286,8 @@ void UASManager::addUAS(UASInterface* uas)
 void UASManager::removeUAS(UASInterface *uas)
 {
     if (uas) {
-        for ( int i=0; i < uas->getLinks()->count(); i++)
-            uas->getLinks()->at(i)->disconnect();
+//        for ( int i=0; i < uas->getLinks()->count(); i++)
+//            uas->getLinks()->at(i)->disconnect();
         emit UASDeleted(uas);
         systems.removeAll(uas);
         if (systems.size()) {

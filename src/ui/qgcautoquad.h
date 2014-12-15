@@ -89,8 +89,10 @@ private slots:
     void flashFwDfu();
 
     // UAS setup
-    void addUAS(UASInterface* uas_ext);
+//  void addUAS(UASInterface* uas_ext);
     void setActiveUAS(UASInterface* uas_ext);
+    void uasDeleted(UASInterface *mav);
+    void dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
 
     // AQ Settings
     void loadParametersToUI();
@@ -106,7 +108,7 @@ private slots:
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
     void sendRcRefreshFreq();
-    void delayedSendRcRefreshFreq(int rate);
+    void delayedSendRcRefreshFreq();
 
     // ESC32
     void setPortNameEsc32(QString port);
