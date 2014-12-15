@@ -109,7 +109,7 @@ private slots:
     void loadImage_clicked();
     void allToCAN_clicked();
     void allToPWM_clicked();
-    void on_checkBox_quatos_clicked(bool checked);
+    void toggleQuatos(bool checked);
     void splitterCollapseToggle();
     void splitterMoved();
     void firmwareVersion_updated();

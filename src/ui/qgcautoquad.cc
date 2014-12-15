@@ -611,8 +611,9 @@ void QGCAutoquad::splitterMoved() {
 
 // make sure no radio channel assignments conflict
 bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
-    QList<QString> conflictPorts, portsUsed, essentialPorts, warningPorts;
-    QString cbname, cbtxt, xtraChan;
+    QList<QString> conflictPorts, portsUsed, essentialPorts;
+    QString cbname, cbtxt;
+    bool ok = true;
 
     foreach (QComboBox* cb, allRadioChanCombos) {
         cbname = cb->objectName();
@@ -628,18 +629,16 @@ bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
 
     foreach (QComboBox* cb, allRadioChanCombos) {
         if (conflictPorts.contains(cb->currentText())) {
-            if (essentialPorts.contains(cb->currentText()))
+            if (essentialPorts.contains(cb->currentText())) {
                 cb->setStyleSheet("background-color: rgba(255, 0, 0, 160)");
-            else
+                ok = false;
+            } else
                 cb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
         } else
             cb->setStyleSheet("");
     }
 
-    if (conflictPorts.size())
-        return false;
-
-    return true;
+    return ok;
 }
 
 
@@ -1820,9 +1819,9 @@ void QGCAutoquad::setAqHasQuatos(const bool yes)
 {
     if (usingQuatos != yes) {
         usingQuatos = yes;
-        adjustUiForQuatos();
         emit aqHasQuatosChanged(usingQuatos);
     }
+    adjustUiForQuatos();
 }
 
 bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)

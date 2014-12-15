@@ -115,7 +115,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     // set up default mixing type view
     motorMixType = 1;
     changeMixType();
-    setMixTypeQuatos(m_mixTypeQuatos);
+    setMixTypeQuatos(aq->aqHasQuatos());
 
     // connect to hardware info update signal
     connect(aq, SIGNAL(hardwareInfoUpdated()), this, SLOT(portNumbersModel_updated()));
@@ -135,6 +135,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     connect(ui->toolButton_loadImage, SIGNAL(clicked()), this, SLOT(loadImage_clicked()));
     connect(ui->toolButton_allToCAN, SIGNAL(clicked()), this, SLOT(allToCAN_clicked()));
     connect(ui->toolButton_allToPWM, SIGNAL(clicked()), this, SLOT(allToPWM_clicked()));
+    connect(ui->checkBox_quatos, SIGNAL(clicked(bool)), this, SLOT(toggleQuatos(bool)));
     connect(ui->groupBox_jMatrix, SIGNAL(toggled(bool)), ui->widget_jMatrix, SLOT(setVisible(bool)));
 }
 
@@ -467,7 +468,7 @@ void AQPWMPortsConfig::detectQuatos()
     float throt = 0.0;
     for (int i=0; i < motorPortsConfig.size(); ++i)
         throt = qMax(throt, motorPortsConfig.at(i).throt);
-    setMixTypeQuatos(throt > 0.0 && throt < 2.0);
+    toggleQuatos(throt > 0.0 && throt < 2.0);
 }
 
 void AQPWMPortsConfig::setAllMotorPortTypes(quint8 type) {
@@ -1157,8 +1158,6 @@ void AQPWMPortsConfig::firmwareVersion_updated(void) {
     else if (aq->maxMotorPorts < ui->comboBox_numOfMotors->count())
         for (int i=ui->comboBox_numOfMotors->count(); i > aq->maxMotorPorts + 1; --i)
             ui->comboBox_numOfMotors->removeItem(i-1);
-
-    setMixTypeQuatos(aq->aqHasQuatos());
 }
 
 
@@ -1289,9 +1288,10 @@ void AQPWMPortsConfig::allToPWM_clicked() {
     setAllMotorPortTypes(MOT_PORT_TYPE_PWM);
 }
 
-void AQPWMPortsConfig::on_checkBox_quatos_clicked(bool checked)
+void AQPWMPortsConfig::toggleQuatos(bool checked)
 {
-    setMixTypeQuatos(checked);
+    //setMixTypeQuatos(checked);
+    aq->setAqHasQuatos(checked);
 }
 
 void AQPWMPortsConfig::splitterCollapseToggle() {
