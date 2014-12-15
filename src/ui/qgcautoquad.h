@@ -40,6 +40,8 @@ public:
     void populateButtonGroups(QObject *parent);
     bool saveSettingsToAq(QWidget *parent, bool interactive = true);
     bool checkAqConnected(bool interactive = false);
+    void setAqHasQuatos(const bool yes);
+    bool aqHasQuatos() { return usingQuatos; }
     void Esc32UpdateStatusText(QString text);
 
 protected:
@@ -51,6 +53,7 @@ signals:
     void visibilityChanged(bool visible);
     void hardwareInfoUpdated(void);
     void firmwareInfoUpdated(void);
+    void aqHasQuatosChanged(bool hasquatos);
 
 private slots:
 
@@ -61,6 +64,7 @@ private slots:
     // UI handlers
     void adjustUiForHardware();
     void adjustUiForFirmware();
+    void adjustUiForQuatos();
     void setupRadioTypes(const QStringList &radioTypes);
     bool radioHasPPM();
     void radioType_changed(int idx);
@@ -71,6 +75,8 @@ private slots:
     void splitterMoved();
     bool validateRadioSettings(int);
 //  void on_groupBox_ppmOptions_toggled(bool arg1);
+    void on_radioButton_attitude_pid_clicked() { setAqHasQuatos(false); }
+    void on_radioButton_attitude_quatos_clicked() { setAqHasQuatos(true); }
 
     // AQ FW flashing
     void setupPortList();
@@ -170,6 +176,7 @@ public:
     bool motPortTypeCAN_H;          // are CAN ports 17-32 available?
     bool aqCanReboot;               // can system accept remote restart command?
     bool useRadioSetupParam;        // firmware uses newer RADIO_SETUP parameter
+    bool usingQuatos;               // firmware reports quatos attitutde controller is used
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files

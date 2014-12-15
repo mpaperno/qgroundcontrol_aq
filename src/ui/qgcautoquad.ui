@@ -699,7 +699,7 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_chan_4">
                      <property name="text">
-                      <string>Cam Trigger</string>
+                      <string>Cam. Trig.</string>
                      </property>
                     </widget>
                    </item>
@@ -752,7 +752,7 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_chan_5">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -768,7 +768,7 @@
                    <item row="0" column="1">
                     <widget class="QLabel" name="label_chanValue_5">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -793,7 +793,7 @@
                       <string>Mission Start &gt; 250</string>
                      </property>
                      <property name="text">
-                      <string>mission mode</string>
+                      <string>[mission]</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -809,7 +809,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>alt./pos. hold</string>
+                      <string>[alt/pos hold]</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
@@ -825,7 +825,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>manual mode</string>
+                      <string>[manual]</string>
                      </property>
                     </widget>
                    </item>
@@ -868,7 +868,7 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_chan_6">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
@@ -906,7 +906,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>activate RTH</string>
+                      <string>[return to hm]</string>
                      </property>
                     </widget>
                    </item>
@@ -922,7 +922,7 @@
                       <string>Set Home &gt; 250</string>
                      </property>
                      <property name="text">
-                      <string>set home pos.</string>
+                      <string>[set home]</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -938,7 +938,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>normal flight</string>
+                      <string>[normal]</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignCenter</set>
@@ -1106,6 +1106,12 @@
                 </item>
                 <item>
                  <widget class="Line" name="line">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
@@ -1132,22 +1138,6 @@
                    <number>1</number>
                   </property>
                  </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_6">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Fixed</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>4</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
                 </item>
                 <item alignment="Qt::AlignRight">
                  <widget class="QPushButton" name="pushButton_toggleRadioGraph">
@@ -1217,7 +1207,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>621</width>
+                <width>629</width>
                 <height>778</height>
                </rect>
               </property>
@@ -1452,215 +1442,11 @@ font-weight: bold;</string>
                   <property name="verticalSpacing">
                    <number>7</number>
                   </property>
-                  <item row="5" column="3">
-                   <widget class="QLabel" name="label_GMBL_PSTHR_CHAN">
+                  <item row="4" column="3">
+                   <widget class="QLabel" name="label_NAV_HDFRE_CHAN">
                     <property name="text">
-                     <string>Passthrough 1</string>
+                     <string>Heading-Free</string>
                     </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="1">
-                   <widget class="QComboBox" name="RADIO_GEAR_CH">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="currentIndex">
-                     <number>4</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string notr="true">1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">2</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">3</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">4</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">5</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">6</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">7</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">8</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">9</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">10</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">11</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">12</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">13</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">14</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">15</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">16</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="4">
-                   <widget class="QComboBox" name="RADIO_FLAP_CH">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Flaps/Aux 1. Switch between manual / position hold / mission modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="currentIndex">
-                     <number>5</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string notr="true">1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">2</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">3</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">4</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">5</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">6</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">7</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">8</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">9</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">10</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">11</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">12</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">13</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">14</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">15</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">16</string>
-                     </property>
-                    </item>
                    </widget>
                   </item>
                   <item row="5" column="0">
@@ -1670,15 +1456,8 @@ font-weight: bold;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="3">
-                   <widget class="QLabel" name="label_RADIO_AUX3_CH">
-                    <property name="text">
-                     <string>Gimbal Tilt</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="4">
-                   <widget class="QComboBox" name="RADIO_AUX3_CH">
+                  <item row="5" column="4">
+                   <widget class="QComboBox" name="GMBL_PSTHR_CHAN">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -1692,225 +1471,7 @@ font-weight: bold;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="currentIndex">
-                     <number>7</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string notr="true">1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">2</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">3</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">4</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">5</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">6</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">7</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">8</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">9</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">10</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">11</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">12</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">13</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">14</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">15</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">16</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="2" column="3">
-                   <widget class="QLabel" name="label_RADIO_AUX2_CH">
-                    <property name="text">
-                     <string>Home Action</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="4">
-                   <widget class="QComboBox" name="RADIO_AUX2_CH">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 2. Switch to set home position and activate Return to Home function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="currentIndex">
-                     <number>6</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string notr="true">1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">2</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">3</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">4</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">5</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">6</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">7</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">8</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">9</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">10</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">11</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">12</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">13</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">14</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">15</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">16</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="1" column="3">
-                   <widget class="QLabel" name="label_RADIO_FLAP_CH">
-                    <property name="text">
-                     <string>Flight Mode</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="4">
-                   <widget class="QComboBox" name="NAV_HDFRE_CHAN">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for controlling Heading Free mode. Low position (&amp;lt; -250) turns HF on. Mid position (~0) turns HF off. Hight position (&amp;gt; 250) sets reference heading.  Keep switch in high position to continously set reference (aka. &amp;quot;dynamic mode&amp;quot;).&lt;/p&gt;&lt;p&gt;Reference heading is set as follows: &lt;/p&gt;&lt;p&gt;1) When not flying OR within 2 meters of Home position: reference heading is based on actual craft orienation.&lt;/p&gt;&lt;p&gt;2) When flying AND 2 meters or more away from home position: reference heading is based on bearing to home position.  In other words, &amp;quot;back&amp;quot; stick will bring the craft back towards home, regardless of its actual orientation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optional extra passthrough channel, to be directed to Passthrough Port in Output -&amp;gt; Gimbal settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="currentIndex">
                      <number>0</number>
@@ -2002,21 +1563,7 @@ font-weight: bold;</string>
                     </item>
                    </widget>
                   </item>
-                  <item row="4" column="3">
-                   <widget class="QLabel" name="label_NAV_HDFRE_CHAN">
-                    <property name="text">
-                     <string>Heading-Free</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="label_RADIO_PITC_CH">
-                    <property name="text">
-                     <string>Pitch</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="5" rowspan="2">
+                  <item row="0" column="6" rowspan="2">
                    <spacer name="horizontalSpacer">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -2028,6 +1575,13 @@ font-weight: bold;</string>
                      </size>
                     </property>
                    </spacer>
+                  </item>
+                  <item row="1" column="3">
+                   <widget class="QLabel" name="label_RADIO_FLAP_CH">
+                    <property name="text">
+                     <string>Flight Mode</string>
+                    </property>
+                   </widget>
                   </item>
                   <item row="1" column="1">
                    <widget class="QComboBox" name="RADIO_THRO_CH">
@@ -2128,115 +1682,6 @@ font-weight: bold;</string>
                     </item>
                    </widget>
                   </item>
-                  <item row="2" column="0">
-                   <widget class="QLabel" name="label_RADIO_ROLL_CH">
-                    <property name="text">
-                     <string>Roll</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="1">
-                   <widget class="QComboBox" name="RADIO_PITC_CH">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="toolTip">
-                     <string>Elevator / Nick</string>
-                    </property>
-                    <property name="currentIndex">
-                     <number>2</number>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string notr="true">1</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">2</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">3</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">4</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">5</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">6</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">7</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">8</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">9</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">10</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">11</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">12</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">13</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">14</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">15</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string notr="true">16</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
                   <item row="4" column="0">
                    <widget class="QLabel" name="label_RADIO_RUDD_CH">
                     <property name="text">
@@ -2244,10 +1689,10 @@ font-weight: bold;</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="3">
-                   <widget class="QLabel" name="label_8">
+                  <item row="0" column="1">
+                   <widget class="QLabel" name="label_6">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -2259,12 +1704,12 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
 padding: 1px 5px;</string>
                     </property>
                     <property name="text">
-                     <string>Control</string>
+                     <string>Chan.</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="1">
-                   <widget class="QComboBox" name="RADIO_RUDD_CH">
+                  <item row="1" column="4">
+                   <widget class="QComboBox" name="RADIO_FLAP_CH">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -2278,10 +1723,10 @@ padding: 1px 5px;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>Rudder</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Flaps/Aux 1. Switch between manual / position hold / mission modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="currentIndex">
-                     <number>3</number>
+                     <number>5</number>
                     </property>
                     <item>
                      <property name="text">
@@ -2467,88 +1912,8 @@ padding: 1px 5px;</string>
                     </item>
                    </widget>
                   </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_RADIO_THRO_CH">
-                    <property name="text">
-                     <string>Throttle</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="2">
-                   <spacer name="horizontalSpacer_2">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                     <enum>QSizePolicy::Fixed</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>15</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_5">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
-border-radius: 3px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
-padding: 1px 5px;</string>
-                    </property>
-                    <property name="text">
-                     <string>Control</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QLabel" name="label_6">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
-border-radius: 3px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
-padding: 1px 5px;</string>
-                    </property>
-                    <property name="text">
-                     <string>Chan.</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="4">
-                   <widget class="QLabel" name="label_7">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
-border-radius: 3px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
-padding: 1px 5px;</string>
-                    </property>
-                    <property name="text">
-                     <string>Chan.</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="4">
-                   <widget class="QComboBox" name="GMBL_PSTHR_CHAN">
+                  <item row="3" column="1">
+                   <widget class="QComboBox" name="RADIO_PITC_CH">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -2562,7 +1927,436 @@ padding: 1px 5px;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optional extra passthrough channel, to be directed to Passthrough Port in Output -&amp;gt; Gimbal settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>Elevator / Nick</string>
+                    </property>
+                    <property name="currentIndex">
+                     <number>2</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string notr="true">1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">6</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">7</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">8</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">9</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">10</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">11</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">12</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">13</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">14</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">15</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">16</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QComboBox" name="RADIO_GEAR_CH">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="currentIndex">
+                     <number>4</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string notr="true">1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">6</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">7</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">8</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">9</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">10</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">11</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">12</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">13</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">14</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">15</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">16</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_RADIO_THRO_CH">
+                    <property name="text">
+                     <string>Throttle</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_RADIO_PITC_CH">
+                    <property name="text">
+                     <string>Pitch</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="4">
+                   <widget class="QComboBox" name="RADIO_AUX2_CH">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 2. Switch to set home position and activate Return to Home function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="currentIndex">
+                     <number>6</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string notr="true">1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">6</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">7</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">8</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">9</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">10</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">11</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">12</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">13</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">14</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">15</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">16</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="3" column="3">
+                   <widget class="QLabel" name="label_RADIO_AUX3_CH">
+                    <property name="text">
+                     <string>Gimbal Tilt</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="4">
+                   <widget class="QComboBox" name="RADIO_AUX3_CH">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                    <property name="currentIndex">
+                     <number>7</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string notr="true">1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">6</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">7</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">8</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">9</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">10</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">11</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">12</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">13</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">14</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">15</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">16</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="4" column="4">
+                   <widget class="QComboBox" name="NAV_HDFRE_CHAN">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for controlling Heading Free mode. Low position (&amp;lt; -250) turns HF on. Mid position (~0) turns HF off. Hight position (&amp;gt; 250) sets reference heading.  Keep switch in high position to continously set reference (aka. &amp;quot;dynamic mode&amp;quot;).&lt;/p&gt;&lt;p&gt;Reference heading is set as follows: &lt;/p&gt;&lt;p&gt;1) When not flying OR within 2 meters of Home position: reference heading is based on actual craft orienation.&lt;/p&gt;&lt;p&gt;2) When flying AND 2 meters or more away from home position: reference heading is based on bearing to home position.  In other words, &amp;quot;back&amp;quot; stick will bring the craft back towards home, regardless of its actual orientation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="currentIndex">
                      <number>0</number>
@@ -2652,6 +2446,717 @@ padding: 1px 5px;</string>
                       <string notr="true">16</string>
                      </property>
                     </item>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QComboBox" name="RADIO_RUDD_CH">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>Rudder</string>
+                    </property>
+                    <property name="currentIndex">
+                     <number>3</number>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string notr="true">1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">5</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">6</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">7</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">8</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">9</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">10</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">11</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">12</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">13</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">14</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">15</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string notr="true">16</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_5">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                    </property>
+                    <property name="text">
+                     <string>Control</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="3">
+                   <widget class="QLabel" name="label_RADIO_AUX2_CH">
+                    <property name="text">
+                     <string>Home Action</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="4">
+                   <widget class="QLabel" name="label_7">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                    </property>
+                    <property name="text">
+                     <string>Chan.</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="2">
+                   <spacer name="horizontalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>12</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item row="0" column="3">
+                   <widget class="QLabel" name="label_8">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                    </property>
+                    <property name="text">
+                     <string>Control</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_RADIO_ROLL_CH">
+                    <property name="text">
+                     <string>Roll</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="3">
+                   <widget class="QLabel" name="label_GMBL_PSTHR_CHAN">
+                    <property name="text">
+                     <string>Passthrough 1</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="5" rowspan="6">
+                   <widget class="QWidget" name="widget_tuningChannels" native="true">
+                    <layout class="QFormLayout" name="formLayout_45">
+                     <property name="fieldGrowthPolicy">
+                      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                     </property>
+                     <property name="formAlignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                     </property>
+                     <property name="horizontalSpacing">
+                      <number>9</number>
+                     </property>
+                     <property name="verticalSpacing">
+                      <number>7</number>
+                     </property>
+                     <property name="leftMargin">
+                      <number>12</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>0</number>
+                     </property>
+                     <item row="0" column="1">
+                      <widget class="QLabel" name="label_9">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 5px;</string>
+                       </property>
+                       <property name="text">
+                        <string>Chan.</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_QUATOS_AM1_KNOB">
+                       <property name="text">
+                        <string>AM1</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QComboBox" name="QUATOS_AM1_KNOB">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>Quatos tuning parameter, see documentation.</string>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Off</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">1</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">2</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">3</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">4</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">5</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">6</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">7</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">8</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">9</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">10</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">11</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">12</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">13</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">14</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">15</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">16</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_QUATOS_AM2_KNOB">
+                       <property name="text">
+                        <string>AM2</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QComboBox" name="QUATOS_AM2_KNOB">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>Quatos tuning parameter, see documentation.</string>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Off</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">1</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">2</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">3</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">4</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">5</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">6</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">7</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">8</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">9</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">10</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">11</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">12</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">13</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">14</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">15</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">16</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="label_QUATOS_K1_KNOB">
+                       <property name="text">
+                        <string>K1</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QComboBox" name="QUATOS_K1_KNOB">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>Quatos tuning parameter, see documentation.</string>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Off</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">1</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">2</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">3</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">4</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">5</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">6</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">7</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">8</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">9</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">10</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">11</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">12</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">13</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">14</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">15</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">16</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="label_QUATOS_PT_KNOB">
+                       <property name="text">
+                        <string>PT</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QComboBox" name="QUATOS_PT_KNOB">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>Quatos tuning parameter, see documentation.</string>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Off</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">1</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">2</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">3</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">4</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">5</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">6</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">7</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">8</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">9</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">10</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">11</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">12</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">13</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">14</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">15</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string notr="true">16</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_11">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">border: 1px solid rgba(125, 125, 125, 125);
+border-radius: 3px;
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));
+padding: 1px 3px;</string>
+                       </property>
+                       <property name="text">
+                        <string>Quatos</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                  </layout>
@@ -3313,7 +3818,7 @@ padding: 1px 5px;</string>
            </sizepolicy>
           </property>
           <attribute name="title">
-           <string>PID Settings</string>
+           <string>PID &amp;&amp; Quatos</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_8">
            <property name="topMargin">
@@ -3325,817 +3830,873 @@ padding: 1px 5px;</string>
            <property name="verticalSpacing">
             <number>7</number>
            </property>
-           <item row="0" column="1" alignment="Qt::AlignTop">
-            <widget class="QGroupBox" name="YawRate">
-             <property name="title">
-              <string>Yaw Rate PID</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_21">
-              <property name="spacing">
-               <number>7</number>
+           <item row="1" column="0" colspan="2">
+            <widget class="QWidget" name="widget_attitude_pid" native="true">
+             <layout class="QGridLayout" name="gridLayout_5">
+              <property name="leftMargin">
+               <number>0</number>
               </property>
               <property name="topMargin">
-               <number>10</number>
+               <number>0</number>
               </property>
-              <item>
-               <layout class="QFormLayout" name="formLayout_7">
-                <property name="horizontalSpacing">
-                 <number>8</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>P:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>I:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_D">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>D:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_D">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_F">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>F:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_F">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QFormLayout" name="formLayout_8">
-                <property name="horizontalSpacing">
-                 <number>8</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>P Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>I Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_DM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>D Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_DM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_RTE_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Out Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_RTE_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="1" column="1" alignment="Qt::AlignTop">
-            <widget class="QGroupBox" name="YawAngle">
-             <property name="title">
-              <string>Yaw Angle PID</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_14">
-              <property name="spacing">
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <property name="horizontalSpacing">
+               <number>15</number>
+              </property>
+              <property name="verticalSpacing">
                <number>7</number>
               </property>
-              <property name="topMargin">
-               <number>10</number>
-              </property>
-              <item>
-               <layout class="QFormLayout" name="formLayout_11">
-                <property name="horizontalSpacing">
-                 <number>8</number>
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="TiltRate">
+                <property name="title">
+                 <string>Tilt Rate PID</string>
                 </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>P:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>I:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_D">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>D:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_D">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_F">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>F:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_F">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                 <property name="spacing">
+                  <number>7</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_2">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>P:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_I">
+                     <property name="text">
+                      <string>I:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_I">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_D">
+                     <property name="text">
+                      <string>D:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_D">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_F">
+                     <property name="text">
+                      <string>F:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_F">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_6">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_PM">
+                     <property name="text">
+                      <string>P Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_PM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_IM">
+                     <property name="text">
+                      <string>I Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_IM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_DM">
+                     <property name="text">
+                      <string>D Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_DM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_RTE_OM">
+                     <property name="text">
+                      <string>Out Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_RTE_OM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
               </item>
-              <item>
-               <layout class="QFormLayout" name="formLayout_12">
-                <property name="horizontalSpacing">
-                 <number>8</number>
+              <item row="0" column="1">
+               <widget class="QGroupBox" name="YawRate">
+                <property name="title">
+                 <string>Yaw Rate PID</string>
                 </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>P Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>I Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_DM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>D Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_DM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_YAW_ANG_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Out Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_YAW_ANG_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+                <layout class="QHBoxLayout" name="horizontalLayout_21">
+                 <property name="spacing">
+                  <number>7</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_7">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>P:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_I">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>I:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_I">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_D">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>D:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_D">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_F">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>F:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_F">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_8">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_PM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>P Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_PM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_IM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>I Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_IM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_DM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>D Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_DM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_RTE_OM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Out Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_RTE_OM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QGroupBox" name="YawAngle">
+                <property name="title">
+                 <string>Yaw Angle PID</string>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <property name="spacing">
+                  <number>7</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_11">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>P:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_I">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>I:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_I">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_D">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>D:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_D">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_F">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>F:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_F">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_12">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_PM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>P Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_PM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_IM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>I Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_IM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_DM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>D Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_DM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_YAW_ANG_OM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Out Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_YAW_ANG_OM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QGroupBox" name="TiltAngle">
+                <property name="title">
+                 <string>Tilt Angle PID</string>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_15">
+                 <property name="spacing">
+                  <number>7</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_9">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>P:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_P">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_I">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_I">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>I:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_D">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>D:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_D">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_F">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>F:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_F">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_10">
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_PM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>P Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_PM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_IM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>I Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_IM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_DM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>D Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_DM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_CTRL_TLT_ANG_OM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Out Max:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QLineEdit" name="CTRL_TLT_ANG_OM">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item row="2" column="0" colspan="2" alignment="Qt::AlignRight">
+               <widget class="QPushButton" name="cmdBtn_ConvertTov68AttPIDs">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>28</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will re-calculate the currently shown Rate and Angle PID values to firmware v6.8 (and up) scaling (multiplies all values by 4.82).&lt;/p&gt;&lt;p&gt;The new values are only displayed here, you still need to save them to AQ (if you want to).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Re-scale attitude PID values for firmware version 6.8+    </string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../qgroundcontrol.qrc">
+                  <normaloff>:/files/images/apps/accessories-calculator.svg</normaloff>:/files/images/apps/accessories-calculator.svg</iconset>
+                </property>
+               </widget>
               </item>
              </layout>
+             <zorder>TiltAngle</zorder>
+             <zorder>YawAngle</zorder>
+             <zorder>YawAngle</zorder>
+             <zorder>TiltRate</zorder>
+             <zorder>YawRate</zorder>
+             <zorder>cmdBtn_ConvertTov68AttPIDs</zorder>
             </widget>
            </item>
-           <item row="1" column="0" alignment="Qt::AlignTop">
-            <widget class="QGroupBox" name="TiltAngle">
-             <property name="title">
-              <string>Tilt Angle PID</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_15">
-              <property name="spacing">
-               <number>7</number>
-              </property>
-              <property name="topMargin">
-               <number>10</number>
-              </property>
-              <item>
-               <layout class="QFormLayout" name="formLayout_9">
-                <property name="horizontalSpacing">
-                 <number>8</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>P:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>I:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_D">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>D:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_D">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_F">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>F:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_F">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QFormLayout" name="formLayout_10">
-                <property name="horizontalSpacing">
-                 <number>8</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>P Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>I Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_DM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>D Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_DM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_ANG_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Out Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_ANG_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="0" column="0" alignment="Qt::AlignTop">
-            <widget class="QGroupBox" name="TiltRate">
-             <property name="title">
-              <string>Tilt Rate PID</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_17">
-              <property name="spacing">
-               <number>7</number>
-              </property>
-              <property name="topMargin">
-               <number>10</number>
-              </property>
-              <item>
-               <layout class="QFormLayout" name="formLayout_2">
-                <property name="horizontalSpacing">
-                 <number>8</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>P:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_I">
-                  <property name="text">
-                   <string>I:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_D">
-                  <property name="text">
-                   <string>D:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_D">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_F">
-                  <property name="text">
-                   <string>F:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_F">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QFormLayout" name="formLayout_6">
-                <property name="horizontalSpacing">
-                 <number>8</number>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_PM">
-                  <property name="text">
-                   <string>P Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_IM">
-                  <property name="text">
-                   <string>I Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_DM">
-                  <property name="text">
-                   <string>D Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_DM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_CTRL_TLT_RTE_OM">
-                  <property name="text">
-                   <string>Out Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CTRL_TLT_RTE_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="7" column="0" colspan="2">
+           <item row="8" column="0" colspan="2">
             <spacer name="verticalSpacer_10">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -4147,114 +4708,6 @@ padding: 1px 5px;</string>
               </size>
              </property>
             </spacer>
-           </item>
-           <item row="4" column="0" alignment="Qt::AlignTop">
-            <widget class="QGroupBox" name="NavigationDistanceRate">
-             <property name="title">
-              <string>Navigation Distance Rate</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <property name="spacing">
-               <number>7</number>
-              </property>
-              <property name="topMargin">
-               <number>10</number>
-              </property>
-              <item>
-               <layout class="QFormLayout" name="formLayout_19">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_NAV_DIST_P">
-                  <property name="text">
-                   <string>P:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="NAV_DIST_P">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_NAV_DIST_I">
-                  <property name="text">
-                   <string>I:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="NAV_DIST_I">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QFormLayout" name="formLayout_20">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_NAV_DIST_PM">
-                  <property name="text">
-                   <string>P Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="NAV_DIST_PM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_NAV_DIST_IM">
-                  <property name="text">
-                   <string>I Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="NAV_DIST_IM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_NAV_DIST_OM">
-                  <property name="text">
-                   <string>Out Max:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="NAV_DIST_OM">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
            </item>
            <item row="3" column="0" alignment="Qt::AlignTop">
             <widget class="QGroupBox" name="NavigationSpeedrate">
@@ -4351,6 +4804,114 @@ padding: 1px 5px;</string>
                 </item>
                 <item row="2" column="1">
                  <widget class="QLineEdit" name="NAV_SPEED_OM">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="4" column="0" alignment="Qt::AlignTop">
+            <widget class="QGroupBox" name="NavigationDistanceRate">
+             <property name="title">
+              <string>Navigation Distance Rate</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <property name="spacing">
+               <number>7</number>
+              </property>
+              <property name="topMargin">
+               <number>10</number>
+              </property>
+              <item>
+               <layout class="QFormLayout" name="formLayout_19">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_NAV_DIST_P">
+                  <property name="text">
+                   <string>P:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="NAV_DIST_P">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_NAV_DIST_I">
+                  <property name="text">
+                   <string>I:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="NAV_DIST_I">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="formLayout_20">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_NAV_DIST_PM">
+                  <property name="text">
+                   <string>P Max:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="NAV_DIST_PM">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_NAV_DIST_IM">
+                  <property name="text">
+                   <string>I Max:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="NAV_DIST_IM">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_NAV_DIST_OM">
+                  <property name="text">
+                   <string>Out Max:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="NAV_DIST_OM">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -4580,31 +5141,347 @@ padding: 1px 5px;</string>
              </layout>
             </widget>
            </item>
-           <item row="2" column="0" colspan="2" alignment="Qt::AlignRight|Qt::AlignTop">
-            <widget class="QPushButton" name="cmdBtn_ConvertTov68AttPIDs">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>28</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will re-calculate the currently shown Rate and Angle PID values to firmware v6.8 (and up) scaling (multiplies all values by 4.82).&lt;/p&gt;&lt;p&gt;The new values are only displayed here, you still need to save them to AQ (if you want to).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>Re-scale attitude PID values for firmware version 6.8+    </string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../qgroundcontrol.qrc">
-               <normaloff>:/files/images/apps/accessories-calculator.svg</normaloff>:/files/images/apps/accessories-calculator.svg</iconset>
-             </property>
+           <item row="2" column="0" colspan="2">
+            <widget class="QWidget" name="widget_attitude_quatos" native="true">
+             <layout class="QGridLayout" name="gridLayout_6">
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QGroupBox" name="groupBox_attitude_quatos">
+                <property name="title">
+                 <string>Quatos Attitude Controller</string>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_23">
+                 <property name="spacing">
+                  <number>7</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>10</number>
+                 </property>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_23">
+                   <property name="fieldGrowthPolicy">
+                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                   </property>
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_QUATOS_AM1">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Correction Rate (AM1):</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="QUATOS_AM1">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_QUATOS_AM2">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Thrust Rate (AM2):</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="QUATOS_AM2">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_QUATOS_PROP_K1">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Prop. Torque (PROP_K1):</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="QUATOS_PROP_K1">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_35">
+                   <property name="fieldGrowthPolicy">
+                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                   </property>
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_QUATOS_L1_K1">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Overall Gain (L1_K1):</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="QUATOS_L1_K1">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_QUATOS_MAX_OUT">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Maximum Output:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="QUATOS_MAX_OUT">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_QUATOS_L1_ASP">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>L1 ASP:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="QUATOS_L1_ASP">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QFormLayout" name="formLayout_24">
+                   <property name="fieldGrowthPolicy">
+                    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                   </property>
+                   <property name="horizontalSpacing">
+                    <number>8</number>
+                   </property>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_QUATOS_M_TLT_RT">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Manual Tilt Rate:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLineEdit" name="QUATOS_M_TLT_RT">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_QUATOS_M_YAW_RT">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Manual Yaw Rate:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="QUATOS_M_YAW_RT">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_QUATOS_QUAT_TAU">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Manual Response TAU:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="QUATOS_QUAT_TAU">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
             </widget>
+           </item>
+           <item row="9" column="0" colspan="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refer to online &lt;a href=&quot;http://autoquad.org/wiki/wiki/configuring-autoquad-flightcontroller/tuning-and-troubleshooting/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#9b1229;&quot;&gt;PID&lt;/span&gt;&lt;/a&gt; and &lt;a href=&quot;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-final-setup-and-tuning/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#9b1229;&quot;&gt;Quatos&lt;/span&gt;&lt;/a&gt; documentation for help.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Show Settings For:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_attitude_pid">
+               <property name="text">
+                <string>PID</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_attitudeType</string>
+               </attribute>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButton_attitude_quatos">
+               <property name="text">
+                <string>Quatos</string>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">buttonGroup_attitudeType</string>
+               </attribute>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -8743,5 +9620,6 @@ padding: 1px 5px;</string>
   <buttongroup name="COMM_STREAM_TYP2"/>
   <buttongroup name="COMM_STREAM_TYP3"/>
   <buttongroup name="COMM_STREAM_TYP4"/>
+  <buttongroup name="buttonGroup_attitudeType"/>
  </buttongroups>
 </ui>

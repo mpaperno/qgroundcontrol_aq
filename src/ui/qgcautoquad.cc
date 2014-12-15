@@ -63,7 +63,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // load the port config UI
     aqPwmPortConfig = new AQPWMPortsConfig(this);
     ui->tabLayout_aqMixingOutput->addWidget(aqPwmPortConfig);
-    //ui->tab_aq_settings->insertTab(2, aqPwmPortConfig, tr("Mixing && Output"));
 
     // set up the splitter expand/collapse button
     ui->splitter->setStyleSheet("QSplitter#splitter {width: 15px;}");
@@ -187,6 +186,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
 //    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
 
+    setAqHasQuatos(false);
     adjustUiForHardware();
     adjustUiForFirmware();
 
@@ -202,7 +202,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
     // save this for easy iteration later
-    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO_|NAV_|GMBL_).+_CH")));
+    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO|NAV|GMBL|QUATOS)_.+_(CH|KNOB)")));
     allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
     allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
 
@@ -466,6 +466,18 @@ void QGCAutoquad::adjustUiForFirmware() {
         paramaq->setRestartBtnEnabled(aqCanReboot);
         paramaq->setCalibBtnsEnabled(!aqBuildNumber || aqBuildNumber >= 1760);
     }
+
+}
+
+void QGCAutoquad::adjustUiForQuatos()
+{
+    ui->widget_attitude_pid->setVisible(!usingQuatos);
+    ui->widget_attitude_quatos->setVisible(usingQuatos);
+    ui->widget_tuningChannels->setVisible(usingQuatos);
+    if (usingQuatos)
+        ui->radioButton_attitude_quatos->setChecked(true);
+    else
+        ui->radioButton_attitude_pid->setChecked(true);
 }
 
 void QGCAutoquad::setupRadioTypes(const QStringList &radioTypes)
@@ -563,7 +575,6 @@ void QGCAutoquad::on_groupBox_controlAdvancedSettings_toggled(bool arg1)
     ui->widget_controlAdvancedSettings->setVisible(arg1);
 }
 
-
 void QGCAutoquad::on_SPVR_FS_RAD_ST2_currentIndexChanged(int index)
 {
     ui->label_SPVR_FS_ADD_ALT->setVisible(index == 2);
@@ -600,13 +611,13 @@ void QGCAutoquad::splitterMoved() {
 
 // make sure no radio channel assignments conflict
 bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
-    QList<QString> conflictPorts, portsUsed, essentialPorts;
+    QList<QString> conflictPorts, portsUsed, essentialPorts, warningPorts;
     QString cbname, cbtxt, xtraChan;
 
     foreach (QComboBox* cb, allRadioChanCombos) {
         cbname = cb->objectName();
         cbtxt = cb->currentText();
-        if (cbname.contains(QRegExp("^(NAV_HDFRE_CHAN|GMBL_PSTHR_CHAN)")))
+        if (cbtxt.contains(tr("Off"), Qt::CaseInsensitive))
             continue;
         if (portsUsed.contains(cbtxt))
             conflictPorts.append(cbtxt);
@@ -614,19 +625,14 @@ bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
             essentialPorts.append(cbtxt);
         portsUsed.append(cbtxt);
     }
-    // validate heading-free controls
-    xtraChan = ui->NAV_HDFRE_CHAN->currentText();
-    if (ui->NAV_HDFRE_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
-        conflictPorts.append(xtraChan);
-    // validate passthrough 1
-    xtraChan = ui->GMBL_PSTHR_CHAN->currentText();
-    if (ui->GMBL_PSTHR_CHAN->currentIndex() && essentialPorts.contains(xtraChan))
-        conflictPorts.append(xtraChan);
 
     foreach (QComboBox* cb, allRadioChanCombos) {
-        if (conflictPorts.contains(cb->currentText()))
-            cb->setStyleSheet("background-color: rgba(255, 0, 0, 200)");
-        else
+        if (conflictPorts.contains(cb->currentText())) {
+            if (essentialPorts.contains(cb->currentText()))
+                cb->setStyleSheet("background-color: rgba(255, 0, 0, 160)");
+            else
+                cb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
+        } else
             cb->setStyleSheet("");
     }
 
@@ -1644,6 +1650,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         aqHardwareVersion = 6;
         aqHardwareRevision = 0;
         aqBuildNumber = 0;
+        setAqHasQuatos(false);  // assume no Quatos unless told otherwise for this UAV
         ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
 
         paramaq->requestParameterList();
@@ -1698,15 +1705,15 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         ok = true;
         precision = 6;
         val = paramaq->getParaAQ(paraName);
-        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL"){
+        if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL")
             val = fabs(val.toFloat());
-            precision = 8;
-        } else if (paraName == "RADIO_SETUP")
+        else if (paraName == "RADIO_SETUP")
             val = val.toInt() & 0x0f;
 
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w)){
             valstr.setNum(val.toFloat(), 'g', precision);
             le->setText(valstr);
+            le->setValidator(new QDoubleValidator(-1000000.0, 1000000.0, 8, le));
         } else if (QComboBox* cb = qobject_cast<QComboBox *>(w)) {
             if (cb->isEditable()) {
                 if ((tmp = cb->findText(val.toString())) > -1)
@@ -1728,10 +1735,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         else
             continue;
 
-        if (ok)
-            w->setEnabled(true);
-        else
-            w->setEnabled(false);
+        //if (!ok)
             // TODO: notify the user, or something...
     }
 
@@ -1810,6 +1814,15 @@ bool QGCAutoquad::checkAqConnected(bool interactive) {
         return false;
     } else
         return true;
+}
+
+void QGCAutoquad::setAqHasQuatos(const bool yes)
+{
+    if (usingQuatos != yes) {
+        usingQuatos = yes;
+        adjustUiForQuatos();
+        emit aqHasQuatosChanged(usingQuatos);
+    }
 }
 
 bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
@@ -2207,9 +2220,9 @@ void QGCAutoquad::uasConnected() {
 void QGCAutoquad::setHardwareInfo(int boardVer) {
     switch (boardVer) {
      case 8:
-        maxPwmPorts = 8;
+        maxPwmPorts = 9;
         pwmPortTimers.empty();
-        pwmPortTimers << 3 << 3 << 4 << 4 << 4 << 4 << 8 << 8;
+        pwmPortTimers << 3 << 3 << 4 << 4 << 4 << 4 << 8 << 8 << 9;
         break;
     case 7:
         maxPwmPorts = 9;
@@ -2259,7 +2272,7 @@ QStringList QGCAutoquad::getAvailablePwmPorts(void) {
     QStringList portsList;
     unsigned short maxport = maxPwmPorts;
 
-    if (aqHardwareVersion != 8 && radioHasPPM())
+    if (radioHasPPM())
         maxport--;
 
     for (int i=1; i <= maxport; i++)
@@ -2276,45 +2289,50 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
     bool ok;
 
     // parse version number
-    if (uasId == uas->getUASID() && text.contains(versionRe)) {
-        QStringList vlist = versionRe.capturedTexts();
-//        qDebug() << vlist.at(1) << vlist.at(2) << vlist.at(3) << vlist.at(4) << vlist.at(5);
-        aqFirmwareVersion = vlist.at(1);
-        aqFirmwareVersionQualifier = vlist.at(2);
-        aqFirmwareVersionQualifier.replace(QString(" "), QString(""));
-        if (vlist.at(3).length()) {
-            aqFirmwareRevision = vlist.at(3).toInt(&ok);
-            if (!ok) aqFirmwareRevision = 0;
-        }
-        if (vlist.at(4).length()) {
-            aqBuildNumber = vlist.at(4).toInt(&ok);
-            if (!ok) aqBuildNumber = 0;
-        }
-        if (vlist.at(5).length()) {
-            aqHardwareVersion = vlist.at(5).toInt(&ok);
-            if (!ok) aqHardwareVersion = 6;
-        }
-        if (vlist.at(6).length()) {
-            aqHardwareRevision = vlist.at(6).toInt(&ok);
-            if (!ok) aqHardwareRevision = -1;
-        }
+    if (uasId == uas->getUASID()) {
+        if (text.contains(versionRe)) {
+            QStringList vlist = versionRe.capturedTexts();
+            //        qDebug() << vlist.at(1) << vlist.at(2) << vlist.at(3) << vlist.at(4) << vlist.at(5);
+            aqFirmwareVersion = vlist.at(1);
+            aqFirmwareVersionQualifier = vlist.at(2);
+            aqFirmwareVersionQualifier.replace(QString(" "), QString(""));
+            if (vlist.at(3).length()) {
+                aqFirmwareRevision = vlist.at(3).toInt(&ok);
+                if (!ok) aqFirmwareRevision = 0;
+            }
+            if (vlist.at(4).length()) {
+                aqBuildNumber = vlist.at(4).toInt(&ok);
+                if (!ok) aqBuildNumber = 0;
+            }
+            if (vlist.at(5).length()) {
+                aqHardwareVersion = vlist.at(5).toInt(&ok);
+                if (!ok) aqHardwareVersion = 6;
+            }
+            if (vlist.at(6).length()) {
+                aqHardwareRevision = vlist.at(6).toInt(&ok);
+                if (!ok) aqHardwareRevision = -1;
+            }
 
-        setHardwareInfo(aqHardwareVersion);
-        setFirmwareInfo();
+            setHardwareInfo(aqHardwareVersion);
+            setFirmwareInfo();
 
-        if (aqFirmwareVersion.length()) {
-            QString verStr = QString("AutoQuad FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
-            if (aqFirmwareRevision > 0)
-                verStr += QString(" r%1").arg(QString::number(aqFirmwareRevision));
-            if (aqBuildNumber > 0)
-                verStr += QString(" b%1").arg(QString::number(aqBuildNumber));
-            verStr += QString(" HW: v. %1").arg(QString::number(aqHardwareVersion));
-            if (aqHardwareRevision > -1)
-                verStr += QString(" r%1").arg(QString::number(aqHardwareRevision));
+            if (aqFirmwareVersion.length()) {
+                QString verStr = QString("AutoQuad FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
+                if (aqFirmwareRevision > 0)
+                    verStr += QString(" r%1").arg(QString::number(aqFirmwareRevision));
+                if (aqBuildNumber > 0)
+                    verStr += QString(" b%1").arg(QString::number(aqBuildNumber));
+                verStr += QString(" HW: v. %1").arg(QString::number(aqHardwareVersion));
+                if (aqHardwareRevision > -1)
+                    verStr += QString(" r%1").arg(QString::number(aqHardwareRevision));
 
-            ui->lbl_aq_fw_version->setText(verStr);
-        } else
-            ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
+                ui->lbl_aq_fw_version->setText(verStr);
+            } else
+                ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
+        }
+        else if (text.contains("Quatos enabled", Qt::CaseInsensitive)) {
+            setAqHasQuatos(true);
+        }
     }
 }
 
