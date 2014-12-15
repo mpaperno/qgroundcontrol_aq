@@ -5,8 +5,12 @@
 #include "qgcautoquad.h"
 #include <algorithm>
 
+#include <QDoubleValidator>
+#include <QToolButton>
+
 AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     QWidget(parent),
+    m_mixTypeQuatos(false),
     ui(new Ui::AQPWMPortsConfig)
 {
 
@@ -26,17 +30,49 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
 
     ui->setupUi(this);
 
+    // set up the splitter expand/collapse button
+    ui->splitter->setStyleSheet("QSplitter#splitter {width: 12px;}");
+    QSplitterHandle *shandle = ui->splitter->handle(1);
+    shandle->setContentsMargins(0, 15, 0, 0);
+    shandle->setToolTip(tr("<html><body><p>Click the arrow button to collapse/expand the reference image sidebar. Click and drag anywhere to resize.</p></body></html>"));
+    QVBoxLayout *hlayout = new QVBoxLayout;
+    hlayout->setContentsMargins(0, 0, 0, 0);
+    splitterToggleBtn = new QToolButton(shandle);
+    splitterToggleBtn->setObjectName("toolButton_splitterToggleBtn");
+    splitterToggleBtn->setArrowType(Qt::RightArrow);
+    splitterToggleBtn->setCursor(QCursor(Qt::ArrowCursor));
+    hlayout->addWidget(splitterToggleBtn);
+    hlayout->setAlignment(splitterToggleBtn, Qt::AlignTop);
+    hlayout->addStretch(3);
+    shandle->setLayout(hlayout);
+
     // assign IDs to mix type radio buttons
     ui->buttonGroup_motorMix->setId(ui->radioButton_mixType_custom, 0);
     ui->buttonGroup_motorMix->setId(ui->radioButton_mixType_predefined, 1);
 
+    PwmPortsComboBoxDelegate *comboDelegate = new PwmPortsComboBoxDelegate(ui->table_motMix, this);
+    PwmPortsLineEditDelegate *lineEditDelegate = new PwmPortsLineEditDelegate(ui->table_motMix);
+
     // set up mixing table view
-    ui->table_motMix->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    ui->table_motMix->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
     ui->table_motMix->horizontalHeader()->setResizeMode(COL_MOTOR, QHeaderView::Fixed);
-    ui->table_motMix->horizontalHeader()->resizeSection(COL_MOTOR, 45);
-    PwmPortsComboBoxDelegate *delegate = new PwmPortsComboBoxDelegate(ui->table_motMix, this);
-    ui->table_motMix->setItemDelegateForColumn(COL_PORT, delegate);
-    ui->table_motMix->setItemDelegateForColumn(COL_TYPE, delegate);
+    ui->table_motMix->horizontalHeader()->resizeSection(COL_MOTOR, 30);
+    //ui->table_motMix->horizontalHeader()->setResizeMode(COL_PORT, QHeaderView::Fixed);
+    ui->table_motMix->horizontalHeader()->resizeSection(COL_PORT, 45);
+    ui->table_motMix->setItemDelegateForColumn(COL_PORT, comboDelegate);
+    //ui->table_motMix->horizontalHeader()->setResizeMode(COL_THROT, QHeaderView::Fixed);
+    ui->table_motMix->horizontalHeader()->resizeSection(COL_THROT, 45);
+    ui->table_motMix->setItemDelegateForColumn(COL_THROT, lineEditDelegate);
+    ui->table_motMix->setItemDelegateForColumn(COL_PITCH, lineEditDelegate);
+    ui->table_motMix->setItemDelegateForColumn(COL_ROLL, lineEditDelegate);
+    ui->table_motMix->setItemDelegateForColumn(COL_YAW, lineEditDelegate);
+    ui->table_motMix->setItemDelegateForColumn(COL_QPITCH, lineEditDelegate);
+    ui->table_motMix->setItemDelegateForColumn(COL_QROLL, lineEditDelegate);
+    ui->table_motMix->setItemDelegateForColumn(COL_QYAW, lineEditDelegate);
+    ui->table_motMix->horizontalHeader()->setResizeMode(COL_TYPE, QHeaderView::Fixed);
+    ui->table_motMix->horizontalHeader()->resizeSection(COL_TYPE, 55);
+    ui->table_motMix->setItemDelegateForColumn(COL_TYPE, comboDelegate);
+
     dataChangeType = Qt::EditRole;
 
     // set up motor/frame layout graphics view background image
@@ -74,16 +110,24 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(portSelector_currentIndexChanged(int)));
     }
 
+    loadSettings();
+
     // set up default mixing type view
     motorMixType = 1;
     changeMixType();
+    setMixTypeQuatos(m_mixTypeQuatos);
 
     // connect to hardware info update signal
     connect(aq, SIGNAL(hardwareInfoUpdated()), this, SLOT(portNumbersModel_updated()));
     connect(aq, SIGNAL(firmwareInfoUpdated()), this, SLOT(firmwareVersion_updated()));
+    connect(aq, SIGNAL(aqHasQuatosChanged(bool)), this, SLOT(setMixTypeQuatos(bool)));
 
     // connect GUI controls related to motor table
     motorTableConnections(true);
+
+    // splitter
+    connect(splitterToggleBtn, SIGNAL(clicked()), this, SLOT(splitterCollapseToggle()));
+    connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
 
     // other GUI connections
     connect(ui->toolButton_loadFile, SIGNAL(clicked()), this, SLOT(loadFile_clicked()));
@@ -91,10 +135,12 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     connect(ui->toolButton_loadImage, SIGNAL(clicked()), this, SLOT(loadImage_clicked()));
     connect(ui->toolButton_allToCAN, SIGNAL(clicked()), this, SLOT(allToCAN_clicked()));
     connect(ui->toolButton_allToPWM, SIGNAL(clicked()), this, SLOT(allToPWM_clicked()));
+    connect(ui->groupBox_jMatrix, SIGNAL(toggled(bool)), ui->widget_jMatrix, SLOT(setVisible(bool)));
 }
 
 AQPWMPortsConfig::~AQPWMPortsConfig()
 {
+    writeSettings();
     delete ui;
 }
 
@@ -104,6 +150,32 @@ void AQPWMPortsConfig::changeEvent(QEvent* event)
         ui->retranslateUi(this);
 
     QWidget::changeEvent(event);
+}
+
+void AQPWMPortsConfig::loadSettings()
+{
+    QSettings settings;
+    settings.beginGroup("AUTOQUAD_SETTINGS");
+    ui->table_motMix->horizontalHeader()->restoreState(settings.value("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState()).toByteArray());
+    ui->groupBox_jMatrix->setChecked(settings.value("MOTMIX_JMATRIX_VISIBLE", false).toBool());
+    ui->widget_jMatrix->setVisible(ui->groupBox_jMatrix->isChecked());
+    if (settings.contains("MOTMIX_SPLITTER_SIZES")) {
+        ui->splitter->restoreState(settings.value("MOTMIX_SPLITTER_SIZES").toByteArray());
+        splitterMoved();
+    }
+
+    settings.endGroup();
+}
+
+void AQPWMPortsConfig::writeSettings()
+{
+    QSettings settings;
+    settings.beginGroup("AUTOQUAD_SETTINGS");
+    settings.setValue("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState());
+    settings.setValue("MOTMIX_JMATRIX_VISIBLE", ui->groupBox_jMatrix->isChecked());
+    settings.setValue("MOTMIX_SPLITTER_SIZES", ui->splitter->saveState());
+    settings.sync();
+    settings.endGroup();
 }
 
 
@@ -273,10 +345,13 @@ void AQPWMPortsConfig::drawMotorsTable(void) {
                 ui->table_motMix->item(i, COL_MOTOR)->setTextColor(ttlLineFg);
                 ui->table_motMix->setItem(i, COL_PORT, new QTableWidgetItem(QString::number(mot.port)));
                 ui->table_motMix->item(i, COL_PORT)->setData(Qt::UserRole, mot.port);
-                ui->table_motMix->setItem(i, COL_THROT, new QTableWidgetItem(QString::number(mot.throt)));
-                ui->table_motMix->setItem(i, COL_PITCH, new QTableWidgetItem(QString::number(mot.pitch)));
-                ui->table_motMix->setItem(i, COL_ROLL, new QTableWidgetItem(QString::number(mot.roll)));
-                ui->table_motMix->setItem(i, COL_YAW, new QTableWidgetItem(QString::number(mot.yaw)));
+                ui->table_motMix->setItem(i, COL_THROT, new QTableWidgetItem(QString::number(mot.throt, 'f', 6)));
+                ui->table_motMix->setItem(i, COL_PITCH, new QTableWidgetItem(QString::number(mot.pitch, 'f', 6)));
+                ui->table_motMix->setItem(i, COL_QPITCH, new QTableWidgetItem(QString::number(mot.qpitch, 'f', 6)));
+                ui->table_motMix->setItem(i, COL_ROLL, new QTableWidgetItem(QString::number(mot.roll, 'f', 6)));
+                ui->table_motMix->setItem(i, COL_QROLL, new QTableWidgetItem(QString::number(mot.qroll, 'f', 6)));
+                ui->table_motMix->setItem(i, COL_YAW, new QTableWidgetItem(QString::number(mot.yaw, 'f', 6)));
+                ui->table_motMix->setItem(i, COL_QYAW, new QTableWidgetItem(QString::number(mot.qyaw, 'f', 6)));
                 ui->table_motMix->setItem(i, COL_TYPE, new QTableWidgetItem(motorPortTypeName(mot.type)));
                 ui->table_motMix->item(i, COL_TYPE)->setData(Qt::UserRole, mot.type);
             }
@@ -301,6 +376,7 @@ void AQPWMPortsConfig::drawMotorsTable(void) {
     }
 
     portConfigConnections(true);
+    detectQuatos();
     validateForm();
 }
 
@@ -312,8 +388,8 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
         return false;
 
     bool ok;
-    double throt=0, pitch=0, roll=0, yaw=0;
-	 int acc=1000000;  // digits accuracy when calculating totals (esp. for Quatos) -- this is for display only, not used in onboard config
+    double throt=0, pitch=0, roll=0, yaw=0, qpitch=0, qroll=0, qyaw=0;
+    int acc=1000000;  // digits accuracy when calculating totals (esp. for Quatos) -- this is for display only, not used in onboard config
     QIcon icnBad(QPixmap(":/files/images/actions/cross-small.png"));
     QIcon icnGood(QPixmap(":/files/images/actions/tick-small.png"));
 
@@ -326,17 +402,30 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
         pitch += ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toDouble() * acc;
         roll += ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toDouble() * acc;
         yaw += ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toDouble() * acc;
-//        qDebug() << ui->table_motMix->item(i, COL_THROT)->data(Qt::EditRole).toDouble() <<
-//                    ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toDouble() <<
-//                    ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toDouble() <<
-//                    ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toDouble() <<
-//                    throt << pitch << roll << yaw;
+        qpitch += ui->table_motMix->item(i, COL_QPITCH)->data(Qt::EditRole).toDouble() * acc;
+        qroll += ui->table_motMix->item(i, COL_QROLL)->data(Qt::EditRole).toDouble() * acc;
+        qyaw += ui->table_motMix->item(i, COL_QYAW)->data(Qt::EditRole).toDouble() * acc;
+        qDebug() << ui->table_motMix->item(i, COL_THROT)->data(Qt::EditRole).toDouble() <<
+                    ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toDouble() <<
+                    ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toDouble() <<
+                    ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toDouble() <<
+                    throt << pitch << roll << yaw;
     }
 
-    ui->table_motMix->item(lastRow, COL_THROT)->setData(Qt::DisplayRole, (throt / (double)acc));
-    ui->table_motMix->item(lastRow, COL_PITCH)->setData(Qt::DisplayRole, (pitch / (double)acc));
-    ui->table_motMix->item(lastRow, COL_ROLL)->setData(Qt::DisplayRole, (roll / (double)acc));
-    ui->table_motMix->item(lastRow, COL_YAW)->setData(Qt::DisplayRole, (yaw / (double)acc));
+    ui->table_motMix->item(lastRow, COL_THROT)->setData(Qt::DisplayRole, ((double)throt / (double)acc));
+    ui->table_motMix->item(lastRow, COL_THROT)->setToolTip(QString::number((double)throt / (double)acc));
+    ui->table_motMix->item(lastRow, COL_PITCH)->setData(Qt::DisplayRole, ((double)pitch / (double)acc));
+    ui->table_motMix->item(lastRow, COL_PITCH)->setToolTip(QString::number((double)pitch / (double)acc));
+    ui->table_motMix->item(lastRow, COL_ROLL)->setData(Qt::DisplayRole, ((double)roll / (double)acc));
+    ui->table_motMix->item(lastRow, COL_ROLL)->setToolTip(QString::number((double)roll / (double)acc));
+    ui->table_motMix->item(lastRow, COL_YAW)->setData(Qt::DisplayRole, ((double)yaw / (double)acc));
+    ui->table_motMix->item(lastRow, COL_YAW)->setToolTip(QString::number((double)yaw / (double)acc));
+    ui->table_motMix->item(lastRow, COL_QPITCH)->setData(Qt::DisplayRole, ((double)qpitch / (double)acc));
+    ui->table_motMix->item(lastRow, COL_QPITCH)->setToolTip(QString::number((double)qpitch / (double)acc));
+    ui->table_motMix->item(lastRow, COL_QROLL)->setData(Qt::DisplayRole, ((double)qroll / (double)acc));
+    ui->table_motMix->item(lastRow, COL_QROLL)->setToolTip(QString::number((double)qroll / (double)acc));
+    ui->table_motMix->item(lastRow, COL_QYAW)->setData(Qt::DisplayRole, ((double)qyaw / (double)acc));
+    ui->table_motMix->item(lastRow, COL_QYAW)->setToolTip(QString::number((double)qyaw / (double)acc));
 
     ui->table_motMix->item(lastRow, COL_THROT)->setIcon((ok = throt > 0) ? icnGood : icnBad);
     if (!ok) errorInMotorConfigTotals = true;
@@ -346,15 +435,52 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
     if (!ok) errorInMotorConfigTotals = true;
     ui->table_motMix->item(lastRow, COL_YAW)->setIcon((ok = yaw == 0) ? icnGood : icnBad);
     if (!ok) errorInMotorConfigTotals = true;
+    ui->table_motMix->item(lastRow, COL_QPITCH)->setIcon((ok = qpitch == 0) ? icnGood : icnBad);
+    if (!ok) errorInMotorConfigTotals = true;
+    ui->table_motMix->item(lastRow, COL_QROLL)->setIcon((ok = qroll == 0) ? icnGood : icnBad);
+    if (!ok) errorInMotorConfigTotals = true;
+    ui->table_motMix->item(lastRow, COL_QYAW)->setIcon((ok = qyaw == 0) ? icnGood : icnBad);
+    if (!ok) errorInMotorConfigTotals = true;
 
     portConfigConnections(true);
     return true;
 }
 
+void AQPWMPortsConfig::setVisibleTableColumns()
+{
+    ui->table_motMix->setColumnHidden(COL_QPITCH, !m_mixTypeQuatos);
+    ui->table_motMix->setColumnHidden(COL_QROLL, !m_mixTypeQuatos);
+    ui->table_motMix->setColumnHidden(COL_QYAW, !m_mixTypeQuatos);
+}
+
+void AQPWMPortsConfig::setMixTypeQuatos(const bool yes)
+{
+    m_mixTypeQuatos = yes;
+    setVisibleTableColumns();
+    ui->checkBox_quatos->setChecked(m_mixTypeQuatos);
+    ui->groupBox_jMatrix->setVisible(m_mixTypeQuatos);
+    ui->label_quatosWarning->setVisible(m_mixTypeQuatos);
+}
+
+void AQPWMPortsConfig::detectQuatos()
+{
+    float throt = 0.0;
+    for (int i=0; i < motorPortsConfig.size(); ++i)
+        throt = qMax(throt, motorPortsConfig.at(i).throt);
+    setMixTypeQuatos(throt > 0.0 && throt < 2.0);
+}
+
+void AQPWMPortsConfig::setAllMotorPortTypes(quint8 type) {
+    for (int i=0; i < motorPortsConfig.size(); ++i)
+        motorPortsConfig[i].type = type;
+
+    drawMotorsTable();
+}
+
 
 void AQPWMPortsConfig::loadFileConfig(QString file) {
     QString mot;
-    float throt, pitch, roll, yaw;
+    float throt, pitch, roll, yaw, qpitch, qroll, qyaw;
     uint8_t type;
     QStringList pOrder;
     QList<motorPortSettings> fileConfig;
@@ -373,6 +499,11 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
     pOrder = mixSettings.value("META/PortOrder").toStringList();
     motCAN = mixSettings.value("META/MOT_CAN", 0).toInt();
     motCAN_H = mixSettings.value("META/MOT_CANH", 0).toInt();
+    if (mixSettings.contains("QUATOS/J_PITCH")) {
+        ui->QUATOS_J_PITCH->setText(mot.setNum(mixSettings.value("QUATOS/J_PITCH", 0).toFloat(), 'f', 8));
+        ui->QUATOS_J_ROLL->setText(mot.setNum(mixSettings.value("QUATOS/J_ROLL", 0).toFloat(), 'f', 8));
+        ui->QUATOS_J_YAW->setText(mot.setNum(mixSettings.value("QUATOS/J_YAW", 0).toFloat(), 'f', 8));
+    }
 
     motorTableConnections(false);
 
@@ -383,10 +514,13 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
         pitch = mixSettings.value("Pitch/Motor" % mot, 0).toFloat();
         roll = mixSettings.value("Roll/Motor" % mot, 0).toFloat();
         yaw = mixSettings.value("Yaw/Motor" % mot, 0).toFloat();
+        qpitch = mixSettings.value("QuatosPitch/Motor" % mot, 0).toFloat();
+        qroll = mixSettings.value("QuatosRoll/Motor" % mot, 0).toFloat();
+        qyaw = mixSettings.value("QuatosYaw/Motor" % mot, 0).toFloat();
         type = ((motCAN >> (i-1)) & 1) ? MOT_PORT_TYPE_CAN : ((motCAN_H >> (i-1)) & 1) ? MOT_PORT_TYPE_CAN_H : MOT_PORT_TYPE_PWM;
 
         if (throt || pitch || roll || yaw) {
-            fileConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type));
+            fileConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type, qpitch, qroll, qyaw));
         }
     }
 
@@ -462,6 +596,11 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
     mixSettings.setValue("META/Motors", motorPortsConfig.size());
     mixSettings.setValue("META/PortOrder", pOrder);
     mixSettings.setValue("META/ImageFile", frameImageFile);
+    if (m_mixTypeQuatos) {
+        mixSettings.setValue("QUATOS/J_PITCH", ui->QUATOS_J_PITCH->text());
+        mixSettings.setValue("QUATOS/J_ROLL", ui->QUATOS_J_ROLL->text());
+        mixSettings.setValue("QUATOS/J_YAW", ui->QUATOS_J_YAW->text());
+    }
 
     for (int i=1; i <= 16; ++i) {
         pconfig = motorPortSettings(i);
@@ -475,9 +614,12 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
 
         pname = QString("/Motor%1").arg(i);
         mixSettings.setValue("Throttle" % pname, QString::number(pconfig.throt));
-        mixSettings.setValue("Pitch" % pname, QString::number(pconfig.pitch));
-        mixSettings.setValue("Roll" % pname, QString::number(pconfig.roll));
-        mixSettings.setValue("Yaw" % pname, QString::number(pconfig.yaw));
+        mixSettings.setValue("Pitch" % pname, QString::number(pconfig.pitch, 'f', 6));
+        mixSettings.setValue("Roll" % pname, QString::number(pconfig.roll, 'f', 6));
+        mixSettings.setValue("Yaw" % pname, QString::number(pconfig.yaw, 'f', 6));
+        mixSettings.setValue("QuatosPitch" % pname, QString::number(pconfig.qpitch, 'f', 6));
+        mixSettings.setValue("QuatosRoll" % pname, QString::number(pconfig.qroll, 'f', 6));
+        mixSettings.setValue("QuatosYaw" % pname, QString::number(pconfig.qyaw, 'f', 6));
 
         if (pconfig.type == MOT_PORT_TYPE_CAN)
             motCAN |= 1 << (pconfig.port - 1);
@@ -510,8 +652,9 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
     if (!paramHandler)
         return;
 
-    QString pname;
-    float throt, pitch, roll, yaw, motConfig;
+    QString pname, motNumStr;
+    float throt, pitch, roll, yaw, qpitch, qroll, qyaw;
+    float motConfig;
     uint8_t type;
     bool orderType = 0; // 0=param order (1-14), 1=order from onboard config bitmask
     uint32_t portOrder=0, portOrder2=0;
@@ -545,18 +688,24 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
     motorPortsConfig.clear();
 
     for (int i=1; i <= aq->maxMotorPorts; ++i) {
-        pname = QString("MOT_PWRD_%1_").arg(i, 2, 10, QLatin1Char('0'));
-        throt = paramHandler->getParaAQ(pname % "T").toFloat();
-        pitch = paramHandler->getParaAQ(pname % "P").toFloat();
-        roll = paramHandler->getParaAQ(pname % "R").toFloat();
-        yaw = paramHandler->getParaAQ(pname % "Y").toFloat();
+        motNumStr = QString("%1").arg(i, 2, 10, QLatin1Char('0'));
+        pname = "MOT_PWRD_" % motNumStr % "_%1";
+        throt = paramHandler->getParaAQ(pname.arg("T")).toFloat();
+        pitch = paramHandler->getParaAQ(pname.arg("P")).toFloat();
+        roll = paramHandler->getParaAQ(pname.arg("R")).toFloat();
+        yaw = paramHandler->getParaAQ(pname.arg("Y")).toFloat();
+        pname = "QUATOS_MM_%1";
+        qpitch = paramHandler->getParaAQ(pname.arg("P") % motNumStr).toFloat();
+        qroll = paramHandler->getParaAQ(pname.arg("R") % motNumStr).toFloat();
+        qyaw = paramHandler->getParaAQ(pname.arg("Y") % motNumStr).toFloat();
+
         type = (motCAN >> (i-1)) & 1;
 
         if (throt || pitch || roll || yaw) {
             if (orderType) // store a temp copy because ordering is defined elsewhere
-                onboardConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type));
+                onboardConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type, qpitch, qroll, qyaw));
             else
-                motorPortsConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type));
+                motorPortsConfig.append(motorPortSettings(i, throt, pitch, roll, yaw, type, qpitch, qroll, qyaw));
         }
     }
 
@@ -608,6 +757,13 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
 
     changeMixType();
 
+//    if (paramHandler->paramExistsAQ("QUATOS_J_PITCH")) {
+//        m_quatosJMatrix.pitch = paramHandler->getParaAQ("QUATOS_J_PITCH").toFloat();
+//        m_quatosJMatrix.roll = paramHandler->getParaAQ("QUATOS_J_ROLL").toFloat();
+//        m_quatosJMatrix.yaw = paramHandler->getParaAQ("QUATOS_J_YAW").toFloat();
+//    }
+
+    aq->getGUIpara(ui->groupBox_jMatrix);
     aq->getGUIpara(ui->groupBox_gimbal);
     aq->getGUIpara(ui->groupBox_signaling);
 
@@ -625,7 +781,7 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
 
     paramHandler = aq->getParamHandler();
 
-    QString pname; //, porder;
+    QString pname, motNumStr;
     float val, val_uas;
     uint32_t portOrder=0, portOrder2=0;
     uint16_t motCAN = 0, motCAN_H = 0;
@@ -669,11 +825,17 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
                 break;
             }
         }
-        pname = QString("MOT_PWRD_%1_").arg(i, 2, 10, QLatin1Char('0'));
-        configMap.insert(pname % "T", pconfig.throt);
-        configMap.insert(pname % "P", pconfig.pitch);
-        configMap.insert(pname % "R", pconfig.roll);
-        configMap.insert(pname % "Y", pconfig.yaw);
+        motNumStr = QString("%1").arg(i, 2, 10, QLatin1Char('0'));
+        pname = "MOT_PWRD_" % motNumStr % "_%1";
+        configMap.insert(pname.arg("T"), pconfig.throt);
+        configMap.insert(pname.arg("P"), pconfig.pitch);
+        configMap.insert(pname.arg("R"), pconfig.roll);
+        configMap.insert(pname.arg("Y"), pconfig.yaw);
+        pname = "QUATOS_MM_%1";
+        configMap.insert(pname.arg("P") % motNumStr, pconfig.qpitch);
+        configMap.insert(pname.arg("R") % motNumStr, pconfig.qroll);
+        configMap.insert(pname.arg("Y") % motNumStr, pconfig.qyaw);
+
 
         if (pconfig.type == MOT_PORT_TYPE_CAN)
             motCAN |= 1 << (pconfig.port - 1);
@@ -731,6 +893,12 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
     }
 
 //  qDebug() << qSetRealNumberPrecision(20) << portOrder << portOrder2;
+
+//    if (m_mixTypeQuatos) {
+//        configMap.insert("QUATOS_J_PITCH", m_quatosJMatrix.pitch);
+//        configMap.insert("QUATOS_J_ROLL", m_quatosJMatrix.roll);
+//        configMap.insert("QUATOS_J_YAW", m_quatosJMatrix.yaw);
+//    }
 
     QMapIterator<QString, float> mi(configMap);
     while (mi.hasNext()) {
@@ -913,13 +1081,6 @@ bool AQPWMPortsConfig::validateForm(void) {
     return !errorInMotorConfig && !errorInPortConfig && !errorInTimerConfig && !errorInMotorConfigTotals && !errorInPortNumberType;
 }
 
-void AQPWMPortsConfig::setAllMotorPortTypes(quint8 type) {
-    for (int i=0; i < motorPortsConfig.size(); ++i)
-        motorPortsConfig[i].type = type;
-
-    drawMotorsTable();
-}
-
 
 void AQPWMPortsConfig::motorPortsConfig_updated(int row, int col) {
     bool ok;
@@ -950,6 +1111,15 @@ void AQPWMPortsConfig::motorPortsConfig_updated(int row, int col) {
         break;
     case COL_YAW:
         motorPortsConfig[row].yaw = newVal;
+        break;
+    case COL_QPITCH:
+        motorPortsConfig[row].qpitch = newVal;
+        break;
+    case COL_QROLL:
+        motorPortsConfig[row].qroll = newVal;
+        break;
+    case COL_QYAW:
+        motorPortsConfig[row].qyaw = newVal;
         break;
     case COL_TYPE:
         motorPortsConfig[row].type = static_cast<uint8_t>(newVal);
@@ -987,6 +1157,8 @@ void AQPWMPortsConfig::firmwareVersion_updated(void) {
     else if (aq->maxMotorPorts < ui->comboBox_numOfMotors->count())
         for (int i=ui->comboBox_numOfMotors->count(); i > aq->maxMotorPorts + 1; --i)
             ui->comboBox_numOfMotors->removeItem(i-1);
+
+    setMixTypeQuatos(aq->aqHasQuatos());
 }
 
 
@@ -1117,6 +1289,32 @@ void AQPWMPortsConfig::allToPWM_clicked() {
     setAllMotorPortTypes(MOT_PORT_TYPE_PWM);
 }
 
+void AQPWMPortsConfig::on_checkBox_quatos_clicked(bool checked)
+{
+    setMixTypeQuatos(checked);
+}
+
+void AQPWMPortsConfig::splitterCollapseToggle() {
+    QList<int> sz = ui->splitter->sizes();
+    static int rightW = qMax(sz.at(1), ui->scrollArea->sizeHint().width());
+    QList<int> newsz;
+    if (sz.at(1) > 0) {
+        rightW = sz.at(1);
+        newsz << rightW + sz.at(0) << 0;
+        splitterToggleBtn->setArrowType(Qt::LeftArrow);
+    } else {
+        newsz << sz.at(0) - rightW << rightW;
+        splitterToggleBtn->setArrowType(Qt::RightArrow);
+    }
+    ui->splitter->setSizes(newsz);
+}
+
+void AQPWMPortsConfig::splitterMoved() {
+    if (ui->splitter->sizes().at(1) > 0)
+        splitterToggleBtn->setArrowType(Qt::RightArrow);
+    else
+        splitterToggleBtn->setArrowType(Qt::LeftArrow);
+}
 
 // ----------------------------------------------
 // Combo Box Delegate
@@ -1124,7 +1322,6 @@ void AQPWMPortsConfig::allToPWM_clicked() {
 
 PwmPortsComboBoxDelegate::PwmPortsComboBoxDelegate(QObject *parent, AQPWMPortsConfig *aqPwmPortConfig) :
     QStyledItemDelegate(parent), aqPwmPortConfig(aqPwmPortConfig) {}
-PwmPortsComboBoxDelegate::~PwmPortsComboBoxDelegate() {}
 
 QWidget *PwmPortsComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
 {
@@ -1158,4 +1355,47 @@ void PwmPortsComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel 
         model->setData(index, edit->currentText());
     }
     //qDebug() << "model" << model->data(index, Qt::UserRole).toString() << model->data(index, Qt::EditRole).toString();
+}
+
+
+
+// ----------------------------------------------
+// Line Edit Delegate
+// ----------------------------------------------
+
+PwmPortsLineEditDelegate::PwmPortsLineEditDelegate(QObject *parent) :
+    QStyledItemDelegate(parent) {}
+
+QWidget *PwmPortsLineEditDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &index) const
+{
+    Q_UNUSED(index);
+    QLineEdit *edit = new QLineEdit(parent);
+    edit->setValidator(new QDoubleValidator(-100.0, 100.0, 8, parent));
+    return edit;
+}
+
+void PwmPortsLineEditDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    QLineEdit *edit = qobject_cast<QLineEdit *>(editor);
+    if (edit) {
+        edit->setText(formatDouble(index.data(Qt::EditRole)));
+    }
+}
+
+void PwmPortsLineEditDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    QLineEdit *edit = qobject_cast<QLineEdit *>(editor);
+    if (edit)
+        model->setData(index, edit->text());
+}
+
+QString PwmPortsLineEditDelegate::displayText(const QVariant &value, const QLocale &locale) const
+{
+    Q_UNUSED(locale);
+    return formatDouble(value);
+}
+
+QString PwmPortsLineEditDelegate::formatDouble(const QVariant &value) const
+{
+    return QString("%L1").arg(value.toDouble(), 1, 'f', 6).remove(QRegExp("0+$")).remove(QRegExp("\\.$"));
 }

@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>715</width>
-    <height>642</height>
+    <width>854</width>
+    <height>625</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,7 +20,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="3,2">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -30,1203 +33,1073 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_gimbal">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="toolTip">
-      <string>Any disabled items mean this option is not available in the currently-connected AQ firmware version.</string>
+     <property name="handleWidth">
+      <number>8</number>
      </property>
-     <property name="title">
-      <string>Gimbal Ports</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="2" rowspan="2">
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>5</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="5" rowspan="2">
-       <widget class="QComboBox" name="GMBL_TRIG_PORT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Camera/remote trigger port and Gear channel passthrough.</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="9" rowspan="2">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="1" rowspan="2">
-       <widget class="QComboBox" name="GMBL_ROLL_PORT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera roll stabilization control.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="8" rowspan="2">
-       <widget class="QComboBox" name="GMBL_PSTHR_PORT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Extra passthrough port controlled by optional radio channel passthrough setting.</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="7">
-       <widget class="QLabel" name="label_GMBL_PSTHR_PORT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>65</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Extra passthrough port controlled by optional radio channel passthrough setting.</string>
-        </property>
-        <property name="text">
-         <string>P-through 1:</string>
-        </property>
-        <property name="buddy">
-         <cstring>GMBL_PSTHR_PORT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_GMBL_PITCH_PORT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera pitch (tilt) stabilization control. If manual tilt (passthrough) port is set to the same port number, then manual and POI tilt is directed to this port as well.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Stab. Pitch:</string>
-        </property>
-        <property name="buddy">
-         <cstring>GMBL_PITCH_PORT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QComboBox" name="GMBL_PITCH_PORT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera pitch (tilt) stabilization control. If manual tilt (passthrough) port is set to the same port number, then manual and POI tilt is directed to this port as well.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3" colspan="2">
-       <widget class="QLabel" name="label_GMBL_TILT_PORT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>65</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Passthrough port for manual gimbal tilt control. Point of Interest tilt (mission parameter) is also sent to this port.  If this port number matches the Stabilized Pitch port number, then both outputs are sent to the same port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Manual Tilt:</string>
-        </property>
-        <property name="buddy">
-         <cstring>GMBL_TILT_PORT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="5">
-       <widget class="QComboBox" name="GMBL_TILT_PORT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_GMBL_ROLL_PORT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera roll stabilization control.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Stab. Roll:</string>
-        </property>
-        <property name="buddy">
-         <cstring>GMBL_ROLL_PORT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3" colspan="2">
-       <widget class="QLabel" name="label_GMBL_TRIG_PORT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>65</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Camera/remote trigger port and Gear channel passthrough.</string>
-        </property>
-        <property name="text">
-         <string>Trigger:</string>
-        </property>
-        <property name="buddy">
-         <cstring>GMBL_TRIG_PORT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="6">
-       <spacer name="horizontalSpacer_10">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>5</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="0" colspan="4">
-       <widget class="QLabel" name="label_GMBL_PWM_FREQ">
-        <property name="text">
-         <string>Output PWM Frequency:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4" colspan="2">
-       <widget class="QSpinBox" name="GMBL_PWM_FREQ">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Servo/controller output frequency (50Hz for standard servos, 400Hz for brushless controllers, 200-400Hz for digital servos)</string>
-        </property>
-        <property name="suffix">
-         <string>Hz</string>
-        </property>
-        <property name="minimum">
-         <number>5</number>
-        </property>
-        <property name="maximum">
-         <number>9999</number>
-        </property>
-        <property name="singleStep">
-         <number>5</number>
-        </property>
-        <property name="value">
-         <number>200</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0" rowspan="2">
-    <widget class="QGroupBox" name="groupBox_signaling">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>Any disabled items mean this option is not available in the currently-connected AQ firmware version.</string>
-     </property>
-     <property name="title">
-      <string>Signaling Ports</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="1" column="5" colspan="2" alignment="Qt::AlignLeft">
-       <widget class="QCheckBox" name="checkBox_useSpeaker">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A piezo speaker does &lt;span style=&quot; font-weight:600;&quot;&gt;not&lt;/span&gt; have a built-in wave generator, vs. a buzzer which does.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Use speaker</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3" alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_SIG_BEEP_PRT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>65</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Beeper:</string>
-        </property>
-        <property name="buddy">
-         <cstring>SIG_BEEP_PRT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4" alignment="Qt::AlignLeft">
-       <widget class="QComboBox" name="SIG_BEEP_PRT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" alignment="Qt::AlignLeft">
-       <widget class="QComboBox" name="SIG_LED_1_PRT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>See documentation for proper LED hookup!</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4" alignment="Qt::AlignLeft">
-       <widget class="QComboBox" name="SIG_LED_2_PRT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>See documentation for proper LED hookup!</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" alignment="Qt::AlignLeft">
-       <widget class="QComboBox" name="SIG_PWM_PRT">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Use a custom ESC/MCU to convert PWM pulses to lighting patterns.</string>
-        </property>
-        <property name="maxVisibleItems">
-         <number>15</number>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QComboBox::AdjustToContents</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_5">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>15</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="2">
-       <spacer name="horizontalSpacer_9">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>15</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="0" alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_SIG_PWM_PRT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>See documentation for proper LED hookup!</string>
-        </property>
-        <property name="text">
-         <string>PWM:</string>
-        </property>
-        <property name="buddy">
-         <cstring>SIG_PWM_PRT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_SIG_LED_2_PRT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>65</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>See documentation for proper LED hookup!</string>
-        </property>
-        <property name="text">
-         <string>LED 2:</string>
-        </property>
-        <property name="buddy">
-         <cstring>SIG_LED_2_PRT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" alignment="Qt::AlignLeft">
-       <widget class="QLabel" name="label_SIG_LED_1_PRT">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>See documentation for proper LED hookup!</string>
-        </property>
-        <property name="text">
-         <string>LED 1:</string>
-        </property>
-        <property name="buddy">
-         <cstring>SIG_LED_1_PRT</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox_motorOutput">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Motor Output Configuration</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <item>
-       <layout class="QGridLayout" name="gridLayout_configSelector">
-        <property name="verticalSpacing">
-         <number>0</number>
-        </property>
-        <item row="0" column="3">
-         <spacer name="horizontalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>15</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="4">
-         <widget class="QToolButton" name="toolButton_loadFile">
-          <property name="toolTip">
-           <string>Load configuration from a .mix file</string>
-          </property>
-          <property name="text">
-           <string>Load from File</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../qgroundcontrol.qrc">
-            <normaloff>:/files/images/actions/folder_table.png</normaloff>:/files/images/actions/folder_table.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>18</width>
-            <height>18</height>
-           </size>
-          </property>
-          <property name="autoRaise">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QComboBox" name="comboBox_numOfMotors">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maxVisibleItems">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_mixType">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Configuration:</string>
-          </property>
-          <property name="margin">
-           <number>4</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0" alignment="Qt::AlignVCenter">
-         <widget class="QLabel" name="label_mixSelector">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Select Frame Type:</string>
-          </property>
-          <property name="margin">
-           <number>4</number>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_mixSelector</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QRadioButton" name="radioButton_mixType_custom">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Select number of motors as the starting point</string>
-          </property>
-          <property name="text">
-           <string>Custom</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">buttonGroup_motorMix</string>
-          </attribute>
-         </widget>
-        </item>
-        <item row="3" column="0" alignment="Qt::AlignVCenter">
-         <widget class="QLabel" name="label_numOfMotors">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Number of Motors:</string>
-          </property>
-          <property name="margin">
-           <number>4</number>
-          </property>
-          <property name="buddy">
-           <cstring>comboBox_numOfMotors</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="2" alignment="Qt::AlignVCenter">
-         <widget class="QComboBox" name="comboBox_mixSelector">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QRadioButton" name="radioButton_mixType_predefined">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Select a pre-configured setup as the starting point</string>
-          </property>
-          <property name="text">
-           <string>Predefined</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">buttonGroup_motorMix</string>
-          </attribute>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <widget class="QToolButton" name="toolButton_loadImage">
-          <property name="toolTip">
-           <string>Load an image to overlay on the frame diagram. Images should be scaleable to 200x200px. A transparent PNG24 or SVG is ideal.</string>
-          </property>
-          <property name="text">
-           <string>Load from File</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../qgroundcontrol.qrc">
-            <normaloff>:/files/images/actions/folder_image.png</normaloff>:/files/images/actions/folder_image.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>18</width>
-            <height>18</height>
-           </size>
-          </property>
-          <property name="autoRaise">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="8" colspan="2">
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="6" colspan="2" alignment="Qt::AlignLeft">
-         <widget class="QToolButton" name="toolButton_saveFile">
-          <property name="toolTip">
-           <string>Save current configuration to a .mix file</string>
-          </property>
-          <property name="text">
-           <string>Save to File</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../qgroundcontrol.qrc">
-            <normaloff>:/files/images/actions/disk.png</normaloff>:/files/images/actions/disk.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>18</width>
-            <height>18</height>
-           </size>
-          </property>
-          <property name="autoRaise">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="9" rowspan="2" alignment="Qt::AlignRight|Qt::AlignVCenter">
-         <widget class="QToolButton" name="toolButton_allToPWM">
-          <property name="maximumSize">
-           <size>
-            <width>22</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Set all motor output types to PWM</string>
-          </property>
-          <property name="text">
-           <string>Save to File</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../qgroundcontrol.qrc">
-            <normaloff>:/files/images/actions/application-monitor.png</normaloff>:/files/images/actions/application-monitor.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>18</width>
-            <height>18</height>
-           </size>
-          </property>
-          <property name="autoRaise">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3" rowspan="2" colspan="6" alignment="Qt::AlignRight">
-         <widget class="QToolButton" name="toolButton_allToCAN">
-          <property name="maximumSize">
-           <size>
-            <width>22</width>
-            <height>22</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Set all motor output types to CAN</string>
-          </property>
-          <property name="text">
-           <string>Save to File</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../qgroundcontrol.qrc">
-            <normaloff>:/files/images/actions/database-network.png</normaloff>:/files/images/actions/database-network.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>18</width>
-            <height>18</height>
-           </size>
-          </property>
-          <property name="autoRaise">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>6</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QTableWidget" name="table_motMix">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="autoScroll">
-         <bool>false</bool>
-        </property>
-        <property name="editTriggers">
-         <set>QAbstractItemView::AllEditTriggers</set>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::NoSelection</enum>
-        </property>
-        <property name="verticalScrollMode">
-         <enum>QAbstractItemView::ScrollPerPixel</enum>
-        </property>
-        <property name="horizontalScrollMode">
-         <enum>QAbstractItemView::ScrollPerPixel</enum>
-        </property>
-        <property name="wordWrap">
-         <bool>false</bool>
-        </property>
-        <property name="cornerButtonEnabled">
-         <bool>false</bool>
-        </property>
-        <property name="columnCount">
-         <number>7</number>
-        </property>
-        <attribute name="horizontalHeaderCascadingSectionResizes">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>30</number>
-        </attribute>
-        <attribute name="horizontalHeaderHighlightSections">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="horizontalHeaderMinimumSectionSize">
-         <number>20</number>
-        </attribute>
-        <attribute name="horizontalHeaderStretchLastSection">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="verticalHeaderHighlightSections">
-         <bool>false</bool>
-        </attribute>
-        <column>
-         <property name="text">
-          <string>Motor</string>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reference position in frame diagram, if any.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="textAlignment">
-          <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Port/ID</string>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When using PWM output, this is the M port number to use. When using CAN bus, this is the CAN ID to use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="textAlignment">
-          <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Throt.</string>
-         </property>
-         <property name="textAlignment">
-          <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Pitch</string>
-         </property>
-         <property name="textAlignment">
-          <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Roll</string>
-         </property>
-         <property name="textAlignment">
-          <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Yaw</string>
-         </property>
-         <property name="textAlignment">
-          <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Type</string>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output type to use, PWM (M# ports) or CAN bus. Using CAN requires AQ firmware version 6.8 or higher, compatible flight controller hardware, and ESCs supporting CAN (like the ESC32). &lt;/p&gt;&lt;p&gt;A mix of PWM and CAN output types can be used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="textAlignment">
-          <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,1,1,1,1">
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: red; font-size: 10px;</string>
-          </property>
-          <property name="text">
-           <string>   </string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"> font-size: 10px;</string>
-          </property>
-          <property name="text">
-           <string>- Error</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>10</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: orange;  font-size: 10px;</string>
-          </property>
-          <property name="text">
-           <string>   </string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"> font-size: 10px;</string>
-          </property>
-          <property name="text">
-           <string>- Timer conflict</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="1" rowspan="5">
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAsNeeded</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAsNeeded</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>284</width>
-        <height>633</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="spacing">
-        <number>4</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>8</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QGroupBox" name="groupBox_frameDiagram">
+        <widget class="QGroupBox" name="groupBox_motorOutput">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
          <property name="title">
-          <string>Frame Diagram</string>
+          <string>Motor Output Configuration</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <property name="topMargin">
-           <number>6</number>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <property name="leftMargin">
+           <number>7</number>
+          </property>
+          <property name="rightMargin">
+           <number>7</number>
           </property>
           <property name="bottomMargin">
-           <number>4</number>
+           <number>3</number>
           </property>
-          <item>
-           <widget class="QGraphicsView" name="graphicsView_frameLayout">
+          <property name="horizontalSpacing">
+           <number>0</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>3</number>
+          </property>
+          <item row="1" column="0" rowspan="2">
+           <layout class="QFormLayout" name="formLayout">
+            <property name="horizontalSpacing">
+             <number>5</number>
+            </property>
+            <property name="verticalSpacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_mixSelector">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Select Frame Type:</string>
+              </property>
+              <property name="margin">
+               <number>4</number>
+              </property>
+              <property name="buddy">
+               <cstring>comboBox_mixSelector</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QComboBox" name="comboBox_mixSelector">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_numOfMotors">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Number of Motors:</string>
+              </property>
+              <property name="margin">
+               <number>4</number>
+              </property>
+              <property name="buddy">
+               <cstring>comboBox_numOfMotors</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="comboBox_numOfMotors">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maxVisibleItems">
+               <number>12</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="0" colspan="3">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_mixType">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Configuration:</string>
+              </property>
+              <property name="margin">
+               <number>4</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton_mixType_predefined">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Select a pre-configured setup as the starting point</string>
+              </property>
+              <property name="text">
+               <string>Predefined</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_motorMix</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButton_mixType_custom">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Select number of motors as the starting point</string>
+              </property>
+              <property name="text">
+               <string>Custom</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">buttonGroup_motorMix</string>
+              </attribute>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>15</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_loadFile">
+              <property name="toolTip">
+               <string>Load configuration from a .mix file</string>
+              </property>
+              <property name="text">
+               <string>Load from File</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/actions/folder_table.png</normaloff>:/files/images/actions/folder_table.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_loadImage">
+              <property name="toolTip">
+               <string>Load an image to overlay on the frame diagram. Images should be scaleable to 200x200px. A transparent PNG24 or SVG is ideal.</string>
+              </property>
+              <property name="text">
+               <string>Load from File</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/actions/folder_image.png</normaloff>:/files/images/actions/folder_image.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_saveFile">
+              <property name="toolTip">
+               <string>Save current configuration to a .mix file</string>
+              </property>
+              <property name="text">
+               <string>Save to File</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/actions/disk.png</normaloff>:/files/images/actions/disk.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="1" rowspan="2" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <spacer name="horizontalSpacer_11">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_quatos">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select this option to switch to a Quatos type mixing table setup. Use this in case the program does not properly detect the mix type automatically.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Quatos</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_allToCAN">
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set all motor output types to CAN</string>
+              </property>
+              <property name="text">
+               <string>Save to File</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/actions/database-network.png</normaloff>:/files/images/actions/database-network.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_allToPWM">
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Set all motor output types to PWM</string>
+              </property>
+              <property name="text">
+               <string>Save to File</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/actions/application-monitor.png</normaloff>:/files/images/actions/application-monitor.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1,1,1,1,1">
+            <item>
+             <widget class="QLabel" name="label_quatosWarning">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10px;&quot;&gt;NOTE: Changing Quatos mix values manually is not recommended!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: red; font-size: 10px;</string>
+              </property>
+              <property name="text">
+               <string>   </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"> font-size: 10px;</string>
+              </property>
+              <property name="text">
+               <string>- Error</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>7</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: orange;  font-size: 10px;</string>
+              </property>
+              <property name="text">
+               <string>   </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"> font-size: 10px;</string>
+              </property>
+              <property name="text">
+               <string>- Timer conflict</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0" colspan="3">
+           <widget class="QTableWidget" name="table_motMix">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="autoScroll">
+             <bool>false</bool>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::AllEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::NoSelection</enum>
+            </property>
+            <property name="verticalScrollMode">
+             <enum>QAbstractItemView::ScrollPerPixel</enum>
+            </property>
+            <property name="horizontalScrollMode">
+             <enum>QAbstractItemView::ScrollPerPixel</enum>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+            <property name="cornerButtonEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="columnCount">
+             <number>10</number>
+            </property>
+            <attribute name="horizontalHeaderCascadingSectionResizes">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>75</number>
+            </attribute>
+            <attribute name="horizontalHeaderHighlightSections">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>0</number>
+            </attribute>
+            <attribute name="horizontalHeaderStretchLastSection">
+             <bool>true</bool>
+            </attribute>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderHighlightSections">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Pos</string>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reference position in frame diagram, if one is displayed on the right. This is simply a label and has no effect on settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Port</string>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When using PWM output, this is the M port number to use. When using CAN bus, this is the CAN ID to use (the corresponding ESC setting has to match).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Thr.</string>
+             </property>
+             <property name="toolTip">
+              <string>Throttle output value, typically 100 (or 1 for Quatos)</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Pitch</string>
+             </property>
+             <property name="toolTip">
+              <string>Power distribution Pitch (MOT_PWRD_xx_P)</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>QPitch</string>
+             </property>
+             <property name="toolTip">
+              <string>Quatos Pitch (QUATOS_MM_P)</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Roll</string>
+             </property>
+             <property name="toolTip">
+              <string>Power distribution Roll (MOT_PWRD_xx_R)</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>QRoll</string>
+             </property>
+             <property name="toolTip">
+              <string>Quatos Roll (QUATOS_MM_R)</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Yaw</string>
+             </property>
+             <property name="toolTip">
+              <string>Power distribution Yaw (MOT_PWRD_xx_Y)</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>QYaw</string>
+             </property>
+             <property name="toolTip">
+              <string>Quatos Yaw (QUATOS_MM_Y)</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Type</string>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output type to use, PWM (M# ports) or CAN bus. Using CAN requires AQ firmware version 6.8 or higher, compatible flight controller hardware, and ESCs supporting CAN (like the ESC32). &lt;/p&gt;&lt;p&gt;A mix of PWM and CAN output types can be used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item row="5" column="0" colspan="3">
+           <widget class="QGroupBox" name="groupBox_jMatrix">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show QUATOS_J values for Pitch, Roll and Yaw.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="title">
+             <string>Quatos J Matrix</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QWidget" name="widget_jMatrix" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <property name="leftMargin">
+                 <number>5</number>
+                </property>
+                <property name="topMargin">
+                 <number>6</number>
+                </property>
+                <property name="rightMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>4</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_QUATOS_J_PITCH">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Pitch:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="QUATOS_J_PITCH">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_QUATOS_J_ROLL">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Roll:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="QUATOS_J_ROLL">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_QUATOS_J_YAW">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Yaw:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="QUATOS_J_YAW">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_gimbal">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>Any disabled items mean this option is not available in the currently-connected AQ firmware version.</string>
+         </property>
+         <property name="title">
+          <string>Gimbal Ports</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="2" rowspan="2">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>5</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="5" rowspan="2">
+           <widget class="QComboBox" name="GMBL_TRIG_PORT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Camera/remote trigger port and Gear channel passthrough.</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="9" rowspan="2">
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1" rowspan="2">
+           <widget class="QComboBox" name="GMBL_ROLL_PORT">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera roll stabilization control.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="8" rowspan="2">
+           <widget class="QComboBox" name="GMBL_PSTHR_PORT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Extra passthrough port controlled by optional radio channel passthrough setting.</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="7">
+           <widget class="QLabel" name="label_GMBL_PSTHR_PORT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>65</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Extra passthrough port controlled by optional radio channel passthrough setting.</string>
+            </property>
+            <property name="text">
+             <string>P-through 1:</string>
+            </property>
+            <property name="buddy">
+             <cstring>GMBL_PSTHR_PORT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_GMBL_PITCH_PORT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera pitch (tilt) stabilization control. If manual tilt (passthrough) port is set to the same port number, then manual and POI tilt is directed to this port as well.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Stab. Pitch:</string>
+            </property>
+            <property name="buddy">
+             <cstring>GMBL_PITCH_PORT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="GMBL_PITCH_PORT">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera pitch (tilt) stabilization control. If manual tilt (passthrough) port is set to the same port number, then manual and POI tilt is directed to this port as well.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3" colspan="2">
+           <widget class="QLabel" name="label_GMBL_TILT_PORT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>65</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Passthrough port for manual gimbal tilt control. Point of Interest tilt (mission parameter) is also sent to this port.  If this port number matches the Stabilized Pitch port number, then both outputs are sent to the same port.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Manual Tilt:</string>
+            </property>
+            <property name="buddy">
+             <cstring>GMBL_TILT_PORT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="5">
+           <widget class="QComboBox" name="GMBL_TILT_PORT">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Passthrough port for manual/POI gimbal pitch control. If this port is set, manual/POI tilt is NOT sent to the Pitch port.</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_GMBL_ROLL_PORT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera roll stabilization control.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Stab. Roll:</string>
+            </property>
+            <property name="buddy">
+             <cstring>GMBL_ROLL_PORT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3" colspan="2">
+           <widget class="QLabel" name="label_GMBL_TRIG_PORT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>65</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Camera/remote trigger port and Gear channel passthrough.</string>
+            </property>
+            <property name="text">
+             <string>Trigger:</string>
+            </property>
+            <property name="buddy">
+             <cstring>GMBL_TRIG_PORT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="6">
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>5</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0" colspan="4">
+           <widget class="QLabel" name="label_GMBL_PWM_FREQ">
+            <property name="text">
+             <string>Output PWM Frequency:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4" colspan="2">
+           <widget class="QSpinBox" name="GMBL_PWM_FREQ">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1235,41 +1108,27 @@
             </property>
             <property name="minimumSize">
              <size>
-              <width>251</width>
-              <height>251</height>
+              <width>60</width>
+              <height>0</height>
              </size>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>251</width>
-              <height>251</height>
-             </size>
+            <property name="toolTip">
+             <string>Servo/controller output frequency (50Hz for standard servos, 400Hz for brushless controllers, 200-400Hz for digital servos)</string>
             </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
+            <property name="suffix">
+             <string>Hz</string>
             </property>
-            <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
+            <property name="minimum">
+             <number>5</number>
             </property>
-            <property name="horizontalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
+            <property name="maximum">
+             <number>9999</number>
             </property>
-            <property name="interactive">
-             <bool>false</bool>
+            <property name="singleStep">
+             <number>5</number>
             </property>
-            <property name="sceneRect">
-             <rectf>
-              <x>0.000000000000000</x>
-              <y>0.000000000000000</y>
-              <width>249.000000000000000</width>
-              <height>249.000000000000000</height>
-             </rectf>
-            </property>
-            <property name="renderHints">
-             <set>QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
-            </property>
-            <property name="cacheMode">
-             <set>QGraphicsView::CacheBackground</set>
+            <property name="value">
+             <number>200</number>
             </property>
            </widget>
           </item>
@@ -1277,166 +1136,549 @@
         </widget>
        </item>
        <item>
-        <widget class="QTabWidget" name="tabWidget_portsRef">
+        <widget class="QGroupBox" name="groupBox_signaling">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="currentIndex">
-          <number>0</number>
+         <property name="toolTip">
+          <string>Any disabled items mean this option is not available in the currently-connected AQ firmware version.</string>
          </property>
-         <widget class="QWidget" name="tab_portsRef_aq6">
-          <attribute name="title">
-           <string>AQ6 PWM Ports</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>2</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>2</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="label_portReferenceImage">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>265</width>
-               <height>189</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>265</width>
-               <height>189</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="pixmap">
-              <pixmap resource="../../qgroundcontrol.qrc">:/files/images/contrib/aq6_ports_reference.png</pixmap>
-             </property>
-             <property name="scaledContents">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab_portsRef_m4">
-          <attribute name="title">
-           <string>AQ M4 PWM Ports</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="leftMargin">
-            <number>2</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>2</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="label_portReferenceImage_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>265</width>
-               <height>189</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>265</width>
-               <height>189</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="text">
-              <string notr="true"/>
-             </property>
-             <property name="pixmap">
-              <pixmap resource="../../qgroundcontrol.qrc">:/files/images/contrib/m4_ports_reference.png</pixmap>
-             </property>
-             <property name="scaledContents">
-              <bool>true</bool>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+         <property name="title">
+          <string>Signaling Ports</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="1" column="5" colspan="2" alignment="Qt::AlignLeft">
+           <widget class="QCheckBox" name="checkBox_useSpeaker">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A piezo speaker does &lt;span style=&quot; font-weight:600;&quot;&gt;not&lt;/span&gt; have a built-in wave generator, vs. a buzzer which does.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Use speaker</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_SIG_BEEP_PRT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>65</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Beeper:</string>
+            </property>
+            <property name="buddy">
+             <cstring>SIG_BEEP_PRT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4" alignment="Qt::AlignLeft">
+           <widget class="QComboBox" name="SIG_BEEP_PRT">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" alignment="Qt::AlignLeft">
+           <widget class="QComboBox" name="SIG_LED_1_PRT">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>See documentation for proper LED hookup!</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4" alignment="Qt::AlignLeft">
+           <widget class="QComboBox" name="SIG_LED_2_PRT">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>See documentation for proper LED hookup!</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" alignment="Qt::AlignLeft">
+           <widget class="QComboBox" name="SIG_PWM_PRT">
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Use a custom ESC/MCU to convert PWM pulses to lighting patterns.</string>
+            </property>
+            <property name="maxVisibleItems">
+             <number>15</number>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>15</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="2">
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>15</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="0" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_SIG_PWM_PRT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>See documentation for proper LED hookup!</string>
+            </property>
+            <property name="text">
+             <string>PWM:</string>
+            </property>
+            <property name="buddy">
+             <cstring>SIG_PWM_PRT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_SIG_LED_2_PRT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>65</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>See documentation for proper LED hookup!</string>
+            </property>
+            <property name="text">
+             <string>LED 2:</string>
+            </property>
+            <property name="buddy">
+             <cstring>SIG_LED_2_PRT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0" alignment="Qt::AlignLeft">
+           <widget class="QLabel" name="label_SIG_LED_1_PRT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>50</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>See documentation for proper LED hookup!</string>
+            </property>
+            <property name="text">
+             <string>LED 1:</string>
+            </property>
+            <property name="buddy">
+             <cstring>SIG_LED_1_PRT</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="maximumSize">
-          <size>
-           <width>270</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p style=&quot;font-size: 10px;&quot;&gt;Colors denote common hardware timers. You can't share timers between motors and other PWM output.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>-6</x>
+         <y>0</y>
+         <width>285</width>
+         <height>601</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>4</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QGroupBox" name="groupBox_frameDiagram">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Frame Diagram</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="topMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_frameLayout">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>251</width>
+               <height>251</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>251</width>
+               <height>251</height>
+              </size>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="interactive">
+              <bool>false</bool>
+             </property>
+             <property name="sceneRect">
+              <rectf>
+               <x>0.000000000000000</x>
+               <y>0.000000000000000</y>
+               <width>249.000000000000000</width>
+               <height>249.000000000000000</height>
+              </rectf>
+             </property>
+             <property name="renderHints">
+              <set>QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+             </property>
+             <property name="cacheMode">
+              <set>QGraphicsView::CacheBackground</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="tabWidget_portsRef">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>PWM port reference images.</string>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab_portsRef_aq6">
+           <attribute name="title">
+            <string>AQ6 PWM Ports</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_portReferenceImage">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>265</width>
+                <height>189</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>265</width>
+                <height>189</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../../qgroundcontrol.qrc">:/files/images/contrib/aq6_ports_reference.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_portsRef_m4">
+           <attribute name="title">
+            <string>AQ M4 PWM Ports</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_portReferenceImage_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>265</width>
+                <height>189</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>265</width>
+                <height>189</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="text">
+               <string notr="true"/>
+              </property>
+              <property name="pixmap">
+               <pixmap resource="../../qgroundcontrol.qrc">:/files/images/contrib/m4_ports_reference.png</pixmap>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="maximumSize">
+           <size>
+            <width>270</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p style=&quot;font-size: 10px;&quot;&gt;Colors denote common hardware timers. You can't share timers between motors and other PWM output.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>

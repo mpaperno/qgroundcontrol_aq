@@ -12,6 +12,7 @@ class QGCAutoquad;
 class QTableWidgetItem;
 class QWidget;
 class QComboBox;
+class QToolButton;
 
 namespace Ui {
 class AQPWMPortsConfig;
@@ -35,8 +36,11 @@ public:
         COL_PORT,
         COL_THROT,
         COL_PITCH,
+        COL_QPITCH,
         COL_ROLL,
+        COL_QROLL,
         COL_YAW,
+        COL_QYAW,
         COL_TYPE
     };
 
@@ -54,14 +58,17 @@ private:
     Ui::AQPWMPortsConfig* ui;
 
     struct motorPortSettings {
-        motorPortSettings(uint16_t port=1, float throt=0, float pitch=0, float roll=0, float yaw=0, uint8_t type=0) :
-            port(port), throt(throt), pitch(pitch), roll(roll), yaw(yaw), type(type) {}
+        motorPortSettings(uint16_t port=1, float throt=0, float pitch=0, float roll=0, float yaw=0, uint8_t type=0, float qpitch=0, float qroll=0, float qyaw=0) :
+            port(port), throt(throt), pitch(pitch), roll(roll), yaw(yaw), type(type), qpitch(qpitch), qroll(qroll), qyaw(qyaw) {}
 
         uint16_t port;
         float throt;
         float pitch;
         float roll;
         float yaw;
+        float qpitch;
+        float qroll;
+        float qyaw;
         uint8_t type;
     };
 
@@ -72,6 +79,9 @@ public slots:
     void setFrameImage(QString file = "");
     QStringList getMixFileList(void);
     QString getMixFileByConfigId(int configId);
+    bool mixTypeQuatos() { return m_mixTypeQuatos; }
+    void setMixTypeQuatos(const bool yes);
+    void setAllMotorPortTypes(quint8 type);
     void loadFileConfig(QString file);
     void saveConfigFile(QString file);
     void loadCustomConfig(int numMotors);
@@ -79,13 +89,16 @@ public slots:
     quint8 saveOnboardConfig(QMap<QString, QList<float> > *changeList, QStringList *errors);
     void loadFrameTypes(void);
     bool validateForm(void);
-    void setAllMotorPortTypes(quint8 type);
     void portNumbersModel_updated(void);
 
 private slots:
+    void loadSettings();
+    void writeSettings();
     void motorTableConnections(bool enable);
     void drawMotorsTable(void);
     bool updateMotorSums(void);
+    void setVisibleTableColumns();
+    void detectQuatos();
     void motorPortsConfig_updated(int row, int col);
     void motorMix_buttonClicked(int btn);
     void mixSelector_currentIndexChanged(int index);
@@ -96,6 +109,9 @@ private slots:
     void loadImage_clicked();
     void allToCAN_clicked();
     void allToPWM_clicked();
+    void on_checkBox_quatos_clicked(bool checked);
+    void splitterCollapseToggle();
+    void splitterMoved();
     void firmwareVersion_updated();
 
 public:
@@ -115,6 +131,7 @@ private:
     QGraphicsPixmapItem* frameLayout_bgItem;
     QGraphicsPixmapItem* frameLayout_fgItem;
     QList<QComboBox *> allPortSelectors;
+    QToolButton *splitterToggleBtn;
     QStringList motorConfigErrors;
     QString portOrder2Param;
     QString mixFilesPath;
@@ -126,6 +143,7 @@ private:
     bool errorInTimerConfig;        // timer conflict between motor and gimbal outputs
     bool errorInPortNumberType;     // means selected PWM port is > available PWM output ports on hardware
     bool customFrameImg;
+    bool m_mixTypeQuatos;
 };
 
 
@@ -138,7 +156,7 @@ class PwmPortsComboBoxDelegate : public QStyledItemDelegate
 
 public:
     PwmPortsComboBoxDelegate(QObject *parent = 0, AQPWMPortsConfig* aqPwmPortConfig = NULL);
-    ~PwmPortsComboBoxDelegate();
+    ~PwmPortsComboBoxDelegate() {}
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
@@ -146,6 +164,26 @@ public:
 
 protected:
     AQPWMPortsConfig* aqPwmPortConfig;
+};
+
+// ----------------------------------------------
+// Line Edit Delegate for float values
+// ----------------------------------------------
+class PwmPortsLineEditDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+
+public:
+    PwmPortsLineEditDelegate(QObject *parent = 0);
+    ~PwmPortsLineEditDelegate() {}
+
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,  const QModelIndex &index) const;
+    QString displayText(const QVariant &value, const QLocale& locale) const;
+    QString formatDouble(const QVariant &value) const;
+
+protected:
 };
 
 #endif // AQ_PWMPORTSCONFIG_H
