@@ -406,11 +406,11 @@ bool AQPWMPortsConfig::updateMotorSums(void) {
         qpitch += ui->table_motMix->item(i, COL_QPITCH)->data(Qt::EditRole).toDouble() * acc;
         qroll += ui->table_motMix->item(i, COL_QROLL)->data(Qt::EditRole).toDouble() * acc;
         qyaw += ui->table_motMix->item(i, COL_QYAW)->data(Qt::EditRole).toDouble() * acc;
-        qDebug() << ui->table_motMix->item(i, COL_THROT)->data(Qt::EditRole).toDouble() <<
-                    ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toDouble() <<
-                    ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toDouble() <<
-                    ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toDouble() <<
-                    throt << pitch << roll << yaw;
+//        qDebug() << ui->table_motMix->item(i, COL_THROT)->data(Qt::EditRole).toDouble() <<
+//                    ui->table_motMix->item(i, COL_PITCH)->data(Qt::EditRole).toDouble() <<
+//                    ui->table_motMix->item(i, COL_ROLL)->data(Qt::EditRole).toDouble() <<
+//                    ui->table_motMix->item(i, COL_YAW)->data(Qt::EditRole).toDouble() <<
+//                    throt << pitch << roll << yaw;
     }
 
     ui->table_motMix->item(lastRow, COL_THROT)->setData(Qt::DisplayRole, ((double)throt / (double)acc));
