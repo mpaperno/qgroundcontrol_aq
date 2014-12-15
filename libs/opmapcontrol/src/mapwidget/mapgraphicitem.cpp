@@ -133,13 +133,15 @@ namespace mapcontrol
         temp=QImage(size,
                                QImage::Format_ARGB32_Premultiplied);
         temp.fill(0);
-        QPainter imagePainter(&temp);
-        imagePainter.translate(-boundingRect().topLeft());
-        imagePainter.scale(2*zoomdiff,2*zoomdiff);
-        paintImage(&imagePainter);
-        imagePainter.end();
-        lastimagepoint=Point(core->GetrenderOffset().X()*2*zoomdiff,core->GetrenderOffset().Y()*2*zoomdiff);
-        lastimage=temp;
+        if (!temp.isNull()) {
+            QPainter imagePainter(&temp);
+            imagePainter.translate(-boundingRect().topLeft());
+            imagePainter.scale(2*zoomdiff,2*zoomdiff);
+            paintImage(&imagePainter);
+            imagePainter.end();
+            lastimagepoint=Point(core->GetrenderOffset().X()*2*zoomdiff,core->GetrenderOffset().Y()*2*zoomdiff);
+            lastimage=temp;
+        }
     }
     void MapGraphicItem::paintImage(QPainter *painter)
     {
@@ -360,7 +362,8 @@ namespace mapcontrol
     }
     void MapGraphicItem::DrawMap2D(QPainter *painter)
     {
-        painter->drawImage(this->boundingRect(),dragons.toImage());
+        painter->setBackground(QBrush(Qt::black));
+        //painter->drawImage(this->boundingRect(),dragons.toImage());
          if(!lastimage.isNull())
             painter->drawImage(core->GetrenderOffset().X()-lastimagepoint.X(),core->GetrenderOffset().Y()-lastimagepoint.Y(),lastimage);
 

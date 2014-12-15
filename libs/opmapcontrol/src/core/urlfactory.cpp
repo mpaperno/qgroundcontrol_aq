@@ -3,25 +3,25 @@
 *
 * @file       urlfactory.cpp
 * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
-* @brief      
+* @brief
 * @see        The GNU Public License (GPL) Version 3
 * @defgroup   OPMapWidget
 * @{
-* 
+*
 *****************************************************************************/
-/* 
-* This program is free software; you can redistribute it and/or modify 
-* it under the terms of the GNU General Public License as published by 
-* the Free Software Foundation; either version 3 of the License, or 
+/*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 3 of the License, or
 * (at your option) any later version.
-* 
-* This program is distributed in the hope that it will be useful, but 
-* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
-* or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
+*
+* This program is distributed in the hope that it will be useful, but
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+* or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 * for more details.
-* 
-* You should have received a copy of the GNU General Public License along 
-* with this program; if not, write to the Free Software Foundation, Inc., 
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, write to the Free Software Foundation, Inc.,
 * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 #include "urlfactory.h"
@@ -37,13 +37,13 @@ namespace core {
         /// <summary>
         /// timeout for map connections
         /// </summary>
+        QNetworkProxyFactory::setUseSystemConfiguration(true);
 
-        Proxy.setType(QNetworkProxy::NoProxy);
 
         /// <summary>
         /// Gets or sets the value of the User-agent HTTP header.
         /// </summary>
-        UserAgent = "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7";
+        UserAgent = QString("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:%1.0) Gecko/%2%3%4 Firefox/%5.0.%6").arg(QString::number(Random(3,14)), QString::number(Random(QDate().currentDate().year() - 4, QDate().currentDate().year())), QString::number(Random(11,12)), QString::number(Random(10,30)), QString::number(Random(3,14)), QString::number(Random(1,10))).toLatin1();
 
         Timeout = 5 * 1000;
         CorrectGoogleVersions=true;
@@ -53,6 +53,10 @@ namespace core {
     }
     UrlFactory::~UrlFactory()
     {
+    }
+    int UrlFactory::Random(int low, int high)
+    {
+        return low + qrand() % (high - low);
     }
     QString UrlFactory::TileXYToQuadKey(const int &tileX,const int &tileY,const int &levelOfDetail) const
     {
@@ -90,6 +94,12 @@ namespace core {
 
     void UrlFactory::TryCorrectGoogleVersions()
     {
+    static bool versionRetrieved = false;
+
+    if (versionRetrieved)
+    {
+        return;
+    }
         QMutexLocker locker(&mutex);
         if(CorrectGoogleVersions && !IsCorrectGoogleVersions())
         {
@@ -131,6 +141,7 @@ namespace core {
                 QStringList gc=reg.capturedTexts();
                 VersionGoogleMap = QString("m@%1").arg(gc[1]);
                 VersionGoogleMapChina = VersionGoogleMap;
+
 #ifdef DEBUG_URLFACTORY
                 qDebug()<<"TryCorrectGoogleVersions, VersionGoogleMap: "<<VersionGoogleMap;
 #endif //DEBUG_URLFACTORY
@@ -146,14 +157,13 @@ namespace core {
                 qDebug()<<"TryCorrectGoogleVersions, VersionGoogleLabels: "<<VersionGoogleLabels;
 #endif //DEBUG_URLFACTORY
             }
-            reg=QRegExp("\"*http://khm0.google.com/kh/v=(\\d*)",Qt::CaseInsensitive);
+            reg=QRegExp("\"*http://khm\\D?\\d.google.com/kh/v=(\\d*)",Qt::CaseInsensitive);
             if(reg.indexIn(html)!=-1)
             {
                 QStringList gc=reg.capturedTexts();
                 VersionGoogleSatellite = gc[1];
                 VersionGoogleSatelliteKorea = VersionGoogleSatellite;
                 VersionGoogleSatelliteChina = "s@" + VersionGoogleSatellite;
-
                 qDebug()<<"TryCorrectGoogleVersions, VersionGoogleSatellite: "<<VersionGoogleSatellite;
 
             }
@@ -182,7 +192,7 @@ namespace core {
         {
         case MapType::GoogleMap:
             {
-                QString server = "mt";
+                QString server = "mts";
                 QString request = "vt";
                 QString sec1 = ""; // after &x=...
                 QString sec2 = ""; // after &zoom=...
@@ -194,18 +204,19 @@ namespace core {
             break;
         case MapType::GoogleSatellite:
             {
-                QString server = "khm";
+                QString server = "khms";
                 QString request = "kh";
                 QString sec1 = ""; // after &x=...
                 QString sec2 = ""; // after &zoom=...
                 GetSecGoogleWords(pos,  sec1,  sec2);
                 TryCorrectGoogleVersions();
-                return QString("http://%1%2.google.com/%3/v=%4&hl=%5&x=%6%7&y=%8&z=%9&s=%10").arg(server).arg(GetServerNum(pos, 4)).arg(request).arg(VersionGoogleSatellite).arg(language).arg(pos.X()).arg(sec1).arg(pos.Y()).arg(zoom).arg(sec2);
+                //this does not yield good results in practice return QString("http://%1%2.google.com/%3/v=%4&hl=%5&x=%6%7&y=%8&z=%9&s=%10").arg(server).arg(GetServerNum(pos, 4)).arg(request).arg(VersionGoogleSatellite).arg(language).arg(pos.X()).arg(sec1).arg(pos.Y()).arg(zoom).arg(sec2);
+                return QString("http://mt1.google.com/vt/lyrs=y&x=%1%2&y=%3&z=%4").arg(pos.X()).arg(sec1).arg(pos.Y()).arg(zoom);
             }
             break;
         case MapType::GoogleLabels:
             {
-                QString server = "mt";
+                QString server = "mts";
                 QString request = "vt";
                 QString sec1 = ""; // after &x=...
                 QString sec2 = ""; // after &zoom=...
@@ -217,7 +228,7 @@ namespace core {
             break;
         case MapType::GoogleTerrain:
             {
-                QString server = "mt";
+                QString server = "mts";
                 QString request = "vt";
                 QString sec1 = ""; // after &x=...
                 QString sec2 = ""; // after &zoom=...
@@ -273,6 +284,7 @@ namespace core {
                 QString sec2 = ""; // after &zoom=...
                 GetSecGoogleWords(pos,  sec1,  sec2);
                 TryCorrectGoogleVersions();
+
                 // http://mt0.google.cn/vt/v=w2p.110&hl=zh-CN&gl=cn&x=12&y=6&z=4&s=Ga
 
                 return QString("http://%1%2.google.com/%3/lyrs=%4&hl=%5&gl=cn&x=%6%7&y=%8&z=%9&s=%10").arg(server).arg(GetServerNum(pos, 4)).arg(request).arg(VersionGoogleTerrainChina).arg("zh-CN").arg(pos.X()).arg(sec1).arg(pos.Y()).arg(zoom).arg(sec2);
