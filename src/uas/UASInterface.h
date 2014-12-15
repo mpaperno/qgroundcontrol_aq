@@ -139,6 +139,7 @@ public:
 
     enum Airframe {
         QGC_AIRFRAME_GENERIC = 0,
+        QGC_AIRFRAME_AUTOQUAD,
         QGC_AIRFRAME_EASYSTAR,
         QGC_AIRFRAME_TWINSTAR,
         QGC_AIRFRAME_MERLIN,

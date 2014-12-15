@@ -96,7 +96,7 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     receivedRGBDImageTimestamp(0.0),
     #endif
     paramsOnceRequested(false),
-    airframe(QGC_AIRFRAME_GENERIC),
+    airframe(QGC_AIRFRAME_AUTOQUAD),
     attitudeKnown(false),
     paramManager(NULL),
     attitudeStamped(false),

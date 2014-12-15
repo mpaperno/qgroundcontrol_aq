@@ -557,6 +557,7 @@ void UASView::selectAirframe()
         // Get list of airframes from UAS
         QStringList airframes;
         airframes << "Generic"
+                << "AutoQuad"
                 << "Multiplex Easystar"
                 << "Multiplex Twinstar"
                 << "Multiplex Merlin"
