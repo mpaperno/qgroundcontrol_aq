@@ -104,17 +104,11 @@ AQLinechartWidget::AQLinechartWidget(int systemid, QWidget *parent) : QWidget(pa
     // Create the layout
     createLayout();
 
-//    for ( int i =0; i<100;i++)
-//        CurveIsActive[i] = false;
-
-    // Add the last actions
-    //connect(this, SIGNAL(plotWindowPositionUpdated(int)), scrollbar, SLOT(setValue(int)));
-    //connect(scrollbar, SIGNAL(sliderMoved(int)), this, SLOT(setPlotWindowPosition(int)));
-
-    updateTimer->setInterval(UPDATE_INTERVAL);
+    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), this, SLOT(recolor()));
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     connect(ui.uasSelectionBox, SIGNAL(currentIndexChanged(int)), this, SLOT(selectActiveSystem(int)));
 
+    updateTimer->setInterval(UPDATE_INTERVAL);
     readSettings();
 
 }
@@ -144,7 +138,7 @@ void AQLinechartWidget::selectAllCurves(bool all)
 {
     QMap<QString, QLabel*>::iterator i;
     for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
-        activePlot->setVisible(i.key(), all);
+        activePlot->setVisibleById(i.key(), all);
     }
 }
 
@@ -276,6 +270,7 @@ void AQLinechartWidget::createLayout()
 
     // Connect notifications from the user interface to the plot
     connect(this, SIGNAL(curveRemoved(QString)), activePlot, SLOT(hideCurve(QString)));
+    connect(MainWindow::instance(), SIGNAL(styleChanged(int)), activePlot, SLOT(styleChanged(int)));
 
     // Update scrollbar when plot window changes (via translator method setPlotWindowPosition()
 //    connect(activePlot, SIGNAL(windowPositionChanged(quint64)), this, SLOT(setPlotWindowPosition(quint64)));
@@ -298,112 +293,15 @@ void AQLinechartWidget::createLayout()
 
 }
 
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, qint8 value, quint64 usec)
+void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, QVariant &variant, quint64 usec)
 {
-    appendData(uasId, curve, unit, static_cast<qint64>(value), usec);
-}
+    QMetaType::Type type = static_cast<QMetaType::Type>(variant.type());
+    bool ok;
+    double value = variant.toDouble(&ok);
+    if(!ok || type == QMetaType::QByteArray || type == QMetaType::QString)
+        return;
+    bool isDouble = type == QMetaType::Float || type == QMetaType::Double;
 
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, quint8 value, quint64 usec)
-{
-    appendData(uasId, curve, unit, static_cast<quint64>(value), usec);
-}
-
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, qint16 value, quint64 usec)
-{
-    appendData(uasId, curve, unit, static_cast<qint64>(value), usec);
-}
-
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, quint16 value, quint64 usec)
-{
-    appendData(uasId, curve, unit, static_cast<quint64>(value), usec);
-}
-
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, qint32 value, quint64 usec)
-{
-    appendData(uasId, curve, unit, static_cast<qint64>(value), usec);
-}
-
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, quint32 value, quint64 usec)
-{
-    appendData(uasId, curve, unit, static_cast<quint64>(value), usec);
-}
-
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, qint64 value, quint64 usec)
-{
-    //if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
-    if ((selectedMAV == -1 ) || (selectedMAV == uasId ))
-    {
-        // Order matters here, first append to plot, then update curve list
-        activePlot->appendData(curve+unit, usec, value);
-        // Store data
-        QLabel* label = curveLabels->value(curve+unit, NULL);
-        // Make sure the curve will be created if it does not yet exist
-        if(!label)
-        {
-            //qDebug() << "ADDING CURVE" << curve << "IN APPENDDATA qint64";
-            intData.insert(curve+unit, 0);
-            addCurve(curve, unit);
-        }
-
-        // Add int data
-        intData.insert(curve+unit, value);
-    }
-
-    // Log data
-    if (logging)
-    {
-        if (activePlot->isVisible(curve+unit))
-        {
-            if (usec == 0) usec = QGC::groundTimeMilliseconds();
-            if (logStartTime == 0) logStartTime = usec;
-            qint64 time = usec - logStartTime;
-            if (time < 0) time = 0;
-
-            logFile->write(QString(QString::number(time) + "\t" + QString::number(uasId) + "\t" + curve + "\t" + QString::number(value) + "\n").toLatin1());
-            logFile->flush();
-        }
-    }
-}
-
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, quint64 value, quint64 usec)
-{
-    //if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
-    if ((selectedMAV == -1 ) || (selectedMAV == uasId ))
-    {
-        // Order matters here, first append to plot, then update curve list
-        activePlot->appendData(curve+unit, usec, value);
-        // Store data
-        QLabel* label = curveLabels->value(curve+unit, NULL);
-        // Make sure the curve will be created if it does not yet exist
-        if(!label)
-        {
-            //qDebug() << "ADDING CURVE" << curve << "IN APPENDDATA quint64";
-            intData.insert(curve+unit, 0);
-            addCurve(curve, unit);
-        }
-
-        // Add int data
-        intData.insert(curve+unit, value);
-    }
-
-    // Log data
-    if (logging)
-    {
-        if (activePlot->isVisible(curve+unit))
-        {
-            if (usec == 0) usec = QGC::groundTimeMilliseconds();
-            if (logStartTime == 0) logStartTime = usec;
-            qint64 time = usec - logStartTime;
-            if (time < 0) time = 0;
-
-            logFile->write(QString(QString::number(time) + "\t" + QString::number(uasId) + "\t" + curve + "\t" + QString::number(value) + "\n").toLatin1());
-            logFile->flush();
-        }
-    }
-}
-
-void AQLinechartWidget::appendData(int uasId, const QString& curve, const QString& unit, double value, quint64 usec)
-{
     // if ((selectedMAV == -1 && isVisible()) || (selectedMAV == uasId && isVisible()))
     if ((selectedMAV == -1 ) || (selectedMAV == uasId ))
     {
@@ -415,8 +313,13 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
         if(!label)
         {
             //qDebug() << "ADDING CURVE" << curve << "IN APPENDDATA DOUBLE";
+            if (!isDouble)
+                intData.insert(curve+unit, 0);
             addCurve(curve, unit);
         }
+        // Add int data
+        if (!isDouble)
+            intData.insert(curve+unit, value);
     }
 
     // Log data
@@ -429,7 +332,7 @@ void AQLinechartWidget::appendData(int uasId, const QString& curve, const QStrin
             qint64 time = usec - logStartTime;
             if (time < 0) time = 0;
 
-            logFile->write(QString(QString::number(time) + "\t" + QString::number(uasId) + "\t" + curve + "\t" + QString::number(value,'g',18) + "\n").toLatin1());
+            logFile->write(QString(QString::number(time) + "\t" + QString::number(uasId) + "\t" + curve + "\t" + QString::number(value) + "\n").toLatin1());
             logFile->flush();
         }
     }
@@ -518,7 +421,7 @@ void AQLinechartWidget::startLogging()
     // Let user select the log file name
     //QDate date(QDate::currentDate());
     // QString("./pixhawk-log-" + date.toString("yyyy-MM-dd") + "-" + QString::number(logindex) + ".log")
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("Logfile") + " (*.txt *.csv)");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.txt *.csv)");
 
     while (!(fileName.endsWith(".txt") || fileName.endsWith(".csv")) && !abort && fileName != "") {
         QMessageBox msgBox;
@@ -532,7 +435,7 @@ void AQLinechartWidget::startLogging()
             abort = true;
             break;
         }
-        fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("Logfile") + " (*.txt *.csv)");
+        fileName = QFileDialog::getSaveFileName(this, tr("Specify log file name"), DEFAULT_STORAGE_PATH, tr("Logfile") + " (*.txt *.csv)");
     }
 
     qDebug() << "SAVE FILE" << fileName;
@@ -638,8 +541,8 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
 
     QWidget* colorIcon = new QWidget(this);
     colorIcons.insert(curve+unit, colorIcon);
-    colorIcon->setMinimumSize(QSize(5, 14));
-    colorIcon->setMaximumSize(4, 14);
+    colorIcon->setMinimumSize(5, 14);
+    colorIcon->setMaximumSize(5, 14);
 
     curvesWidgetLayout->addWidget(colorIcon, labelRow, 1);
 
@@ -719,11 +622,11 @@ void AQLinechartWidget::addCurve(const QString& curve, const QString& unit)
     // Connect actions
     connect(selectAllCheckBox, SIGNAL(clicked(bool)), checkBox, SLOT(setChecked(bool)));
     QObject::connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(takeButtonClick(bool)));
-    QObject::connect(this, SIGNAL(curveVisible(QString, bool)), plot, SLOT(setVisible(QString, bool)));
+    QObject::connect(this, SIGNAL(curveVisible(QString, bool)), plot, SLOT(setVisibleById(QString, bool)));
 
     // Set UI components to initial state
     checkBox->setChecked(false);
-    plot->setVisible(curve+unit, false);
+    plot->setVisibleById(curve+unit, false);
 }
 
 /**
@@ -791,19 +694,14 @@ void AQLinechartWidget::clearCurves()
 
 void AQLinechartWidget::recolor()
 {
-    activePlot->shuffleColors();
-
+    activePlot->styleChanged(MainWindow::instance()->getStyle());
     foreach (QString key, colorIcons.keys())
     {
-
-        // FIXME
-//        if (activePlot)
-        QString colorstyle;
-        QColor color = activePlot->getColorForCurve(key);
-        colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
         QWidget* colorIcon = colorIcons.value(key, 0);
-        if (colorIcon)
-        {
+        if (colorIcon) {
+            QString colorstyle;
+            QColor color = activePlot->getColorForCurve(key);
+            colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
             colorIcon->setStyleSheet(colorstyle);
             colorIcon->setAutoFillBackground(true);
         }
@@ -812,61 +710,8 @@ void AQLinechartWidget::recolor()
 
 QString AQLinechartWidget::getCurveName(const QString& key, bool shortEnabled)
 {
-    if (shortEnabled)
-    {
-        QString name;
-        QStringList parts = curveNames.value(key).split(".");
-        if (parts.length() > 1)
-        {
-            name = parts.at(1);
-        }
-        else
-        {
-            name = parts.at(0);
-        }
-
-        const int sizeLimit = 20;
-
-        // Replace known words with abbreviations
-        if (name.length() > sizeLimit)
-        {
-            name.replace("gyroscope", "gyro");
-            name.replace("accelerometer", "acc");
-            name.replace("magnetometer", "mag");
-            name.replace("distance", "dist");
-            name.replace("ailerons", "ail");
-            name.replace("altitude", "alt");
-            name.replace("waypoint", "wp");
-            name.replace("throttle", "thr");
-            name.replace("elevator", "elev");
-            name.replace("rudder", "rud");
-            name.replace("error", "err");
-            name.replace("version", "ver");
-            name.replace("message", "msg");
-            name.replace("count", "cnt");
-            name.replace("value", "val");
-            name.replace("source", "src");
-            name.replace("index", "idx");
-            name.replace("type", "typ");
-            name.replace("mode", "mod");
-        }
-
-        // Check if sub-part is still exceeding N chars
-        if (name.length() > sizeLimit)
-        {
-            name.replace("a", "");
-            name.replace("e", "");
-            name.replace("i", "");
-            name.replace("o", "");
-            name.replace("u", "");
-        }
-
-        return name;
-    }
-    else
-    {
-        return curveNames.value(key);
-    }
+    Q_UNUSED(shortEnabled);
+    return curveNames.value(key);
 }
 
 void AQLinechartWidget::setShortNames(bool enable)
@@ -1009,7 +854,7 @@ void AQLinechartWidget::takeButtonClick(bool checked)
 
     if(button != NULL)
     {
-        activePlot->setVisible(button->objectName(), checked);
+        activePlot->setVisibleById(button->objectName(), checked);
 
 
 //      CurveIsActive[]
@@ -1017,14 +862,12 @@ void AQLinechartWidget::takeButtonClick(bool checked)
 //      int index = ListItems->indexOf(button->objectName());
 //      CurveIsActive[index] = checked;
 
-        QColor color = activePlot->getColorForCurve(button->objectName());
-        if(color.isValid())
-        {
-            QString colorstyle;
-            colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
-            QWidget* colorIcon = colorIcons.value(button->objectName(), 0);
-            if (colorIcon)
-            {
+        QWidget* colorIcon = colorIcons.value(button->objectName(), 0);
+        if (colorIcon) {
+            QColor color = activePlot->getColorForCurve(button->objectName());
+            if (color.isValid()) {
+                QString colorstyle;
+                colorstyle = colorstyle.sprintf("QWidget { background-color: #%X%X%X; }", color.red(), color.green(), color.blue());
                 colorIcon->setStyleSheet(colorstyle);
                 colorIcon->setAutoFillBackground(true);
             }

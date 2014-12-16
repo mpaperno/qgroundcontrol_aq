@@ -30,6 +30,7 @@
 #include "QGCMAVLink.h"
 #include "QGCMAVLinkUASFactory.h"
 #include "QGC.h"
+#include "MG.h"
 
 #ifdef QGC_PROTOBUF_ENABLED
 #include <google/protobuf/descriptor.h>
@@ -95,7 +96,7 @@ void MAVLinkProtocol::loadSettings()
     }
     else if (m_logfile == NULL)
     {
-        m_logfile = new QFile(QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/qgroundcontrol_packetlog.mavlink");
+        m_logfile = new QFile(DEFAULT_STORAGE_PATH + "/qgroundcontrol_packetlog.mavlink");
     }
     // Enable logging
     enableLogging(settings.value("LOGGING_ENABLED", m_loggingEnabled).toBool());
@@ -170,7 +171,7 @@ QString MAVLinkProtocol::getLogfileName()
     }
     else
     {
-        return QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/qgroundcontrol_packetlog.mavlink";
+        return DEFAULT_STORAGE_PATH + "/qgroundcontrol_packetlog.mavlink";
     }
 }
 

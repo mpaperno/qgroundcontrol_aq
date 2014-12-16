@@ -35,6 +35,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QStatusBar>
 #include <QStackedWidget>
 #include <QSettings>
+#include <QSplashScreen>
 #include <qlist.h>
 
 #include "ui_MainWindow.h"
@@ -100,15 +101,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    static MainWindow* instance(QSplashScreen* screen = 0);
-    ~MainWindow();
 
     enum QGC_MAINWINDOW_STYLE
     {
         QGC_MAINWINDOW_STYLE_NONE,
         QGC_MAINWINDOW_STYLE_NATIVE,
-        QGC_MAINWINDOW_STYLE_INDOOR,
-        QGC_MAINWINDOW_STYLE_OUTDOOR,
+        QGC_MAINWINDOW_STYLE_DARK,
+        QGC_MAINWINDOW_STYLE_LIGHT,
         QGC_MAINWINDOW_STYLE_PLASTIQUE,
         QGC_MAINWINDOW_STYLE_GTK,
         QGC_MAINWINDOW_STYLE_CLEANLOOKS,
@@ -120,8 +119,23 @@ public:
         QGC_MAINWINDOW_STYLE_CDE
     };
 
+    /// @brief Returns the MainWindow singleton. Will not create the MainWindow if it has not already
+    ///         been created.
+    static MainWindow* instance(void);
+
+    /// @brief Deletes the MainWindow singleton
+    void deleteInstance(void);
+
+    /// @brief Creates the MainWindow singleton. Should only be called once by QGCApplication.
+    static MainWindow* _create(QSplashScreen* splashScreen);
+
+    /// @brief Called to indicate that splash screen is no longer being displayed.
+    //void splashScreenFinished(void) {  }
+
+    ~MainWindow();
+
     /** @brief Get current visual style */
-    int getStyle() { return currentStyle; }
+    int getStyle() { return (int)currentStyle; }
     /** @brief Get current visual style by name */
     QString getStyleName() { return m_windowStyleNames.value(currentStyle); }
     /** @brief Get a list of available style names */
@@ -272,6 +286,7 @@ public slots:
 
 signals:
     void initStatusChanged(const QString& message);
+    void styleChanged(int style);
 #ifdef MOUSE_ENABLED_LINUX
     /** @brief Forward X11Event to catch 3DMouse inputs */
     void x11EventOccured(XEvent *event);
@@ -279,7 +294,7 @@ signals:
 
 protected:
 
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QSplashScreen* splashScreen = 0);
 
     typedef enum _VIEW_SECTIONS
     {

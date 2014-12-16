@@ -24,6 +24,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QToolButton>
 #include <QLabel>
 #include "QGCToolBar.h"
+#include "MG.h"
 #include "UASManager.h"
 #include "MainWindow.h"
 
@@ -255,7 +256,7 @@ void QGCToolBar::logging(bool checked)
     if (checked)
     {
 		// Prompt the user for a filename/location to save to
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Specify MAVLink log file to save to"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("MAVLink Logfile") + " (*.mavlink *.log *.bin)");
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Specify MAVLink log file to save to"), DEFAULT_STORAGE_PATH, tr("MAVLink Logfile") + " (*.mavlink *.log *.bin)");
 
 		// Check that they didn't cancel out
 		if (fileName.isNull())

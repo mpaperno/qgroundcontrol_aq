@@ -39,6 +39,14 @@ This file is part of the PIXHAWK project
 #include <QThread>
 #include <cmath>
 
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#define DEFAULT_STORAGE_PATH  QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)
+#else
+#include <QDesktopServices>
+#define DEFAULT_STORAGE_PATH  QDesktopServices::storageLocation(QDesktopServices::DesktopLocation)
+#endif
+
 #ifndef M_PI
 #define M_PI			3.14159265f
 #define M_PI_2			(M_PI / 2.0f)
@@ -47,6 +55,7 @@ This file is part of the PIXHAWK project
 namespace MG
 {
 const static int MAX_FLIGHT_TIME = 60 * 60 * 24 * 21;
+
 
 class VERSION
 {

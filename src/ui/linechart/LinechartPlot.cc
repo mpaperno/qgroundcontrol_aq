@@ -22,6 +22,7 @@
 #include <LinechartPlot.h>
 #include <MG.h>
 #include <QPaintEngine>
+#include "ChartPlot.h"
 
 #include "QGC.h"
 
@@ -31,7 +32,8 @@
  * @param parent The parent widget
  * @param interval The maximum interval for which data is stored (default: 30 minutes) in milliseconds
  **/
-LinechartPlot::LinechartPlot(QWidget *parent, int plotid, quint64 interval): QwtPlot(parent),
+LinechartPlot::LinechartPlot(QWidget *parent, int plotid, quint64 interval):
+    ChartPlot(parent),
     minTime(0),
     lastTime(0),
     maxTime(100),
@@ -52,49 +54,11 @@ LinechartPlot::LinechartPlot(QWidget *parent, int plotid, quint64 interval): Qwt
 
     //lastMaxTimeAdded = QTime();
 
-    curves = QMap<QString, QwtPlotCurve*>();
     data = QMap<QString, TimeSeriesData*>();
     scaleMaps = QMap<QString, QwtScaleMap*>();
 
     yScaleEngine = new QwtLinearScaleEngine();
     setAxisScaleEngine(QwtPlot::yLeft, yScaleEngine);
-
-    /* Create color map */
-    colors = QList<QColor>();
-    nextColor = 0;
-
-    ///> Color map for plots, includes 20 colors
-    ///> Map will start from beginning when the first 20 colors are exceeded
-    colors.append(QColor(242,255,128));
-    colors.append(QColor(70,80,242));
-    colors.append(QColor(232,33,47));
-    colors.append(QColor(116,251,110));
-    colors.append(QColor(81,183,244));
-    colors.append(QColor(234,38,107));
-    colors.append(QColor(92,247,217));
-    colors.append(QColor(151,59,239));
-    colors.append(QColor(231,72,28));
-    colors.append(QColor(236,48,221));
-    colors.append(QColor(75,133,243));
-    colors.append(QColor(203,254,121));
-    colors.append(QColor(104,64,240));
-    colors.append(QColor(200,54,238));
-    colors.append(QColor(104,250,138));
-    colors.append(QColor(235,43,165));
-    colors.append(QColor(98,248,176));
-    colors.append(QColor(161,252,116));
-    colors.append(QColor(87,231,246));
-    colors.append(QColor(230,126,23));
-
-    setAutoReplot(false);
-
-    // Set grid
-    QwtPlotGrid *grid = new QwtPlotGrid;
-    grid->setMinPen(QPen(Qt::darkGray, 0, Qt::DotLine));
-    grid->setMajPen(QPen(Qt::gray, 0, Qt::DotLine));
-    grid->enableXMin(true);
-    // TODO xmin?
-    grid->attach(this);
 
     // Set left scale
     //setAxisOptions(QwtPlot::yLeft, QwtAutoScale::Logarithmic);
@@ -111,15 +75,6 @@ LinechartPlot::LinechartPlot(QWidget *parent, int plotid, quint64 interval): Qwt
     bottomScaleWidget->setMinBorderDist(fontMetricsX * 2, fontMetricsX / 2);
 
     plotLayout()->setAlignCanvasToScales(true);
-
-    // Set canvas background
-    setCanvasBackground(QColor(40, 40, 40));
-
-    // Enable zooming
-    //zoomer = new Zoomer(canvas());
-    zoomer = new ScrollZoomer(canvas());
-    zoomer->setRubberBandPen(QPen(Qt::blue, 1.2, Qt::DotLine));
-    zoomer->setTrackerPen(QPen(Qt::blue));
 
     // Start QTimer for plot update
     updateTimer = new QTimer(this);
@@ -322,7 +277,7 @@ void LinechartPlot::appendData(QString dataname, quint64 ms, double value)
 
     // Assign dataset to curve
     QwtPlotCurve* curve = curves.value(dataname);
-    curve->setRawData(dataset->getPlotX(), dataset->getPlotY(), dataset->getPlotCount());
+    curve->setRawSamples(dataset->getPlotX(), dataset->getPlotY(), dataset->getPlotCount());
 
     //    qDebug() << "mintime" << minTime << "maxtime" << maxTime << "last max time" << "window position" << getWindowPosition();
 
@@ -369,7 +324,7 @@ void LinechartPlot::addCurve(QString id)
     curves.insert(id, curve);
 
     curve->setStyle(QwtPlotCurve::Lines);
-    curve->setPaintAttribute(QwtPlotCurve::PaintFiltered);
+    curve->setPaintAttribute(QwtPlotCurve::FilterPoints, true);
     setCurveColor(id, currentColor);
     //curve->setBrush(currentColor); Leads to a filled curve
     //    curve->setRenderHint(QwtPlotItem::RenderAntialiased);
@@ -395,19 +350,6 @@ void LinechartPlot::addCurve(QString id)
 
     // Notify connected components about new curve
     emit curveAdded(id);
-}
-
-QColor LinechartPlot::getNextColor()
-{
-    /* Return current color and increment counter for next round */
-    nextColor++;
-    if(nextColor >= colors.count()) nextColor = 0;
-    return colors[nextColor++];
-}
-
-QColor LinechartPlot::getColorForCurve(QString id)
-{
-    return curves.value(id)->pen().color();
 }
 
 /**
@@ -436,22 +378,6 @@ void LinechartPlot::setWindowPosition(quint64 end)
 quint64 LinechartPlot::getWindowPosition()
 {
     return plotPosition;
-}
-
-/**
- * @brief Set the color of a curve
- *
- * This method emits the colorSet(id, color) signal.
- *
- * @param id The id-string of the curve
- * @param color The newly assigned color
- **/
-void LinechartPlot::setCurveColor(QString id, QColor color)
-{
-    QwtPlotCurve* curve = curves.value(id);
-    curve->setPen(color);
-
-    emit colorSet(id, color);
 }
 
 /**
@@ -486,7 +412,7 @@ void LinechartPlot::setScaling(int scaling)
  * @param id The string id of the curve
  * @param visible The visibility: True to make it visible
  **/
-void LinechartPlot::setVisible(QString id, bool visible)
+void LinechartPlot::setVisibleById(QString id, bool visible)
 {
     if(curves.contains(id)) {
         curves.value(id)->setVisible(visible);
@@ -511,7 +437,7 @@ void LinechartPlot::setVisible(QString id, bool visible)
  **/
 void LinechartPlot::hideCurve(QString id)
 {
-    setVisible(id, false);
+    setVisibleById(id, false);
 }
 
 /**
@@ -524,7 +450,7 @@ void LinechartPlot::hideCurve(QString id)
  **/
 void LinechartPlot::showCurve(QString id)
 {
-    setVisible(id, true);
+    setVisibleById(id, true);
 }
 
 //void LinechartPlot::showCurve(QString id, int position)
@@ -532,6 +458,29 @@ void LinechartPlot::showCurve(QString id)
 //    //@TODO Implement this position-dependent
 //    curves.value(id)->show();
 //}
+
+/**
+ * @brief Set the color of a curve and its symbols.
+ *
+ * @param id The id-string of the curve
+ * @param color The newly assigned color
+ **/
+void LinechartPlot::setCurveColor(QString id, QColor color)
+{
+    QwtPlotCurve* curve = curves.value(id);
+    // Change the color of the curve.
+    curve->setPen(QPen(QBrush(color), curveWidth));
+
+    //qDebug() << "Setting curve" << id << "to" << color;
+
+    // And change the color of the symbol, making sure to preserve the symbol style
+    const QwtSymbol *oldSymbol = curve->symbol();
+    QwtSymbol *newSymbol = NULL;
+    if (oldSymbol) {
+        newSymbol = new QwtSymbol(oldSymbol->style(), QBrush(color), QPen(color, symbolWidth), QSize(symbolWidth, symbolWidth));
+    }
+    curve->setSymbol(newSymbol);
+}
 
 /**
  * @brief Check the visibility of a curve
@@ -625,13 +574,29 @@ quint64 LinechartPlot::getPlotInterval()
  **/
 void LinechartPlot::setPlotInterval(int interval)
 {
-    plotInterval = interval;
+    //Only ever increase the amount of stored data,
+    // so that we allow the user to change between
+    // different intervals without constantly losing
+    // data points
+    if((unsigned)interval > plotInterval) {
+
     QMap<QString, TimeSeriesData*>::iterator j;
     for(j = data.begin(); j != data.end(); ++j)
     {
         TimeSeriesData* d = data.value(j.key());
         d->setInterval(interval);
     }
+    }
+    plotInterval = interval;
+    if(plotInterval > 5*60*1000) //If the interval is longer than 4 minutes, change the time scale step to 2 minutes
+        timeScaleStep = 2*60*1000;
+    else if(plotInterval >= 4*60*1000) //If the interval is longer than 4 minutes, change the time scale step to 1 minutes
+        timeScaleStep = 1*60*1000;
+    else if(plotInterval >= 60*1000) //If the interval is longer than a minute, change the time scale step to 30 seconds
+        timeScaleStep = 30*1000;
+    else
+        timeScaleStep = DEFAULT_SCALE_INTERVAL;
+
 }
 
 /**
@@ -647,17 +612,12 @@ quint64 LinechartPlot::getDataInterval()
     return storageInterval;
 }
 
-QList<QColor> LinechartPlot::getColorMap()
-{
-    return colors;
-}
-
 /**
  * @brief Set logarithmic scaling for the curve
  **/
 void LinechartPlot::setLogarithmicScaling()
 {
-    yScaleEngine = new QwtLog10ScaleEngine();
+    yScaleEngine = new QwtLogScaleEngine();
     setAxisScaleEngine(QwtPlot::yLeft, yScaleEngine);
 }
 
@@ -719,24 +679,6 @@ void LinechartPlot::paintRealtime()
 
         windowLock.unlock();
 
-        // Defined both on windows 32- and 64 bit
-#if !(defined Q_OS_WIN)
-
-        //    const bool cacheMode =
-        //            canvas()->testPaintAttribute(QwtPlotCanvas::PaintCached);
-        const bool oldDirectPaint =
-            canvas()->testAttribute(Qt::WA_PaintOutsidePaintEvent);
-
-        const QPaintEngine *pe = canvas()->paintEngine();
-        bool directPaint = pe->hasFeature(QPaintEngine::PaintOutsidePaintEvent);
-        //if ( pe->type() == QPaintEngine::X11 ) {
-            // Even if not recommended by TrollTech, Qt::WA_PaintOutsidePaintEvent
-            // works on X11. This has an tremendous effect on the performance..
-            directPaint = true;
-        //}
-        canvas()->setAttribute(Qt::WA_PaintOutsidePaintEvent, directPaint);
-#endif
-
         // Only set current view as zoombase if zoomer is not active
         // else we could not zoom out any more
 
@@ -745,10 +687,6 @@ void LinechartPlot::paintRealtime()
         } else {
             replot();
         }
-
-#if !(defined Q_OS_WIN)
-        canvas()->setAttribute(Qt::WA_PaintOutsidePaintEvent, oldDirectPaint);
-#endif
 
 
         /*

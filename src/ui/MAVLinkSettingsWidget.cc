@@ -32,6 +32,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QMessageBox>
 #include <QDesktopServices>
 
+#include "MG.h"
 #include "MAVLinkSettingsWidget.h"
 #include "LinkManager.h"
 #include "UDPLink.h"
@@ -160,7 +161,7 @@ void MAVLinkSettingsWidget::updateLogfileName(const QString& fileName)
 void MAVLinkSettingsWidget::chooseLogfileName()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Specify MAVLink log file name"),
-                                                    QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
+                                                    DEFAULT_STORAGE_PATH,
                                                     tr("MAVLink Logfile") + " (*.mavlink)");
 
     if (!fileName.endsWith(".mavlink"))

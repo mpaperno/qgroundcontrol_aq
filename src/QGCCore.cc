@@ -78,7 +78,10 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
     this->setApplicationName(QGC_APPLICATION_NAME);
     this->setApplicationVersion(QGC_APPLICATION_VERSION);
     this->setOrganizationName(QLatin1String("QGroundControl"));
-    this->setOrganizationDomain("org.qgroundcontrol");
+//    this->setApplicationName(QGCAUTOQUAD::APP_NAME);
+//    this->setApplicationVersion(QGCAUTOQUAD::APP_VERSION_TXT);
+    //this->setOrganizationName(QGCAUTOQUAD::APP_ORG);
+    this->setOrganizationDomain(QGCAUTOQUAD::APP_DOMAIN);
 
     // Set settings format
     QSettings::setDefaultFormat(QSettings::IniFormat);
@@ -166,7 +169,8 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
     MAVLinkSimulationLink* simulationLink = new MAVLinkSimulationLink(":/demo-log.txt");
     simulationLink->disconnect();
 
-    mainWindow = MainWindow::instance(splashScreen);
+    mainWindow = MainWindow::_create(splashScreen);
+    Q_CHECK_PTR(mainWindow);
 
     // Remove splash screen
     splashScreen->finish(mainWindow);

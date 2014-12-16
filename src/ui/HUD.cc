@@ -1421,7 +1421,7 @@ void HUD::startImage(quint64 timestamp)
 
 void HUD::selectOfflineDirectory()
 {
-    QString fileName = QFileDialog::getExistingDirectory(this, tr("Select image directory"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation));
+    QString fileName = QFileDialog::getExistingDirectory(this, tr("Select image directory"), DEFAULT_STORAGE_PATH);
     if (fileName != "") {
         offlineDirectory = fileName;
     }

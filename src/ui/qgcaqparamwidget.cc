@@ -64,8 +64,13 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     tree = new QTreeWidget(this);
     tree->setColumnCount(2);
     tree->setIndentation(5);
+#if QT_VERSION >= 0x050000
+    tree->header()->setSectionResizeMode(0, QHeaderView::Interactive);
+    tree->header()->setSectionResizeMode(1, QHeaderView::Stretch);
+#else
     tree->header()->setResizeMode(0, QHeaderView::Interactive);
     tree->header()->setResizeMode(1, QHeaderView::Stretch);
+#endif
     tree->header()->setStretchLastSection(false);
     tree->setItemDelegateForColumn(0, new NoEditDelegate(this));
     tree->setExpandsOnDoubleClick(true);

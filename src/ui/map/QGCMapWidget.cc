@@ -6,6 +6,8 @@
 #include "Waypoint2DIcon.h"
 #include "UASWaypointManager.h"
 
+#include <QInputDialog>
+
 QGCMapWidget::QGCMapWidget(QWidget *parent) :
     mapcontrol::OPMapWidget(parent),
     currWPManager(NULL),

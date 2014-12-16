@@ -32,7 +32,9 @@ This file is part of the QGROUNDCONTROL project
 #include "QGCCore.h"
 #include "MainWindow.h"
 #include "configuration.h"
-
+#ifdef Q_OS_WIN
+#include <crtdbg.h>
+#endif
 
 /* SDL does ugly things to main() */
 #ifdef main
@@ -40,41 +42,36 @@ This file is part of the QGROUNDCONTROL project
 #endif
 
 
-// Install a message handler so you do not need
-// the MSFT debug tools installed to se
-// qDebug(), qWarning(), qCritical and qAbort
 #ifdef Q_OS_WIN
+
+/// @brief Message handler which is installed using qInstallMsgHandler so you do not need
+/// the MSFT debug tools installed to see qDebug(), qWarning(), qCritical and qAbort
+#if QT_VERSION >= 0x050000
+void msgHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+#else
 void msgHandler( QtMsgType type, const char* msg )
-{
-//#define WIN_DEBUG_FILE
-#ifdef WIN_DEBUG_FILE
-        QString txt;
-        switch (type) {
-        case QtDebugMsg:
-            txt = QString("Debug: %1").arg(msg);
-            break;
-
-        case QtWarningMsg:
-            txt = QString("Warning: %1").arg(msg);
-        break;
-        case QtCriticalMsg:
-            txt = QString("Critical: %1").arg(msg);
-        break;
-        case QtFatalMsg:
-            txt = QString("Fatal: %1").arg(msg);
-            abort();
-        }
-
-        QFile outFile("debuglog.txt");
-        outFile.open(QIODevice::WriteOnly | QIODevice::Append);
-        QTextStream ts(&outFile);
-        ts << txt << endl;
 #endif
-
+{
     const char symbols[] = { 'I', 'E', '!', 'X' };
+#if QT_VERSION >= 0x050000
+    QString output = QString("[%1] at %2:%3 - \"%4\"").arg(symbols[type]).arg(context.file).arg(context.line).arg(msg);
+#else
     QString output = QString("[%1] %2").arg( symbols[type] ).arg( msg );
+#endif
     std::cerr << output.toStdString() << std::endl;
     if( type == QtFatalMsg ) abort();
+
+}
+
+/// @brief CRT Report Hook installed using _CrtSetReportHook. We install this hook when
+/// we don't want asserts to pop a dialog on windows.
+int WindowsCrtReportHook(int reportType, char* message, int* returnValue)
+{
+    Q_UNUSED(reportType);
+    
+    std::cerr << message << std::endl;  // Output message to stderr
+    *returnValue = 0;                   // Don't break into debugger
+    return true;                        // We handled this fully ourselves
 }
 
 #endif
@@ -90,9 +87,19 @@ void msgHandler( QtMsgType type, const char* msg )
 int main(int argc, char *argv[])
 {
 
-// install the message handler
+#ifdef Q_OS_MAC
+    // Prevent Apple's app nap from screwing us over
+    // tip: the domain can be cross-checked on the command line with <defaults domains>
+    QProcess::execute("defaults write " % QGCAUTOQUAD::APP_DOMAIN % ".qgroundcontrol NSAppSleepDisabled -bool YES");
+#endif
+
+    // install the message handler
 #ifdef Q_OS_WIN
-    qInstallMsgHandler( msgHandler );
+    #if QT_VERSION >= 0x050000
+        qInstallMessageHandler(msgHandler);
+    #else
+        qInstallMsgHandler( msgHandler );
+    #endif
 #endif
 
     QGCCore core(argc, argv);

@@ -68,7 +68,7 @@ private slots:
     void setupRadioTypes(const QStringList &radioTypes);
     bool radioHasPPM();
     void radioType_changed(int idx);
-    void on_tab_aq_settings_currentChanged(QWidget *arg1);
+    void on_tab_aq_settings_currentChanged(int idx);
     void on_groupBox_controlAdvancedSettings_toggled(bool arg1);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void splitterCollapseToggle();

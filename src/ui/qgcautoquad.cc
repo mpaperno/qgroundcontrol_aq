@@ -15,6 +15,7 @@
 #include <QMessageBox>
 #include <QSignalMapper>
 #include <QStringList>
+#include <QDialogButtonBox>
 
 #include "qextserialenumerator.h"
 
@@ -564,8 +565,10 @@ void QGCAutoquad::radioType_changed(int idx) {
 
 }
 
-void QGCAutoquad::on_tab_aq_settings_currentChanged(QWidget *arg1)
+void QGCAutoquad::on_tab_aq_settings_currentChanged(int idx)
 {
+    Q_UNUSED(idx);
+    QWidget *arg1 = ui->tab_aq_settings->currentWidget();
     bool vis = !(arg1->objectName() == "tab_aq_esc32" || arg1->objectName() == "tab_aq_generate_para");
     ui->lbl_aq_fw_version->setVisible(vis);
     ui->pushButton_save_to_aq->setVisible(vis);
@@ -2234,21 +2237,19 @@ void QGCAutoquad::uasConnected() {
 }
 
 void QGCAutoquad::setHardwareInfo(int boardVer) {
+    pwmPortTimers.clear();
     switch (boardVer) {
      case 8:
         maxPwmPorts = 9;
-        pwmPortTimers.empty();
         pwmPortTimers << 3 << 3 << 4 << 4 << 4 << 4 << 8 << 8 << 9;
         break;
     case 7:
         maxPwmPorts = 9;
-        pwmPortTimers.empty();
         pwmPortTimers << 1 << 1 << 1 << 1 << 4 << 4 << 9 << 9 << 11;
         break;
     case 6:
     default:
         maxPwmPorts = 14;
-        pwmPortTimers.empty();
         pwmPortTimers << 1 << 1 << 1 << 1 << 4 << 4 << 4 << 4 << 9 << 9 << 2 << 2 << 10 << 11;
         break;
     }

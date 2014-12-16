@@ -844,15 +844,7 @@ void HDDisplay::addSource(QObject* obj)
     // FIXME XXX HACK
 //    if (plots.size() > 0)
 //    {
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,qint8,quint64)), this, SLOT(updateValue(int,QString,QString,qint8,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,quint8,quint64)), this, SLOT(updateValue(int,QString,QString,quint8,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,qint16,quint64)), this, SLOT(updateValue(int,QString,QString,qint16,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,quint16,quint64)), this, SLOT(updateValue(int,QString,QString,quint16,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,qint32,quint64)), this, SLOT(updateValue(int,QString,QString,qint32,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,quint32,quint64)), this, SLOT(updateValue(int,QString,QString,quint32,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,quint64,quint64)), this, SLOT(updateValue(int,QString,QString,quint64,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,qint64,quint64)), this, SLOT(updateValue(int,QString,QString,qint64,quint64)));
-        connect(obj, SIGNAL(valueChanged(int,QString,QString,double,quint64)), this, SLOT(updateValue(int,QString,QString,double,quint64)));
+        connect(obj, SIGNAL(valueChanged(int,QString,QString,QVariant,quint64)), this, SLOT(updateValue(int,QString,QString,QVariant,quint64)));
 //    }
 }
 
@@ -863,78 +855,23 @@ void HDDisplay::removeSource(QObject* obj)
     // FIXME XXX HACK
 //    if (plots.size() > 0)
 //    {
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,qint8,quint64)), this, SLOT(updateValue(int,QString,QString,qint8,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,quint8,quint64)), this, SLOT(updateValue(int,QString,QString,quint8,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,qint16,quint64)), this, SLOT(updateValue(int,QString,QString,qint16,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,quint16,quint64)), this, SLOT(updateValue(int,QString,QString,quint16,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,qint32,quint64)), this, SLOT(updateValue(int,QString,QString,qint32,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,quint32,quint64)), this, SLOT(updateValue(int,QString,QString,quint32,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,quint64,quint64)), this, SLOT(updateValue(int,QString,QString,quint64,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,qint64,quint64)), this, SLOT(updateValue(int,QString,QString,qint64,quint64)));
-        disconnect(obj, SIGNAL(valueChanged(int,QString,QString,double,quint64)), this, SLOT(updateValue(int,QString,QString,double,quint64)));
+        disconnect(obj, 0, this, 0);
 //    }
 }
 
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const qint8 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const quint8 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const qint16 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const quint16 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const qint32 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const quint32 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const qint64 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const quint64 value, const quint64 msec)
-{
-    if (!intValues.contains(name)) intValues.insert(name, true);
-    updateValue(uasId, name, unit, (double)value, msec);
-}
-
-void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const double value, const quint64 msec)
+void HDDisplay::updateValue(const int uasId, const QString& name, const QString& unit, const QVariant value, const quint64 msec)
 {
     Q_UNUSED(uasId);
     Q_UNUSED(unit);
+    double val = value.toDouble();
     // Update mean
     const float oldMean = valuesMean.value(name, 0.0f);
     const int meanCount = valuesCount.value(name, 0);
-    valuesMean.insert(name, (oldMean * meanCount +  value) / (meanCount + 1));
+    valuesMean.insert(name, (oldMean * meanCount +  val) / (meanCount + 1));
     valuesCount.insert(name, meanCount + 1);
-    valuesDot.insert(name, (value - values.value(name, 0.0f)) / ((msec - lastUpdate.value(name, 0))/1000.0f));
-    if (values.value(name, 0.0) != value) valuesChanged = true;
-    values.insert(name, value);
+    valuesDot.insert(name, (val - values.value(name, 0.0f)) / ((msec - lastUpdate.value(name, 0))/1000.0f));
+    if (values.value(name, 0.0) != val) valuesChanged = true;
+    values.insert(name, val);
     units.insert(name, unit);
     lastUpdate.insert(name, msec);
 }

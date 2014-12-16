@@ -232,10 +232,7 @@ void AQTelemetryView::setupCurves() {
     // populate curves
     for (int i=0; i < telemDataFields.size(); i++) {
         if (telemDataFields[i].dataSet == currentDataSet) {
-            if (telemDataFields[i].unit == QString("float"))
-                AqTeleChart->appendData(uasId, telemDataFields[i].label, "", 0.0f, 0);
-            else
-                AqTeleChart->appendData(uasId, telemDataFields[i].label, "", 0, 0);
+            AqTeleChart->appendData(uasId, telemDataFields[i].label, "", QVariant(0.0), 0);
         }
     }
 
@@ -385,7 +382,6 @@ void AQTelemetryView::frequencyChanged(int freq) {
 
 void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
     float val;
-    qint32 ival;
     QString valStr;
     msec = 0;
 
@@ -399,12 +395,7 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
             }
 
             if (ui->tab_val_chart->isVisible()) // AqTeleChart->CurveIsActive[i]
-                if (telemDataFields[i].unit == QString("float"))
-                    AqTeleChart->appendData(uasId, telemDataFields[i].label, "", val, msec);
-                else {
-                    ival = static_cast<qint32>(val);
-                    AqTeleChart->appendData(uasId, telemDataFields[i].label, "", ival, msec);
-                }
+                AqTeleChart->appendData(uasId, telemDataFields[i].label, "", QVariant(val), msec);
         }
     }
 }

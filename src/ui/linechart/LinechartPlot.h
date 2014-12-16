@@ -45,9 +45,8 @@ This file is part of the PIXHAWK project
 #include <qwt_scale_draw.h>
 #include <qwt_scale_widget.h>
 #include <qwt_scale_engine.h>
-//#include <qwt_array.h>
 #include <qwt_plot.h>
-#include <ScrollZoomer.h>
+#include "ChartPlot.h"
 #include "MG.h"
 
 class TimeScaleDraw: public QwtScaleDraw
@@ -59,36 +58,6 @@ public:
         return time.toString("hh:mm:ss"); // was hh:mm:ss:zzz
         // Show seconds since system startup
         //return QString::number(static_cast<int>(v)/1000000);
-    }
-
-};
-
-/**
- * @brief Zoomer for plot
- */
-class Zoomer: public ScrollZoomer
-{
-public:
-    Zoomer(QwtPlotCanvas *canvas) : ScrollZoomer(canvas) {}
-    virtual void rescale() {
-
-        QwtScaleWidget *scaleWidget = plot()->axisWidget(yAxis());
-        QwtScaleDraw *sd = scaleWidget->scaleDraw();
-        int minExtent = 0;
-        if ( zoomRectIndex() > 0 ) {
-
-            // When scrolling in vertical direction
-            // the plot is jumping in horizontal direction
-            // because of the different widths of the labels
-            // So we better use a fixed extent.
-
-            minExtent = sd->spacing() + sd->majTickLength() + 1;
-            minExtent += sd->labelSize(scaleWidget->font(), 1000).width();
-        }
-
-        sd->setMinimumExtent(minExtent);
-        ScrollZoomer::rescale();
-
     }
 
 };
@@ -164,14 +133,14 @@ protected:
 
 private:
     quint64 count;
-    QwtArray<double> ms;
-    QwtArray<double> value;
+    QVector<double> ms;
+    QVector<double> value;
     double mean;
     double median;
     double variance;
     unsigned int averageWindow;
-    QwtArray<double> outputMs;
-    QwtArray<double> outputValue;
+    QVector<double> outputMs;
+    QVector<double> outputValue;
 };
 
 
@@ -181,7 +150,7 @@ private:
 /**
  * @brief Time series plot
  **/
-class LinechartPlot : public QwtPlot
+class LinechartPlot : public ChartPlot
 {
     Q_OBJECT
 public:
@@ -205,7 +174,6 @@ public:
     quint64 getPlotInterval();
     quint64 getDataInterval();
     quint64 getWindowPosition();
-    QList<QColor> getColorMap();
 
     /** @brief Get the short-term mean of a curve */
     double getMean(QString id);
@@ -244,8 +212,14 @@ public slots:
     void setActive(bool active);
 
     // Functions referring to the currently active plot
-    void setVisible(QString id, bool visible);
-    //void showCurve(QString id, int position);
+    void setVisibleById(QString id, bool visible);
+
+    /**
+     * @brief Set the color of a curve and its symbols.
+     *
+     * @param id The id-string of the curve
+     * @param color The newly assigned color
+     **/
     void setCurveColor(QString id, QColor color);
 
     /** @brief Enforce the use of the receive timestamp */
@@ -269,29 +243,10 @@ public slots:
     void setAverageWindow(int windowSize);
     void removeTimedOutCurves();
 
-    /** @brief Reset color map */
-    void shuffleColors()
-    {
-        foreach (QwtPlotCurve* curve, curves)
-        {
-            QPen pen(curve->pen());
-            pen.setColor(getNextColor());
-            curve->setPen(pen);
-        }
-    }
-
-    public:
-    QColor getColorForCurve(QString id);
-
 protected:
-    QMap<QString, QwtPlotCurve*> curves;
     QMap<QString, TimeSeriesData*> data;
     QMap<QString, QwtScaleMap*> scaleMaps;
     QMap<QString, quint64> lastUpdate;
-    ScrollZoomer* zoomer;
-
-    QList<QColor> colors;
-    int nextColor;
 
     //static const quint64 MAX_STORAGE_INTERVAL = Q_UINT64_C(300000);
     static const quint64 MAX_STORAGE_INTERVAL = Q_UINT64_C(0);  ///< The maximum interval which is stored
@@ -325,7 +280,6 @@ protected:
 
     // Methods
     void addCurve(QString id);
-    QColor getNextColor();
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
 
@@ -341,13 +295,6 @@ signals:
          * @param color The curve color in the diagram
          **/
     void curveAdded(QString idstring);
-    /**
-         * @brief This signal is emitted when a curve gets assigned a color
-         *
-         * @param idstring The id-string of the curve
-         * @param color The curve color in the diagram
-         **/
-    void colorSet(QString idstring, QColor color);
     /**
          * @brief This signal is emitted when a curve is removed
          *

@@ -269,8 +269,11 @@ namespace mapcontrol
     void OPMapWidget::mouseMoveEvent(QMouseEvent *event)
     {
         QGraphicsView::mouseMoveEvent(event);
-        //QPointF p=event->localPos();
+#if QT_VERSION >= 0x050000
+        QPointF p=event->localPos();
+#else
         QPointF p=event->posF();
+#endif
         p=map->mapFromParent(p);
         currentmouseposition=map->FromLocalToLatLng(p.x(),p.y());
     }

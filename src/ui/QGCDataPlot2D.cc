@@ -47,7 +47,7 @@ This file is part of the QGROUNDCONTROL project
 
 QGCDataPlot2D::QGCDataPlot2D(QWidget *parent) :
     QWidget(parent),
-    plot(new IncrementalPlot()),
+    plot(new IncrementalPlot(parent)),
     logFile(NULL),
     ui(new Ui::QGCDataPlot2D)
 {
@@ -114,7 +114,7 @@ void QGCDataPlot2D::savePlot()
 {
     QString fileName = "plot.svg";
     fileName = QFileDialog::getSaveFileName(
-                   this, "Export File Name", QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
+                   this, "Export File Name", DEFAULT_STORAGE_PATH,
                    "PDF Documents (*.pdf);;SVG Images (*.svg)");
 
     if (!fileName.contains(".")) {
@@ -132,7 +132,7 @@ void QGCDataPlot2D::savePlot()
         // Abort if cancelled
         if(msgBox.exec() == QMessageBox::Cancel) return;
         fileName = QFileDialog::getSaveFileName(
-                       this, "Export File Name", QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
+                       this, "Export File Name", DEFAULT_STORAGE_PATH,
                        "PDF Documents (*.pdf);;SVG Images (*.svg)");
     }
 
@@ -164,19 +164,20 @@ void QGCDataPlot2D::print()
     if ( dialog.exec() ) {
         plot->setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; background-clip: border; font-size: 10pt;}");
         plot->setCanvasBackground(Qt::white);
-        QwtPlotPrintFilter filter;
-        filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
-        filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
-        filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
-        if ( printer.colorMode() == QPrinter::GrayScale ) {
-            int options = QwtPlotPrintFilter::PrintAll;
-            options &= ~QwtPlotPrintFilter::PrintBackground;
-            options |= QwtPlotPrintFilter::PrintFrameWithScales;
-            filter.setOptions(options);
-        }
-        plot->print(printer, filter);
+        // FIXME: QwtPlotPrintFilter no longer exists in Qwt 6.1
+        //QwtPlotPrintFilter filter;
+        //filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
+        //filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
+        //filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
+        //filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
+        //filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
+        //if ( printer.colorMode() == QPrinter::GrayScale ) {
+        //    int options = QwtPlotPrintFilter::PrintAll;
+        //    options &= ~QwtPlotPrintFilter::PrintBackground;
+        //    options |= QwtPlotPrintFilter::PrintFrameWithScales;
+        //    filter.setOptions(options);
+        //}
+        //plot->print(printer);
         plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
         //plot->setCanvasBackground(QColor(5, 5, 8));
     }
@@ -202,6 +203,7 @@ void QGCDataPlot2D::exportPDF(QString fileName)
 
     plot->setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; background-clip: border; font-size: 10pt;}");
     //        plot->setCanvasBackground(Qt::white);
+    // FIXME: QwtPlotPrintFilter no longer exists in Qwt 6.1
     //        QwtPlotPrintFilter filter;
     //        filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
     //        filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
@@ -215,7 +217,7 @@ void QGCDataPlot2D::exportPDF(QString fileName)
     //            options |= QwtPlotPrintFilter::PrintFrameWithScales;
     //            filter.setOptions(options);
     //        }
-    plot->print(printer);//, filter);
+    //plot->print(printer);
     plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
     //plot->setCanvasBackground(QColor(5, 5, 8));
 }
@@ -229,14 +231,15 @@ void QGCDataPlot2D::exportSVG(QString fileName)
         generator.setFileName(fileName);
         generator.setSize(QSize(800, 600));
 
-        QwtPlotPrintFilter filter;
-        filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
-        filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
-        filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
+        // FIXME: QwtPlotPrintFilter no longer exists in Qwt 6.1
+        //QwtPlotPrintFilter filter;
+        //filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
+        //filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
+        //filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
+        //filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
+        //filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
 
-        plot->print(generator, filter);
+        //plot->print(generator);
         plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
     }
 }
@@ -683,33 +686,12 @@ void QGCDataPlot2D::saveCsvLog()
 {
     QString fileName = "export.csv";
     fileName = QFileDialog::getSaveFileName(
-                   this, "Export CSV File Name", QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
-                   "CSV file (*.csv);;Text file (*.txt)");
+                   this, "Export CSV File Name", DEFAULT_STORAGE_PATH, "CSV file (*.csv);;Text file (*.txt)");
 
     if (!fileName.contains(".")) {
         // .csv is default extension
         fileName.append(".csv");
     }
-
-    //    QFileInfo fileInfo(fileName);
-    //
-    //    // Check if we could create a new file in this directory
-    //    QDir dir(fileInfo.absoluteDir());
-    //    QFileInfo dirInfo(dir);
-    //
-    //    while(!(dirInfo.isWritable()))
-    //    {
-    //        QMessageBox msgBox;
-    //        msgBox.setIcon(QMessageBox::Critical);
-    //        msgBox.setText("File cannot be written, Operating System denies permission");
-    //        msgBox.setInformativeText("Please choose a different file name or directory. Click OK to change the file, cancel to not save the file.");
-    //        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    //        msgBox.setDefaultButton(QMessageBox::Ok);
-    //        if(msgBox.exec() == QMessageBox::Cancel) break;
-    //        fileName = QFileDialog::getSaveFileName(
-    //                this, "Export CSV File Name", QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
-    //            "CSV file (*.csv);;Text file (*.txt)");
-    //    }
 
     bool success = logFile->copy(fileName);
 

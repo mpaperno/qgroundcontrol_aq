@@ -286,13 +286,16 @@ linux-g++-64 {
 }
 
 # Windows (32bit), Visual Studio
-win32-msvc2008|win32-msvc2010 {
+win32-msvc2010|win32-msvc2012|win32-g++ {
 
-	win32-msvc2008 {
-		message(Building for Windows Visual Studio 2008 (32bit))
-	}
 	win32-msvc2010 {
 		message(Building for Windows Visual Studio 2010 (32bit))
+	}
+	win32-msvc2012 {
+		message(Building for Windows Visual Studio 2012 (32bit))
+	}
+	win32-g++ {
+		message(Building for Windows GCC (32bit))
 	}
 
 	# Specify multi-process compilation within Visual Studio.
@@ -428,9 +431,18 @@ win32-msvc2008|win32-msvc2010 {
 		QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.lib"$$escape_expand(\\n))
 
 		# Copy Visual Studio DLLs
-		# I'm not certain of the path for VS2008, so this only works for VS2010.
 		win32-msvc2010 {
 			QMAKE_POST_LINK += $$quote(xcopy /D /Y "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\*.dll\""  "$$TARGETDIR_WIN\\"$$escape_expand(\\n))
+		}
+		win32-msvc2012 {
+			 QMAKE_POST_LINK += $$quote(xcopy /D /Y "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 11.0\\VC\\redist\\x86\\Microsoft.VC110.CRT\\*.dll\""  "$${TARGETDIR}\\"$$escape_expand(\\n))
+		}
+		win32-g++ {
+			# we need to know where MinGW lives so we can copy some DLLs from there.
+			MINGW_PATH = $$(MINGW_PATH)
+			isEmpty(MINGW_PATH): error("MINGW_PATH not found")
+			QMAKE_POST_LINK  += $$quote(xcopy /D /Y "$${MINGW_PATH}\\bin\\libwinpthread-1.dll"  "$${TARGETDIR}"$$escape_expand(\\n\\t))
+			QMAKE_POST_LINK  += $$quote(xcopy /D /Y "$${MINGW_PATH}\\bin\\libstdc++-6.dll"  "$${TARGETDIR}"$$escape_expand(\\n))
 		}
 	}
 }

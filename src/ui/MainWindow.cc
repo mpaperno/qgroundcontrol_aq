@@ -34,12 +34,14 @@ This file is part of the QGROUNDCONTROL project
 #include <QDebug>
 #include <QTimer>
 #include <QHostInfo>
-#include <QSplashScreen>
+#include <QDesktopWidget>
+#include <QStyleFactory>
 #include <QGCHilLink.h>
 #include <QGCHilConfiguration.h>
 #include <QGCHilFlightGearConfiguration.h>
 
 #include "QGC.h"
+#include "MG.h"
 #include "QGCCore.h"
 #include "MAVLinkSimulationLink.h"
 #include "SerialLink.h"
@@ -71,20 +73,39 @@ This file is part of the QGROUNDCONTROL project
 #include "LogCompressor.h"
 #include "qgcautoquad.h"
 
-MainWindow* MainWindow::instance(QSplashScreen* screen)
-{
-    static MainWindow* _instance = 0;
-    if(_instance == 0)
-    {
-        _instance = new MainWindow();
-        if (screen) connect(_instance, SIGNAL(initStatusChanged(QString)), screen, SLOT(showMessage(QString)));
+static MainWindow* _instance = NULL;   ///< @brief MainWindow singleton
 
-        /* Set the application as parent to ensure that this object
-                 * will be destroyed when the main application exits */
-        //_instance->setParent(qApp);
-    }
+MainWindow* MainWindow::_create(QSplashScreen* splashScreen)
+{
+    Q_ASSERT(_instance == NULL);
+
+    new MainWindow(splashScreen);
+
+    // _instance is set in constructor
+    Q_ASSERT(_instance);
+
     return _instance;
 }
+
+MainWindow* MainWindow::instance(void)
+{
+    return _instance;
+}
+
+//MainWindow* MainWindow::instance(QSplashScreen* screen)
+//{
+//    static MainWindow* _instance = 0;
+//    if(_instance == 0)
+//    {
+//        _instance = new MainWindow();
+//        if (screen) connect(_instance, SIGNAL(initStatusChanged(QString)), screen, SLOT(showMessage(QString)));
+
+//        /* Set the application as parent to ensure that this object
+//                 * will be destroyed when the main application exits */
+//        //_instance->setParent(qApp);
+//    }
+//    return _instance;
+//}
 
 /**
 * Create new mainwindow. The constructor instantiates all parts of the user
@@ -93,8 +114,8 @@ MainWindow* MainWindow::instance(QSplashScreen* screen)
 *
 * @see QMainWindow::show()
 **/
-MainWindow::MainWindow(QWidget *parent):
-    QMainWindow(parent),
+MainWindow::MainWindow(QSplashScreen *splashScreen):
+    QMainWindow(),
     currentView(VIEW_OPERATOR),
     currentStyle(QGC_MAINWINDOW_STYLE_NONE),
     aboutToCloseFlag(false),
@@ -103,6 +124,13 @@ MainWindow::MainWindow(QWidget *parent):
     autoReconnect(false),
     lowPowerMode(false)
 {
+    Q_ASSERT(_instance == NULL);
+    _instance = this;
+
+    if (splashScreen) {
+        connect(_instance, SIGNAL(initStatusChanged(QString)), splashScreen, SLOT(showMessage(QString)));
+    }
+
     hide();
 
     // format systems language
@@ -905,7 +933,7 @@ void MainWindow::createCustomWidget()
 void MainWindow::loadCustomWidget()
 {
     QString widgetFileExtension(".qgw");
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Specify Widget File Name"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Specify Widget File Name"), DEFAULT_STORAGE_PATH,
                                                     QString("QGroundControl Widget (*%1)").arg(widgetFileExtension));
     if (fileName != "") loadCustomWidget(fileName);
 }
@@ -972,7 +1000,7 @@ void MainWindow::loadSettings()
     QSettings settings;
     settings.beginGroup("QGC_MAINWINDOW");
     autoReconnect = settings.value("AUTO_RECONNECT", autoReconnect).toBool();
-    currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", QGC_MAINWINDOW_STYLE_INDOOR).toInt();
+    currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", QGC_MAINWINDOW_STYLE_DARK).toInt();
     lowPowerMode = settings.value("LOW_POWER_MODE", lowPowerMode).toBool();
     defaultLanguage = settings.value("UI_LANGUAGE", defaultLanguage).toString();
     settings.endGroup();
@@ -1083,12 +1111,12 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
     switch (style) {
         case QGC_MAINWINDOW_STYLE_NATIVE:
             styleFileName = ":files/styles/style-native.css";
-        break;
-        case QGC_MAINWINDOW_STYLE_INDOOR:
+            break;
+        case QGC_MAINWINDOW_STYLE_DARK:
             qApp->setStyle("plastique");
             styleFileName = ":files/styles/style-dark.css";
             break;
-        case QGC_MAINWINDOW_STYLE_OUTDOOR:
+        case QGC_MAINWINDOW_STYLE_LIGHT:
             qApp->setStyle("plastique");
             styleFileName = ":files/styles/style-light.css";
             break;
@@ -1098,13 +1126,14 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
     }
     reloadStylesheet(styleFileName);
     currentStyle = style;
+    emit styleChanged((int)style);
 }
 
 void MainWindow::setAvailableStyles()
 {
     m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_NATIVE, "Operating System Native");
-    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_INDOOR, "QGC Dark");
-    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_OUTDOOR, "QGC Light");
+    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_DARK, "QGC Dark");
+    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_LIGHT, "QGC Light");
 
     int sid;
     QString s;
@@ -1581,13 +1610,13 @@ void MainWindow::UASCreated(UASInterface* uas)
         if (infoDockWidget) {
             if (UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget()))
                 infoWidget->addUAS(uas);
-            }
+        }
 
         // UAS List
         if (listDockWidget) {
             if (UASListWidget *listWidget = dynamic_cast<UASListWidget*>(listDockWidget->widget()))
                 listWidget->addUAS(uas);
-            }
+        }
 
         // Load default custom widgets for this autopilot type
         loadCustomWidgetsFromDefaults(uas->getSystemTypeName(), uas->getAutopilotTypeName());
@@ -1613,8 +1642,8 @@ void MainWindow::UASCreated(UASInterface* uas)
                 default:
                     loadOperatorView();
                     break;
-                }
             }
+        }
 
     //}
 

@@ -41,6 +41,7 @@
 #include <osgText/Text>
 
 #include "../MainWindow.h"
+#include "MG.h"
 #include "PixhawkCheetahNode.h"
 #include "TerrainParamDialog.h"
 #include "UASManager.h"
@@ -592,7 +593,7 @@ void
 Pixhawk3DWidget::loadTerrainModel(void)
 {
     QString filename = QFileDialog::getOpenFileName(this, "Load Terrain Model",
-                                                    QDesktopServices::storageLocation(QDesktopServices::DesktopLocation),
+                                                    DEFAULT_STORAGE_PATH,
                                                     tr("Collada (*.dae)"));
 
     if (filename.isNull())

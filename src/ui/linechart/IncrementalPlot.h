@@ -32,12 +32,10 @@ This file is part of the QGROUNDCONTROL project
 #define INCREMENTALPLOT_H
 
 #include <QTimer>
-#include <qwt_array.h>
 #include <qwt_plot.h>
 #include <qwt_legend.h>
-#include <qwt_plot_grid.h>
 #include <QMap>
-#include "ScrollZoomer.h"
+#include "ChartPlot.h"
 
 class QwtPlotCurve;
 
@@ -60,10 +58,8 @@ public:
 
 private:
     int d_count;
-    QwtArray<double> d_x;
-    QwtArray<double> d_y;
-    QTimer *d_timer;
-    int d_timerCount;
+    QVector<double> d_x;
+    QVector<double> d_y;
 };
 
 /**
@@ -73,7 +69,7 @@ private:
  * It will only repaint the minimum screen content necessary to avoid
  * a too high CPU consumption. It auto-scales the plot to new data.
  */
-class IncrementalPlot : public QwtPlot
+class IncrementalPlot : public ChartPlot
 {
     Q_OBJECT
 public:
@@ -81,34 +77,18 @@ public:
     IncrementalPlot(QWidget *parent = NULL);
     virtual ~IncrementalPlot();
 
-    /** @brief Get color map of this plot */
-    QList<QColor> getColorMap();
-
-    /** @brief Get next color of color map */
-    QColor getNextColor();
-
-    void ResetColor();
-
-    /** @brief Get color for curve id */
-    QColor getColorForCurve(QString id);
-
     /** @brief Get the state of the grid */
-    bool gridEnabled();
+    bool gridEnabled() const;
 
     /** @brief Read out data from a curve */
-    int data(QString key, double* r_x, double* r_y, int maxSize);
-
-    float symbolWidth;
-    float curveWidth;
-    float gridWidth;
-    float scaleWidth;
+    int data(const QString &key, double* r_x, double* r_y, int maxSize);
 
 public slots:
     /** @brief Append one data point */
-    void appendData(QString key, double x, double y);
+    void appendData(const QString &key, double x, double y);
 
     /** @brief Append multiple data points */
-    void appendData(QString key, double* x, double* y, int size);
+    void appendData(const QString &key, double* x, double* y, int size);
 
     /** @brief Reset the plot scaling to the default value */
     void resetScaling();
@@ -126,7 +106,7 @@ public slots:
     void showGrid(bool show);
 
     /** @brief Set new plot style */
-    void setStyleText(QString style);
+    void setStyleText(const QString &style);
 
     /** @brief Set symmetric axis scaling mode */
     void setSymmetric(bool symmetric);
@@ -137,20 +117,17 @@ protected slots:
 
 protected:
     bool symmetric;        ///< Enable symmetric plotting
-    QList<QColor> colors;  ///< Colormap for curves
-    int nextColor;         ///< Next index in color map
-    ScrollZoomer* zoomer;  ///< Zoomer class for widget
     QwtLegend* legend;     ///< Plot legend
-    QwtPlotGrid* grid;     ///< Plot grid
     double xmin;           ///< Minimum x value seen
     double xmax;           ///< Maximum x value seen
     double ymin;           ///< Minimum y value seen
     double ymax;           ///< Maximum y value seen
-
+    QString styleText;     ///< Curve style set by setStyleText
 
 private:
     QMap<QString, CurveData* > d_data;      ///< Data points
-    QMap<QString, QwtPlotCurve* > d_curve;  ///< Plot curves
+    /** Helper function to apply styleText style to the given curve */
+    void updateStyle(QwtPlotCurve *curve);
 };
 
 #endif /* INCREMENTALPLOT_H */

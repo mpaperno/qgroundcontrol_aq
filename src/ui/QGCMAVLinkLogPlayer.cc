@@ -5,6 +5,7 @@
 #include "MainWindow.h"
 #include "QGCMAVLinkLogPlayer.h"
 #include "QGC.h"
+#include "MG.h"
 #include "ui_QGCMAVLinkLogPlayer.h"
 
 QGCMAVLinkLogPlayer::QGCMAVLinkLogPlayer(MAVLinkProtocol* mavlink, QWidget *parent) :
@@ -169,7 +170,7 @@ bool QGCMAVLinkLogPlayer::reset(int packetIndex)
 
 bool QGCMAVLinkLogPlayer::selectLogFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Specify MAVLink log file name to replay"), QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), tr("MAVLink or Binary Logfile (*.mavlink *.bin *.log)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Specify MAVLink log file name to replay"), DEFAULT_STORAGE_PATH, tr("MAVLink or Binary Logfile (*.mavlink *.bin *.log)"));
 
     if (fileName == "")
     {
