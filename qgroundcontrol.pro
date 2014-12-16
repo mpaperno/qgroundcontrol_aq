@@ -27,14 +27,10 @@ QT += network \
 
 # Qt configuration
 greaterThan(QT_MAJOR_VERSION, 4) {
-	QT += widgets serialport webkitwidgets
+	QT += widgets webkitwidgets multimedia
 } else {
-	CONFIG += qt \
-		thread \
-		serialport
-
+	CONFIG += qt thread
 }
-#!win32:QT += phonon
 
 TEMPLATE = app
 TARGET = qgroundcontrol
@@ -57,51 +53,25 @@ OBJECTS_DIR = $${BUILDDIR}/obj
 MOC_DIR = $${BUILDDIR}/moc
 UI_DIR = $${BUILDDIR}/ui
 RCC_DIR = $${BUILDDIR}/rcc
-RESOURCES += qgroundcontrol.qrc
-TRANSLATIONS += files/lang/de.ts \
-    files/lang/en.ts \
-    files/lang/pl.ts
 
 DEFINES += MAVLINK_NO_DATA
 
 #DEFINES += NO_TEXT_TO_SPEECH
+#DEFINES += QGC_USE_VLC  # Windows only #
 
 MAVLINK_CONF = "autoquad"
 MAVLINKPATH = $$BASEDIR/libs/mavlink/include/mavlink/v1.0
-
-#win32 {
-#    QMAKE_INCDIR_QT = $$(QTDIR)/include
-#    QMAKE_LIBDIR_QT = $$(QTDIR)/lib
-#    QMAKE_UIC = "$$(QTDIR)/bin/uic.exe"
-#    QMAKE_MOC = "$$(QTDIR)/bin/moc.exe"
-#    QMAKE_RCC = "$$(QTDIR)/bin/rcc.exe"
-#    QMAKE_QMAKE = "$$(QTDIR)/bin/qmake.exe"
-#}
-
 
 
 #################################################################
 # EXTERNAL LIBRARY CONFIGURATION
 
 # EIGEN matrix library (header-only)
-INCLUDEPATH += libs/eigen
+INCLUDEPATH += libs libs/eigen
 
 # OPMapControl library (from OpenPilot)
-include(libs/utils/utils_external.pri)
+#include(libs/utils/utils_external.pri)
 include(libs/opmapcontrol/opmapcontrol_external.pri)
-#DEPENDPATH += \
-#    libs/utils \
-#    libs/utils/src \
-#    libs/opmapcontrol \
-#    libs/opmapcontrol/src \
-#    libs/opmapcontrol/src/mapwidget
-
-INCLUDEPATH += \
-    libs/utils \
-    libs \
-	 libs/opmapcontrol \
-	 libs/opmapcontrol/src \
-	 libs/opmapcontrol/src/mapwidget
 
 !contains(DEFINES, NO_TEXT_TO_SPEECH) {
 	include(libs/QtSpeech/QtSpeech.pri)
@@ -109,16 +79,12 @@ INCLUDEPATH += \
 	message("Skipping Text-to-Speech support.")
 }
 
-win32-msvc2008|win32-msvc2010 {
-
-#    DEFINES += QGC_USE_VLC
-
+win* {
     contains(DEFINES, QGC_USE_VLC) {
         INCLUDEPATH += "libs/vlc/sdk/include"
         LIBS += -L$${BASEDIR}/libs/vlc/sdk/lib
         LIBS += -llibvlc
     }
-
 }
 
 # If the user config file exists, it will be included.
@@ -147,50 +113,24 @@ isEmpty(MAVLINK_CONF) {
 # done by the plugins above
 include(qgroundcontrol.pri)
 
-# Include MAVLink generator
-# has been deprecated
-#DEPENDPATH += \
-#    src/apps/mavlinkgen
-
-#INCLUDEPATH += \
-#    src/apps/mavlinkgen \
-#    src/apps/mavlinkgen/ui \
-#    src/apps/mavlinkgen/generator
-
-#include(src/apps/mavlinkgen/mavlinkgen.pri)
-
-
-
 # Include QWT plotting library
 include(libs/qwt/qwt.pri)
-#INCLUDEPATH += libs/qwt/include
-#LIBS += -Llibs/qwt/lib -lqwt
 
-#DEPENDPATH += .
-#	 plugins
-#    libs/thirdParty/qserialport/include \
-#    libs/thirdParty/qserialport/include/QtSerialPort \
-#    libs/thirdParty/qserialport \
-#    libs/qextserialport
-
-#INCLUDEPATH += . \
-#    libs/thirdParty/qserialport/include \
-#    libs/thirdParty/qserialport/include/QtSerialPort \
-#    libs/thirdParty/qserialport/src \
-#    libs/qextserialport
-
-# Include serial port library (QSerial)
-#include(qserialport.pri)
+# Include serial port library
 include(libs/thirdParty/qextserialport/src/qextserialport.pri)
 
-# Serial port detection (ripped-off from qextserialport library)
-#macx|macx-g++|macx-g++42::SOURCES += libs/qextserialport/qextserialenumerator_osx.cpp
-#linux-g++::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
-#linux-g++-64::SOURCES += libs/qextserialport/qextserialenumerator_unix.cpp
-#win32::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
-#win32-msvc2008|win32-msvc2010::SOURCES += libs/qextserialport/qextserialenumerator_win.cpp
-
+#
 # Input
+#
+
+RESOURCES += qgroundcontrol.qrc
+
+TRANSLATIONS += files/lang/de.ts \
+	 files/lang/en.ts \
+	 files/lang/pl.ts
+
+OTHER_FILES += files/styles/*.css
+
 FORMS += src/ui/MainWindow.ui \
     src/ui/CommSettings.ui \
     src/ui/SerialSettings.ui \
@@ -266,7 +206,7 @@ FORMS += src/ui/MainWindow.ui \
 #    src/ui/aq_LogExporter.ui \
     src/ui/aq_telemetryView.ui \
     src/ui/aq_pwmPortsConfig.ui \
-    src/ui/aq_LogViewer.ui
+	 src/ui/aq_LogViewer.ui
 
 INCLUDEPATH += src \
     src/ui \
@@ -421,9 +361,9 @@ HEADERS += src/MG.h \
     src/ui/PrimaryFlightDisplay.h \
     src/ui/aq_LogViewer.h \
 	 src/ui/QGCDataViewWidget.h \
-	 src/ui/map3D/QGCGoogleEarthView.h
-
-OTHER_FILES += files/styles/*.css
+	 src/ui/map3D/QGCGoogleEarthView.h \
+	 src/uas/autoquadMAV.h \
+    src/ui/linechart/ChartPlot.h
 
 contains(DEPENDENCIES_PRESENT, osg) { 
     message("Including headers for OpenSceneGraph")
@@ -593,10 +533,11 @@ SOURCES += src/main.cc \
     src/ui/aq_pwmPortsConfig.cc \
     src/ui/PrimaryFlightDisplay.cpp \
     src/ui/aq_LogViewer.cc \
-    src/ui/QGCDataViewWidget.cc
+	 src/ui/QGCDataViewWidget.cc \
+    src/ui/linechart/ChartPlot.cc
 
 # Enable Google Earth only on Mac OS and Windows with Visual Studio compiler
-macx|macx-g++|macx-g++42|win32-msvc2008|win32-msvc2010::SOURCES += src/ui/map3D/QGCGoogleEarthView.cc
+macx|macx-g++|macx-g++42|win32*::SOURCES += src/ui/map3D/QGCGoogleEarthView.cc
 
 # Enable OSG only if it has been found
 contains(DEPENDENCIES_PRESENT, osg) { 
@@ -708,18 +649,18 @@ linux-g++|linux-g++-64{
 
 # Support for Windows systems
 # You have to install the official 3DxWare driver for Windows to use the 3D mouse support on Windows systems!
-win32-msvc2008|win32-msvc2010 {
-    message("Including support for 3DxWare for Windows system.")
-    SOURCES  += libs/thirdParty/3DMouse/win/MouseParameters.cpp \
-                libs/thirdParty/3DMouse/win/Mouse3DInput.cpp \
-                src/input/Mouse6dofInput.cpp
-    HEADERS  += libs/thirdParty/3DMouse/win/I3dMouseParams.h \
-                libs/thirdParty/3DMouse/win/MouseParameters.h \
-                libs/thirdParty/3DMouse/win/Mouse3DInput.h \
-                src/input/Mouse6dofInput.h
-    INCLUDEPATH += libs/thirdParty/3DMouse/win
-    DEFINES += MOUSE_ENABLED_WIN
+#win32-msvc2008|win32-msvc2010 {
+#    message("Including support for 3DxWare for Windows system.")
+#    SOURCES  += libs/thirdParty/3DMouse/win/MouseParameters.cpp \
+#                libs/thirdParty/3DMouse/win/Mouse3DInput.cpp \
+#                src/input/Mouse6dofInput.cpp
+#    HEADERS  += libs/thirdParty/3DMouse/win/I3dMouseParams.h \
+#                libs/thirdParty/3DMouse/win/MouseParameters.h \
+#                libs/thirdParty/3DMouse/win/Mouse3DInput.h \
+#                src/input/Mouse6dofInput.h
+#    INCLUDEPATH += libs/thirdParty/3DMouse/win
+#    DEFINES += MOUSE_ENABLED_WIN
 
-}
+#}
 
 #!unix:!macx:!symbian: LIBS += -losg
