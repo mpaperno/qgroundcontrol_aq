@@ -77,7 +77,7 @@ public slots:
 
     void updateRSSI(float rssi);
     void updateGpsFix(UASInterface *uas, const int fix);
-    void updateGpsAcc(const int uasId, const QString &name, const QString &unit, const quint16 val, const quint64 msec);
+    void updateGpsAcc(const int uasId, const QString &name, const QString &unit, const QVariant val, const quint64 msec);
 
     void setVoltage(UASInterface* uas, double voltage);
     void setChargeLevel(UASInterface* uas, double chargeLevel);

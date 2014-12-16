@@ -114,7 +114,7 @@ void UASInfoWidget::addUAS(UASInterface* uas)
         connect(uas, SIGNAL(loadChanged(UASInterface*, double)), this, SLOT(updateCPULoad(UASInterface*,double)));
         connect(uas, SIGNAL(errCountChanged(int,QString,QString,int)), this, SLOT(updateErrorCount(int,QString,QString,int)));
         connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
-        connect(uas, SIGNAL(valueChanged(int,QString,QString,quint16,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,quint16,quint64)));
+        connect(uas, SIGNAL(valueChanged(int,QString,QString,QVariant,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,QVariant,quint64)));
         connect(uas, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsFix(UASInterface*,int)));
 
         // Set this UAS as active if it is the first one
@@ -188,16 +188,16 @@ void UASInfoWidget::updateGpsFix(UASInterface* uas, const int fix) {
         gpsFixType = fix;
 }
 
-void UASInfoWidget::updateGpsAcc(const int uasId, const QString &name, const QString &unit, const quint16 val, const quint64 msec)
+void UASInfoWidget::updateGpsAcc(const int uasId, const QString &name, const QString &unit, const QVariant val, const quint64 msec)
 {
     Q_UNUSED(unit);
     Q_UNUSED(msec);
     if (activeUAS->getUASID() != uasId)
         return;
     if (name.contains(QString("eph")))
-        gpsEph = (float)val/100.0f;
+        gpsEph = val.toFloat()/100.0f;
     else if (name.contains(QString("epv")))
-        gpsEpv = (float)val/100.0f;
+        gpsEpv = val.toFloat()/100.0f;
 
 }
 
