@@ -1,6 +1,9 @@
 #include "aq_LogViewer.h"
 #include "ui_aq_LogViewer.h"
 #include "MainWindow.h"
+#include "MG.h"
+
+#include <qwt_picker_machine.h>
 
 #include <QFileDialog>
 #include <QStandardItemModel>
@@ -13,7 +16,7 @@
 AQLogViewer::AQLogViewer(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AQLogViewer),
-    plot(new IncrementalPlot()),
+    plot(new IncrementalPlot(parent)),
     LastFilePath(""),
     model(NULL),
     picker(NULL),
@@ -23,6 +26,8 @@ AQLogViewer::AQLogViewer(QWidget *parent) :
     MarkerCut4(NULL)
 {
     ui->setupUi(this);
+
+    ui->pushButton_save_image_plot->hide();
 
     QHBoxLayout* layout = new QHBoxLayout(ui->plotFrame);
     layout->addWidget(plot);
@@ -43,7 +48,7 @@ AQLogViewer::AQLogViewer(QWidget *parent) :
     connect(ui->pushButton_cut, SIGNAL(clicked()),this,SLOT(startCutting()));
     connect(ui->pushButton_remove_marker, SIGNAL(clicked()),this,SLOT(removeMarker()));
     connect(ui->pushButton_clearCurves, SIGNAL(clicked()),this,SLOT(deselectAllCurves()));
-    connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
+//    connect(ui->pushButton_save_image_plot, SIGNAL(clicked()),this,SLOT(save_plot_image()));
     connect(ui->pushButtonshow_cahnnels, SIGNAL(clicked()),this,SLOT(showChannels()));
     connect(ui->comboBox_marker, SIGNAL(currentIndexChanged(int)),this,SLOT(CuttingItemChanged(int)));
 
@@ -68,6 +73,8 @@ void AQLogViewer::loadSettings()
         LastFilePath = settings.value("LAST_LOG_FILE_PATH", "").toString();
     else
         LastFilePath = settings.value("AUTOQUAD_LAST_PATH", "").toString();
+    if (settings.contains("LOGVIEW_SPLITTER_SIZES"))
+        ui->splitter->restoreState(settings.value("LOGVIEW_SPLITTER_SIZES").toByteArray());
 
     settings.endGroup();
     settings.sync();
@@ -79,6 +86,7 @@ void AQLogViewer::writeSettings()
     settings.beginGroup("AUTOQUAD_SETTINGS");
 
     settings.setValue("LAST_LOG_FILE_PATH", LastFilePath);
+    settings.setValue("LOGVIEW_SPLITTER_SIZES", ui->splitter->saveState());
 
     settings.sync();
     settings.endGroup();
@@ -90,12 +98,16 @@ void AQLogViewer::SetupListView()
     QPalette p =  ui->listView_Curves->palette();
     DefaultColorMeasureChannels = p.color(QPalette::Window);
     model = new QStandardItemModel(this); //listView_curves
+    QPixmap pix(12, 16);
+    pix.fill(Qt::transparent);
+    QIcon icn(pix);
     for ( int i=0; i<parser.LogChannelsStruct.count(); i++ ) {
         QPair<QString, AQLogParser::loggerFieldsAndActive_t> val_pair = parser.LogChannelsStruct.at(i);
         QStandardItem *item = new QStandardItem(val_pair.second.fieldName);
         item->setCheckable(true);
         item->setCheckState(Qt::Unchecked);
         item->setData(false, Qt::UserRole);
+        item->setIcon(icn);
         model->appendRow(item);
     }
     ui->listView_Curves->setModel(model);
@@ -116,18 +128,6 @@ void AQLogViewer::OpenLogFile()
     // use native file dialog
     fileName = QFileDialog::getOpenFileName(this, tr("Select AQ Log File"), dir.absoluteFilePath(),
                                             tr("AQ Log File") + " (*.LOG);;" + tr("All File Types") + " (*.*)");
-
-    // use Qt file dialog (sometimes very slow! at least on Win)
-//    QFileDialog dialog;
-//    dialog.setDirectory(dir.absoluteDir());
-//    dialog.setFileMode(QFileDialog::AnyFile);
-//    dialog.setFilter(tr("AQ log file (*.LOG)"));
-//    dialog.setViewMode(QFileDialog::Detail);
-//    QStringList fileNames;
-//    if (dialog.exec())
-//    {
-//        fileNames = dialog.selectedFiles();
-//    }
 
 //    if (fileNames.size() > 0)
     if (fileName.length())
@@ -217,11 +217,16 @@ void AQLogViewer::deselectAllCurves(void) {
     }
 }
 
+void AQLogViewer::recolor()
+{
+    plot->styleChanged(MainWindow::instance()->getStyle());
+}
+
 void AQLogViewer::DecodeLogFile(QString fileName)
 {
     plot->removeData();
-    plot->clear();
-    plot->setStyleText("lines");
+    //plot->detachItems();
+    //plot->setStyleText("lines");
 
     disconnect(ui->listView_Curves, SIGNAL(clicked(QModelIndex)), this, SLOT(CurveItemClicked(QModelIndex)));
     ui->listView_Curves->reset();
@@ -233,13 +238,14 @@ void AQLogViewer::DecodeLogFile(QString fileName)
 
 void AQLogViewer::showChannels() {
 
-    plot->removeData();
-    plot->clear();
-    plot->ResetColor();
     if (!QFile::exists(LogFile)) {
         MainWindow::instance()->showCriticalMessage("Error", "Could not open log file!");
         return;
     }
+
+    plot->removeData();
+    //plot->detachItems();
+    plot->resetColor();
 
     parser.ShowCurves();
 
@@ -249,43 +255,47 @@ void AQLogViewer::showChannels() {
 
     plot->setStyleText("lines");
     plot->updateScale();
+    QPixmap pix(12, 16);
     for ( int i = 0; i < model->rowCount(); i++) {
         QStandardItem *item = model->item(i,0);
-        if ( item->data(Qt::UserRole).toBool() )
-            //item->setForeground(plot->getColorForCurve(item->text()));
-            item->setBackground(plot->getColorForCurve(item->text()));
-        else
-            item->setBackground(Qt::NoBrush);
+        if ( item->data(Qt::UserRole).toBool() ) {
+            pix.fill(plot->getColorForCurve(item->text()));
+            //item->setBackground(plot->getColorForCurve(item->text()));
+        } else {
+            pix.fill(Qt::transparent);
+            //item->setBackground(Qt::NoBrush);
+        }
+        item->setIcon(QIcon::QIcon(pix));
     }
 
 }
 
 
 void AQLogViewer::save_plot_image(){
-    QString fileName = "plot.svg";
-    fileName = QFileDialog::getSaveFileName(this, "Export File Name", \
-                                            QDesktopServices::storageLocation(QDesktopServices::DesktopLocation), \
-                                            "SVG Images (*.svg)"); // ;;PDF Documents (*.pdf)
+//    QString fileName = "plot.svg";
+//    fileName = QFileDialog::getSaveFileName(this, "Export File Name", \
+//                                            DEFAULT_STORAGE_PATH, \
+//                                            "SVG Images (*.svg)"); // ;;PDF Documents (*.pdf)
 
-    if (!fileName.contains(".")) {
-        // .svg is default extension
-        fileName.append(".svg");
-    }
+//    if (!fileName.contains(".")) {
+//        // .svg is default extension
+//        fileName.append(".svg");
+//    }
 
-    while(!(fileName.endsWith(".svg") || fileName.endsWith(".pdf"))) {
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setText("Unsuitable file extension for PDF or SVG");
-        msgBox.setInformativeText("Please choose .pdf or .svg as file extension. Click OK to change the file extension, cancel to not save the file.");
-        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        // Abort if cancelled
-        if(msgBox.exec() == QMessageBox::Cancel) return;
-        save_plot_image();
-    }
+//    while(!(fileName.endsWith(".svg") || fileName.endsWith(".pdf"))) {
+//        QMessageBox msgBox;
+//        msgBox.setIcon(QMessageBox::Critical);
+//        msgBox.setText("Unsuitable file extension for PDF or SVG");
+//        msgBox.setInformativeText("Please choose .pdf or .svg as file extension. Click OK to change the file extension, cancel to not save the file.");
+//        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+//        msgBox.setDefaultButton(QMessageBox::Ok);
+//        // Abort if cancelled
+//        if(msgBox.exec() == QMessageBox::Cancel) return;
+//        save_plot_image();
+//    }
 
-    if (fileName.endsWith(".svg"))
-        exportSVG(fileName);
+//    if (fileName.endsWith(".svg"))
+//        exportSVG(fileName);
 //    else if (fileName.endsWith(".pdf"))
 //        exportPDF(fileName);
 }
@@ -333,22 +343,43 @@ void AQLogViewer::exportPDF(QString fileName)
 
 void AQLogViewer::exportSVG(QString fileName)
 {
-    if ( !fileName.isEmpty() ) {
-        plot->setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; background-clip: border; font-size: 10pt;}");
-        //plot->setCanvasBackground(Qt::white);
-        QSvgGenerator generator;
-        generator.setFileName(fileName);
-        generator.setSize(QSize(800, 600));
+//    if ( !fileName.isEmpty() ) {
+//        plot->setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; background-clip: border; font-size: 10pt;}");
+//        //plot->setCanvasBackground(Qt::white);
+//        QSvgGenerator generator;
+//        generator.setFileName(fileName);
+//        generator.setSize(QSize(800, 600));
 
-        QwtPlotPrintFilter filter;
-        filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
-        filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
-        filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
-        filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
+//        QwtPlotPrintFilter filter;
+//        filter.color(Qt::white, QwtPlotPrintFilter::CanvasBackground);
+//        filter.color(Qt::black, QwtPlotPrintFilter::AxisScale);
+//        filter.color(Qt::black, QwtPlotPrintFilter::AxisTitle);
+//        filter.color(Qt::black, QwtPlotPrintFilter::MajorGrid);
+//        filter.color(Qt::black, QwtPlotPrintFilter::MinorGrid);
 
-        plot->print(generator, filter);
-        plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
+//        plot->print(generator, filter);
+//        plot->setStyleSheet("QWidget { background-color: #050508; color: #DDDDDF; background-clip: border; font-size: 11pt;}");
+//    }
+}
+
+void AQLogViewer::newPicker()
+{
+    if (picker)
+        removePicker();
+
+    picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,
+                 QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOff, plot->canvas());
+    picker->setStateMachine(new QwtPickerClickPointMachine);
+    //picker->setTrackerPen(QColor(Qt::red));
+    connect(picker, SIGNAL (selected(const QPointF &)),  this, SLOT (setPoint1(const QPointF &)) );
+}
+
+void AQLogViewer::removePicker() {
+    if (picker) {
+        disconnect(picker, 0,  this, 0);
+        picker->setEnabled(false);
+        picker->deleteLater();
+        picker = NULL;
     }
 }
 
@@ -384,11 +415,7 @@ void AQLogViewer::startSetMarker() {
             }
             ui->pushButton_cut->setEnabled(false);
             QMessageBox::information(this, "Information", "Please select the start point of the frame!",QMessageBox::Ok, 0 );
-            picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,QwtPicker::PointSelection,
-                         QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOff,
-                         plot->canvas());
-            picker->setRubberBand(QwtPicker::CrossRubberBand);
-            connect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
+            newPicker();
             StepCuttingPlot = 0;
         }
         else {
@@ -496,20 +523,17 @@ void AQLogViewer::startSetMarker() {
         }
     }
     else {
-        if ( picker){
-            disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-            picker->setEnabled(false);
-            picker = NULL;
-        }
+        removePicker();
     }
 
 }
 
-void AQLogViewer::setPoint1(const QwtDoublePoint &pos) {
+void AQLogViewer::setPoint1(const QPointF &pos) {
 
     if ( StepCuttingPlot == 0) {
         ui->pushButton_cut->setEnabled(false);
 
+        picker->setEnabled(false);
         MarkerCut1 = new QwtPlotMarker();
         MarkerCut1->setLabel(QString::fromLatin1("sp1"));
         MarkerCut1->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
@@ -521,8 +545,10 @@ void AQLogViewer::setPoint1(const QwtDoublePoint &pos) {
         StepCuttingPlot = 1;
         plot->replot();
         QMessageBox::information(this, "Information", "Please select the end point of the frame!",QMessageBox::Ok, 0 );
+        picker->setEnabled(true);
     }
     else if ( StepCuttingPlot == 1 ) {
+        picker->setEnabled(false);
         MarkerCut2 = new QwtPlotMarker();
         MarkerCut2->setLabel(QString::fromLatin1("ep1"));
         MarkerCut2->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
@@ -546,6 +572,7 @@ void AQLogViewer::setPoint1(const QwtDoublePoint &pos) {
             {
                 StepCuttingPlot = 3;
                 QMessageBox::information(this, "Information", "Please select the start point of the frame!",QMessageBox::Ok, 0 );
+                picker->setEnabled(true);
             }
             break;
             case QMessageBox::No:
@@ -560,9 +587,7 @@ void AQLogViewer::setPoint1(const QwtDoublePoint &pos) {
                     MarkerCut4->detach();
                     MarkerCut4 = NULL;
                 }
-                disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-                picker->setEnabled(false);
-                picker = NULL;
+                removePicker();
             }
             break;
 
@@ -572,6 +597,7 @@ void AQLogViewer::setPoint1(const QwtDoublePoint &pos) {
 
     }
     else if ( StepCuttingPlot == 3 ) {
+        picker->setEnabled(false);
         MarkerCut3 = new QwtPlotMarker();
         MarkerCut3->setLabel(QString::fromLatin1("sp2"));
         MarkerCut3->setLabelAlignment(Qt::AlignLeft|Qt::AlignTop);
@@ -583,8 +609,10 @@ void AQLogViewer::setPoint1(const QwtDoublePoint &pos) {
         StepCuttingPlot = 4;
         plot->replot();
         QMessageBox::information(this, "Information", "Please select the end point of the frame!",QMessageBox::Ok, 0 );
+        picker->setEnabled(true);
     }
     else if ( StepCuttingPlot == 4 ) {
+        removePicker();
         MarkerCut4 = new QwtPlotMarker();
         MarkerCut4->setLabel(QString::fromLatin1("ep2"));
         MarkerCut4->setLabelAlignment(Qt::AlignRight|Qt::AlignTop);
@@ -596,11 +624,6 @@ void AQLogViewer::setPoint1(const QwtDoublePoint &pos) {
         StepCuttingPlot = 5;
         plot->replot();
         ui->pushButton_cut->setEnabled(true);
-
-        disconnect(picker, SIGNAL (selected(const QwtDoublePoint &)),  this, SLOT (setPoint1(const QwtDoublePoint &)) );
-        picker->setEnabled(false);
-        picker = NULL;
-
     }
 }
 
@@ -644,7 +667,7 @@ void AQLogViewer::startCutting() {
             }
             removeMarker();
             plot->removeData();
-            plot->clear();
+            plot->detachItems();
             plot->updateScale();
             DecodeLogFile(LogFile);
             ui->pushButton_cut->setEnabled(false);

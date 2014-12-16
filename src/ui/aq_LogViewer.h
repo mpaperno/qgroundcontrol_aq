@@ -4,6 +4,7 @@
 #include "aq_comm.h"
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
+#include "qwt_plot_picker.h"
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QSettings>
@@ -32,11 +33,14 @@ private slots:
     void DecodeLogFile(QString fileName);
     void CurveItemClicked(QModelIndex index);
     void deselectAllCurves(void);
+    void recolor();
     void openExportOptionsDlg();
     void save_plot_image();
     void showChannels();
+    void newPicker();
+    void removePicker();
     void startSetMarker();
-    void setPoint1(const QwtDoublePoint &pos);
+    void setPoint1(const QPointF &pos);
     void startCutting();
     void removeMarker();
     void CuttingItemChanged(int itemIndex);
