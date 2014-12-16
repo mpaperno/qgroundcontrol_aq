@@ -54,8 +54,6 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     PwmPortsLineEditDelegate *lineEditDelegate = new PwmPortsLineEditDelegate(ui->table_motMix);
 
     // set up mixing table view
-    ui->table_motMix->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
-    ui->table_motMix->horizontalHeader()->setResizeMode(COL_MOTOR, QHeaderView::Fixed);
     ui->table_motMix->horizontalHeader()->resizeSection(COL_MOTOR, 30);
     //ui->table_motMix->horizontalHeader()->setResizeMode(COL_PORT, QHeaderView::Fixed);
     ui->table_motMix->horizontalHeader()->resizeSection(COL_PORT, 45);
@@ -69,9 +67,17 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     ui->table_motMix->setItemDelegateForColumn(COL_QPITCH, lineEditDelegate);
     ui->table_motMix->setItemDelegateForColumn(COL_QROLL, lineEditDelegate);
     ui->table_motMix->setItemDelegateForColumn(COL_QYAW, lineEditDelegate);
-    ui->table_motMix->horizontalHeader()->setResizeMode(COL_TYPE, QHeaderView::Fixed);
     ui->table_motMix->horizontalHeader()->resizeSection(COL_TYPE, 55);
     ui->table_motMix->setItemDelegateForColumn(COL_TYPE, comboDelegate);
+#if QT_VERSION >= 0x050000
+    ui->table_motMix->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+    ui->table_motMix->horizontalHeader()->setSectionResizeMode(COL_MOTOR, QHeaderView::Fixed);
+    ui->table_motMix->horizontalHeader()->setSectionResizeMode(COL_TYPE, QHeaderView::Fixed);
+#else
+    ui->table_motMix->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
+    ui->table_motMix->horizontalHeader()->setResizeMode(COL_MOTOR, QHeaderView::Fixed);
+    ui->table_motMix->horizontalHeader()->setResizeMode(COL_TYPE, QHeaderView::Fixed);
+#endif
 
     dataChangeType = Qt::EditRole;
 
@@ -1158,6 +1164,11 @@ void AQPWMPortsConfig::firmwareVersion_updated(void) {
     else if (aq->maxMotorPorts < ui->comboBox_numOfMotors->count())
         for (int i=ui->comboBox_numOfMotors->count(); i > aq->maxMotorPorts + 1; --i)
             ui->comboBox_numOfMotors->removeItem(i-1);
+
+    if (aq->aqHardwareVersion == 8)
+        ui->tabWidget_portsRef->setCurrentIndex(1);
+    else if (aq->aqHardwareVersion == 6)
+        ui->tabWidget_portsRef->setCurrentIndex(0);
 }
 
 

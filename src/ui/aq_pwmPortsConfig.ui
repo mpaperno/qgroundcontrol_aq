@@ -41,7 +41,7 @@
      <property name="handleWidth">
       <number>8</number>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <widget class="QGroupBox" name="groupBox_motorOutput">
@@ -168,7 +168,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Select a pre-configured setup as the starting point</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a pre-configured setup as the starting point&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Predefined</string>
@@ -190,7 +190,7 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>Select number of motors as the starting point</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select number of motors as the starting point&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Custom</string>
@@ -222,7 +222,7 @@
             <item>
              <widget class="QToolButton" name="toolButton_loadFile">
               <property name="toolTip">
-               <string>Load configuration from a .mix file</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load configuration from a .mix file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Load from File</string>
@@ -245,7 +245,7 @@
             <item>
              <widget class="QToolButton" name="toolButton_loadImage">
               <property name="toolTip">
-               <string>Load an image to overlay on the frame diagram. Images should be scaleable to 200x200px. A transparent PNG24 or SVG is ideal.</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load an image to overlay on the frame diagram. Images should be scaleable to 200x200px. A transparent PNG24 or SVG is ideal.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Load from File</string>
@@ -268,7 +268,7 @@
             <item>
              <widget class="QToolButton" name="toolButton_saveFile">
               <property name="toolTip">
-               <string>Save current configuration to a .mix file</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save current configuration to a .mix file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Save to File</string>
@@ -305,6 +305,9 @@
           </item>
           <item row="1" column="1" rowspan="2" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="spacing">
+             <number>10</number>
+            </property>
             <item>
              <spacer name="horizontalSpacer_11">
               <property name="orientation">
@@ -422,7 +425,7 @@
                <string notr="true">background-color: red; font-size: 10px;</string>
               </property>
               <property name="text">
-               <string>   </string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -470,7 +473,7 @@
                <string notr="true">background-color: orange;  font-size: 10px;</string>
               </property>
               <property name="text">
-               <string>   </string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -1411,7 +1414,7 @@
       <widget class="QWidget" name="scrollAreaWidgetContents">
        <property name="geometry">
         <rect>
-         <x>-6</x>
+         <x>0</x>
          <y>0</y>
          <width>285</width>
          <height>601</height>
@@ -1654,7 +1657,7 @@
            </size>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p style=&quot;font-size: 10px;&quot;&gt;Colors denote common hardware timers. You can't share timers between motors and other PWM output.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10px;&quot;&gt;Colors denote common hardware timers. You can't share timers between motors and other PWM output, unless you set the PWM output frequency to 400Hz.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1683,10 +1686,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>scrollArea</zorder>
-  <zorder>groupBox_motorOutput</zorder>
-  <zorder>groupBox_gimbal</zorder>
-  <zorder>groupBox_signaling</zorder>
  </widget>
  <resources>
   <include location="../../qgroundcontrol.qrc"/>
