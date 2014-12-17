@@ -19,11 +19,7 @@
 
 #include <qthread.h>
 #include <qfuture.h>
-#if QT_VERSION >= 0x050000
-    #include <qtconcurrent/qtconcurrentrun.h>
-#else
-    #include <qtconcurrentrun.h>
-#endif
+#include <qtconcurrentrun.h>
 
 #if !defined(QT_NO_QFUTURE)
 #define QWT_USE_THREADS 0

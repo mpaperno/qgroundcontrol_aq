@@ -16,13 +16,9 @@
 #include <qpaintengine.h>
 #include <qmath.h>
 #if QT_VERSION >= 0x040400
-    #include <qthread.h>
-    #include <qfuture.h>
-    #if QT_VERSION >= 0x050000
-        #include <qtconcurrent/qtconcurrentrun.h>
-    #else
-        #include <qtconcurrentrun.h>
-    #endif
+#include <qthread.h>
+#include <qfuture.h>
+#include <qtconcurrentrun.h>
 #endif
 #include <float.h>
 
