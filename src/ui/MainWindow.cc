@@ -1305,6 +1305,7 @@ void MainWindow::connectCommonActions()
 
     // Help Actions
     connect(ui.actionAutoQuad_Documentation, SIGNAL(triggered()), this, SLOT(showAQHelp()));
+    connect(ui.actionQGC_AQ_Release_Notes, SIGNAL(triggered()), this, SLOT(showAQReleaseNotes()));
     connect(ui.actionOnline_Documentation, SIGNAL(triggered()), this, SLOT(showHelp()));
     connect(ui.actionDeveloper_Credits, SIGNAL(triggered()), this, SLOT(showCredits()));
 //    connect(ui.actionProject_Roadmap_2, SIGNAL(triggered()), this, SLOT(showRoadMap()));
@@ -1332,42 +1333,37 @@ void MainWindow::connectCommonActions()
     connect(ui.actionSettings, SIGNAL(triggered()), this, SLOT(showSettings()));
 }
 
+void MainWindow::openUrlLink(const QString &url)
+{
+    if(!QDesktopServices::openUrl(QUrl(url)))
+    {
+        showInfoMessage(tr("Could not open help in browser"), tr("To get to the online help, please open %1 in a browser.").arg(url));
+    }
+}
+
 void MainWindow::showAQHelp()
 {
-    if(!QDesktopServices::openUrl(QUrl("http://autoquad.org/wiki/wiki/")))
-    {
-        showInfoMessage(tr("Could not open help in browser"), tr("To get to the online help, please open http://autoquad.org/wiki/wiki/ in a browser."));
-    }
+    openUrlLink("http://autoquad.org/wiki/wiki/");
+}
+
+void MainWindow::showAQReleaseNotes()
+{
+    openUrlLink("http://autoquad.org/wiki/wiki/whats-new/autoquad-software-changes/");
 }
 
 void MainWindow::showHelp()
 {
-    if(!QDesktopServices::openUrl(QUrl("http://qgroundcontrol.org/users/start")))
-    {
-        showInfoMessage(tr("Could not open help in browser"), tr("To get to the online help, please open http://qgroundcontrol.org/users/start in a browser."));
-    }
+    openUrlLink("http://qgroundcontrol.org/users/start");
 }
 
 void MainWindow::showCredits()
 {
-    if(!QDesktopServices::openUrl(QUrl("http://qgroundcontrol.org/credits")))
-    {
-        showInfoMessage(tr("Could not open credits in browser"), tr("To get to the online help, please open http://qgroundcontrol.org/credits in a browser."));
-    }
+    openUrlLink("http://qgroundcontrol.org/credits");
 }
 
 //void MainWindow::showRoadMap()
 //{
-//    if(!QDesktopServices::openUrl(QUrl("http://qgroundcontrol.org/dev/roadmap")))
-//    {
-//        QMessageBox msgBox;
-//        msgBox.setIcon(QMessageBox::Critical);
-//        msgBox.setText("Could not open roadmap in browser");
-//        msgBox.setInformativeText("To get to the online help, please open http://qgroundcontrol.org/roadmap in a browser.");
-//        msgBox.setStandardButtons(QMessageBox::Ok);
-//        msgBox.setDefaultButton(QMessageBox::Ok);
-//        msgBox.exec();
-//    }
+//    openUrlLink("http://qgroundcontrol.org/dev/roadmap");
 //}
 
 //void MainWindow::configure()

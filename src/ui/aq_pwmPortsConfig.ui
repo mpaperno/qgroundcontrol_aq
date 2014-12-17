@@ -143,6 +143,9 @@
           </item>
           <item row="0" column="0" colspan="3">
            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="spacing">
+             <number>8</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_mixType">
               <property name="sizePolicy">
@@ -306,7 +309,7 @@
           <item row="1" column="1" rowspan="2" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <property name="spacing">
-             <number>10</number>
+             <number>8</number>
             </property>
             <item>
              <spacer name="horizontalSpacer_11">
@@ -393,6 +396,9 @@
           </item>
           <item row="4" column="0" colspan="3">
            <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1,1,1,1,1">
+            <property name="spacing">
+             <number>8</number>
+            </property>
             <item>
              <widget class="QLabel" name="label_quatosWarning">
               <property name="text">

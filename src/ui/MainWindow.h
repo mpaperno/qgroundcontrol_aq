@@ -217,13 +217,15 @@ public slots:
     void loadDataView();
 
 
+    void openUrlLink(const QString &url);
+    void showAQHelp();
+    void showAQReleaseNotes();
     /** @brief Show the online help for users */
     void showHelp();
     /** @brief Show the authors / credits */
     void showCredits();
     /** @brief Show the project roadmap */
 //    void showRoadMap();
-    void showAQHelp();
 
     /** @brief loads a language by the given language shortcur (e.g. de, en, ...) */
     void loadLanguage(const QString& lang);

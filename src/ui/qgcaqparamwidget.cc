@@ -63,7 +63,7 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     // Create tree widget
     tree = new QTreeWidget(this);
     tree->setColumnCount(2);
-    tree->setIndentation(5);
+    tree->setIndentation(7);
 #if QT_VERSION >= 0x050000
     tree->header()->setSectionResizeMode(0, QHeaderView::Interactive);
     tree->header()->setSectionResizeMode(1, QHeaderView::Stretch);

@@ -119,6 +119,7 @@
      <string>Help</string>
     </property>
     <addaction name="actionAutoQuad_Documentation"/>
+    <addaction name="actionQGC_AQ_Release_Notes"/>
     <addaction name="actionOnline_Documentation"/>
     <addaction name="actionDeveloper_Credits"/>
    </widget>
@@ -264,7 +265,7 @@
   <action name="actionOnline_Documentation">
    <property name="icon">
     <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/apps/utilities-system-monitor.svg</normaloff>:/files/images/apps/utilities-system-monitor.svg</iconset>
+     <normaloff>:/files/images/icons/v2/t64.png</normaloff>:/files/images/icons/v2/t64.png</iconset>
    </property>
    <property name="text">
     <string>QGC Online Documentation</string>
@@ -285,7 +286,7 @@
   <action name="actionDeveloper_Credits">
    <property name="icon">
     <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/categories/preferences-system.svg</normaloff>:/files/images/categories/preferences-system.svg</iconset>
+     <normaloff>:/files/images/icons/v2/t64.png</normaloff>:/files/images/icons/v2/t64.png</iconset>
    </property>
    <property name="text">
     <string>QGC Developer Credits</string>
@@ -463,6 +464,18 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;AutoQuad Documentation Wiki at autoquad.org&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionQGC_AQ_Release_Notes">
+   <property name="icon">
+    <iconset resource="../../qgroundcontrol.qrc">
+     <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
+   </property>
+   <property name="text">
+    <string>QGC-AQ Release Notes</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Software release notes at the AutoQuad site.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>

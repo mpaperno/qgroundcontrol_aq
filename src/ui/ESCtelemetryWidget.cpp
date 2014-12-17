@@ -904,6 +904,7 @@ QCheckBox* ESCtelemetryWidget::makeAlertCheckbox(AlertLevels *data, const unsign
     QSizePolicy sizePolicy_ff(QSizePolicy::Fixed, QSizePolicy::Fixed);
     QCheckBox *chk = new QCheckBox("", m_optionsDialog);
     chk->setSizePolicy(sizePolicy_ff);
+    chk->setStyleSheet("padding-right: 0px;");
     chk->setChecked(data->enableFlags & (1<<typ));
     chk->setProperty("bit", typ);
     chk->setProperty("ptr", QVariant::fromValue<AlertLevels *>(data));

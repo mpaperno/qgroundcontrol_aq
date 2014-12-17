@@ -121,6 +121,7 @@
         <file>files/images/actions/view-refresh.svg</file>
         <file>files/images/contrib/aq6_ports_reference.png</file>
         <file>files/images/contrib/m4_ports_reference.png</file>
+        <file>files/images/icons/v2/t64.png</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>

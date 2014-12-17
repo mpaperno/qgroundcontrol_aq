@@ -57,6 +57,7 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     warnLevelPercent(20.0f),
     currentVoltage(12.6f),
     lpVoltage(12.0f),
+    currentCurrent(0.0f),
     batteryRemainingEstimateEnabled(true),
     mode(-1),
     status(-1),
@@ -538,16 +539,16 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             if (!batteryRemainingEstimateEnabled && chargeLevel != -1)
                 chargeLevel = state.battery_remaining;
 
+            // And if the battery current draw is measured, log that also.
+            if (state.current_battery != -1) {
+                currentCurrent = ((double)state.current_battery)/100.0f;
+                emit valueChanged(uasId, name.arg("battery_current"), "A", ((double)state.current_battery) / 100.0f, time);
+            }
+
             emit batteryChanged(this, lpVoltage, getChargeLevel(), timeRemaining);
             emit valueChanged(uasId, name.arg("battery_remaining"), "%", getChargeLevel(), time);
             emit voltageChanged(message.sysid, currentVoltage);
             emit valueChanged(uasId, name.arg("battery_voltage"), "V", currentVoltage, time);
-
-            // And if the battery current draw is measured, log that also.
-            if (state.current_battery != -1)
-            {
-                emit valueChanged(uasId, name.arg("battery_current"), "A", ((double)state.current_battery) / 100.0f, time);
-            }
 
             // LOW BATTERY ALARM
 

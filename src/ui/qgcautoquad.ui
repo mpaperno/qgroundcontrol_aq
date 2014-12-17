@@ -3919,6 +3919,9 @@ padding: 1px 3px;</string>
            <property name="topMargin">
             <number>16</number>
            </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
            <property name="horizontalSpacing">
             <number>15</number>
            </property>
@@ -5519,6 +5522,9 @@ padding: 1px 3px;</string>
            </item>
            <item row="9" column="0" colspan="2">
             <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <property name="spacing">
+              <number>8</number>
+             </property>
              <property name="topMargin">
               <number>0</number>
              </property>
