@@ -155,65 +155,6 @@ public:
         return nedAttGlobalOffset;
     }
 
-#if defined(QGC_PROTOBUF_ENABLED) && defined(QGC_USE_PIXHAWK_MESSAGES)
-    px::GLOverlay getOverlay()
-    {
-        QMutexLocker locker(&overlayMutex);
-        return overlay;
-    }
-
-    px::GLOverlay getOverlay(qreal& receivedTimestamp)
-    {
-        receivedTimestamp = receivedOverlayTimestamp;
-        QMutexLocker locker(&overlayMutex);
-        return overlay;
-    }
-
-    px::ObstacleList getObstacleList() {
-        QMutexLocker locker(&obstacleListMutex);
-        return obstacleList;
-    }
-
-    px::ObstacleList getObstacleList(qreal& receivedTimestamp) {
-        receivedTimestamp = receivedObstacleListTimestamp;
-        QMutexLocker locker(&obstacleListMutex);
-        return obstacleList;
-    }
-
-    px::Path getPath() {
-        QMutexLocker locker(&pathMutex);
-        return path;
-    }
-
-    px::Path getPath(qreal& receivedTimestamp) {
-        receivedTimestamp = receivedPathTimestamp;
-        QMutexLocker locker(&pathMutex);
-        return path;
-    }
-
-    px::PointCloudXYZRGB getPointCloud() {
-        QMutexLocker locker(&pointCloudMutex);
-        return pointCloud;
-    }
-
-    px::PointCloudXYZRGB getPointCloud(qreal& receivedTimestamp) {
-        receivedTimestamp = receivedPointCloudTimestamp;
-        QMutexLocker locker(&pointCloudMutex);
-        return pointCloud;
-    }
-
-    px::RGBDImage getRGBDImage() {
-        QMutexLocker locker(&rgbdImageMutex);
-        return rgbdImage;
-    }
-
-    px::RGBDImage getRGBDImage(qreal& receivedTimestamp) {
-        receivedTimestamp = receivedRGBDImageTimestamp;
-        QMutexLocker locker(&rgbdImageMutex);
-        return rgbdImage;
-    }
-#endif
-
     friend class UASWaypointManager;
 
 protected: //COMMENTS FOR TEST UNIT
@@ -300,28 +241,6 @@ protected: //COMMENTS FOR TEST UNIT
     QByteArray imageRecBuffer;  ///< Buffer for the incoming bytestream
     QImage image;               ///< Image data of last completely transmitted image
     quint64 imageStart;
-
-#if defined(QGC_PROTOBUF_ENABLED) && defined(QGC_USE_PIXHAWK_MESSAGES)
-    px::GLOverlay overlay;
-    QMutex overlayMutex;
-    qreal receivedOverlayTimestamp;
-
-    px::ObstacleList obstacleList;
-    QMutex obstacleListMutex;
-    qreal receivedObstacleListTimestamp;
-
-    px::Path path;
-    QMutex pathMutex;
-    qreal receivedPathTimestamp;
-
-    px::PointCloudXYZRGB pointCloud;
-    QMutex pointCloudMutex;
-    qreal receivedPointCloudTimestamp;
-
-    px::RGBDImage rgbdImage;
-    QMutex rgbdImageMutex;
-    qreal receivedRGBDImageTimestamp;
-#endif
 
     QMap<int, QMap<QString, QVariant>* > parameters; ///< All parameters
     bool paramsOnceRequested;       ///< If the parameter list has been read at least once
@@ -588,11 +507,6 @@ public slots:
 
     /** @brief Receive a message from one of the communication links. */
     virtual void receiveMessage(LinkInterface* link, mavlink_message_t message);
-
-#ifdef QGC_PROTOBUF_ENABLED
-    /** @brief Receive a message from one of the communication links. */
-    virtual void receiveExtendedMessage(LinkInterface* link, std::tr1::shared_ptr<google::protobuf::Message> message);
-#endif
 
     /** @brief Send a message over this link (to this or to all UAS on this link) */
     void sendMessage(LinkInterface* link, mavlink_message_t message);

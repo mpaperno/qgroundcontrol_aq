@@ -29,10 +29,6 @@
 
 #include "autoquadMAV.h"
 
-#ifdef QGC_PROTOBUF_ENABLED
-#include <google/protobuf/descriptor.h>
-#endif
-
 /**
 * Gets the settings from the previous UAS (name, airframe, autopilot, battery specs)
 * by calling readSettings. This means the new UAS will have the same settings
@@ -88,13 +84,6 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     pitch(0.0),
     yaw(0.0),
     statusTimeout(new QTimer(this)),
-    #if defined(QGC_PROTOBUF_ENABLED) && defined(QGC_USE_PIXHAWK_MESSAGES)
-    receivedOverlayTimestamp(0.0),
-    receivedObstacleListTimestamp(0.0),
-    receivedPathTimestamp(0.0),
-    receivedPointCloudTimestamp(0.0),
-    receivedRGBDImageTimestamp(0.0),
-    #endif
     paramsOnceRequested(false),
     airframe(QGC_AIRFRAME_AUTOQUAD),
     attitudeKnown(false),
@@ -1181,108 +1170,6 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
 
 #endif
-            //        case MAVLINK_MSG_ID_OBJECT_DETECTION_EVENT:
-            //        {
-            //            mavlink_object_detection_event_t event;
-            //            mavlink_msg_object_detection_event_decode(&message, &event);
-            //            QString str(event.name);
-            //            emit objectDetected(event.time, event.object_id, event.type, str, event.quality, event.bearing, event.distance);
-            //        }
-            //        break;
-            // WILL BE ENABLED ONCE MESSAGE IS IN COMMON MESSAGE SET
-            //        case MAVLINK_MSG_ID_MEMORY_VECT:
-            //        {
-            //            mavlink_memory_vect_t vect;
-            //            mavlink_msg_memory_vect_decode(&message, &vect);
-            //            QString str("mem_%1");
-            //            quint64 time = getUnixTime(0);
-            //            int16_t *mem0 = (int16_t *)&vect.value[0];
-            //            uint16_t *mem1 = (uint16_t *)&vect.value[0];
-            //            int32_t *mem2 = (int32_t *)&vect.value[0];
-            //            // uint32_t *mem3 = (uint32_t *)&vect.value[0]; causes overload problem
-            //            float *mem4 = (float *)&vect.value[0];
-            //            if ( vect.ver == 0) vect.type = 0, vect.ver = 1; else ;
-            //            if ( vect.ver == 1)
-            //            {
-            //                switch (vect.type) {
-            //                default:
-            //                case 0:
-            //                    for (int i = 0; i < 16; i++)
-            //                        // FIXME REMOVE LATER emit valueChanged(uasId, str.arg(vect.address+(i*2)), "i16", mem0[i], time);
-            //                    break;
-            //                case 1:
-            //                    for (int i = 0; i < 16; i++)
-            //                        // FIXME REMOVE LATER emit valueChanged(uasId, str.arg(vect.address+(i*2)), "ui16", mem1[i], time);
-            //                    break;
-            //                case 2:
-            //                    for (int i = 0; i < 16; i++)
-            //                        // FIXME REMOVE LATER emit valueChanged(uasId, str.arg(vect.address+(i*2)), "Q15", (float)mem0[i]/32767.0, time);
-            //                    break;
-            //                case 3:
-            //                    for (int i = 0; i < 16; i++)
-            //                        // FIXME REMOVE LATER emit valueChanged(uasId, str.arg(vect.address+(i*2)), "1Q14", (float)mem0[i]/16383.0, time);
-            //                    break;
-            //                case 4:
-            //                    for (int i = 0; i < 8; i++)
-            //                        // FIXME REMOVE LATER emit valueChanged(uasId, str.arg(vect.address+(i*4)), "i32", mem2[i], time);
-            //                    break;
-            //                case 5:
-            //                    for (int i = 0; i < 8; i++)
-            //                        // FIXME REMOVE LATER emit valueChanged(uasId, str.arg(vect.address+(i*4)), "i32", mem2[i], time);
-            //                    break;
-            //                case 6:
-            //                    for (int i = 0; i < 8; i++)
-            //                        // FIXME REMOVE LATER emit valueChanged(uasId, str.arg(vect.address+(i*4)), "float", mem4[i], time);
-            //                    break;
-            //                }
-            //            }
-            //        }
-            //        break;
-#ifdef MAVLINK_ENABLED_UALBERTA
-        case MAVLINK_MSG_ID_NAV_FILTER_BIAS:
-        {
-            mavlink_nav_filter_bias_t bias;
-            mavlink_msg_nav_filter_bias_decode(&message, &bias);
-            quint64 time = getUnixTime();
-            // FIXME REMOVE LATER emit valueChanged(uasId, "b_f[0]", "raw", bias.accel_0, time);
-            // FIXME REMOVE LATER emit valueChanged(uasId, "b_f[1]", "raw", bias.accel_1, time);
-            // FIXME REMOVE LATER emit valueChanged(uasId, "b_f[2]", "raw", bias.accel_2, time);
-            // FIXME REMOVE LATER emit valueChanged(uasId, "b_w[0]", "raw", bias.gyro_0, time);
-            // FIXME REMOVE LATER emit valueChanged(uasId, "b_w[1]", "raw", bias.gyro_1, time);
-            // FIXME REMOVE LATER emit valueChanged(uasId, "b_w[2]", "raw", bias.gyro_2, time);
-        }
-            break;
-        case MAVLINK_MSG_ID_RADIO_CALIBRATION:
-        {
-            mavlink_radio_calibration_t radioMsg;
-            mavlink_msg_radio_calibration_decode(&message, &radioMsg);
-            QVector<uint16_t> aileron;
-            QVector<uint16_t> elevator;
-            QVector<uint16_t> rudder;
-            QVector<uint16_t> gyro;
-            QVector<uint16_t> pitch;
-            QVector<uint16_t> throttle;
-
-            for (int i=0; i<MAVLINK_MSG_RADIO_CALIBRATION_FIELD_AILERON_LEN; ++i)
-                aileron << radioMsg.aileron[i];
-            for (int i=0; i<MAVLINK_MSG_RADIO_CALIBRATION_FIELD_ELEVATOR_LEN; ++i)
-                elevator << radioMsg.elevator[i];
-            for (int i=0; i<MAVLINK_MSG_RADIO_CALIBRATION_FIELD_RUDDER_LEN; ++i)
-                rudder << radioMsg.rudder[i];
-            for (int i=0; i<MAVLINK_MSG_RADIO_CALIBRATION_FIELD_GYRO_LEN; ++i)
-                gyro << radioMsg.gyro[i];
-            for (int i=0; i<MAVLINK_MSG_RADIO_CALIBRATION_FIELD_PITCH_LEN; ++i)
-                pitch << radioMsg.pitch[i];
-            for (int i=0; i<MAVLINK_MSG_RADIO_CALIBRATION_FIELD_THROTTLE_LEN; ++i)
-                throttle << radioMsg.throttle[i];
-
-            QPointer<RadioCalibrationData> radioData = new RadioCalibrationData(aileron, elevator, rudder, gyro, pitch, throttle);
-            emit radioCalibrationReceived(radioData);
-            delete radioData;
-        }
-            break;
-
-#endif
             // Messages to ignore
         case MAVLINK_MSG_ID_RAW_IMU:
         case MAVLINK_MSG_ID_SCALED_IMU:
@@ -1313,105 +1200,6 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
         }
     }
 }
-
-
-#if defined(QGC_PROTOBUF_ENABLED)
-/**
-* Receive an extended message.
-* @param link
-* @param message
-*/
-void UAS::receiveExtendedMessage(LinkInterface* link, std::tr1::shared_ptr<google::protobuf::Message> message)
-{
-    if (!link)
-    {
-        return;
-    }
-    if (!links->contains(link))
-    {
-        addLink(link);
-    }
-
-    const google::protobuf::Descriptor* descriptor = message->GetDescriptor();
-    if (!descriptor)
-    {
-        return;
-    }
-
-    const google::protobuf::FieldDescriptor* headerField = descriptor->FindFieldByName("header");
-    if (!headerField)
-    {
-        return;
-    }
-
-    const google::protobuf::Descriptor* headerDescriptor = headerField->message_type();
-    if (!headerDescriptor)
-    {
-        return;
-    }
-
-    const google::protobuf::FieldDescriptor* sourceSysIdField = headerDescriptor->FindFieldByName("source_sysid");
-    if (!sourceSysIdField)
-    {
-        return;
-    }
-
-    const google::protobuf::Reflection* reflection = message->GetReflection();
-    const google::protobuf::Message& headerMsg = reflection->GetMessage(*message, headerField);
-    const google::protobuf::Reflection* headerReflection = headerMsg.GetReflection();
-
-    int source_sysid = headerReflection->GetInt32(headerMsg, sourceSysIdField);
-
-    if (source_sysid != uasId)
-    {
-        return;
-    }
-
-#ifdef QGC_USE_PIXHAWK_MESSAGES
-    if (message->GetTypeName() == overlay.GetTypeName())
-    {
-        receivedOverlayTimestamp = QGC::groundTimeSeconds();
-        overlayMutex.lock();
-        overlay.CopyFrom(*message);
-        overlayMutex.unlock();
-        emit overlayChanged(this);
-    }
-    else if (message->GetTypeName() == obstacleList.GetTypeName())
-    {
-        receivedObstacleListTimestamp = QGC::groundTimeSeconds();
-        obstacleListMutex.lock();
-        obstacleList.CopyFrom(*message);
-        obstacleListMutex.unlock();
-        emit obstacleListChanged(this);
-    }
-    else if (message->GetTypeName() == path.GetTypeName())
-    {
-        receivedPathTimestamp = QGC::groundTimeSeconds();
-        pathMutex.lock();
-        path.CopyFrom(*message);
-        pathMutex.unlock();
-        emit pathChanged(this);
-    }
-    else if (message->GetTypeName() == pointCloud.GetTypeName())
-    {
-        receivedPointCloudTimestamp = QGC::groundTimeSeconds();
-        pointCloudMutex.lock();
-        pointCloud.CopyFrom(*message);
-        pointCloudMutex.unlock();
-        emit pointCloudChanged(this);
-    }
-    else if (message->GetTypeName() == rgbdImage.GetTypeName())
-    {
-        receivedRGBDImageTimestamp = QGC::groundTimeSeconds();
-        rgbdImageMutex.lock();
-        rgbdImage.CopyFrom(*message);
-        rgbdImageMutex.unlock();
-        emit rgbdImageChanged(this);
-    }
-#endif
-}
-
-#endif
 
 /**
 * Set the home position of the UAS.

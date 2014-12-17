@@ -42,14 +42,6 @@ This file is part of the QGROUNDCONTROL project
 #include "ProtocolInterface.h"
 #include "UASWaypointManager.h"
 #include "QGCUASParamManager.h"
-#include "RadioCalibration/RadioCalibrationData.h"
-
-#ifdef QGC_PROTOBUF_ENABLED
-#include <tr1/memory>
-#ifdef QGC_USE_PIXHAWK_MESSAGES
-#include <pixhawk/pixhawk.pb.h>
-#endif
-#endif
 
 /**
  * @brief Interface for all robots.
@@ -95,19 +87,6 @@ public:
     virtual double getYaw() const = 0;
 
     virtual bool getSelected() const = 0;
-
-#if defined(QGC_PROTOBUF_ENABLED) && defined(QGC_USE_PIXHAWK_MESSAGES)
-    virtual px::GLOverlay getOverlay() = 0;
-    virtual px::GLOverlay getOverlay(qreal& receivedTimestamp) = 0;
-    virtual px::ObstacleList getObstacleList() = 0;
-    virtual px::ObstacleList getObstacleList(qreal& receivedTimestamp) = 0;
-    virtual px::Path getPath() = 0;
-    virtual px::Path getPath(qreal& receivedTimestamp) = 0;
-    virtual px::PointCloudXYZRGB getPointCloud() = 0;
-    virtual px::PointCloudXYZRGB getPointCloud(qreal& receivedTimestamp) = 0;
-    virtual px::RGBDImage getRGBDImage() = 0;
-    virtual px::RGBDImage getRGBDImage(qreal& receivedTimestamp) = 0;
-#endif
 
     virtual bool isArmed() const = 0;
 
@@ -537,21 +516,6 @@ signals:
     void remoteControlChannelScaledChanged(int channelId, float normalized);
     /** @brief Remote control RSSI changed */
     void remoteControlRSSIChanged(float rssi);
-    /** @brief Radio Calibration Data has been received from the MAV*/
-    void radioCalibrationReceived(const QPointer<RadioCalibrationData>&);
-
-#if defined(QGC_PROTOBUF_ENABLED) && defined(QGC_USE_PIXHAWK_MESSAGES)
-    /** @brief Overlay data has been changed */
-    void overlayChanged(UASInterface* uas);
-    /** @brief Obstacle list data has been changed */
-    void obstacleListChanged(UASInterface* uas);
-    /** @brief Path data has been changed */
-    void pathChanged(UASInterface* uas);
-    /** @brief Point cloud data has been changed */
-    void pointCloudChanged(UASInterface* uas);
-    /** @brief RGBD image data has been changed */
-    void rgbdImageChanged(UASInterface* uas);
-#endif
 
     /**
      * @brief Localization quality changed
