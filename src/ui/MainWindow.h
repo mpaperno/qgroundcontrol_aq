@@ -419,6 +419,7 @@ protected:
     QPointer<QDockWidget> mavlinkInspectorWidget;
     QPointer<MAVLinkDecoder> mavlinkDecoder;
     QPointer<QDockWidget> mavlinkSenderWidget;
+    QPointer<QDockWidget> escTelemetryWidget;
 
     QGCMAVLinkLogPlayer* logPlayer;
 

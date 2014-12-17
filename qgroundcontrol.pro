@@ -207,7 +207,8 @@ FORMS += src/ui/MainWindow.ui \
 #    src/ui/aq_LogExporter.ui \
     src/ui/aq_telemetryView.ui \
     src/ui/aq_pwmPortsConfig.ui \
-	 src/ui/aq_LogViewer.ui
+	 src/ui/aq_LogViewer.ui \
+	 src/ui/ESCtelemetryWidget.ui
 
 INCLUDEPATH += src \
     src/ui \
@@ -364,6 +365,7 @@ HEADERS += src/MG.h \
 	 src/ui/QGCDataViewWidget.h \
 	 src/ui/map3D/QGCGoogleEarthView.h \
 	 src/uas/autoquadMAV.h \
+	 src/ui/ESCtelemetryWidget.h \
     src/ui/linechart/ChartPlot.h
 
 contains(DEPENDENCIES_PRESENT, osg) { 
@@ -535,6 +537,7 @@ SOURCES += src/main.cc \
     src/ui/PrimaryFlightDisplay.cpp \
     src/ui/aq_LogViewer.cc \
 	 src/ui/QGCDataViewWidget.cc \
+	 src/ui/ESCtelemetryWidget.cpp \
     src/ui/linechart/ChartPlot.cc
 
 # Enable Google Earth only on Mac OS and Windows with Visual Studio compiler

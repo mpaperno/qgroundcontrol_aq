@@ -36,9 +36,9 @@ This file is part of the QGROUNDCONTROL project
 #include <QHostInfo>
 #include <QDesktopWidget>
 #include <QStyleFactory>
-#include <QGCHilLink.h>
-#include <QGCHilConfiguration.h>
-#include <QGCHilFlightGearConfiguration.h>
+//#include <QGCHilLink.h>
+//#include <QGCHilConfiguration.h>
+//#include <QGCHilFlightGearConfiguration.h>
 
 #include "QGC.h"
 #include "MG.h"
@@ -60,6 +60,7 @@ This file is part of the QGROUNDCONTROL project
 #include "QGCMAVLinkMessageSender.h"
 #include "QGCRGBDView.h"
 #include "QGCFirmwareUpdate.h"
+#include "ESCtelemetryWidget.h"
 
 #ifdef QGC_OSG_ENABLED
 #include "Q3DWidgetFactory.h"
@@ -639,16 +640,6 @@ void MainWindow::buildCommonWidgets()
 //        addTool(mavlinkSenderWidget, tr("MAVLink Sender"), Qt::RightDockWidgetArea);
 //    }
 
-    //FIXME: memory of acceptList will never be freed again
-//    QStringList* acceptList = new QStringList();
-//    acceptList->append("-3.3,ATTITUDE.roll,rad,+3.3,s");
-//    acceptList->append("-3.3,ATTITUDE.pitch,deg,+3.3,s");
-//    acceptList->append("-3.3,ATTITUDE.yaw,deg,+3.3,s");
-
-    //FIXME: memory of acceptList2 will never be freed again
-//    QStringList* acceptList2 = new QStringList();
-//    acceptList2->append("0,RAW_PRESSURE.pres_abs,hPa,65500");
-
 //    if (!parametersDockWidget)
 //    {
 //        parametersDockWidget = new QDockWidget(tr("Onboard Parameters"), this);
@@ -675,16 +666,6 @@ void MainWindow::buildCommonWidgets()
         addTool(headDown1DockWidget, tr("Custom Gauges"), Qt::RightDockWidgetArea);
     }
 
-//    if (!headDown2DockWidget)
-//    {
-//        headDown2DockWidget = new QDockWidget(tr("Actuator Status"), this);
-//        HDDisplay* hdDisplay = new HDDisplay(acceptList2, "Actuator Status", this);
-//        hdDisplay->addSource(mavlinkDecoder);
-//        headDown2DockWidget->setWidget(hdDisplay);
-//        headDown2DockWidget->setObjectName("HEAD_DOWN_DISPLAY_2_DOCK_WIDGET");
-//        addTool(headDown2DockWidget, tr("Actuator Status"), Qt::RightDockWidgetArea);
-//    }
-	
     if (!rcViewDockWidget)
     {
         rcViewDockWidget = new QDockWidget(tr("Channels Monitor"), this);
@@ -755,6 +736,14 @@ void MainWindow::buildCommonWidgets()
 //        addTool(video2DockWidget, tr("Video Stream 2"), Qt::LeftDockWidgetArea);
 //    }
 
+    if (!escTelemetryWidget)
+    {
+        escTelemetryWidget = new QDockWidget(tr("ESC Telemetry"), this);
+        escTelemetryWidget->setWidget( new ESCtelemetryWidget(escTelemetryWidget) );
+        escTelemetryWidget->setObjectName("ESC_TELEMETRY_WIDGET");
+        addTool(escTelemetryWidget, tr("ESC Telemetry"), Qt::RightDockWidgetArea);
+    }
+
     // Custom widgets, added last to all menus and layouts
     buildCustomWidget();
 
@@ -765,29 +754,11 @@ void MainWindow::buildCommonWidgets()
         addCentralWidget(mapWidget, "Maps");
     }
 
-//    if (!protocolWidget)
-//    {
-//        protocolWidget    = new XMLCommProtocolWidget(this);
-//        addCentralWidget(protocolWidget, "Mavlink Generator");
-//    }
-
-//    if (!firmwareUpdateWidget)
-//    {
-//        firmwareUpdateWidget    = new QGCFirmwareUpdate(this);
-//        addCentralWidget(firmwareUpdateWidget, "Firmware Update");
-//    }
-
     if (!hudWidget)
     {
         hudWidget         = new HUD(320, 240, this);
         addCentralWidget(hudWidget, tr("Head Up Display"));
     }
-
-//    if (!configWidget)
-//    {
-//        configWidget = new QGCVehicleConfig(this);
-//        addCentralWidget(configWidget, tr("Vehicle Configuration"));
-//    }
 
 //    if (!dataplotWidget)
 //    {
