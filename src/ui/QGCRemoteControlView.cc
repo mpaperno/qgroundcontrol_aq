@@ -56,16 +56,6 @@ QGCRemoteControlView::QGCRemoteControlView(QWidget *parent) :
     layout->addItem(spacer, 2, 0, 1, 2, Qt::AlignTop);
 
     this->setVisible(false);
-    //setVisible(false);
-
-//    calibrate = new QPushButton(tr("Calibrate"), this);
-//    QHBoxLayout *calibrateButtonLayout = new QHBoxLayout();
-//    calibrateButtonLayout->addWidget(calibrate, 0, Qt::AlignHCenter);
-//    layout->addItem(calibrateButtonLayout, 3, 0, 1, 2);
-
-//    calibrationWindow = new RadioCalibrationWindow(this);
-//    connect(calibrate, SIGNAL(clicked()), calibrationWindow, SLOT(show()));
-
     connect(UASManager::instance(), SIGNAL(activeUASSet(int)), this, SLOT(setUASId(int)));
 
     //connect(&updateTimer, SIGNAL(timeout()), this, SLOT(redraw()));
@@ -90,12 +80,7 @@ void QGCRemoteControlView::setUASId(int id)
     {
         UASInterface* uas = UASManager::instance()->getUASForId(uasId);
         if (uas)
-        {
-            // The UAS exists, disconnect any existing connections
             disconnect(uas, 0, this, 0);
-            //disconnect(uas, SIGNAL(radioCalibrationRawReceived(const QPointer<RadioCalibrationData>&)), calibrationWindow, SLOT(receive(const QPointer<RadioCalibrationData>&)));
-            //disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), calibrationWindow, SLOT(setChannel(int,float)));
-        }
     }
 
     // Clear channel count
@@ -125,15 +110,9 @@ void QGCRemoteControlView::setUASId(int id)
     {
         // New UAS exists, connect
         nameLabel->setText(QString("RC Input of %1").arg(newUAS->getUASName()));
-        //calibrationWindow->setUASId(id);
-        //connect(newUAS, SIGNAL(radioCalibrationReceived(const QPointer<RadioCalibrationData>&)), calibrationWindow, SLOT(receive(const QPointer<RadioCalibrationData>&)));
-
         connect(newUAS, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRemoteRSSI(float)));
         connect(newUAS, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
         connect(newUAS, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
-
-        // only connect raw channels to calibration window widget
-        //connect(newUAS, SIGNAL(remoteControlChannelRawChanged(int,float)), calibrationWindow, SLOT(setChannel(int,float)));
     }
 }
 

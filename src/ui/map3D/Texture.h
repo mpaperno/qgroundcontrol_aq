@@ -32,7 +32,8 @@ This file is part of the QGROUNDCONTROL project
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include <inttypes.h>
+//#include <inttypes.h>
+#include <cstdint>
 #include <osg/ref_ptr>
 #include <osg/Geometry>
 #include <osg/Texture2D>

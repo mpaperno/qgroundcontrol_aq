@@ -1,6 +1,7 @@
 #include <QMenu>
 #include <QContextMenuEvent>
 #include <QSettings>
+#include <QDebug>
 
 #ifdef QGC_USE_VLC
     #include <QMessageBox>
@@ -12,6 +13,7 @@
 
 #include "QGCRGBDView.h"
 #include "UASManager.h"
+
 
 QGCRGBDView::QGCRGBDView(int width, int height, QWidget *parent) :
     HUD(width, height, parent),

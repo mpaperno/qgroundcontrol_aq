@@ -33,7 +33,8 @@ This file is part of the QGROUNDCONTROL project
 #define Q3DWIDGET_H
 
 #include <QtOpenGL>
-#include <inttypes.h>
+//#include <inttypes.h>
+#include <cstdint>
 
 #include <osg/LineSegment>
 #include <osg/PositionAttitudeTransform>

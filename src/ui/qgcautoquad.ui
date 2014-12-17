@@ -4785,7 +4785,6 @@ padding: 1px 3px;</string>
              </layout>
              <zorder>TiltAngle</zorder>
              <zorder>YawAngle</zorder>
-             <zorder>YawAngle</zorder>
              <zorder>TiltRate</zorder>
              <zorder>YawRate</zorder>
              <zorder>cmdBtn_ConvertTov68AttPIDs</zorder>
@@ -5555,6 +5554,12 @@ padding: 1px 3px;</string>
              </item>
              <item>
               <widget class="QRadioButton" name="radioButton_attitude_pid">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>PID</string>
                </property>
@@ -5568,6 +5573,12 @@ padding: 1px 3px;</string>
              </item>
              <item>
               <widget class="QRadioButton" name="radioButton_attitude_quatos">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Quatos</string>
                </property>
@@ -9712,9 +9723,9 @@ padding: 1px 3px;</string>
  </connections>
  <buttongroups>
   <buttongroup name="COMM_STREAM_TYP1"/>
+  <buttongroup name="buttonGroup_attitudeType"/>
   <buttongroup name="COMM_STREAM_TYP2"/>
   <buttongroup name="COMM_STREAM_TYP3"/>
   <buttongroup name="COMM_STREAM_TYP4"/>
-  <buttongroup name="buttonGroup_attitudeType"/>
  </buttongroups>
 </ui>

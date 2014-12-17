@@ -32,7 +32,8 @@ This file is part of the QGROUNDCONTROL project
 #ifndef WEBIMAGE_H
 #define WEBIMAGE_H
 
-#include <inttypes.h>
+//#include <inttypes.h>
+#include <cstdint>
 #include <QImage>
 #include <QScopedPointer>
 #include <QSharedPointer>

@@ -23,11 +23,12 @@ QT += network \
 	 svg \
 	 xml \
 	 webkit \
-	 sql
+	 sql \
+	 concurrent
 
 # Qt configuration
 greaterThan(QT_MAJOR_VERSION, 4) {
-	QT += widgets webkitwidgets multimedia
+	QT += widgets webkitwidgets multimedia printsupport
 } else {
 	CONFIG += qt thread
 }

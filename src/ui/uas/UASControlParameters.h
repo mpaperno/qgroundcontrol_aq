@@ -44,7 +44,6 @@ private:
     double throttle;
     QString mode;
     QString REDcolorStyle;
-    QPointer<RadioCalibrationData> radio;
     LinkInterface* hilLink;
 #ifdef MAVLINK_ENABLED_SLUGS
     mavlink_mid_lvl_cmds_t tempCmds;

@@ -130,6 +130,14 @@ QMenu::separator {
  }
 
 /*
+ * Fix for bug in Qt5 where QMenuBar items are styled natively on Windows, ignoring inherited settings.
+ * so we explicitly set their background color here (should match catch-all style background color).
+ */
+QMenuBar::item {
+	 background-color: #202020;
+}
+
+/*
     TabWidget
 */
 QTabWidget  {
