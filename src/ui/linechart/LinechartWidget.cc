@@ -180,8 +180,8 @@ void LinechartWidget::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("LINECHART");
-    bool enforceGT = (!autoGroundTimeSet && timeButton->isChecked()) ? true : false;
-    if (timeButton) settings.setValue("ENFORCE_GROUNDTIME", enforceGT);
+//    bool enforceGT = (!autoGroundTimeSet && timeButton->isChecked()) ? true : false;
+//    if (timeButton) settings.setValue("ENFORCE_GROUNDTIME", enforceGT);
     if (ui.showUnitsCheckBox) settings.setValue("SHOW_UNITS", ui.showUnitsCheckBox->isChecked());
     if (ui.shortNameCheckBox) settings.setValue("SHORT_NAMES", ui.shortNameCheckBox->isChecked());
     settings.endGroup();
@@ -191,12 +191,12 @@ void LinechartWidget::readSettings()
 {
     QSettings settings;
     settings.beginGroup("LINECHART");
-    if (activePlot) {
-        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-        activePlot->enforceGroundTime(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
-        //userGroundTimeSet = settings.value("USER_GROUNDTIME", timeButton->isChecked()).toBool();
-    }
+//    if (activePlot) {
+//        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+//        activePlot->enforceGroundTime(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+//        timeButton->setChecked(settings.value("ENFORCE_GROUNDTIME", timeButton->isChecked()).toBool());
+//        //userGroundTimeSet = settings.value("USER_GROUNDTIME", timeButton->isChecked()).toBool();
+//    }
     if (ui.showUnitsCheckBox) ui.showUnitsCheckBox->setChecked(settings.value("SHOW_UNITS", ui.showUnitsCheckBox->isChecked()).toBool());
     if (ui.shortNameCheckBox) ui.shortNameCheckBox->setChecked(settings.value("SHORT_NAMES", ui.shortNameCheckBox->isChecked()).toBool());
     settings.endGroup();
@@ -216,6 +216,7 @@ void LinechartWidget::createLayout()
     activePlot = new LinechartPlot(this, sysid);
     // Activate automatic scrolling
     activePlot->setAutoScroll(true);
+    activePlot->enforceGroundTime(true);
 
     // TODO Proper Initialization needed
     //    activePlot = getPlot(0);
@@ -261,6 +262,7 @@ void LinechartWidget::createLayout()
     hlayout->addWidget(timeButton);
     connect(timeButton, SIGNAL(clicked(bool)), activePlot, SLOT(enforceGroundTime(bool)));
     connect(timeButton, SIGNAL(clicked()), this, SLOT(writeSettings()));
+    timeButton->hide();
 
     hlayout->addStretch();
 

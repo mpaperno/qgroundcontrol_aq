@@ -1,7 +1,8 @@
 #include "ChartPlot.h"
+#include "Scrollbar.h"
 #include "MainWindow.h"
 
-#include <qwt_picker_machine.h>
+#include <qwt_plot_canvas.h>
 
 const QColor ChartPlot::baseColors[numColors] = {
     QColor(70,80,242),
@@ -46,7 +47,6 @@ ChartPlot::ChartPlot(QWidget *parent):
     QwtPlotCanvas *c = static_cast<QwtPlotCanvas*>(canvas());
     zoomer = new ScrollZoomer(c);
     zoomer->setTrackerMode(QwtPicker::AlwaysOn);
-    zoomer->setStateMachine(new QwtPickerDragRectMachine);
 
     colors = QList<QColor>();
 

@@ -8,12 +8,12 @@ class ScrollBar: public QScrollBar
     Q_OBJECT
 
 public:
-    ScrollBar(QWidget *parent = NULL);
-    ScrollBar(Qt::Orientation, QWidget *parent = NULL);
-    ScrollBar(double minBase, double maxBase,
-              Qt::Orientation o, QWidget *parent = NULL);
+    ScrollBar( QWidget *parent = NULL );
+    ScrollBar( Qt::Orientation, QWidget *parent = NULL );
+    ScrollBar( double minBase, double maxBase,
+        Qt::Orientation o, QWidget *parent = NULL );
 
-    void setInverted(bool);
+    void setInverted( bool );
     bool isInverted() const;
 
     double minBaseValue() const;
@@ -24,22 +24,22 @@ public:
 
     int extent() const;
 
-signals:
-    void sliderMoved(Qt::Orientation, double, double);
-    void valueChanged(Qt::Orientation, double, double);
+Q_SIGNALS:
+    void sliderMoved( Qt::Orientation, double, double );
+    void valueChanged( Qt::Orientation, double, double );
 
-public slots:
-    virtual void setBase(double min, double max);
-    virtual void moveSlider(double min, double max);
+public Q_SLOTS:
+    virtual void setBase( double min, double max );
+    virtual void moveSlider( double min, double max );
 
 protected:
-    void sliderRange(int value, double &min, double &max) const;
-    int mapToTick(double) const;
-    double mapFromTick(int) const;
+    void sliderRange( int value, double &min, double &max ) const;
+    int mapToTick( double ) const;
+    double mapFromTick( int ) const;
 
-private slots:
-    void catchValueChanged(int value);
-    void catchSliderMoved(int value);
+private Q_SLOTS:
+    void catchValueChanged( int value );
+    void catchSliderMoved( int value );
 
 private:
     void init();
