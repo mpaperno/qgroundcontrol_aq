@@ -59,7 +59,7 @@ public:
     void resize(int w, int h);
 
 public slots:
-    void styleChanged(int newTheme);
+    void styleChanged(int newTheme = 0);
 
     /** @brief Set the currently monitored UAS */
     virtual void setActiveUAS(UASInterface* uas);

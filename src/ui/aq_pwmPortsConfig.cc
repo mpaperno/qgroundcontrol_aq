@@ -33,7 +33,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     // set up the splitter expand/collapse button
     ui->splitter->setStyleSheet("QSplitter#splitter {width: 12px;}");
     QSplitterHandle *shandle = ui->splitter->handle(1);
-    shandle->setContentsMargins(0, 15, 0, 0);
+    shandle->setContentsMargins(0, 9, 0, 0);
     shandle->setToolTip(tr("<html><body><p>Click the arrow button to collapse/expand the reference image sidebar. Click and drag anywhere to resize.</p></body></html>"));
     QVBoxLayout *hlayout = new QVBoxLayout;
     hlayout->setContentsMargins(0, 0, 0, 0);

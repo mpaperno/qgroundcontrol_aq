@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <UASInterface.h>
 
-#if (defined Q_OS_MAC)
+#if (defined Q_OS_MAC) || defined(__MINGW32__)
 #include <QWebView>
 #endif
 
@@ -157,7 +157,7 @@ protected:
     QAxObject* jScriptWin;
     QAxObject* documentWin;
 #endif
-#if (defined Q_OS_MAC)
+#if (defined Q_OS_MAC) || defined(__MINGW32__)
     QWebView* webViewMac;
 #endif
 

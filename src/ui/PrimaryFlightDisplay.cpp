@@ -127,7 +127,7 @@ const QString PrimaryFlightDisplay::compassWindNames[] = {
     QString("NW")
 };
 
-PrimaryFlightDisplay::PrimaryFlightDisplay(int width, int height, QWidget *parent) :
+PrimaryFlightDisplay::PrimaryFlightDisplay(QWidget *parent) :
     QWidget(parent),
 
     uas(NULL),
@@ -546,8 +546,8 @@ void PrimaryFlightDisplay::drawAIAirframeFixedFeatures(QPainter& painter, QRectF
     pen.setColor(redColor);
     painter.setPen(pen);
 
-    float length = 0.15;
-    float side = 0.5;
+    float length = 0.15f;
+    float side = 0.5f;
     // The 2 lines at sides.
     painter.drawLine(QPointF(-side*w, 0), QPointF(-(side-length)*w, 0));
     painter.drawLine(QPointF(side*w, 0), QPointF((side-length)*w, 0));
@@ -658,6 +658,7 @@ void PrimaryFlightDisplay::drawPitchScale(
         bool drawNumbersRight
         ) {
 
+    Q_UNUSED(intrusion);
     // The area should be quadratic but if not width is the major size.
     qreal w = area.width();
     if (w<area.height()) w = area.height();
@@ -1020,6 +1021,8 @@ void PrimaryFlightDisplay::drawAltimeter(
         float vv
     ) {
 
+    Q_UNUSED(secondaryAltitude);
+
     painter.resetTransform();
     fillInstrumentBackground(painter, area);
 
@@ -1031,7 +1034,7 @@ void PrimaryFlightDisplay::drawAltimeter(
 
     float h = area.height();
     float w = area.width();
-    float secondaryAltitudeBoxHeight = mediumTextSize * 2;
+//    float secondaryAltitudeBoxHeight = mediumTextSize * 2;
     // The height where we being with new tickmarks.
     float effectiveHalfHeight = h*0.45;
 
@@ -1147,6 +1150,7 @@ void PrimaryFlightDisplay::drawVelocityMeter(
         float secondarySpeed
         ) {
 
+    Q_UNUSED(secondarySpeed);
     painter.resetTransform();
     fillInstrumentBackground(painter, area);
 

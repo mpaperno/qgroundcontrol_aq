@@ -131,7 +131,7 @@ HUD::HUD(int width, int height, QWidget* parent)
 
     // Set up the initial color theme. This can be updated by a styleChanged
     // signal from MainWindow.
-    styleChanged(((MainWindow*)parent)->getStyle());
+    styleChanged();
 
     // Refresh timer
     refreshTimer->setInterval(updateInterval);
@@ -154,10 +154,8 @@ HUD::HUD(int width, int height, QWidget* parent)
         if (font.family() != fontFamilyName) qDebug() << "ERROR! WRONG FONT LOADED: " << fontFamilyName;
     }
 
-    // Connect the themeChanged signal from the MainWindow to this widget, so it
-    // can change it's styling accordingly.
-    connect((MainWindow*)parent, SIGNAL(styleChanged(int)),
-            this, SLOT(styleChanged(int)));
+    // Connect the themeChanged signal from the MainWindow to this widget, so it can change it's styling accordingly.
+    connect((MainWindow*)parent, SIGNAL(styleChanged(int)), this, SLOT(styleChanged(int)));
 
     // Connect with UAS
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
@@ -179,6 +177,12 @@ QSize HUD::sizeHint() const
 
 void HUD::styleChanged(int newTheme)
 {
+    if (!newTheme) {
+        MainWindow *mw = qobject_cast<MainWindow *>(this->parent());
+        if (mw)
+            newTheme = mw->getStyle();
+    }
+
     // Generate a background image that's dependent on the current color scheme.
     QImage fill = QImage(width(), height(), QImage::Format_Indexed8);
     if (newTheme == MainWindow::QGC_MAINWINDOW_STYLE_LIGHT)
@@ -217,6 +221,7 @@ void HUD::showEvent(QShowEvent* event)
     // React only to internal (pre-display)
     // events
     QWidget::showEvent(event);
+    styleChanged();
     refreshTimer->start(updateInterval);
     emit visibilityChanged(true);
 }

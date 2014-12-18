@@ -6,7 +6,6 @@
 #include <QApplication>
 #include "MG.h"
 
-
 AQLogParser::AQLogParser()
 {
     xValues.clear();
@@ -1190,11 +1189,13 @@ bool AQLogParser::getOldLog(){
     return oldLog;
 }
 
+#if defined(_MSC_VER) && _MSC_VER >= 1700
+#pragma optimize("", off)
+#endif
 int AQLogParser::loggerReadEntry(FILE *fp, loggerRecord_t *r)
 {
     char *buf = (char *)r;
     char ckA, ckB;
-    uint i;
     int c = 0;
 
     while (c != EOF) {
@@ -1205,10 +1206,10 @@ int AQLogParser::loggerReadEntry(FILE *fp, loggerRecord_t *r)
         if ((c = fgetc(fp)) != 'L')
             continue;
 
-        if (fread(buf, sizeof(loggerRecord_t), 1, fp) == 1) {
+        if (fread_s(buf, sizeof(buf), sizeof(loggerRecord_t), 1, fp) == 1) {
             // calc checksum
             ckA = ckB = 0;
-            for (i = 0; i < sizeof(loggerRecord_t) - 2; i++) {
+            for (int i = 0; i < sizeof(loggerRecord_t) - 2; i++) {
                 ckA += buf[i];
                 ckB += ckA;
             }
@@ -1217,14 +1218,17 @@ int AQLogParser::loggerReadEntry(FILE *fp, loggerRecord_t *r)
                 return 1;
             }
             else {
-                fprintf(stderr, "logger: checksum error\n");
+                qDebug() << "logger: checksum error\n";
                 continue;
             }
         }
     }
 
-    return EOF;
+    return -1;
 }
+#if defined(_MSC_VER) && _MSC_VER >= 1700
+#pragma optimize("", on)
+#endif
 
 double AQLogParser::logDumpGetValue(loggerRecord_t *l, int field)
 {

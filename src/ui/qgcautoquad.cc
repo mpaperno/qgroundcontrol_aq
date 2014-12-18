@@ -68,7 +68,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // set up the splitter expand/collapse button
     ui->splitter->setStyleSheet("QSplitter#splitter {width: 15px;}");
     QSplitterHandle *shandle = ui->splitter->handle(1);
-    shandle->setContentsMargins(0, 15, 0, 0);
+    shandle->setContentsMargins(0, 25, 0, 0);
     shandle->setToolTip(tr("<html><body><p>Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.</p></body></html>"));
     QVBoxLayout *hlayout = new QVBoxLayout;
     hlayout->setContentsMargins(0, 0, 0, 0);
@@ -2416,8 +2416,8 @@ void QGCAutoquad::pushButton_tracking() {
         pixel_size = ui->lineEdit_171->text().toFloat();
         pixelFilterX = ui->lineEdit_22->text().toFloat();
         pixelFilterY = ui->lineEdit_23->text().toFloat();
-        currentPosN = 10.75571;
-        currentPosE = 48.18003;
+        currentPosN = (float)10.75571;
+        currentPosE = (float)48.18003;
         ps_tracking.setWorkingDirectory(aqBinFolderPath);
         ps_tracking.start(AppPath , Arguments, QIODevice::Unbuffered | QIODevice::ReadWrite);
         TrackingIsrunning = 1;
@@ -2509,16 +2509,16 @@ void QGCAutoquad::sendTracking(){
         uas->sendCommmandToAq(9, 1, TrackingMoveX,TrackingMoveY,focal_lenght ,camera_yaw_offset,camera_pitch_offset,pixel_size,0.0f);
     }
     else {
-        float yaw, pitch, l1, l2, h, sinp, cotp;
+        float yaw, pitch, l1, l2, h, sinp = 0.1f, cotp = 0.1f;
         float Ndev, Edev;
         float PIXEL_SIZE = 7e-6f;
         float FOCAL_LENGTH = 0.02f;
         QString Info;
-        h = 0.78;//-UKF_POSD; //Check sign
+        h = (float)0.78;//-UKF_POSD; //Check sign
         Info.append(QString::number(h) + "\t");
-        yaw = 0 + 0; //AQ_YAW + CAMERA_YAW_OFFSET;
+        yaw = (float)0 + 0; //AQ_YAW + CAMERA_YAW_OFFSET;
         Info.append(QString::number(yaw) + "\t");
-        pitch = 0 + 1.5707963267949;//0.7854; //AQ_PITCH + CAMERA_PITCH_OFFSET;
+        pitch = (float)0 + (float)1.5707963267949;//0.7854; //AQ_PITCH + CAMERA_PITCH_OFFSET;
         Info.append(QString::number(pitch) + "\t");
         //sinp = std::max(sin(pitch), 0.001f);//safety
         Info.append(QString::number(sinp) + "\t");

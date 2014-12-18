@@ -129,7 +129,7 @@ QtSpeech::QtSpeech(VoiceName n, QObject * parent)
     else {
         SysCall( SpEnumTokens(SPCAT_VOICES, NULL, NULL, &voices), InitError);
         SysCall( voices->GetCount(&count), InitError);
-        for (int i =0; i< count; i++) {
+        for (ULONG i =0; i< count; i++) {
             WCHAR * w_id = 0L;
             CComPtr<ISpObjectToken> voice;
             SysCall( voices->Next( 1, &voice, NULL ), InitError);
@@ -167,7 +167,7 @@ QtSpeech::VoiceNames QtSpeech::voices()
     SysCall( SpEnumTokens(SPCAT_VOICES, NULL, NULL, &voices), LogicError);
     SysCall( voices->GetCount(&count), LogicError);
 
-    for(int i=0; i< count; i++) {
+    for(ULONG i=0; i< count; i++) {
         WCHAR * w_id = 0L;
         WCHAR * w_name = 0L;
         CComPtr<ISpObjectToken> voice;

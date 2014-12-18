@@ -42,7 +42,7 @@ QGCGoogleEarthView::QGCGoogleEarthView(QWidget *parent) :
     jScriptInitialized(false),
     gEarthInitialized(false),
     currentViewMode(QGCGoogleEarthView::VIEW_MODE_SIDE),
-#if (defined Q_OS_MAC)
+#if (defined Q_OS_MAC) || defined(__MINGW32__)
     webViewMac(new QWebView(this)),
 #endif
 #ifdef _MSC_VER
@@ -74,7 +74,7 @@ QGCGoogleEarthView::QGCGoogleEarthView(QWidget *parent) :
     trailEnabled = settings.value(QGCGOOGLEEARTHVIEWSETTINGS + "trail", trailEnabled).toBool();
 
     ui->setupUi(this);
-#if (defined Q_OS_MAC)
+#if (defined Q_OS_MAC) || defined(__MINGW32__)
     ui->webViewLayout->addWidget(webViewMac);
     //connect(webViewMac, SIGNAL(loadFinished(bool)), this, SLOT(initializeGoogleEarth(bool)));
 #endif
@@ -99,7 +99,7 @@ QGCGoogleEarthView::~QGCGoogleEarthView()
     settings.setValue(QGCGOOGLEEARTHVIEWSETTINGS + "follow", followCamera);
     settings.setValue(QGCGOOGLEEARTHVIEWSETTINGS + "trail", trailEnabled);
     settings.sync();
-#if (defined Q_OS_MAC)
+#if (defined Q_OS_MAC) || defined(__MINGW32__)
     delete webViewMac;
 #endif
 #ifdef _MSC_VER
@@ -404,7 +404,7 @@ void QGCGoogleEarthView::showEvent(QShowEvent* event)
 
     if (!webViewInitialized)
     {
-#if (defined Q_OS_MAC)
+#if (defined Q_OS_MAC) || defined(__MINGW32__)
         webViewMac->setPage(new QGCWebPage(webViewMac));
         webViewMac->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
         webViewMac->load(QUrl(QCoreApplication::applicationDirPath()+"/files/earth.html"));
