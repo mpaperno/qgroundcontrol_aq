@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "UASManager.h"
-#include "SlugsMAV.h"
 #include <QTimer>
 #include <QTabWidget>
 

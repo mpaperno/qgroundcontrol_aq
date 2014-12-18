@@ -57,19 +57,13 @@ This file is part of the QGROUNDCONTROL project
 #include "QGCSettingsWidget.h"
 #include "QGCMapTool.h"
 #include "MAVLinkDecoder.h"
-#include "QGCMAVLinkMessageSender.h"
+//#include "QGCMAVLinkMessageSender.h"
 #include "QGCRGBDView.h"
-#include "QGCFirmwareUpdate.h"
 #include "ESCtelemetryWidget.h"
 
 #ifdef QGC_OSG_ENABLED
 #include "Q3DWidgetFactory.h"
 #endif
-
-// FIXME Move
-#include "PxQuadMAV.h"
-#include "SlugsMAV.h"
-
 
 #include "LogCompressor.h"
 #include "qgcautoquad.h"
@@ -297,7 +291,9 @@ MainWindow::MainWindow(QSplashScreen *splashScreen):
     emit initStatusChanged("Done.");
     show();
 
+#if QT_VERSION < 0x050000
     loadStyle(currentStyle);
+#endif
 }
 
 MainWindow::~MainWindow()
@@ -685,7 +681,7 @@ void MainWindow::buildCommonWidgets()
     if (!pfdDockWidget)
     {
         pfdDockWidget = new QDockWidget(tr("Primary Flight Display"), this);
-        pfdDockWidget->setWidget( new PrimaryFlightDisplay(320, 240, this));
+        pfdDockWidget->setWidget( new PrimaryFlightDisplay(this));
         pfdDockWidget->setObjectName("PRIMART_FLIGHT_DISPLAY_DOCK_WIDGET");
         addTool(pfdDockWidget, tr("Primary Flight Display"), Qt::RightDockWidgetArea);
     }
@@ -1076,23 +1072,25 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
 //    if (style == currentStyle)
 //        return;
 
+    QString defaultStyle = m_windowStyleNames.value(QGC_MAINWINDOW_STYLE_PLASTIQUE);
+
     qApp->setStyleSheet("");
-    QString styleFileName = ":files/styles/style-default.css";
+    QString styleFileName = "://files/styles/style-default.css";
 
     switch (style) {
         case QGC_MAINWINDOW_STYLE_NATIVE:
-            styleFileName = ":files/styles/style-native.css";
+            styleFileName = "://files/styles/style-native.css";
             break;
         case QGC_MAINWINDOW_STYLE_DARK:
-            qApp->setStyle("plastique");
-            styleFileName = ":files/styles/style-dark.css";
+            qApp->setStyle(defaultStyle);
+            styleFileName = "://files/styles/style-dark.css";
             break;
         case QGC_MAINWINDOW_STYLE_LIGHT:
-            qApp->setStyle("plastique");
-            styleFileName = ":files/styles/style-light.css";
+            qApp->setStyle(defaultStyle);
+            styleFileName = "://files/styles/style-light.css";
             break;
         default:
-            qApp->setStyle(m_windowStyleNames.value(style, "plastique"));
+            qApp->setStyle(m_windowStyleNames.value(style, defaultStyle));
             break;
     }
     reloadStylesheet(styleFileName);
@@ -1106,11 +1104,12 @@ void MainWindow::setAvailableStyles()
     m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_DARK, "QGC Dark");
     m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_LIGHT, "QGC Light");
 
+    qDebug() << __FILE__ << __LINE__ << "Available styles:" << QStyleFactory::keys();
     int sid;
     QString s;
     foreach (const QString style, QStyleFactory::keys()) {
         s = style.toLower();
-        if (s == "plastique")
+        if (s == "plastique" || s == "fusion")
             sid = QGC_MAINWINDOW_STYLE_PLASTIQUE;
         else if (s.startsWith("gtk"))
             sid = QGC_MAINWINDOW_STYLE_GTK;
@@ -1156,7 +1155,7 @@ void MainWindow::selectStylesheet()
 void MainWindow::reloadStylesheet(const QString file)
 {
     QFile *styleSheet;
-    if (file.length())
+    if (!file.isEmpty())
         styleSheet = new QFile(file);
     else
         styleSheet = new QFile(styleFileName);
@@ -1167,7 +1166,7 @@ void MainWindow::reloadStylesheet(const QString file)
     }
     if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString style = QString(styleSheet->readAll());
-        style.replace("ICONDIR", QCoreApplication::applicationDirPath()+ "files/styles/");
+        //style.replace("ICONDIR", QCoreApplication::applicationDirPath()+ "files/styles/");
         qApp->setStyleSheet(style);
         styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
     }
@@ -1236,8 +1235,6 @@ void MainWindow::connectCommonActions()
     perspectives->addAction(ui.actionOperatorsView);
     perspectives->addAction(ui.actionEngineersView);
     perspectives->addAction(ui.actionDataView);
-//    perspectives->addAction(ui.actionFirmwareUpdateView);
-//    perspectives->addAction(ui.actionUnconnectedView);
     perspectives->setExclusive(true);
 
     // Mark the right one as selected
@@ -1252,15 +1249,6 @@ void MainWindow::connectCommonActions()
     case VIEW_DATA:
         ui.actionDataView->setChecked(true);
         break;
-//    case VIEW_MAVLINK:
-//        ui.actionMavlinkView->setChecked(true);
-//        break;
-//    case VIEW_FIRMWAREUPDATE:
-//        ui.actionFirmwareUpdateView->setChecked(true);
-//        break;
-//    case VIEW_UNCONNECTED:
-//        ui.actionUnconnectedView->setChecked(true);
-//        break;
     case VIEW_OPERATOR:
     case VIEW_UNCONNECTED:
     default:
@@ -1296,9 +1284,6 @@ void MainWindow::connectCommonActions()
     connect(ui.actionOperatorsView, SIGNAL(triggered()), this, SLOT(loadOperatorView()));
     connect(ui.actionDataView, SIGNAL(triggered()), this, SLOT(loadDataView()));
 //    connect(ui.actionUnconnectedView, SIGNAL(triggered()), this, SLOT(loadUnconnectedView()));
-
-//    connect(ui.actionFirmwareUpdateView, SIGNAL(triggered()), this, SLOT(loadFirmwareUpdateView()));
-//    connect(ui.actionMavlinkView, SIGNAL(triggered()), this, SLOT(loadMAVLinkView()));
 
     connect(ui.actionReloadStylesheet, SIGNAL(triggered()), this, SLOT(reloadStylesheet()));
     connect(ui.actionSelectStylesheet, SIGNAL(triggered()), this, SLOT(selectStylesheet()));
@@ -1693,10 +1678,6 @@ void MainWindow::loadViewState()
     }
     else
     {
-        // Hide custom widgets
-//        if (detectionDockWidget) detectionDockWidget->hide();
-//        if (watchdogControlDockWidget) watchdogControlDockWidget->hide();
-
         // Load defaults
         switch (currentView)
         {
@@ -1762,44 +1743,6 @@ void MainWindow::loadViewState()
             //video2DockWidget->hide();
             escTelemetryWidget->hide();
             break;
-//        case VIEW_MAVLINK:
-//            centerStack->setCurrentWidget(protocolWidget);
-//            //controlDockWidget->hide();
-//            listDockWidget->hide();
-//            waypointsDockWidget->hide();
-//            infoDockWidget->hide();
-//            debugConsoleDockWidget->hide();
-//            logPlayerDockWidget->hide();
-//            mavlinkInspectorWidget->show();
-//            //mavlinkSenderWidget->show();
-//            parametersDockWidget->hide();
-//            hsiDockWidget->hide();
-//            headDown1DockWidget->hide();
-//            //headDown2DockWidget->hide();
-//            rcViewDockWidget->hide();
-//            headUpDockWidget->hide();
-//            //video1DockWidget->hide();
-//            //video2DockWidget->hide();
-//            break;
-//        case VIEW_FIRMWAREUPDATE:
-//            centerStack->setCurrentWidget(firmwareUpdateWidget);
-//            //controlDockWidget->hide();
-//            listDockWidget->hide();
-//            waypointsDockWidget->hide();
-//            infoDockWidget->hide();
-//            debugConsoleDockWidget->hide();
-//            logPlayerDockWidget->hide();
-//            mavlinkInspectorWidget->hide();
-//            //mavlinkSenderWidget->hide();
-//            parametersDockWidget->hide();
-//            hsiDockWidget->hide();
-//            headDown1DockWidget->hide();
-//            //headDown2DockWidget->hide();
-//            rcViewDockWidget->hide();
-//            headUpDockWidget->hide();
-//            //video1DockWidget->hide();
-//            //video2DockWidget->hide();
-//            break;
         case VIEW_OPERATOR:
         case VIEW_UNCONNECTED:
         case VIEW_FULL:
@@ -1879,41 +1822,6 @@ void MainWindow::loadPilotView()
         loadViewState();
     }
 }
-
-//void MainWindow::loadMAVLinkView()
-//{
-//    if (currentView != VIEW_MAVLINK)
-//    {
-//        storeViewState();
-//        currentView = VIEW_MAVLINK;
-//        ui.actionMavlinkView->setChecked(true);
-//        loadViewState();
-//    }
-//}
-
-//void MainWindow::loadFirmwareUpdateView()
-//{
-//    if (currentView != VIEW_FIRMWAREUPDATE)
-//    {
-//        storeViewState();
-//        currentView = VIEW_FIRMWAREUPDATE;
-//        ui.actionFirmwareUpdateView->setChecked(true);
-//        loadViewState();
-//    }
-//}
-
-
-//void MainWindow::loadAQView()
-//{
-//    if (currentView != VIEW_AQ)
-//    {
-//        storeViewState();
-//        currentView = VIEW_AQ;
-//        ui.actionEngineersView->setChecked(true);
-//        loadViewState();
-//    }
-//}
-
 
 void MainWindow::loadDataView()
 {

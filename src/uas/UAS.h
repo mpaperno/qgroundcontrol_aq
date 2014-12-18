@@ -456,8 +456,8 @@ public slots:
     void go();
 
     /** @brief Enable / disable HIL */
-    void enableHilFlightGear(bool enable, QString options);
-    void enableHilXPlane(bool enable);
+//    void enableHilFlightGear(bool enable, QString options);
+//    void enableHilXPlane(bool enable);
 
 
     /** @brief Send the full HIL state to the MAV */

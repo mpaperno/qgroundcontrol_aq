@@ -67,10 +67,10 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	# Copy google earth starter file
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
 	# Copy audio files
-	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
+	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/audio
 	 # Copy language files
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang/flags
 	# Copy libraries
 #	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
 #	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
@@ -182,13 +182,7 @@ linux-g++|linux-g++-64{
 		  /usr/local/include \
 
 	LIBS += \
-		-L/usr/lib \
-		-L/usr/local/lib64 \
 		-lm \
-#		-lflite_cmu_us_kal \
-#		-lflite_usenglish \
-#		-lflite_cmulex \
-#		-lflite \
 		-lSDL \
 		-lSDLmain
 
@@ -206,24 +200,24 @@ linux-g++|linux-g++-64{
 #		DEFINES += QGC_OSG_ENABLED
 #	}
 
-	exists(/usr/include/osg/osgQt) | exists(/usr/include/osgQt) |
-	exists(/usr/local/include/osg/osgQt) | exists(/usr/local/include/osgQt) {
-		message("Building support for OpenSceneGraph Qt")
-		# Include OpenSceneGraph Qt libraries
-		LIBS += -losgQt
-		DEFINES += QGC_OSG_QT_ENABLED
-	}
+#	exists(/usr/include/osg/osgQt) | exists(/usr/include/osgQt) |
+#	exists(/usr/local/include/osg/osgQt) | exists(/usr/local/include/osgQt) {
+#		message("Building support for OpenSceneGraph Qt")
+#		# Include OpenSceneGraph Qt libraries
+#		LIBS += -losgQt
+#		DEFINES += QGC_OSG_QT_ENABLED
+#	}
 
-	exists(/usr/local/include/google/protobuf) {
-		message("Building support for Protocol Buffers")
-		DEPENDENCIES_PRESENT += protobuf
-		# Include Protocol Buffers libraries
-		LIBS += -lprotobuf \
-            -lprotobuf-lite \
-            -lprotoc
+#	exists(/usr/local/include/google/protobuf) {
+#		message("Building support for Protocol Buffers")
+#		DEPENDENCIES_PRESENT += protobuf
+#		# Include Protocol Buffers libraries
+#		LIBS += -lprotobuf \
+#            -lprotobuf-lite \
+#            -lprotoc
 
-		DEFINES += QGC_PROTOBUF_ENABLED
-	}
+#		DEFINES += QGC_PROTOBUF_ENABLED
+#	}
 
 	exists(/usr/local/include/libfreenect/libfreenect.h) {
 		message("Building support for libfreenect")
@@ -242,7 +236,19 @@ linux-g++|linux-g++-64{
 		QMAKE_POST_LINK += && mkdir -p $$TARGETDIR
 	}
 
-	# Copy AQ files
+	# Copy AQ and supporting files
+	linux-g++ {
+		message("Building for GNU/Linux 32bit/i386")
+		exists(/usr/local):LIBS += -L/usr/local
+		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_32 $$TARGETDIR/aq/bin/cal
+		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_32 $$TARGETDIR/aq/bin/sim3
+	}
+	linux-g++-64 {
+		message("Building for GNU/Linux 64bit/x64 (g++-64)")
+		exists(/usr/local/lib64):LIBS += -L/usr/local/lib64
+		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_64 $$TARGETDIR/aq/bin/cal
+		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_64 $$TARGETDIR/aq/bin/sim3
+	}
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/bin
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_unix_all/* $$TARGETDIR/aq/bin
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/mixes
@@ -252,25 +258,10 @@ linux-g++|linux-g++-64{
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/audio $$TARGETDIR/files/audio
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/files/lang
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/files/lang/flags
-	#QMAKE_POST_LINK += && cp -rf $$BASEDIR/data $$TARGETDIR
 
 	# osg/osgEarth dynamic casts might fail without this compiler option.
 	# see http://osgearth.org/wiki/FAQ for details.
-	QMAKE_CXXFLAGS += -Wl,-E
-}
-
-linux-g++ {
-	message("Building for GNU/Linux 32bit/i386")
-        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_32 $$TARGETDIR/aq/bin/cal
-        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_32 $$TARGETDIR/aq/bin/sim3
-}
-linux-g++-64 {
-	message("Building for GNU/Linux 64bit/x64 (g++-64)")
-	exists(/usr/local/lib64) {
-		LIBS += -L/usr/local/lib64
-	}
-        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_64 $$TARGETDIR/aq/bin/cal
-        QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_64 $$TARGETDIR/aq/bin/sim3
+	#QMAKE_CXXFLAGS += -Wl,-E
 }
 
 # Windows (32bit), Visual Studio
@@ -286,37 +277,47 @@ win32-msvc2010|win32-msvc2012|win32-g++ {
 		message(Building for Windows GCC (32bit))
 	}
 
-	# Specify multi-process compilation within Visual Studio.
-	# (drastically improves compilation times for multi-core computers)
-	QMAKE_CFLAGS_DEBUG += /MP
-	QMAKE_CXXFLAGS_DEBUG += /MP
-	QMAKE_CFLAGS_RELEASE += /MP
-	QMAKE_CXXFLAGS_RELEASE += /MP
-
-	QMAKE_CXXFLAGS_WARN_ON += /W3 \
-		  /wd4996 \   # silence warnings about deprecated strcpy and whatnot
-		  /wd4005 \   # silence warnings about macro redefinition
-		  /wd4290     # ignore exception specifications
-
-	# QAxContainer support is needed for the Internet Control
-	# element showing the Google Earth window
-	greaterThan(QT_MAJOR_VERSION, 4) {
-		QT += axcontainer
-	} else {
-		CONFIG += qaxcontainer
-	}
-
 	DEFINES += USE_GOOGLE_EARTH_PLUGIN
 
 	# The EIGEN library needs this define
 	# to make the internal min/max functions work
 	DEFINES += NOMINMAX
 
-	# QWebkit is not needed on MS-Windows compilation environment
-	CONFIG -= webkit webkitwidgets
+	win32-msvc2010|win32-msvc2012|win32-msvc2013 {
+		# QWebkit is not needed on MS-Windows compilation environment
+		CONFIG -= webkit webkitwidgets
 
-	# Specify the inclusion of (U)INT*_(MAX/MIN) macros within Visual Studio
-	DEFINES += __STDC_LIMIT_MACROS
+		# Specify the inclusion of (U)INT*_(MAX/MIN) macros within Visual Studio
+		DEFINES += __STDC_LIMIT_MACROS
+
+		INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
+			  #$$BASEDIR/libs/lib/opal/include
+
+		LIBS += -L$$BASEDIR/libs/lib/sdl/msvc/lib
+
+		# Specify multi-process compilation within Visual Studio.
+		# (drastically improves compilation times for multi-core computers)
+		QMAKE_CXXFLAGS_DEBUG += /MP
+		QMAKE_CXXFLAGS_RELEASE += /MP
+
+		QMAKE_CXXFLAGS_WARN_ON += /W3 \
+			  /wd4996 \   # silence warnings about deprecated strcpy and whatnot
+			  /wd4005 \   # silence warnings about macro redefinition
+			  /wd4290     # ignore exception specifications
+
+		# QAxContainer support is needed for the Internet Control
+		# element showing the Google Earth window
+		greaterThan(QT_MAJOR_VERSION, 4) {
+			QT += axcontainer
+		} else {
+			CONFIG += qaxcontainer
+		}
+	} # end win32-msvc-*
+
+	win32-g++ {  # MinGW
+		INCLUDEPATH += $$BASEDIR/libs/lib/sdl/include \
+		LIBS += -L$$BASEDIR/libs/lib/sdl/win32 \
+	}
 
 	# For release builds remove support for various Qt debugging macros.
 	CONFIG(release, debug|release) {
@@ -328,13 +329,7 @@ win32-msvc2010|win32-msvc2012|win32-g++ {
 		CONFIG += console
 	}
 
-	INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
-        $$BASEDIR/libs/lib/opal/include \
-#		  $$BASEDIR/libs/lib/msinttypes
-
-	LIBS += -L$$BASEDIR/libs/lib/sdl/msvc/lib \
-        -lSDLmain -lSDL \
-        -lsetupapi
+	LIBS += -lSDLmain -lSDL -lsetupapi
 
 #	exists($$BASEDIR/libs/lib/osg123) {
 #		message("Building support for OSG")
@@ -375,14 +370,6 @@ win32-msvc2010|win32-msvc2012|win32-g++ {
 	# Copy AQ files
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\aq\\bin" $$escape_expand(\\n))
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\aq\\mixes\\*" "$$TARGETDIR_WIN\\aq\\mixes" $$escape_expand(\\n))
-
-	# Copy VLC files  --  just install VNC instaed!
-#	contains(DEFINES, QGC_USE_VLC) {
-#		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\plugins\\*"  "$$TARGETDIR_WIN\\plugins" /E /I $$escape_expand(\\n))
-#		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlccore.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-#		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\libvlc.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-#	}
-
 	# Copy application resources
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\*.*" "$$TARGETDIR_WIN\\files\\" $$escape_expand(\\n))
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\audio" "$$TARGETDIR_WIN\\files\\audio" $$escape_expand(\\n))
@@ -390,49 +377,59 @@ win32-msvc2010|win32-msvc2012|win32-g++ {
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\lang" "$$TARGETDIR_WIN\\files\\lang" $$escape_expand(\\n))
 
 	CONFIG(release, debug|release) {
-		# Copy supporting library DLLs
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		#QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
 
-		# Copy Qt DLLs
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$(QTDIR)\\plugins\\imageformats" "$$TARGETDIR_WIN\\imageformats" $$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$(QTDIR)\\plugins\\iconengines" "$$TARGETDIR_WIN\\iconengines" $$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$(QTDIR)\\plugins\\sqldrivers" "$$TARGETDIR_WIN\\sqldrivers" $$escape_expand(\\n))
-		CONFIG(release, debug|release) {
-		}
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Core.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Concurrent.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Gui.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Multimedia.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Network.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}OpenGL.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Sql.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Svg.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Test.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}WebKit.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}Xml.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$(QTDIR)\\bin\\$${QTLIBDLLPFX}XmlPatterns.dll" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		COPY_DLL_LIST = \
+			$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll \
+			$$(QTDIR)\\bin\\icu*.dll \
+#			$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll \
 
-		# clean up stuff not needed by release versions
-		QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\imageformats\\*$${QTLIBDBGDLLSFX}" $$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\iconengines\\*$${QTLIBDBGDLLSFX}" $$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\sqldrivers\\*$${QTLIBDBGDLLSFX}" $$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.exp"$$escape_expand(\\n))
-		QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.lib"$$escape_expand(\\n))
+		QT_DLL_LIST = Core Gui Multimedia Network OpenGL Sql Svg Test WebKit Xml XmlPatterns
+		QT_PLUGIN_LIST = imageformats iconengines sqldrivers
+		greaterThan(QT_MAJOR_VERSION, 4) {
+			QT_DLL_LIST += Concurrent MultimediaWidgets Positioning PrintSupport Qml Quick Sensors WebChannel WebKitWidgets Widgets
+			QT_PLUGIN_LIST += audio mediaservice platforms
+		}
+		for(QT_DLL, QT_DLL_LIST) {
+			COPY_DLL_LIST += $$(QTDIR)\\bin\\$${QTLIBDLLPFX}$${QT_DLL}.dll
+		}
 
-		# Copy Visual Studio DLLs
-		win32-msvc2010 {
-			QMAKE_POST_LINK += $$quote(xcopy /D /Y "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\*.dll\""  "$$TARGETDIR_WIN\\"$$escape_expand(\\n))
-		}
-		win32-msvc2012 {
-			 QMAKE_POST_LINK += $$quote(xcopy /D /Y "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 11.0\\VC\\redist\\x86\\Microsoft.VC110.CRT\\*.dll\""  "$${TARGETDIR}\\"$$escape_expand(\\n))
-		}
+		# Copy compiler-specific DLLs
+		win32-msvc2010: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\*.dll\""
+		win32-msvc2012: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 11.0\\VC\\redist\\x86\\Microsoft.VC110.CRT\\*.dll\""
+		win32-msvc2012: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\*.dll\""
 		win32-g++ {
 			# we need to know where MinGW lives so we can copy some DLLs from there.
 			MINGW_PATH = $$(MINGW_PATH)
 			isEmpty(MINGW_PATH): error("MINGW_PATH not found")
-			QMAKE_POST_LINK  += $$quote(xcopy /D /Y "$${MINGW_PATH}\\bin\\libwinpthread-1.dll"  "$${TARGETDIR}"$$escape_expand(\\n\\t))
-			QMAKE_POST_LINK  += $$quote(xcopy /D /Y "$${MINGW_PATH}\\bin\\libstdc++-6.dll"  "$${TARGETDIR}"$$escape_expand(\\n))
+			COPY_DLL_LIST += $${MINGW_PATH}\\bin\\libwinpthread-1.dll
+			COPY_DLL_LIST += $${MINGW_PATH}\\bin\\libstdc++-6.dll
 		}
-	}
+
+		# Copy VLC files
+		contains(DEFINES, QGC_USE_VLC) {
+			#QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\plugins\\*"  "$$TARGETDIR_WIN\\plugins" /E /I $$escape_expand(\\n))
+			COPY_DLL_LIST += $$BASEDIR_WIN\\libs\\vlc\\libvlccore.dll
+			COPY_DLL_LIST += $$BASEDIR_WIN\\libs\\vlc\\libvlc.dll
+		}
+
+		# Copy all DLLs to base folder
+		for(COPY_DLL, COPY_DLL_LIST) {
+			QMAKE_POST_LINK += $$quote(xcopy /D /Y "$${COPY_DLL}" "$$TARGETDIR_WIN"$$escape_expand(\\n))
+		}
+		# Copy all QT plugin DLLs and delete the debug ones
+		for(QT_PLUGIN, QT_PLUGIN_LIST) {
+			QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$(QTDIR)\\plugins\\$${QT_PLUGIN}\\*.dll" "$$TARGETDIR_WIN\\$${QT_PLUGIN}" $$escape_expand(\\n))
+			QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\$${QT_PLUGIN}\\*$${QTLIBDBGDLLSFX}" $$escape_expand(\\n))
+		}
+		# clean up stuff not needed by release versions
+		greaterThan(QT_MAJOR_VERSION, 4) {
+			QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\*.manifest" $$escape_expand(\\n))
+			QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\platforms\\qminimal*" $$escape_expand(\\n))
+			QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\platforms\\qoffscreen*" $$escape_expand(\\n))
+		} else {
+			QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.exp" $$escape_expand(\\n))
+			QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.lib" $$escape_expand(\\n))
+		}
+
+	}  # end if release version
 }

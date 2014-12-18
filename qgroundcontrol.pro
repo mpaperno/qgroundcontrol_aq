@@ -23,12 +23,11 @@ QT += network \
 	 svg \
 	 xml \
 	 webkit \
-	 sql \
-	 concurrent
+	 sql
 
 # Qt configuration
 greaterThan(QT_MAJOR_VERSION, 4) {
-	QT += widgets webkitwidgets multimedia printsupport
+	QT += widgets webkitwidgets multimedia printsupport concurrent
 } else {
 	CONFIG += qt thread
 }
@@ -132,6 +131,20 @@ TRANSLATIONS += files/lang/de.ts \
 
 OTHER_FILES += files/styles/*.css
 
+INCLUDEPATH += src \
+	 src/ui \
+	 src/ui/linechart \
+	 src/ui/uas \
+	 src/ui/map \
+	 src/uas \
+	 src/comm \
+	 include/ui \
+	 src/input \
+	 src/ui/mavlink \
+	 src/ui/map3D \
+	 src/ui/mission \
+	 src/ui/designer
+
 FORMS += src/ui/MainWindow.ui \
     src/ui/CommSettings.ui \
     src/ui/SerialSettings.ui \
@@ -148,20 +161,12 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/HDDisplay.ui \
     src/ui/MAVLinkSettingsWidget.ui \
 #    src/ui/AudioOutputWidget.ui \
-    src/ui/QGCSensorSettingsWidget.ui \
-#    src/ui/watchdog/WatchdogControl.ui \
-#    src/ui/watchdog/WatchdogProcessView.ui \
-#    src/ui/watchdog/WatchdogView.ui \
-#    src/ui/QGCFirmwareUpdate.ui \
-#    src/ui/QGCPxImuFirmwareUpdate.ui \
+	 src/ui/QGCSensorSettingsWidget.ui \
     src/ui/QGCDataPlot2D.ui \
     src/ui/QGCRemoteControlView.ui \
     src/ui/QMap3D.ui \
     src/ui/QGCWebView.ui \
-    src/ui/map3D/QGCGoogleEarthView.ui \
-#    src/ui/SlugsDataSensorView.ui \
-#    src/ui/SlugsHilSim.ui \
-#    src/ui/SlugsPadCameraControl.ui \
+	 src/ui/map3D/QGCGoogleEarthView.ui \
     src/ui/uas/QGCUnconnectedInfoWidget.ui \
     src/ui/designer/QGCToolWidget.ui \
     src/ui/designer/QGCParamSlider.ui \
@@ -181,10 +186,8 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/WaypointViewOnlyView.ui \    
     src/ui/WaypointEditableView.ui \    
     src/ui/UnconnectedUASInfoWidget.ui \
-    src/ui/mavlink/QGCMAVLinkMessageSender.ui \
-#    src/ui/firmwareupdate/QGCFirmwareUpdateWidget.ui \
-    src/ui/QGCPluginHost.ui \
-#    src/ui/firmwareupdate/QGCPX4FirmwareUpdate.ui \
+#	 src/ui/mavlink/QGCMAVLinkMessageSender.ui \
+	 src/ui/QGCPluginHost.ui \
     src/ui/mission/QGCMissionOther.ui \
     src/ui/mission/QGCMissionNavWaypoint.ui \
     src/ui/mission/QGCMissionDoJump.ui \
@@ -197,8 +200,7 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/mission/QGCMissionNavTakeoff.ui \
     src/ui/mission/QGCMissionNavSweep.ui \
     src/ui/mission/QGCMissionDoStartSearch.ui \
-    src/ui/mission/QGCMissionDoFinishSearch.ui \
-#    src/ui/QGCVehicleConfig.ui \
+	 src/ui/mission/QGCMissionDoFinishSearch.ui \
 #    src/ui/QGCHilConfiguration.ui \
 #    src/ui/QGCHilFlightGearConfiguration.ui \
 #    src/ui/QGCHilXPlaneConfiguration.ui \
@@ -209,23 +211,6 @@ FORMS += src/ui/MainWindow.ui \
     src/ui/aq_pwmPortsConfig.ui \
 	 src/ui/aq_LogViewer.ui \
 	 src/ui/ESCtelemetryWidget.ui
-
-INCLUDEPATH += src \
-    src/ui \
-    src/ui/linechart \
-    src/ui/uas \
-    src/ui/map \
-    src/uas \
-    src/comm \
-    include/ui \
-    src/input \
-    src/lib/qmapcontrol \
-    src/ui/mavlink \
-    src/ui/param \
-    src/ui/watchdog \
-    src/ui/map3D \
-    src/ui/mission \
-    src/ui/designer
 
 HEADERS += src/MG.h \
     src/QGCCore.h \
@@ -270,35 +255,16 @@ HEADERS += src/MG.h \
     src/LogCompressor.h \
 #    src/ui/QGCParamWidget.h \
     src/ui/QGCSensorSettingsWidget.h \
-    src/ui/linechart/Linecharts.h \
-#    src/uas/SlugsMAV.h \
-#    src/uas/PxQuadMAV.h \
-#    src/uas/ArduPilotMegaMAV.h \
-#    src/uas/senseSoarMAV.h \
-#    src/ui/watchdog/WatchdogControl.h \
-#    src/ui/watchdog/WatchdogProcessView.h \
-#    src/ui/watchdog/WatchdogView.h \
+	 src/ui/linechart/Linecharts.h \
     src/uas/UASWaypointManager.h \
     src/ui/HSIDisplay.h \
-    src/QGC.h \
-#    src/ui/QGCFirmwareUpdate.h \
-#    src/ui/QGCPxImuFirmwareUpdate.h \
+	 src/QGC.h \
     src/ui/QGCDataPlot2D.h \
     src/ui/linechart/IncrementalPlot.h \
-    src/ui/QGCRemoteControlView.h \
-#    src/ui/RadioCalibration/RadioCalibrationData.h \
-#    src/ui/RadioCalibration/RadioCalibrationWindow.h \
-#    src/ui/RadioCalibration/AirfoilServoCalibrator.h \
-#    src/ui/RadioCalibration/SwitchCalibrator.h \
-#    src/ui/RadioCalibration/CurveCalibrator.h \
-#    src/ui/RadioCalibration/AbstractCalibrator.h \
+	 src/ui/QGCRemoteControlView.h \
     src/comm/QGCMAVLink.h \
     src/ui/QGCWebView.h \
-    src/ui/map3D/QGCWebPage.h \
-#    src/ui/SlugsDataSensorView.h \
-#    src/ui/SlugsHilSim.h \
-#    src/ui/SlugsPadCameraControl.h \
-#    src/ui/QGCMainWindowAPConfigurator.h \
+	 src/ui/map3D/QGCWebPage.h \
 #    src/comm/MAVLinkSwarmSimulationLink.h \
     src/ui/uas/QGCUnconnectedInfoWidget.h \
     src/ui/designer/QGCToolWidget.h \
@@ -320,8 +286,7 @@ HEADERS += src/MG.h \
     src/ui/map/MAV2DIcon.h \
     src/ui/map/Waypoint2DIcon.h \
     src/ui/map/QGCMapTool.h \
-    src/ui/map/QGCMapToolBar.h \
-#    libs/qextserialport/qextserialenumerator.h \
+	 src/ui/map/QGCMapToolBar.h \
     src/QGCGeo.h \
     src/ui/QGCToolBar.h \
     src/ui/QGCMAVLinkInspector.h \
@@ -331,10 +296,8 @@ HEADERS += src/MG.h \
     src/ui/WaypointEditableView.h \    
     src/ui/UnconnectedUASInfoWidget.h \
     src/ui/QGCRGBDView.h \
-    src/ui/mavlink/QGCMAVLinkMessageSender.h \
-#    src/ui/firmwareupdate/QGCFirmwareUpdateWidget.h \
-    src/ui/QGCPluginHost.h \
-#    src/ui/firmwareupdate/QGCPX4FirmwareUpdate.h \
+#	 src/ui/mavlink/QGCMAVLinkMessageSender.h \
+	 src/ui/QGCPluginHost.h \
     src/ui/mission/QGCMissionOther.h \
     src/ui/mission/QGCMissionNavWaypoint.h \
     src/ui/mission/QGCMissionDoJump.h \
@@ -347,8 +310,7 @@ HEADERS += src/MG.h \
     src/ui/mission/QGCMissionNavTakeoff.h \
     src/ui/mission/QGCMissionNavSweep.h \
     src/ui/mission/QGCMissionDoStartSearch.h \
-    src/ui/mission/QGCMissionDoFinishSearch.h \
-#    src/ui/QGCVehicleConfig.h \
+	 src/ui/mission/QGCMissionDoFinishSearch.h \
 #    src/comm/QGCHilLink.h \
 #    src/ui/QGCHilConfiguration.h \
 #    src/ui/QGCHilFlightGearConfiguration.h \
@@ -367,48 +329,6 @@ HEADERS += src/MG.h \
 	 src/uas/autoquadMAV.h \
 	 src/ui/ESCtelemetryWidget.h \
     src/ui/linechart/ChartPlot.h
-
-contains(DEPENDENCIES_PRESENT, osg) { 
-    message("Including headers for OpenSceneGraph")
-    
-    # Enable only if OpenSceneGraph is available
-    HEADERS += src/ui/map3D/gpl.h \
-        src/ui/map3D/CameraParams.h \
-        src/ui/map3D/ViewParamWidget.h \
-        src/ui/map3D/SystemContainer.h \
-        src/ui/map3D/SystemViewParams.h \
-        src/ui/map3D/GlobalViewParams.h \
-        src/ui/map3D/SystemGroupNode.h \
-        src/ui/map3D/Q3DWidget.h \
-        src/ui/map3D/GCManipulator.h \
-        src/ui/map3D/ImageWindowGeode.h \
-        src/ui/map3D/PixhawkCheetahNode.h \
-        src/ui/map3D/Pixhawk3DWidget.h \
-        src/ui/map3D/Q3DWidgetFactory.h \
-        src/ui/map3D/WebImageCache.h \
-        src/ui/map3D/WebImage.h \
-        src/ui/map3D/TextureCache.h \
-        src/ui/map3D/Texture.h \
-        src/ui/map3D/Imagery.h \
-        src/ui/map3D/HUDScaleGeode.h \
-        src/ui/map3D/WaypointGroupNode.h \
-        src/ui/map3D/TerrainParamDialog.h \
-        src/ui/map3D/ImageryParamDialog.h
-}
-contains(DEPENDENCIES_PRESENT, protobuf):contains(MAVLINK_CONF, pixhawk) {
-    message("Including headers for Protocol Buffers")
-
-    # Enable only if protobuf is available
-    HEADERS += libs/mavlink/include/mavlink/v1.0/pixhawk/pixhawk.pb.h \
-        src/ui/map3D/ObstacleGroupNode.h \
-        src/ui/map3D/GLOverlayGeode.h
-}
-contains(DEPENDENCIES_PRESENT, libfreenect) { 
-    message("Including headers for libfreenect")
-    
-    # Enable only if libfreenect is available
-    HEADERS += src/input/Freenect.h
-}
 
 SOURCES += src/main.cc \
     src/QGCCore.cc \
@@ -449,35 +369,15 @@ SOURCES += src/main.cc \
     src/LogCompressor.cc \
 #    src/ui/QGCParamWidget.cc \
     src/ui/QGCSensorSettingsWidget.cc \
-    src/ui/linechart/Linecharts.cc \
-#    src/uas/SlugsMAV.cc \
-#    src/uas/PxQuadMAV.cc \
-#    src/uas/ArduPilotMegaMAV.cc \
-#    src/uas/senseSoarMAV.cpp \
-#    src/ui/watchdog/WatchdogControl.cc \
-#    src/ui/watchdog/WatchdogProcessView.cc \
-#    src/ui/watchdog/WatchdogView.cc \
+	 src/ui/linechart/Linecharts.cc \
     src/uas/UASWaypointManager.cc \
     src/ui/HSIDisplay.cc \
-    src/QGC.cc \
-#    src/ui/QGCFirmwareUpdate.cc \
-#    src/ui/QGCPxImuFirmwareUpdate.cc \
+	 src/QGC.cc \
     src/ui/QGCDataPlot2D.cc \
     src/ui/linechart/IncrementalPlot.cc \
-    src/ui/QGCRemoteControlView.cc \
-#    src/ui/RadioCalibration/RadioCalibrationWindow.cc \
-#    src/ui/RadioCalibration/AirfoilServoCalibrator.cc \
-#    src/ui/RadioCalibration/SwitchCalibrator.cc \
-#    src/ui/RadioCalibration/CurveCalibrator.cc \
-#    src/ui/RadioCalibration/AbstractCalibrator.cc \
-#    src/ui/RadioCalibration/RadioCalibrationData.cc \
+	 src/ui/QGCRemoteControlView.cc \
     src/ui/QGCWebView.cc \
-    src/ui/map3D/QGCWebPage.cc \
-#    src/ui/SlugsDataSensorView.cc \
-#    src/ui/SlugsHilSim.cc \
-#    src/ui/SlugsPadCameraControl.cpp \
-#    src/ui/QGCMainWindowAPConfigurator.cc \
-#    src/comm/MAVLinkSwarmSimulationLink.cc \
+	 src/ui/map3D/QGCWebPage.cc \
     src/ui/uas/QGCUnconnectedInfoWidget.cc \
     src/ui/designer/QGCToolWidget.cc \
     src/ui/designer/QGCParamSlider.cc \
@@ -506,10 +406,8 @@ SOURCES += src/main.cc \
     src/ui/WaypointEditableView.cc \
     src/ui/UnconnectedUASInfoWidget.cc \
     src/ui/QGCRGBDView.cc \
-    src/ui/mavlink/QGCMAVLinkMessageSender.cc \
-#    src/ui/firmwareupdate/QGCFirmwareUpdateWidget.cc \
-    src/ui/QGCPluginHost.cc \
-#    src/ui/firmwareupdate/QGCPX4FirmwareUpdate.cc \
+#	 src/ui/mavlink/QGCMAVLinkMessageSender.cc \
+	 src/ui/QGCPluginHost.cc \
     src/ui/mission/QGCMissionOther.cc \
     src/ui/mission/QGCMissionNavWaypoint.cc \
     src/ui/mission/QGCMissionDoJump.cc \
@@ -522,8 +420,7 @@ SOURCES += src/main.cc \
     src/ui/mission/QGCMissionNavTakeoff.cc \
     src/ui/mission/QGCMissionNavSweep.cc \
     src/ui/mission/QGCMissionDoStartSearch.cc \
-    src/ui/mission/QGCMissionDoFinishSearch.cc \
-#    src/ui/QGCVehicleConfig.cc \
+	 src/ui/mission/QGCMissionDoFinishSearch.cc \
 #    src/ui/QGCHilConfiguration.cc \
 #    src/ui/QGCHilFlightGearConfiguration.cc \
 #    src/ui/QGCHilXPlaneConfiguration.cc \
@@ -541,79 +438,130 @@ SOURCES += src/main.cc \
     src/ui/linechart/ChartPlot.cc
 
 # Enable Google Earth only on Mac OS and Windows with Visual Studio compiler
-macx|macx-g++|macx-g++42|win32*::SOURCES += src/ui/map3D/QGCGoogleEarthView.cc
+macx|macx-g++|macx-g++42|win32::SOURCES += src/ui/map3D/QGCGoogleEarthView.cc
 
-# Enable OSG only if it has been found
-contains(DEPENDENCIES_PRESENT, osg) { 
-    message("Including sources for OpenSceneGraph")
-    
-    # Enable only if OpenSceneGraph is available
-    SOURCES += src/ui/map3D/gpl.cc \
-        src/ui/map3D/CameraParams.cc \
-        src/ui/map3D/ViewParamWidget.cc \
-        src/ui/map3D/SystemContainer.cc \
-        src/ui/map3D/SystemViewParams.cc \
-        src/ui/map3D/GlobalViewParams.cc \
-        src/ui/map3D/SystemGroupNode.cc \
-        src/ui/map3D/Q3DWidget.cc \
-        src/ui/map3D/ImageWindowGeode.cc \
-        src/ui/map3D/GCManipulator.cc \
-        src/ui/map3D/PixhawkCheetahNode.cc \
-        src/ui/map3D/Pixhawk3DWidget.cc \
-        src/ui/map3D/Q3DWidgetFactory.cc \
-        src/ui/map3D/WebImageCache.cc \
-        src/ui/map3D/WebImage.cc \
-        src/ui/map3D/TextureCache.cc \
-        src/ui/map3D/Texture.cc \
-        src/ui/map3D/Imagery.cc \
-        src/ui/map3D/HUDScaleGeode.cc \
-        src/ui/map3D/WaypointGroupNode.cc \
-        src/ui/map3D/TerrainParamDialog.cc \
-        src/ui/map3D/ImageryParamDialog.cc
+contains(DEPENDENCIES_PRESENT, libfreenect) {
+	 message("Including sources for libfreenect")
 
-    contains(DEPENDENCIES_PRESENT, osgearth) { 
-        message("Including sources for osgEarth")
+	 # Enable only if libfreenect is available
+	 HEADERS += src/input/Freenect.h
+	 SOURCES += src/input/Freenect.cc
+}
+
+###################################################################
+#### --- 3DConnexion 3d Mice support (e.g. spacenavigator) --- ####
+###################################################################
+
+# xdrvlib only supported by linux (theoretical all X11) systems
+# You have to install the official 3DxWare driver for linux to use 3D mouse support on linux systems!
+linux-g++|linux-g++-64{
+	 exists(/usr/local/lib/libxdrvlib.so){
+		  message("Including support for Magellan 3DxWare for linux system.")
+		  SOURCES  += src/input/Mouse6dofInput.cpp
+		  HEADERS  += src/input/Mouse6dofInput.h
+		  LIBS += -L/usr/local/lib/ -lxdrvlib
+		  INCLUDEPATH *= /usr/local/include
+		  DEFINES += MOUSE_ENABLED_LINUX \
+						  ParameterCheck                      # Hack: Has to be defined for magellan usage
+	 }
+}
+
+#contains(DEPENDENCIES_PRESENT, osg) {
+#    message("Including headers for OpenSceneGraph")
+
+#    # Enable only if OpenSceneGraph is available
+#    HEADERS += src/ui/map3D/gpl.h \
+#        src/ui/map3D/CameraParams.h \
+#        src/ui/map3D/ViewParamWidget.h \
+#        src/ui/map3D/SystemContainer.h \
+#        src/ui/map3D/SystemViewParams.h \
+#        src/ui/map3D/GlobalViewParams.h \
+#        src/ui/map3D/SystemGroupNode.h \
+#        src/ui/map3D/Q3DWidget.h \
+#        src/ui/map3D/GCManipulator.h \
+#        src/ui/map3D/ImageWindowGeode.h \
+#        src/ui/map3D/PixhawkCheetahNode.h \
+#        src/ui/map3D/Pixhawk3DWidget.h \
+#        src/ui/map3D/Q3DWidgetFactory.h \
+#        src/ui/map3D/WebImageCache.h \
+#        src/ui/map3D/WebImage.h \
+#        src/ui/map3D/TextureCache.h \
+#        src/ui/map3D/Texture.h \
+#        src/ui/map3D/Imagery.h \
+#        src/ui/map3D/HUDScaleGeode.h \
+#        src/ui/map3D/WaypointGroupNode.h \
+#        src/ui/map3D/TerrainParamDialog.h \
+#        src/ui/map3D/ImageryParamDialog.h
+#
+#    SOURCES += src/ui/map3D/gpl.cc \
+#        src/ui/map3D/CameraParams.cc \
+#        src/ui/map3D/ViewParamWidget.cc \
+#        src/ui/map3D/SystemContainer.cc \
+#        src/ui/map3D/SystemViewParams.cc \
+#        src/ui/map3D/GlobalViewParams.cc \
+#        src/ui/map3D/SystemGroupNode.cc \
+#        src/ui/map3D/Q3DWidget.cc \
+#        src/ui/map3D/ImageWindowGeode.cc \
+#        src/ui/map3D/GCManipulator.cc \
+#        src/ui/map3D/PixhawkCheetahNode.cc \
+#        src/ui/map3D/Pixhawk3DWidget.cc \
+#        src/ui/map3D/Q3DWidgetFactory.cc \
+#        src/ui/map3D/WebImageCache.cc \
+#        src/ui/map3D/WebImage.cc \
+#        src/ui/map3D/TextureCache.cc \
+#        src/ui/map3D/Texture.cc \
+#        src/ui/map3D/Imagery.cc \
+#        src/ui/map3D/HUDScaleGeode.cc \
+#        src/ui/map3D/WaypointGroupNode.cc \
+#        src/ui/map3D/TerrainParamDialog.cc \
+#        src/ui/map3D/ImageryParamDialog.cc
+
+#    contains(DEPENDENCIES_PRESENT, osgearth) {
+#        message("Including sources for osgEarth")
         
-        # Enable only if OpenSceneGraph is available
-        SOURCES +=
-    }
-}
-contains(DEPENDENCIES_PRESENT, protobuf):contains(MAVLINK_CONF, pixhawk) {
-    message("Including sources for Protocol Buffers")
+#        # Enable only if OpenSceneGraph is available
+#        SOURCES +=
+#    }
+#}
 
-    # Enable only if protobuf is available
-    SOURCES += libs/mavlink/share/mavlink/src/v1.0/pixhawk/pixhawk.pb.cc \
-        src/ui/map3D/ObstacleGroupNode.cc \
-        src/ui/map3D/GLOverlayGeode.cc
-}
-contains(DEPENDENCIES_PRESENT, libfreenect) { 
-    message("Including sources for libfreenect")
-    
-    # Enable only if libfreenect is available
-    SOURCES += src/input/Freenect.cc
-}
+#contains(DEPENDENCIES_PRESENT, protobuf):contains(MAVLINK_CONF, pixhawk) {
+#    message("Including headers for Protocol Buffers")
 
+#}
+
+#contains(DEPENDENCIES_PRESENT, protobuf):contains(MAVLINK_CONF, pixhawk) {
+#    message("Including sources for Protocol Buffers")
+
+#    # Enable only if protobuf is available
+#    HEADERS += libs/mavlink/include/mavlink/v1.0/pixhawk/pixhawk.pb.h \
+#        src/ui/map3D/ObstacleGroupNode.h \
+#        src/ui/map3D/GLOverlayGeode.h
+
+#    SOURCES += libs/mavlink/share/mavlink/src/v1.0/pixhawk/pixhawk.pb.cc \
+#        src/ui/map3D/ObstacleGroupNode.cc \
+#        src/ui/map3D/GLOverlayGeode.cc
+#}
 # Include RT-LAB Library
-win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin) { 
-    message("Building support for Opal-RT")
-    LIBS += -LC:/OPAL-RT/RT-LAB7.2.4/Common/bin \
-        -lOpalApi
-    INCLUDEPATH += src/lib/opalrt
-    HEADERS += src/comm/OpalRT.h \
-        src/comm/OpalLink.h \
-        src/comm/Parameter.h \
-        src/comm/QGCParamID.h \
-        src/comm/ParameterList.h \
-        src/ui/OpalLinkConfigurationWindow.h
-    SOURCES += src/comm/OpalRT.cc \
-        src/comm/OpalLink.cc \
-        src/comm/Parameter.cc \
-        src/comm/QGCParamID.cc \
-        src/comm/ParameterList.cc \
-        src/ui/OpalLinkConfigurationWindow.cc
-    FORMS += src/ui/OpalLinkSettings.ui
-    DEFINES += OPAL_RT
-}
+#win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin) {
+#    message("Building support for Opal-RT")
+#    LIBS += -LC:/OPAL-RT/RT-LAB7.2.4/Common/bin \
+#        -lOpalApi
+#    INCLUDEPATH += src/lib/opalrt
+#    HEADERS += src/comm/OpalRT.h \
+#        src/comm/OpalLink.h \
+#        src/comm/Parameter.h \
+#        src/comm/QGCParamID.h \
+#        src/comm/ParameterList.h \
+#        src/ui/OpalLinkConfigurationWindow.h
+#    SOURCES += src/comm/OpalRT.cc \
+#        src/comm/OpalLink.cc \
+#        src/comm/Parameter.cc \
+#        src/comm/QGCParamID.cc \
+#        src/comm/ParameterList.cc \
+#        src/ui/OpalLinkConfigurationWindow.cc
+#    FORMS += src/ui/OpalLinkSettings.ui
+#    DEFINES += OPAL_RT
+#}
 
 # xbee support
 # libxbee only supported by linux and windows systems
@@ -632,24 +580,6 @@ win32:exists(src/lib/opalrt/OpalApi.h):exists(C:/OPAL-RT/RT-LAB7.2.4/Common/bin)
 #    LIBS += -L$${BASEDIR}/libs/thirdParty/libxbee/lib \
 #        -llibxbee
 #}
-
-###################################################################
-#### --- 3DConnexion 3d Mice support (e.g. spacenavigator) --- ####
-###################################################################
-
-# xdrvlib only supported by linux (theoretical all X11) systems
-# You have to install the official 3DxWare driver for linux to use 3D mouse support on linux systems!
-linux-g++|linux-g++-64{
-    exists(/usr/local/lib/libxdrvlib.so){
-        message("Including support for Magellan 3DxWare for linux system.")
-        SOURCES  += src/input/Mouse6dofInput.cpp
-        HEADERS  += src/input/Mouse6dofInput.h
-        LIBS += -L/usr/local/lib/ -lxdrvlib
-        INCLUDEPATH *= /usr/local/include
-        DEFINES += MOUSE_ENABLED_LINUX \
-                    ParameterCheck                      # Hack: Has to be defined for magellan usage
-    }
-}
 
 # Support for Windows systems
 # You have to install the official 3DxWare driver for Windows to use the 3D mouse support on Windows systems!

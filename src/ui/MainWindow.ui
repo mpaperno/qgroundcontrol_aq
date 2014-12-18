@@ -253,15 +253,6 @@
     <string>Simulate one vehicle to test and evaluate this application</string>
    </property>
   </action>
-  <action name="actionShow_Slugs_View">
-   <property name="icon">
-    <iconset resource="../../qgroundcontrol.qrc">
-     <normaloff>:/files/images/contrib/slugs.png</normaloff>:/files/images/contrib/slugs.png</iconset>
-   </property>
-   <property name="text">
-    <string>Show Slugs View</string>
-   </property>
-  </action>
   <action name="actionOnline_Documentation">
    <property name="icon">
     <iconset resource="../../qgroundcontrol.qrc">

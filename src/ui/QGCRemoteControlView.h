@@ -33,8 +33,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QWidget>
 #include <QVector>
 #include <QPushButton>
-
-#include "RadioCalibration/RadioCalibrationWindow.h"
+#include <QTimer>
 
 namespace Ui
 {
@@ -77,7 +76,6 @@ protected:
     QProgressBar* rssiBar;
     QLabel* nameLabel;
     QPushButton *calibrate;
-    RadioCalibrationWindow *calibrationWindow;
     QTimer updateTimer;
 
 private:

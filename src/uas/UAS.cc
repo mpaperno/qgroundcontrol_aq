@@ -1210,6 +1210,9 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 */
 void UAS::setHomePosition(double lat, double lon, double alt)
 {
+    Q_UNUSED(lat);
+    Q_UNUSED(lon);
+    Q_UNUSED(alt);
     // removed for now because this causes a nasty loop when Home position is set on AQ
 
 //    QMessageBox msgBox;
@@ -2344,8 +2347,8 @@ bool UAS::emergencyKILL()
 /**
 * If enabled, connect the flight gear link.
 */
-void UAS::enableHilFlightGear(bool enable, QString options)
-{
+//void UAS::enableHilFlightGear(bool enable, QString options)
+//{
 //    QGCFlightGearLink* link = dynamic_cast<QGCFlightGearLink*>(simulation);
 //    if (!link || !simulation) {
 //        // Delete wrong sim
@@ -2366,13 +2369,13 @@ void UAS::enableHilFlightGear(bool enable, QString options)
 //    {
 //        stopHil();
 //    }
-}
+//}
 
 /**
 * If enabled, connect the X-plane gear link.
 */
-void UAS::enableHilXPlane(bool enable)
-{
+//void UAS::enableHilXPlane(bool enable)
+//{
 //    QGCXPlaneLink* link = dynamic_cast<QGCXPlaneLink*>(simulation);
 //    if (!link || !simulation) {
 //        if (simulation) {
@@ -2391,7 +2394,7 @@ void UAS::enableHilXPlane(bool enable)
 //    {
 //        stopHil();
 //    }
-}
+//}
 
 /**
 * @param time_us Timestamp (microseconds since UNIX epoch or microseconds since system boot)

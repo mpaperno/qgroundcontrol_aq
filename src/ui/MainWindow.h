@@ -72,17 +72,12 @@ This file is part of the QGROUNDCONTROL project
 #include "QGCGoogleEarthView.h"
 #endif
 #include "QGCToolBar.h"
-//#include "SlugsDataSensorView.h"
 #include "LogCompressor.h"
 #include "QGCDataViewWidget.h"
 
-//#include "SlugsHilSim.h"
-
-//#include "SlugsPadCameraControl.h"
 #include "UASControlParameters.h"
 #include "QGCMAVLinkInspector.h"
 #include "QGCMAVLinkLogPlayer.h"
-#include "QGCVehicleConfig.h"
 #include "MAVLinkDecoder.h"
 
 #include <cstring>
@@ -303,10 +298,10 @@ protected:
         VIEW_ENGINEER,
         VIEW_OPERATOR,
         VIEW_PILOT,
-        VIEW_MAVLINK,
-        VIEW_FIRMWAREUPDATE,
-        VIEW_UNCONNECTED,    ///< View in unconnected mode, when no UAS is available
-        VIEW_FULL,            ///< All widgets shown at once
+        VIEW_MAVLINK,           // Not used, kept for backward compat of settings
+        VIEW_FIRMWAREUPDATE,    // Not used, kept for backward compat of settings
+        VIEW_UNCONNECTED,       ///< View in unconnected mode, when no UAS is available
+        VIEW_FULL,              ///< All widgets shown at once
         VIEW_AQ,
         VIEW_DATA
     } VIEW_SECTIONS;
@@ -373,7 +368,6 @@ protected:
     // Center widgets
 //    QPointer<Linecharts> linechartWidget;
     QPointer<HUD> hudWidget;
-//    QPointer<QGCVehicleConfig> configWidget;
     QPointer<QGCMapTool> mapWidget;
 //    QPointer<XMLCommProtocolWidget> protocolWidget;
 //    QPointer<QGCDataPlot2D> dataplotWidget;
@@ -385,7 +379,6 @@ protected:
 #ifdef USE_GOOGLE_EARTH_PLUGIN
     QPointer<QGCGoogleEarthView> gEarthWidget;
 #endif
-//    QPointer<QGCFirmwareUpdate> firmwareUpdateWidget;
 
     // Dock widgets
 //    QPointer<QDockWidget> controlDockWidget;
@@ -399,7 +392,6 @@ protected:
     QPointer<QDockWidget> parametersDockWidget;
     QPointer<QDockWidget> headDown1DockWidget;
 //    QPointer<QDockWidget> headDown2DockWidget;
-//    QPointer<QDockWidget> watchdogControlDockWidget;
 
     QPointer<QDockWidget> headUpDockWidget;
 //    QPointer<QDockWidget> video1DockWidget;
@@ -412,9 +404,6 @@ protected:
     QPointer<QDockWidget> rcViewDockWidget;
     QPointer<QDockWidget> hudDockWidget;
     QPointer<QDockWidget> pfdDockWidget;
-//    QPointer<QDockWidget> slugsDataWidget;
-//    QPointer<QDockWidget> slugsHilSimWidget;
-//    QPointer<QDockWidget> slugsCamControlWidget;
 
     QPointer<QGCToolBar> toolBar;
 
