@@ -80,6 +80,8 @@ DebugConsole::DebugConsole(QWidget *parent) :
 //    // Set monospace font
 //    m_ui->receiveText->setFontFamily("Monospace");
 
+    m_ui->connectButton->setProperty("type", "toggle-ok-warn");
+
     // Enable 10 Hz output
     //connect(&lineBufferTimer, SIGNAL(timeout()), this, SLOT(showData()));
     //lineBufferTimer.setInterval(100); // 100 Hz
@@ -803,6 +805,7 @@ void DebugConsole::setConnectionState(bool connected)
         m_ui->connectButton->setText(tr("Connect"));
         m_ui->receiveText->appendHtml(QString("<font color=\"%1\">%2</font>\n").arg(QGC::colorOrange.name(), tr("Link %1 is unconnected.").arg(currLink->getName())));
     }
+    m_ui->connectButton->setChecked(connected);
 }
 
 /** @brief Handle the connect button */
@@ -810,8 +813,10 @@ void DebugConsole::handleConnectButton()
 {
     if (currLink) {
         if (currLink->isConnected()) {
+            m_ui->connectButton->setChecked(true);  // this will be set once actually connected
             currLink->disconnect();
         } else {
+            m_ui->connectButton->setChecked(false);  // this will be set once actually connected
             currLink->connect();
         }
     }

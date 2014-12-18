@@ -136,6 +136,7 @@ protected:
     void showEvent(QShowEvent* event);
     /** @brief Stop updating widget */
     void hideEvent(QHideEvent* event);
+    void resizeEvent(QResizeEvent* event);
     void contextMenuEvent (QContextMenuEvent* event);
     void createActions();
 

@@ -291,9 +291,9 @@ MainWindow::MainWindow(QSplashScreen *splashScreen):
     emit initStatusChanged("Done.");
     show();
 
-#if QT_VERSION < 0x050000
+//#if QT_VERSION < 0x050000
     loadStyle(currentStyle);
-#endif
+//#endif
 }
 
 MainWindow::~MainWindow()
@@ -1093,9 +1093,8 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
             qApp->setStyle(m_windowStyleNames.value(style, defaultStyle));
             break;
     }
-    reloadStylesheet(styleFileName);
     currentStyle = style;
-    emit styleChanged((int)style);
+    reloadStylesheet(styleFileName);
 }
 
 void MainWindow::setAvailableStyles()
@@ -1169,6 +1168,7 @@ void MainWindow::reloadStylesheet(const QString file)
         //style.replace("ICONDIR", QCoreApplication::applicationDirPath()+ "files/styles/");
         qApp->setStyleSheet(style);
         styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
+        emit styleChanged((int)currentStyle);
     }
     else
         showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(file));

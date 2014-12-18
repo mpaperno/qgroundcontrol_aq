@@ -34,6 +34,9 @@
    </property>
    <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="10,0,0,0,0,0">
+     <property name="spacing">
+      <number>6</number>
+     </property>
      <item>
       <widget class="QComboBox" name="linkComboBox">
        <property name="sizePolicy">
@@ -303,7 +306,10 @@
      <item>
       <widget class="QPushButton" name="connectButton">
        <property name="text">
-        <string>Disconn.</string>
+        <string>Connect</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

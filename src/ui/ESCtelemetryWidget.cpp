@@ -60,7 +60,7 @@ ESCtelemetryWidget::ESCtelemetryWidget(QWidget *parent) :
                    << tr("Watts")
                    << tr("RPM")
                    << tr("% Duty")
-                   << tr("\260C")
+                   << tr("°C")
                    << tr("Err Cnt")
                    << tr("State")
                    << tr("DCode")

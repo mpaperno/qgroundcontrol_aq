@@ -103,7 +103,6 @@
         <file>files/images/splash.png</file>
         <file>demo-log.txt</file>
         <file>files/earth.html</file>
-        <file>files/images/contrib/slugs.png</file>
         <file>files/styles/style-light.css</file>
         <file>files/images/patterns/lenna.jpg</file>
         <file>files/images/rc_stick.svg</file>
@@ -122,6 +121,8 @@
         <file>files/images/contrib/aq6_ports_reference.png</file>
         <file>files/images/contrib/m4_ports_reference.png</file>
         <file>files/images/icons/v2/t64.png</file>
+        <file>files/images/actions/white-cross-16px.png</file>
+        <file>files/images/actions/white-undock-16px.png</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>

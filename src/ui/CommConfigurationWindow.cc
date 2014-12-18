@@ -79,6 +79,9 @@ CommConfigurationWindow::CommConfigurationWindow(LinkInterface* link, ProtocolIn
 
     ui.connectionType->addItem("MAVLink", QGC_PROTOCOL_MAVLINK);
 
+    ui.connectButton->setProperty("type", "toggle-ok-warn");
+    ui.deleteButton->setProperty("type", "push-vital");
+
     // Create action to open this menu
     // Create configuration action for this link
     // Connect the current UAS
@@ -315,8 +318,10 @@ void CommConfigurationWindow::setProtocol(int protocol)
 void CommConfigurationWindow::setConnection()
 {
     if(!link->isConnected()) {
+        ui.connectButton->setChecked(false);  // this will be set once actually connected
         link->connect();
     } else {
+        ui.connectButton->setChecked(true);  // this will be set once actually connected
         link->disconnect();
     }
 }

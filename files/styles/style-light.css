@@ -37,9 +37,9 @@ QWidget:disabled {
 */
  QMainWindow::separator {
      background: #D3D3D3;
-     width: 2px; /* when vertical */
-     height: 2px; /* when horizontal */
-     margin: 2px;
+	  width: 6px; /* when vertical */
+	  height: 6px; /* when horizontal */
+	  margin: 3px;
 }
  QMainWindow::separator:hover {
      background: silver;
@@ -195,13 +195,12 @@ QMenuBar::item {
     ToolTip
 */
 QToolTip {
-    background-color: #D6D6D6;
-    background-clip: border;
-    border: 1px solid #8C8C8C;
-    padding: 1px 3px;
+	background-color: #D6D6D6;
+	background-clip: border;
+	border: 1px solid #8C8C8C;
+	padding: 1px 3px;
 	border-radius: 6px;
-    color: #000000;
-    opacity: 100;
+	color: #000000;
 }
 
 
@@ -286,6 +285,26 @@ QSpinBox::down-button, QDoubleSpinBox::down-button {
 
 
 /* Non-editable elements */
+
+/*
+	 PushButton, ToolButton
+*/
+QPushButton, QToolButton {
+	 border-color: #465158;
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #BBB, stop: 1 #777);
+}
+QPushButton:checked, QToolButton:checked {
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #444, stop: 1 #888);
+	 color: #FFF;
+}
+QPushButton:hover, QToolButton:hover {
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #B8D3E6, stop: 1 #899FAD);
+}
+QPushButton:disabled, QToolButton:disabled {
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #EEE, stop: 1 #CCC);
+	 color: #AAA;
+}
+
 
 /*
     Splitter

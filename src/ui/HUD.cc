@@ -235,6 +235,12 @@ void HUD::hideEvent(QHideEvent* event)
     emit visibilityChanged(false);
 }
 
+void HUD::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    styleChanged();
+}
+
 void HUD::contextMenuEvent (QContextMenuEvent* event)
 {
     QMenu menu(this);

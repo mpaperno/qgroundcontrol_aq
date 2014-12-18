@@ -129,6 +129,7 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     horizontalLayout->addWidget(calibrateMagButton, 5, 1);
 
     calibrateSaveButton = new QPushButton();
+    calibrateSaveButton->setProperty("type", "push-warn");
     connect(calibrateSaveButton, SIGNAL(clicked()), this, SLOT(calibrationSave()));
     horizontalLayout->addWidget(calibrateSaveButton, 6, 0);
 
@@ -137,6 +138,7 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     horizontalLayout->addWidget(calibrateReadButton, 6, 1);
 
     restartButton = new QPushButton();
+    restartButton->setProperty("type", "push-vital");
     connect(restartButton, SIGNAL(clicked()), this, SLOT(restartUasWithPrompt()));
     horizontalLayout->addWidget(restartButton, 5, 2, 2, 1, Qt::AlignVCenter);
 
