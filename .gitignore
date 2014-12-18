@@ -54,3 +54,4 @@ thirdParty/qserialport/lib/
 /libs/qextserialport
 /fixqt4headers.pl
 /fixqt.txt
+*.qm
