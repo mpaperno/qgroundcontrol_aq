@@ -1206,10 +1206,10 @@ int AQLogParser::loggerReadEntry(FILE *fp, loggerRecord_t *r)
         if ((c = fgetc(fp)) != 'L')
             continue;
 
-        if (fread_s(buf, sizeof(buf), sizeof(loggerRecord_t), 1, fp) == 1) {
+        if (fread(buf, sizeof(loggerRecord_t), 1, fp) == 1) {
             // calc checksum
             ckA = ckB = 0;
-            for (int i = 0; i < sizeof(loggerRecord_t) - 2; i++) {
+            for (unsigned i = 0; i < sizeof(loggerRecord_t) - 2; i++) {
                 ckA += buf[i];
                 ckB += ckA;
             }
@@ -2907,7 +2907,7 @@ void AQEsc32Logger::run() {
 
 unsigned short AQEsc32Logger::esc32GetShort(QByteArray data, int startIndex) {
     unsigned short s;
-    for ( int i =0; i< sizeof(unsigned short); i++) {
+    for ( unsigned i =0; i< sizeof(unsigned short); i++) {
         esc32InChecksum(data[startIndex+i]);
     }
     QByteArray b = data.mid(startIndex,sizeof(unsigned short));

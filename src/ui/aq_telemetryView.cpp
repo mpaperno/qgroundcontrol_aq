@@ -232,7 +232,8 @@ void AQTelemetryView::setupCurves() {
     // populate curves
     for (int i=0; i < telemDataFields.size(); i++) {
         if (telemDataFields[i].dataSet == currentDataSet) {
-            AqTeleChart->appendData(uasId, telemDataFields[i].label, "", QVariant(0.0), 0);
+            QVariant var = QVariant::fromValue(0.0f);
+            AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, 0);
         }
     }
 
@@ -394,8 +395,10 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
                 ui->valuesGrid->findChildren<QLineEdit *>(QString("")).at(i)->setText(valStr);
             }
 
-            if (ui->tab_val_chart->isVisible()) // AqTeleChart->CurveIsActive[i]
-                AqTeleChart->appendData(uasId, telemDataFields[i].label, "", QVariant(val), msec);
+            if (ui->tab_val_chart->isVisible()) { // AqTeleChart->CurveIsActive[i]
+                QVariant var = QVariant::fromValue(val);
+                AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, msec);
+            }
         }
     }
 }

@@ -48,7 +48,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMGround">
@@ -167,6 +167,9 @@
    <property name="shortcut">
     <string>Alt+Q</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
   </action>
   <action name="actionLiftoff">
    <property name="enabled">
@@ -236,6 +239,9 @@
    </property>
    <property name="toolTip">
     <string>Open UAS Preferences</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
   <action name="actionSimulate">
@@ -321,6 +327,9 @@
    <property name="shortcut">
     <string>Alt+C</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
   </action>
   <action name="actionSelectStylesheet">
    <property name="icon">
@@ -329,6 +338,9 @@
    </property>
    <property name="text">
     <string>Select Stylesheet</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
   <action name="actionPilotsView">
@@ -347,6 +359,9 @@
    </property>
    <property name="shortcut">
     <string>Alt+P</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
   <action name="actionNewCustomWidget">
@@ -396,10 +411,23 @@
    <property name="shortcut">
     <string>Alt+R</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
   </action>
   <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="../../qgroundcontrol.qrc">
+     <normaloff>:/files/images/categories/applications-system.svg</normaloff>:/files/images/categories/applications-system.svg</iconset>
+   </property>
    <property name="text">
     <string>Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+S</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
    </property>
   </action>
   <action name="actionFullscreen">
@@ -467,6 +495,9 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Software release notes at the AutoQuad site.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
    </property>
   </action>
  </widget>

@@ -40,7 +40,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QMap>
 #include <qmath.h>
 //#include <inttypes.h>
-#include <cstdint>
+#include <stdint.h>
 #include "QGCMAVLink.h"
 
 #include "LinkInterface.h"

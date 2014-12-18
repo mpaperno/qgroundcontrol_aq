@@ -2,7 +2,6 @@
 *.nfs
 tags
 build*/
-Info.plist
 obj
 .DS_Store
 *.log

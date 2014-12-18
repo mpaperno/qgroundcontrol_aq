@@ -8,7 +8,7 @@
  */
 
 //#include <inttypes.h>
-#include <cstdint>
+#include <stdint.h>
 #include <iostream>
 
 #include <QDebug>

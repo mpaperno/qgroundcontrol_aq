@@ -25,9 +25,13 @@ DEFINES += _TTY_NOWARN_
 # MAC OS X
 macx|macx-g++42|macx-g++|macx-llvm: {
 
-	CONFIG += cocoa
-#	CONFIG += x86_64 cocoa phonon
-#	CONFIG -= x86
+	#CONFIG += cocoa
+
+	#QMAKE_INFO_PLIST = $$BASEDIR/Info.plist
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_MAC_SDK = macosx10.9
+	ICON = $$BASEDIR/files/images/icons/macx.icns
+	#QT += quickwidgets
 
 	# For release builds remove support for various Qt debugging macros.
 	CONFIG(release, debug|release) {
@@ -39,21 +43,19 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	*64 {
 		message("Building Mac64 version")
 		MACBITS = "mac64"
+                CONFIG -= x86
+                CONFIG += x86_64
 		DEFINES -= USE_GOOGLE_EARTH_PLUGIN
 	}
-
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 
 	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
 
 	LIBS += -framework IOKit \
-#		-F$$BASEDIR/libs/lib/Frameworks \
+                -F$$BASEDIR/libs/lib/Frameworks \
 		-framework SDL \
 		-framework CoreFoundation \
 		-framework ApplicationServices \
 		-lm
-
-	ICON = $$BASEDIR/files/images/icons/macx.icns
 
 	QMAKE_POST_LINK += $$quote(echo "Copying files")
 
@@ -65,12 +67,14 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
 
 	# Copy google earth starter file
+        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
 	# Copy audio files
-	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/audio
+        QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/.
 	 # Copy language files
+        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang/flags
+        QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang/.
 	# Copy libraries
 #	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
 #	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
@@ -80,7 +84,7 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 
 
 	# Fix library paths inside executable
-	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
+#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
 #	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
 #	QMAKE_POST_LINK += && install_name_tool -change libosgViewer.dylib "@executable_path/../libs/libosgViewer.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
 #	QMAKE_POST_LINK += && install_name_tool -change libosgGA.dylib "@executable_path/../libs/libosgGA.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
@@ -133,10 +137,12 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 #	QMAKE_POST_LINK += && install_name_tool -change libosgViewer.dylib "@executable_path/../libs/libosgViewer.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
 
 	# CORE OSG LIBRARY
-	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosg.dylib
+#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosg.dylib
 
 	# SDL Framework
 	QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
+
+	DoMacDeploy: QMAKE_POST_LINK += && $$dirname(QMAKE_QMAKE)/macdeployqt $${DESTDIR}/qgroundcontrol.app
 
 	# No check for GLUT.framework since it's a MAC default
 #	message("Building support for OpenSceneGraph")

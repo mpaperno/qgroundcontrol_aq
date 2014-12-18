@@ -73,7 +73,7 @@ QtSpeech::QtSpeech(QObject * parent)
     VoiceName n;
     VoiceDescription info;
     SysCall( GetVoiceDescription(NULL, &info, sizeof(VoiceDescription)), InitError);
-    n.name = QString::fromAscii((const char *)(info.name+1), int(info.name[0]));
+    n.name = QString::fromLatin1((const char *)(info.name+1), int(info.name[0]));
     n.id = d->VoiceId.arg(info.voice.id);
 
     if (n.id.isEmpty())
@@ -106,7 +106,7 @@ QtSpeech::QtSpeech(VoiceName n, QObject * parent)
     if (n.id.isEmpty()) {
         VoiceDescription info;
         SysCall( GetVoiceDescription(NULL, &info, sizeof(VoiceDescription)), InitError);
-        n.name = QString::fromAscii((const char *)(info.name+1), int(info.name[0]));
+        n.name = QString::fromLatin1((const char *)(info.name+1), int(info.name[0]));
         n.id = d->VoiceId.arg(info.voice.id);
     }
 
@@ -163,7 +163,7 @@ QtSpeech::VoiceNames QtSpeech::voices()
         VoiceDescription info;
         SysCall( GetIndVoice(i, &voice), LogicError);
         SysCall( GetVoiceDescription(&voice, &info, sizeof(VoiceDescription)), LogicError);
-        QString name = QString::fromAscii((const char *)(info.name+1), int(info.name[0]));
+        QString name = QString::fromLatin1((const char *)(info.name+1), int(info.name[0]));
         VoiceName vname = { Private::VoiceId.arg(voice.id), name };
         vs << vname;
     }

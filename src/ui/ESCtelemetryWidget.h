@@ -13,7 +13,7 @@
 
 #include "UASManager.h"
 
-#include <cstdint>
+#include <stdint.h>
 #include <QMap>
 #include <QWidget>
 #include <QStandardItem>
@@ -215,7 +215,7 @@ protected:
     QStandardItemModel *m_dataModel;
     QSortFilterProxyModel *m_tableProxyModel;
     QMap<uint8_t, int> m_modelMap;
-    QMap<uint8_t, QMap<int, QModelIndex>> m_modelIndexMap;
+    QMap<uint8_t, QMap<int, QModelIndex> > m_modelIndexMap;
     QMap<int, alerts_t> m_alertsMap;
     QList<int> m_valueErrors;
     QList<int> m_valueWarnings;
