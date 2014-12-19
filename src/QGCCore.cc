@@ -41,21 +41,28 @@ This file is part of the QGROUNDCONTROL project
 #include <QTranslator>
 #include <QDir>
 #include <QFileInfo>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
+#include <QSettings>
 
 #include <QDebug>
+#include <cstdio>
 
 #include "configuration.h"
 #include "QGC.h"
 #include "QGCCore.h"
 #include "MainWindow.h"
 #include "GAudioOutput.h"
-
+#include "UDPLink.h"
+#include "MAVLinkSimulationLink.h"
 #ifdef OPAL_RT
 #include "OpalLink.h"
 #endif
-#include "UDPLink.h"
-#include "MAVLinkSimulationLink.h"
 
+
+#ifdef _MSC_VER
+#include "Windows.h"
+#endif
 
 QTranslator* QGCCore::current = 0;
 Translators QGCCore::translators;
@@ -72,49 +79,114 @@ QString QGCCore::langPath = "/files/lang";
  **/
 
 
-QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
+QGCCore::QGCCore(int &argc, char* argv[]) :
+    QApplication(argc, argv),
+    m_exit(false)
 {
     // Set application name
-    this->setApplicationName(QGC_APPLICATION_NAME);
-    this->setApplicationVersion(QGC_APPLICATION_VERSION);
-    this->setOrganizationName(QLatin1String("QGroundControl"));
-//    this->setApplicationName(QGCAUTOQUAD::APP_NAME);
-//    this->setApplicationVersion(QGCAUTOQUAD::APP_VERSION_TXT);
-    //this->setOrganizationName(QGCAUTOQUAD::APP_ORG);
+    this->setApplicationName(QGCAUTOQUAD::APP_NAME);
+    this->setApplicationVersion(QGCAUTOQUAD::APP_VERSION_TXT);
+    this->setOrganizationName(QGCAUTOQUAD::APP_ORG);
     this->setOrganizationDomain(QGCAUTOQUAD::APP_DOMAIN);
+
+    // Set up CLI
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Ground control station for AutoQuad flight controller and other MAVLink compatible robots.");
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption opt_clearSettings(
+                "fresh",
+                QCoreApplication::translate("main", "Back up then delete all program settings and start fresh (also see -swap). NOTE that only ONE BACKUP VERSION IS KEPT!"));
+    parser.addOption(opt_clearSettings);
+
+    QCommandLineOption opt_swapSettings(
+                "swap",
+                QCoreApplication::translate("main", "Back up current settings, then restore and use previosly backed-up settings. If no backup exists, acts same as -fresh."));
+    parser.addOption(opt_swapSettings);
+
+    QCommandLineOption opt_nobakSettings(
+                "nobak",
+                QCoreApplication::translate("main", "When used with --fresh or --swap, do NOT back up current settings first (this preserves the previous backup, if any, but you will LOOSE ALL CURRENT SETTINGS!)."));
+    parser.addOption(opt_nobakSettings);
+
+#ifdef _MSC_VER
+    QCommandLineOption opt_keepConsole(
+                "console",
+                QCoreApplication::translate("main", "Keep the command-line console open/attached after startup (useful for debug, etc).  Redirect output to a file to create a log, like this: `qgroundcontrol_aq --console >>qgclog.txt` "));
+    parser.addOption(opt_keepConsole);
+#endif
+
+    parser.process(QCoreApplication::arguments());
 
     // Set settings format
     QSettings::setDefaultFormat(QSettings::IniFormat);
-
-    // Check application settings
-    // clear them if they mismatch
-    // QGC then falls back to default
     QSettings settings;
 
-    // Show user an upgrade message if QGC got upgraded (see code below, after splash screen)
-    bool upgraded = false;
-    QString lastApplicationVersion("");
-    if (settings.contains("QGC_APPLICATION_VERSION"))
-    {
-        QString qgcVersion = settings.value("QGC_APPLICATION_VERSION").toString();
-        if (qgcVersion != QGC_APPLICATION_VERSION)
-        {
-            lastApplicationVersion = qgcVersion;
-            settings.clear();
-            // Write current application version
-            settings.setValue("QGC_APPLICATION_VERSION", QGC_APPLICATION_VERSION);
-            upgraded = true;
+    // Clear or swap out settings, then exit
+    if (parser.isSet(opt_clearSettings) || parser.isSet(opt_swapSettings)) {
+        bool hasTempFile = false;
+        QFile settingsFile(settings.fileName());
+        QString settingsBakFileName = settings.fileName().replace(".ini", ".bak.ini");
+        QFile settingsBakFile(settingsBakFileName);
+
+        printf("\n    === QGC CLI Utility Mode ===\n\n");
+
+        // rename current settings file to temp name
+        if (settingsFile.exists()) {
+            if (parser.isSet(opt_nobakSettings)) {
+                printf("Deleting settings file: %s\n", settingsFile.fileName().toStdString());
+                settingsFile.remove();
+            } else {
+                printf("Backing up settings file: %s\n", settingsFile.fileName().toStdString());
+                hasTempFile = true;
+                settingsFile.rename(settingsFile.fileName() % ".tmp");
+            }
+        } else
+            printf("No settings found at: %s\n", settingsFile.fileName().toStdString());
+
+
+        if (parser.isSet(opt_swapSettings) && settingsBakFile.exists()) {
+            printf("Restoring backup settings from: %s\n", settingsBakFile.fileName().toStdString());
+            settingsBakFile.copy(settingsBakFile.fileName().remove(".bak"));
+            printf("Your active settings are at: %s\n", settingsBakFile.fileName().remove(".bak").toStdString());
         }
-    }
-    else
-    {
-        // If application version is not set, clear settings anyway
-        settings.clear();
-        // Write current application version
-        settings.setValue("QGC_APPLICATION_VERSION", QGC_APPLICATION_VERSION);
+
+        if (hasTempFile) {
+            if (settingsBakFile.exists()) {
+                printf("Removing old backup: %s\n", settingsBakFile.fileName().toStdString());
+                settingsBakFile.remove();
+            }
+            printf("Renaming temp file to new backup %s\n", settingsBakFileName.toStdString());
+            settingsFile.rename(settingsBakFileName);
+        }
+
+        printf("\n    Finished.Press the Enter/Return key to quit, then restart QGC normally.\n");
+        std::getchar();
+        m_exit = true;  // set a flag for main() so we don't enter exec() loop.
+        return;  // don't start up the GUI
     }
 
-    settings.sync();
+    // If we have no AQ settings this means first run of this app.
+    // Look for settings in older QGC version location.
+    if (!settings.contains("AUTOQUAD_SETTINGS/APP_VERSION")) {
+        // check for old QGroundControl for AQ settings
+        QSettings qsets(QSettings::IniFormat, QSettings::UserScope, QGC_ORGANIZATION_NAME, QGC_APPLICATION_NAME);
+        qDebug() << "Looking for old settings in" << qsets.fileName();
+        if (qsets.contains("AUTOQUAD_SETTINGS/APP_VERSION") && !qsets.contains("AUTOQUAD_SETTINGS/SETTINGS_MIGRATED_TO_QGCAQ")) {
+            qDebug() << "Copying settings from" << qsets.fileName() << "to" << settings.fileName();
+            foreach (QString childKey, qsets.allKeys())
+                settings.setValue(childKey, qsets.value(childKey));
+            settings.sync();
+            qDebug() << "Done converting settings.";
+            qsets.setValue("AUTOQUAD_SETTINGS/SETTINGS_MIGRATED_TO_QGCAQ", true);
+            qsets.sync();
+        }
+        else if (qsets.contains("AUTOQUAD_SETTINGS/SETTINGS_MIGRATED_TO_QGCAQ"))
+            qDebug() << "Settings already converted, assuming current settings cleared on purpose.";
+        else
+            qDebug() << "No settings found.";
+    }
 
     loadTranslations();
 
@@ -133,12 +205,10 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
     // Load application font
     QFontDatabase fontDatabase = QFontDatabase();
     const QString fontFileName = ":/general/vera.ttf"; ///< Font file is part of the QRC file and compiled into the app
-    //const QString fontFamilyName = "Bitstream Vera Sans";
-    if(!QFile::exists(fontFileName)) printf("ERROR! font file: %s DOES NOT EXIST!\n", fontFileName.toStdString().c_str());
-    fontDatabase.addApplicationFont(fontFileName);
-    // Avoid Using setFont(). In the Qt docu you can read the following:
-    //     "Warning: Do not use this function in conjunction with Qt Style Sheets."
-    // setFont(fontDatabase.font(fontFamilyName, "Roman", 12));
+    if (QFile::exists(fontFileName))
+        fontDatabase.addApplicationFont(fontFileName);
+    else
+        qWarning() << "ERROR! font file:" << fontFileName << "DOES NOT EXIST!";
 
     // Start the comm link manager
     splashScreen->showMessage(tr("Starting Communication Links"), Qt::AlignLeft | Qt::AlignBottom, QColor(62, 93, 141));
@@ -175,38 +245,12 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
     // Remove splash screen
     splashScreen->finish(mainWindow);
 
-    if (upgraded) mainWindow->showInfoMessage(tr("Default Settings Loaded"), tr("QGroundControl has been upgraded from version %1 to version %2. Some of your user preferences have been reset to defaults for safety reasons. Please adjust them where needed.").arg(lastApplicationVersion).arg(QGC_APPLICATION_VERSION));
+#if defined(_MSC_VER) && !defined(QT_DEBUG)
+    // if we're done with the console on Windows, close/detech from it.
+    if (!parser.isSet(opt_keepConsole))
+        FreeConsole();
+#endif
 
-    // Check if link could be connected
-//    if (!udpLink->connect())
-//    {
-//        QMessageBox msgBox;
-//        msgBox.setIcon(QMessageBox::Critical);
-//        msgBox.setText("Could not connect UDP port. Is an instance of " + qAppName() + "already running?");
-//        msgBox.setInformativeText("You will not be able to receive data via UDP. Please check that you're running the right executable and then re-start " + qAppName() + ". Do you want to close the application?");
-//        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-//        msgBox.setDefaultButton(QMessageBox::No);
-//        int ret = msgBox.exec();
-
-//        // Close the message box shortly after the click to prevent accidental clicks
-//        QTimer::singleShot(15000, &msgBox, SLOT(reject()));
-
-//        // Exit application
-//        if (ret == QMessageBox::Yes)
-//        {
-//            //mainWindow->close();
-//            QTimer::singleShot(200, mainWindow, SLOT(close()));
-//        }
-//    }
-
-//    forever
-//    {
-//        QGC::SLEEP::msleep(5000);
-//    }
-
-//    mainWindow->close();
-//    mainWindow->deleteLater();
-//    QGC::SLEEP::msleep(200);
 }
 
 /**
@@ -215,16 +259,16 @@ QGCCore::QGCCore(int &argc, char* argv[]) : QApplication(argc, argv)
  **/
 QGCCore::~QGCCore()
 {
-    //mainWindow->storeSettings();
-    mainWindow->close();
-    //mainWindow->deleteLater();
-    // Delete singletons
-    // First systems
-    delete UASManager::instance();
-    // then links
-    delete LinkManager::instance();
-    // Finally the main window
-	delete MainWindow::instance();
+    if (mainWindow) {
+        mainWindow->close();
+        // Delete singletons
+        // First systems
+        delete UASManager::instance();
+        // then links
+        delete LinkManager::instance();
+        // Finally the main window
+        delete MainWindow::instance();
+    }
 }
 
 /**

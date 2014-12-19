@@ -70,6 +70,8 @@ public:
 
     static QString langPath;     /**< Path of language files.  */
 
+    bool shouldExit(void) { return m_exit; }
+
 public slots:
     static void setLanguage(const QString& locale);
 
@@ -87,6 +89,7 @@ private:
     MainWindow* mainWindow;
     static QTranslator* current;
     static Translators translators;
+    bool m_exit;
 };
 
 #endif /* _CORE_H_ */

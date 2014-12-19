@@ -29,60 +29,35 @@ This file is part of the QGROUNDCONTROL project
  */
 
 #include <QApplication>
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "QGCCore.h"
-#include "MainWindow.h"
 #include "configuration.h"
-#ifdef Q_OS_WIN
-#include <crtdbg.h>
-#endif
 
 /* SDL does ugly things to main() */
 #ifdef main
 #undef main
 #endif
 
-
-#ifdef Q_OS_WIN
-
-/// @brief Message handler which is installed using qInstallMsgHandler so you do not need
-/// the MSFT debug tools installed to see qDebug(), qWarning(), qCritical and qAbort
+/// @brief Message handler which is installed using qInstallMsgHandler so we can pretty-print qDebug() output
 #if QT_VERSION >= 0x050000
 void msgHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 #else
 void msgHandler( QtMsgType type, const char* msg )
 #endif
 {
-    const char symbols[] = { 'I', 'E', '!', 'X' };
+    const char symbols[] = { 'I', 'W', 'E', 'X' };
 #if QT_VERSION >= 0x050000
-    QString output = QString("[%1] at %2:%3 - \"%4\"").arg(symbols[type]).arg(context.file).arg(context.line).arg(msg);
+    QString output = QString("[%1] @ %2:%3 - \"%4\"").arg(symbols[type]).arg(context.file).arg(context.line).arg(msg);
 #else
     QString output = QString("[%1] %2").arg( symbols[type] ).arg( msg );
 #endif
     std::cerr << output.toStdString() << std::endl;
-    if( type == QtFatalMsg ) abort();
-
+    if (type == QtFatalMsg)
+        abort();
 }
 
-/// @brief CRT Report Hook installed using _CrtSetReportHook. We install this hook when
-/// we don't want asserts to pop a dialog on windows.
-int WindowsCrtReportHook(int reportType, char* message, int* returnValue)
-{
-    Q_UNUSED(reportType);
-    
-    std::cerr << message << std::endl;  // Output message to stderr
-    *returnValue = 0;                   // Don't break into debugger
-    return true;                        // We handled this fully ourselves
-}
-
-#endif
-
-/**
- * @brief Starts the application
- *
- * @param argc Number of commandline arguments
- * @param argv Commandline arguments
- * @return exit code, 0 for normal exit and !=0 for error cases
- */
 
 int main(int argc, char *argv[])
 {
@@ -94,14 +69,15 @@ int main(int argc, char *argv[])
 #endif
 
     // install the message handler
-#ifdef Q_OS_WIN
     #if QT_VERSION >= 0x050000
         qInstallMessageHandler(msgHandler);
     #else
         qInstallMsgHandler( msgHandler );
     #endif
-#endif
 
     QGCCore core(argc, argv);
+    // make sure the core really wants to start up
+    if (core.shouldExit())
+        exit(0);
     return core.exec();
 }
