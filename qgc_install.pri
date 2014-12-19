@@ -1,11 +1,25 @@
 # -------------------------------------------------
-# QGroundControl - Micro Air Vehicle Groundstation
-# Please see our website at <http://qgroundcontrol.org>
-# Maintainer:
+# QGroundControl AQ - AutoQuad Groundstation
+# Based on QGroundControl - Micro Air Vehicle Groundstation
+# Extensively Modifeid For AutoQuad flight controller
+# Please see our website at <http://autoquad.org>
+# Please see the original QGroundControl website
+# at <http://qgroundcontrol.org>
+#
+# QGroundControl Creator:
 # Lorenz Meier <lm@inf.ethz.ch>
 # (c) 2009-2011 QGroundControl Developers
-# This file is part of the open groundstation project
-# QGroundControl is free software: you can redistribute it and/or modify
+#
+# AutoQuad Maintainer:
+# Maxim Paperno <MPaperno@WorldDesign.com>
+# (c) 2013-2014 Maxim Paperno
+#
+# Original Conversion for AutoQuad
+# 2012-2013 by Peter Hafner
+#
+#
+# This file is part of the open source AutoQuad project.
+# QGroundControl AQ is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -14,48 +28,13 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
-# along with QGroundControl. If not, see <http://www.gnu.org/licenses/>.
+# along with QGroundControl AQ. If not, see <http://www.gnu.org/licenses/>.
 # -------------------------------------------------
 
-message(Qt version $$[QT_VERSION])
-
-# Turn off serial port warnings
-DEFINES += _TTY_NOWARN_
+TARGETDIR = $$DESTDIR
 
 # MAC OS X
-macx|macx-g++42|macx-g++|macx-llvm: {
-
-	#CONFIG += cocoa
-
-	#QMAKE_INFO_PLIST = $$BASEDIR/Info.plist
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
-	QMAKE_MAC_SDK = macosx10.9
-	ICON = $$BASEDIR/files/images/icons/macx.icns
-	#QT += quickwidgets
-
-	# For release builds remove support for various Qt debugging macros.
-	CONFIG(release, debug|release) {
-		DEFINES += QT_NO_DEBUG
-	}
-
-	MACBITS = "mac32"
-	DEFINES += USE_GOOGLE_EARTH_PLUGIN
-	*64 {
-		message("Building Mac64 version")
-		MACBITS = "mac64"
-                CONFIG -= x86
-                CONFIG += x86_64
-		DEFINES -= USE_GOOGLE_EARTH_PLUGIN
-	}
-
-	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-
-	LIBS += -framework IOKit \
-                -F$$BASEDIR/libs/lib/Frameworks \
-		-framework SDL \
-		-framework CoreFoundation \
-		-framework ApplicationServices \
-		-lm
+MacBuild: {
 
 	QMAKE_POST_LINK += $$quote(echo "Copying files")
 
@@ -67,20 +46,23 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
 
 	# Copy google earth starter file
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
 	# Copy audio files
-        QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/.
-	 # Copy language files
-        QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
+	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/.
+	# Copy language files
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
-        QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang/.
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang/.
 	# Copy libraries
-#	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
-#	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
+	#QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
+	#QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
 	# Copy frameworks
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
+
+	# SDL Framework
+	QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
 
 
 	# Fix library paths inside executable
@@ -139,100 +121,12 @@ macx|macx-g++42|macx-g++|macx-llvm: {
 	# CORE OSG LIBRARY
 #	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosg.dylib
 
-	# SDL Framework
-	QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-
 	DoMacDeploy: QMAKE_POST_LINK += && $$dirname(QMAKE_QMAKE)/macdeployqt $${DESTDIR}/qgroundcontrol.app
 
-	# No check for GLUT.framework since it's a MAC default
-#	message("Building support for OpenSceneGraph")
-#	DEPENDENCIES_PRESENT += osg
-#	DEFINES += QGC_OSG_ENABLED
-#	# Include OpenSceneGraph libraries
-#	INCLUDEPATH += -framework GLUT \
-#        -framework Cocoa \
-#		  $$BASEDIR/libs/lib/$${MACBITS}/include
-
-#	LIBS += -framework GLUT \
-#		  -framework Cocoa \
-#		  -L$$BASEDIR/libs/lib/$${MACBITS}/lib \
-#        -lOpenThreads \
-#        -losg \
-#        -losgViewer \
-#        -losgGA \
-#        -losgDB \
-#        -losgText \
-#        -losgWidget
-
-	exists(/opt/local/include/libfreenect)|exists(/usr/local/include/libfreenect) {
-		message("Building support for libfreenect")
-		DEPENDENCIES_PRESENT += libfreenect
-		# Include libfreenect libraries
-		LIBS += -lfreenect
-		DEFINES += QGC_LIBFREENECT_ENABLED
-	}
 }
 
 # GNU/Linux
-linux-g++|linux-g++-64{
-
-	CONFIG -= console
-	DEFINES += __STDC_LIMIT_MACROS
-	DESTDIR = $$TARGETDIR
-
-	release {
-		DEFINES += QT_NO_DEBUG
-	}
-
-	INCLUDEPATH += /usr/include \
-		  /usr/local/include \
-
-	LIBS += \
-		-lm \
-		-lSDL \
-		-lSDLmain
-
-#	exists(/usr/include/osg) | exists(/usr/local/include/osg) {
-#		message("Building support for OpenSceneGraph")
-#		DEPENDENCIES_PRESENT += osg
-#		# Include OpenSceneGraph libraries
-#		LIBS += -losg \
-#            -losgViewer \
-#            -losgGA \
-#            -losgDB \
-#            -losgText \
-#            -lOpenThreads
-
-#		DEFINES += QGC_OSG_ENABLED
-#	}
-
-#	exists(/usr/include/osg/osgQt) | exists(/usr/include/osgQt) |
-#	exists(/usr/local/include/osg/osgQt) | exists(/usr/local/include/osgQt) {
-#		message("Building support for OpenSceneGraph Qt")
-#		# Include OpenSceneGraph Qt libraries
-#		LIBS += -losgQt
-#		DEFINES += QGC_OSG_QT_ENABLED
-#	}
-
-#	exists(/usr/local/include/google/protobuf) {
-#		message("Building support for Protocol Buffers")
-#		DEPENDENCIES_PRESENT += protobuf
-#		# Include Protocol Buffers libraries
-#		LIBS += -lprotobuf \
-#            -lprotobuf-lite \
-#            -lprotoc
-
-#		DEFINES += QGC_PROTOBUF_ENABLED
-#	}
-
-	exists(/usr/local/include/libfreenect/libfreenect.h) {
-		message("Building support for libfreenect")
-		DEPENDENCIES_PRESENT += libfreenect
-		INCLUDEPATH += /usr/include/libusb-1.0
-		# Include libfreenect libraries
-		LIBS += -lfreenect
-		DEFINES += QGC_LIBFREENECT_ENABLED
-	}
+LinuxBuild{
 
 
 	QMAKE_POST_LINK += $$quote(echo "Copying files")
@@ -243,14 +137,12 @@ linux-g++|linux-g++-64{
 	}
 
 	# Copy AQ and supporting files
-	linux-g++ {
-		message("Building for GNU/Linux 32bit/i386")
+	Build32Bits {
 		exists(/usr/local):LIBS += -L/usr/local
 		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_32 $$TARGETDIR/aq/bin/cal
 		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_32 $$TARGETDIR/aq/bin/sim3
 	}
-	linux-g++-64 {
-		message("Building for GNU/Linux 64bit/x64 (g++-64)")
+	Build64Bits {
 		exists(/usr/local/lib64):LIBS += -L/usr/local/lib64
 		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_64 $$TARGETDIR/aq/bin/cal
 		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_64 $$TARGETDIR/aq/bin/sim3
@@ -270,99 +162,13 @@ linux-g++|linux-g++-64{
 	#QMAKE_CXXFLAGS += -Wl,-E
 }
 
-# Windows (32bit), Visual Studio
-win32-msvc2010|win32-msvc2012|win32-g++ {
-
-	win32-msvc2010 {
-		message(Building for Windows Visual Studio 2010 (32bit))
-	}
-	win32-msvc2012 {
-		message(Building for Windows Visual Studio 2012 (32bit))
-	}
-	win32-g++ {
-		message(Building for Windows GCC (32bit))
-	}
-
-	DEFINES += USE_GOOGLE_EARTH_PLUGIN
-
-	# The EIGEN library needs this define
-	# to make the internal min/max functions work
-	DEFINES += NOMINMAX
-
-	win32-msvc2010|win32-msvc2012|win32-msvc2013 {
-		# QWebkit is not needed on MS-Windows compilation environment
-		CONFIG -= webkit webkitwidgets
-
-		# Specify the inclusion of (U)INT*_(MAX/MIN) macros within Visual Studio
-		DEFINES += __STDC_LIMIT_MACROS
-
-		INCLUDEPATH += $$BASEDIR/libs/lib/sdl/msvc/include \
-			  #$$BASEDIR/libs/lib/opal/include
-
-		LIBS += -L$$BASEDIR/libs/lib/sdl/msvc/lib
-
-		# Specify multi-process compilation within Visual Studio.
-		# (drastically improves compilation times for multi-core computers)
-		QMAKE_CXXFLAGS_DEBUG += /MP
-		QMAKE_CXXFLAGS_RELEASE += /MP
-
-		QMAKE_CXXFLAGS_WARN_ON += /W3 \
-			  /wd4996 \   # silence warnings about deprecated strcpy and whatnot
-			  /wd4005 \   # silence warnings about macro redefinition
-			  /wd4290     # ignore exception specifications
-
-		# QAxContainer support is needed for the Internet Control
-		# element showing the Google Earth window
-		greaterThan(QT_MAJOR_VERSION, 4) {
-			QT += axcontainer
-		} else {
-			CONFIG += qaxcontainer
-		}
-	} # end win32-msvc-*
-
-	win32-g++ {  # MinGW
-		INCLUDEPATH += $$BASEDIR/libs/lib/sdl/include \
-		LIBS += -L$$BASEDIR/libs/lib/sdl/win32 \
-	}
-
-	# For release builds remove support for various Qt debugging macros.
-	CONFIG(release, debug|release) {
-		DEFINES += QT_NO_DEBUG
-	}
-
-	# For debug releases we just want the debugging console.
-	CONFIG(debug, debug|release) {
-		CONFIG += console
-	}
-
-	LIBS += -lSDLmain -lSDL -lsetupapi
-
-#	exists($$BASEDIR/libs/lib/osg123) {
-#		message("Building support for OSG")
-#		DEPENDENCIES_PRESENT += osg
-
-#		# Include OpenSceneGraph
-#		INCLUDEPATH += $$BASEDIR/libs/lib/osgEarth/win32/include \
-#			$$BASEDIR/libs/lib/osgEarth_3rdparty/win32/OpenSceneGraph-2.8.2/include
-#		LIBS += -L$$BASEDIR/libs/lib/osgEarth_3rdparty/win32/OpenSceneGraph-2.8.2/lib \
-#			-losg \
-#			-losgViewer \
-#			-losgGA \
-#			-losgDB \
-#			-losgText \
-#			-lOpenThreads
-#		DEFINES += QGC_OSG_ENABLED
-#	}
-
-	RC_FILE = $$BASEDIR/qgroundcontrol.rc
+# Windows
+WinBuild {
 
 	# Copy dependencies
 	BASEDIR_WIN = $$replace(BASEDIR,"/","\\")
-	CONFIG(debug, debug|release) {
-		TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\debug
-	} else {
-		TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")\\release
-	}
+	TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")
+
 	greaterThan(QT_MAJOR_VERSION, 4) {
 		QTLIBDLLPFX = "Qt5"
 		QTLIBDBGDLLSFX = "d.dll"
@@ -382,7 +188,7 @@ win32-msvc2010|win32-msvc2012|win32-g++ {
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\lang\\*.qm" "$$TARGETDIR_WIN\\files\\lang" $$escape_expand(\\n))
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\lang" "$$TARGETDIR_WIN\\files\\lang" $$escape_expand(\\n))
 
-	CONFIG(release, debug|release) {
+	ReleaseBuild {
 
 		COPY_DLL_LIST = \
 			$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll \
