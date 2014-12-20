@@ -37,6 +37,7 @@ This file is part of the QGROUNDCONTROL project
 #include "UASManager.h"
 #include "protocol.h"
 #include "QGC.h"
+#include "MainWindow.h"
 
 #include <QDebug>
 
@@ -108,7 +109,7 @@ DebugConsole::DebugConsole(QWidget *parent) :
     // Connect to link manager to get notified about new links
     connect(LinkManager::instance(), SIGNAL(newLink(LinkInterface*)), this, SLOT(addLink(LinkInterface*)));
     // Connect link combo box
-    connect(m_ui->linkComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(linkSelected(int)));
+    connect(m_ui->linkComboBox, SIGNAL(activated(int)), this, SLOT(linkSelected(int)));
     // Connect send button
     connect(m_ui->transmitButton, SIGNAL(clicked()), this, SLOT(sendBytes()));
     // Connect HEX conversion and MAVLINK filter checkboxes
@@ -190,6 +191,9 @@ void DebugConsole::storeSettings()
  */
 void DebugConsole::addLink(LinkInterface* link)
 {
+    if (!link)
+        return;
+
     // Add link to link list
     links.insert(link->getId(), link);
 
@@ -201,37 +205,41 @@ void DebugConsole::addLink(LinkInterface* link)
     // Register for name changes
     connect(link, SIGNAL(nameChanged(QString)), this, SLOT(updateLinkName(QString)));
     connect(link, SIGNAL(deleteLink(LinkInterface* const)), this, SLOT(removeLink(LinkInterface* const)));
+    connect(link, SIGNAL(connected(bool)), this, SLOT(linkStatusChanged(bool)));
 }
 
 void DebugConsole::removeLink(LinkInterface* const linkInterface)
 {
-    //LinkInterface* linkInterface = dynamic_cast<LinkInterface*>(link);
-    // Add link to link list
-    if (links.contains(linkInterface)) {
-        int linkIndex = links.indexOf(linkInterface);
-
+    int linkIndex = links.indexOf(linkInterface);
+    if (linkIndex != -1) {
+        disconnect(linkInterface, 0, this, 0);
         links.removeAt(linkIndex);
 
+        if (linkInterface == currLink)
+            currLink = NULL;
+
         m_ui->linkComboBox->removeItem(linkIndex);
+        linkSelected(m_ui->linkComboBox->currentIndex());
     }
-    if (linkInterface == currLink) currLink = NULL;
 }
 
-void DebugConsole::linkSelected(int linkId)
+void DebugConsole::linkSelected(int linkIdx)
 {
+    if (currLink && links.indexOf(currLink) == linkIdx)
+        return;
+
     // Disconnect
     if (currLink) {
         disconnect(currLink, SIGNAL(bytesReceived(LinkInterface*,QByteArray)), this, SLOT(receiveBytes(LinkInterface*, QByteArray)));
-        disconnect(currLink, SIGNAL(connected(bool)), this, SLOT(setConnectionState(bool)));
     }
+
     // Clear data
-    m_ui->receiveText->clear();
+    //m_ui->receiveText->clear();
 
     // Connect new link
-    if (linkId > -1) {
-        currLink = links[linkId];
+    if (linkIdx > -1 && links.size() > linkIdx) {
+        currLink = links[linkIdx];
         connect(currLink, SIGNAL(bytesReceived(LinkInterface*,QByteArray)), this, SLOT(receiveBytes(LinkInterface*, QByteArray)));
-        connect(currLink, SIGNAL(connected(bool)), this, SLOT(setConnectionState(bool)));
         setConnectionState(currLink->isConnected());
     }
 }
@@ -248,7 +256,42 @@ void DebugConsole::updateLinkName(QString name)
 	{
 		const qint16 &linkIndex(links.indexOf(link));
 		m_ui->linkComboBox->setItemText(linkIndex,name);
-	}
+    }
+}
+
+void DebugConsole::linkStatusChanged(bool connected)
+{
+    if (!sender())
+        return;
+    LinkInterface *link = qobject_cast<LinkInterface *>(sender());
+    if (!link)
+        return;
+    setLinkState(link);
+}
+
+void DebugConsole::setLinkState(LinkInterface *link)
+{
+    QString state;
+    QString color;
+    bool connected = link->isConnected();
+    if(connected) {
+        state = tr("connected");
+        color = QGC::colorGreen.name();
+    } else {
+        state = tr("disconnected");
+        color = QGC::colorOrange.name();
+    }
+    m_ui->receiveText->appendHtml(QString("<font color=\"%1\">Link %2 %3.</font>\n").arg(color, link->getName(), state));
+
+    if (currLink && link->getId() == currLink->getId()){
+        setConnectionState(connected);
+    }
+}
+
+void DebugConsole::setConnectionState(bool connected)
+{
+    m_ui->connectButton->setChecked(connected);
+    m_ui->connectButton->setText(connected ? tr("Disconn.") : tr("Connect"));
 }
 
 void DebugConsole::setAutoHold(bool hold)
@@ -793,21 +836,6 @@ void DebugConsole::hold(bool hold)
     }
 }
 
-/**
- * Sets the connection state the widget shows to this state
- */
-void DebugConsole::setConnectionState(bool connected)
-{
-    if(connected) {
-        m_ui->connectButton->setText(tr("Disconn."));
-        m_ui->receiveText->appendHtml(QString("<font color=\"%1\">%2</font>\n").arg(QGC::colorGreen.name(), tr("Link %1 is connected.").arg(currLink->getName())));
-    } else {
-        m_ui->connectButton->setText(tr("Connect"));
-        m_ui->receiveText->appendHtml(QString("<font color=\"%1\">%2</font>\n").arg(QGC::colorOrange.name(), tr("Link %1 is unconnected.").arg(currLink->getName())));
-    }
-    m_ui->connectButton->setChecked(connected);
-}
-
 /** @brief Handle the connect button */
 void DebugConsole::handleConnectButton()
 {
@@ -819,7 +847,8 @@ void DebugConsole::handleConnectButton()
             m_ui->connectButton->setChecked(false);  // this will be set once actually connected
             currLink->connect();
         }
-    }
+    } else
+        MainWindow::instance()->addLink();
 }
 
 void DebugConsole::keyPressEvent(QKeyEvent * event)

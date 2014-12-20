@@ -67,8 +67,14 @@ public slots:
     void removeLink(LinkInterface* const link);
     /** @brief Update a link name */
     void updateLinkName(QString name);
+    /** @brief A link was connected or disconnected */
+    void linkStatusChanged(bool connected);
     /** @brief Select a link for the active view */
-    void linkSelected(int linkId);
+    void linkSelected(int linkIdx);
+    /** @brief Set connection state of a link */
+    void setLinkState(LinkInterface* link);
+    /** @brief Set connection state of the current link */
+    void setConnectionState(bool connected);
     /** @brief Receive bytes from link */
     void receiveBytes(LinkInterface* link, QByteArray bytes);
     /** @brief Send lineedit content over link */
@@ -79,8 +85,6 @@ public slots:
     void MAVLINKfilterEnabled(bool filter);
     /** @brief Freeze input, do not store new incoming data */
     void hold(bool hold);
-    /** @brief Set connection state of the current link */
-    void setConnectionState(bool);
     /** @brief Handle the connect button */
     void handleConnectButton();
     /** @brief Enable auto-freeze mode if traffic intensity is too high to display */
