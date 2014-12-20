@@ -106,8 +106,8 @@ MAVLinkSimulationLink::MAVLinkSimulationLink(QString readFile, QString writeFile
     srand(QTime::currentTime().msec());
     maxTimeNoise = 0;
     this->id = getNextLinkId();
-    LinkManager::instance()->add(this);
-    QObject::connect(this, SIGNAL(destroyed(QObject*)), LinkManager::instance(), SLOT(removeLink(QObject*)));
+//    LinkManager::instance()->add(this);
+//    QObject::connect(this, SIGNAL(destroyed(QObject*)), LinkManager::instance(), SLOT(removeLink(QObject*)));
 }
 
 MAVLinkSimulationLink::~MAVLinkSimulationLink()
@@ -133,23 +133,12 @@ void MAVLinkSimulationLink::run()
     system.custom_mode = MAV_MODE_FLAG_MANUAL_INPUT_ENABLED | MAV_MODE_FLAG_SAFETY_ARMED;
     system.system_status = MAV_STATE_UNINIT;
 
-    forever
-    {
+    while (isConnected()) {
         static quint64 last = 0;
 
-        if (QGC::groundTimeMilliseconds() - last >= rate)
-        {
-            if (_isConnected)
-            {
-                mainloop();
-                readBytes();
-            }
-            else
-            {
-                // Sleep for substantially longer
-                // if not connected
-                QGC::SLEEP::msleep(500);
-            }
+        if (QGC::groundTimeMilliseconds() - last >= rate) {
+            mainloop();
+            readBytes();
             last = QGC::groundTimeMilliseconds();
         }
         QGC::SLEEP::msleep(3);
@@ -473,54 +462,14 @@ void MAVLinkSimulationLink::mainloop()
     if (rate1hzCounter == 1000 / rate / 1) {
         // STATE
         static int statusCounter = 0;
+        static int detectionCounter = 6;
+
         if (statusCounter == 100) {
             system.base_mode = (system.base_mode + 1) % MAV_MODE_ENUM_END;
             statusCounter = 0;
         }
         statusCounter++;
 
-        static int detectionCounter = 6;
-        if (detectionCounter % 10 == 0) {
-#ifdef MAVLINK_ENABLED_PIXHAWK
-            mavlink_pattern_detected_t detected;
-            detected.confidence = 5.0f;
-
-            if (detectionCounter == 10) {
-                char fileName[] = "patterns/face5.png";
-                memcpy(detected.file, fileName, sizeof(fileName));
-                detected.type = 0; // 0: Pattern, 1: Letter
-            } else if (detectionCounter == 20) {
-                char fileName[] = "7";
-                memcpy(detected.file, fileName, sizeof(fileName));
-                detected.type = 1; // 0: Pattern, 1: Letter
-            } else if (detectionCounter == 30) {
-                char fileName[] = "patterns/einstein.bmp";
-                memcpy(detected.file, fileName, sizeof(fileName));
-                detected.type = 0; // 0: Pattern, 1: Letter
-            } else if (detectionCounter == 40) {
-                char fileName[] = "F";
-                memcpy(detected.file, fileName, sizeof(fileName));
-                detected.type = 1; // 0: Pattern, 1: Letter
-            } else if (detectionCounter == 50) {
-                char fileName[] = "patterns/face2.png";
-                memcpy(detected.file, fileName, sizeof(fileName));
-                detected.type = 0; // 0: Pattern, 1: Letter
-            } else if (detectionCounter == 60) {
-                char fileName[] = "H";
-                memcpy(detected.file, fileName, sizeof(fileName));
-                detected.type = 1; // 0: Pattern, 1: Letter
-                detectionCounter = 0;
-            }
-            detected.detected = 1;
-            mavlink_msg_pattern_detected_encode(systemId, componentId, &msg, &detected);
-            // Allocate buffer with packet data
-            bufferlength = mavlink_msg_to_send_buffer(buffer, &msg);
-            //add data into datastream
-            memcpy(stream+streampointer,buffer, bufferlength);
-            streampointer += bufferlength;
-            //detectionCounter = 0;
-#endif
-        }
         detectionCounter++;
 
         status.voltage_battery = voltage * 1000; // millivolts
@@ -918,19 +867,15 @@ void MAVLinkSimulationLink::readBytes()
 bool MAVLinkSimulationLink::disconnect()
 {
 
-    if(isConnected())
-    {
-        //        timer->stop();
-
+    if (this->isRunning() && isConnected()) {
         _isConnected = false;
-
+        this->wait();
+    }
+    if (!this->isRunning()) {
         emit disconnected();
         emit connected(false);
-
-        //exit();
     }
-
-    return true;
+    return !this->isRunning();
 }
 
 /**
@@ -941,17 +886,27 @@ bool MAVLinkSimulationLink::disconnect()
  **/
 bool MAVLinkSimulationLink::connect()
 {
-    _isConnected = true;
-    emit connected();
-    emit connected(true);
+    if (this->isRunning()) {
+        this->disconnect();
+        this->wait();
+    }
 
-    start(LowPriority);
+    // reset the run stop flag
+    _isConnected = true;
+    this->start(QThread::LowPriority);
+
     MAVLinkSimulationMAV* mav1 = new MAVLinkSimulationMAV(this, 1, 37.480391, -122.282883);
     Q_UNUSED(mav1);
 //    MAVLinkSimulationMAV* mav2 = new MAVLinkSimulationMAV(this, 2, 47.375, 8.548, 1);
 //    Q_UNUSED(mav2);
-    //    timer->start(rate);
-    return true;
+
+    if (this->isRunning()) {
+        emit connected();
+        emit connected(true);
+    }
+
+    return this->isRunning();
+
 }
 
 /**
