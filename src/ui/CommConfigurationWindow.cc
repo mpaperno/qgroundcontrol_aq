@@ -258,14 +258,12 @@ void CommConfigurationWindow::setLinkType(int linktype)
             {
                 UDPLink *udp = new UDPLink();
                 tmpLink = udp;
-                MainWindow::instance()->addLink(tmpLink);
                 break;
             }
         case 2:
             {
                 MAVLinkSimulationLink *sim = new MAVLinkSimulationLink();
                 tmpLink = sim;
-                MainWindow::instance()->addLink(tmpLink);
                 break;
             }
 			
@@ -273,8 +271,7 @@ void CommConfigurationWindow::setLinkType(int linktype)
 		case 3:
 			{
 				OpalLink* opal = new OpalLink();
-				tmpLink = opal;
-				MainWindow::instance()->addLink(tmpLink);
+                tmpLink = opal;
 				break;
 			}
 #endif // OPAL_RT
@@ -283,7 +280,6 @@ void CommConfigurationWindow::setLinkType(int linktype)
             {
                 XbeeLink *xbee = new XbeeLink();
                 tmpLink = xbee;
-                MainWindow::instance()->addLink(tmpLink);
                 break;
             }
 #endif // XBEELINK
@@ -291,23 +287,15 @@ void CommConfigurationWindow::setLinkType(int linktype)
         case 0:
             SerialLink *serial = new SerialLink();
             tmpLink = serial;
-            MainWindow::instance()->addLink(tmpLink);
             break;
 	}
-	// trigger new window
 
-	const int32_t& linkIndex(LinkManager::instance()->getLinks().indexOf(tmpLink));
-	const int32_t& linkID(LinkManager::instance()->getLinks()[linkIndex]->getId());
+    MainWindow::instance()->addLink(tmpLink);
+    // trigger new window
+    QAction* act = MainWindow::instance()->getActionByLink(tmpLink);
+    if (act)
+        act->trigger();
 
-	QList<QAction*> actions = MainWindow::instance()->listLinkMenuActions();
-	foreach (QAction* act, actions) 
-	{
-        if (act->data().toInt() == linkID) 
-        {
-            act->trigger();
-            break;
-        }
-    }
 }
 
 void CommConfigurationWindow::setProtocol(int protocol)
@@ -339,10 +327,10 @@ void CommConfigurationWindow::remove()
     action=NULL;
 
     if(link) {
-        LinkManager::instance()->removeLink(link); //remove link from LinkManager list
         link->disconnect(); //disconnect port, and also calls terminate() to stop the thread
         //if (link->isRunning()) link->terminate(); // terminate() the serial thread just in case it is still running
         link->wait(); // wait() until thread is stoped before deleting
+        LinkManager::instance()->removeLink(link); //remove link from LinkManager list
         link->deleteLater();
     }
     link=NULL;

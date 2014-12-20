@@ -39,54 +39,31 @@ This file is part of the QGROUNDCONTROL project
 #include <qlist.h>
 
 #include "ui_MainWindow.h"
-#include "LinkManager.h"
 #include "LinkInterface.h"
 #include "UASInterface.h"
-#include "UASManager.h"
-#include "UASControlWidget.h"
-#include "Linecharts.h"
-#include "UASInfoWidget.h"
-#include "WaypointList.h"
-//#include "CameraView.h"
-#include "UASListWidget.h"
-#include "MAVLinkProtocol.h"
-#include "MAVLinkSimulationLink.h"
-//#include "ObjectDetectionView.h"
-#include "HUD.h"
-#include "PrimaryFlightDisplay.h"
-//#include "JoystickWidget.h"
-//#include "input/JoystickInput.h"
 #if (defined MOUSE_ENABLED_WIN) | (defined MOUSE_ENABLED_LINUX)
 #include "Mouse6dofInput.h"
 #endif // MOUSE_ENABLED_WIN
-#include "DebugConsole.h"
-#include "ParameterInterface.h"
-//#include "XMLCommProtocolWidget.h"
-#include "HDDisplay.h"
-//#include "WatchdogControl.h"
-#include "HSIDisplay.h"
-#include "QGCDataPlot2D.h"
-#include "QGCRemoteControlView.h"
-#include "opmapcontrol.h"
-#ifdef USE_GOOGLE_EARTH_PLUGIN
-#include "QGCGoogleEarthView.h"
-#endif
-#include "QGCToolBar.h"
 #include "LogCompressor.h"
-#include "QGCDataViewWidget.h"
-
-#include "UASControlParameters.h"
-#include "QGCMAVLinkInspector.h"
-#include "QGCMAVLinkLogPlayer.h"
-#include "MAVLinkDecoder.h"
 
 #include <cstring>
 
+class QGCToolBar;
+class MAVLinkProtocol;
+class MAVLinkSimulationLink;
+class QGCMAVLinkLogPlayer;
+class MAVLinkDecoder;
 class QGCMapTool;
-class QGCMAVLinkMessageSender;
-class QGCFirmwareUpdate;
-class QSplashScreen;
 class QGCAutoquad;
+class HUD;
+class QGCDataViewWidget;
+#ifdef USE_GOOGLE_EARTH_PLUGIN
+class QGCGoogleEarthView;
+#endif
+//class QGCMAVLinkMessageSender;
+//class QGCFirmwareUpdate;
+//class XMLCommProtocolWidget;
+
 /**
  * @brief Main Application Window
  *
@@ -163,6 +140,7 @@ public:
     }
 
     QList<QAction*> listLinkMenuActions(void);
+    QAction *getActionByLink(LinkInterface *link);
 
 public slots:
 
@@ -180,10 +158,11 @@ public slots:
     /** @brief Add a communication link */
     void addLink();
     void addLink(LinkInterface* link);
-//    void configure();
     /** @brief Set the currently controlled UAS */
     void setActiveUAS(UASInterface* uas);
 
+    /** @brief Start a connection to simlation log */
+    void simulate(bool enable);
     /** @brief Add a new UAS */
     void UASCreated(UASInterface* uas);
     /** Delete an UAS */
@@ -194,20 +173,12 @@ public slots:
     void stopVideoCapture();
     void saveScreen();
 
-    /** @brief Load default view when no MAV is connected */
-//    void loadUnconnectedView();
     /** @brief Load view for pilot */
     void loadPilotView();
-    /** @brief Load view for engineer */
+    /** @brief Load view for config */
     void loadEngineerView();
-    /** @brief Load view for operator */
+    /** @brief Load view for mission */
     void loadOperatorView();
-    /** @brief Load MAVLink XML generator view */
-//    void loadMAVLinkView();
-    /** @brief Load firmware update view */
-//    void loadFirmwareUpdateView();
-    /** @brief Load aq view */
-//    void loadAQView();
     /** @brief Load data/log/telemetry view */
     void loadDataView();
 
@@ -449,7 +420,7 @@ protected:
     Qt::WindowStates windowStateVal;
     bool lowPowerMode; ///< If enabled, QGC reduces the update rates of all widgets
 //    QGCFlightGearLink* fgLink;
-    QTimer windowNameUpdateTimer;
+//    QTimer windowNameUpdateTimer;
 
 private:
     Ui::MainWindow ui;

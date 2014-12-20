@@ -44,6 +44,10 @@ This file is part of the QGROUNDCONTROL project
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QSettings>
+#include <QString>
+#include <QFontDatabase>
+#include <QPluginLoader>
+#include <QStringBuilder>
 
 #include <QDebug>
 #include <cstdio>
@@ -188,6 +192,12 @@ QGCCore::QGCCore(int &argc, char* argv[]) :
             qDebug() << "No settings found.";
     }
 
+#if defined(_MSC_VER) && !defined(QT_DEBUG)
+    // if we're done with the console on Windows, close/detech from it.
+    if (!parser.isSet(opt_keepConsole))
+        FreeConsole();
+#endif
+
     loadTranslations();
 
     // Exit main application when last window is closed
@@ -236,20 +246,12 @@ QGCCore::QGCCore(int &argc, char* argv[]) :
     OpalLink* opalLink = new OpalLink();
     MainWindow::instance()->addLink(opalLink);
 #endif
-    MAVLinkSimulationLink* simulationLink = new MAVLinkSimulationLink(":/demo-log.txt");
-    simulationLink->disconnect();
 
     mainWindow = MainWindow::_create(splashScreen);
     Q_CHECK_PTR(mainWindow);
 
     // Remove splash screen
     splashScreen->finish(mainWindow);
-
-#if defined(_MSC_VER) && !defined(QT_DEBUG)
-    // if we're done with the console on Windows, close/detech from it.
-    if (!parser.isSet(opt_keepConsole))
-        FreeConsole();
-#endif
 
 }
 
@@ -354,7 +356,9 @@ void QGCCore::loadTranslations(const QDir& dir)
         QTranslator* translator = new QTranslator(instance());
         if (translator->load(file.absoluteFilePath()))
         {
-            QString locale = language + (country.length() ? "_" + country : "");
+            QString locale = language;
+            if (country.length())
+                locale = locale % "_" % country;
             translators.insert(locale, translator);
         }
     }
