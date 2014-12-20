@@ -3467,7 +3467,7 @@ padding: 1px 3px;</string>
                   <bool>true</bool>
                  </property>
                  <property name="checked">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_28">
                   <property name="leftMargin">

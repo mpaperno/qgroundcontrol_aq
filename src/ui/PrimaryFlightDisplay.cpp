@@ -192,7 +192,7 @@ PrimaryFlightDisplay::~PrimaryFlightDisplay()
 
 QSize PrimaryFlightDisplay::sizeHint() const
 {
-    return QSize(width(), (width()*3.0f)/4);
+    return QSize(300, (300.0f * 3.0f) / 4);
 }
 
 void PrimaryFlightDisplay::showEvent(QShowEvent* event)

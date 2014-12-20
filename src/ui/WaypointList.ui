@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>854</width>
-    <height>398</height>
+    <width>527</width>
+    <height>238</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,7 +23,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="editTab">
       <attribute name="title">
@@ -47,6 +47,12 @@
        </property>
        <item row="1" column="1">
         <widget class="QPushButton" name="loadButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="toolTip">
           <string>Load waypoints from a file on the local harddisk. Does not load the waypoints on the MAV.</string>
          </property>
@@ -116,6 +122,12 @@
        </item>
        <item row="1" column="8">
         <widget class="QPushButton" name="transmitButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="toolTip">
           <string>Transmit all waypoints on this list to the MAV.</string>
          </property>
@@ -144,8 +156,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>816</width>
-            <height>316</height>
+            <width>489</width>
+            <height>156</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -168,6 +180,12 @@
        </item>
        <item row="1" column="7">
         <widget class="QPushButton" name="readButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="toolTip">
           <string>Read all waypoints from the MAV. Clears the list on this computer.</string>
          </property>
@@ -188,6 +206,12 @@
        </item>
        <item row="1" column="0">
         <widget class="QPushButton" name="saveButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="toolTip">
           <string>Save waypoints to a file on the local harddisk. Does not save them on the MAV.</string>
          </property>
@@ -347,8 +371,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>816</width>
-            <height>316</height>
+            <width>489</width>
+            <height>156</height>
            </rect>
           </property>
           <property name="autoFillBackground">
@@ -359,12 +383,6 @@
             <widget class="QWidget" name="viewOnlyListWidget" native="true">
              <property name="enabled">
               <bool>true</bool>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
              </property>
             </widget>
            </item>
