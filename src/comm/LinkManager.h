@@ -54,7 +54,7 @@ public:
 
     void run();
 
-    QList<LinkInterface*> getLinksForProtocol(ProtocolInterface* protocol);
+    QList<LinkInterface *> getLinksForProtocol(ProtocolInterface* protocol);
 
     /** @brief Get the link for this id */
     LinkInterface* getLinkForId(int id);

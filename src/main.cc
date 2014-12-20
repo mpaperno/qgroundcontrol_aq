@@ -29,8 +29,8 @@ This file is part of the QGROUNDCONTROL project
  */
 
 #include <QApplication>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
+#include <iostream>
 
 #include "QGCCore.h"
 #include "configuration.h"

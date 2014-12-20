@@ -42,9 +42,9 @@ This file is part of the PIXHAWK project
 #include <QSpinBox>
 #include <QColor>
 #include <QPalette>
-//#include <QStandardPaths>
 #include <QShortcut>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "LinechartWidget.h"
 #include "LinechartPlot.h"

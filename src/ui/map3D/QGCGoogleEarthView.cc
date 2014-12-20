@@ -407,12 +407,12 @@ void QGCGoogleEarthView::showEvent(QShowEvent* event)
 #if (defined Q_OS_MAC) || defined(__MINGW32__)
         webViewMac->setPage(new QGCWebPage(webViewMac));
         webViewMac->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
-        webViewMac->load(QUrl(QCoreApplication::applicationDirPath()+"/files/earth.html"));
+        webViewMac->load(QUrl(QString("%1/files/earth.html").arg(QApplication::applicationDirPath())));
 #endif
 
 #ifdef _MSC_VER
         //webViewWin->dynamicCall("GoHome()");
-        webViewWin->dynamicCall("Navigate(const QString&)", QApplication::applicationDirPath() + "/files/earth.html");
+        webViewWin->dynamicCall("Navigate(const QString&)", QString("%1/files/earth.html").arg(QApplication::applicationDirPath()));
 #endif
 
         webViewInitialized = true;

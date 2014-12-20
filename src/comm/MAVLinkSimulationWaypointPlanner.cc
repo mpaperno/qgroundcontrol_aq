@@ -520,6 +520,7 @@ void MAVLinkSimulationWaypointPlanner::send_waypoint_current(uint16_t seq)
 */
 void MAVLinkSimulationWaypointPlanner::send_setpoint(uint16_t seq)
 {
+    Q_UNUSED(seq);
 //    if(seq < waypoints->size()) {
 //        mavlink_mission_item_t *cur = waypoints->at(seq);
 

@@ -305,7 +305,7 @@ QVector<QString>* SerialLink::getCurrentPorts()
     foreach (const QextPortInfo &p, portEnumerator->getPorts()) {
         if (p.portName.length())
             ports->append(p.portName);//  + " - " + p.friendName);
-//      qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
+//      qDebug() << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
     }
 /* old Linux and Mac code
 //#ifdef __linux
@@ -432,7 +432,7 @@ bool SerialLink::validateConnection() {
         emit portError();
         if (!m_linkLossExpected)
             emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
-        //qWarning() << __FILE__ << __LINE__ << ok << port->lastError() << port->errorString();
+        //qWarning() << ok << port->lastError() << port->errorString();
         //this->disconnect();
         return false;
     }
@@ -446,7 +446,7 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
     if (!isValid && pi.vendorID == 1155 && pi.productID == 22352)
         waitingToReconnect = MG::TIME::getGroundTimeNow();
 
-//    qDebug() << __FILE__ << __LINE__ << pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
+//    qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
 
     if (!port || !port->isOpen() || isValid)
         return;
@@ -459,7 +459,7 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
 
 void SerialLink::deviceDiscovered(const QextPortInfo &pi)
 {
-//    qDebug() << __FILE__ << __LINE__ << pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName()
+//    qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName()
 //             << waitingToReconnect << MG::TIME::getGroundTimeNow() << MG::TIME::getGroundTimeNow() - waitingToReconnect;
     Q_UNUSED(pi);
     if (waitingToReconnect && !port) {
@@ -671,16 +671,13 @@ bool SerialLink::disconnect()
         this->m_stopp = true;
         //m_waitCond.wakeOne();
         m_stoppMutex.unlock();
-        // w/out the following if(), when calling disconnect() from run() we can get a warning about thread waiting on itself
-        //if (currentThreadId() != QThread::currentThreadId())
         this->wait();
     }
 
     if (this->isConnected())
         port->close();
 
-    // delete (invalid) port. not sure this is necessary.
-    if (port) { //  && !isPortHandleValid()
+    if (port) {
         port->deleteLater();
         port = NULL;
     }
@@ -757,7 +754,7 @@ bool SerialLink::hardwareConnect()
 
     if (err.length()) {
         emit communicationError(this->getName(), err);
-        qWarning() << __FILE__ << __LINE__ << err << port->portName() << port->baudRate() << "db:" << port->dataBits() \
+        qWarning() << err << port->portName() << port->baudRate() << "db:" << port->dataBits() \
                    << "p:" << port->parity() << "sb:" << port->stopBits() << "fc:" << port->flowControl();
 
         if (port->isOpen())
@@ -773,7 +770,7 @@ bool SerialLink::hardwareConnect()
     if(isConnected()) {
         emit connected();
         emit connected(true);
-        qDebug() << __FILE__ << __LINE__  << "Connected Serial" << porthandle  << "with settings" \
+        qDebug() << "Connected Serial" << porthandle  << "with settings" \
                  << port->portName() << port->baudRate() << "db:" << port->dataBits() \
                  << "p:" << port->parity() << "sb:" << port->stopBits() << "fc:" << port->flowControl();
     } else

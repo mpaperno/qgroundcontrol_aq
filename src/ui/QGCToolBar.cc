@@ -21,12 +21,14 @@ This file is part of the QGROUNDCONTROL project
 
 ======================================================================*/
 
-#include <QToolButton>
-#include <QLabel>
 #include "QGCToolBar.h"
 #include "MG.h"
 #include "UASManager.h"
 #include "MainWindow.h"
+#include "LinkManager.h"
+
+#include <QFileDialog>
+#include <QMessageBox>
 
 QGCToolBar::QGCToolBar(QWidget *parent) :
     QToolBar(parent),

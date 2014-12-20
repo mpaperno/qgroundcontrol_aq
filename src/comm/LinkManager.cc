@@ -100,11 +100,10 @@ void LinkManager::addProtocol(LinkInterface* link, ProtocolInterface* protocol)
     //qDebug() << __FILE__ << __LINE__ << "ADDED LINK TO PROTOCOL" << link->getName() << protocol->getName() << "NEW SIZE OF LINK LIST:" << protocolLinks.size();
 }
 
-QList<LinkInterface*> LinkManager::getLinksForProtocol(ProtocolInterface* protocol)
+QList<LinkInterface *> LinkManager::getLinksForProtocol(ProtocolInterface* protocol)
 {
     return protocolLinks.values(protocol);
 }
-
 
 bool LinkManager::connectAll()
 {

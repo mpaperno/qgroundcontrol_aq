@@ -6,6 +6,7 @@
 #include "QGCMAVLinkLogPlayer.h"
 #include "QGC.h"
 #include "MG.h"
+#include "LinkManager.h"
 #include "ui_QGCMAVLinkLogPlayer.h"
 
 QGCMAVLinkLogPlayer::QGCMAVLinkLogPlayer(MAVLinkProtocol* mavlink, QWidget *parent) :
