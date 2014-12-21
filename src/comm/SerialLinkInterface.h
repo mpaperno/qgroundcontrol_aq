@@ -58,6 +58,7 @@ public:
 public slots:
     virtual bool setPortName(QString portName) = 0;
     virtual bool setBaudRate(int rate) = 0;
+    virtual bool setBaudRateString(const QString& rate) = 0;
     virtual bool setTimeoutMillis(const long &ms) = 0;
     virtual bool setFlowType(int flow) = 0;
     virtual bool setParityType(int parity) = 0;
@@ -66,8 +67,8 @@ public slots:
     virtual void linkLossExpected(const bool yes) = 0;
     virtual void setReconnectDelayMs(const quint16 &ms) = 0;
 
-    virtual void loadSettings() = 0;
-    virtual void writeSettings() = 0;
+//    virtual void loadSettings() = 0;
+//    virtual void writeSettings() = 0;
 
 };
 

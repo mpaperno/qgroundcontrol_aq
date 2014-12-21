@@ -59,7 +59,7 @@ class SerialLink : public SerialLinkInterface
 public:
 
     SerialLink(QString portname = "",
-               int baudrate=57600,
+               int baudrate=115200,
                bool flow=false,
                bool parity=false,
                int dataBits=8,
@@ -82,6 +82,8 @@ public:
      * @brief The human readable port name
      */
     QString getName();
+    int getLinkType() { return LINK_INTERFACE_TYPE_SERIAL; }
+
     int getBaudRate();
     long getTimeoutMillis() { return portSettings.Timeout_Millisec; }
 
@@ -103,8 +105,8 @@ public:
     qint64 getBitsSent();
     qint64 getBitsReceived();
 
-    void loadSettings();
-    void writeSettings();
+//    void loadSettings();
+//    void writeSettings();
 
     void run();
 

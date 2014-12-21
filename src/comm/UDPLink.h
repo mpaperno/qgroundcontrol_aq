@@ -36,8 +36,9 @@ This file is part of the QGROUNDCONTROL project
 #include <QMap>
 #include <QMutex>
 #include <QUdpSocket>
-#include <LinkInterface.h>
-#include <configuration.h>
+
+#include "LinkInterface.h"
+#include "configuration.h"
 
 class UDPLink : public LinkInterface
 {
@@ -59,6 +60,8 @@ public:
      * @brief The human readable port name
      */
     QString getName();
+    QString getPortName() { return QString(host.toString() % ":" % QString::number(port)); }
+    int getLinkType() { return LINK_INTERFACE_TYPE_UDP; }
     int getBaudRate();
     int getBaudRateType();
     int getFlowType();

@@ -43,6 +43,15 @@ class LinkInterface : public QThread
 {
     Q_OBJECT
 public:
+
+    enum LinkInterfaceTypes {
+        LINK_INTERFACE_TYPE_NONE,
+        LINK_INTERFACE_TYPE_SIMULATION,
+        LINK_INTERFACE_TYPE_SERIAL,
+        LINK_INTERFACE_TYPE_UDP,
+        LINK_INTERFACE_TYPE_ENUM_END
+    };
+
     LinkInterface(QObject* parent = 0) : QThread(parent) {}
     virtual ~LinkInterface() { emit this->deleteLink(this); }
 
@@ -60,6 +69,16 @@ public:
      * @brief Get the human readable name of this link
      */
     virtual QString getName() = 0;
+
+    /**
+     * @brief Get the port name, eg. COM port for serial or host:port for UDP or file name for Sim link
+     */
+    virtual QString getPortName() = 0;
+
+    /**
+     * @brief Get the LinkInterfaceTypes enum value of this link
+     */
+    virtual int getLinkType() = 0;
 
     /**
      * @brief Determine the connection status

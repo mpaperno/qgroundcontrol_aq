@@ -55,6 +55,7 @@ public:
     void run();
 
     QList<LinkInterface *> getLinksForProtocol(ProtocolInterface* protocol);
+    QList<LinkInterface *> getLinksForType(const int linkType);
 
     /** @brief Get the link for this id */
     LinkInterface* getLinkForId(int id);
@@ -85,6 +86,7 @@ protected:
     LinkManager();
     QList<LinkInterface*> links;
     QMultiMap<ProtocolInterface*,LinkInterface*> protocolLinks;
+    QMultiMap<int, LinkInterface*> linkTypesMap;
 
 private:
     static LinkManager* _instance;

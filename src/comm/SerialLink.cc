@@ -250,8 +250,8 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
     this->porthandle = portname.trimmed();
     if (!ports->contains(porthandle))
         porthandle = "";
-    if (this->porthandle == "" && ports->size() > 0)
-        this->porthandle = ports->first();
+//    if (this->porthandle == "" && ports->size() > 0)
+//        this->porthandle = ports->first();
 
 /*
 //#ifdef _WIN32
@@ -368,38 +368,49 @@ QVector<QString>* SerialLink::getCurrentPorts()
     return this->ports;
 }
 
-void SerialLink::loadSettings()
-{
-    // Load defaults from settings
-    QSettings settings;
-    settings.sync();
-    if (settings.contains("SERIALLINK_COMM_PORT"))
-    {
-        setPortName(settings.value("SERIALLINK_COMM_PORT").toString());
-        setBaudRate(settings.value("SERIALLINK_COMM_BAUD").toInt());
-        setParityType(settings.value("SERIALLINK_COMM_PARITY").toInt());
-        setStopBitsType(settings.value("SERIALLINK_COMM_STOPBITS").toInt());
-        setDataBitsType(settings.value("SERIALLINK_COMM_DATABITS").toInt());
-        setFlowType(settings.value("SERIALLINK_COMM_FLOW_CONTROL").toInt());
-        setTimeoutMillis(settings.value("SERIALLINK_COMM_TIMEOUT", (qint32)portSettings.Timeout_Millisec).toInt());
-        setReconnectDelayMs(settings.value("SERIALLINK_COMM_RECONDELAY", m_reconnectDelayMs).toInt());
-    }
-}
+//QString SerialLink::getSettingsKey()
+//{
+//    QString key;
+//    if (!porthandle.isEmpty())
+//        key = QString("SERIALLINK_COMM_" % porthandle.replace(QRegExp("[^a-zA-Z0-9_]"), "") % "_%1");
+//    else
+//        key = QString("SERIALLINK_COMM_%1");
+//    return key;
+//}
 
-void SerialLink::writeSettings()
-{
-    // Store settings
-    QSettings settings;
-    settings.setValue("SERIALLINK_COMM_PORT", getPortName());
-    settings.setValue("SERIALLINK_COMM_BAUD", getBaudRateType());
-    settings.setValue("SERIALLINK_COMM_PARITY", getParityType());
-    settings.setValue("SERIALLINK_COMM_STOPBITS", getStopBitsType());
-    settings.setValue("SERIALLINK_COMM_DATABITS", getDataBitsType());
-    settings.setValue("SERIALLINK_COMM_FLOW_CONTROL", getFlowType());
-    settings.setValue("SERIALLINK_COMM_TIMEOUT", (qint32)getTimeoutMillis());
-    settings.setValue("SERIALLINK_COMM_RECONDELAY", reconnectDelayMs());
-    settings.sync();
-}
+//void SerialLink::loadSettings()
+//{
+//    // Load defaults from settings
+//    QSettings settings;
+//    QString key = getSettingsKey();
+//    if (settings.contains(key.arg("BAUD")))
+//    {
+//        //setPortName(settings.value("SERIALLINK_COMM_PORT").toString());
+//        setBaudRate(settings.value(key.arg("BAUD")).toInt());
+//        setParityType(settings.value(key.arg("PARITY")).toInt());
+//        setStopBitsType(settings.value(key.arg("STOPBITS")).toInt());
+//        setDataBitsType(settings.value(key.arg("DATABITS")).toInt());
+//        setFlowType(settings.value(key.arg("FLOW_CONTROL")).toInt());
+//        setTimeoutMillis(settings.value(key.arg("TIMEOUT"), (qint32)portSettings.Timeout_Millisec).toInt());
+//        setReconnectDelayMs(settings.value(key.arg("RECONDELAY"), m_reconnectDelayMs).toInt());
+//    }
+//}
+
+//void SerialLink::writeSettings()
+//{
+//    // Store settings
+//    QSettings settings;
+//    QString key = getSettingsKey();
+//    //settings.setValue("SERIALLINK_COMM_PORT", getPortName());
+//    settings.setValue(key.arg("BAUD"), getBaudRateType());
+//    settings.setValue(key.arg("PARITY"), getParityType());
+//    settings.setValue(key.arg("STOPBITS"), getStopBitsType());
+//    settings.setValue(key.arg("DATABITS"), getDataBitsType());
+//    settings.setValue(key.arg("FLOW_CONTROL"), getFlowType());
+//    settings.setValue(key.arg("TIMEOUT"), (qint32)getTimeoutMillis());
+//    settings.setValue(key.arg("RECONDELAY"), reconnectDelayMs());
+//    settings.sync();
+//}
 
 
 /**
@@ -770,13 +781,12 @@ bool SerialLink::hardwareConnect()
     if(isConnected()) {
         emit connected();
         emit connected(true);
+//        writeSettings();
         qDebug() << "Connected Serial" << porthandle  << "with settings" \
                  << port->portName() << port->baudRate() << "db:" << port->dataBits() \
                  << "p:" << port->parity() << "sb:" << port->stopBits() << "fc:" << port->flowControl();
     } else
         return false;
-
-//    writeSettings();
 
     return true;
 }
@@ -832,27 +842,14 @@ bool SerialLink::setPortName(QString portName)
 {
     portName = portName.trimmed();
     if(this->porthandle != portName && this->isPortValid(portName)) {
-        bool reconnect = isConnected();
-        if (reconnect)
+        if (isConnected())
             this->disconnect();
         if (isRunning())
             this->wait();
 
         this->porthandle = portName;
+//        loadSettings();
         setName(tr("serial port ") + portName);
-
-//#ifdef _WIN32
-        // Port names above 20 need the network path format - if the port name is not already in this format
-        // catch this special case
-//        if (!this->porthandle.startsWith("\\")) {
-//            // Append \\.\ before the port handle. Additional backslashes are used for escaping.
-//            this->porthandle = "\\\\.\\" + this->porthandle;
-//        }
-//#endif
-
-        // do not auto-reconnect
-        //if(reconnect)
-        //    this->connect();
     }
     return true;
 }

@@ -40,11 +40,11 @@ This file is part of the QGROUNDCONTROL project
 #include <QHideEvent>
 #include <QMutex>
 
-#include <LinkInterface.h>
-#include <SerialLinkInterface.h>
+#include "LinkInterface.h"
 #include "ui_SerialSettings.h"
 
 class QextSerialEnumerator;
+class SerialLinkInterface;
 
 class SerialConfigurationWindow : public QWidget
 {
@@ -59,16 +59,20 @@ public:
 public slots:
     void loadSettings();
     void writeSettings();
+    QString getSettingsKey(bool checkExists);
+    void loadPortSettings();
+    void writePortSettings();
     void configureCommunication();
     void setupPortList();
-    void setFlowControl();
-    void setParity();
+    void setFlowControl(int fc);
+    void setParity(int parity);
+    void setBaudRate(QString rate);
     void setDataBits(QString bits);
     void setStopBits(QString bits);
     void setPortName(QString port);
     void setLinkName(QString name);
-    void setTimeoutMs();
-    void setReconnectDelay();
+    void setTimeoutMs(int to);
+    void setReconnectDelay(int dly);
 
 protected:
     void showEvent(QShowEvent* event);
@@ -87,6 +91,7 @@ private:
     SerialLinkInterface* link;
     QextSerialEnumerator *portEnumerator;
     QAction* action;
+    QString defaultPortName;
     //QTimer* portCheckTimer;
 
 };

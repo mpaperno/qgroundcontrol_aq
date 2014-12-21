@@ -41,8 +41,8 @@ This file is part of the QGROUNDCONTROL project
 #include <qmath.h>
 //#include <inttypes.h>
 #include <stdint.h>
-#include "QGCMAVLink.h"
 
+#include "QGCMAVLink.h"
 #include "LinkInterface.h"
 
 class MAVLinkSimulationLink : public LinkInterface
@@ -73,6 +73,8 @@ public:
     qint64 getBitsReceived();
 
     QString getName();
+    QString getPortName() { return simulationFile->fileName(); }
+    int getLinkType() { return LINK_INTERFACE_TYPE_SIMULATION; }
     int getId();
     int getBaudRate();
     int getBaudRateType();
