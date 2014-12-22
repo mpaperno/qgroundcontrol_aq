@@ -1,23 +1,26 @@
-#include "MainWindow.h"
 #include "qgcautoquad.h"
 #include "ui_qgcautoquad.h"
+#include "../configuration.h"
+#include "MG.h"
+#include "MainWindow.h"
+#include "aq_comm.h"
+#include "qgcaqparamwidget.h"
+#include "aq_pwmPortsConfig.h"
 #include "LinkManager.h"
 #include "UASManager.h"
-#include "MG.h"
-#include <SerialLinkInterface.h>
-#include <SerialLink.h>
-#include "../configuration.h"
+#include "SerialLinkInterface.h"
+#include "SerialLink.h"
 #include "GAudioOutput.h"
 
 #include <QWidget>
 #include <QFileDialog>
 #include <QTextBrowser>
+#include <QComboBox>
 #include <QMessageBox>
 #include <QSignalMapper>
 #include <QStringList>
 #include <QDialogButtonBox>
-
-#include "qextserialenumerator.h"
+#include <qextserialenumerator.h>
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
@@ -66,8 +69,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->tabLayout_aqMixingOutput->addWidget(aqPwmPortConfig);
 
     // set up the splitter expand/collapse button
-    ui->splitter->setStyleSheet("QSplitter#splitter {width: 15px;}");
-    QSplitterHandle *shandle = ui->splitter->handle(1);
+    ui->splitter_aqWidgetSidebar->setStyleSheet("QSplitter#splitter_aqWidgetSidebar {width: 15px;}");
+    QSplitterHandle *shandle = ui->splitter_aqWidgetSidebar->handle(1);
     shandle->setContentsMargins(0, 25, 0, 0);
     shandle->setToolTip(tr("<html><body><p>Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.</p></body></html>"));
     QVBoxLayout *hlayout = new QVBoxLayout;
@@ -204,9 +207,11 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // save this for easy iteration later
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO|NAV|GMBL|QUATOS)_.+_(CH|KNOB)")));
-    allRadioChanProgressBars.append(ui->groupBox_Radio_Values->findChildren<QProgressBar *>(QRegExp("progressBar_chan_[0-9]")));
-    allRadioChanValueLabels.append(ui->groupBox_Radio_Values->findChildren<QLabel *>(QRegExp("label_chanValue_[0-9]")));
 
+    for (int i=0; i < 8; ++i) {
+        allRadioChanProgressBars << ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
+        allRadioChanValueLabels << ui->groupBox_Radio_Values->findChild<QLabel *>(QString("label_chanValue_%1").arg(i));
+    }
 
     // Signal handlers
 
@@ -218,7 +223,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // splitter
     connect(splitterToggleBtn, SIGNAL(clicked()), this, SLOT(splitterCollapseToggle()));
-    connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
+    connect(ui->splitter_aqWidgetSidebar, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
 
     connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     connect(ui->RADIO_SETUP, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
@@ -252,9 +257,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->cmdBtn_ConvertTov68AttPIDs, SIGNAL(clicked()), this, SLOT(convertPidAttValsToFW68Scales()));
 
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
-    connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
-    connect(ui->pushButton_toggleRadioGraph, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
-    connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(editingFinished()), this, SLOT(delayedSendRcRefreshFreq()));
+    //connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
+    connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)),this,SLOT(onToggleRadioValuesRefresh(bool)));
     foreach (QComboBox* cb, allRadioChanCombos)
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
 
@@ -280,6 +284,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     setupPortList();
     loadSettings();
+
+    // connect some things only after settings are loaded to prevent erroneous signals
+    connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq()));
 
     // UAS slots
 //    QList<UASInterface*> mavs = UASManager::instance()->getUASList();
@@ -377,12 +384,12 @@ void QGCAutoquad::loadSettings()
     LastFilePath = settings.value("AUTOQUAD_LAST_PATH").toString();
 
     if (settings.contains("SETTINGS_SPLITTER_SIZES")) {
-        ui->splitter->restoreState(settings.value("SETTINGS_SPLITTER_SIZES").toByteArray());
+        ui->splitter_aqWidgetSidebar->restoreState(settings.value("SETTINGS_SPLITTER_SIZES").toByteArray());
         splitterMoved();
     }
 
     ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
-    ui->pushButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
+    ui->toolButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
     ui->groupBox_controlAdvancedSettings->setChecked(settings.value("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked()).toBool());
 
     settings.endGroup();
@@ -405,9 +412,9 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("AUTOQUAD_LAST_PATH", LastFilePath);
 
-    settings.setValue("SETTINGS_SPLITTER_SIZES", ui->splitter->saveState());
+    settings.setValue("SETTINGS_SPLITTER_SIZES", ui->splitter_aqWidgetSidebar->saveState());
     settings.setValue("SETTING_SELECTED_LEFT_TAB", ui->tabWidget_aq_left->currentIndex());
-    settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->pushButton_toggleRadioGraph->isChecked());
+    settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->toolButton_toggleRadioGraph->isChecked());
     settings.setValue("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked());
 
     settings.sync();
@@ -586,7 +593,7 @@ void QGCAutoquad::on_SPVR_FS_RAD_ST2_currentIndexChanged(int index)
 }
 
 void QGCAutoquad::splitterCollapseToggle() {
-    QList<int> sz = ui->splitter->sizes();
+    QList<int> sz = ui->splitter_aqWidgetSidebar->sizes();
     static int leftW = qMax(sz.at(0), ui->tabWidget_aq_left->minimumWidth());
     QList<int> newsz;
     if (sz.at(0) > 0) {
@@ -597,11 +604,11 @@ void QGCAutoquad::splitterCollapseToggle() {
         newsz << leftW << sz.at(1) - leftW;
         splitterToggleBtn->setArrowType(Qt::LeftArrow);
     }
-    ui->splitter->setSizes(newsz);
+    ui->splitter_aqWidgetSidebar->setSizes(newsz);
 }
 
 void QGCAutoquad::splitterMoved() {
-    if (ui->splitter->sizes().at(0) > 0)
+    if (ui->splitter_aqWidgetSidebar->sizes().at(0) > 0)
         splitterToggleBtn->setArrowType(Qt::LeftArrow);
     else
         splitterToggleBtn->setArrowType(Qt::RightArrow);
@@ -1459,23 +1466,21 @@ void QGCAutoquad::flashFwDfu()
     ps_master.start(AppPath , Arguments, QProcess::Unbuffered | QProcess::ReadWrite);
 }
 
+
 //
 // Radio values view
 //
 
-void QGCAutoquad::toggleRadioValuesUpdate() {
-    if (!uas) {
-        ui->pushButton_toggleRadioGraph->setChecked(false);
-        return;
-    }
+void QGCAutoquad::toggleRadioValuesUpdate(bool enable)
+{
+    if (!uas)
+        enable = false;
 
-    if (!ui->pushButton_toggleRadioGraph->isChecked()) {
-        disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-        //ui->pushButton_toggleRadioGraph->setText("Start Updating");
-        ui->conatiner_radioGraphValues->setEnabled(false);
+    ui->toolButton_toggleRadioGraph->setChecked(enable);
+    ui->conatiner_radioGraphValues->setEnabled(enable);
+
+    if (!enable)
         return;
-    }
 
     int min, max, tmin, tmax;
 
@@ -1484,15 +1489,11 @@ void QGCAutoquad::toggleRadioValuesUpdate() {
         tmin = -100;
         max = 1024;
         min = -1024;
-        disconnect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-        connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     } else {
         tmax = -500;
         tmin = 1500;
         max = -1500;
         min = 1500;
-        disconnect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-        connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     }
 
     foreach (QProgressBar* pb, allRadioChanProgressBars) {
@@ -1505,9 +1506,34 @@ void QGCAutoquad::toggleRadioValuesUpdate() {
         }
     }
 
-    //ui->pushButton_toggleRadioGraph->setText("Stop Updating");
-    ui->conatiner_radioGraphValues->setEnabled(true);
+}
 
+void QGCAutoquad::onToggleRadioValuesRefresh(const bool on)
+{
+    if (!on || !uas)
+        toggleRadioValuesUpdate(false);
+    else if (!ui->spinBox_rcGraphRefreshFreq->value())
+        ui->spinBox_rcGraphRefreshFreq->setValue(1);
+
+    toggleRadioStream(on);
+}
+
+void QGCAutoquad::toggleRadioStream(const bool enable)
+{
+    if (uas)
+        uas->enableRCChannelDataTransmission(enable ? ui->spinBox_rcGraphRefreshFreq->value() : 0);
+}
+
+void QGCAutoquad::delayedSendRcRefreshFreq()
+{
+    delayedSendRCTimer.start();
+}
+
+void QGCAutoquad::sendRcRefreshFreq()
+{
+    delayedSendRCTimer.stop();
+    toggleRadioValuesUpdate(ui->spinBox_rcGraphRefreshFreq->value());
+    toggleRadioStream(ui->spinBox_rcGraphRefreshFreq->value());
 }
 
 void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
@@ -1516,52 +1542,14 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
     bool raw = ui->checkBox_raw_value->isChecked();
     QString lblTxt;
 
+    if (!ui->conatiner_radioGraphValues->isEnabled())
+        toggleRadioValuesUpdate(true);
+
     if (channelId >= allRadioChanProgressBars.size())
         return;
 
-    // three methods to find the right progress bar...
-    // tested on a CoreDuo 3.3GHz at 1-10Hz mavlink refresh, seems to be no practical difference in CPU consumption (~40% ~10Hz)
     QProgressBar* bar = allRadioChanProgressBars.at(channelId);
     QLabel* lbl = allRadioChanValueLabels.at(channelId);
-//    QProgressBar* bar = ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(channelId));
-//    QLabel* lbl = ui->groupBox_Radio_Values->findChild<QLabel *>(QString("label_chanValue_%1").arg(channelId));
-//    QProgressBar* bar = NULL;
-//    QLabel* lbl = NULL;
-
-//    switch (channelId) {
-//    case 0:
-//        bar = ui->progressBar_chan_0;
-//        lbl = ui->label_chanValue_0;
-//        break;
-//    case 1:
-//        bar = ui->progressBar_chan_1;
-//        lbl = ui->label_chanValue_1;
-//        break;
-//    case 2:
-//        bar = ui->progressBar_chan_2;
-//        lbl = ui->label_chanValue_2;
-//        break;
-//    case 3:
-//        bar = ui->progressBar_chan_3;
-//        lbl = ui->label_chanValue_3;
-//        break;
-//    case 4:
-//        bar = ui->progressBar_chan_4;
-//        lbl = ui->label_chanValue_4;
-//        break;
-//    case 5:
-//        bar = ui->progressBar_chan_5;
-//        lbl = ui->label_chanValue_5;
-//        break;
-//    case 6:
-//        bar = ui->progressBar_chan_6;
-//        lbl = ui->label_chanValue_6;
-//        break;
-//    case 7:
-//        bar = ui->progressBar_chan_7;
-//        lbl = ui->label_chanValue_7;
-//        break;
-//    }
 
     if (raw)        // Raw values
         val = (int)(normalized-1024);
@@ -1584,7 +1572,8 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
     }
 }
 
-void QGCAutoquad::setRssiDisplayValue(float normalized) {
+void QGCAutoquad::setRssiDisplayValue(float normalized)
+{
     QProgressBar* bar = ui->progressBar_rssi;
     int val = (int)(normalized);
 
@@ -1592,18 +1581,6 @@ void QGCAutoquad::setRssiDisplayValue(float normalized) {
         bar->setValue(val);
 }
 
-void QGCAutoquad::delayedSendRcRefreshFreq()
-{
-    delayedSendRCTimer.start();
-}
-
-void QGCAutoquad::sendRcRefreshFreq()
-{
-    delayedSendRCTimer.stop();
-    if (!uas)
-        return;
-    uas->enableRCChannelDataTransmission(ui->spinBox_rcGraphRefreshFreq->value());
-}
 
 
 //
@@ -1620,7 +1597,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
     if (uas_ext)
     {
-        uasDeleted(uas);
+        removeActiveUAS();
         uas = uas_ext;
         paramaq = new QGCAQParamWidget(uas, this);
         ui->label_params_no_aq->hide();
@@ -1630,10 +1607,16 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
         else
             paramaq->setFilePath(LastFilePath);
 
+        // do this before we recieve any data stream announcements or messages
+        onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
+
         connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
         connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
         connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
         connect(uas, SIGNAL(dataStreamAnnounced(int,uint8_t,uint16_t,bool)), this, SLOT(dataStreamUpdate(int,uint8_t,uint16_t,bool)));
+        connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+        //connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+        connect(uas, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
         //connect(uas, SIGNAL(connected()), this, SLOT(uasConnected())); // this doesn't do anything
 
         connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
@@ -1653,15 +1636,21 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 
         VisibleWidget = 2;
 //        aqTelemetryView->initChart(uas);
-        toggleRadioValuesUpdate();
     }
 }
 
 void QGCAutoquad::uasDeleted(UASInterface *mav)
 {
-    if (uas && mav->getUASID() == uas->getUASID()) {
+    if (uas && mav && mav == uas) {
+        removeActiveUAS();
+        toggleRadioValuesUpdate(false);
+    }
+}
+
+void QGCAutoquad::removeActiveUAS()
+{
+    if (uas) {
         disconnect(uas, 0, this, 0);
-        uas = NULL;
         if (paramaq) {
             disconnect(paramaq, 0, this, 0);
             ui->tabLayout_paramHandler->removeWidget(paramaq);
@@ -1669,14 +1658,26 @@ void QGCAutoquad::uasDeleted(UASInterface *mav)
             paramaq->deleteLater();
             paramaq = NULL;
         }
+        uas = NULL;
+        toggleRadioValuesUpdate(false);
+    }
+}
+
+void QGCAutoquad::setUASstatus(bool timeout, unsigned int ms)
+{
+    Q_UNUSED(ms);
+    if (uas) {
+        if (timeout)
+            toggleRadioValuesUpdate(false);
     }
 }
 
 void QGCAutoquad::dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off)
 {
     if (uas && uas->getUASID() == uasId && stream_id == MAV_DATA_STREAM_RC_CHANNELS) {
-        ui->pushButton_toggleRadioGraph->setChecked(on_off);
-        ui->spinBox_rcGraphRefreshFreq->setValue(rate);
+        if (on_off)
+            ui->spinBox_rcGraphRefreshFreq->setValue(rate);
+        toggleRadioValuesUpdate(on_off);
     }
 }
 

@@ -1,14 +1,7 @@
 #ifndef QGCAUTOQUAD_H
 #define QGCAUTOQUAD_H
 
-#include "LinkManager.h"
-#include "aq_comm.h"
-#include <SerialLinkInterface.h>
-#include <SerialLink.h>
-#include "QGCUASParamManager.h"
 #include "UASInterface.h"
-#include "qgcaqparamwidget.h"
-#include "aq_pwmPortsConfig.h"
 
 #include <QWidget>
 #include <QProcess>
@@ -16,11 +9,14 @@
 #include <QSettings>
 #include <QAbstractButton>
 
-class QProgressBar;
-class QLabel;
 class QGCAQParamWidget;
+class AQPWMPortsConfig;
+class AQEsc32;
 class QTextEdit;
 class QToolButton;
+class QProgressBar;
+class QLabel;
+class QComboBox;
 
 namespace Ui {
 class QGCAutoquad;
@@ -92,6 +88,8 @@ private slots:
 //  void addUAS(UASInterface* uas_ext);
     void setActiveUAS(UASInterface* uas_ext);
     void uasDeleted(UASInterface *mav);
+    void removeActiveUAS();
+    void setUASstatus(bool timeout, unsigned int ms);
     void dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
 
     // AQ Settings
@@ -104,11 +102,13 @@ private slots:
     void convertPidAttValsToFW68Scales();
 
     // Radio channels display
-    void toggleRadioValuesUpdate();
+    void toggleRadioValuesUpdate(bool enable);
+    void onToggleRadioValuesRefresh(const bool on);
+    void delayedSendRcRefreshFreq();
+    void sendRcRefreshFreq();
+    void toggleRadioStream(const bool enable);
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
-    void sendRcRefreshFreq();
-    void delayedSendRcRefreshFreq();
 
     // ESC32
     void setPortNameEsc32(QString port);

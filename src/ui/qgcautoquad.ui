@@ -20,8 +20,17 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_14">
+   <property name="leftMargin">
+    <number>5</number>
+   </property>
+   <property name="rightMargin">
+    <number>5</number>
+   </property>
+   <property name="bottomMargin">
+    <number>5</number>
+   </property>
    <item row="0" column="0">
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="splitter_aqWidgetSidebar">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -1178,8 +1187,11 @@
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 10px;</string>
+                  </property>
                   <property name="text">
-                   <string>Quality:</string>
+                   <string>Signal Quality:</string>
                   </property>
                  </widget>
                 </item>
@@ -1238,7 +1250,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_toggleRadioGraph">
+                 <widget class="QToolButton" name="toolButton_toggleRadioGraph">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -1263,7 +1275,7 @@
                   </property>
                   <property name="iconSize">
                    <size>
-                    <width>10</width>
+                    <width>12</width>
                     <height>13</height>
                    </size>
                   </property>
@@ -1305,8 +1317,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>677</width>
-                <height>781</height>
+                <width>685</width>
+                <height>785</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -9732,9 +9744,9 @@ padding: 1px 3px;</string>
  </connections>
  <buttongroups>
   <buttongroup name="COMM_STREAM_TYP1"/>
-  <buttongroup name="buttonGroup_attitudeType"/>
   <buttongroup name="COMM_STREAM_TYP2"/>
   <buttongroup name="COMM_STREAM_TYP3"/>
   <buttongroup name="COMM_STREAM_TYP4"/>
+  <buttongroup name="buttonGroup_attitudeType"/>
  </buttongroups>
 </ui>
