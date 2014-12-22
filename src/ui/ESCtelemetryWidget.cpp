@@ -176,8 +176,8 @@ ESCtelemetryWidget::ESCtelemetryWidget(QWidget *parent) :
     connect(&m_delayedSendFreqTimer, SIGNAL(timeout()), this, SLOT(sendRefreshFreq()));
     connect(&m_audioAlertsTimer, SIGNAL(timeout()), this, SLOT(audioAlertTimeout()));
     connect(&m_watchdogTimer, SIGNAL(timeout()), this, SLOT(watchdogTimeout()));
-    connect(ui->pushButton_toggleRefresh, SIGNAL(clicked(bool)),this,SLOT(onToggleRefresh(bool)));
-    connect(ui->pushButton_options, SIGNAL(clicked()),this,SLOT(optionsDialog()));
+    connect(ui->toolButton_toggleRefresh, SIGNAL(clicked(bool)),this,SLOT(onToggleRefresh(bool)));
+    connect(ui->toolButton_options, SIGNAL(clicked()),this,SLOT(optionsDialog()));
     connect(GAudioOutput::instance(), SIGNAL(mutedChanged(bool)), this, SLOT(toggleAlertTimer()));
 
 }
@@ -389,7 +389,7 @@ void ESCtelemetryWidget::toggleUpdate(bool enable)
     setWatchdogInterval();
     toggleAlertTimer();
     setWidgetTitle();
-    ui->pushButton_toggleRefresh->setChecked(enable);
+    ui->toolButton_toggleRefresh->setChecked(enable);
 }
 
 void ESCtelemetryWidget::toggleTelemetryMessage(const bool enable)
@@ -724,7 +724,7 @@ void ESCtelemetryWidget::setDisplayUiEnabled()
 
 void ESCtelemetryWidget::setControlsUiEnabled(const bool enable)
 {
-    ui->pushButton_toggleRefresh->setEnabled(enable);
+    ui->toolButton_toggleRefresh->setEnabled(enable);
 }
 
 void ESCtelemetryWidget::setTableVisible()

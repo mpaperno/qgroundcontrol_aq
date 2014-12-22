@@ -135,8 +135,8 @@
      <property name="topMargin">
       <number>0</number>
      </property>
-     <item alignment="Qt::AlignTop">
-      <widget class="QPushButton" name="pushButton_toggleRefresh">
+     <item>
+      <widget class="QToolButton" name="toolButton_toggleRefresh">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -162,7 +162,7 @@
        <property name="iconSize">
         <size>
          <width>12</width>
-         <height>16</height>
+         <height>13</height>
         </size>
        </property>
        <property name="checkable">
@@ -170,8 +170,8 @@
        </property>
       </widget>
      </item>
-     <item alignment="Qt::AlignTop">
-      <widget class="QPushButton" name="pushButton_options">
+     <item>
+      <widget class="QToolButton" name="toolButton_options">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -191,7 +191,7 @@
        <property name="iconSize">
         <size>
          <width>12</width>
-         <height>16</height>
+         <height>13</height>
         </size>
        </property>
       </widget>
