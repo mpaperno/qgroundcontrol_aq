@@ -19,7 +19,7 @@
 There are three ways to obtain the QGroundControl source code from our GitHub repository. You can either download a snapshot of the code in a ZIP file, clone the repository, or fork the repository if you plan to contribute to development. If you prefer one of the last two options you will need Git installed on your system; goto GitHub Help and see Set Up Git.
 
 ### Clone the Repository
-This option assumes that you have Git already. To clone (checkout) the QGC repository, run the following command in the directory that you want the qgroundcontrol folder to be created:
+This option assumes that you have Git already. To clone (checkout) the QGC repository, run the following command in the directory that you want the qgroundcontrol_aq folder to be created:
 
 ```
 git clone https://github.com/AutoQuad/qgroundcontrol_aq.git
@@ -35,7 +35,7 @@ Fork the QGC Repo
 QGroundControl builds are supported for OSX, Linux and Windows. Qt versions 4.8.6 and 5.x are supported (Qt5 recommended, tested up to 5.4 at time of writing). See the individual sections below for specific requirements for each OS. 
 
 **To build without Text-To-Speech** (and skip the corresponding optional, possibly onerous, steps below), you need to add "NO_TEXT_TO_SPEECH" to your
-Qt DEFINES variable.  You can do this by un-commenting "#DEFINES += NO_TEXT_TO_SPEECH" in qgroundcontrol.pro.
+Qt DEFINES variable.  You can do this by un-commenting "#DEFINES += NO_TEXT_TO_SPEECH" in qgroundcontrol_aq.pro.
 
 In general we recommend installing the latest Qt libraries and development environment (QtCreator), as this will provide the simplest and most tested build setup.
 
@@ -46,7 +46,7 @@ In general we recommend installing the latest Qt libraries and development envir
 1. Download and install Qt 5 (including QtCreator) for your OS from: <http://www.qt.io/download-open-source/>
 2. Choose the Qt flavor which matches your development environment, see OS-specific notes below.
 3. Install Qt as per their instructions.
-4. Open the qgroundcontrol.pro file (at the root of this project) in QtCreator.
+4. Open the qgroundcontrol_aq.pro file (at the root of this project) in QtCreator.
 5. Assuming all the requirements below are met, you should be able to initiate a build (big green button on lower left of QtCreator).
 
 ### Build on Linux
@@ -66,7 +66,7 @@ Supported builds for Linux are 32 or 64-bit, built using gcc.
 #### Build QGroundControl
 1. [Optional] For text to speech support, first go to libs/QtSpeech and run: `sh ./get-festival.sh`  (this may produce some errors but should still be OK in the end).
 2. Build using QtCreator as described above.  Alternately, build from the command line:
- 1. Change directory to you `qgroundcontrol` source directory.
+ 1. Change directory to you `qgroundcontrol_aq` source directory.
  2. Run `qmake`
  3. Run `make`
 
@@ -90,11 +90,11 @@ When installing Qt, you need to choose which compiler you're using, and how many
 #### Build QGroundControl
 
 Optional for Text To Speech: 
- * First follow the instructions in libs/QtSpeech/INSTALL.txt (in the qgroundcontrol root folder).
+ * First follow the instructions in libs/QtSpeech/INSTALL.txt (in the qgroundcontrol_aq root folder).
  * If you do not have Visual Studio PRO version installed, you also need the ATL MFC developer package.  The simplest way to get this is to download the Windows Driver Kit Version 7.1.0 (http://www.microsoft.com/en-us/download/details.aspx?id=11800).  Mount the ISO and run the installer, then select the "Build Environments" feature (also keep Debuggin Tools checked if it is already).  Install it to the folder of your choice (you can remove it later).  Once installed, find the inc/atl71 folder and copy the contents to C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\atlmfc.  Then find the lib/ATL/i386 folder and copy the contents to C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\lib.  (For 32-bit systems, adjust the paths accordingly and then edit the path definitions in the /libs/QtSpeech/qtspeech.pri file.)
 
 ##### Option A: Qt Creator
-Simply open the qgroundcontrol.pro file in QtCreator, adjust the build directories on the opening screen if needed.  You should be able to simply build the project now using the Build button or CTRL-B.
+Simply open the qgroundcontrol_aq.pro file in QtCreator, adjust the build directories on the opening screen if needed.  You should be able to simply build the project now using the Build button or CTRL-B.
 
 ##### Option B: Visual Studio
 1. Open the Qt Command Prompt program from the Start Menu
@@ -115,7 +115,7 @@ Maxim Paperno <MPaperno@WorldDesign.com>
 (c) 2013-2014 Maxim Paperno
 
 Original Conversion for AutoQuad
-2012-2013 by Peter Hafner
+(c) 2012-2013 by Peter Hafner
 
 ## License
 
