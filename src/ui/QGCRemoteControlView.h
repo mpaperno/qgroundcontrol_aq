@@ -32,8 +32,11 @@ This file is part of the QGROUNDCONTROL project
 
 #include <QWidget>
 #include <QVector>
-#include <QPushButton>
 #include <QTimer>
+#include <QMap>
+#include <stdint.h>
+
+#include "UASInterface.h"
 
 namespace Ui
 {
@@ -53,13 +56,22 @@ public:
 
 public slots:
     void setUASId(int id);
+    void uasDeleted(UASInterface *mav);
+    void setUASstatus(bool timeout, unsigned int ms);
+    void dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
     void setChannelRaw(int channelId, float raw);
     void setChannelScaled(int channelId, float normalized);
     void setRemoteRSSI(float rssiNormalized);
     void redraw(int channelId);
     void redrawRssi();
+    void toggleRadioValuesUpdate(bool enable);
+    void toggleRadioStream(const bool enable);
+    void onToggleRadioValuesRefresh(const bool on);
+    void delayedSendRcRefreshFreq();
+    void sendRcRefreshFreq();
 
 protected slots:
+    void removeActiveUAS();
     QMap<QLabel*, QProgressBar*> *drawDataDisplay(int min, int max, QString label);
     void appendChannelWidget(int channelId, bool valType);
 
@@ -69,14 +81,13 @@ protected:
     float rssi;
     bool updated;
     QVBoxLayout* channelLayout;
-    QVector<int> raw;
-    QVector<float> normalized;
-    QVector<QLabel*> rawLabels;
-    QVector<QProgressBar*> progressBars;
+    QMap<int, int> raw;
+    QMap<int, float> normalized;
+    QMap<int, QLabel*> rawLabels;
+    QMap<int, QProgressBar*> progressBars;
     QProgressBar* rssiBar;
-    QLabel* nameLabel;
-    QPushButton *calibrate;
     QTimer updateTimer;
+    QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
 
 private:
     Ui::QGCRemoteControlView *ui;

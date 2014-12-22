@@ -34,6 +34,8 @@ This file is part of the QGROUNDCONTROL project
 #include <QPushButton>
 #include <QLabel>
 #include <QProgressBar>
+#include <QScrollArea>
+
 #include "QGCRemoteControlView.h"
 #include "ui_QGCRemoteControlView.h"
 #include "UASManager.h"
@@ -43,20 +45,26 @@ QGCRemoteControlView::QGCRemoteControlView(QWidget *parent) :
     uasId(-1),
     rssi(0.0f),
     updated(false),
-    channelLayout(new QVBoxLayout()),
     rssiBar(NULL),
-    ui(NULL)
+    ui(new Ui::QGCRemoteControlView)
 {
     ui->setupUi(this);
-    QGridLayout* layout = new QGridLayout(this);
-    layout->addLayout(channelLayout, 1, 0, 1, 2, Qt::AlignTop);
-    nameLabel = new QLabel(this);
-    layout->addWidget(nameLabel, 0, 0, 1, 2, Qt::AlignTop);
-    QSpacerItem* spacer = new QSpacerItem(20, 40, QSizePolicy::Fixed, QSizePolicy::Expanding);
-    layout->addItem(spacer, 2, 0, 1, 2, Qt::AlignTop);
+
+    channelLayout = new QVBoxLayout();
+    channelLayout->setContentsMargins(2, 2, 2, 2);
+    channelLayout->setSpacing(4);
+    ui->scrollLayout->insertLayout(0, channelLayout);
+
+    delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
 
     this->setVisible(false);
+    toggleRadioValuesUpdate(false);
+
+    connect(ui->spinBox_updateFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq()));
+    connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
+    connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)), this, SLOT(onToggleRadioValuesRefresh(bool)));
     connect(UASManager::instance(), SIGNAL(activeUASSet(int)), this, SLOT(setUASId(int)));
+    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
 
     //connect(&updateTimer, SIGNAL(timeout()), this, SLOT(redraw()));
     //updateTimer.start(1500);
@@ -74,74 +82,114 @@ QGCRemoteControlView::~QGCRemoteControlView()
 	}
 }
 
-void QGCRemoteControlView::setUASId(int id)
+void QGCRemoteControlView::removeActiveUAS()
 {
-    if (uasId != -1)
-    {
-        UASInterface* uas = UASManager::instance()->getUASForId(uasId);
-        if (uas)
-            disconnect(uas, 0, this, 0);
-    }
+    if (uasId == -1)
+        return;
+
+    UASInterface* uas = UASManager::instance()->getUASForId(uasId);
+    if (uas)
+        disconnect(uas, 0, this, 0);
+    uasId = -1;
+    toggleRadioValuesUpdate(false);
 
     // Clear channel count
     raw.clear();
-    raw.resize(0);
     normalized.clear();
-    normalized.resize(0);
-
-    foreach (QLabel* label, rawLabels)
-    {
-        label->deleteLater();
-    }
-
-    foreach(QProgressBar* bar, progressBars)
-    {
-        bar->deleteLater();
-    }
-
     rawLabels.clear();
-    rawLabels.resize(0);
     progressBars.clear();
-    progressBars.resize(0);
+    // remove all channel layout items (labels and progress bars)
+    QLayoutItem *child;
+    QLayout *innerLayout;
+    QLayoutItem *innerChild;
+    while ((child = channelLayout->takeAt(1)) != 0) {
+        if (innerLayout = child->layout()) {
+            while ((innerChild = innerLayout->takeAt(0)) != 0) {
+                if (innerChild->widget())
+                    innerChild->widget()->setParent(NULL);
+                delete innerChild;
+            }
+            child->layout()->setParent(NULL);
+        }
+        delete child;
+    }
+}
+
+void QGCRemoteControlView::setUASId(int id)
+{
+    removeActiveUAS();
 
     // Connect the new UAS
     UASInterface* newUAS = UASManager::instance()->getUASForId(id);
-    if (newUAS)
-    {
+    if (newUAS) {
         // New UAS exists, connect
-        nameLabel->setText(QString("RC Input of %1").arg(newUAS->getUASName()));
+        uasId = id;
+        ui->label_uavName->setText(QString("RC Input of %1").arg(newUAS->getUASName()));
         connect(newUAS, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRemoteRSSI(float)));
         connect(newUAS, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
-        connect(newUAS, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+        //connect(newUAS, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
+        connect(newUAS, SIGNAL(dataStreamAnnounced(int,uint8_t,uint16_t,bool)), this, SLOT(dataStreamUpdate(int,uint8_t,uint16_t,bool)));
+        connect(newUAS, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
+    }
+}
+
+void QGCRemoteControlView::uasDeleted(UASInterface *mav)
+{
+    if (mav && mav->getUASID() == this->uasId)
+        removeActiveUAS();
+}
+
+void QGCRemoteControlView::setUASstatus(bool timeout, unsigned int ms)
+{
+    Q_UNUSED(ms);
+    if (uasId != -1) {
+        if (timeout)
+            toggleRadioValuesUpdate(false);
+    }
+}
+
+void QGCRemoteControlView::dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off)
+{
+    if (this->uasId == uasId && stream_id == MAV_DATA_STREAM_RC_CHANNELS) {
+        if (on_off)
+            ui->spinBox_updateFreq->setValue(rate);
+        toggleRadioValuesUpdate(on_off);
     }
 }
 
 void QGCRemoteControlView::setChannelRaw(int channelId, float raw)
 {
+    if (!ui->scrollAreaWidget->isEnabled())
+        toggleRadioValuesUpdate(true);
 
+    // make sure we have the first channel before adding others, otherwise the sequence might get screwed up
+    if (channelId != 0 && !this->raw.contains(0))
+        return;
     raw -= 1024;
-    if (this->raw.size() <= channelId) {
+    if (!this->raw.contains(channelId)) {
         // This is a new channel, append it
-        this->raw.append(raw);
+        this->raw.insert(channelId, (int)raw);
         appendChannelWidget(channelId, 0);
     }
-    if (this->raw.size() > channelId) {
-        this->raw[channelId] = raw;
-        redraw(channelId);
-    }
-
+    this->raw[channelId] = raw;
+    redraw(channelId);
 }
 
 void QGCRemoteControlView::setChannelScaled(int channelId, float normalized)
 {
+    if (!ui->scrollAreaWidget->isEnabled())
+        toggleRadioValuesUpdate(true);
+
+    // make sure we have the first channel before adding others, otherwise the sequence might get screwed up
+    if (channelId != 1 && !this->raw.contains(1))
+        return;
+
     normalized = (normalized * 10000.0f) / 13;
-    if (this->normalized.size() <= channelId) // using raw vector as size indicator
-    {
+    if (!this->normalized.contains(channelId)) {
         // This is a new channel, append it
-        this->normalized.append(normalized);
+        this->normalized.insert(channelId, normalized);
         appendChannelWidget(channelId, 1);
     }
-
     this->normalized[channelId] = normalized;
     redraw(channelId);
 }
@@ -181,7 +229,7 @@ QMap<QLabel*, QProgressBar*> *QGCRemoteControlView::drawDataDisplay(int min, int
 
 void QGCRemoteControlView::appendChannelWidget(int channelId, bool valType)
 {
-    QString label = QString("Channel %1").arg(channelId + 1);
+    QString label = QString("Ch. %1: ").arg(channelId + 1);
     int min = -1024;
     int max = 1024;
     if (channelId == 0) {
@@ -194,8 +242,8 @@ void QGCRemoteControlView::appendChannelWidget(int channelId, bool valType)
     }
 
     QMap<QLabel*, QProgressBar*> *obj = drawDataDisplay(min, max, label);
-    rawLabels.append(obj->keys().at(0));
-    progressBars.append(obj->values().at(0));
+    rawLabels.insert(channelId, obj->keys().at(0));
+    progressBars.insert(channelId, obj->values().at(0));
 }
 
 void QGCRemoteControlView::redraw(int channelId)
@@ -204,17 +252,17 @@ void QGCRemoteControlView::redraw(int channelId)
         return;
 
     // Update percent bars
-    if (channelId <= rawLabels.size())
-        rawLabels.at(channelId)->setText(QString("%1 us").arg(raw.at(channelId), 4, 10, QChar('0')));
+    if (rawLabels.contains(channelId))
+        rawLabels.value(channelId)->setText(QString("%1 us").arg(raw.value(channelId), 4, 10, QChar('0')));
 
-    if (channelId <= progressBars.size()) {
-        int vv = raw.at(channelId)*1.0f;
-        if (vv > progressBars.at(channelId)->maximum())
-            vv = progressBars.at(channelId)->maximum();
-        if (vv < progressBars.at(channelId)->minimum())
-            vv = progressBars.at(channelId)->minimum();
+    if (progressBars.contains(channelId)) {
+        int vv = raw.value(channelId)*1.0f;
+        if (vv > progressBars.value(channelId)->maximum())
+            vv = progressBars.value(channelId)->maximum();
+        if (vv < progressBars.value(channelId)->minimum())
+            vv = progressBars.value(channelId)->minimum();
 
-        progressBars.at(channelId)->setValue(vv);
+        progressBars.value(channelId)->setValue(vv);
     }
 }
 
@@ -224,6 +272,43 @@ void QGCRemoteControlView::redrawRssi()
         return;
 
     rssiBar->setValue(rssi);
+}
+
+void QGCRemoteControlView::toggleRadioValuesUpdate(bool enable)
+{
+    if (uasId == -1)
+        enable = false;
+
+    ui->toolButton_toggleRadioGraph->setChecked(enable);
+    ui->scrollAreaWidget->setEnabled(enable);
+}
+
+void QGCRemoteControlView::toggleRadioStream(const bool enable)
+{
+    if (uasId != -1)
+        UASManager::instance()->getUASForId(uasId)->enableRCChannelDataTransmission(enable ? ui->spinBox_updateFreq->value() : 0);
+}
+
+void QGCRemoteControlView::onToggleRadioValuesRefresh(const bool on)
+{
+    if (!on || uasId == -1)
+        toggleRadioValuesUpdate(false);
+    else if (!ui->spinBox_updateFreq->value())
+        ui->spinBox_updateFreq->setValue(1);
+
+    toggleRadioStream(on);
+}
+
+void QGCRemoteControlView::delayedSendRcRefreshFreq()
+{
+    delayedSendRCTimer.start();
+}
+
+void QGCRemoteControlView::sendRcRefreshFreq()
+{
+    delayedSendRCTimer.stop();
+    toggleRadioValuesUpdate(ui->spinBox_updateFreq->value());
+    toggleRadioStream(ui->spinBox_updateFreq->value());
 }
 
 void QGCRemoteControlView::changeEvent(QEvent *e)
