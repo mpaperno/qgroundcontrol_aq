@@ -97,14 +97,15 @@ BASEDIR = $$_PRO_FILE_PWD_
 ## Misc definitions & settings
 
 # Make sure custom qDebug() handler has context available
-DEFINES += QT_MESSAGELOGCONTEXT
+DEFINES *= QT_MESSAGELOGCONTEXT
+DEFINES *= QT_USE_QSTRINGBUILDER
 DEFINES += MAVLINK_NO_DATA
 # set to build w/out QtSpeech
 #DEFINES += NO_TEXT_TO_SPEECH
 # set to build with VLC support # Windows only #
 #DEFINES += QGC_USE_VLC
 # Turn off serial port warnings
-DEFINES += _TTY_NOWARN_
+#DEFINES += _TTY_NOWARN_
 
 ReleaseBuild {
 	DEFINES += QT_NO_DEBUG

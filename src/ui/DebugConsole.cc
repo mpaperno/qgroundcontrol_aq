@@ -261,6 +261,7 @@ void DebugConsole::updateLinkName(QString name)
 
 void DebugConsole::linkStatusChanged(bool connected)
 {
+    Q_UNUSED(connected)
     if (!sender())
         return;
     LinkInterface *link = qobject_cast<LinkInterface *>(sender());
