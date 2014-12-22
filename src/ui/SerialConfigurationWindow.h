@@ -83,7 +83,7 @@ protected slots:
     void portError(const QString &err);
 
 private slots:
-    void on_groupBox_advanced_toggled(bool arg1);
+    void on_groupBox_advanced_clicked(bool arg1);
 
 private:
 

@@ -88,10 +88,10 @@ SerialConfigurationWindow::SerialConfigurationWindow(LinkInterface* link, QWidge
     connect(ui.spinBox_reconnectDelay, SIGNAL(valueChanged(int)), this, SLOT(setReconnectDelay(int)));
 
     // only load default port if this is the first serial link being added
-    if (!LinkManager::instance()->getLinksForType(LinkInterface::LINK_INTERFACE_TYPE_SERIAL).isEmpty())
+    if (LinkManager::instance()->getLinksForType(LinkInterface::LINK_INTERFACE_TYPE_SERIAL).size() > 1)
         defaultPortName = ui.portName->currentText();
 
-    ui.portName->setCurrentIndex(ui.portName->findText(defaultPortName, Qt::MatchStartsWith));
+    ui.portName->setCurrentIndex(ui.portName->findText(defaultPortName, Qt::MatchContains));
     setPortName(defaultPortName);
 
     // Create action to open this config dialog
@@ -359,7 +359,7 @@ void SerialConfigurationWindow::setReconnectDelay(int dly)
     link->setReconnectDelayMs(dly);
 }
 
-void SerialConfigurationWindow::on_groupBox_advanced_toggled(bool arg1)
+void SerialConfigurationWindow::on_groupBox_advanced_clicked(bool arg1)
 {
     ui.widget_advanced->setVisible(arg1);
     writeSettings();
