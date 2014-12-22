@@ -2139,6 +2139,8 @@ void AQEsc32::SetToBootMode() {
     SleepThread(500);
     StepMessageFromEsc32 = 5;
     transmit.append("bootloader\n");
+    if (!seriallinkEsc32 || !seriallinkEsc32->isConnected())
+        return;
     seriallinkEsc32->writeBytes(transmit,transmit.size());
 
     bootModeTimer->setSingleShot(true);
@@ -2157,6 +2159,8 @@ void AQEsc32::CheckVersion() {
     SleepThread(500);
     StepMessageFromEsc32 = 6;
     transmit.append("version\n");
+    if (!seriallinkEsc32 || !seriallinkEsc32->isConnected())
+        return;
     seriallinkEsc32->writeBytes(transmit,transmit.size());
 }
 
@@ -2167,11 +2171,15 @@ void AQEsc32::ReadConfigEsc32() {
     SleepThread(500);
     StepMessageFromEsc32 = 1;
     transmit.append("set list\n");
+    if (!seriallinkEsc32 || !seriallinkEsc32->isConnected())
+        return;
     seriallinkEsc32->writeBytes(transmit,transmit.size());
 }
 
 int AQEsc32::SwitchFromAsciiToBinary()
 {
+    if (!seriallinkEsc32 || !seriallinkEsc32->isConnected())
+        return 0;
     if (esc32BinaryMode)
         return 1;
 
@@ -2210,7 +2218,10 @@ int AQEsc32::SwitchFromBinaryToAscii()
     return 1;
 }
 
-int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2, int n) {
+int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2, int n)
+{
+    if (!seriallinkEsc32 || !seriallinkEsc32->isConnected())
+        return 0;
     QByteArray transmit;
     ResponseFromEsc32.clear();
     ParaWriten_MessageFromEsc32 = "";
@@ -2237,6 +2248,8 @@ int AQEsc32::esc32SendCommand(unsigned char command, float param1, float param2,
 }
 
 void AQEsc32::esc32SendChar(unsigned char c) {
+    if (!seriallinkEsc32 || !seriallinkEsc32->isConnected())
+        return;
     QByteArray transmit;
     transmit.append(c);
     seriallinkEsc32->writeBytes(transmit,transmit.size());
