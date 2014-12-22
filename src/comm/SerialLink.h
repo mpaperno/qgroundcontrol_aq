@@ -43,6 +43,10 @@ This file is part of the QGROUNDCONTROL project
 #include "qextserialport.h"
 #include "qextserialenumerator.h"
 
+#define SERIAL_AQUSB_VENDOR_ID  1155
+#define SERIAL_AQUSB_PRODUCT_ID  22352
+#define SERIAL_IS_BUGGY_CP210x  (portVendorId == 4292 && portProductId == 60000)
+
 /**
  * @brief The SerialLink class provides cross-platform access to serial links.
  * It takes care of the link management and provides a common API to higher
@@ -167,6 +171,8 @@ protected:
     QString porthandle;
     QString name;
     int id;
+    int portVendorId;
+    int portProductId;
 
     quint64 bitsSentTotal;
     quint64 bitsSentShortTerm;
@@ -188,6 +194,7 @@ private:
 	volatile bool m_stopp;
     QMutex m_stoppMutex;
 
+    void setUsbDeviceInfo();
     void setName(QString name);
     bool hardwareConnect();
 

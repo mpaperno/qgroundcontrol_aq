@@ -19,205 +19,14 @@
 #include "LinkManager.h"
 #include "QGC.h"
 #include <MG.h>
-//#include <iostream>
-
-//#ifdef _WIN32
-//#include "windows.h"
-//#include <qextserialenumerator.h>
-//#endif
-
-/* old Mac init code
-//#if defined (__APPLE__) && defined (__MACH__)
-//#include <stdio.h>
-//#include <string.h>
-//#include <unistd.h>
-//#include <fcntl.h>
-//#include <sys/ioctl.h>
-//#include <errno.h>
-//#include <paths.h>
-//#include <termios.h>
-//#include <sysexits.h>
-//#include <sys/param.h>
-//#include <sys/select.h>
-//#include <sys/time.h>
-//#include <time.h>
-//#include <AvailabilityMacros.h>
-
-//#ifdef __MWERKS__
-//#define __CF_USE_FRAMEWORK_INCLUDES__
-//#endif
-
-
-//#include <CoreFoundation/CoreFoundation.h>
-
-//#include <IOKit/IOKitLib.h>
-//#include <IOKit/serial/IOSerialKeys.h>
-//#if defined(MAC_OS_X_VERSION_10_3) && (MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3)
-//#include <IOKit/serial/ioss.h>
-//#endif
-//#include <IOKit/IOBSD.h>
-
-//// Apple internal modems default to local echo being on. If your modem has local echo disabled,
-//// undefine the following macro.
-//#define LOCAL_ECHO
-
-//#define kATCommandString  "AT\r"
-
-//#ifdef LOCAL_ECHO
-//#define kOKResponseString  "AT\r\r\nOK\r\n"
-//#else
-//#define kOKResponseString  "\r\nOK\r\n"
-//#endif
-//#endif
-
-
-//// Some helper functions for serial port enumeration
-//#if defined (__APPLE__) && defined (__MACH__)
-
-//enum {
-//    kNumRetries = 3
-//};
-
-//// Function prototypes
-//static kern_return_t FindModems(io_iterator_t *matchingServices);
-//static kern_return_t GetModemPath(io_iterator_t serialPortIterator, char *bsdPath, CFIndex maxPathSize);
-
-//// Returns an iterator across all known modems. Caller is responsible for
-//// releasing the iterator when iteration is complete.
-//static kern_return_t FindModems(io_iterator_t *matchingServices)
-//{
-//    kern_return_t      kernResult;
-//    CFMutableDictionaryRef  classesToMatch;
-
-//    //! @function IOServiceMatching
-//    //@abstract Create a matching dictionary that specifies an IOService class match.
-//    //@discussion A very common matching criteria for IOService is based on its class. IOServiceMatching will create a matching dictionary that specifies any IOService of a class, or its subclasses. The class is specified by C-string name.
-//    //@param name The class name, as a const C-string. Class matching is successful on IOService's of this class or any subclass.
-//    //@result The matching dictionary created, is returned on success, or zero on failure. The dictionary is commonly passed to IOServiceGetMatchingServices or IOServiceAddNotification which will consume a reference, otherwise it should be released with CFRelease by the caller.
-
-//    // Serial devices are instances of class IOSerialBSDClient
-//    classesToMatch = IOServiceMatching(kIOSerialBSDServiceValue);
-//    if (classesToMatch == NULL) {
-//        printf("IOServiceMatching returned a NULL dictionary.\n");
-//    } else {
-//        //!
-//        //  @function CFDictionarySetValue
-//        //  Sets the value of the key in the dictionary.
-//        //  @param theDict The dictionary to which the value is to be set. If this
-//        //    parameter is not a valid mutable CFDictionary, the behavior is
-//        //    undefined. If the dictionary is a fixed-capacity dictionary and
-//        //    it is full before this operation, and the key does not exist in
-//        //    the dictionary, the behavior is undefined.
-//        //  @param key The key of the value to set into the dictionary. If a key
-//        //    which matches this key is already present in the dictionary, only
-//        //    the value is changed ("add if absent, replace if present"). If
-//        //    no key matches the given key, the key-value pair is added to the
-//        //    dictionary. If added, the key is retained by the dictionary,
-//        //    using the retain callback provided
-//        //    when the dictionary was created. If the key is not of the sort
-//        //    expected by the key retain callback, the behavior is undefined.
-//        //  @param value The value to add to or replace into the dictionary. The value
-//        //    is retained by the dictionary using the retain callback provided
-//        //    when the dictionary was created, and the previous value if any is
-//        //    released. If the value is not of the sort expected by the
-//        //    retain or release callbacks, the behavior is undefined.
-//        //
-//        CFDictionarySetValue(classesToMatch,
-//                             CFSTR(kIOSerialBSDTypeKey),
-//                             CFSTR(kIOSerialBSDModemType));
-
-//        // Each serial device object has a property with key
-//        // kIOSerialBSDTypeKey and a value that is one of kIOSerialBSDAllTypes,
-//        // kIOSerialBSDModemType, or kIOSerialBSDRS232Type. You can experiment with the
-//        // matching by changing the last parameter in the above call to CFDictionarySetValue.
-
-//        // As shipped, this sample is only interested in modems,
-//        // so add this property to the CFDictionary we're matching on.
-//        // This will find devices that advertise themselves as modems,
-//        // such as built-in and USB modems. However, this match won't find serial modems.
-//    }
-
-//    //! @function IOServiceGetMatchingServices
-//    //    @abstract Look up registered IOService objects that match a matching dictionary.
-//    //    @discussion This is the preferred method of finding IOService objects currently registered by IOKit. IOServiceAddNotification can also supply this information and install a notification of new IOServices. The matching information used in the matching dictionary may vary depending on the class of service being looked up.
-//    //    @param masterPort The master port obtained from IOMasterPort().
-//    //    @param matching A CF dictionary containing matching information, of which one reference is consumed by this function. IOKitLib can contruct matching dictionaries for common criteria with helper functions such as IOServiceMatching, IOOpenFirmwarePathMatching.
-//    //    @param existing An iterator handle is returned on success, and should be released by the caller when the iteration is finished.
-//    //    @result A kern_return_t error code.
-
-//    kernResult = IOServiceGetMatchingServices(kIOMasterPortDefault, classesToMatch, matchingServices);
-//    if (KERN_SUCCESS != kernResult) {
-//        printf("IOServiceGetMatchingServices returned %d\n", kernResult);
-//        goto exit;
-//    }
-
-//exit:
-//    return kernResult;
-//}
-
-//// Given an iterator across a set of modems, return the BSD path to the first one.
-////  If no modems are found the path name is set to an empty string.
-//
-//static kern_return_t GetModemPath(io_iterator_t serialPortIterator, char *bsdPath, CFIndex maxPathSize)
-//{
-//    io_object_t    modemService;
-//    kern_return_t  kernResult = KERN_FAILURE;
-//    Boolean      modemFound = false;
-
-//    // Initialize the returned path
-//    *bsdPath = '\0';
-
-//    // Iterate across all modems found. In this example, we bail after finding the first modem.
-
-//    while ((modemService = IOIteratorNext(serialPortIterator)) && !modemFound) {
-//        CFTypeRef  bsdPathAsCFString;
-
-//        // Get the callout device's path (/dev/cu.xxxxx). The callout device should almost always be
-//        // used: the dialin device (/dev/tty.xxxxx) would be used when monitoring a serial port for
-//        // incoming calls, e.g. a fax listener.
-
-//        bsdPathAsCFString = IORegistryEntryCreateCFProperty(modemService,
-//                                                            CFSTR(kIOCalloutDeviceKey),
-//                                                            kCFAllocatorDefault,
-//                                                            0);
-//        if (bsdPathAsCFString) {
-//            Boolean result;
-
-//            // Convert the path from a CFString to a C (NUL-terminated) string for use
-//            // with the POSIX open() call.
-
-//            result = CFStringGetCString((CFStringRef)bsdPathAsCFString,
-//                                        bsdPath,
-//                                        maxPathSize,
-//                                        kCFStringEncodingUTF8);
-//            CFRelease(bsdPathAsCFString);
-
-//            if (result) {
-//                //printf("Modem found with BSD path: %s", bsdPath);
-//                modemFound = true;
-//                kernResult = KERN_SUCCESS;
-//            }
-//        }
-
-//        printf("\n");
-
-//        // Release the io_service_t now that we are done with it.
-
-//        (void) IOObjectRelease(modemService);
-//    }
-
-//    return kernResult;
-//}
-//#endif
-*/
-//using namespace TNX;
-
 
 SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl, bool parity,
                        int dataBits, int stopBits) :
     port(0),
     portSettings(PortSettings()),
     portOpenMode(QIODevice::ReadWrite),
+    portVendorId(0),
+    portProductId(0),
     bitsSentTotal(0),
     bitsSentShortTerm(0),
     bitsSentCurrent(0),
@@ -253,17 +62,6 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
 //    if (this->porthandle == "" && ports->size() > 0)
 //        this->porthandle = ports->first();
 
-/*
-//#ifdef _WIN32
-    // Port names above 20 need the network path format - if the port name is not already in this format
-    // catch this special case
-//    if (this->porthandle.size() > 0 && !this->porthandle.startsWith("\\")) {
-//        // Append \\.\ before the port handle. Additional backslashes are used for escaping.
-//        this->porthandle = "\\\\.\\" + this->porthandle;
-//    }
-//#endif
-*/
-
     // Set unique ID and add link to the list of links
     this->id = getNextLinkId();
 
@@ -280,9 +78,6 @@ SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl,
 
     // Set the port name
     name = this->porthandle.length() ? this->porthandle : tr("Serial Link ") + QString::number(getId());
-
-//    if (name == this->porthandle || name == "")
-//        loadSettings();
 
     QObject::connect(this, SIGNAL(portError()), this, SLOT(disconnect()));
 
@@ -307,111 +102,9 @@ QVector<QString>* SerialLink::getCurrentPorts()
             ports->append(p.portName);//  + " - " + p.friendName);
 //      qDebug() << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
     }
-/* old Linux and Mac code
-//#ifdef __linux
-
-//    // TODO Linux has no standard way of enumerating serial ports
-//    // However the device files are only present when the physical
-//    // device is connected, therefore listing the files should be
-//    // sufficient.
-
-//    QString devdir = "/dev";
-//    QDir dir(devdir);
-//    dir.setFilter(QDir::System);
-
-//    QFileInfoList list = dir.entryInfoList();
-//    for (int i = 0; i < list.size(); ++i) {
-//        QFileInfo fileInfo = list.at(i);
-//        if (fileInfo.fileName().contains(QString("ttyUSB")) || fileInfo.fileName().contains(QString("ttyS")) || fileInfo.fileName().contains(QString("ttyACM")))
-//        {
-//            ports->append(fileInfo.canonicalFilePath());
-//        }
-//    }
-//#endif
-
-//#if defined (__APPLE__) && defined (__MACH__)
-
-//    // Enumerate serial ports
-//    kern_return_t    kernResult; // on PowerPC this is an int (4 bytes)
-//    io_iterator_t    serialPortIterator;
-//    char        bsdPath[MAXPATHLEN];
-//    kernResult = FindModems(&serialPortIterator);
-//    kernResult = GetModemPath(serialPortIterator, bsdPath, sizeof(bsdPath));
-//    IOObjectRelease(serialPortIterator);    // Release the iterator.
-
-//    // Add found modems
-//    if (bsdPath[0])
-//    {
-//        ports->append(QString(bsdPath));
-//    }
-
-//    // Add USB serial port adapters
-//    // TODO Strangely usb serial port adapters are not enumerated, even when connected
-//    QString devdir = "/dev";
-//    QDir dir(devdir);
-//    dir.setFilter(QDir::System);
-
-//    QFileInfoList list = dir.entryInfoList();
-//    for (int i = list.size() - 1; i >= 0; i--) {
-//        QFileInfo fileInfo = list.at(i);
-//        if (fileInfo.fileName().contains(QString("ttyUSB")) ||
-//                fileInfo.fileName().contains(QString("tty.")) ||
-//                fileInfo.fileName().contains(QString("ttyS")) ||
-//                fileInfo.fileName().contains(QString("ttyACM")))
-//        {
-//            ports->append(fileInfo.canonicalFilePath());
-//        }
-//    }
-//#endif
-*/
 
     return this->ports;
 }
-
-//QString SerialLink::getSettingsKey()
-//{
-//    QString key;
-//    if (!porthandle.isEmpty())
-//        key = QString("SERIALLINK_COMM_" % porthandle.replace(QRegExp("[^a-zA-Z0-9_]"), "") % "_%1");
-//    else
-//        key = QString("SERIALLINK_COMM_%1");
-//    return key;
-//}
-
-//void SerialLink::loadSettings()
-//{
-//    // Load defaults from settings
-//    QSettings settings;
-//    QString key = getSettingsKey();
-//    if (settings.contains(key.arg("BAUD")))
-//    {
-//        //setPortName(settings.value("SERIALLINK_COMM_PORT").toString());
-//        setBaudRate(settings.value(key.arg("BAUD")).toInt());
-//        setParityType(settings.value(key.arg("PARITY")).toInt());
-//        setStopBitsType(settings.value(key.arg("STOPBITS")).toInt());
-//        setDataBitsType(settings.value(key.arg("DATABITS")).toInt());
-//        setFlowType(settings.value(key.arg("FLOW_CONTROL")).toInt());
-//        setTimeoutMillis(settings.value(key.arg("TIMEOUT"), (qint32)portSettings.Timeout_Millisec).toInt());
-//        setReconnectDelayMs(settings.value(key.arg("RECONDELAY"), m_reconnectDelayMs).toInt());
-//    }
-//}
-
-//void SerialLink::writeSettings()
-//{
-//    // Store settings
-//    QSettings settings;
-//    QString key = getSettingsKey();
-//    //settings.setValue("SERIALLINK_COMM_PORT", getPortName());
-//    settings.setValue(key.arg("BAUD"), getBaudRateType());
-//    settings.setValue(key.arg("PARITY"), getParityType());
-//    settings.setValue(key.arg("STOPBITS"), getStopBitsType());
-//    settings.setValue(key.arg("DATABITS"), getDataBitsType());
-//    settings.setValue(key.arg("FLOW_CONTROL"), getFlowType());
-//    settings.setValue(key.arg("TIMEOUT"), (qint32)getTimeoutMillis());
-//    settings.setValue(key.arg("RECONDELAY"), reconnectDelayMs());
-//    settings.sync();
-//}
-
 
 /**
  * @brief Runs the thread
@@ -434,7 +127,7 @@ void SerialLink::run()
 }
 
 bool SerialLink::validateConnection() {
-    bool ok = this->isConnected() && !port->lastError(); // && (!port->error() || port->error() == QSerialPort::TimeoutError)
+    bool ok = this->isConnected() && (!port->lastError() || (port->lastError() == E_READ_FAILED && SERIAL_IS_BUGGY_CP210x));
     if (ok && (portOpenMode & QIODevice::ReadOnly) && !port->isReadable())
         ok = false;
     if (ok && (portOpenMode & QIODevice::WriteOnly) && !port->isWritable())
@@ -443,7 +136,7 @@ bool SerialLink::validateConnection() {
         emit portError();
         if (!m_linkLossExpected)
             emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
-        //qWarning() << ok << port->lastError() << port->errorString();
+        qWarning() << ok << port->lastError() << port->errorString();
         //this->disconnect();
         return false;
     }
@@ -454,10 +147,10 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
 {
     bool isValid = isPortHandleValid();
 
-    if (!isValid && pi.vendorID == 1155 && pi.productID == 22352)
+    if (!isValid && pi.vendorID == SERIAL_AQUSB_VENDOR_ID && pi.productID == SERIAL_AQUSB_PRODUCT_ID)
         waitingToReconnect = MG::TIME::getGroundTimeNow();
 
-//    qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
+    qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
 
     if (!port || !port->isOpen() || isValid)
         return;
@@ -693,6 +386,9 @@ bool SerialLink::disconnect()
         port = NULL;
     }
 
+    portVendorId = 0;
+    portProductId = 0;
+
     emit disconnected();
     emit connected(false);
     return !this->isConnected();
@@ -760,8 +456,13 @@ bool SerialLink::hardwareConnect()
     port->setFlowControl(portSettings.FlowControl);
     port->setTimeout(portSettings.Timeout_Millisec);
 
-    if (!port->open(portOpenMode))
-        err = tr("Failed to open serial port %1 with error: %2 (%3)").arg(this->porthandle).arg(port->errorString()).arg(port->lastError());
+    if (!port->open(portOpenMode)) {
+        err = tr("Failed to open serial port %1").arg(this->porthandle);
+        if (port->lastError() != E_NO_ERROR)
+            err = err % tr(" with error: %1 (%2)").arg(port->errorString()).arg(port->lastError());
+        else
+            err = err % tr(". It may already be in use, please check your connections.");
+    }
 
     if (err.length()) {
         emit communicationError(this->getName(), err);
@@ -777,6 +478,7 @@ bool SerialLink::hardwareConnect()
     }
 
     connectionStartTime = MG::TIME::getGroundTimeNow();
+    setUsbDeviceInfo();
 
     if(isConnected()) {
         emit connected();
@@ -789,6 +491,18 @@ bool SerialLink::hardwareConnect()
         return false;
 
     return true;
+}
+
+void SerialLink::setUsbDeviceInfo()
+{
+    foreach (const QextPortInfo &p, portEnumerator->getPorts()) {
+        if (p.portName == port->portName()) {
+            portVendorId = p.vendorID;
+            portProductId = p.productID;
+            return;
+        }
+    }
+
 }
 
 
