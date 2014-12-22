@@ -15,6 +15,15 @@ QWidget:disabled {
 	background-color: #202020;
 	etch-disabled-text: 0;
 }
+QWidget[styleType="ok"] {
+	color: rgba(187, 230, 187, 255);
+}
+QWidget[styleType="warning"] {
+	color: rgba(255, 140, 0, 255);
+}
+QWidget[styleType="error"] {
+	color: rgba(255, 0, 0, 255);
+}
 
 QScrollBar {
 	border-radius: 6px;
@@ -116,13 +125,13 @@ QSizeGrip {
 QMainWindow::separator:vertical {
 	 background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
 	 /*border: 1px solid #4c4c4c;*/
-	 width: 7px;
+	 width: 8px;
 	 margin: 0 3px;
 }
 QMainWindow::separator:horizontal {
 	 background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
 	 /*border: 1px solid #4c4c4c;*/
-	 height: 7px;
+	 height: 8px;
 	 margin: 3px 0;
 }
 QMainWindow::separator:hover {
@@ -130,11 +139,9 @@ QMainWindow::separator:hover {
 }
 QMainWindow::separator:vertical:hover {
 	background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
-	border: 1px solid #6c6c6c;
 }
 QMainWindow::separator:horizontal:hover {
 	background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
-	border: 1px solid #6c6c6c;
 }
 
 
@@ -568,10 +575,6 @@ QPushButton {
 	padding: 0px 5px;
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);
 }
-QPushButton[icon] {
-	padding-top: 1px;
-	padding-bottom: 1px;
-}
 QPushButton:focus {
     border-color: #999999;
 }
@@ -625,7 +628,7 @@ QToolButton {
     min-height: 18px;
     /*max-height: 20px;*/
     icon-size: 18px;
-    border: 0px solid #4A4A4F;
+	 border: 1px solid transparent;
     border-radius: 2px;
     padding-left: 3px;
     padding-right: 3px;
@@ -648,7 +651,7 @@ QToolButton[autoRaise="true"] {
 
 QToolButton:checked {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
-    border: 2px solid #379AC3;
+	border: 1px solid #777777;
 }
 QToolButton:hover {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
@@ -658,7 +661,7 @@ QToolButton[autoRaise="true"]:hover {
 }
 QToolButton:pressed {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
-    border: 2px solid #379AC3;
+	border: 1px solid #379AC3;
 }
 QToolButton::menu-indicator {
     subcontrol-position: right middle;
@@ -705,17 +708,36 @@ QLabel {
 /*
     Splitter
 */
-/*QSplitter {
-    color: #EEEEEE;
-	 width: 7px;
-}*/
+QSplitter:vertical {
+	 min-width: 8px;
+}
 
-QSplitter:handle {
+/*QSplitter:handle {
 	background-color: #202020;
 }
 QSplitter::handle:hover {
 	background-color: #303030;
+}*/
+
+QSplitter::handle:horizontal {
+	 background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
+	 margin: 0;
 }
+QSplitter::handle:vertical {
+	 background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
+	 margin: 0;
+}
+QSplitter::handle:hover {
+/*	border: 1px solid #6c6c6c;*/
+}
+QSplitter::handle:horizontal:hover {
+	background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
+}
+QSplitter::handle:vertical:hover {
+	background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
+}
+
+
 
 /*QSplitter#splitter {
 	 width: 18px;

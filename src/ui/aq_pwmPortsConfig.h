@@ -110,7 +110,7 @@ private slots:
     void allToCAN_clicked();
     void allToPWM_clicked();
     void toggleQuatos(bool checked);
-    void splitterCollapseToggle();
+    void splitterCollapseToggle(bool on);
     void splitterMoved();
     void firmwareVersion_updated();
 
@@ -131,7 +131,6 @@ private:
     QGraphicsPixmapItem* frameLayout_bgItem;
     QGraphicsPixmapItem* frameLayout_fgItem;
     QList<QComboBox *> allPortSelectors;
-    QToolButton *splitterToggleBtn;
     QStringList motorConfigErrors;
     QString portOrder2Param;
     QString mixFilesPath;

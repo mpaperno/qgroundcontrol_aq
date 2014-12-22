@@ -28,6 +28,15 @@ QWidget:disabled {
     border-color: #383838;
 	 etch-disabled-text: 0;
 }
+QWidget[styleType="ok"] {
+	color: rgba(187, 230, 187, 255);
+}
+QWidget[styleType="warning"] {
+	color: rgba(255, 140, 0, 255);
+}
+QWidget[styleType="error"] {
+	color: rgba(255, 0, 0, 255);
+}
 
 
 /* Containers first */

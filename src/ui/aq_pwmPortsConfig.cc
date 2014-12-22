@@ -7,6 +7,10 @@
 
 #include <QDoubleValidator>
 #include <QToolButton>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QFileDialog>
 
 AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     QWidget(parent),
@@ -30,22 +34,6 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
 
     ui->setupUi(this);
 
-    // set up the splitter expand/collapse button
-    ui->splitter->setStyleSheet("QSplitter#splitter {width: 12px;}");
-    QSplitterHandle *shandle = ui->splitter->handle(1);
-    shandle->setContentsMargins(0, 9, 0, 0);
-    shandle->setToolTip(tr("<html><body><p>Click the arrow button to collapse/expand the reference image sidebar. Click and drag anywhere to resize.</p></body></html>"));
-    QVBoxLayout *hlayout = new QVBoxLayout;
-    hlayout->setContentsMargins(0, 0, 0, 0);
-    splitterToggleBtn = new QToolButton(shandle);
-    splitterToggleBtn->setObjectName("toolButton_splitterToggleBtn");
-    splitterToggleBtn->setArrowType(Qt::RightArrow);
-    splitterToggleBtn->setCursor(QCursor(Qt::ArrowCursor));
-    hlayout->addWidget(splitterToggleBtn);
-    hlayout->setAlignment(splitterToggleBtn, Qt::AlignTop);
-    hlayout->addStretch(3);
-    shandle->setLayout(hlayout);
-
     // assign IDs to mix type radio buttons
     ui->buttonGroup_motorMix->setId(ui->radioButton_mixType_custom, 0);
     ui->buttonGroup_motorMix->setId(ui->radioButton_mixType_predefined, 1);
@@ -55,11 +43,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
 
     // set up mixing table view
     ui->table_motMix->horizontalHeader()->resizeSection(COL_MOTOR, 30);
-    //ui->table_motMix->horizontalHeader()->setResizeMode(COL_PORT, QHeaderView::Fixed);
-    ui->table_motMix->horizontalHeader()->resizeSection(COL_PORT, 45);
     ui->table_motMix->setItemDelegateForColumn(COL_PORT, comboDelegate);
-    //ui->table_motMix->horizontalHeader()->setResizeMode(COL_THROT, QHeaderView::Fixed);
-    ui->table_motMix->horizontalHeader()->resizeSection(COL_THROT, 45);
     ui->table_motMix->setItemDelegateForColumn(COL_THROT, lineEditDelegate);
     ui->table_motMix->setItemDelegateForColumn(COL_PITCH, lineEditDelegate);
     ui->table_motMix->setItemDelegateForColumn(COL_ROLL, lineEditDelegate);
@@ -67,16 +51,13 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     ui->table_motMix->setItemDelegateForColumn(COL_QPITCH, lineEditDelegate);
     ui->table_motMix->setItemDelegateForColumn(COL_QROLL, lineEditDelegate);
     ui->table_motMix->setItemDelegateForColumn(COL_QYAW, lineEditDelegate);
-    ui->table_motMix->horizontalHeader()->resizeSection(COL_TYPE, 55);
     ui->table_motMix->setItemDelegateForColumn(COL_TYPE, comboDelegate);
 #if QT_VERSION >= 0x050000
-    ui->table_motMix->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+    ui->table_motMix->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->table_motMix->horizontalHeader()->setSectionResizeMode(COL_MOTOR, QHeaderView::Fixed);
-    ui->table_motMix->horizontalHeader()->setSectionResizeMode(COL_TYPE, QHeaderView::Fixed);
 #else
-    ui->table_motMix->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
+    ui->table_motMix->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
     ui->table_motMix->horizontalHeader()->setResizeMode(COL_MOTOR, QHeaderView::Fixed);
-    ui->table_motMix->horizontalHeader()->setResizeMode(COL_TYPE, QHeaderView::Fixed);
 #endif
 
     dataChangeType = Qt::EditRole;
@@ -132,8 +113,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     motorTableConnections(true);
 
     // splitter
-    connect(splitterToggleBtn, SIGNAL(clicked()), this, SLOT(splitterCollapseToggle()));
-    connect(ui->splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
+    connect(ui->splitter_portsConfigSidebar, SIGNAL(splitterMoved(int,int)), this, SLOT(splitterMoved()));
 
     // other GUI connections
     connect(ui->toolButton_loadFile, SIGNAL(clicked()), this, SLOT(loadFile_clicked()));
@@ -141,6 +121,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     connect(ui->toolButton_loadImage, SIGNAL(clicked()), this, SLOT(loadImage_clicked()));
     connect(ui->toolButton_allToCAN, SIGNAL(clicked()), this, SLOT(allToCAN_clicked()));
     connect(ui->toolButton_allToPWM, SIGNAL(clicked()), this, SLOT(allToPWM_clicked()));
+    connect(ui->toolButton_toggleSidebar, SIGNAL(toggled(bool)), this, SLOT(splitterCollapseToggle(bool)));
     connect(ui->checkBox_quatos, SIGNAL(clicked(bool)), this, SLOT(toggleQuatos(bool)));
     connect(ui->groupBox_jMatrix, SIGNAL(toggled(bool)), ui->widget_jMatrix, SLOT(setVisible(bool)));
 }
@@ -163,11 +144,11 @@ void AQPWMPortsConfig::loadSettings()
 {
     QSettings settings;
     settings.beginGroup("AUTOQUAD_SETTINGS");
-    ui->table_motMix->horizontalHeader()->restoreState(settings.value("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState()).toByteArray());
+    //ui->table_motMix->horizontalHeader()->restoreState(settings.value("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState()).toByteArray());
     ui->groupBox_jMatrix->setChecked(settings.value("MOTMIX_JMATRIX_VISIBLE", false).toBool());
     ui->widget_jMatrix->setVisible(ui->groupBox_jMatrix->isChecked());
     if (settings.contains("MOTMIX_SPLITTER_SIZES")) {
-        ui->splitter->restoreState(settings.value("MOTMIX_SPLITTER_SIZES").toByteArray());
+        ui->splitter_portsConfigSidebar->restoreState(settings.value("MOTMIX_SPLITTER_SIZES").toByteArray());
         splitterMoved();
     }
 
@@ -178,9 +159,9 @@ void AQPWMPortsConfig::writeSettings()
 {
     QSettings settings;
     settings.beginGroup("AUTOQUAD_SETTINGS");
-    settings.setValue("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState());
+    //settings.setValue("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState());
     settings.setValue("MOTMIX_JMATRIX_VISIBLE", ui->groupBox_jMatrix->isChecked());
-    settings.setValue("MOTMIX_SPLITTER_SIZES", ui->splitter->saveState());
+    settings.setValue("MOTMIX_SPLITTER_SIZES", ui->splitter_portsConfigSidebar->saveState());
     settings.sync();
     settings.endGroup();
 }
@@ -1305,26 +1286,21 @@ void AQPWMPortsConfig::toggleQuatos(bool checked)
     aq->setAqHasQuatos(checked);
 }
 
-void AQPWMPortsConfig::splitterCollapseToggle() {
-    QList<int> sz = ui->splitter->sizes();
+void AQPWMPortsConfig::splitterCollapseToggle(bool on) {
+    QList<int> sz = ui->splitter_portsConfigSidebar->sizes();
     static int rightW = qMax(sz.at(1), ui->scrollArea->sizeHint().width());
     QList<int> newsz;
-    if (sz.at(1) > 0) {
+    if (on) {
+        newsz << sz.at(0) - rightW << rightW;
+    } else {
         rightW = sz.at(1);
         newsz << rightW + sz.at(0) << 0;
-        splitterToggleBtn->setArrowType(Qt::LeftArrow);
-    } else {
-        newsz << sz.at(0) - rightW << rightW;
-        splitterToggleBtn->setArrowType(Qt::RightArrow);
     }
-    ui->splitter->setSizes(newsz);
+    ui->splitter_portsConfigSidebar->setSizes(newsz);
 }
 
 void AQPWMPortsConfig::splitterMoved() {
-    if (ui->splitter->sizes().at(1) > 0)
-        splitterToggleBtn->setArrowType(Qt::RightArrow);
-    else
-        splitterToggleBtn->setArrowType(Qt::LeftArrow);
+    ui->toolButton_toggleSidebar->setChecked(ui->splitter_portsConfigSidebar->sizes().at(1) > 0);
 }
 
 // ----------------------------------------------

@@ -2,6 +2,16 @@
 	 This style sheet is loaded for all application styles except native, dark (indoor), and light (outdoor)
 */
 
+QWidget[styleType="ok"] {
+	color: rgba(187, 230, 187, 255);
+}
+QWidget[styleType="warning"] {
+	color: rgba(255, 140, 0, 255);
+}
+QWidget[styleType="error"] {
+	color: rgba(255, 0, 0, 255);
+}
+
 
 /*
 	LCD Number display

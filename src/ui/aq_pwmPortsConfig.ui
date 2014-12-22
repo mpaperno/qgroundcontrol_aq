@@ -34,12 +34,12 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QSplitter" name="splitter">
+    <widget class="QSplitter" name="splitter_portsConfigSidebar">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="handleWidth">
-      <number>8</number>
+      <number>6</number>
      </property>
      <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -303,6 +303,42 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_toggleSidebar">
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Show or hide the sidebar with reference images.</string>
+              </property>
+              <property name="text">
+               <string>Resize Columns</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/actions/application-sidebar-collapse.png</normaloff>
+                <normalon>:/files/images/actions/application-sidebar-expand.png</normalon>:/files/images/actions/application-sidebar-collapse.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -1397,7 +1433,7 @@
      </widget>
      <widget class="QScrollArea" name="scrollArea">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -1415,14 +1451,14 @@
        <bool>true</bool>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
       <widget class="QWidget" name="scrollAreaWidgetContents">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>285</width>
+         <width>275</width>
          <height>601</height>
         </rect>
        </property>
@@ -1434,7 +1470,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">
-         <number>4</number>
+         <number>7</number>
         </property>
         <property name="leftMargin">
          <number>0</number>
@@ -1443,7 +1479,7 @@
          <number>0</number>
         </property>
         <property name="rightMargin">
-         <number>10</number>
+         <number>0</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>

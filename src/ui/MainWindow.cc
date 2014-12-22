@@ -645,10 +645,10 @@ void MainWindow::buildCommonWidgets()
 
     if (!rcViewDockWidget)
     {
-        rcViewDockWidget = new QDockWidget(tr("Channels Monitor"), this);
+        rcViewDockWidget = new QDockWidget(tr("RC Channels Monitor"), this);
         rcViewDockWidget->setWidget( new QGCRemoteControlView(this) );
         rcViewDockWidget->setObjectName("RADIO_CONTROL_CHANNELS_DOCK_WIDGET");
-        addTool(rcViewDockWidget, tr("Channels Monitor"), Qt::LeftDockWidgetArea);
+        addTool(rcViewDockWidget, tr("RC Channels Monitor"), Qt::LeftDockWidgetArea);
     }
 
 //    if (!controlDockWidget)
@@ -785,6 +785,7 @@ void MainWindow::addTool(QDockWidget* widget, const QString& title, Qt::DockWidg
     connect(widget, SIGNAL(visibilityChanged(bool)), tempAction, SLOT(setChecked(bool)));
     tempAction->setChecked(widget->isVisible());
     addDockWidget(area, widget);
+    widget->hide();
 }
 
 
@@ -1488,10 +1489,10 @@ void MainWindow::UASCreated(UASInterface* uas)
     }
 
     // Health / System status indicator
-    if (infoDockWidget) {
-        if (UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget()))
-            infoWidget->addUAS(uas);
-    }
+//    if (infoDockWidget) {
+//        if (UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget()))
+//            infoWidget->addUAS(uas);
+//    }
 
     // UAS List
     if (listDockWidget) {
