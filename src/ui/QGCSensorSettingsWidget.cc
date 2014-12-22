@@ -66,6 +66,8 @@ QGCSensorSettingsWidget::QGCSensorSettingsWidget(UASInterface* uas, QWidget *par
     connect(ui->spinBox_extra2, SIGNAL(valueChanged(int)), this, SLOT(delayedSendExtra2(int)));
     connect(ui->spinBox_extra3, SIGNAL(valueChanged(int)), this, SLOT(delayedSendExtra3(int)));
 
+    connect(uas, SIGNAL(dataStreamAnnounced(int,uint8_t,uint16_t,bool)), this, SLOT(dataStreamUpdate(int,uint8_t,uint16_t,bool)));
+
     ui->widget_rates->setVisible(ui->groupBox->isChecked());
 
 }
@@ -169,6 +171,45 @@ void QGCSensorSettingsWidget::sendExtra3()
 QGCSensorSettingsWidget::~QGCSensorSettingsWidget()
 {
     delete ui;
+}
+
+void QGCSensorSettingsWidget::dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off)
+{
+    if (!mav || mav->getUASID() != uasId)
+        return;
+
+    QSpinBox *sb = NULL;
+    switch (stream_id) {
+        case MAV_DATA_STREAM_RAW_SENSORS :
+            sb = ui->spinBox_rawSensor;
+            break;
+        case MAV_DATA_STREAM_EXTENDED_STATUS :
+            sb = ui->spinBox_extended;
+            break;
+        case MAV_DATA_STREAM_POSITION :
+            sb = ui->spinBox_position;
+            break;
+        case MAV_DATA_STREAM_RAW_CONTROLLER :
+            sb = ui->spinBox_controller;
+            break;
+        case MAV_DATA_STREAM_RC_CHANNELS :
+            sb = ui->spinBox_rc;
+            break;
+        case MAV_DATA_STREAM_EXTRA1 :
+            sb = ui->spinBox_extra1;
+        case MAV_DATA_STREAM_EXTRA2 :
+            sb = ui->spinBox_extra2;
+            break;
+        case MAV_DATA_STREAM_EXTRA3 :
+            sb = ui->spinBox_extra3;
+            break;
+    }
+
+    int _rate = rate;
+    if (!on_off)
+        _rate = 0;
+    if (sb)
+        sb->setValue(_rate);
 }
 
 void QGCSensorSettingsWidget::changeEvent(QEvent *e)

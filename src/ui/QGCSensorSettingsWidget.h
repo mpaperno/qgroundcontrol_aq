@@ -47,6 +47,7 @@ public:
     ~QGCSensorSettingsWidget();
 
 public slots:
+    void dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
     void delayedSendRawSensor(int rate);
     void delayedSendController(int rate);
     void delayedSendExtended(int rate);
