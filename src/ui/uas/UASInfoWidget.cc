@@ -29,12 +29,10 @@ This file is part of the PIXHAWK project
  *
  */
 
-#include <QtGlobal>
+#include "MG.h"
+#include "UASInfoWidget.h"
+#include "UASManager.h"
 
-#include <float.h>
-#include <UASInfoWidget.h>
-#include <UASManager.h>
-#include <MG.h>
 #include <QTimer>
 #include <QDir>
 #include <cstdlib>
@@ -46,8 +44,6 @@ UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
 {
     ui.setupUi(this);
     this->name = name;
-
-    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
 
     activeUAS = NULL;
 
@@ -82,6 +78,9 @@ UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
     updateTimer->start(updateInterval);
 
+    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)));
+    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+
     this->setVisible(false);
 }
 
@@ -108,17 +107,8 @@ void UASInfoWidget::hideEvent(QHideEvent* event)
 
 void UASInfoWidget::addUAS(UASInterface* uas)
 {
-    if (uas != NULL) {
-        connect(uas, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBattery(UASInterface*,double,double,int)));
-        connect(uas, SIGNAL(dropRateChanged(int,float)), this, SLOT(updateReceiveLoss(int,float)));
-        connect(uas, SIGNAL(loadChanged(UASInterface*, double)), this, SLOT(updateCPULoad(UASInterface*,double)));
-        connect(uas, SIGNAL(errCountChanged(int,QString,QString,int)), this, SLOT(updateErrorCount(int,QString,QString,int)));
-        connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
-        connect(uas, SIGNAL(valueChanged(int,QString,QString,QVariant,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,QVariant,quint64)));
-        connect(uas, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsFix(UASInterface*,int)));
-
-        // Set this UAS as active if it is the first one
-        if (activeUAS == 0) activeUAS = uas;
+    if (uas != NULL && uas->getUASID() == UASManager::instance()->getActiveUAS()->getUASID()) {
+        setActiveUAS(uas);
     }
 }
 
@@ -131,7 +121,20 @@ void UASInfoWidget::removeUAS(UASInterface *uas)
 
 void UASInfoWidget::setActiveUAS(UASInterface* uas)
 {
-    activeUAS = uas;
+    if (uas != NULL && (!activeUAS || activeUAS->getUASID() != uas->getUASID())) {
+        if (activeUAS)
+            disconnect(activeUAS, 0, this, 0);
+
+        activeUAS = uas;
+
+        connect(activeUAS, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBattery(UASInterface*,double,double,int)));
+        connect(activeUAS, SIGNAL(dropRateChanged(int,float)), this, SLOT(updateReceiveLoss(int,float)));
+        connect(activeUAS, SIGNAL(loadChanged(UASInterface*, double)), this, SLOT(updateCPULoad(UASInterface*,double)));
+        connect(activeUAS, SIGNAL(errCountChanged(int,QString,QString,int)), this, SLOT(updateErrorCount(int,QString,QString,int)));
+        connect(activeUAS, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
+        connect(activeUAS, SIGNAL(valueChanged(int,QString,QString,QVariant,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,QVariant,quint64)));
+        connect(activeUAS, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsFix(UASInterface*,int)));
+    }
 }
 
 void UASInfoWidget::updateBattery(UASInterface* uas, double voltage, double percent, int seconds)
