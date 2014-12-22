@@ -59,7 +59,7 @@ private:
 
     struct motorPortSettings {
         motorPortSettings(uint16_t port=1, float throt=0, float pitch=0, float roll=0, float yaw=0, uint8_t type=0, float qpitch=0, float qroll=0, float qyaw=0) :
-            port(port), throt(throt), pitch(pitch), roll(roll), yaw(yaw), type(type), qpitch(qpitch), qroll(qroll), qyaw(qyaw) {}
+            port(port), throt(throt), pitch(pitch), roll(roll), yaw(yaw), qpitch(qpitch), qroll(qroll), qyaw(qyaw), type(type) {}
 
         uint16_t port;
         float throt;

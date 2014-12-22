@@ -34,7 +34,6 @@ FORMS += src/ui/MainWindow.ui \
 	 src/ui/QGCRemoteControlView.ui \
 	 src/ui/QMap3D.ui \
 	 src/ui/QGCWebView.ui \
-	 src/ui/map3D/QGCGoogleEarthView.ui \
 	 src/ui/uas/QGCUnconnectedInfoWidget.ui \
 	 src/ui/designer/QGCToolWidget.ui \
 	 src/ui/designer/QGCParamSlider.ui \
@@ -193,7 +192,6 @@ HEADERS += src/MG.h \
 	 src/ui/PrimaryFlightDisplay.h \
 	 src/ui/aq_LogViewer.h \
 	 src/ui/QGCDataViewWidget.h \
-	 src/ui/map3D/QGCGoogleEarthView.h \
 	 src/uas/autoquadMAV.h \
 	 src/ui/ESCtelemetryWidget.h \
 	 src/ui/linechart/ChartPlot.h
@@ -306,8 +304,10 @@ SOURCES += src/main.cc \
 	 src/ui/linechart/ChartPlot.cc
 
 # Enable Google Earth only on Mac OS 32b and Windows
-WinBuild|MacBuild {
-	Build32Bits:SOURCES += src/ui/map3D/QGCGoogleEarthView.cc
+contains(DEFINES, USE_GOOGLE_EARTH_PLUGIN) {
+	FORMS += src/ui/map3D/QGCGoogleEarthView.ui
+	SOURCES += src/ui/map3D/QGCGoogleEarthView.cc
+	HEADERS += src/ui/map3D/QGCGoogleEarthView.h
 }
 
 contains(DEPENDENCIES_PRESENT, libfreenect) {

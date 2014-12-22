@@ -31,6 +31,9 @@ This file is part of the QGROUNDCONTROL project
 #include <QApplication>
 #include <cstdlib>
 #include <iostream>
+#ifdef Q_OS_MAC
+#include <QProcess>
+#endif
 
 #include "QGCCore.h"
 #include "configuration.h"

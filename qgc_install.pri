@@ -36,33 +36,35 @@ TARGETDIR = $$DESTDIR
 # MAC OS X
 MacBuild: {
 
+	TARGETDIR += /$${TARGET}.app
+
 	QMAKE_POST_LINK += $$quote(echo "Copying files")
 
 	# Copy AQ files
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin
-	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/bin/*
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/aq/mixes
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/aq/bin
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/Contents/MacOS/aq/bin
+	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/Contents/MacOS/aq/bin/*
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/aq/mixes
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/Contents/MacOS/aq/mixes
 
 	# Copy google earth starter file
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/files
+	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/Contents/MacOS/files
 	# Copy audio files
-	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/.
+	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/Contents/MacOS/files/.
 	# Copy language files
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/files/lang/.
+	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/files/lang
+	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/Contents/MacOS/files/lang
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/Contents/MacOS/files/lang/.
 	# Copy libraries
 	#QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
 	#QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
 	# Copy frameworks
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/Contents/Frameworks
 
 	# SDL Framework
-	QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
+	QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/Contents/MacOS/$$TARGET
 
 
 	# Fix library paths inside executable
@@ -121,9 +123,10 @@ MacBuild: {
 	# CORE OSG LIBRARY
 #	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosg.dylib
 
-	DoMacDeploy: QMAKE_POST_LINK += && $$dirname(QMAKE_QMAKE)/macdeployqt $${DESTDIR}/qgroundcontrol.app
+	DoMacDeploy: QMAKE_POST_LINK += && $$dirname(QMAKE_QMAKE)/macdeployqt $$TARGETDIR
 
 }
+
 
 # GNU/Linux
 LinuxBuild{

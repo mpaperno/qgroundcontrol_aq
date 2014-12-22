@@ -139,10 +139,10 @@ QGCCore::QGCCore(int &argc, char* argv[]) :
         // rename current settings file to temp name
         if (settingsFile.exists()) {
             if (parser.isSet(opt_nobakSettings)) {
-                printf("Deleting settings file: %s\n", settingsFile.fileName().toStdString());
+                printf("Deleting settings file: %s\n", settingsFile.fileName().toStdString().c_str());
                 settingsFile.remove();
             } else {
-                printf("Backing up settings file: %s\n", settingsFile.fileName().toStdString());
+                printf("Backing up settings file: %s\n", settingsFile.fileName().toStdString().c_str());
                 hasTempFile = true;
                 settingsFile.rename(settingsFile.fileName() % ".tmp");
             }
@@ -151,17 +151,17 @@ QGCCore::QGCCore(int &argc, char* argv[]) :
 
 
         if (parser.isSet(opt_swapSettings) && settingsBakFile.exists()) {
-            printf("Restoring backup settings from: %s\n", settingsBakFile.fileName().toStdString());
+            printf("Restoring backup settings from: %s\n", settingsBakFile.fileName().toStdString().c_str());
             settingsBakFile.copy(settingsBakFile.fileName().remove(".bak"));
-            printf("Your active settings are at: %s\n", settingsBakFile.fileName().remove(".bak").toStdString());
+            printf("Your active settings are at: %s\n", settingsBakFile.fileName().remove(".bak").toStdString().c_str());
         }
 
         if (hasTempFile) {
             if (settingsBakFile.exists()) {
-                printf("Removing old backup: %s\n", settingsBakFile.fileName().toStdString());
+                printf("Removing old backup: %s\n", settingsBakFile.fileName().toStdString().c_str());
                 settingsBakFile.remove();
             }
-            printf("Renaming temp file to new backup %s\n", settingsBakFileName.toStdString());
+            printf("Renaming temp file to new backup %s\n", settingsBakFileName.toStdString().c_str());
             settingsFile.rename(settingsBakFileName);
         }
 

@@ -28,7 +28,7 @@ HEADERS += \
 
 macx {
 	 SOURCES += $$SPEECHSRCDIR/QtSpeech_mac.cpp
-    LIBS *= -framework AppKit
+	 #LIBS *= -framework AppKit
 }
 
 win32 {
