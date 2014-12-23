@@ -35,7 +35,17 @@ This file is part of the QGROUNDCONTROL project
 #include <QList>
 #include <QMutex>
 #include <UASInterface.h>
-#include "../../libs/eigen/Eigen/Eigen"
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wself-assign"
+#include "Eigen/Eigen"
+#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
+#else
+#include "Eigen/Eigen"
+#endif
 #include "QGCGeo.h"
 
 /**

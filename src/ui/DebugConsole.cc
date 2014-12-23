@@ -620,7 +620,7 @@ QString DebugConsole::bytesToSymbolNames(const QByteArray& b)
     } else if (b.contains(0x09)) {
         text = "<TAB>";
     } else if (b.contains((char)0x00)) {
-        text == "<NUL>";
+        text = "<NUL>";
     } else if (b.contains(0x1B)) {
         text = "<ESC>";
     } else if (b.contains(0x7E)) {
@@ -729,7 +729,7 @@ void DebugConsole::sendBytes()
         str.append(specialSymbol);
         str.remove(' ');
         str.remove("0x");
-        str.simplified();
+        str = str.simplified();
         int bufferIndex = 0;
         if ((str.size() % 2) == 0) {
             for (int i = 0; i < str.size(); i=i+2) {

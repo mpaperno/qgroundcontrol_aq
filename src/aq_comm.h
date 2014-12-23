@@ -8,7 +8,17 @@
 #include <QPair>
 #include <QCoreApplication>
 #include <QLineEdit>
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wself-assign"
 #include "Eigen/Eigen"
+#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
+#else
+#include "Eigen/Eigen"
+#endif
 #include "UASInterface.h"
 #include <SerialLinkInterface.h>
 #include <SerialLink.h>

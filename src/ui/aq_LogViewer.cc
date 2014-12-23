@@ -343,6 +343,7 @@ void AQLogViewer::exportPDF(QString fileName)
 
 void AQLogViewer::exportSVG(QString fileName)
 {
+    Q_UNUSED(fileName);
 //    if ( !fileName.isEmpty() ) {
 //        plot->setStyleSheet("QWidget { background-color: #FFFFFF; color: #000000; background-clip: border; font-size: 10pt;}");
 //        //plot->setCanvasBackground(Qt::white);

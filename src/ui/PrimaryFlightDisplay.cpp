@@ -148,28 +148,23 @@ PrimaryFlightDisplay::PrimaryFlightDisplay(QWidget *parent) :
     primarySpeed(UNKNOWN_SPEED),
     groundspeed(UNKNOWN_SPEED),
     verticalVelocity(UNKNOWN_ALTITUDE),
-
-    font("Bitstream Vera Sans"),
-    refreshTimer(new QTimer(this)),
-
     navigationCrosstrackError(0),
     navigationTargetBearing(UNKNOWN_ATTITUDE),
 
     layout(COMPASS_INTEGRATED),
     style(OVERLAY_HSI),
-
     redColor(QColor::fromHsvF(0, 0.75, 0.9)),
     amberColor(QColor::fromHsvF(0.12, 0.6, 1.0)),
     greenColor(QColor::fromHsvF(0.25, 0.8, 0.8)),
-
     lineWidth(2),
     fineLineWidth(1),
-
     instrumentEdgePen(QColor::fromHsvF(0, 0, 0.65, 0.5)),
     //    AIEdgePen(QColor::fromHsvF(0, 0, 0.65, 0.5)),
-
     instrumentBackground(QColor::fromHsvF(0, 0, 0.3, 0.3)),
-    instrumentOpagueBackground(QColor::fromHsvF(0, 0, 0.3, 1.0))
+    instrumentOpagueBackground(QColor::fromHsvF(0, 0, 0.3, 1.0)),
+    font("Bitstream Vera Sans"),
+
+    refreshTimer(new QTimer(this))
 {
     setMinimumSize(120, 80);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

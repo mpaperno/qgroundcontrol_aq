@@ -480,6 +480,8 @@ double Waypoint::getMaxVerticalSpeedAQ() {
     else if ( action == 21){
         return this->param2;
     }
+    else
+        return 0.0f;
 }
 
 double Waypoint::getPOIHeadingAQ(){
@@ -498,6 +500,8 @@ double Waypoint::getPOIHeadingAQ(){
     else if ( action == 21 ) {
         return this->yaw;
     }
+    else
+        return 0.0f;
 }
 
 double Waypoint::getPOIAltitudeAQ(){

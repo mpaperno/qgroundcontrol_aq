@@ -215,7 +215,7 @@ void SerialLink::readBytes()
     qint64 numBytes = 0, rBytes = 0; //port->bytesAvailable();
 
     dataMutex.lock();
-    while(numBytes = port->bytesAvailable()) {
+    while ((numBytes = port->bytesAvailable())) {
     //if(rBytes) {
         //qDebug() << "numBytes: " << numBytes;
         /* Read as much data in buffer as possible without overflow */

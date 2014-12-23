@@ -1970,7 +1970,8 @@ void AQEsc32::destroyedEsc32(){
 }
 
 void AQEsc32::communicationErrorEsc32(QString err1, QString err2){
-
+    Q_UNUSED(err1);
+    Q_UNUSED(err2);
 }
 
 void AQEsc32::BytesRceivedEsc32(LinkInterface* link, QByteArray bytes){
@@ -2287,7 +2288,7 @@ SerialLink *AQEsc32::getSerialLink(){
 }
 
 void AQEsc32::StartCalibration(float MaxCurrent, QString LogFile, QString ResFile) {
-
+    Q_UNUSED(LogFile);
     LoggingFile = ""; //LogFile
     ResultFile = ResFile;
     maximum_Current = MaxCurrent;
@@ -2391,8 +2392,6 @@ bool AQEsc32::RpmToVoltage(float maxAmps) {
     Eigen::MatrixXd c(2,1);
     Eigen::MatrixXd ab(2,1);
     Eigen::MatrixXd data(100, 3);
-    FF1Term;
-    FF2Term;
     float f;
     int j;
     int i;

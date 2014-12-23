@@ -55,7 +55,6 @@ protected:
     void changeEvent(QEvent *event);
 
 private:
-    Ui::AQPWMPortsConfig* ui;
 
     struct motorPortSettings {
         motorPortSettings(uint16_t port=1, float throt=0, float pitch=0, float roll=0, float yaw=0, uint8_t type=0, float qpitch=0, float qroll=0, float qyaw=0) :
@@ -72,7 +71,6 @@ private:
         uint8_t type;
     };
 
-    QList<motorPortSettings> motorPortsConfig;
 
 public slots:
     void changeMixType(void);
@@ -131,6 +129,7 @@ private:
     QGraphicsPixmapItem* frameLayout_bgItem;
     QGraphicsPixmapItem* frameLayout_fgItem;
     QList<QComboBox *> allPortSelectors;
+    QList<motorPortSettings> motorPortsConfig;
     QStringList motorConfigErrors;
     QString portOrder2Param;
     QString mixFilesPath;
@@ -143,6 +142,8 @@ private:
     bool errorInPortNumberType;     // means selected PWM port is > available PWM output ports on hardware
     bool customFrameImg;
     bool m_mixTypeQuatos;
+
+    Ui::AQPWMPortsConfig* ui;
 };
 
 

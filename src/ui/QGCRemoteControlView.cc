@@ -103,7 +103,7 @@ void QGCRemoteControlView::removeActiveUAS()
     QLayout *innerLayout;
     QLayoutItem *innerChild;
     while ((child = channelLayout->takeAt(1)) != 0) {
-        if (innerLayout = child->layout()) {
+        if ((innerLayout = child->layout())) {
             while ((innerChild = innerLayout->takeAt(0)) != 0) {
                 if (innerChild->widget())
                     innerChild->widget()->setParent(NULL);
