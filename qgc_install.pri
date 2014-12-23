@@ -142,13 +142,9 @@ LinuxBuild{
 	# Copy AQ and supporting files
 	Build32Bits {
 		exists(/usr/local):LIBS += -L/usr/local
-		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_32 $$TARGETDIR/aq/bin/cal
-		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_32 $$TARGETDIR/aq/bin/sim3
 	}
 	Build64Bits {
 		exists(/usr/local/lib64):LIBS += -L/usr/local/lib64
-		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/cal_64 $$TARGETDIR/aq/bin/cal
-		QMAKE_POST_LINK += && mv -f $$TARGETDIR/aq/bin/sim3_64 $$TARGETDIR/aq/bin/sim3
 	}
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/bin
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_unix_all/* $$TARGETDIR/aq/bin
