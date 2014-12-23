@@ -1035,8 +1035,8 @@ void QGCAQParamWidget::loadParameters()
             paramName = paramName.replace("L1_ATT_PWM_SCALE", "L1_ATT_PWM_SCAL");
         if ( paramName.contains("NAV_ATL_SPED_") && paramExistsAQ("NAV_ALT_SPED_P"))
             paramName = paramName.replace(QRegExp("NAV_ATL_SPED_(.+)"), "NAV_ALT_SPED_\\1");
-        if ( paramName.contains("L1_") && paramExistsAQ("QUATOS_AM1"))
-            paramName = paramName.replace(QRegExp("L1_(.+)"), "QUATOS_\\1");
+        if ( paramName.contains(QRegExp("^L1_")) && paramExistsAQ("QUATOS_AM1"))
+            paramName = paramName.replace(QRegExp("^L1_(.+)"), "QUATOS_\\1");
         if ( paramName.contains("MOT_FRAME_H") && !paramExistsAQ("MOT_FRAME_H"))
             paramName = "TELEMETRY_RATE";
 

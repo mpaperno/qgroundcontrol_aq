@@ -1454,7 +1454,7 @@ font-weight: bold;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio type on RC port 2.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this could be Motor Port 14 for &lt;span style=&quot; text-decoration: underline;&quot;&gt;PPM input only&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the external radio connection for Spektrum, SBus, SUMD, MLink, or PPM.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 2&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this could be Motor Port 14 for &lt;span style=&quot; text-decoration: underline;&quot;&gt;PPM input only&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the external radio connection for Spektrum, SBus, SUMD, MLink, or PPM.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="sizeAdjustPolicy">
                      <enum>QComboBox::AdjustToContents</enum>
@@ -1476,7 +1476,7 @@ font-weight: bold;</string>
                      </size>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Primary radio type on RC port 1.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this is the main external reciever port (white 3-pin connector for Spektrum, SBus, SUMD, MLink) &lt;span style=&quot; text-decoration: underline;&quot;&gt;or&lt;/span&gt; Motor Port 14 for PPM input.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the built-in radio port (Spektrum or Deltang).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Primary radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 1&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this is the main external reciever port (white 3-pin connector for Spektrum, SBus, SUMD, MLink) &lt;span style=&quot; text-decoration: underline;&quot;&gt;or&lt;/span&gt; Motor Port 14 for PPM input.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the built-in radio port (Deltang or CYRF).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                     <property name="sizeAdjustPolicy">
                      <enum>QComboBox::AdjustToContents</enum>
@@ -2831,11 +2831,6 @@ padding: 1px 5px;</string>
                        </item>
                        <item>
                         <property name="text">
-                         <string notr="true">1</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
                          <string notr="true">2</string>
                         </property>
                        </item>
@@ -2938,11 +2933,6 @@ padding: 1px 5px;</string>
                        <item>
                         <property name="text">
                          <string>Off</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string notr="true">1</string>
                         </property>
                        </item>
                        <item>
@@ -3053,11 +3043,6 @@ padding: 1px 5px;</string>
                        </item>
                        <item>
                         <property name="text">
-                         <string notr="true">1</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
                          <string notr="true">2</string>
                         </property>
                        </item>
@@ -3160,11 +3145,6 @@ padding: 1px 5px;</string>
                        <item>
                         <property name="text">
                          <string>Off</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string notr="true">1</string>
                         </property>
                        </item>
                        <item>
@@ -7150,7 +7130,7 @@ padding: 1px 3px;</string>
                     </sizepolicy>
                    </property>
                    <property name="toolTip">
-                    <string>Main FTDI/serial connector at back of board</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt;: Main FTDI/serial connector pins at back of board.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AQ M4&lt;/span&gt;: USB connection (setting baud rate has no effect here).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="title">
                     <string>Serial Port 1</string>
@@ -7289,7 +7269,7 @@ padding: 1px 3px;</string>
                     </sizepolicy>
                    </property>
                    <property name="toolTip">
-                    <string>J2 expansion header UART2</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;TTY Serial on J2 expansion header (AQ6 and AQ M4).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="title">
                     <string>Serial Port 2</string>

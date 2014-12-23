@@ -150,7 +150,7 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
     if (!isValid && pi.vendorID == SERIAL_AQUSB_VENDOR_ID && pi.productID == SERIAL_AQUSB_PRODUCT_ID)
         waitingToReconnect = MG::TIME::getGroundTimeNow();
 
-    qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
+    //qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
 
     if (!port || !port->isOpen() || isValid)
         return;

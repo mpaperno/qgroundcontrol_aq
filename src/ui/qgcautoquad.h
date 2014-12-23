@@ -61,7 +61,7 @@ private slots:
     void adjustUiForHardware();
     void adjustUiForFirmware();
     void adjustUiForQuatos();
-    void setupRadioTypes(const QStringList &radioTypes);
+    void setupRadioTypes();
     bool radioHasPPM();
     void radioType_changed(int idx);
     void on_tab_aq_settings_currentChanged(int idx);
@@ -147,7 +147,8 @@ private slots:
     void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
     void uasConnected();
     void handleStatusText(int uasId, int compid, int severity, QString text);
-    void setHardwareInfo(int boardVer);
+    void setConnectedSystemInfoDefaults();
+    void setHardwareInfo();
     void setFirmwareInfo();
     bool checkAqSerialConnection(QString port = "");
     void paramRequestTimeoutNotify(int readCount, int writeCount);

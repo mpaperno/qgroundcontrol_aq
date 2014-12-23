@@ -37,12 +37,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     FlashEsc32Active = false;
     fwFlashActive = false;
 
-    aqFirmwareVersion = "";
-    aqFirmwareRevision = 0;
-    aqHardwareVersion = 6;
-    aqHardwareRevision = 0;
-    aqBuildNumber = 0;
-
     aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin/";
     aqMotorMixesPath = QCoreApplication::applicationDirPath() + "/aq/mixes/";
 #if defined(Q_OS_WIN)
@@ -54,9 +48,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // these regexes are used for matching field names to AQ params
     fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
-
-    setHardwareInfo(aqHardwareVersion);  // populate hardware (AQ board) info with defaults
-    setFirmwareInfo();  // set defaults based on fw version
 
     /*
      * Start the UI
@@ -190,7 +181,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
 //    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
 
-    setAqHasQuatos(false);
+    setConnectedSystemInfoDefaults();
+    setHardwareInfo();  // populate hardware (AQ board) info with defaults
+    setFirmwareInfo();  // set defaults based on fw version
     adjustUiForHardware();
     adjustUiForFirmware();
 
@@ -426,29 +419,16 @@ void QGCAutoquad::writeSettings()
 // UI handlers
 //
 
-void QGCAutoquad::adjustUiForHardware() {
-    ui->groupBox_commSerial2->setVisible(aqHardwareVersion == 6);
+void QGCAutoquad::adjustUiForHardware()
+{
+    ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6 || aqHardwareVersion == 8);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
 }
 
-void QGCAutoquad::adjustUiForFirmware() {
-
-    // which radio types are available
-    QStringList radioTypes;
-    radioTypes << "No Radio" << "Spektrum 11Bit" << "Spektrum 10Bit" << "S-BUS (Futaba, others)" << "PPM";
-    if (!aqBuildNumber || aqBuildNumber >= 1149)
-        radioTypes << "SUMD (Graupner)";
-    if (!aqBuildNumber || aqBuildNumber >= 1350)
-        radioTypes << "M-Link (Multiplex)";
-    if (!aqHardwareVersion || aqHardwareVersion == 8) {
-        if (!aqBuildNumber || aqBuildNumber >= 1739)
-            radioTypes << "Deltang (onboard M4v1)";
-        if (!aqHardwareRevision || aqHardwareRevision >= 6)
-            radioTypes << "CYRF (onboard M4v2+)";
-    }
-
-    setupRadioTypes(radioTypes);
+void QGCAutoquad::adjustUiForFirmware()
+{
+    setupRadioTypes();
 
     ui->RADIO_TYPE->setVisible(!useRadioSetupParam);
     ui->label_RADIO_TYPE->setVisible(!useRadioSetupParam);
@@ -489,11 +469,29 @@ void QGCAutoquad::adjustUiForQuatos()
         ui->radioButton_attitude_pid->setChecked(true);
 }
 
-void QGCAutoquad::setupRadioTypes(const QStringList &radioTypes)
+void QGCAutoquad::setupRadioTypes()
 {
     uint8_t idx = ui->RADIO_TYPE->currentIndex(),
             idx2 = ui->RADIO_SETUP->currentIndex(),
             idx3 = ui->comboBox_radioSetup2->currentIndex();
+
+    // which radio types are available
+    QMap<int, QString> radioTypes;
+    radioTypes.insert(0, tr("No Radio"));
+    radioTypes.insert(1, tr("Spektrum 11Bit"));
+    radioTypes.insert(2, tr("Spektrum 10Bit"));
+    radioTypes.insert(3, tr("S-BUS (Futaba, others)"));
+    radioTypes.insert(4, tr("PPM"));
+    if (!aqBuildNumber || aqBuildNumber >= 1149)
+        radioTypes.insert(5, tr("SUMD (Graupner)"));
+    if (!aqBuildNumber || aqBuildNumber >= 1350)
+        radioTypes.insert(6, tr("M-Link (Multiplex)"));
+    if (!aqHardwareVersion || aqHardwareVersion == 8) {
+        if (!aqHardwareRevision || aqHardwareRevision < 6)
+            radioTypes.insert(7, tr("Deltang (onboard M4v1)"));
+        if (!aqHardwareRevision || aqHardwareRevision >= 6)
+            radioTypes.insert(8, tr("CYRF (onboard M4v2+)"));
+    }
 
     ui->RADIO_TYPE->blockSignals(true);
     ui->RADIO_SETUP->blockSignals(true);
@@ -503,10 +501,12 @@ void QGCAutoquad::setupRadioTypes(const QStringList &radioTypes)
     ui->RADIO_SETUP->clear();
     ui->comboBox_radioSetup2->clear();
 
-    for (int i=0; i < radioTypes.size(); ++i) {
-        ui->RADIO_TYPE->addItem(radioTypes.at(i), i-1);
-        ui->RADIO_SETUP->addItem(radioTypes.at(i), i);
-        ui->comboBox_radioSetup2->addItem(radioTypes.at(i), i);
+    QMapIterator<int, QString> i(radioTypes);
+    while (i.hasNext()) {
+        i.next();
+        ui->RADIO_TYPE->addItem(i.value(), i.key()-1);
+        ui->RADIO_SETUP->addItem(i.value(), i.key());
+        ui->comboBox_radioSetup2->addItem(i.value(), i.key());
     }
 
     if (idx < ui->RADIO_TYPE->count())
@@ -1595,48 +1595,40 @@ void QGCAutoquad::setRssiDisplayValue(float normalized)
 
 void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
-    if (uas_ext)
-    {
-        removeActiveUAS();
-        uas = uas_ext;
-        paramaq = new QGCAQParamWidget(uas, this);
-        ui->label_params_no_aq->hide();
-        ui->tabLayout_paramHandler->addWidget(paramaq);
-        if ( LastFilePath == "")
-            paramaq->setFilePath(QCoreApplication::applicationDirPath());
-        else
-            paramaq->setFilePath(LastFilePath);
+    if (!uas_ext)
+        return;
 
-        // do this before we recieve any data stream announcements or messages
-        onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
+    removeActiveUAS();
+    uas = uas_ext;
+    paramaq = new QGCAQParamWidget(uas, this);
+    ui->label_params_no_aq->hide();
+    ui->tabLayout_paramHandler->addWidget(paramaq);
+    if ( LastFilePath == "")
+        paramaq->setFilePath(QCoreApplication::applicationDirPath());
+    else
+        paramaq->setFilePath(LastFilePath);
 
-        connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
-        connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
-        connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
-        connect(uas, SIGNAL(dataStreamAnnounced(int,uint8_t,uint16_t,bool)), this, SLOT(dataStreamUpdate(int,uint8_t,uint16_t,bool)));
-        connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-        //connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
-        connect(uas, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
-        //connect(uas, SIGNAL(connected()), this, SLOT(uasConnected())); // this doesn't do anything
+    // do this before we recieve any data stream announcements or messages
+    onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
 
-        connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
-        connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
-        connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
+    connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
+    connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
+    connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
+    connect(uas, SIGNAL(dataStreamAnnounced(int,uint8_t,uint16_t,bool)), this, SLOT(dataStreamUpdate(int,uint8_t,uint16_t,bool)));
+    connect(uas, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+    //connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
+    connect(uas, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
+    //connect(uas, SIGNAL(connected()), this, SLOT(uasConnected())); // this doesn't do anything
 
-        // get firmware version of this AQ
-        aqFirmwareVersion = QString("");
-        aqFirmwareRevision = 0;
-        aqHardwareVersion = 6;
-        aqHardwareRevision = 0;
-        aqBuildNumber = 0;
-        setAqHasQuatos(false);  // assume no Quatos unless told otherwise for this UAV
-        ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
+    connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+    connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
+    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
 
-        paramaq->requestParameterList();
+    // reset system info of connected AQ
+    setConnectedSystemInfoDefaults();
+    paramaq->requestParameterList();
 
-        VisibleWidget = 2;
-//        aqTelemetryView->initChart(uas);
-    }
+    VisibleWidget = 2;
 }
 
 void QGCAutoquad::uasDeleted(UASInterface *mav)
@@ -2224,7 +2216,8 @@ void QGCAutoquad::extProcessError(QProcess::ProcessError err) {
 }
 
 
-void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time){
+void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time)
+{
     Q_UNUSED(time);
     if ( !uas)
         return;
@@ -2233,13 +2226,34 @@ void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon
     this->alt = alt;
 }
 
-void QGCAutoquad::uasConnected() {
+void QGCAutoquad::uasConnected()
+{
     uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
 }
 
-void QGCAutoquad::setHardwareInfo(int boardVer) {
+void QGCAutoquad::setConnectedSystemInfoDefaults()
+{
+    aqFirmwareVersion = QString("");
+    aqFirmwareRevision = 0;
+    aqHardwareVersion = 0;
+    aqHardwareRevision = 0;
+    aqBuildNumber = 0;
+    maxMotorPorts = 16;
+    motPortTypeCAN = true;
+    motPortTypeCAN_H = true;
+    useRadioSetupParam = true;
+    aqCanReboot = false;
+
+    setAqHasQuatos(false);  // assume no Quatos unless told otherwise for this UAV
+    ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
+
+    emit firmwareInfoUpdated();
+}
+
+void QGCAutoquad::setHardwareInfo()
+{
     pwmPortTimers.clear();
-    switch (boardVer) {
+    switch (aqHardwareVersion) {
      case 8:
         maxPwmPorts = 9;
         pwmPortTimers << 3 << 3 << 4 << 4 << 4 << 4 << 8 << 8 << 9;
@@ -2257,14 +2271,8 @@ void QGCAutoquad::setHardwareInfo(int boardVer) {
     emit hardwareInfoUpdated();
 }
 
-void QGCAutoquad::setFirmwareInfo() {
-
-    maxMotorPorts = 16;
-    motPortTypeCAN = true;
-    motPortTypeCAN_H = true;
-    useRadioSetupParam = true;
-    aqCanReboot = false;
-
+void QGCAutoquad::setFirmwareInfo()
+{
     if (aqBuildNumber) {
         if (aqBuildNumber < 1663)
             motPortTypeCAN_H = false;
@@ -2282,7 +2290,6 @@ void QGCAutoquad::setFirmwareInfo() {
             aqCanReboot = true;
 
     }
-
     emit firmwareInfoUpdated();
 }
 
@@ -2324,14 +2331,14 @@ void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString 
             }
             if (vlist.at(5).length()) {
                 aqHardwareVersion = vlist.at(5).toInt(&ok);
-                if (!ok) aqHardwareVersion = 6;
+                if (!ok) aqHardwareVersion = 0;
             }
             if (vlist.at(6).length()) {
                 aqHardwareRevision = vlist.at(6).toInt(&ok);
                 if (!ok) aqHardwareRevision = -1;
             }
 
-            setHardwareInfo(aqHardwareVersion);
+            setHardwareInfo();
             setFirmwareInfo();
 
             if (aqFirmwareVersion.length()) {
