@@ -147,7 +147,7 @@ QGCCore::QGCCore(int &argc, char* argv[]) :
                 settingsFile.rename(settingsFile.fileName() % ".tmp");
             }
         } else
-            printf("No settings found at: %s\n", settingsFile.fileName().toStdString());
+            printf("No settings found at: %s\n", settingsFile.fileName().toStdString().c_str());
 
 
         if (parser.isSet(opt_swapSettings) && settingsBakFile.exists()) {

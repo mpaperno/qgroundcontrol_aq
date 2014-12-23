@@ -15,9 +15,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>qgroundcontrol</string>
+	<string>qgroundcontrol_aq</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.autoquad.qgroundcontrol</string>
+	<string>org.autoquad.qgroundcontrol_aq</string>
 	<key>NOTE</key>
 	<string>Open source ground control application provided by AutoQuad dev team.</string>
 </dict>
