@@ -145,6 +145,7 @@ void AQPWMPortsConfig::loadSettings()
     QSettings settings;
     settings.beginGroup("AUTOQUAD_SETTINGS");
     //ui->table_motMix->horizontalHeader()->restoreState(settings.value("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState()).toByteArray());
+    motMixLastFile = settings.value("LAST_MOTOR_MIX_FILE", motMixLastFile).toString();
     ui->groupBox_jMatrix->setChecked(settings.value("MOTMIX_JMATRIX_VISIBLE", false).toBool());
     ui->widget_jMatrix->setVisible(ui->groupBox_jMatrix->isChecked());
     if (settings.contains("MOTMIX_SPLITTER_SIZES")) {
@@ -160,6 +161,7 @@ void AQPWMPortsConfig::writeSettings()
     QSettings settings;
     settings.beginGroup("AUTOQUAD_SETTINGS");
     //settings.setValue("MOTMIX_TABLE_HHEADER_STATE", ui->table_motMix->horizontalHeader()->saveState());
+    settings.setValue("LAST_MOTOR_MIX_FILE", motMixLastFile);
     settings.setValue("MOTMIX_JMATRIX_VISIBLE", ui->groupBox_jMatrix->isChecked());
     settings.setValue("MOTMIX_SPLITTER_SIZES", ui->splitter_portsConfigSidebar->saveState());
     settings.sync();
