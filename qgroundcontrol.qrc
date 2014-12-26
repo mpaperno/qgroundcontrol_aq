@@ -121,10 +121,15 @@
         <file>files/images/contrib/aq6_ports_reference.png</file>
         <file>files/images/contrib/m4_ports_reference.png</file>
         <file>files/images/icons/v2/t64.png</file>
-		  <file>files/images/actions/white-cross-16px.png</file>
-		  <file>files/images/actions/white-undock-16px.png</file>
+        <file>files/images/actions/white-cross-16px.png</file>
+        <file>files/images/actions/white-undock-16px.png</file>
         <file>files/images/actions/application-sidebar-collapse.png</file>
         <file>files/images/actions/application-sidebar-expand.png</file>
+        <file>files/images/actions/document-code.png</file>
+        <file>files/images/actions/fill.png</file>
+        <file>files/images/actions/fill-090.png</file>
+        <file>files/images/actions/fill-180.png</file>
+        <file>files/images/actions/fill-270.png</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>

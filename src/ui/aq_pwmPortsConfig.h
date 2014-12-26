@@ -87,6 +87,7 @@ public slots:
     quint8 saveOnboardConfig(QMap<QString, QList<float> > *changeList, QStringList *errors);
     void loadFrameTypes(void);
     bool validateForm(void);
+    bool convertXmlFile(QString &file);
     void portNumbersModel_updated(void);
 
 private slots:
@@ -102,7 +103,9 @@ private slots:
     void mixSelector_currentIndexChanged(int index);
     void numOfMotors_currentIndexChanged(int index);
     void portSelector_currentIndexChanged(int);
+    void loadFile(const QString &type);
     void loadFile_clicked();
+    void loadXML_clicked();
     void saveFile_clicked();
     void loadImage_clicked();
     void allToCAN_clicked();

@@ -11,6 +11,8 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QProcess>
+#include <QTemporaryFile>
 
 AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     QWidget(parent),
@@ -117,6 +119,7 @@ AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
 
     // other GUI connections
     connect(ui->toolButton_loadFile, SIGNAL(clicked()), this, SLOT(loadFile_clicked()));
+    connect(ui->toolButton_loadXML, SIGNAL(clicked()), this, SLOT(loadXML_clicked()));
     connect(ui->toolButton_saveFile, SIGNAL(clicked()), this, SLOT(saveFile_clicked()));
     connect(ui->toolButton_loadImage, SIGNAL(clicked()), this, SLOT(loadImage_clicked()));
     connect(ui->toolButton_allToCAN, SIGNAL(clicked()), this, SLOT(allToCAN_clicked()));
@@ -479,11 +482,16 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
     QFileInfo fInfo(file);
 
     if (!fInfo.exists() || !fInfo.isReadable()) {
-        MainWindow::instance()->showStatusMessage(tr("Could not open file: '%1'").arg(file));
+        MainWindow::instance()->showCriticalMessage(tr("File Access Error"), tr("Could not open file: '%1'").arg(file));
         return;
     }
 
     QSettings mixSettings(file, QSettings::IniFormat);
+
+    if (!mixSettings.contains("Throttle/Motor1")) {
+        MainWindow::instance()->showCriticalMessage(tr("File Format Error"), tr("Could not parse file, check the format: '%1'").arg(file));
+        return;
+    }
 
     mixConfigId = mixSettings.value("META/ConfigId", 0).toUInt();
     pOrder = mixSettings.value("META/PortOrder").toStringList();
@@ -1071,6 +1079,59 @@ bool AQPWMPortsConfig::validateForm(void) {
     return !errorInMotorConfig && !errorInPortConfig && !errorInTimerConfig && !errorInMotorConfigTotals && !errorInPortNumberType;
 }
 
+bool AQPWMPortsConfig::convertXmlFile(QString &file)
+{
+    QString procErr;
+    QProcess qtool;
+    QByteArray sout, serr;
+    QString appPath = QDir::toNativeSeparators(aq->aqBinFolderPath + "quatosTool");
+    QStringList args;
+
+    args << "-m";
+    if (!ui->checkBox_quatos->isChecked())
+        args << "-p";
+    args << file;
+
+    qtool.start(appPath , args);
+    if (!qtool.waitForStarted(3000)) {
+        procErr = tr("Filed to start conversion tool on file '%1' with error: %2\n").arg(file).arg(qtool.errorString());
+    }
+    else if (!qtool.waitForFinished(15000)) {
+        procErr = tr("Failed to run conversion tool on file '%1' with error: %2\n").arg(file).arg(qtool.errorString());
+    }
+    else {
+        sout = qtool.readAllStandardOutput();
+        serr = qtool.readAllStandardError();
+        //qDebug() << stdout;
+        if (qtool.exitCode() || !sout.contains("[META]")) {
+            procErr = tr("Something went wrong when running the conversion tool. Please check the details.");
+        }
+        else {
+            QTemporaryFile tmpMix;
+            if (tmpMix.open()) {
+                tmpMix.write(sout);
+                tmpMix.close();
+                loadFileConfig(tmpMix.fileName());
+            } else {
+                procErr = tr("Failed to open temporary file with error: %1.").arg(tmpMix.errorString());
+            }
+        }
+    }
+    if (!procErr.isEmpty() || !serr.isEmpty()) {
+        QString details = serr;
+        if (procErr.isEmpty()) {
+            procErr = tr("XML conversion tool generated some messages:");
+            MainWindow::instance()->showDetailedInfoMessage("XML Conversion Information", procErr, details);
+        } else {
+            if (!sout.isEmpty())
+                details = details % "\n\nOutput produced:\n-----------------\n" % sout;
+            MainWindow::instance()->showDetailedCriticalMessage("XML Conversion Error", procErr, details);
+        }
+    }
+
+    return procErr.isEmpty();
+}
+
 
 void AQPWMPortsConfig::motorPortsConfig_updated(int row, int col) {
     bool ok;
@@ -1206,11 +1267,19 @@ void AQPWMPortsConfig::portSelector_currentIndexChanged(int /*index*/) {
         validateForm();
 }
 
-
-void AQPWMPortsConfig::loadFile_clicked() {
+void AQPWMPortsConfig::loadFile(const QString &type)
+{
     QFileInfo dir(motMixLastFile);
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select or Create AQ Motor Mix File"), dir.absoluteFilePath(),
-                                                    tr("AQ Mixing Table") + " (*.mix);;" + tr("All File Types") + " (*.*)");
+    QString fileTypes;
+    QString mixType = tr("AQ Mixing Table") % " (*.mix);;";
+    QString xmlType = tr("XML Frame Definition") % " (*.xml);;";
+    if (type == "mix")
+        fileTypes = mixType % xmlType;
+    else
+        fileTypes = xmlType % mixType;
+    fileTypes = fileTypes % tr("All File Types") % " (*.*)";
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select or Create AQ Motor Mix File"), dir.absoluteFilePath(), fileTypes);
 
     if (!fileName.length())
         return;
@@ -1223,7 +1292,21 @@ void AQPWMPortsConfig::loadFile_clicked() {
         file.close();
 
     motMixLastFile = fileName;
-    loadFileConfig(fileName);
+    if (fileName.endsWith(".xml"))
+        convertXmlFile(fileName);
+    else
+        loadFileConfig(fileName);
+}
+
+
+void AQPWMPortsConfig::loadFile_clicked()
+{
+    loadFile("mix");
+}
+
+void AQPWMPortsConfig::loadXML_clicked()
+{
+    loadFile("xml");
 }
 
 void AQPWMPortsConfig::saveFile_clicked() {

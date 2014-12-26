@@ -144,7 +144,7 @@
           <item row="0" column="0" colspan="3">
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <property name="spacing">
-             <number>8</number>
+             <number>7</number>
             </property>
             <item>
              <widget class="QLabel" name="label_mixType">
@@ -225,7 +225,7 @@
             <item>
              <widget class="QToolButton" name="toolButton_loadFile">
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load configuration from a .mix file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load configuration from a .mix file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Load from File</string>
@@ -233,6 +233,29 @@
               <property name="icon">
                <iconset resource="../../qgroundcontrol.qrc">
                 <normaloff>:/files/images/actions/folder_table.png</normaloff>:/files/images/actions/folder_table.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="autoRaise">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_loadXML">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Convert a frame definitions XML file to a mixing table. Be sure to have the &amp;quot;&lt;span style=&quot; font-style:italic;&quot;&gt;Quatos&lt;/span&gt;&amp;quot; checkbox selected if you want to generate a Quatos mix. Or de-select that option to generate a standard PID mix.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Load from File</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qgroundcontrol.qrc">
+                <normaloff>:/files/images/actions/document-code.png</normaloff>:/files/images/actions/document-code.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -320,8 +343,8 @@
               </property>
               <property name="icon">
                <iconset resource="../../qgroundcontrol.qrc">
-                <normaloff>:/files/images/actions/application-sidebar-collapse.png</normaloff>
-                <normalon>:/files/images/actions/application-sidebar-expand.png</normalon>:/files/images/actions/application-sidebar-collapse.png</iconset>
+                <normaloff>:/files/images/actions/fill-180.png</normaloff>
+                <normalon>:/files/images/actions/fill.png</normalon>:/files/images/actions/fill-180.png</iconset>
               </property>
               <property name="iconSize">
                <size>
