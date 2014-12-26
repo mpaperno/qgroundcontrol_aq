@@ -3908,7 +3908,7 @@ padding: 1px 3px;</string>
            </sizepolicy>
           </property>
           <attribute name="title">
-           <string>PID &amp;&amp; Quatos</string>
+           <string>PID &amp;&amp; Quatos Tuning</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_8">
            <property name="topMargin">
@@ -7579,7 +7579,7 @@ padding: 1px 3px;</string>
                </widget>
               </item>
               <item alignment="Qt::AlignTop">
-               <widget class="QGroupBox" name="groupBox_4">
+               <widget class="QGroupBox" name="groupBox_radioFailsafe">
                 <property name="title">
                  <string>Radio Failsafe</string>
                 </property>
@@ -7669,7 +7669,7 @@ padding: 1px 3px;</string>
                </widget>
               </item>
               <item alignment="Qt::AlignTop">
-               <widget class="QGroupBox" name="groupBox_5">
+               <widget class="QGroupBox" name="groupBox_batteryWarnings">
                 <property name="title">
                  <string>Low Battery Warnings</string>
                 </property>
@@ -7752,6 +7752,64 @@ padding: 1px 3px;</string>
                     <double>3.300000000000000</double>
                    </property>
                   </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_powerInput">
+                <property name="title">
+                 <string>Power Input</string>
+                </property>
+                <layout class="QFormLayout" name="formLayout_46">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_SPVR_VIN_SOURCE">
+                   <property name="text">
+                    <string>Voltage Sensor:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QComboBox" name="SPVR_VIN_SOURCE">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Digital IMU flip direction (AQ6 with DIMU add-on, or AQ M4). Note that Flip setting is applied before the IMU Rotation setting.&lt;/p&gt;&lt;p&gt;None: Board is right side up (On AQ6 that is DIMU expander facing up. On M4 that is the side with the USB connector and large computer chip).&lt;/p&gt;&lt;p&gt;X Axis: Flip along &lt;span style=&quot; font-weight:600;&quot;&gt;roll&lt;/span&gt; axis. For example, on M4 this means arm #4 is pointing to the right instead of left and GPS chip is facing up.&lt;/p&gt;&lt;p&gt;Y Axis: Flip along &lt;span style=&quot; font-weight:600;&quot;&gt;pitch&lt;/span&gt; axis. For example, on M4 this means the #3 arm is pointing forward instead of to the back, and the GPS chip is facing up.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Main Battery Input (default)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>External Voltage Sensor</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="groupBox_license">
+                <property name="title">
+                 <string>Licensing</string>
+                </property>
+                <layout class="QFormLayout" name="formLayout_47">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_LIC_KEY1">
+                   <property name="text">
+                    <string>Quatos License Key:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="LIC_KEY1"/>
                  </item>
                 </layout>
                </widget>

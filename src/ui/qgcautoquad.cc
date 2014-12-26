@@ -449,6 +449,8 @@ void QGCAutoquad::adjustUiForFirmware()
 
     // gimbal auto-triggering options
     ui->groupBox_gmbl_auto_triggering->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
+    // power input options (voltage/current sensing)
+    ui->groupBox_powerInput->setVisible(!paramaq || paramaq->paramExistsAQ("SPVR_VIN_SOURCE"));
 
     // param widget buttons
     if (paramaq) {
@@ -2185,33 +2187,41 @@ void QGCAutoquad::prtstdout() {
 
 
 /**
+ * @brief Translate process error code to a useful messgae
+ * @param err Error code
+ */
+QString QGCAutoquad::extProcessErrorToString(QProcess::ProcessError err)
+{
+    QString msg;
+    switch(err) {
+        case QProcess::FailedToStart:
+            msg = tr("Failed to start.");
+            break;
+        case QProcess::Crashed:
+            msg = tr("Process terminated (aborted or crashed).");
+            break;
+        case QProcess::Timedout:
+            msg = tr("Timeout waiting for process.");
+            break;
+        case QProcess::WriteError:
+            msg = tr("Cannot write to process, exiting.");
+            break;
+        case QProcess::ReadError:
+            msg = tr("Cannot read from process, exiting.");
+            break;
+        default:
+            msg = tr("Unknown error");
+            break;
+    }
+    return msg;
+}
+
+/**
  * @brief Handle external process error code
  * @param err Error code
  */
 void QGCAutoquad::extProcessError(QProcess::ProcessError err) {
-    QString msg;
-    switch(err)
-    {
-    case QProcess::FailedToStart:
-        msg = tr("Failed to start.");
-        break;
-    case QProcess::Crashed:
-        msg = tr("Process terminated (aborted or crashed).");
-        break;
-    case QProcess::Timedout:
-        msg = tr("Timeout waiting for process.");
-        break;
-    case QProcess::WriteError:
-        msg = tr("Cannot write to process, exiting.");
-        break;
-    case QProcess::ReadError:
-        msg = tr("Cannot read from process, exiting.");
-        break;
-    default:
-        msg = tr("Unknown error");
-        break;
-    }
-    activeProcessStatusWdgt->append(msg);
+    activeProcessStatusWdgt->append(extProcessErrorToString(err));
     fwFlashActive = false;
 }
 

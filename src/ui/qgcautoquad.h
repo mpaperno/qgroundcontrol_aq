@@ -39,6 +39,7 @@ public:
     void setAqHasQuatos(const bool yes);
     bool aqHasQuatos() { return usingQuatos; }
     void Esc32UpdateStatusText(QString text);
+    QString extProcessErrorToString(QProcess::ProcessError err);
 
 protected:
     void showEvent(QShowEvent* event);
