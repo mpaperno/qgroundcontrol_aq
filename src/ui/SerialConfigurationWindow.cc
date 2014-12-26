@@ -174,16 +174,44 @@ QString SerialConfigurationWindow::getSettingsKey(bool checkExists)
 void SerialConfigurationWindow::loadPortSettings()
 {
     // Load defaults from settings
+    QString tmp;
+    int itmp;
+    bool ok;
     QSettings settings;
     QString key = getSettingsKey(true);
     settings.beginGroup("SERIAL_CONFIG_WINDOW");
-    ui.baudRate->setCurrentIndex(ui.baudRate->findText(settings.value(key.arg("BAUD"), "115200").toString()));
-    ui.comboBox_flowControl->setCurrentIndex(ui.comboBox_flowControl->findText(settings.value(key.arg("FLOW_CONTROL"), "None").toString()));
-    ui.comboBox_Parity->setCurrentIndex(ui.comboBox_Parity->findText(settings.value(key.arg("PARITY"), "None").toString()));
-    ui.dataBitsCombo->setCurrentIndex(ui.dataBitsCombo->findText(settings.value(key.arg("DATABITS"), "8").toString()));
-    ui.stopBitsCombo->setCurrentIndex(ui.stopBitsCombo->findText(settings.value(key.arg("STOPBITS"), "1").toString()));
-    ui.spinBox_timeout->setValue(settings.value(key.arg("TIMEOUT"), -1).toInt());
-    ui.spinBox_reconnectDelay->setValue(settings.value(key.arg("RECONDELAY"), 10).toInt());
+
+    tmp = settings.value(key.arg("BAUD"),  "115200").toString();
+    if (ui.baudRate->findText(tmp) == -1)
+        tmp = "115200";
+    ui.baudRate->setCurrentIndex(ui.baudRate->findText(tmp));
+
+    tmp = settings.value(key.arg("FLOW_CONTROL"), "None").toString();
+    if (ui.comboBox_flowControl->findText(tmp) == -1)
+        tmp = "None";
+    ui.comboBox_flowControl->setCurrentIndex(ui.comboBox_flowControl->findText(tmp));
+
+    tmp = settings.value(key.arg("PARITY"), "None").toString();
+    if (ui.comboBox_Parity->findText(tmp) == -1)
+        tmp = "None";
+    ui.comboBox_Parity->setCurrentIndex(ui.comboBox_Parity->findText(tmp));
+
+    tmp = settings.value(key.arg("DATABITS"), "8").toString();
+    if (ui.dataBitsCombo->findText(tmp) == -1)
+        tmp = "8";
+    ui.dataBitsCombo->setCurrentIndex(ui.dataBitsCombo->findText(tmp));
+
+    tmp = settings.value(key.arg("STOPBITS"), "1").toString();
+    if (ui.stopBitsCombo->findText(tmp) == -1)
+        tmp = "1";
+    ui.stopBitsCombo->setCurrentIndex(ui.stopBitsCombo->findText(tmp));
+
+    itmp = settings.value(key.arg("TIMEOUT"), -1).toInt(&ok);
+    if (ok)
+        ui.spinBox_timeout->setValue(itmp);
+    itmp = settings.value(key.arg("RECONDELAY"), 10).toInt(&ok);
+    if (ok)
+        ui.spinBox_reconnectDelay->setValue(itmp);
 }
 
 void SerialConfigurationWindow::writePortSettings()
