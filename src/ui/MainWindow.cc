@@ -1163,28 +1163,43 @@ void MainWindow::showStatusMessage(const QString& status)
     statusBar()->showMessage(status, 20000);
 }
 
-void MainWindow::showCriticalMessage(const QString& title, const QString& message)
+void MainWindow::showMessage(const QString &title, const QString &message, const QString &details, const QString severity)
 {
     QMessageBox msgBox(this);
-    msgBox.setWindowFlags(msgBox.windowFlags() | Qt::WindowStaysOnTopHint);
-    msgBox.setIcon(QMessageBox::Critical);
-    msgBox.setText(title);
+    //msgBox.setWindowFlags(Qt::Dialog);
+    if (severity == "critical")
+        msgBox.setIcon(QMessageBox::Critical);
+    else if  (severity == "warning")
+        msgBox.setIcon(QMessageBox::Warning);
+    else
+        msgBox.setIcon(QMessageBox::Information);
+    msgBox.setText(title.leftJustified(300, ' '));
     msgBox.setInformativeText(message);
+    if (!details.isEmpty())
+        msgBox.setDetailedText(details);
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
 }
 
+void MainWindow::showCriticalMessage(const QString& title, const QString& message)
+{
+    showMessage(title, message, "", "critical");
+}
+
+void MainWindow::showDetailedCriticalMessage(const QString& title, const QString& message, const QString& details)
+{
+    showMessage(title, message, details, "critical");
+}
+
 void MainWindow::showInfoMessage(const QString& title, const QString& message)
 {
-    QMessageBox msgBox(this);
-    msgBox.setWindowFlags(msgBox.windowFlags() | Qt::WindowStaysOnTopHint);
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.setText(title);
-    msgBox.setInformativeText(message);
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
+    showMessage(title, message, "", "info");
+}
+
+void MainWindow::showDetailedInfoMessage(const QString& title, const QString& message, const QString& details)
+{
+    showMessage(title, message, details, "info");
 }
 
 /**

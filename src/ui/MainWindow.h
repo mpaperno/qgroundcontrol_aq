@@ -148,10 +148,16 @@ public slots:
     void showStatusMessage(const QString& status, int timeout);
     /** @brief Shows a status message on the bottom status bar */
     void showStatusMessage(const QString& status);
+    /** @brief Shows an info or warning message */
+    void showMessage(const QString &title, const QString &message, const QString &details, const QString severity = "info");
     /** @brief Shows a critical message as popup or as widget */
     void showCriticalMessage(const QString& title, const QString& message);
+    /** @brief Shows an info message with extra details text */
+    void showDetailedCriticalMessage(const QString &title, const QString &message, const QString &details);
     /** @brief Shows an info message as popup or as widget */
     void showInfoMessage(const QString& title, const QString& message);
+    /** @brief Shows an info message with extra details text */
+    void showDetailedInfoMessage(const QString &title, const QString &message, const QString &details);
 
     /** @brief Show the application settings */
     void showSettings();
