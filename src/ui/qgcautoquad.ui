@@ -7757,7 +7757,7 @@ padding: 1px 3px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QGroupBox" name="groupBox_powerInput">
+               <widget class="QGroupBox" name="container_SPVR_VIN_SOURCE">
                 <property name="title">
                  <string>Power Input</string>
                 </property>

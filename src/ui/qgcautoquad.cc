@@ -449,8 +449,6 @@ void QGCAutoquad::adjustUiForFirmware()
 
     // gimbal auto-triggering options
     ui->groupBox_gmbl_auto_triggering->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
-    // power input options (voltage/current sensing)
-    ui->groupBox_powerInput->setVisible(!paramaq || paramaq->paramExistsAQ("SPVR_VIN_SOURCE"));
 
     // param widget buttons
     if (paramaq) {
@@ -1699,23 +1697,30 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     QString paraName, valstr;
     QVariant val;
     QLabel *paraLabel;
+    QWidget *paraContainer;
 
     // handle all input widgets
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     foreach (QWidget* w, wdgtList) {
         paraName = paramNameGuiToOnboard(w->objectName());
         paraLabel = parent->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
+        paraContainer = parent->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
 
         if (!paramaq->paramExistsAQ(paraName)) {
             w->hide();
             if (paraLabel)
                 paraLabel->hide();
+            if (paraContainer)
+                paraContainer->hide();
             continue;
         }
 
         w->show();
         if (paraLabel)
             paraLabel->show();
+        if (paraContainer)
+            paraContainer->show();
+
         ok = true;
         precision = 6;
         val = paramaq->getParaAQ(paraName);
