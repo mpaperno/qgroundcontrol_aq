@@ -102,6 +102,18 @@ ESCtelemetryWidget::ESCtelemetryWidget(QWidget *parent) :
                             << tr("CAN User")
                             << tr("CAN Timeout")
     ;
+    // escV3DisarmReasons
+    m_escV3DisarmReasonNames << tr("None")
+                             << tr("CLI User")
+                             << tr("Binary User")
+                             << tr("CAN User")
+                             << tr("Startup")
+                             << tr("Bad Detects")
+                             << tr("Crossing Timeout")
+                             << tr("PWM Timeout")
+                             << tr("Low Voltage")
+                             << tr("CAN Timeout")
+    ;
     // alertTypes
     m_alertTitles << tr("Total Amps")
                   << tr("Avg Volts")
@@ -480,7 +492,7 @@ QBrush ESCtelemetryWidget::getColorForStatus(const int stat)
 void ESCtelemetryWidget::escTelemetryRcv(uint8_t escId, uint8_t version, uint16_t time, uint8_t state, float volts, float amps, uint16_t rpm, float duty, float temp, uint16_t errCount, uint8_t errCode)
 {
     QMap<int, QModelIndex> idxmap;
-    QString n("%1"), statusTxt;
+    QString n("%1"), statusTxt, dsrmRsnName;
     int rowStatus;
     int valStatus;
     int maxValStatus;
@@ -524,6 +536,7 @@ void ESCtelemetryWidget::escTelemetryRcv(uint8_t escId, uint8_t version, uint16_
     nodata = time == 0xffff;
     rowStatus = STATUS_OK;
     statusTxt = m_escStateNames[state];
+    dsrmRsnName = version < 30 ? m_escDisarmReasonNames[errCode] : m_escV3DisarmReasonNames[errCode];
 
     // check if has had at least one valid data packet but now has no data
     if (nodata && m_dataModel->data(idxmap.value(COL_ESC_ID), Qt::UserRole).toBool()) {
@@ -531,9 +544,12 @@ void ESCtelemetryWidget::escTelemetryRcv(uint8_t escId, uint8_t version, uint16_
         statusTxt = "TIMEOUT";
     }
     // disarmed for a bad reason
-    else if (!nodata && state == ESC_STATE_DISARMED && errCode && errCode != REASON_CLI_USER && errCode != REASON_BINARY_USER && errCode != REASON_CAN_USER) {
+    else if (!nodata && state == ESC_STATE_DISARMED && errCode && (
+                 (version < 30 && errCode != REASON_CLI_USER && errCode != REASON_BINARY_USER && errCode != REASON_CAN_USER) ||
+                 (version >= 30 && errCode > REASON_V3_STARTUP) )
+             ) {
         rowStatus = STATUS_ERR;
-        statusTxt += QString(" (%1)").arg(m_escDisarmReasonNames[errCode]);
+        statusTxt += QString(" (%1)").arg(dsrmRsnName);
     }
     // no valid data received at all
     else if (nodata) {
@@ -601,8 +617,8 @@ void ESCtelemetryWidget::escTelemetryRcv(uint8_t escId, uint8_t version, uint16_
     m_dataModel->setData(idxmap.value(COL_DISARM_CODE), errCode);
     m_dataModel->itemFromIndex(idxmap.value(COL_DISARM_CODE))->setBackground(bgcolor);
 
-    m_dataModel->setData(idxmap.value(COL_DISARM_REASON), m_escDisarmReasonNames[errCode]);
-    m_dataModel->setData(idxmap.value(COL_DISARM_REASON), m_escDisarmReasonNames[errCode], Qt::ToolTipRole);
+    m_dataModel->setData(idxmap.value(COL_DISARM_REASON), dsrmRsnName);
+    m_dataModel->setData(idxmap.value(COL_DISARM_REASON), dsrmRsnName, Qt::ToolTipRole);
     m_dataModel->itemFromIndex(idxmap.value(COL_DISARM_REASON))->setBackground(bgcolor);
 
     m_dataModel->setData(idxmap.value(COL_STAT), statusTxt);

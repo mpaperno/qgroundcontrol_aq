@@ -76,6 +76,19 @@ public:
         REASON_CAN_TIMEOUT
     };
 
+    enum escV3DisarmReasons {
+        REASON_V3_NONE = 0,
+        REASON_V3_CLI_USER,
+        REASON_V3_BINARY_USER,
+        REASON_V3_CAN_USER,
+        REASON_V3_STARTUP,
+        REASON_V3_BAD_DETECTS,
+        REASON_V3_CROSSING_TIMEOUT,
+        REASON_V3_PWM_TIMEOUT,
+        REASON_V3_LOW_VOLTAGE,
+        REASON_V3_CAN_TIMEOUT
+    };
+
     enum statusTypes {
         STATUS_NODATA = 0,
         STATUS_OK = 0x1,
@@ -226,6 +239,7 @@ protected:
     QStringList m_columnTips;
     QStringList m_escStateNames;
     QStringList m_escDisarmReasonNames;
+    QStringList m_escV3DisarmReasonNames;
     QStringList m_alertTitles;
     QStringList m_alertSettingNames;
     int m_refreshFreq;
