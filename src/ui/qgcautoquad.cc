@@ -48,6 +48,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // these regexes are used for matching field names to AQ params
     fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
+    paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN).+|GMBL_.+_PORT|SIG_.+_PRT|SPVR_VIN_SOURCE)$");
 
     /*
      * Start the UI
@@ -157,7 +158,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // Final UI tweaks
 
-    ui->label_radioChangeWarning->hide();
     ui->groupBox_ppmOptions->hide();
     ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
     ui->conatiner_radioGraphValues->setEnabled(false);
@@ -564,12 +564,6 @@ void QGCAutoquad::radioType_changed(int idx) {
         prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
         newRadioValue = ui->RADIO_TYPE->itemData(idx).toInt(&ok);
     }
-
-    if (ok && newRadioValue != prevRadioValue)
-        ui->label_radioChangeWarning->show();
-    else
-        ui->label_radioChangeWarning->hide();
-
 }
 
 void QGCAutoquad::on_tab_aq_settings_currentChanged(int idx)
@@ -1947,18 +1941,19 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
     if (errLevel) {
 
         if (errLevel > 1){
-            msgBox.setText(tr("Cannot save due to error(s):"));
+            msgBox.setText(tr("Parameter save error.").leftJustified(300, ' '));
+            msgBox.setInformativeText(tr("Cannot save due to error(s). Click the Details button for more information."));
             msgBox.setStandardButtons(QMessageBox::Close);
             msgBox.setDefaultButton(QMessageBox::Close);
             msgBox.setIcon(QMessageBox::Critical);
         } else {
-            msgBox.setText(tr("Possible problem(s) exist:"));
-            errors.append(tr("Do you wish to ignore this and continue saving?"));
+            msgBox.setText(tr("Parameter save warning.").leftJustified(300, ' '));
+            msgBox.setInformativeText(tr("Possible problem(s) exist. Click the Details button for more information.\n\nDo you wish to ignore this and continue saving?"));
             msgBox.setStandardButtons(QMessageBox::Ignore | QMessageBox::Cancel);
             msgBox.setDefaultButton(QMessageBox::Cancel);
             msgBox.setIcon(QMessageBox::Warning);
         }
-        msgBox.setInformativeText(errors.join("\n\n"));
+        msgBox.setDetailedText(errors.join("\n\n"));
 
         int ret = msgBox.exec();
         if (errLevel > 1 || ret == QMessageBox::Cancel)
@@ -1973,17 +1968,27 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         if (interactive) {
             paramSaveType = 0;
 
-            QString msgBoxText = tr("%n parameter(s) modified:\n", "one or more params have changed", changeList.size());
+            QString msgBoxText = tr("%n parameter(s) modified:<br>", "one or more params have changed", changeList.size());
             msg = tr("<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n");
             QMapIterator<QString, QList<float> > i(changeList);
-            QString val1, val2;
+            QString val1, val2, restartFlag;
+            bool restartRequired = false;
             while (i.hasNext()) {
                 i.next();
                 val1.setNum(i.value().at(0), 'g', 8);
                 val2.setNum(i.value().at(1), 'g', 8);
-                msg += QString("<tr><td style=\"padding: 1px 7px 0 1px;\">%1</td><td>%2 </td><td>%3</td></tr>\n").arg(i.key()).arg(val1).arg(val2);
+                restartFlag = "";
+                // check if restart is required for this param
+                if (i.key().contains(paramsReqRestartRx)) {
+                    restartRequired = true;
+                    restartFlag = "* ";
+                }
+
+                msg += QString("<tr><td style=\"padding: 1px 7px 0 1px;\"><span style=\"color: rgba(255, 0, 0, 200); font-weight: bold;\">%1</span>%2</td><td>%3 </td><td>%4</td></tr>\n").arg(restartFlag, i.key(), val1, val2);
             }
             msg += "</tbody></table>\n";
+            if (restartRequired)
+                msgBoxText += "<span style=\"color: rgba(255, 0, 0, 200); font-weight: bold;\">* restart required</span>";
 
             QDialog* dialog = new QDialog(this);
             dialog->setSizeGripEnabled(true);
@@ -1994,6 +1999,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             QSizePolicy sizepol(QSizePolicy::Expanding, QSizePolicy::Fixed, QSizePolicy::Label);
             sizepol.setVerticalStretch(0);
             QLabel* prompt = new QLabel(msgBoxText, dialog);
+            prompt->setTextFormat(Qt::RichText);
             prompt->setSizePolicy(sizepol);
             QLabel* prompt2 = new QLabel(tr("Do you wish to continue?"), dialog);
             prompt2->setSizePolicy(sizepol);
@@ -2058,7 +2064,6 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
         if (paramSaveType == 2) {
             uas->writeParametersToStorageAQ();
-            ui->label_radioChangeWarning->hide();
         }
 
         if (restartAfterParamSave) {

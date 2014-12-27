@@ -239,6 +239,7 @@ private:
     // AQ settings
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
+    QRegExp paramsReqRestartRx;
     QList<QComboBox *> allRadioChanCombos;
     quint8 paramSaveType;
     bool restartAfterParamSave;
