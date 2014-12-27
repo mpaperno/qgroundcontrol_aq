@@ -7758,7 +7758,7 @@ padding: 1px 3px;</string>
                     </sizepolicy>
                    </property>
                    <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Digital IMU flip direction (AQ6 with DIMU add-on, or AQ M4). Note that Flip setting is applied before the IMU Rotation setting.&lt;/p&gt;&lt;p&gt;None: Board is right side up (On AQ6 that is DIMU expander facing up. On M4 that is the side with the USB connector and large computer chip).&lt;/p&gt;&lt;p&gt;X Axis: Flip along &lt;span style=&quot; font-weight:600;&quot;&gt;roll&lt;/span&gt; axis. For example, on M4 this means arm #4 is pointing to the right instead of left and GPS chip is facing up.&lt;/p&gt;&lt;p&gt;Y Axis: Flip along &lt;span style=&quot; font-weight:600;&quot;&gt;pitch&lt;/span&gt; axis. For example, on M4 this means the #3 arm is pointing forward instead of to the back, and the GPS chip is facing up.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Voltage sensor input -- select main source of flight battery voltage monitoring.  Some hardware may support an external voltage input sensor (for example the &lt;span style=&quot; font-weight:600;&quot;&gt;M4 v2&lt;/span&gt;).  On the M4 this may be useful when using external brushless ESCs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <item>
                     <property name="text">
