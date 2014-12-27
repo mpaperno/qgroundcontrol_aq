@@ -150,6 +150,21 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="label_resourceWarning">
+     <property name="styleSheet">
+      <string notr="true">color: rgba(255, 0, 0, 200);
+font-weight: bold;
+font-size: 11px;</string>
+     </property>
+     <property name="text">
+      <string>Please note that using Diagnostic Telemetry may interrupt other MAVLink data streams, and consumes significant resouces on the flight controller and this computer.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_14">
      <property name="spacing">
       <number>6</number>
