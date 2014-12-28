@@ -71,6 +71,14 @@ private:
         uint8_t type;
     };
 
+    struct motorMixMetaData {
+        QString craftName;
+        QString mass;
+        QStringList cgOffset;
+
+        motorMixMetaData(QString &cname = QString(), QString &cmass = QString(), QStringList &coffset = QStringList()) :
+            craftName(cname), mass(cmass), cgOffset(coffset) {}
+    };
 
 public slots:
     void changeMixType(void);
@@ -121,6 +129,7 @@ public:
     QString frameImageFile;         // file path of current frame image
     int dataChangeType;     // keep track of which data type is being updated in table model
     QString motMixLastFile;     // last file/path used for saved mix file
+    motorMixMetaData loadedMixMetaData;
 
 protected:
     QGCAutoquad* aq;

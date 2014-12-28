@@ -13,9 +13,11 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QTemporaryFile>
+#include <QDebug>
 
 AQPWMPortsConfig::AQPWMPortsConfig(QWidget *parent) :
     QWidget(parent),
+    loadedMixMetaData(motorMixMetaData()),
     m_mixTypeQuatos(false),
     ui(new Ui::AQPWMPortsConfig)
 {
@@ -495,8 +497,16 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
 
     mixConfigId = mixSettings.value("META/ConfigId", 0).toUInt();
     pOrder = mixSettings.value("META/PortOrder").toStringList();
-    motCAN = mixSettings.value("META/MOT_CAN", 0).toInt();
-    motCAN_H = mixSettings.value("META/MOT_CANH", 0).toInt();
+    if (mixSettings.contains("META/MOT_CAN")) {  // older format
+        motCAN = mixSettings.value("META/MOT_CAN", 0).toInt();
+        motCAN_H = mixSettings.value("META/MOT_CANH", 0).toInt();
+    } else {
+        motCAN = mixSettings.value("MOT/CANL", 0).toInt();
+        motCAN_H = mixSettings.value("MOT/CANH", 0).toInt();
+    }
+    loadedMixMetaData.craftName = mixSettings.value("META/Craft", "").toString();
+    loadedMixMetaData.mass = mixSettings.value("META/Mass", "").toString();
+    loadedMixMetaData.cgOffset = mixSettings.value("META/CG_Offset", "").toStringList();
     if (mixSettings.contains("QUATOS/J_PITCH")) {
         ui->QUATOS_J_PITCH->setText(mot.setNum(mixSettings.value("QUATOS/J_PITCH", 0).toFloat(), 'f', 8));
         ui->QUATOS_J_ROLL->setText(mot.setNum(mixSettings.value("QUATOS/J_ROLL", 0).toFloat(), 'f', 8));
@@ -512,9 +522,9 @@ void AQPWMPortsConfig::loadFileConfig(QString file) {
         pitch = mixSettings.value("Pitch/Motor" % mot, 0).toFloat();
         roll = mixSettings.value("Roll/Motor" % mot, 0).toFloat();
         yaw = mixSettings.value("Yaw/Motor" % mot, 0).toFloat();
-        qpitch = mixSettings.value("QuatosPitch/Motor" % mot, 0).toFloat();
-        qroll = mixSettings.value("QuatosRoll/Motor" % mot, 0).toFloat();
-        qyaw = mixSettings.value("QuatosYaw/Motor" % mot, 0).toFloat();
+        qpitch = mixSettings.value("MM_Pitch/Motor" % mot, 0).toFloat();
+        qroll = mixSettings.value("MM_Roll/Motor" % mot, 0).toFloat();
+        qyaw = mixSettings.value("MM_Yaw/Motor" % mot, 0).toFloat();
         type = ((motCAN >> (i-1)) & 1) ? MOT_PORT_TYPE_CAN : ((motCAN_H >> (i-1)) & 1) ? MOT_PORT_TYPE_CAN_H : MOT_PORT_TYPE_PWM;
 
         if (throt || pitch || roll || yaw) {
@@ -594,12 +604,18 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
     mixSettings.setValue("META/Motors", motorPortsConfig.size());
     mixSettings.setValue("META/PortOrder", pOrder);
     mixSettings.setValue("META/ImageFile", frameImageFile);
+    if (!loadedMixMetaData.craftName.isEmpty())
+        mixSettings.setValue("META/Craft", loadedMixMetaData.craftName);
+    if (!loadedMixMetaData.mass.isEmpty())
+        mixSettings.setValue("META/Mass", loadedMixMetaData.mass);
+    if (loadedMixMetaData.cgOffset.size() == 3)
+        mixSettings.setValue("META/CG_Offset", loadedMixMetaData.cgOffset);
+
     if (m_mixTypeQuatos) {
         mixSettings.setValue("QUATOS/J_PITCH", ui->QUATOS_J_PITCH->text());
         mixSettings.setValue("QUATOS/J_ROLL", ui->QUATOS_J_ROLL->text());
         mixSettings.setValue("QUATOS/J_YAW", ui->QUATOS_J_YAW->text());
     }
-
     for (int i=1; i <= 16; ++i) {
         pconfig = motorPortSettings(i);
         for (int ii=0; ii < motorPortsConfig.size(); ++ii) {
@@ -610,14 +626,14 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
             }
         }
 
-        pname = QString("/Motor%1").arg(i);
-        mixSettings.setValue("Throttle" % pname, QString::number(pconfig.throt));
-        mixSettings.setValue("Pitch" % pname, QString::number(pconfig.pitch, 'f', 6));
-        mixSettings.setValue("Roll" % pname, QString::number(pconfig.roll, 'f', 6));
-        mixSettings.setValue("Yaw" % pname, QString::number(pconfig.yaw, 'f', 6));
-        mixSettings.setValue("QuatosPitch" % pname, QString::number(pconfig.qpitch, 'f', 6));
-        mixSettings.setValue("QuatosRoll" % pname, QString::number(pconfig.qroll, 'f', 6));
-        mixSettings.setValue("QuatosYaw" % pname, QString::number(pconfig.qyaw, 'f', 6));
+        pname = QString("Motor%1").arg(i);
+        mixSettings.setValue("Throttle/" % pname, QString::number(pconfig.throt));
+        mixSettings.setValue("Pitch/" % pname, QString::number(pconfig.pitch, 'f', 6));
+        mixSettings.setValue("Roll/" % pname, QString::number(pconfig.roll, 'f', 6));
+        mixSettings.setValue("Yaw/" % pname, QString::number(pconfig.yaw, 'f', 6));
+        mixSettings.setValue("MM_Pitch/" % pname, QString::number(pconfig.qpitch, 'f', 6));
+        mixSettings.setValue("MM_Roll/" % pname, QString::number(pconfig.qroll, 'f', 6));
+        mixSettings.setValue("MM_Yaw/" % pname, QString::number(pconfig.qyaw, 'f', 6));
 
         if (pconfig.type == MOT_PORT_TYPE_CAN)
             motCAN |= 1 << (pconfig.port - 1);
@@ -625,8 +641,8 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
             motCAN_H |= 1 << (pconfig.port - 1);
     }
 
-    mixSettings.setValue("META/MOT_CAN", motCAN);
-    mixSettings.setValue("META/MOT_CANH", motCAN_H);
+    mixSettings.setValue("MOT/CANL", motCAN);
+    mixSettings.setValue("MOT/CANH", motCAN_H);
 
     mixSettings.sync();
 }
@@ -755,12 +771,6 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
 
     changeMixType();
 
-//    if (paramHandler->paramExistsAQ("QUATOS_J_PITCH")) {
-//        m_quatosJMatrix.pitch = paramHandler->getParaAQ("QUATOS_J_PITCH").toFloat();
-//        m_quatosJMatrix.roll = paramHandler->getParaAQ("QUATOS_J_ROLL").toFloat();
-//        m_quatosJMatrix.yaw = paramHandler->getParaAQ("QUATOS_J_YAW").toFloat();
-//    }
-
     aq->getGUIpara(ui->groupBox_jMatrix);
     aq->getGUIpara(ui->groupBox_gimbal);
     aq->getGUIpara(ui->groupBox_signaling);
@@ -769,8 +779,11 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
 
     ui->groupBox_signaling->setEnabled(ui->SIG_LED_1_PRT->isEnabled());
 
+    // reset meta data
+    loadedMixMetaData = motorMixMetaData();
+    if (aq->getUAS())
+        loadedMixMetaData.craftName = aq->getUAS()->getUASName();
 }
-
 
 quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeList, QStringList *errors) {
 
@@ -891,12 +904,6 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
     }
 
 //  qDebug() << qSetRealNumberPrecision(20) << portOrder << portOrder2;
-
-//    if (m_mixTypeQuatos) {
-//        configMap.insert("QUATOS_J_PITCH", m_quatosJMatrix.pitch);
-//        configMap.insert("QUATOS_J_ROLL", m_quatosJMatrix.roll);
-//        configMap.insert("QUATOS_J_YAW", m_quatosJMatrix.yaw);
-//    }
 
     QMapIterator<QString, float> mi(configMap);
     while (mi.hasNext()) {
@@ -1081,11 +1088,12 @@ bool AQPWMPortsConfig::validateForm(void) {
 
 bool AQPWMPortsConfig::convertXmlFile(QString &file)
 {
-    QString procErr;
+    QString procMsg;
     QProcess qtool;
     QByteArray sout, serr;
     QString appPath = QDir::toNativeSeparators(aq->aqBinFolderPath + "quatosTool");
     QStringList args;
+    bool error = false;
 
     args << "-m";
     if (!ui->checkBox_quatos->isChecked())
@@ -1094,17 +1102,17 @@ bool AQPWMPortsConfig::convertXmlFile(QString &file)
 
     qtool.start(appPath , args);
     if (!qtool.waitForStarted(3000)) {
-        procErr = tr("Filed to start conversion tool on file '%1' with error: %2\n").arg(file).arg(qtool.errorString());
+        procMsg = tr("Filed to start conversion tool on file '%1' with error: %2\n").arg(file).arg(qtool.errorString());
     }
     else if (!qtool.waitForFinished(15000)) {
-        procErr = tr("Failed to run conversion tool on file '%1' with error: %2\n").arg(file).arg(qtool.errorString());
+        procMsg = tr("Failed to run conversion tool on file '%1' with error: %2\n").arg(file).arg(qtool.errorString());
     }
     else {
         sout = qtool.readAllStandardOutput();
         serr = qtool.readAllStandardError();
         //qDebug() << stdout;
         if (qtool.exitCode() || !sout.contains("[META]")) {
-            procErr = tr("Something went wrong when running the conversion tool. Please check the details.");
+            procMsg = tr("Something went wrong when running the conversion tool. Please check the details.");
         }
         else {
             QTemporaryFile tmpMix;
@@ -1113,23 +1121,30 @@ bool AQPWMPortsConfig::convertXmlFile(QString &file)
                 tmpMix.close();
                 loadFileConfig(tmpMix.fileName());
             } else {
-                procErr = tr("Failed to open temporary file with error: %1.").arg(tmpMix.errorString());
+                procMsg = tr("Failed to open temporary file with error: %1.").arg(tmpMix.errorString());
             }
         }
     }
-    if (!procErr.isEmpty() || !serr.isEmpty()) {
-        QString details = serr;
-        if (procErr.isEmpty()) {
-            procErr = tr("XML conversion tool generated some messages:");
-            MainWindow::instance()->showDetailedInfoMessage("XML Conversion Information", procErr, details);
-        } else {
-            if (!sout.isEmpty())
-                details = details % "\n\nOutput produced:\n-----------------\n" % sout;
-            MainWindow::instance()->showDetailedCriticalMessage("XML Conversion Error", procErr, details);
-        }
-    }
 
-    return procErr.isEmpty();
+    QString details = "";
+    if (!serr.isEmpty())
+        details += serr % "\n\n";
+    if (!sout.isEmpty())
+        details += sout % "\n\n";
+
+    if (procMsg.isEmpty())
+        procMsg = tr("XML conversion tool completed successfully.");
+    else
+        error = true;
+    if (!details.isEmpty())
+        procMsg += tr(" Click the Details button to view generated messages/output.");
+
+    if (error)
+        MainWindow::instance()->showDetailedCriticalMessage(tr("XML Conversion Error"), procMsg, details);
+    else
+        MainWindow::instance()->showDetailedInfoMessage(tr("XML Conversion Success"), procMsg, details);
+
+    return procMsg.isEmpty();
 }
 
 
@@ -1317,8 +1332,13 @@ void AQPWMPortsConfig::saveFile_clicked() {
         return;
     }
 
-    QFileInfo dir(motMixLastFile);
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), dir.absoluteFilePath(), tr("AQ Mixing Table") + " (*.mix)");
+    QString saveFile = motMixLastFile;
+    saveFile.replace(".xml", ".mix", Qt::CaseInsensitive);
+    QFileInfo dir(saveFile);
+    saveFile = dir.absoluteFilePath();
+    if (motMixLastFile.contains("motorMixing.mix") && !loadedMixMetaData.craftName.isEmpty())
+        saveFile = dir.absolutePath() + "/" + loadedMixMetaData.craftName + ".mix";
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), saveFile, tr("AQ Mixing Table") + " (*.mix)");
 
     if (!fileName.length())
         return;

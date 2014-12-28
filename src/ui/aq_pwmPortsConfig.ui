@@ -659,10 +659,10 @@
             </column>
             <column>
              <property name="text">
-              <string>QPitch</string>
+              <string>mmPitch</string>
              </property>
              <property name="toolTip">
-              <string>Quatos Pitch (QUATOS_MM_P)</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Quatos Motor Moment Pitch (QUATOS_MM_P)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
@@ -681,10 +681,10 @@
             </column>
             <column>
              <property name="text">
-              <string>QRoll</string>
+              <string>mmRoll</string>
              </property>
              <property name="toolTip">
-              <string>Quatos Roll (QUATOS_MM_R)</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Quatos Motor Moment Roll (QUATOS_MM_R)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
@@ -703,10 +703,10 @@
             </column>
             <column>
              <property name="text">
-              <string>QYaw</string>
+              <string>mmYaw</string>
              </property>
              <property name="toolTip">
-              <string>Quatos Yaw (QUATOS_MM_Y)</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Quatos Motor Moment Yaw (QUATOS_MM_Y)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
               <set>AlignHCenter|AlignVCenter|AlignCenter</set>
