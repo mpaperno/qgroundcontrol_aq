@@ -1882,10 +1882,12 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
                 else
                     val_local = static_cast<float>(cb->currentIndex());
             }
-        } else if (QAbstractSpinBox* sb = qobject_cast<QAbstractSpinBox *>(w))
-            val_local = sb->text().replace(QRegExp("[^0-9,\\.-]"), "").toFloat(&ok);
+        } else if (QDoubleSpinBox* sb = qobject_cast<QDoubleSpinBox *>(w))
+            val_local = (float)sb->value();
+        else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
+            val_local = (float)sb->value();
         else if (QButtonGroup* bg = qobject_cast<QButtonGroup *>(w)) {
-            val_local = 0;
+            val_local = 0.0f;
             foreach (QAbstractButton* abtn, bg->buttons()) {
                 if (abtn->isChecked()) {
                     if (bg->exclusive()) {
