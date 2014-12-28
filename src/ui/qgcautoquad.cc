@@ -120,7 +120,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     // firmware types
     ui->comboBox_fwType->addItem(tr("AutoQuad Serial"), "aq");
-    ui->comboBox_fwType->addItem(tr("AutoQuad Native USB"), "dfu");
+    ui->comboBox_fwType->addItem(tr("AutoQuad M4 USB"), "dfu");
     ui->comboBox_fwType->addItem(tr("ESC32 Serial"), "esc32");
     ui->comboBox_fwType->setCurrentIndex(0);
 
@@ -169,8 +169,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->label_DOWNLINK_BAUD->hide();
     ui->MOT_MIN->hide();
     ui->label_MOT_MIN->hide();
-    ui->CTRL_MAN_YAW_RT->hide();
-    ui->label_CTRL_MAN_YAW_RT->hide();
+    ui->CTRL_FACT_RUDD->hide();
+    ui->label_CTRL_FACT_RUDD->hide();
     ui->cmdBtn_ConvertTov68AttPIDs->hide();
 
     // hide these permanently, for now... (possible future use for these)
