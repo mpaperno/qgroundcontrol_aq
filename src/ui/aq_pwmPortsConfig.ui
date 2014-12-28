@@ -336,7 +336,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Show or hide the sidebar with reference images.</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Show or hide the sidebar with reference images.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Resize Columns</string>
@@ -1481,8 +1481,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>275</width>
-         <height>601</height>
+         <width>274</width>
+         <height>616</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -1490,6 +1490,12 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>5</width>
+         <height>0</height>
+        </size>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="spacing">

@@ -608,7 +608,7 @@ void AQPWMPortsConfig::saveConfigFile(QString file) {
         mixSettings.setValue("META/Craft", loadedMixMetaData.craftName);
     if (!loadedMixMetaData.mass.isEmpty())
         mixSettings.setValue("META/Mass", loadedMixMetaData.mass);
-    if (loadedMixMetaData.cgOffset.size() == 3)
+    if (loadedMixMetaData.cgOffset.size() >= 3)
         mixSettings.setValue("META/CG_Offset", loadedMixMetaData.cgOffset);
 
     if (m_mixTypeQuatos) {
@@ -1396,6 +1396,7 @@ void AQPWMPortsConfig::splitterCollapseToggle(bool on) {
     static int rightW = qMax(sz.at(1), ui->scrollArea->sizeHint().width());
     QList<int> newsz;
     if (on) {
+        rightW = qMax(rightW, 40);
         newsz << sz.at(0) - rightW << rightW;
     } else {
         rightW = sz.at(1);
