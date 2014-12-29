@@ -76,7 +76,7 @@ private:
         QString mass;
         QStringList cgOffset;
 
-        motorMixMetaData(QString &cname = QString(), QString &cmass = QString(), QStringList &coffset = QStringList()) :
+        motorMixMetaData(QString cname = QString(), QString cmass = QString(), QStringList coffset = QStringList()) :
             craftName(cname), mass(cmass), cgOffset(coffset) {}
     };
 

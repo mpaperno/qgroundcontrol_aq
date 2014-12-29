@@ -5269,6 +5269,9 @@ padding: 1px 3px;</string>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="toolTip">
+                      <string>QUATOS_AM1</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
@@ -5292,6 +5295,9 @@ padding: 1px 3px;</string>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="toolTip">
+                      <string>QUATOS_AM2</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="2" column="0">
@@ -5314,6 +5320,9 @@ padding: 1px 3px;</string>
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>QUATOS_PROP_K1</string>
                      </property>
                     </widget>
                    </item>
@@ -5348,6 +5357,9 @@ padding: 1px 3px;</string>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="toolTip">
+                      <string>QUATOS_L1_K1</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
@@ -5370,6 +5382,9 @@ padding: 1px 3px;</string>
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>QUATOS_MAX_OUT</string>
                      </property>
                     </widget>
                    </item>
@@ -5399,6 +5414,9 @@ padding: 1px 3px;</string>
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>QUATOS_L1_ASP</string>
                      </property>
                     </widget>
                    </item>
@@ -5433,6 +5451,9 @@ padding: 1px 3px;</string>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;QUATOS_M_TLT_RT&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
@@ -5456,6 +5477,9 @@ padding: 1px 3px;</string>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;QUATOS_M_YAW_RT. Don't forget to adjust Yaw Rate in Radio &amp;amp; Controls settngs to match.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
                     </widget>
                    </item>
                    <item row="2" column="0">
@@ -5478,6 +5502,9 @@ padding: 1px 3px;</string>
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>QUATOS_QUAT_TAU</string>
                      </property>
                     </widget>
                    </item>
