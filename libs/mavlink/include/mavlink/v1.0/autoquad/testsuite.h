@@ -30,28 +30,8 @@ static void mavlink_test_aq_telemetry_f(uint8_t system_id, uint8_t component_id,
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
 	mavlink_aq_telemetry_f_t packet_in = {
-		17.0,
-	45.0,
-	73.0,
-	101.0,
-	129.0,
-	157.0,
-	185.0,
-	213.0,
-	241.0,
-	269.0,
-	297.0,
-	325.0,
-	353.0,
-	381.0,
-	409.0,
-	437.0,
-	465.0,
-	493.0,
-	521.0,
-	549.0,
-	21395,
-	};
+		17.0,45.0,73.0,101.0,129.0,157.0,185.0,213.0,241.0,269.0,297.0,325.0,353.0,381.0,409.0,437.0,465.0,493.0,521.0,549.0,21395
+    };
 	mavlink_aq_telemetry_f_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
         	packet1.value1 = packet_in.value1;
@@ -107,9 +87,110 @@ static void mavlink_test_aq_telemetry_f(uint8_t system_id, uint8_t component_id,
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
 
+static void mavlink_test_aq_home_position(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+	mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+	mavlink_aq_home_position_t packet_in = {
+		963497464,963497672,73.0,101.0,129.0,18275
+    };
+	mavlink_aq_home_position_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        	packet1.lat = packet_in.lat;
+        	packet1.lon = packet_in.lon;
+        	packet1.alt = packet_in.alt;
+        	packet1.refalt = packet_in.refalt;
+        	packet1.throttle = packet_in.throttle;
+        	packet1.heading = packet_in.heading;
+        
+        
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_home_position_encode(system_id, component_id, &msg, &packet1);
+	mavlink_msg_aq_home_position_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_home_position_pack(system_id, component_id, &msg , packet1.lat , packet1.lon , packet1.alt , packet1.refalt , packet1.heading , packet1.throttle );
+	mavlink_msg_aq_home_position_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_home_position_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.lat , packet1.lon , packet1.alt , packet1.refalt , packet1.heading , packet1.throttle );
+	mavlink_msg_aq_home_position_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+	mavlink_msg_aq_home_position_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_home_position_send(MAVLINK_COMM_1 , packet1.lat , packet1.lon , packet1.alt , packet1.refalt , packet1.heading , packet1.throttle );
+	mavlink_msg_aq_home_position_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
+static void mavlink_test_aq_esc_telemetry(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+	mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+	mavlink_aq_esc_telemetry_t packet_in = {
+		963497464,{ 963497672, 963497673, 963497674, 963497675 },{ 963498504, 963498505, 963498506, 963498507 },{ 19107, 19108, 19109, 19110 },137,204,15,{ 82, 83, 84, 85 },{ 94, 95, 96, 97 }
+    };
+	mavlink_aq_esc_telemetry_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        	packet1.time_boot_ms = packet_in.time_boot_ms;
+        	packet1.seq = packet_in.seq;
+        	packet1.num_motors = packet_in.num_motors;
+        	packet1.num_in_seq = packet_in.num_in_seq;
+        
+        	mav_array_memcpy(packet1.data0, packet_in.data0, sizeof(uint32_t)*4);
+        	mav_array_memcpy(packet1.data1, packet_in.data1, sizeof(uint32_t)*4);
+        	mav_array_memcpy(packet1.status_age, packet_in.status_age, sizeof(uint16_t)*4);
+        	mav_array_memcpy(packet1.escid, packet_in.escid, sizeof(uint8_t)*4);
+        	mav_array_memcpy(packet1.data_version, packet_in.data_version, sizeof(uint8_t)*4);
+        
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_esc_telemetry_encode(system_id, component_id, &msg, &packet1);
+	mavlink_msg_aq_esc_telemetry_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_esc_telemetry_pack(system_id, component_id, &msg , packet1.time_boot_ms , packet1.seq , packet1.num_motors , packet1.num_in_seq , packet1.escid , packet1.status_age , packet1.data_version , packet1.data0 , packet1.data1 );
+	mavlink_msg_aq_esc_telemetry_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_esc_telemetry_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.time_boot_ms , packet1.seq , packet1.num_motors , packet1.num_in_seq , packet1.escid , packet1.status_age , packet1.data_version , packet1.data0 , packet1.data1 );
+	mavlink_msg_aq_esc_telemetry_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+	mavlink_msg_aq_esc_telemetry_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+	mavlink_msg_aq_esc_telemetry_send(MAVLINK_COMM_1 , packet1.time_boot_ms , packet1.seq , packet1.num_motors , packet1.num_in_seq , packet1.escid , packet1.status_age , packet1.data_version , packet1.data0 , packet1.data1 );
+	mavlink_msg_aq_esc_telemetry_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+}
+
 static void mavlink_test_autoquad(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 	mavlink_test_aq_telemetry_f(system_id, component_id, last_msg);
+	mavlink_test_aq_home_position(system_id, component_id, last_msg);
+	mavlink_test_aq_esc_telemetry(system_id, component_id, last_msg);
 }
 
 #ifdef __cplusplus

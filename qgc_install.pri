@@ -207,7 +207,7 @@ WinBuild {
 		# Copy compiler-specific DLLs
 		win32-msvc2010: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\msvc?100.dll\""
 		win32-msvc2012: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 11.0\\VC\\redist\\x86\\Microsoft.VC110.CRT\\msvc?110.dll\""
-		win32-msvc2012: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvc?120.dll\""
+		win32-msvc2013: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvc?120.dll\""
 		win32-g++ {
 			# we need to know where MinGW lives so we can copy some DLLs from there.
 			MINGW_PATH = $$(MINGW_PATH)
