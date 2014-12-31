@@ -81,6 +81,8 @@ Supported builds for Windows are 32bit (64b might work, not tested), using MSVC 
 
 _Currently to build with Speech support (QtSpeech) requires MSVC 2010 (VC10) compiler (either Visual Studio 2010 or Windows SDK 7.1)._
 
+_Apparent bug with Qt 5.4 and MSVC 2013: You must revert this change: https://qt.gitorious.org/qt/qtbase/commit/9f0e5d00ab51cc7c0dc87c8d72f48c4e6eda   This file can be found in your Qt install folder, eg: Qt/5.4/msvc_2013_opengl/mkspecs/win32-msvc2013/qmake.conf.  Remove the "-Zc:strictStrings" part from both lines (28 and 29)._
+
 #### Install Visual Studio Express (2010 or newer) or Windows SDK (7.1 or 8.x)
 Obtain an MSVC development environment (compiler/linker/etc) if you don't have one yet.  The simplest way it probably to install a Visual Studio package, although the SDKs provide similar functionality but w/out the massive overhead of the IDE (editor) which you don't really need.  If using VS, make sure you install the Windows Desktop version.
 

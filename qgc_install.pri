@@ -205,9 +205,16 @@ WinBuild {
 		}
 
 		# Copy compiler-specific DLLs
-		win32-msvc2010: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 10.0\\VC\\redist\\x86\\Microsoft.VC100.CRT\\msvc?100.dll\""
-		win32-msvc2012: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 11.0\\VC\\redist\\x86\\Microsoft.VC110.CRT\\msvc?110.dll\""
-		win32-msvc2013: COPY_DLL_LIST += "\"C:\\Program Files \(x86\)\\Microsoft Visual Studio 12.0\\VC\\redist\\x86\\Microsoft.VC120.CRT\\msvc?120.dll\""
+		win32-msvc* {
+			win32-msvc2010:MSVC_SHORT_VERSION = "100"
+			win32-msvc2012:MSVC_SHORT_VERSION = "110"
+			win32-msvc2013:MSVC_SHORT_VERSION = "120"
+			MSVC_ENV_VAR = "VS"$${MSVC_SHORT_VERSION}"COMNTOOLS"
+			MSVC_REDIST_DLL_PATH = $$getenv($$MSVC_ENV_VAR)
+			MSVC_REDIST_DLL_PATH ~= s,Common7.{1}Tools,VC\redist\x86\Microsoft.VC$${MSVC_SHORT_VERSION}.CRT,ig
+			#isEmpty(MSVC_REDIST_DLL_PATH): error("MSVC directory not found in" $$MSVC_ENV_VAR "environment variable")
+			COPY_DLL_LIST += "\"$${MSVC_REDIST_DLL_PATH}msvc?1?0.dll\""
+		}
 		win32-g++ {
 			# we need to know where MinGW lives so we can copy some DLLs from there.
 			MINGW_PATH = $$(MINGW_PATH)

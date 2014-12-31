@@ -776,6 +776,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 longitude = pos.lon/(double)1E7;
                 altitude = pos.alt/1000.0;
                 emit globalPositionChanged(this, latitude, longitude, altitude, time);
+                emit valueChanged(uasId, "altitude", "m", altitude, time);
 
                 if (pos.fix_type > 2) {
                     if (!positionLock) {
@@ -791,14 +792,6 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                     isGlobalPositionKnown = false;
                 }
 
-                // Check for NaN
-                int alt = pos.alt;
-                if (!isnan(alt) && !isinf(alt))
-                {
-                    alt = 0;
-                    //emit textMessageReceived(uasId, message.compid, 255, "GCS ERROR: RECEIVED NaN or Inf FOR ALTITUDE");
-                }
-                // FIXME REMOVE LATER emit valueChanged(uasId, "altitude", "m", pos.alt/(double)1E3, time);
                 // Smaller than threshold and not NaN
 
                 float vel = (float)pos.vel/100.0f;
