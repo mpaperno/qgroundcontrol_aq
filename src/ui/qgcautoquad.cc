@@ -382,7 +382,9 @@ void QGCAutoquad::loadSettings()
     }
 
     ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
+    ui->toolButton_toggleRadioValues->setChecked(settings.value("RADIO_VALUES_SIDEBAR_BTN_STATE", true).toBool());
     ui->toolButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
+    ui->groupBox_Radio_Values->setVisible(ui->toolButton_toggleRadioValues->isChecked());
     ui->groupBox_controlAdvancedSettings->setChecked(settings.value("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked()).toBool());
 
     settings.endGroup();
@@ -407,6 +409,7 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("SETTINGS_SPLITTER_SIZES", ui->splitter_aqWidgetSidebar->saveState());
     settings.setValue("SETTING_SELECTED_LEFT_TAB", ui->tabWidget_aq_left->currentIndex());
+    settings.setValue("RADIO_VALUES_SIDEBAR_BTN_STATE", ui->toolButton_toggleRadioValues->isChecked());
     settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->toolButton_toggleRadioGraph->isChecked());
     settings.setValue("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked());
 
@@ -463,6 +466,7 @@ void QGCAutoquad::adjustUiForQuatos()
     ui->widget_attitude_pid->setVisible(!usingQuatos);
     ui->widget_attitude_quatos->setVisible(usingQuatos);
     ui->widget_tuningChannels->setVisible(usingQuatos);
+    ui->widget_motor_esc_quatos->setVisible(usingQuatos);
     if (usingQuatos)
         ui->radioButton_attitude_quatos->setChecked(true);
     else
@@ -1575,7 +1579,12 @@ void QGCAutoquad::setRssiDisplayValue(float normalized)
         bar->setValue(val);
 }
 
-
+void QGCAutoquad::on_toolButton_toggleRadioValues_clicked(bool checked)
+{
+    ui->groupBox_Radio_Values->setVisible(checked);
+    if (!checked)
+        onToggleRadioValuesRefresh(false);
+}
 
 //
 // UAS Interfaces

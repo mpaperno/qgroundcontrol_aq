@@ -110,6 +110,7 @@ private slots:
     void toggleRadioStream(const bool enable);
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
+    void on_toolButton_toggleRadioValues_clicked(bool checked);
 
     // ESC32
     void setPortNameEsc32(QString port);
