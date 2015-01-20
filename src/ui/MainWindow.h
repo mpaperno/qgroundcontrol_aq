@@ -88,7 +88,8 @@ public:
         QGC_MAINWINDOW_STYLE_WINXP,
         QGC_MAINWINDOW_STYLE_WINVISTA,
         QGC_MAINWINDOW_STYLE_MOTIF,
-        QGC_MAINWINDOW_STYLE_CDE
+        QGC_MAINWINDOW_STYLE_CDE,
+        QGC_MAINWINDOW_STYLE_CUSTOM
     };
 
     /// @brief Returns the MainWindow singleton. Will not create the MainWindow if it has not already
@@ -205,7 +206,7 @@ public slots:
     /** @brief Reload the CSS style sheet */
     void reloadStylesheet(const QString file = "");
     /** @brief Let the user select the CSS style sheet */
-    void selectStylesheet();
+    bool selectStylesheet();
     /** @brief Automatically reconnect last link */
     void enableAutoReconnect(bool enabled);
     /** @brief Save power by reducing update rates */
@@ -217,6 +218,9 @@ public slots:
     void loadStyle(QGC_MAINWINDOW_STYLE style);
     /** @brief Set up list of available styles */
     void setAvailableStyles();
+
+    QString getCustomStyleFile() { return customStyleFile; }
+    void setCustomStyleFile(QString fileName);
 
     /** @brief Add a custom tool widget */
     void createCustomWidget();
@@ -422,6 +426,7 @@ protected:
     QString screenFileName;
     QTimer* videoTimer;
     QString styleFileName;
+    QString customStyleFile;
     bool autoReconnect;
     Qt::WindowStates windowStateVal;
     bool lowPowerMode; ///< If enabled, QGC reduces the update rates of all widgets

@@ -52,6 +52,8 @@ MacBuild: {
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/Contents/MacOS/files
 	# Copy audio files
 	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/Contents/MacOS/files/.
+	# Copy style files
+	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/styles $$TARGETDIR/Contents/MacOS/files/.
 	# Copy language files
 	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/files/lang
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/Contents/MacOS/files/lang
@@ -153,6 +155,7 @@ LinuxBuild{
 	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq/bin/*
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/*.* $$TARGETDIR/files
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/audio $$TARGETDIR/files/audio
+	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/styles $$TARGETDIR/files/styles
 	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/files/lang
 	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/files/lang/flags
 
@@ -184,6 +187,7 @@ WinBuild {
 	# Copy application resources
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\*.*" "$$TARGETDIR_WIN\\files\\" $$escape_expand(\\n))
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\audio" "$$TARGETDIR_WIN\\files\\audio" $$escape_expand(\\n))
+	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\styles" "$$TARGETDIR_WIN\\files\\styles" $$escape_expand(\\n))
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\lang\\*.qm" "$$TARGETDIR_WIN\\files\\lang" $$escape_expand(\\n))
 	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\lang\\flags" "$$TARGETDIR_WIN\\files\\lang\\flags" $$escape_expand(\\n))
 
@@ -211,7 +215,7 @@ WinBuild {
 			win32-msvc2013:MSVC_SHORT_VERSION = "120"
 			MSVC_ENV_VAR = "VS"$${MSVC_SHORT_VERSION}"COMNTOOLS"
 			MSVC_REDIST_DLL_PATH = $$getenv($$MSVC_ENV_VAR)
-			MSVC_REDIST_DLL_PATH ~= s,Common7.{1}Tools,VC\redist\x86\Microsoft.VC$${MSVC_SHORT_VERSION}.CRT,ig
+			MSVC_REDIST_DLL_PATH ~= s,Common7.{1}Tools.{1},VC\redist\x86\Microsoft.VC$${MSVC_SHORT_VERSION}.CRT\,ig
 			#isEmpty(MSVC_REDIST_DLL_PATH): error("MSVC directory not found in" $$MSVC_ENV_VAR "environment variable")
 			COPY_DLL_LIST += "\"$${MSVC_REDIST_DLL_PATH}msvc?1?0.dll\""
 		}

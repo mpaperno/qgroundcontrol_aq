@@ -99,11 +99,9 @@
         <file>files/images/status/audio-volume-low.svg</file>
         <file>files/images/status/audio-volume-high.svg</file>
         <file>files/images/status/colorbars.png</file>
-        <file>files/styles/style-dark.css</file>
         <file>files/images/splash.png</file>
         <file>demo-log.txt</file>
         <file>files/earth.html</file>
-        <file>files/styles/style-light.css</file>
         <file>files/images/patterns/lenna.jpg</file>
         <file>files/images/rc_stick.svg</file>
         <file>files/images/control/emergency-button.png</file>
@@ -114,8 +112,6 @@
         <file>files/images/actions/folder_table.png</file>
         <file>files/images/actions/disk.png</file>
         <file>files/images/contrib/AQ_logo_quad-only_outlined_112px.png</file>
-        <file>files/styles/style-native.css</file>
-        <file>files/styles/style-default.css</file>
         <file>files/images/actions/database-network.png</file>
         <file>files/images/actions/view-refresh.svg</file>
         <file>files/images/contrib/aq6_ports_reference.png</file>

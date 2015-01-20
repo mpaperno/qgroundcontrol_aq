@@ -70,7 +70,8 @@ This file is part of the QGROUNDCONTROL project
 
 QTranslator* QGCCore::current = 0;
 Translators QGCCore::translators;
-QString QGCCore::langPath = "/files/lang";
+QString QGCCore::langPath = "/files/lang/";
+QString QGCCore::stylePath = "/files/styles/";
 
 /**
  * @brief Constructor for the main application.
@@ -350,7 +351,7 @@ void QGCCore::loadTranslations(const QDir& dir)
             country = "";
         }
 
-        qDebug() << __FILE__ << __LINE__ << "Loaded language file:" << file.absoluteFilePath() << language << country;
+        qDebug() << "Loaded language file:" << file.absoluteFilePath() << language << country;
 
         // construct and load translator
         QTranslator* translator = new QTranslator(instance());
@@ -386,6 +387,13 @@ const QString QGCCore::getLangFilePath()
 {
     QString ret = QApplication::applicationDirPath();
     ret.append(langPath);
+    return ret;
+}
+
+const QString QGCCore::getStyleFilePath()
+{
+    QString ret = QApplication::applicationDirPath();
+    ret.append(stylePath);
     return ret;
 }
 

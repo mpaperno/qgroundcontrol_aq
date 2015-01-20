@@ -1,4 +1,6 @@
 #include <QSettings>
+#include <QFileInfo>
+#include <QFileDialog>
 
 #include "QGCCore.h"
 #include "QGCSettingsWidget.h"
@@ -35,7 +37,7 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
     foreach (QString lang, QGCCore::availableLanguages()) {
         QLocale locale(lang);
         QString name = QLocale::languageToString(locale.language());
-        QIcon ico(QString("%1/flags/%2.png").arg(langPath).arg(lang));
+        QIcon ico(QString("%1flags/%2.png").arg(langPath).arg(lang));
         ui->comboBox_language->addItem(ico, name, lang);
     }
 
@@ -59,7 +61,10 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
     // Style
     ui->comboBox_style->addItems(MainWindow::instance()->getAvailableStyles());
     ui->comboBox_style->setCurrentIndex(ui->comboBox_style->findText(MainWindow::instance()->getStyleName()));
-    connect(ui->comboBox_style, SIGNAL(currentIndexChanged(QString)), this, SLOT(loadStyle(QString)));
+    ui->lineEdit_customStylePath->setText(MainWindow::instance()->getCustomStyleFile());
+    customStyle();
+    connect(ui->comboBox_style, SIGNAL(currentIndexChanged(QString)), this, SLOT(onStyleChange(QString)));
+    connect(ui->toolButton_selectCustomStyle, SIGNAL(clicked()), this, SLOT(selectCustomStyle()));
 
     // Close / destroy
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(deleteLater()));
@@ -77,7 +82,23 @@ void QGCSettingsWidget::loadLanguage(int idx) {
     MainWindow::instance()->loadLanguage(ui->comboBox_language->itemData(idx).toString());
 }
 
+bool QGCSettingsWidget::customStyle() {
+    bool isCustom = ui->comboBox_style->currentText() == "Custom";
+    ui->label_style_custom->setVisible(isCustom);
+    ui->lineEdit_customStylePath->setVisible(isCustom);
+    ui->toolButton_selectCustomStyle->setVisible(isCustom);
+
+    return isCustom;
+}
+
+void QGCSettingsWidget::onStyleChange(QString style)
+{
+    if (!customStyle() || MainWindow::instance()->getCustomStyleFile().length())
+        loadStyle(style);
+}
+
 void QGCSettingsWidget::loadStyle(QString style) {
+
     ui->label_message->setText(tr("Please wait..."));
     ui->label_message->repaint();
     MainWindow::instance()->loadStyleByName(style);
@@ -85,4 +106,12 @@ void QGCSettingsWidget::loadStyle(QString style) {
         ui->label_message->setText(tr("You may need to restart QGroundControl to switch to a fully native look and feel."));
     else
         ui->label_message->setText("");
+}
+
+void QGCSettingsWidget::selectCustomStyle()
+{
+    ui->label_message->setText(tr("Please wait..."));
+    if (MainWindow::instance()->selectStylesheet())
+        ui->lineEdit_customStylePath->setText(MainWindow::instance()->getCustomStyleFile());
+    ui->label_message->setText("");
 }

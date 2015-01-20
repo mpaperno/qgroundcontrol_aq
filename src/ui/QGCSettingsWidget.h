@@ -18,7 +18,10 @@ public:
 
 public slots:
     void loadLanguage(int idx);
+    bool customStyle();
+    void onStyleChange(QString style);
     void loadStyle(QString style);
+    void selectCustomStyle();
 
 private:
     Ui::QGCSettingsWidget *ui;

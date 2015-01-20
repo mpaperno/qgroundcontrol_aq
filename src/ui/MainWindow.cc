@@ -148,6 +148,8 @@ MainWindow::MainWindow(QSplashScreen *splashScreen):
     aboutToCloseFlag(false),
     changingViewsFlag(false),
     centerStackActionGroup(new QActionGroup(this)),
+    styleFileName(""),
+    customStyleFile(""),
     autoReconnect(false),
     lowPowerMode(false)
 {
@@ -423,7 +425,7 @@ void MainWindow::createLanguageMenu(void)
         //    name += " (" + country + ")";
 
         // construct an action
-        QIcon ico(QString("%1/flags/%2.png").arg(langPath).arg(lang));
+        QIcon ico(QString("%1flags/%2.png").arg(langPath).arg(lang));
 
         QAction *action = new QAction(ico, name, this);
         action->setCheckable(true);
@@ -951,6 +953,7 @@ void MainWindow::loadSettings()
     settings.beginGroup("QGC_MAINWINDOW");
     autoReconnect = settings.value("AUTO_RECONNECT", autoReconnect).toBool();
     currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", QGC_MAINWINDOW_STYLE_DARK).toInt();
+    customStyleFile = settings.value("CUSTOM_STYLE_FILE", customStyleFile).toString();
     lowPowerMode = settings.value("LOW_POWER_MODE", lowPowerMode).toBool();
     defaultLanguage = settings.value("UI_LANGUAGE", defaultLanguage).toString();
     settings.endGroup();
@@ -962,6 +965,7 @@ void MainWindow::storeSettings()
     settings.beginGroup("QGC_MAINWINDOW");
     settings.setValue("AUTO_RECONNECT", autoReconnect);
     settings.setValue("CURRENT_STYLE", currentStyle);
+    settings.setValue("CUSTOM_STYLE_FILE", customStyleFile);
     if (!aboutToCloseFlag && isVisible())
     {
         settings.setValue(getWindowGeometryKey(), saveGeometry());
@@ -1038,21 +1042,34 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
 //        return;
 
     QString defaultStyle = m_windowStyleNames.value(QGC_MAINWINDOW_STYLE_PLASTIQUE);
+#if defined(Q_OS_WIN)
+    QString defaultNativeStyle = m_windowStyleNames.value(QGC_MAINWINDOW_STYLE_WINVISTA,  m_windowStyleNames.value(QGC_MAINWINDOW_STYLE_WINXP));
+#elif defined(Q_OS_OSX)
+    QString defaultNativeStyle = m_windowStyleNames.value(QGC_MAINWINDOW_STYLE_MAC);
+#else
+    QString defaultNativeStyle = "";
+#endif
+    QString stylePath = QGCCore::getStyleFilePath();
+    QString styleFileName = stylePath + "style-default.css";
 
     qApp->setStyleSheet("");
-    QString styleFileName = "://files/styles/style-default.css";
 
     switch (style) {
         case QGC_MAINWINDOW_STYLE_NATIVE:
-            styleFileName = "://files/styles/style-native.css";
+            qApp->setStyle(defaultNativeStyle);
+            //styleFileName = "style-native.css";
             break;
         case QGC_MAINWINDOW_STYLE_DARK:
             qApp->setStyle(defaultStyle);
-            styleFileName = "://files/styles/style-dark.css";
+            styleFileName = stylePath + "style-dark.css";
             break;
         case QGC_MAINWINDOW_STYLE_LIGHT:
             qApp->setStyle(defaultStyle);
-            styleFileName = "://files/styles/style-light.css";
+            styleFileName = stylePath + "style-light.css";
+            break;
+        case QGC_MAINWINDOW_STYLE_CUSTOM:
+            //qApp->setStyle(defaultNativeStyle);
+            styleFileName = customStyleFile;
             break;
         default:
             qApp->setStyle(m_windowStyleNames.value(style, defaultStyle));
@@ -1068,7 +1085,7 @@ void MainWindow::setAvailableStyles()
     m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_DARK, "QGC Dark");
     m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_LIGHT, "QGC Light");
 
-    qDebug() << __FILE__ << __LINE__ << "Available styles:" << QStyleFactory::keys();
+    qDebug() << "Available styles:" << QStyleFactory::keys();
     int sid;
     QString s;
     foreach (const QString style, QStyleFactory::keys()) {
@@ -1096,24 +1113,42 @@ void MainWindow::setAvailableStyles()
 
         m_windowStyleNames.insert(sid, style);
     }
+
+    m_windowStyleNames.insert(QGC_MAINWINDOW_STYLE_CUSTOM, "Custom");
 }
 
-void MainWindow::selectStylesheet()
+void MainWindow::setCustomStyleFile(QString fileName) {
+    customStyleFile = fileName;
+    QSettings settings;
+    settings.beginGroup("QGC_MAINWINDOW");
+    settings.setValue("CUSTOM_STYLE_FILE", customStyleFile);
+    settings.sync();
+}
+
+bool MainWindow::selectStylesheet()
 {
-    // Let user select style sheet
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select a stylesheet"), QFileInfo(styleFileName).absolutePath(), tr("CSS Stylesheet") + " (*.css)");
+    QString dirPath;
+    QString customFile = getCustomStyleFile();
+    if (!customFile.length())
+        dirPath = QGCCore::getStyleFilePath();
+    else
+        dirPath = customFile;
+    QFileInfo dir(dirPath);
 
-    if (fileName == "")
-        return;
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select a stylesheet"), dir.absoluteFilePath(), tr("CSS Stylesheet") + " (*.css)");
 
-    if (!fileName.endsWith(".css"))
-    {
+    if (!fileName.length())
+        return false;
+
+    if (!fileName.endsWith(".css")) {
         showInfoMessage(tr("QGroundControl did lot load a new style"), tr("No suitable .css file selected. Please select a valid .css file."));
-        return;
+        return false;
     }
 
-    // Load style sheet
-    reloadStylesheet(fileName);
+    setCustomStyleFile(fileName);
+    loadStyle(QGC_MAINWINDOW_STYLE_CUSTOM);
+
+    return true;
 }
 
 void MainWindow::reloadStylesheet(const QString file)
@@ -1130,10 +1165,11 @@ void MainWindow::reloadStylesheet(const QString file)
     }
     if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString style = QString(styleSheet->readAll());
-        //style.replace("ICONDIR", QCoreApplication::applicationDirPath()+ "files/styles/");
+        //style.replace("ICONDIR", QGCCore::getStyleFilePath());
         qApp->setStyleSheet(style);
         styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
         emit styleChanged((int)currentStyle);
+        qDebug() << "Loaded stylesheet:" << styleFileName;
     }
     else
         showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(file));

@@ -1,5 +1,5 @@
 /*
-	 This style sheet is loaded for all application styles except native, dark (indoor), and light (outdoor)
+	 This style sheet is loaded for all application styles except dark (indoor), and light (outdoor)
 */
 
 QWidget[styleType="ok"] {
@@ -11,6 +11,62 @@ QWidget[styleType="warning"] {
 QWidget[styleType="error"] {
 	color: rgba(255, 0, 0, 255);
 }
+
+/* label with emphasis  */
+QLabel[labelStyle="emphasis"] {
+	 font-weight: bold;
+	 font-size: 120%;
+}
+QLabel[labelStyle="emphasis"]:disabled {
+	color: #727272;
+}
+
+/*
+	 ProgressBar
+*/
+QProgressBar {
+	border: 1px solid #4A4A4F;
+	border-radius: 4px;
+	text-align: center;
+	padding: 0.1em;
+	color: #FFFFFF;
+	background-color: #A7A7AB;
+}
+QProgressBar:disabled {
+	color: #EBEBEB;
+	border-color: #383838;
+	background-color: #CFCFCF;
+	etch-disabled-text: 0;
+}
+QProgressBar:horizontal {
+	 max-height: 1em;
+	 min-height: 0.8em;
+}
+QProgressBar:vertical {
+	 max-width: 1em;
+	 min-width: 0.8em;
+}
+QProgressBar::chunk {
+	 background-color: #3C7B9E;
+	 border-radius: 3px;
+}
+QProgressBar::chunk#batteryBar {
+	background-color: green;
+}
+QProgressBar::chunk#speedBar {
+	background-color: yellow;
+}
+QProgressBar::chunk#thrustBar {
+	background-color: orange;
+}
+QProgressBar::chunk#progressBar_rssi,
+QProgressBar::chunk#rssiBar {
+	 background-color: #2c5f7b;
+}
+QProgressBar::chunk:disabled {
+	background-color: #878787;
+}
+
 
 
 /*
@@ -37,12 +93,14 @@ QLCDNumber:disabled {
 }
 
 
+QScrollArea { background: transparent; }
+QScrollArea > QWidget > QWidget { background: transparent; }
+
 /*
 	 Main application toolbar styling (Operator/Engineer/Pilot/Logging/Replay buttons and battery level bar)
 */
-
 QToolBar#QGC_TOOLBAR {
-    max-height: 36px;
+	 max-height: 2.5em;
     margin: 0;
     padding: 0;
     border-bottom: 1px solid #484848;
@@ -53,8 +111,8 @@ QToolBar#QGC_TOOLBAR {
 QToolBar#QGC_TOOLBAR QToolButton  {
     font-weight: bold;
     color: #DDDDDF;
-    height: 16px;
-    min-width: 24px;
+	 height: 1.5em;
+	 /*min-width: 24px;*/
     border: 1px solid #BBBBBB;
     border-right-width: 0;
     border-left-width: 0;
@@ -86,56 +144,53 @@ QToolBar#QGC_TOOLBAR QToolButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
     border-color: #379AC3;
 }
+QToolBar#QGC_TOOLBAR QLabel {
+	 font-weight: bold;
+	 font-size: 10.5pt;
+	 margin: 0.1em 0.3em;
+	 background-color: transparent;
+	 color: #DDDDDF;
+}
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
     margin: 0px 0px 0px 4px;
     border: 1px solid #4A4A4F;
     border-radius: 4px;
     text-align: center;
-    padding: 1px;
+	 padding: 0.1em;
     /*color: #DDDDDF;*/
     background-color: #caeccb;
-    height: 10px;
-}
-/*QToolBar#QGC_TOOLBAR QProgressBar::chunk {
-    background-color: green;
-}*/
-QToolBar#QGC_TOOLBAR QLabel {
-    max-height: 20px;
-    font-weight: bold;
-    font-size: 12px;
-    margin: 1px 3px;
-    background-color: transparent;
-    color: #DDDDDF;
+	 height: 1em;
 }
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal QLabel {
-    font-size: 7px;
+	 font-size: 9pt;
+}
+QToolBar#QGC_TOOLBAR QProgressBar::chunk {
+	 background-color: green;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
     border-radius: 4px;
     padding: 0 3px;
-/*    max-height: 18px;
-    margin: 2px 2px 2px 4px;
-    font: 14px;*/
+	 max-height: 1.5em;
 }
 QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
-    padding: 0 5px;
-    margin: 0 0 0 8px;
-    max-height: 26px;
+	 padding: 0 0.3em;
+	 margin: 0;
+	 max-height: 1.5em;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
     margin-left: 0;
-    font-size: 14px;
+	 font-size: 12pt;
     color: #3C7B9E;
 }
-/*QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
-    font: 12px;
-}*/
+QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
+    /*font: 12px;*/
+}
 QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
     /*font: 12px;*/
     color: yellow;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
-    font-size: 11px;
+	 font-size: 9pt;
     /*font-style: italic;*/
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel {

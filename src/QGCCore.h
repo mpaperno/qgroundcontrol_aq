@@ -67,8 +67,10 @@ public:
     static void loadTranslations(const QDir& dir);
     static const QStringList availableLanguages();
     static const QString getLangFilePath();
+    static const QString getStyleFilePath();
 
     static QString langPath;     /**< Path of language files.  */
+    static QString stylePath;    /**< Path of css files.  */
 
     bool shouldExit(void) { return m_exit; }
 

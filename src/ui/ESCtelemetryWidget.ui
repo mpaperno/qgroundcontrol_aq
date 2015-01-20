@@ -117,7 +117,7 @@
       <enum>QFrame::Plain</enum>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; color:#aa0000;&quot;&gt;No Data Received&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;ESC Telemetery data is only available with AQ firmware v8+ and ESC32 connected via CAN bus.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600; color:#aa0000;&quot;&gt;No Data Received&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC Telemetery data is only available with compatible AQ firmware and ESC32 connected via CAN bus.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -162,12 +162,6 @@
          <selectedoff>:/files/images/actions/media-playback-start.svg</selectedoff>
          <selectedon>:/files/images/actions/media-playback-stop.svg</selectedon>:/files/images/actions/media-playback-start.svg</iconset>
        </property>
-       <property name="iconSize">
-        <size>
-         <width>12</width>
-         <height>13</height>
-        </size>
-       </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
@@ -190,12 +184,6 @@
        <property name="icon">
         <iconset resource="../../qgroundcontrol.qrc">
          <normaloff>:/files/images/categories/applications-system.svg</normaloff>:/files/images/categories/applications-system.svg</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>12</width>
-         <height>13</height>
-        </size>
        </property>
       </widget>
      </item>

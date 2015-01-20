@@ -705,6 +705,16 @@ QLabel {
     min-height: 13px;
 }
 
+/* label with emphasis  */
+QLabel[labelStyle="emphasis"] {
+	 color: #4CBBFF;
+	 font-weight: bold;
+	 font-size: 13px;
+}
+QLabel[labelStyle="emphasis"]:disabled {
+	color: #727272;
+}
+
 /*
     Splitter
 */
@@ -917,9 +927,9 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
     font: 14px;*/
 }
 QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
-    padding: 0 5px;
-    margin: -4px 0 0 8px;
-    max-height: 34px;
+	padding: 0 5px;
+	margin: -4px 0 0 0px;
+	max-height: 34px;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
     margin-left: 0;
@@ -979,29 +989,5 @@ QFrame#frame_toolbarButtons {
     background-color: #1F1F1F;
     border: 1px solid #66666B;
     border-radius: 5px;
-}
-
-/* channel value labels on radio output progress bar graph (AQ->Setup->Radio) */
-QLabel#label_chanValue_0,
-QLabel#label_chanValue_1,
-QLabel#label_chanValue_2,
-QLabel#label_chanValue_3,
-QLabel#label_chanValue_4,
-QLabel#label_chanValue_5,
-QLabel#label_chanValue_6,
-QLabel#label_chanValue_7 {
-    color: #4CBBFF;
-    font-weight: bold;
-    font-size: 13px;
-}
-QLabel#label_chanValue_0:disabled,
-QLabel#label_chanValue_1:disabled,
-QLabel#label_chanValue_2:disabled,
-QLabel#label_chanValue_3:disabled,
-QLabel#label_chanValue_4:disabled,
-QLabel#label_chanValue_5:disabled,
-QLabel#label_chanValue_6:disabled,
-QLabel#label_chanValue_7:disabled {
-	color: #727272;
 }
 
