@@ -7184,6 +7184,9 @@ padding: 1px 3px;</string>
                  <item row="4" column="0" colspan="2">
                   <widget class="QWidget" name="widget_motor_esc_quatos" native="true">
                    <layout class="QFormLayout" name="formLayout_48">
+                    <property name="fieldGrowthPolicy">
+                     <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                    </property>
                     <property name="horizontalSpacing">
                      <number>6</number>
                     </property>
@@ -7199,6 +7202,13 @@ padding: 1px 3px;</string>
                     <property name="bottomMargin">
                      <number>0</number>
                     </property>
+                    <item row="0" column="0" colspan="2">
+                     <widget class="QLabel" name="label_4">
+                      <property name="text">
+                       <string>Quatos Thrust Parameters</string>
+                      </property>
+                     </widget>
+                    </item>
                     <item row="1" column="0">
                      <widget class="QLabel" name="label_MOT_VALUE2T_A1">
                       <property name="toolTip">
@@ -7209,13 +7219,33 @@ padding: 1px 3px;</string>
                       </property>
                      </widget>
                     </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="MOT_VALUE2T_A1">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                     </widget>
+                    </item>
                     <item row="2" column="0">
-                     <widget class="QLabel" name="label_MOT_VALUE2T_A1_2">
+                     <widget class="QLabel" name="label_MOT_VALUE2T_A2">
                       <property name="toolTip">
                        <string>MOT_VALUE2T_A2</string>
                       </property>
                       <property name="text">
                        <string>Thrust Fact. A2:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="1">
+                     <widget class="QLineEdit" name="MOT_VALUE2T_A2">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
                       </property>
                      </widget>
                     </item>
@@ -7226,68 +7256,6 @@ padding: 1px 3px;</string>
                       </property>
                       <property name="text">
                        <string>Scale Factor:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="1" column="1">
-                     <widget class="QDoubleSpinBox" name="MOT_VALUE2T_A1">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>75</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculated RPM (or voltage) to Thrust factor &lt;span style=&quot; font-weight:600;&quot;&gt;A1&lt;/span&gt; -- for Quatos use only. See &lt;a href=&quot;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="accelerated">
-                       <bool>true</bool>
-                      </property>
-                      <property name="decimals">
-                       <number>4</number>
-                      </property>
-                      <property name="maximum">
-                       <double>999.999900000000025</double>
-                      </property>
-                      <property name="singleStep">
-                       <double>0.100000000000000</double>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="2" column="1">
-                     <widget class="QDoubleSpinBox" name="MOT_VALUE2T_A2">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>75</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculated RPM (or voltage) to Thrust factor &lt;span style=&quot; font-weight:600;&quot;&gt;A2&lt;/span&gt; -- for Quatos use only.  See &lt;a href=&quot;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="accelerated">
-                       <bool>true</bool>
-                      </property>
-                      <property name="decimals">
-                       <number>4</number>
-                      </property>
-                      <property name="maximum">
-                       <double>999.999900000000025</double>
-                      </property>
-                      <property name="singleStep">
-                       <double>0.100000000000000</double>
                       </property>
                      </widget>
                     </item>
@@ -7316,13 +7284,6 @@ padding: 1px 3px;</string>
                       </property>
                       <property name="singleStep">
                        <double>100.000000000000000</double>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="0" colspan="2">
-                     <widget class="QLabel" name="label_4">
-                      <property name="text">
-                       <string>Quatos Thrust Parameters</string>
                       </property>
                      </widget>
                     </item>
@@ -10053,10 +10014,10 @@ padding: 1px 3px;</string>
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroup_attitudeType"/>
-  <buttongroup name="COMM_STREAM_TYP1"/>
   <buttongroup name="COMM_STREAM_TYP2"/>
   <buttongroup name="COMM_STREAM_TYP3"/>
   <buttongroup name="COMM_STREAM_TYP4"/>
+  <buttongroup name="buttonGroup_attitudeType"/>
+  <buttongroup name="COMM_STREAM_TYP1"/>
  </buttongroups>
 </ui>
