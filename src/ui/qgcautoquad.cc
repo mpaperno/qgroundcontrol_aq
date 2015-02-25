@@ -2124,7 +2124,7 @@ QString QGCAutoquad::paramNameGuiToOnboard(QString paraName) {
             paraName = tmpstr;
     }
     else if (paraName.indexOf(QRegExp("QUATOS_.+")) > -1 && !paramaq->paramExistsAQ(paraName)) {
-        tmpstr = paraName.replace(QRegExp("QUATOS_(.+)"), "L1_\\1");
+        tmpstr = paraName.replace(QRegExp("QUATOS_(.+)"), "L1_ATT_\\1");
         if (paramaq->paramExistsAQ(tmpstr))
             paraName = tmpstr;
     }
