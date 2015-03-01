@@ -265,7 +265,8 @@ void AQLogViewer::showChannels() {
             pix.fill(Qt::transparent);
             //item->setBackground(Qt::NoBrush);
         }
-        item->setIcon(QIcon::QIcon(pix));
+        QIcon icn(pix);
+        item->setIcon(icn);
     }
 
 }

@@ -3,8 +3,8 @@
 #include <qwt_plot_layout.h>
 #include <qwt_scale_engine.h>
 #include <qwt_scale_widget.h>
-#include "scrollbar.h"
-#include "scrollzoomer.h"
+#include "Scrollbar.h"
+#include "ScrollZoomer.h"
 
 class ScrollData
 {
