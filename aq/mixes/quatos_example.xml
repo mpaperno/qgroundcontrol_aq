@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<!--	Distances in meters
+	Wieghts in grams
+	+1 == CW rotation
+	-1 == CCW rotation
+-->
+<quatos_configuration>
+        <craft id="mk_hex" config="hex_plus">
+                        <port rotation="+1">9</port>
+                        <port rotation="-1">13</port>
+                        <port rotation="+1">8</port>
+                        <port rotation="-1">1</port>
+                        <port rotation="+1">4</port>
+                        <port rotation="-1">2</port>
+                <distance>
+			<motor>0.29</motor>
+			<esc>0.14</esc>
+                </distance>
+		<mass>
+			<motor>74</motor>
+			<esc>20</esc>
+			<arm>25</arm>
+                        <cube name="center" dimx="0.12" dimy="0.12" dimz="0.03" offsetx="0" offsety="0" offsetz="0.0">292</cube>
+                        <cube name="bat1" dimx="0.14" dimy="0.05" dimz="0.022" offsetx="0" offsety="-0.045" offsetz="-0.055">354</cube>
+                        <cube name="bat2" dimx="0.14" dimy="0.05" dimz="0.022" offsetx="0" offsety="+0.045" offsetz="-0.055">354</cube>
+		</mass>
+	</craft>
+        <craft id="fcp" config="quad_plus">
+                <ports>
+                        <port rotation="-1">2</port>
+                        <port rotation="+1">9</port>
+                        <port rotation="-1">8</port>
+                        <port rotation="+1">1</port>
+                </ports>
+                <distance>
+                        <motor>0.29</motor>
+                        <esc>0.0</esc>
+                </distance>
+                <mass>
+                        <motor>115</motor>
+                        <esc>0</esc>
+                        <arm>33</arm>
+                        <cube name="center" dimx="0.14" dimy="0.14" dimz="0.03" offsetx="0" offsety="0" offsetz="-0.03">454</cube>
+                        <cube name="bat" dimx="0.05" dimy="0.14" dimz="0.03" offsetx="0" offsety="0" offsetz="-0.075">466</cube>
+                </mass>
+        </craft>
+	<craft id="tank" config="quad_plus">
+		<ports>
+			<port rotation="+1">1</port>
+			<port rotation="-1">2</port>
+			<port rotation="+1">8</port>
+			<port rotation="-1">9</port>
+		</ports>
+		<distance>
+			<motor>0.235</motor>
+			<esc>0.117</esc>
+		</distance>
+		<mass>
+			<motor>100</motor>
+			<esc>20</esc>
+			<arm>10</arm>
+			<cube name="center" dimx="0.08" dimy="0.08" dimz="0.08" offsetx="0" offsety="0" offsetz="0">665</cube>
+		</mass>
+	</craft>
+	<craft id="big_hex" config="hex_plus">
+		<ports>
+			<port rotation="-1">3</port>
+			<port rotation="+1">10</port>
+			<port rotation="-1">8</port>
+			<port rotation="+1">7</port>
+			<port rotation="-1">1</port>
+			<port rotation="+1">2</port>
+		</ports>
+		<distance>
+			<motor>0.406</motor>
+			<esc>0.230</esc>
+		</distance>
+		<mass>
+			<motor>125</motor>
+			<esc>30</esc>
+			<arm>30</arm>
+			<cube name="center" dimx="0.140" dimy="0.127" dimz="0.080" offsetx="0" offsety="0" offsetz="-0.06">2212</cube>
+<!--
+			<cube name="center" dimx="0.140" dimy="0.127" dimz="0.065" offsetx="0" offsety="0" offsetz="-0.04">1802</cube>
+			<cube name="go-pro" dimx="0.06" dimy="0.03" dimz="0.04" offsetx="+0.0" offsety="+0.13" offsetz="-0.05">115</cube>
+-->
+		</mass>
+	</craft>
+	<craft id="quad_plus" config="custom" motors="4">
+		<geometry>
+			<motor rotation="+1" port="1">1,0</motor> //x axis runs from back to front, y axis runs from left to right.So front motor is 1,0
+			<motor rotation="-1" port="2">0,1</motor> //
+			<motor rotation="+1" port="3">-1,0</motor> 
+			<motor rotation="-1" port="4">0,-1</motor> 
+		</geometry>
+	</craft>
+	<craft id="octo_x" config="octo_x">
+		<ports>
+			<port rotation="-1">1</port>
+			<port rotation="+1">2</port>
+			<port rotation="-1">3</port>
+			<port rotation="+1">4</port>
+			<port rotation="-1">5</port>
+			<port rotation="+1">6</port>
+			<port rotation="-1">7</port>
+			<port rotation="+1">8</port>
+		</ports>
+		<distance>
+			<motor>0.406</motor>
+			<esc>0.230</esc>
+		</distance>
+		<mass>
+			<motor>125</motor>
+			<esc>30</esc>
+			<arm>30</arm>
+			<cube name="center" dimx="0.140" dimy="0.127" dimz="0.065" offsetx="0" offsety="0" offsetz="-0.04">1802</cube>
+		</mass>
+	</craft>
+	<craft id="octo_plus" config="octo_plus">
+		<ports>
+			<port rotation="-1">1</port>
+			<port rotation="+1">2</port>
+			<port rotation="-1">3</port>
+			<port rotation="+1">4</port>
+			<port rotation="-1">5</port>
+			<port rotation="+1">6</port>
+			<port rotation="-1">7</port>
+			<port rotation="+1">8</port>
+		</ports>
+		<distance>
+			<motor>0.406</motor>
+			<esc>0.230</esc>
+		</distance>
+		<mass>
+			<motor>125</motor>
+			<esc>30</esc>
+			<arm>30</arm>
+			<cube name="center" dimx="0.140" dimy="0.127" dimz="0.065" offsetx="0" offsety="0" offsetz="-0.04">1802</cube>
+		</mass>
+	</craft>
+        <!-- example of a quad_plus entered with custom geometry -->
+        <craft id="custom_craft" config="custom" motors="4">
+                <geometry>
+                        <motor port="1" rotation="+1"> +0.235, 0.0</motor>
+                        <motor port="2" rotation="-1">0.0,.235</motor>
+                        <motor port="8" rotation="+1"> -.235,0.0</motor>
+                        <motor port="9" rotation="-1">0.0,-.235</motor>
+                </geometry>
+                <distance>
+                        <esc>0.117</esc>
+                </distance>
+                <mass>
+                        <motor>100</motor>
+                        <esc>20</esc>
+                        <arm>10</arm>
+                        <cube name="center" dimx="0.08" dimy="0.08" dimz="0.08" offsetx="0" offsety="0" offsetz="0">665</cube>
+                </mass>
+        </craft>
+</quatos_configuration>
