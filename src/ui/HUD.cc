@@ -710,7 +710,7 @@ void HUD::paintHUD()
             painter.setPen(linePen);
 
             // CHANGE RATE STRIPS
-            drawChangeRateStrip(-95.0f, -60.0f, 40.0f, -10.0f, 10.0f, -zSpeed, &painter);
+            drawChangeRateStrip(-95.0f, -60.0f, 40.0f, -10.0f, 10.0f, zSpeed, &painter);
 
             // CHANGE RATE STRIPS
             drawChangeRateStrip(95.0f, -60.0f, 40.0f, -10.0f, 10.0f, totalAcc, &painter,true);
