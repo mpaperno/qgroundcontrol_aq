@@ -843,7 +843,7 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
         configMap.insert(pname.arg("R"), pconfig.roll);
         configMap.insert(pname.arg("Y"), pconfig.yaw);
         pname = "QUATOS_MM_%1";
-        if (!paramHandler->paramExistsAQ(pname.arg("P1")))
+        if (!paramHandler->paramExistsAQ(pname.arg("P01")) && paramHandler->paramExistsAQ("L1_ATT_MM_P01"))
             pname = "L1_ATT_MM_%1";
         configMap.insert(pname.arg("P") % motNumStr, pconfig.qpitch);
         configMap.insert(pname.arg("R") % motNumStr, pconfig.qroll);
