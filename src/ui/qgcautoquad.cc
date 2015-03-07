@@ -1805,6 +1805,13 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
 }
 
 void QGCAutoquad::loadParametersToUI() {
+
+    motPortTypeCAN = paramaq->paramExistsAQ("MOT_CAN") || paramaq->paramExistsAQ("MOT_CANL");
+    motPortTypeCAN_H = paramaq->paramExistsAQ("MOT_CANH");
+    maxMotorPorts = paramaq->paramExistsAQ("MOT_PWRD_16_P") ? 16 : 14;
+    useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
+    emit firmwareInfoUpdated();
+
     mtx_paramsAreLoading = true;
     getGUIpara(ui->tab_aq_settings);
     populateButtonGroups(this);
