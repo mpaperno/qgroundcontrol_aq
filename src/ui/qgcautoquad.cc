@@ -81,20 +81,20 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->checkBox_raw_value->setChecked(true);
 
     // multiple-radio mode selector
-    ui->comboBox_multiRadioMode->addItem("Diversity", 0);
-    ui->comboBox_multiRadioMode->addItem("Split", 1);
+    ui->comboBox_multiRadioMode->addItem(tr("Diversity"), 0);
+    ui->comboBox_multiRadioMode->addItem(tr("Split"), 1);
 
-    ui->SPVR_FS_RAD_ST1->addItem("Position Hold", 0);
+    ui->SPVR_FS_RAD_ST1->addItem(tr("Position Hold"), 0);
 
 //    ui->CTRL_HF_ON_POS->addItem("High", 250);
 //    ui->CTRL_HF_ON_POS->addItem("Mid", 0);
 //    ui->CTRL_HF_ON_POS->addItem("Low", -250);
 //    ui->CTRL_HF_ON_POS->setCurrentIndex(2);
 
-    ui->STARTUP_MODE->addItem("Open Loop",0);
-    ui->STARTUP_MODE->addItem("CL RPM",1);
-    ui->STARTUP_MODE->addItem("CL Thrust",2);
-    ui->STARTUP_MODE->addItem("Servo (v1.5+)",3);
+    ui->STARTUP_MODE->addItem(tr("Open Loop"),0);
+    ui->STARTUP_MODE->addItem(tr("CL RPM"),1);
+    ui->STARTUP_MODE->addItem(tr("CL Thrust"),2);
+    ui->STARTUP_MODE->addItem(tr("Servo (v1.5+)"),3);
 
 //    ui->comboBox_in_mode->addItem("PWM",0);
 //    ui->comboBox_in_mode->addItem("UART",1);
@@ -131,29 +131,17 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
 
     // populate COMM stream types
-    QList<QButtonGroup *> commStreamTypBtns = this->findChildren<QButtonGroup *>(QRegExp("COMM_STREAM_TYP[\\d]$"));
-    foreach (QButtonGroup* g, commStreamTypBtns) {
-        foreach (QAbstractButton* abtn, g->buttons()) {
-            QString ctyp = abtn->objectName().replace(QRegExp("[\\w]+_[\\w]+_"), "");
-            if (ctyp == "multiplex")
-                g->setId(abtn, COMM_TYPE_MULTIPLEX);
-            else if (ctyp == "mavlink")
-                g->setId(abtn, COMM_TYPE_MAVLINK);
-            else if (ctyp == "telemetry")
-                g->setId(abtn, COMM_TYPE_TELEMETRY);
-            else if (ctyp == "gps")
-                g->setId(abtn, COMM_TYPE_GPS);
-            else if (ctyp == "file")
-                g->setId(abtn, COMM_TYPE_FILEIO);
-            else if (ctyp == "cli")
-                g->setId(abtn, COMM_TYPE_CLI);
-            else if (ctyp == "omapConsole")
-                g->setId(abtn, COMM_TYPE_OMAP_CONSOLE);
-            else if (ctyp == "omapPpp")
-                g->setId(abtn, COMM_TYPE_OMAP_PPP);
-            else
-                g->setId(abtn, COMM_TYPE_NONE);
-        }
+    QList<QComboBox *> commStreamTypCb = this->findChildren<QComboBox *>(QRegExp("COMM_STREAM_TYP[\\d]$"));
+    foreach (QComboBox* cb, commStreamTypCb) {
+        cb->addItem(tr("None"), COMM_TYPE_NONE);
+        cb->addItem(tr("Multiplex (*)"), COMM_TYPE_MULTIPLEX);
+        cb->addItem(tr("MAVLink"), COMM_TYPE_MAVLINK);
+        cb->addItem(tr("AQ Serial"), COMM_TYPE_TELEMETRY);
+        cb->addItem(tr("GPS Passthrough"), COMM_TYPE_GPS);
+        cb->addItem(tr("Custom Telemetry"), COMM_TYPE_RX_TELEM);
+        cb->addItem(tr("CLI (*)"), COMM_TYPE_CLI);
+        cb->addItem(tr("OMAP Console (*)"), COMM_TYPE_OMAP_CONSOLE);
+        cb->addItem(tr("OMAP PPP (*)"), COMM_TYPE_OMAP_PPP);
     }
 
     // Final UI tweaks
@@ -1622,6 +1610,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     //connect(uas, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setRadioChannelDisplayValue(int,float)));
     connect(uas, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
     //connect(uas, SIGNAL(connected()), this, SLOT(uasConnected())); // this doesn't do anything
+    connect(uas, SIGNAL(systemVersionChanged(int,uint32_t,uint32_t,QString,QString)), this, SLOT(uasVersionChanged(int,uint32_t,uint32_t,QString,QString)));
 
     connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
     connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
@@ -1665,6 +1654,36 @@ void QGCAutoquad::setUASstatus(bool timeout, unsigned int ms)
         if (timeout)
             toggleRadioValuesUpdate(false);
     }
+}
+
+void QGCAutoquad::uasVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, QString fwVerStr, QString hwVerStr)
+{
+    if (!uas || uasId != uas->getUASID())
+        return;
+
+    aqFirmwareVersion = fwVerStr;
+    aqBuildNumber = fwVer & 0xFFFF;
+    aqHardwareVersion = (hwVer >> 24) & 0xFF;
+    aqHardwareRevision = (hwVer >> 16) & 0xFF;
+
+    setHardwareInfo();
+    setFirmwareInfo();
+
+    QString verStr = QString("AQ FW: v");
+    if (aqFirmwareVersion.length()) {
+        verStr += QString("%1").arg(aqFirmwareVersion);
+        verStr += QString(" (%1.%2.%3)").arg((fwVer >> 24) & 0xFF).arg((fwVer >> 16) & 0xFF).arg(aqBuildNumber);
+    }  else
+        verStr += tr(" [unknown]");
+    verStr += " HW: v";
+    if (aqHardwareVersion) {
+        verStr += QString("%1").arg(QString::number(aqHardwareVersion));
+        if (aqHardwareRevision > -1)
+            verStr += QString(".%1").arg(QString::number(aqHardwareRevision));
+    } else
+        verStr += tr(" [unknown]");
+
+    ui->lbl_aq_fw_version->setText(verStr);
 }
 
 void QGCAutoquad::dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off)
@@ -2352,55 +2371,11 @@ QStringList QGCAutoquad::getAvailablePwmPorts(void) {
 void QGCAutoquad::handleStatusText(int uasId, int compid, int severity, QString text) {
     Q_UNUSED(severity);
     Q_UNUSED(compid);
-    QRegExp versionRe("^(?:A.*Q.*: )?(\\d+\\.\\d+(?:\\.\\d+)?)([\\s\\-A-Z]*)(?:r(?:ev)?(\\d{1,5}))?(?: b(\\d+))?,?(?: (?:HW ver: (\\d) )?(?:hw)?rev(\\d))?\n?$");
-    QString aqFirmwareVersionQualifier;
-    bool ok;
+    if (uasId != uas->getUASID())
+        return;
 
-    // parse version number
-    if (uasId == uas->getUASID()) {
-        if (text.contains(versionRe)) {
-            QStringList vlist = versionRe.capturedTexts();
-            //        qDebug() << vlist.at(1) << vlist.at(2) << vlist.at(3) << vlist.at(4) << vlist.at(5);
-            aqFirmwareVersion = vlist.at(1);
-            aqFirmwareVersionQualifier = vlist.at(2);
-            aqFirmwareVersionQualifier.replace(QString(" "), QString(""));
-            if (vlist.at(3).length()) {
-                aqFirmwareRevision = vlist.at(3).toInt(&ok);
-                if (!ok) aqFirmwareRevision = 0;
-            }
-            if (vlist.at(4).length()) {
-                aqBuildNumber = vlist.at(4).toInt(&ok);
-                if (!ok) aqBuildNumber = 0;
-            }
-            if (vlist.at(5).length()) {
-                aqHardwareVersion = vlist.at(5).toInt(&ok);
-                if (!ok) aqHardwareVersion = 0;
-            }
-            if (vlist.at(6).length()) {
-                aqHardwareRevision = vlist.at(6).toInt(&ok);
-                if (!ok) aqHardwareRevision = -1;
-            }
-
-            setHardwareInfo();
-            setFirmwareInfo();
-
-            if (aqFirmwareVersion.length()) {
-                QString verStr = QString("AutoQuad FW: v. %1%2").arg(aqFirmwareVersion).arg(aqFirmwareVersionQualifier);
-                if (aqFirmwareRevision > 0)
-                    verStr += QString(" r%1").arg(QString::number(aqFirmwareRevision));
-                if (aqBuildNumber > 0)
-                    verStr += QString(" b%1").arg(QString::number(aqBuildNumber));
-                verStr += QString(" HW: v. %1").arg(QString::number(aqHardwareVersion));
-                if (aqHardwareRevision > -1)
-                    verStr += QString(" r%1").arg(QString::number(aqHardwareRevision));
-
-                ui->lbl_aq_fw_version->setText(verStr);
-            } else
-                ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
-        }
-        else if (text.contains("Quatos enabled", Qt::CaseInsensitive)) {
-            setAqHasQuatos(true);
-        }
+    if (text.contains("Quatos enabled", Qt::CaseInsensitive)) {
+        setAqHasQuatos(true);
     }
 }
 

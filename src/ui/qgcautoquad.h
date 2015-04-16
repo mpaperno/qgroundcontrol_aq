@@ -91,6 +91,7 @@ private slots:
     void uasDeleted(UASInterface *mav);
     void removeActiveUAS();
     void setUASstatus(bool timeout, unsigned int ms);
+    void uasVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, QString fwVerStr, QString hwVerStr);
     void dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
 
     // AQ Settings
@@ -202,7 +203,7 @@ protected:
         COMM_TYPE_MAVLINK	    = (1<<1),
         COMM_TYPE_TELEMETRY	    = (1<<2),
         COMM_TYPE_GPS           = (1<<3),
-        COMM_TYPE_FILEIO	    = (1<<4),
+        COMM_TYPE_RX_TELEM	    = (1<<4),
         COMM_TYPE_CLI           = (1<<5),
         COMM_TYPE_OMAP_CONSOLE  = (1<<6),
         COMM_TYPE_OMAP_PPP	    = (1<<7)

@@ -7380,6 +7380,38 @@ padding: 1px 3px;</string>
                       <property name="fieldGrowthPolicy">
                        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
                       </property>
+                      <item row="0" column="0">
+                       <widget class="QLabel" name="label_DOWNLINK_BAUD">
+                        <property name="text">
+                         <string>Baud Rate:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="0" column="1">
+                       <widget class="QComboBox" name="DOWNLINK_BAUD">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>110</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="inputMethodHints">
+                         <set>Qt::ImhDigitsOnly</set>
+                        </property>
+                        <property name="editable">
+                         <bool>true</bool>
+                        </property>
+                        <property name="sizeAdjustPolicy">
+                         <enum>QComboBox::AdjustToContents</enum>
+                        </property>
+                       </widget>
+                      </item>
                       <item row="1" column="0">
                        <widget class="QLabel" name="label_COMM_BAUD1">
                         <property name="text">
@@ -7423,41 +7455,7 @@ padding: 1px 3px;</string>
                        </widget>
                       </item>
                       <item row="2" column="1">
-                       <layout class="QHBoxLayout" name="horizontalLayout_8">
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream1Type_none">
-                          <property name="text">
-                           <string>None</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP1</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream1Type_mavlink">
-                          <property name="text">
-                           <string>MAVLink</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP1</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream1Type_telemetry">
-                          <property name="text">
-                           <string>AQ Serial</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP1</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                      <item row="0" column="1">
-                       <widget class="QComboBox" name="DOWNLINK_BAUD">
+                       <widget class="QComboBox" name="COMM_STREAM_TYP1">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                           <horstretch>0</horstretch>
@@ -7470,21 +7468,20 @@ padding: 1px 3px;</string>
                           <height>0</height>
                          </size>
                         </property>
+                        <property name="toolTip">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Telemetry/communication protocol type to send to this serial port, if any.&lt;/p&gt;&lt;p&gt;&amp;quot;Custom Telemetry&amp;quot; might be things like FrSky SmartPort or Graupner HoTT, depending on other settings of firmware versions. &lt;/p&gt;&lt;p&gt;Protocols marked with a (*) are currently unused by AutoQuad.&lt;/p&gt;&lt;p&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Do not enable a protocol if you are not using it.&lt;/span&gt; *&lt;br/&gt;This wastes time and resources on the flight controller and may slow down the telemetry you are actually using.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        </property>
                         <property name="inputMethodHints">
                          <set>Qt::ImhDigitsOnly</set>
                         </property>
                         <property name="editable">
-                         <bool>true</bool>
+                         <bool>false</bool>
                         </property>
                         <property name="sizeAdjustPolicy">
                          <enum>QComboBox::AdjustToContents</enum>
                         </property>
-                       </widget>
-                      </item>
-                      <item row="0" column="0">
-                       <widget class="QLabel" name="label_DOWNLINK_BAUD">
-                        <property name="text">
-                         <string>Baud Rate:</string>
+                        <property name="minimumContentsLength">
+                         <number>7</number>
                         </property>
                        </widget>
                       </item>
@@ -7562,38 +7559,35 @@ padding: 1px 3px;</string>
                        </widget>
                       </item>
                       <item row="1" column="1">
-                       <layout class="QHBoxLayout" name="horizontalLayout_10">
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream2Type_none">
-                          <property name="text">
-                           <string>None</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP2</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream2Type_mavlink">
-                          <property name="text">
-                           <string>MAVLink</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP2</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream2Type_telemetry">
-                          <property name="text">
-                           <string>AQ Serial</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP2</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                       </layout>
+                       <widget class="QComboBox" name="COMM_STREAM_TYP2">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>110</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="toolTip">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Telemetry/communication protocol type to send to this serial port, if any.&lt;/p&gt;&lt;p&gt;&amp;quot;Custom Telemetry&amp;quot; might be things like FrSky SmartPort or Graupner HoTT, depending on other settings of firmware versions. &lt;/p&gt;&lt;p&gt;Protocols marked with a (*) are currently unused by AutoQuad.&lt;/p&gt;&lt;p&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Do not enable a protocol if you are not using it.&lt;/span&gt; *&lt;br/&gt;This wastes time and resources on the flight controller and may slow down the telemetry you are actually using.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        </property>
+                        <property name="inputMethodHints">
+                         <set>Qt::ImhDigitsOnly</set>
+                        </property>
+                        <property name="editable">
+                         <bool>false</bool>
+                        </property>
+                        <property name="sizeAdjustPolicy">
+                         <enum>QComboBox::AdjustToContents</enum>
+                        </property>
+                        <property name="minimumContentsLength">
+                         <number>7</number>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>
@@ -7669,38 +7663,35 @@ padding: 1px 3px;</string>
                        </widget>
                       </item>
                       <item row="1" column="1">
-                       <layout class="QHBoxLayout" name="horizontalLayout_11">
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream3Type_none">
-                          <property name="text">
-                           <string>None</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP3</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream3Type_mavlink">
-                          <property name="text">
-                           <string>MAVLink</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP3</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream3Type_telemetry">
-                          <property name="text">
-                           <string>AQ Serial</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP3</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                       </layout>
+                       <widget class="QComboBox" name="COMM_STREAM_TYP3">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>110</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="toolTip">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Telemetry/communication protocol type to send to this serial port, if any.&lt;/p&gt;&lt;p&gt;&amp;quot;Custom Telemetry&amp;quot; might be things like FrSky SmartPort or Graupner HoTT, depending on other settings of firmware versions. &lt;/p&gt;&lt;p&gt;Protocols marked with a (*) are currently unused by AutoQuad.&lt;/p&gt;&lt;p&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Do not enable a protocol if you are not using it.&lt;/span&gt; *&lt;br/&gt;This wastes time and resources on the flight controller and may slow down the telemetry you are actually using.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        </property>
+                        <property name="inputMethodHints">
+                         <set>Qt::ImhDigitsOnly</set>
+                        </property>
+                        <property name="editable">
+                         <bool>false</bool>
+                        </property>
+                        <property name="sizeAdjustPolicy">
+                         <enum>QComboBox::AdjustToContents</enum>
+                        </property>
+                        <property name="minimumContentsLength">
+                         <number>7</number>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>
@@ -7776,38 +7767,35 @@ padding: 1px 3px;</string>
                        </widget>
                       </item>
                       <item row="1" column="1">
-                       <layout class="QHBoxLayout" name="horizontalLayout_12">
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream4Type_none">
-                          <property name="text">
-                           <string>None</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP4</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream4Type_mavlink">
-                          <property name="text">
-                           <string>MAVLink</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP4</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QCheckBox" name="checkBox_commStream4Type_telemetry">
-                          <property name="text">
-                           <string>AQ Serial</string>
-                          </property>
-                          <attribute name="buttonGroup">
-                           <string notr="true">COMM_STREAM_TYP4</string>
-                          </attribute>
-                         </widget>
-                        </item>
-                       </layout>
+                       <widget class="QComboBox" name="COMM_STREAM_TYP4">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>110</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="toolTip">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Telemetry/communication protocol type to send to this serial port, if any.&lt;/p&gt;&lt;p&gt;&amp;quot;Custom Telemetry&amp;quot; might be things like FrSky SmartPort or Graupner HoTT, depending on other settings of firmware versions. &lt;/p&gt;&lt;p&gt;Protocols marked with a (*) are currently unused by AutoQuad.&lt;/p&gt;&lt;p&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Do not enable a protocol if you are not using it.&lt;/span&gt; *&lt;br/&gt;This wastes time and resources on the flight controller and may slow down the telemetry you are actually using.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        </property>
+                        <property name="inputMethodHints">
+                         <set>Qt::ImhDigitsOnly</set>
+                        </property>
+                        <property name="editable">
+                         <bool>false</bool>
+                        </property>
+                        <property name="sizeAdjustPolicy">
+                         <enum>QComboBox::AdjustToContents</enum>
+                        </property>
+                        <property name="minimumContentsLength">
+                         <number>7</number>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>
@@ -10014,10 +10002,6 @@ padding: 1px 3px;</string>
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="COMM_STREAM_TYP2"/>
-  <buttongroup name="COMM_STREAM_TYP3"/>
-  <buttongroup name="COMM_STREAM_TYP4"/>
   <buttongroup name="buttonGroup_attitudeType"/>
-  <buttongroup name="COMM_STREAM_TYP1"/>
  </buttongroups>
 </ui>
