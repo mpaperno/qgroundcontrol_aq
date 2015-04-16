@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+#define MAV_CUSTOM_VERSION_PARSE_REGEX   "^(?:A(?:auto)?Q(?:quad)? FW ver: )?((\\d+)\\.(\\d+)(?:[\\-\\s\\dA-Zrev]*[\\.b](\\d+))?[\\s\\-\\dA-Z_]*),?((?: ?(?:HW ver: (\\d) ?)?(?:hw)?(?:rev)?(?:\\.?(\\d))(?:\\.(\\d))?))?"
 namespace AUTOQUADMAV {
 
     enum mavlinkCustomDataSets {
@@ -10,11 +11,16 @@ namespace AUTOQUADMAV {
         AQMAV_DATASET_LEGACY2,
         AQMAV_DATASET_LEGACY3,
         AQMAV_DATASET_ALL,		// use this to toggle all datasets at once
-        AQMAV_DATASET_GPS_XTRA,
-        AQMAV_DATASET_UKF_XTRA,
+        AQMAV_DATASET_GPS,
+        AQMAV_DATASET_UKF,
         AQMAV_DATASET_SUPERVISOR,
         AQMAV_DATASET_STACKSFREE,
         AQMAV_DATASET_GIMBAL,
+        AQMAV_DATASET_MOTORS,
+        AQMAV_DATASET_MOTORS_PWM,
+        AQMAV_DATASET_NAV,
+        AQMAV_DATASET_IMU,
+        AQMAV_DATASET_DEBUG,
         AQMAV_DATASET_ENUM_END
     };
 

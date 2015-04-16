@@ -43,6 +43,9 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     commStatus(COMM_DISCONNECTED),
     name(""),
     autopilot(-1),
+    airframe(QGC_AIRFRAME_AUTOQUAD),
+    hardwareVersion(0),
+    firmwareVersion(0),
     links(new QList<LinkInterface*>()),
     unknownPackets(),
     mavlink(protocol),
@@ -86,7 +89,6 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     yaw(0.0),
     statusTimeout(new QTimer(this)),
     paramsOnceRequested(false),
-    airframe(QGC_AIRFRAME_AUTOQUAD),
     attitudeKnown(false),
     paramManager(NULL),
     attitudeStamped(false),
@@ -1052,11 +1054,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             //qDebug() << "RECEIVED STATUS:" << text;false
             //emit statusTextReceived(severity, text);
             emit textMessageReceived(uasId, message.compid, severity, text);
-
-            if (text.contains(QRegExp("^(#audio:|Warning|Error)", Qt::CaseInsensitive))) {
-                text.remove("#audio:");
-                GAudioOutput::instance()->say(text, severity);
-            }
+            parseTextMessage(&text, severity);
         }
             break;
         case MAVLINK_MSG_ID_SERVO_OUTPUT_RAW:
@@ -1350,6 +1348,70 @@ void UAS::startPressureCalibration()
     // Param 1: gyro cal, param 2: mag cal, param 3: pressure cal, Param 4: radio
     mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_IMU, MAV_CMD_PREFLIGHT_CALIBRATION, 1, 0, 0, 1, 0, 0, 0, 0);
     sendMessage(msg);
+}
+
+void UAS::parseTextMessage(QString *msg, int severity)
+{
+    if (msg->contains(QRegExp("^(#audio:|Warning|Error)", Qt::CaseInsensitive))) {
+        msg->remove("#audio:");
+        GAudioOutput::instance()->say(*msg, severity);
+    } else {
+
+#ifdef MAV_CUSTOM_VERSION_PARSE_REGEX
+        QRegExp versionRe(MAV_CUSTOM_VERSION_PARSE_REGEX);
+        QStringList vlist;
+        uint8_t fwMaj = 0, fwMin = 0, hwMaj = 0, hwMin = 0, hwRev = 0, hwId = 0, i = 1;
+        uint16_t fwBld = 0;
+        bool ok;
+
+        // parse version number
+        if (msg->contains(versionRe)) {
+            firmwareVersionStr = "";
+            hardwareVersionStr = "";
+            vlist = versionRe.capturedTexts();
+            if (vlist.length() > i && vlist.at(i).length()) {
+                firmwareVersionStr = vlist.at(i);
+                if (vlist.length() > ++i && vlist.at(i).length()) {
+                    fwMaj = vlist.at(i).toUInt(&ok);
+                    if (!ok) fwMaj = 0;
+                }
+                if (vlist.length() > ++i && vlist.at(i).length()) {
+                    fwMin = vlist.at(i).toUInt(&ok);
+                    if (!ok) fwMin = 0;
+                }
+                if (vlist.length() > ++i && vlist.at(i).length()) {
+                    fwBld = vlist.at(i).toUInt(&ok);
+                    if (!ok) fwBld = 0;
+                }
+                if (vlist.length() > ++i && vlist.at(i).length()) {
+                    hardwareVersionStr = vlist.at(i);
+                    if (vlist.length() > ++i && vlist.at(i).length()) {
+                        hwMaj = vlist.at(i).toUInt(&ok);
+                        if (!ok) hwMaj = 0;
+                    }
+                    if (vlist.length() > ++i && vlist.at(i).length()) {
+                        hwMin = vlist.at(i).toUInt(&ok);
+                        if (!ok) hwMin = 0;
+                    }
+                    if (vlist.length() > ++i && vlist.at(i).length()) {
+                        hwRev = vlist.at(i).toUInt(&ok);
+                        if (!ok) hwRev = 0;
+                    }
+                    if (vlist.length() > ++i && vlist.at(i).length()) {
+                        hwId = vlist.at(i).toUInt(&ok);
+                        if (!ok) hwId = 0;
+                    }
+                }
+                firmwareVersion = (fwMaj << 24) | (fwMin << 16) | fwBld;
+                hardwareVersion = (hwMaj << 24) | (hwMin << 16) | (hwRev << 8) | hwId;;
+
+                emit systemVersionChanged(uasId, firmwareVersion, hardwareVersion, firmwareVersionStr, hardwareVersionStr);
+            }
+//            qDebug() << vlist;
+//            qDebug() << "fw:" << firmwareVersion << fwMaj << fwMin << fwBld << "hw:" << hardwareVersion << hwMaj << hwMin << hwRev << hwId;
+        }
+#endif
+    }
 }
 
 /**

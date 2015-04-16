@@ -554,6 +554,8 @@ signals:
     /** @brief Core specifications have changed */
     void systemSpecsChanged(int uasId);
 
+    void systemVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, QString fwVerStr, QString hwVerStr);
+
     /** @brief Object detected */
     void objectDetected(unsigned int time, int id, int type, const QString& name, int quality, float bearing, float distance);
 

@@ -164,6 +164,12 @@ protected: //COMMENTS FOR TEST UNIT
     CommStatus commStatus;        ///< Communication status
     QString name;                 ///< Human-friendly name of the vehicle, e.g. bravo
     int autopilot;                ///< Type of the Autopilot: -1: None, 0: Generic, 1: PIXHAWK, 2: SLUGS, 3: Ardupilot (up to 15 types), defined in MAV_AUTOPILOT_TYPE ENUM
+    int airframe;                 ///< The airframe type
+    uint32_t hardwareVersion;     ///< bytes: maj|min|rev|ID
+    uint32_t firmwareVersion;     ///< bytes: maj|min|patch(x2B)
+    QString hardwareVersionStr;
+    QString firmwareVersionStr;
+
     QList<LinkInterface*>* links; ///< List of links this UAS can be reached by
     QList<int> unknownPackets;    ///< Packet IDs which are unknown and have been received
     MAVLinkProtocol* mavlink;     ///< Reference to the MAVLink instance
@@ -245,7 +251,7 @@ protected: //COMMENTS FOR TEST UNIT
 
     QMap<int, QMap<QString, QVariant>* > parameters; ///< All parameters
     bool paramsOnceRequested;       ///< If the parameter list has been read at least once
-    int airframe;                   ///< The airframe type
+
     bool attitudeKnown;             ///< True if attitude was received, false else
     QGCUASParamManager* paramManager; ///< Parameter manager class
     QString shortStateText;         ///< Short textual state description
@@ -617,6 +623,10 @@ protected:
     quint64 getUnixTimeFromMs(quint64 time);
     /** @brief Get the UNIX timestamp in milliseconds, ignore attitudeStamped mode */
     quint64 getUnixReferenceTime(quint64 time);
+
+    void parseTextMessage(QString *msg, int severity);
+
+
     int componentID[256];
     bool componentMulti[256];
     bool connectionLost; ///< Flag indicates a timed out connection
