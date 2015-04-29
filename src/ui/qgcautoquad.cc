@@ -412,7 +412,7 @@ void QGCAutoquad::writeSettings()
 
 void QGCAutoquad::adjustUiForHardware()
 {
-    ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6 || aqHardwareVersion == 8);
+    ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
 }
