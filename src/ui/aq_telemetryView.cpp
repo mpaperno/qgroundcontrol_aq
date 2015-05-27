@@ -75,7 +75,7 @@ void AQTelemetryView::setupDisplaySetData() {
     int dset;
     int msgidx;
     int valIdx;
-    bool newDs = aqFwVerMaj == 0 || aqFwVerMaj > 7 || (aqFwVerMaj == 7 && aqFwVerMin >= 1);
+    bool newDs = aqFwVerMaj == 0 || aqFwVerMaj > 7 || (aqFwVerMaj == 7 && aqFwVerMin > 1) || aqFwVerBld >= 1859;
     currentDataSet = TELEM_DATASET_DEFAULT;
     for (int i=1; i < DSPSET_ENUM_END; ++i)
         displaySets[i].datasets.clear();
@@ -207,6 +207,7 @@ void AQTelemetryView::setupDisplaySetData() {
     telemDataFields.append(telemFieldsMeta("gps.velD", unit, 7, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("gps.lastPosUpdt", "int", 8, msgidx, dset));
     telemDataFields.append(telemFieldsMeta("gps.lastMessage", "int", 9, msgidx, dset));
+    telemDataFields.append(telemFieldsMeta("gps.timeOfWeek", "int", 13, msgidx, dset));
 
     // supervisor
     dset = DSPSET_SUPERVISOR;
