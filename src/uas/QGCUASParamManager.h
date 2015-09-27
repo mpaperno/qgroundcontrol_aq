@@ -20,6 +20,13 @@ public:
     QList<QVariant> getParameterValues(int component) const {
         return parameters.value(component)->values();
     }
+    int getParameterId(int component, const QString& parameter) {
+        if (parameters.contains(component))
+            return parameterIDs.value(component)->value(parameter);
+        else
+            return -1;
+    }
+
     bool getParameterValue(int component, const QString& parameter, QVariant& value) const {
         if (!parameters.contains(component))
         {
@@ -64,6 +71,7 @@ protected:
     UASInterface* mav;   ///< The MAV this widget is controlling
     QMap<int, QMap<QString, QVariant>* > changedValues; ///< Changed values
     QMap<int, QMap<QString, QVariant>* > parameters; ///< All parameters
+    QMap<int, QMap<QString, int>* > parameterIDs; ///< Parameter IDs by name
     QVector<bool> received; ///< Successfully received parameters
     QMap<int, QList<int>* > transmissionMissingPackets; ///< Missing packets
     QMap<int, QMap<QString, QVariant>* > transmissionMissingWriteAckPackets; ///< Missing write ACK packets

@@ -477,6 +477,9 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
     //if (sender()) qDebug() << sender();
 
     addParameter(uas, component, parameterName, value);
+    if (!parameterIDs.contains(component))
+        parameterIDs.insert(component, new QMap<QString, int>());
+    parameterIDs.value(component)->insert(parameterName, paramId);
 
     // Missing packets list has to be instantiated for all components
     if (!transmissionMissingPackets.contains(component)) {

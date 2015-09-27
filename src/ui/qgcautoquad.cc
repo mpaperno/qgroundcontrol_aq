@@ -46,9 +46,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 #endif
 
     // these regexes are used for matching field names to AQ params
-    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
+    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|TELEMETRY|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
-    paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN).+|GMBL_.+_PORT|SIG_.+_PRT|SPVR_VIN_SOURCE)$");
+    paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN|ESC).+|GMBL_.+_PORT|SIG_.+_PRT|SPVR_VIN_SOURCE|CTRL_ADJ_PARAM_[0-9]+)$");
+    paramsRadioControls.setPattern("^(RADIO|NAV|GMBL)_.+_(CH|CHAN)$");
+    paramsSwitchControls.setPattern("^(NAV|GMBL|SPVR)_CTRL_[A-Z0-9_]+$");
+    paramsTunableControls.setPattern("^CTRL_ADJ_PARAM_[0-9]+$");
+    paramsTunableControlChannels.setPattern("^(QUATOS_.+_KNOB|CTRL_ADJ_PARAM_[0-9]+_chan)$");
+    paramsNonTunable.setPattern("^((CONFIG|COMM|IMU|LIC|RADIO|SPVR|SIG|TELEMETRY)_.+|(CTRL_(ADJ_PARAM_.+|PID_TYPE)|GMBL_.+_(PORT|CHAN|TILT)|NAV_CTRL_.+|MOT_(CAN|FRAM|ESC_|PWRD_).+|QUATOS_(MM_.+|.+_KNOB)))$");
 
     /*
      * Start the UI
@@ -153,27 +158,46 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // hide some controls which may get shown later based on AQ fw version
     ui->comboBox_multiRadioMode->hide();
     ui->label_multiRadioMode->hide();
+    ui->RADIO_AUX3_CH->hide();
+    ui->label_RADIO_AUX3_CH->hide();
     ui->DOWNLINK_BAUD->hide();
     ui->label_DOWNLINK_BAUD->hide();
     ui->MOT_MIN->hide();
     ui->label_MOT_MIN->hide();
     ui->CTRL_FACT_RUDD->hide();
-    ui->label_CTRL_FACT_RUDD->hide();
+    //ui->label_CTRL_FACT_RUDD->hide();
     ui->cmdBtn_ConvertTov68AttPIDs->hide();
+    ui->container_RADIO_FLAP_CH->hide();
 
     // hide these permanently, for now... (possible future use for these)
     ui->checkBox_raw_value->hide();
     ui->label_portName_esc32->hide();
     ui->pushButton_logging->hide();
 
-    ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
+//    ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
 //    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
+
+    // save this for easy iteration later
+    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(paramsSwitchControls));
+    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(paramsRadioControls));
+    allRadioChanCombos.append(ui->groupBox_tuningChannels->findChildren<QComboBox *>(paramsTunableControlChannels));
+
+    allTunableParamsCombos.append(ui->groupBox_tuningChannels->findChildren<QComboBox *>(paramsTunableControls));
+
+    foreach (QComboBox* cb, allTunableParamsCombos)
+        cb->addItem(tr("Off"), 0);
+
+    for (int i=0; i < 8; ++i) {
+        allRadioChanProgressBars << ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
+        allRadioChanValueLabels << ui->groupBox_Radio_Values->findChild<QLabel *>(QString("label_chanValue_%1").arg(i));
+    }
 
     setConnectedSystemInfoDefaults();
     setHardwareInfo();  // populate hardware (AQ board) info with defaults
     setFirmwareInfo();  // set defaults based on fw version
     adjustUiForHardware();
     adjustUiForFirmware();
+    setupRadioPorts();
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
@@ -181,18 +205,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
 #endif
 
-
     // done setting up UI //
 
+
     delayedSendRCTimer.setInterval(800);  // timer for sending radio freq. update value
-
-    // save this for easy iteration later
-    allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO|NAV|GMBL|QUATOS)_.+_(CH|KNOB)")));
-
-    for (int i=0; i < 8; ++i) {
-        allRadioChanProgressBars << ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
-        allRadioChanValueLabels << ui->groupBox_Radio_Values->findChild<QLabel *>(QString("label_chanValue_%1").arg(i));
-    }
 
     // Signal handlers
 
@@ -209,6 +225,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->RADIO_TYPE, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     connect(ui->RADIO_SETUP, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
     connect(ui->comboBox_radioSetup2, SIGNAL(currentIndexChanged(int)), this, SLOT(radioType_changed(int)));
+    connect(ui->comboBox_multiRadioMode, SIGNAL(currentIndexChanged(int)), this, SLOT(setupRadioPorts()));
     connect(ui->SelectFirmwareButton, SIGNAL(clicked()), this, SLOT(selectFWToFlash()));
     connect(ui->portName, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
     connect(ui->comboBox_fwPortSpeed, SIGNAL(currentIndexChanged(QString)), this, SLOT(setPortName(QString)));
@@ -240,8 +257,10 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     //connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
     connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)),this,SLOT(onToggleRadioValuesRefresh(bool)));
-    foreach (QComboBox* cb, allRadioChanCombos)
-        connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings(int)));
+    foreach (QComboBox* cb, QList<QComboBox *>() << allRadioChanCombos << allTunableParamsCombos)
+        connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings()));
+    foreach (QSpinBox *sb, ui->groupBox_channelMapping->findChildren<QSpinBox *>(QRegExp("CTRL_[A-Z0-9_]+_val$")))
+        connect(sb, SIGNAL(valueChanged(int)), this, SLOT(validateRadioSettings()));
 
 #ifndef QT_NO_DEBUG
     connect(ui->pushButton_dev1, SIGNAL(clicked()),this, SLOT(pushButton_dev1()));
@@ -427,6 +446,7 @@ void QGCAutoquad::adjustUiForFirmware()
     ui->label_radioSetup2->setVisible(useRadioSetupParam);
 //    ui->comboBox_multiRadioMode->setVisible(useRadioSetupParam);
 //    ui->label_multiRadioMode->setVisible(useRadioSetupParam);
+    ui->groupBox_tuningChannels->setVisible(usingQuatos || useTunableParams);
 
     // radio loss stage 2 failsafe options
     uint8_t idx = ui->SPVR_FS_RAD_ST2->currentIndex();
@@ -453,7 +473,8 @@ void QGCAutoquad::adjustUiForQuatos()
 {
     ui->widget_attitude_pid->setVisible(!usingQuatos);
     ui->widget_attitude_quatos->setVisible(usingQuatos);
-    ui->widget_tuningChannels->setVisible(usingQuatos);
+    ui->groupBox_tuningChannels->setVisible(usingQuatos || useTunableParams);
+    ui->container_QUATOS_AM1_KNOB->setVisible(usingQuatos && !useTunableParams);
     ui->widget_motor_esc_quatos->setVisible(usingQuatos);
     if (usingQuatos)
         ui->radioButton_attitude_quatos->setChecked(true);
@@ -513,6 +534,34 @@ void QGCAutoquad::setupRadioTypes()
     ui->comboBox_radioSetup2->blockSignals(false);
 }
 
+void QGCAutoquad::setupRadioPorts()
+{
+    int cidx;
+    int pcount = 18;
+    QStringList ports;
+
+    if (ui->comboBox_multiRadioMode->currentIndex())
+        pcount = 36;
+
+    for (int i=1; i <= pcount; ++i)
+        ports << QString::number(i);
+
+    foreach (QComboBox* cb, allRadioChanCombos) {
+        cidx = cb->currentIndex();
+        cb->blockSignals(true);
+        cb->clear();
+        if (!cb->objectName().contains(QRegExp("^RADIO_.+_CH$")))
+            cb->addItem(tr("Off"));
+        cb->addItems(ports);
+        if (cidx >= cb->count())
+            cidx = 0;
+        cb->setCurrentIndex(cidx);
+        cb->blockSignals(false);
+    }
+    validateRadioSettings();
+
+}
+
 bool QGCAutoquad::radioHasPPM()
 {
     bool hasPPM = (!useRadioSetupParam && ui->RADIO_TYPE->itemData(ui->RADIO_TYPE->currentIndex()).toInt() == 3) ||
@@ -524,6 +573,7 @@ bool QGCAutoquad::radioHasPPM()
 }
 
 void QGCAutoquad::radioType_changed(int idx) {
+
     emit hardwareInfoUpdated();
 
     if (radioHasPPM()) { // PPM
@@ -538,6 +588,7 @@ void QGCAutoquad::radioType_changed(int idx) {
         ui->comboBox_multiRadioMode->show();
         ui->label_multiRadioMode->show();
     } else {
+        ui->comboBox_multiRadioMode->setCurrentIndex(0);
         ui->comboBox_multiRadioMode->hide();
         ui->label_multiRadioMode->hide();
     }
@@ -607,32 +658,90 @@ void QGCAutoquad::splitterMoved() {
 
 
 // make sure no radio channel assignments conflict
-bool QGCAutoquad::validateRadioSettings(int /*idx*/) {
-    QList<QString> conflictPorts, portsUsed, essentialPorts;
+bool QGCAutoquad::validateRadioSettings(/*int idx*/) {
+    QList<QString> conflictParams, essentialPorts, conflictSwitchValues /*, conflictPorts, portsUsed, activeTunableParamPorts*/;
+    QMultiMap<QString, QPair<int, QString> > switchChannelValues;
+    QMultiMap<QString, QString> usedChannelParams;
+    QPair<int, QString> val;
+    QSpinBox *sb = NULL;
+    QComboBox *param_cb = NULL;
     QString cbname, cbtxt;
-    bool ok = true;
+    bool ok = true, skip;
+    int dband = ui->CTRL_DBAND_SWTCH->value();
 
     foreach (QComboBox* cb, allRadioChanCombos) {
         cbname = cb->objectName();
         cbtxt = cb->currentText();
-        if (cbtxt.contains(tr("Off"), Qt::CaseInsensitive))
+        if (cbtxt.contains(tr("Off"), Qt::CaseInsensitive) || !cb->isVisible())
             continue;
-        if (portsUsed.contains(cbtxt))
-            conflictPorts.append(cbtxt);
-        if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP|AUX2)_CH")))
-            essentialPorts.append(cbtxt);
-        portsUsed.append(cbtxt);
+
+        if (useNewControlsScheme) {
+            if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD)_CH$")))
+                essentialPorts.append(cbtxt);
+            else if (cbname.contains(QRegExp("^(RADIO_+._CH|NAV_HDFRE_CHAN)$")))
+                continue;
+            else if (cbname.contains(paramsTunableControlChannels) && (param_cb = cb->parent()->findChild<QComboBox *>(QString("%1").arg(cbname).replace("_chan", "")))) {
+                //qDebug() << cbname << param_cb->objectName() << param_cb->currentIndex();
+                if (!param_cb->currentIndex())
+                    continue;
+            }
+
+            skip = false;
+            if (!essentialPorts.contains(cbtxt) && (sb = cb->parent()->findChild<QSpinBox *>(QString("%1_val").arg(cbname)))) {
+                if (switchChannelValues.contains(cbtxt))
+                    skip = true;
+                foreach (val, switchChannelValues.values(cbtxt)) {
+                    if (val.first - dband <= sb->value() + dband && sb->value() - dband <= val.first + dband) {
+                        //skip = false;
+                        conflictSwitchValues.append(sb->objectName());
+                        conflictSwitchValues.append(val.second + "_val");
+                        conflictParams.append(cbname);
+                        conflictParams.append(val.second);
+                    }
+                }
+                switchChannelValues.insert(cbtxt, QPair<int, QString>(sb->value(), cbname));
+            }
+            if (!skip && usedChannelParams.contains(cbtxt)) {
+                conflictParams.append(cbname);
+                conflictParams.append(usedChannelParams.values(cbtxt));
+            }
+
+        }
+        else {
+            if (cbname.contains(paramsSwitchControls))
+                continue;
+            if (usedChannelParams.contains(cbtxt)) {
+                conflictParams.append(cbname);
+                conflictParams.append(usedChannelParams.value(cbtxt));
+            }
+            if (cbname.contains(QRegExp("^RADIO_(THRO|PITC|ROLL|RUDD|FLAP|AUX2)_CH")))
+                essentialPorts.append(cbtxt);
+        }
+
+        usedChannelParams.insert(cbtxt, cbname);
     }
 
+    //qDebug() << usedChannelParams << conflictParams;
+
     foreach (QComboBox* cb, allRadioChanCombos) {
-        if (conflictPorts.contains(cb->currentText())) {
-            if (essentialPorts.contains(cb->currentText())) {
+        cbname = cb->objectName();
+        cbtxt = cb->currentText();
+        if (conflictParams.contains(cbname)) {
+            if (essentialPorts.contains(cbtxt)) {
                 cb->setStyleSheet("background-color: rgba(255, 0, 0, 160)");
                 ok = false;
             } else
                 cb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
         } else
             cb->setStyleSheet("");
+
+        //sb = NULL;
+        if (/*switchChannelValues.contains(cbtxt) && */(sb = cb->parent()->findChild<QSpinBox *>(QString("%1_val").arg(cbname)))) {
+            if (conflictSwitchValues.contains(sb->objectName()))
+                sb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
+            else
+                sb->setStyleSheet("");
+        }
     }
 
     return ok;
@@ -1716,10 +1825,14 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
 
     bool ok;
     int precision, tmp;
+    unsigned utmp;
     QString paraName, valstr;
     QVariant val;
     QLabel *paraLabel;
     QWidget *paraContainer;
+    QSpinBox *swValBox;
+    QComboBox *tunableValChan;
+    QDoubleSpinBox *tunableValDblBox;
 
     // handle all input widgets
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
@@ -1750,6 +1863,29 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             val = fabs(val.toFloat());
         else if (paraName == "RADIO_SETUP")
             val = val.toInt() & 0x0f;
+        else if (paraName.contains(paramsSwitchControls)) {
+            utmp = val.toUInt();
+            val = utmp & 0xFF;
+            swValBox = parent->findChild<QSpinBox *>(QString("%1_val").arg(paraName));
+            if (val.toBool() && swValBox) {
+                tmp = (utmp >> 8) & 0x7FF;
+                if (!(utmp & (1<<19)))
+                    tmp = -tmp;
+                swValBox->setValue(tmp);
+            }
+        }
+        else if (paraName.contains(paramsTunableControls)) {
+            utmp = val.toUInt();
+            val = utmp & 0x3FF; // param ID
+            tmp = (utmp >> 10) & 0x3F; // channel
+            tunableValDblBox = parent->findChild<QDoubleSpinBox *>(QString("%1_scale").arg(paraName));
+            tunableValChan = parent->findChild<QComboBox *>(QString("%1_chan").arg(paraName));
+            if (tunableValDblBox && tunableValChan) {
+                tunableValChan->setCurrentIndex(tmp);
+                if (val.toBool())
+                    tunableValDblBox->setValue(((utmp >> 16) & 0xFF) / 10000.0f);
+            }
+        }
 
         if (QLineEdit* le = qobject_cast<QLineEdit *>(w)){
             valstr.setNum(val.toFloat(), 'g', precision);
@@ -1829,7 +1965,23 @@ void QGCAutoquad::loadParametersToUI() {
     motPortTypeCAN_H = paramaq->paramExistsAQ("MOT_CANH");
     maxMotorPorts = paramaq->paramExistsAQ("MOT_PWRD_16_P") ? 16 : 14;
     useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
+    useNewControlsScheme = paramaq->paramExistsAQ("NAV_CTRL_PH");
+    useTunableParams = paramaq->paramExistsAQ("CTRL_ADJ_PARAM_1");
     emit firmwareInfoUpdated();
+
+    if (useTunableParams) {
+        foreach (QComboBox* cb, allTunableParamsCombos) {
+            cb->clear();
+            cb->addItem(tr("Off"), 0);
+        }
+        int pid;
+        foreach (QString pname, paramaq->getParameterNames(190)) {
+            pid = paramaq->getParameterId(190, pname);
+            if (!pname.contains(paramsNonTunable))
+                foreach (QComboBox* cb, allTunableParamsCombos)
+                    cb->addItem(pname, pid);
+        }
+    }
 
     mtx_paramsAreLoading = true;
     getGUIpara(ui->tab_aq_settings);
@@ -1876,7 +2028,11 @@ void QGCAutoquad::setAqHasQuatos(const bool yes)
 bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 {
     float val_uas, val_local;
+    quint32 utmp;
     QString paraName, msg;
+    QSpinBox *swValBox;
+    QComboBox *tunableValChan;
+    QDoubleSpinBox *tunableValDblBox;
     QStringList errors;
     bool ok, chkstate;
     quint8 errLevel = 0;  // 0=no error; 1=soft error; 2=hard error
@@ -1955,6 +2111,25 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         } else if (paraName == "RADIO_SETUP") {
             val_local = (float)calcRadioSetting();
         }
+        else if (paraName.contains(paramsSwitchControls)) {
+            utmp = ((quint32)val_local & 0xFF);
+            swValBox = parent->findChild<QSpinBox *>(QString("%1_val").arg(paraName));
+            if (swValBox) {
+                utmp |= abs(swValBox->value()) << 8;
+                if (swValBox->value() > 0)
+                    utmp |= (1<<19);
+            }
+            val_local = utmp;
+        }
+        else if (paraName.contains(paramsTunableControls)) {
+            utmp = ((quint32)val_local & 0x3FF);
+            tunableValDblBox = parent->findChild<QDoubleSpinBox *>(QString("%1_scale").arg(paraName));
+            tunableValChan = parent->findChild<QComboBox *>(QString("%1_chan").arg(paraName));
+            if (tunableValDblBox && tunableValChan)
+                utmp |= ((tunableValChan->currentIndex() & 0x3F) << 10) | (((quint32)(tunableValDblBox->value() * 10000) & 0xFF) << 16);
+            val_local = utmp;
+        }
+
 
         // FIXME with a real float comparator
         if (val_uas != val_local) {
@@ -2117,7 +2292,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 }
 
 void QGCAutoquad::saveAQSettings() {
-    if (!validateRadioSettings(0)) {
+    if (!validateRadioSettings()) {
         MainWindow::instance()->showCriticalMessage(tr("Error"), tr("You have the same port assigned to multiple controls!"));
         return;
     }
@@ -2305,6 +2480,8 @@ void QGCAutoquad::setConnectedSystemInfoDefaults()
     motPortTypeCAN_H = true;
     useRadioSetupParam = true;
     aqCanReboot = false;
+    useNewControlsScheme = true;
+    useTunableParams = true;
 
     setAqHasQuatos(false);  // assume no Quatos unless told otherwise for this UAV
     ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");

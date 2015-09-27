@@ -63,6 +63,7 @@ private slots:
     void adjustUiForFirmware();
     void adjustUiForQuatos();
     void setupRadioTypes();
+    void setupRadioPorts();
     bool radioHasPPM();
     void radioType_changed(int idx);
     void on_tab_aq_settings_currentChanged(int idx);
@@ -70,7 +71,7 @@ private slots:
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void splitterCollapseToggle();
     void splitterMoved();
-    bool validateRadioSettings(int);
+    bool validateRadioSettings();
 //  void on_groupBox_ppmOptions_toggled(bool arg1);
     void on_radioButton_attitude_pid_clicked() { setAqHasQuatos(false); }
     void on_radioButton_attitude_quatos_clicked() { setAqHasQuatos(true); }
@@ -183,6 +184,8 @@ public:
     bool aqCanReboot;               // can system accept remote restart command?
     bool useRadioSetupParam;        // firmware uses newer RADIO_SETUP parameter
     bool usingQuatos;               // firmware reports quatos attitutde controller is used
+    bool useNewControlsScheme;      // firmware supports _CTRL_ type parameters for control switch values
+    bool useTunableParams;          // firmware supports CTRL_ADJ_PARAM_n for live parameter adjustment
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files
@@ -242,7 +245,13 @@ private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
     QRegExp paramsReqRestartRx;
+    QRegExp paramsRadioControls;
+    QRegExp paramsSwitchControls;
+    QRegExp paramsTunableControls;
+    QRegExp paramsTunableControlChannels;
+    QRegExp paramsNonTunable;
     QList<QComboBox *> allRadioChanCombos;
+    QList<QComboBox *> allTunableParamsCombos;
     quint8 paramSaveType;
     bool restartAfterParamSave;
 
