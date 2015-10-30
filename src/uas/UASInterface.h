@@ -248,6 +248,10 @@ public slots:
      *  @param yaw heading of the target position
      */
     virtual void setTargetPosition(float x, float y, float z, float yaw) = 0;
+    /** @brief Set the global (GPS) target position for the robot to navigate to. */
+    virtual void setGlobalTargetPosition(double lat, double lon, float alt, float hdg, float hvel, float vvel, bool altRel=true,
+                                 bool sendLat=true, bool sendLon=true, bool sendAlt=true, bool sendHdg=true, bool sendHvel=true, bool sendVvel=true) = 0;
+
     /** @brief Request the list of stored waypoints from the robot */
     //virtual void requestWaypoints() = 0;
     /** @brief Clear all existing waypoints on the robot */

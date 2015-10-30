@@ -77,7 +77,8 @@ FORMS += src/ui/MainWindow.ui \
 	 src/ui/aq_telemetryView.ui \
 	 src/ui/aq_pwmPortsConfig.ui \
 	 src/ui/aq_LogViewer.ui \
-	 src/ui/ESCtelemetryWidget.ui
+	 src/ui/ESCtelemetryWidget.ui \
+	 src/ui/map/GoToWaypointDialog.ui
 
 HEADERS += src/MG.h \
 	 src/QGCCore.h \
@@ -158,7 +159,6 @@ HEADERS += src/MG.h \
 	 src/ui/QGCToolBar.h \
 	 src/ui/QGCMAVLinkInspector.h \
 	 src/ui/MAVLinkDecoder.h \
-	 src/ui/WaypointViewOnlyView.h \
 	 src/ui/WaypointViewOnlyView.h \
 	 src/ui/WaypointEditableView.h \
 	 src/ui/UnconnectedUASInfoWidget.h \

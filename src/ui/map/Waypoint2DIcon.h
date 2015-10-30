@@ -26,7 +26,11 @@ public:
 
     virtual ~Waypoint2DIcon();
 
+    Waypoint *getWaypoint() { return waypoint; }
+
     void SetHeading(float heading);
+    void setShowAcceptanceRadius(bool show);
+    void updateWaypoint();
 
     /** @brief Rectangle to be updated on changes */
     QRectF boundingRect() const;
@@ -37,8 +41,6 @@ public:
     /** @brief Enable and format the waypoint number display */
     void SetShowNumber(const bool &value);
 
-public:
-    void updateWaypoint();
 
 protected:
     mapcontrol::OPMapWidget* parent; ///< Parent widget

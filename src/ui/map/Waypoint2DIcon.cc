@@ -53,6 +53,11 @@ void Waypoint2DIcon::SetHeading(float heading)
     drawIcon();
 }
 
+void Waypoint2DIcon::setShowAcceptanceRadius(bool show)
+{
+    showAcceptanceRadius = show;
+}
+
 void Waypoint2DIcon::updateWaypoint()
 {
     if (waypoint) {
@@ -120,7 +125,7 @@ void Waypoint2DIcon::drawIcon()
     painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
 
     QFont font("Bitstream Vera Sans");
-    int fontSize = picture.height()*0.8f;
+    int fontSize = qMax((int)(picture.height()*0.8f), 1);
     font.setPixelSize(fontSize);
 
     QFontMetrics metrics = QFontMetrics(font);

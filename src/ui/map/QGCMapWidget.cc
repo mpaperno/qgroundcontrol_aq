@@ -5,13 +5,16 @@
 #include "MAV2DIcon.h"
 #include "Waypoint2DIcon.h"
 #include "UASWaypointManager.h"
+#include "ui_GoToWaypointDialog.h"
 
+#include <QDialog>
 #include <QInputDialog>
 
 QGCMapWidget::QGCMapWidget(QWidget *parent) :
     mapcontrol::OPMapWidget(parent),
     currWPManager(NULL),
     firingWaypointChange(NULL),
+    goToWaypointItem(NULL),
     maxUpdateInterval(2.1f), // 2 seconds
     followUAVEnabled(false),
     trailType(mapcontrol::UAVTrailType::ByTimeElapsed),
@@ -114,6 +117,7 @@ void QGCMapWidget::loadSettings(bool changePosition)
     mapType = settings.value("MAP_TYPE", MapType::GoogleHybrid).toInt(&ok);
     if (ok)
         this->SetMapType((MapType::Types)mapType);
+    setUpdateRateLimit(settings.value("UPDATE_RATE", getUpdateRateLimit()).toFloat());
     settings.endGroup();
 
     // SET TRAIL TYPE
@@ -149,9 +153,11 @@ void QGCMapWidget::storeSettings()
     settings.setValue("TRAIL_TYPE", static_cast<int>(trailType));
     settings.setValue("TRAIL_INTERVAL", trailInterval);
     settings.setValue("MAP_TYPE", this->GetMapType());
+    settings.setValue("UPDATE_RATE", this->getUpdateRateLimit());
     settings.endGroup();
     settings.sync();
 }
+
 
 void QGCMapWidget::mouseDoubleClickEvent(QMouseEvent* event)
 {
@@ -175,6 +181,16 @@ void QGCMapWidget::mouseDoubleClickEvent(QMouseEvent* event)
         }
     }
     OPMapWidget::mouseDoubleClickEvent(event);
+}
+
+void QGCMapWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::RightButton && UASManager::instance()->getActiveUAS() && mapInitialized) {
+        event->accept();
+        dialogGoToWaypoint(currentMousePosition());
+    }/* else
+        event->ignore();*/
+    OPMapWidget::mouseReleaseEvent(event);
 }
 
 
@@ -452,11 +468,11 @@ void QGCMapWidget::handleMapWaypointEdit(mapcontrol::WayPointItem* waypoint)
     wp->blockSignals(false);
 
 
-    internals::PointLatLng coord = waypoint->Coord();
-    QString coord_str = " " + QString::number(coord.Lat(), 'f', 6) + "   " + QString::number(coord.Lng(), 'f', 6);
-    // // qDebug() << "MAP WP COORD (MAP):" << coord_str << __FILE__ << __LINE__;
-    QString wp_str = QString::number(wp->getLatitude(), 'f', 6) + "   " + QString::number(wp->getLongitude(), 'f', 6);
-    // // qDebug() << "MAP WP COORD (WP):" << wp_str << __FILE__ << __LINE__;
+//    internals::PointLatLng coord = waypoint->Coord();
+//    QString coord_str = " " + QString::number(coord.Lat(), 'f', 6) + "   " + QString::number(coord.Lng(), 'f', 6);
+//    qDebug() << "MAP WP COORD (MAP):" << coord_str << __FILE__ << __LINE__;
+//    QString wp_str = QString::number(wp->getLatitude(), 'f', 6) + "   " + QString::number(wp->getLongitude(), 'f', 6);
+//    qDebug() << "MAP WP COORD (WP):" << wp_str << __FILE__ << __LINE__;
 
     firingWaypointChange = NULL;
 
@@ -660,6 +676,104 @@ void QGCMapWidget::updateWaypointList(int uas)
     }
 }
 
+
+// DIRECT UAV INTERACTION
+
+void QGCMapWidget::dialogGoToWaypoint(internals::PointLatLng pos)
+{
+    Ui::GoToWaypointDialog *dlgUi = new Ui::GoToWaypointDialog();
+    QDialog *dlg = new QDialog();
+    dlgUi->setupUi(dlg);
+    
+    dlgUi->fld_lat->setValue(pos.Lat());
+    dlgUi->fld_lon->setValue(pos.Lng());
+
+    QSettings settings;
+    settings.beginGroup("QGC_MAPWIDGET");
+    dlgUi->fld_alt->setValue(settings.value("GOTOWPT_ALT", dlgUi->fld_alt->value()).toDouble());
+    dlgUi->fld_hdg->setValue(settings.value("GOTOWPT_HDG", dlgUi->fld_hdg->value()).toDouble());
+    dlgUi->fld_hvel->setValue(settings.value("GOTOWPT_HVEL", dlgUi->fld_hvel->value()).toDouble());
+    dlgUi->fld_vvel->setValue(settings.value("GOTOWPT_VVEL", dlgUi->fld_vvel->value()).toDouble());
+    dlgUi->opt_alt_rel->setChecked(settings.value("GOTOWPT_ALT_REL", dlgUi->opt_alt_rel->isChecked()).toBool());
+    dlgUi->opt_saveDefaults->setChecked(settings.value("GOTOWPT_SAVE_DFLT", dlgUi->opt_saveDefaults->isChecked()).toBool());
+    dlgUi->sel_lat->setChecked(settings.value("GOTOWPT_SEL_LAT", dlgUi->sel_lat->isChecked()).toBool());
+    dlgUi->sel_lon->setChecked(settings.value("GOTOWPT_SEL_LON", dlgUi->sel_lon->isChecked()).toBool());
+    dlgUi->sel_alt->setChecked(settings.value("GOTOWPT_SEL_ALT", dlgUi->sel_alt->isChecked()).toBool());
+    dlgUi->sel_hdg->setChecked(settings.value("GOTOWPT_SEL_HDG", dlgUi->sel_hdg->isChecked()).toBool());
+    dlgUi->sel_hvel->setChecked(settings.value("GOTOWPT_SEL_HVEL", dlgUi->sel_hvel->isChecked()).toBool());
+    dlgUi->sel_vvel->setChecked(settings.value("GOTOWPT_SEL_VVEL", dlgUi->sel_vvel->isChecked()).toBool());
+
+    if (!dlg->exec()) {
+        dlg->deleteLater();
+        return;
+    }
+
+    Waypoint *wp = new Waypoint(0, dlgUi->fld_lat->value(), dlgUi->fld_lon->value(), dlgUi->fld_alt->value(), dlgUi->fld_hvel->value(), dlgUi->fld_vvel->value(), 0.0, dlgUi->fld_hdg->value(),
+                                false, false, dlgUi->opt_alt_rel->isChecked() ? MAV_FRAME_GLOBAL_RELATIVE_ALT_INT : MAV_FRAME_GLOBAL_INT, MAV_CMD_NAV_WAYPOINT, tr("Go-To Waypoint"));
+
+    if (goToWaypointItem)
+        delete goToWaypointItem;
+
+    goToWaypointItem = new Waypoint2DIcon(map, this, wp, QColor(Qt::yellow), 0);
+    //goToWaypointItem = new Waypoint2DIcon(map, this, dlgUi->fld_lat->value(), dlgUi->fld_lon->value(), dlgUi->fld_alt->value(), -1, "", tr("Go-To Waypoint"), 0);
+    goToWaypointItem->SetShowNumber(false);
+    goToWaypointItem->setShowAcceptanceRadius(false);
+    goToWaypointItem->setParentItem(map);
+    //ConnectWP(goToWaypointItem);
+    connect(goToWaypointItem, SIGNAL(WPValuesChanged(WayPointItem*)), this, SLOT(handleMapGoToWaypointEdit(WayPointItem*)));
+
+    UASInterface *uas = UASManager::instance()->getActiveUAS();
+    if (uas)
+        uas->setGlobalTargetPosition(dlgUi->fld_lat->value(), dlgUi->fld_lon->value(), (float)dlgUi->fld_alt->value(), (float)dlgUi->fld_hdg->value(),
+                                     (float)dlgUi->fld_hvel->value(), (float)dlgUi->fld_vvel->value(), dlgUi->opt_alt_rel->isChecked(),
+                                     dlgUi->sel_lat->isChecked(), dlgUi->sel_lon->isChecked(), dlgUi->sel_alt->isChecked(), dlgUi->sel_hdg->isChecked(),
+                                     dlgUi->sel_hvel->isChecked(), dlgUi->sel_vvel->isChecked());
+
+    settings.setValue("GOTOWPT_SAVE_DFLT", dlgUi->opt_saveDefaults->isChecked());
+    if (dlgUi->opt_saveDefaults->isChecked()) {
+        settings.setValue("GOTOWPT_ALT", dlgUi->fld_alt->value());
+        settings.setValue("GOTOWPT_HDG", dlgUi->fld_hdg->value());
+        settings.setValue("GOTOWPT_HVEL", dlgUi->fld_hvel->value());
+        settings.setValue("GOTOWPT_VVEL", dlgUi->fld_vvel->value());
+        settings.setValue("GOTOWPT_ALT_REL", dlgUi->opt_alt_rel->isChecked());
+        settings.setValue("GOTOWPT_SEL_LAT", dlgUi->sel_lat->isChecked());
+        settings.setValue("GOTOWPT_SEL_LON", dlgUi->sel_lon->isChecked());
+        settings.setValue("GOTOWPT_SEL_ALT", dlgUi->sel_alt->isChecked());
+        settings.setValue("GOTOWPT_SEL_HDG", dlgUi->sel_hdg->isChecked());
+        settings.setValue("GOTOWPT_SEL_HVEL", dlgUi->sel_hvel->isChecked());
+        settings.setValue("GOTOWPT_SEL_VVEL", dlgUi->sel_vvel->isChecked());
+    }
+    settings.endGroup();
+    settings.sync();
+    
+    dlg->deleteLater();
+}
+
+void QGCMapWidget::handleMapGoToWaypointEdit(WayPointItem *waypoint)
+{
+    // Block circle updates
+    Waypoint* wp = dynamic_cast<Waypoint2DIcon *>(waypoint)->getWaypoint();
+    // Protect from vicious double update cycle
+    if (firingWaypointChange == wp) return;
+    // Not in cycle, block now from entering it
+    firingWaypointChange = wp;
+    // // qDebug() << "UPDATING WP FROM MAP";
+
+    // Update WP values
+    internals::PointLatLng pos = waypoint->Coord();
+
+    // Block waypoint signals
+    wp->blockSignals(true);
+    wp->setLatitude(pos.Lat());
+    wp->setLongitude(pos.Lng());
+    wp->blockSignals(false);
+
+    firingWaypointChange = NULL;
+
+    UASInterface *uas = UASManager::instance()->getActiveUAS();
+    if (uas)
+        uas->setGlobalTargetPosition(pos.Lat(), pos.Lng(), 0.0f, 0.0f, 0.0f, 0.0f, true, true, true, false, false, false, false);
+}
 
 //// ADAPTER / HELPER FUNCTIONS
 //float QGCMapWidget::metersToPixels(double meters)

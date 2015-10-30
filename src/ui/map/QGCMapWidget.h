@@ -8,6 +8,8 @@
 class UASInterface;
 class UASWaypointManager;
 class Waypoint;
+class Waypoint2DIcon;
+
 typedef mapcontrol::WayPointItem WayPointItem;
 
 /**
@@ -115,10 +117,15 @@ public slots:
     void loadSettings(bool changePosition=true);
     /** @brief Store the settings for this widget to disk */
     void storeSettings();
+    
+    /** @brief Open a dialog for "Go To" UAV command */
+    void dialogGoToWaypoint(internals::PointLatLng pos);
 
 protected slots:
     /** @brief Convert a map edit into a QGC waypoint event */
     void handleMapWaypointEdit(WayPointItem* waypoint);
+    /** @brief Handle map drag event of "Go-To" waypiont type */
+    void handleMapGoToWaypointEdit(WayPointItem *waypoint);
 
 protected:
     /** @brief Update the highlighting of the currently controlled system */
@@ -127,11 +134,14 @@ protected:
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
     void mouseDoubleClickEvent(QMouseEvent* event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
-    UASWaypointManager* currWPManager; ///< The current waypoint manager
-    QMap<Waypoint* , mapcontrol::WayPointItem*> waypointsToIcons;
-    QMap<mapcontrol::WayPointItem*, Waypoint*> iconsToWaypoints;
-    Waypoint* firingWaypointChange;
+    UASWaypointManager *currWPManager; ///< The current waypoint manager
+    QMap<Waypoint *, WayPointItem *> waypointsToIcons;
+    QMap<WayPointItem *, Waypoint *> iconsToWaypoints;
+    Waypoint *firingWaypointChange;
+    Waypoint2DIcon *goToWaypointItem;
+    
     QTimer updateTimer;
     float maxUpdateInterval;
     enum editMode {

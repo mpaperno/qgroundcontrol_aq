@@ -416,6 +416,11 @@ public:
         }
     }
 
+    uint32_t getHardwareVersion() const { return hardwareVersion; }
+    uint32_t getFirmwareVersion() const { return firmwareVersion; }
+    QString getHardwareVersionStr() const { return hardwareVersionStr; }
+    QString getFirmwareVersionStr() const { return firmwareVersionStr; }
+
 public slots:
     /** @brief Set the autopilot type */
     void setAutopilotType(int apType)
@@ -490,6 +495,10 @@ public slots:
 
     /** @brief Set the target position for the robot to navigate to. */
     void setTargetPosition(float x, float y, float z, float yaw);
+
+    /** @brief Set the global (GPS) target position for the robot to navigate to. */
+    void setGlobalTargetPosition(double lat, double lon, float alt, float hdg, float hvel, float vvel, bool altRel=true,
+                                 bool sendLat=true, bool sendLon=true, bool sendAlt=true, bool sendHdg=true, bool sendHvel=true, bool sendVvel=true);
 
     void startLowBattAlarm();
     void stopLowBattAlarm();

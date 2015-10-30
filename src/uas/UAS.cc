@@ -459,7 +459,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 stateAudio = uasState;
             }
 
-            if (systemIsArmed && this->mode != static_cast<int>(state.base_mode))
+            if (/*systemIsArmed &&*/ this->mode != static_cast<int>(state.base_mode))
             {
                 modechanged = true;
                 uint8_t oldMode = this->mode;
@@ -1362,15 +1362,15 @@ void UAS::parseTextMessage(QString *msg, int severity)
         QStringList vlist;
         uint8_t fwMaj = 0, fwMin = 0, hwMaj = 0, hwMin = 0, hwRev = 0, hwId = 0, i = 1;
         uint16_t fwBld = 0;
+        QString fwStr, hwStr;
+        uint32_t fwVer, hwVer;
         bool ok;
 
         // parse version number
         if (msg->contains(versionRe)) {
-            firmwareVersionStr = "";
-            hardwareVersionStr = "";
             vlist = versionRe.capturedTexts();
             if (vlist.length() > i && vlist.at(i).length()) {
-                firmwareVersionStr = vlist.at(i);
+                fwStr = vlist.at(i);
                 if (vlist.length() > ++i && vlist.at(i).length()) {
                     fwMaj = vlist.at(i).toUInt(&ok);
                     if (!ok) fwMaj = 0;
@@ -1384,7 +1384,7 @@ void UAS::parseTextMessage(QString *msg, int severity)
                     if (!ok) fwBld = 0;
                 }
                 if (vlist.length() > ++i && vlist.at(i).length()) {
-                    hardwareVersionStr = vlist.at(i);
+                    hwStr = vlist.at(i);
                     if (vlist.length() > ++i && vlist.at(i).length()) {
                         hwMaj = vlist.at(i).toUInt(&ok);
                         if (!ok) hwMaj = 0;
@@ -1402,10 +1402,17 @@ void UAS::parseTextMessage(QString *msg, int severity)
                         if (!ok) hwId = 0;
                     }
                 }
-                firmwareVersion = (fwMaj << 24) | (fwMin << 16) | fwBld;
-                hardwareVersion = (hwMaj << 24) | (hwMin << 16) | (hwRev << 8) | hwId;;
+                fwVer = (fwMaj << 24) | (fwMin << 16) | fwBld;
+                hwVer = (hwMaj << 24) | (hwMin << 16) | (hwRev << 8) | hwId;
 
-                emit systemVersionChanged(uasId, firmwareVersion, hardwareVersion, firmwareVersionStr, hardwareVersionStr);
+                //if (fwVer != firmwareVersion || hwVer != hardwareVersion) {
+                    firmwareVersion = fwVer;
+                    hardwareVersion = hwVer;
+                    firmwareVersionStr = fwStr;
+                    hardwareVersionStr = hwStr;
+                    emit systemVersionChanged(uasId, firmwareVersion, hardwareVersion, firmwareVersionStr, hardwareVersionStr);
+                //}
+
             }
 //            qDebug() << vlist;
 //            qDebug() << "fw:" << firmwareVersion << fwMaj << fwMin << fwBld << "hw:" << hardwareVersion << hwMaj << hwMin << hwRev << hwId;
@@ -2553,6 +2560,19 @@ void UAS::setTargetPosition(float x, float y, float z, float yaw)
     sendMessage(msg);
 }
 
+void UAS::setGlobalTargetPosition(double lat, double lon, float alt, float hdg, float hvel, float vvel, bool altRel, bool sendLat, bool sendLon, bool sendAlt, bool sendHdg, bool sendHvel, bool sendVvel)
+{
+    // Bitmask mapping: bit 1 (LSB): x, bit 2: y, bit 3: z, bit 4: vx, bit 5: vy, bit 6: vz, bit 7: ax, bit 8: ay, bit 9: az, bit 10: is force setpoint, bit 11: yaw, bit 12: yaw rate
+    quint16 flags = (int)sendLat | ((int)sendLon<<1) | ((int)sendAlt<<2) | ((int)sendHvel<<3) | ((int)sendHvel<<4) | ((int)sendVvel<<5) | ((int)sendHdg<<10);
+    flags = ~flags;
+    quint8 frame = altRel ? MAV_FRAME_GLOBAL_RELATIVE_ALT_INT : MAV_FRAME_GLOBAL_INT;
+
+    mavlink_message_t msg;
+    mavlink_msg_set_position_target_global_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, QGC::groundTimeMilliseconds(), uasId, MAV_COMP_ID_ALL,
+                                                    frame, flags, lat * 1e7, lon * 1e7, alt, hvel, 0.0f, vvel, 0.0f, 0.0f, 0.0f, hdg, 0.0f);
+    sendMessage(msg);
+}
+
 /**
  * @return The name of this system as string in human-readable form
  */
@@ -2637,18 +2657,18 @@ QString UAS::getAudioModeTextFor(int id)
 */
 QString UAS::getShortModeTextFor(int id)
 {
-    QString mode;
+    QString mode = "";
     uint8_t modeid = id;
 
     //qDebug() << "MODE:" << modeid;
 
-    mode += "|";
+    //mode = "|";
     // BASE MODE DECODING
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_AUTO)
-        mode += tr("AUTO");
+        mode += tr("AUTO|");
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_GUIDED)
-        mode += tr("VECTOR");
-    mode += "|";
+        mode += tr("VECTOR|");
+
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_STABILIZE)
         mode += tr("STABILIZED");
     else if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_TEST)
@@ -2661,14 +2681,14 @@ QString UAS::getShortModeTextFor(int id)
         mode = tr("UNKNOWN");
 
     // ARMED STATE DECODING
-    if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_SAFETY)
-    {
-        mode.prepend("A");
-    }
-    else
-    {
-        mode.prepend("D");
-    }
+//    if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_SAFETY)
+//    {
+//        mode.prepend("A|");
+//    }
+//    else
+//    {
+//        mode.prepend("D|");
+//    }
 
     // HARDWARE IN THE LOOP DECODING
     if (modeid & (uint8_t)MAV_MODE_FLAG_DECODE_POSITION_HIL)
