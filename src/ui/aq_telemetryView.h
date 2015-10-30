@@ -11,6 +11,9 @@ class AQTelemetryView;
 
 using namespace AUTOQUADMAV;
 
+class AQTelemetryView;
+typedef QVariant (AQTelemetryView::*ValueCalcCallback)(float);
+
 class AQTelemetryView : public QWidget
 {
     Q_OBJECT
@@ -22,9 +25,14 @@ public:
 private:
     enum telemDatasets { TELEM_DATASET_DEFAULT, TELEM_DATASET_GROUND, TELEM_DATASET_NUM };
     enum telemValueTypes { TELEM_VALUETYPE_FLOAT, TELEM_VALUETYPE_INT };
-    enum telemValueDefs { TELEM_VALDEF_ACC_MAGNITUDE = 100, TELEM_VALDEF_MAG_MAGNITUDE, TELEM_VALDEF_ACC_PITCH, TELEM_VALDEF_ACC_ROLL };
+    enum telemValueDefs {
+        TELEM_VALDEF_ACC_MAGNITUDE = 100,
+        TELEM_VALDEF_MAG_MAGNITUDE,
+        TELEM_VALDEF_ACC_PITCH,
+        TELEM_VALDEF_ACC_ROLL
+    };
 
-    enum DisaplaySets {
+    enum displaySetTypes {
         DSPSET_NONE = 0,
         DSPSET_IMU,
         DSPSET_UKF,
@@ -34,28 +42,31 @@ private:
         DSPSET_MOT_PWM,
         DSPSET_SUPERVISOR,
         DSPSET_GIMBAL,
+        DSPSET_RC,
+        DSPSET_CONFIG,
         DSPSET_STACKS,
         DSPSET_DEBUG,
         DSPSET_ENUM_END
     };
 
     struct DisplaySet {
-        DisplaySet(int id, QString name, QList<int> ds = QList<int>()) : id(id), name(name), datasets(ds) {}
+        DisplaySet(displaySetTypes id, QString name, QList<int> ds = QList<int>()) : id(id), name(name), datasets(ds) {}
 
-        int id;
+        displaySetTypes id;
         QString name;
         QList<int> datasets;
     };
 
-    struct telemFieldsMeta {
-        telemFieldsMeta(QString label, QString unit, int valueIndex, int msgValueIndex, int dspSet, telemDatasets dataSet = TELEM_DATASET_DEFAULT) :
-            label(label), unit(unit), valueIndex(valueIndex), msgValueIndex(msgValueIndex), dspSetId(dspSet), dataSet(dataSet) {}
+    struct TelemFieldsMeta {
+        TelemFieldsMeta(QString label, telemValueTypes unit, int valueIndex, int msgValueIndex, displaySetTypes dspSet, ValueCalcCallback cb = NULL, telemDatasets dataSet = TELEM_DATASET_DEFAULT) :
+            label(label), unit(unit), valueIndex(valueIndex), msgValueIndex(msgValueIndex), dspSetId(dspSet), cb(cb), dataSet(dataSet) {}
 
         QString label; // human-readable name of field
-        QString unit; // value type (float|int)
+        telemValueTypes unit; // value type (float|int)
         int valueIndex; // index of telemtry value in mavlink msg
         int msgValueIndex; // __mavlink_aq_telemetry_[f|i]_t.Index
-        int dspSetId;
+        displaySetTypes dspSetId;
+        ValueCalcCallback cb;
         telemDatasets dataSet;
     };
 
@@ -76,14 +87,16 @@ private:
     telemValueTypes currentValueType;
     telemDatasets currentDataSet;
     QList<DisplaySet> displaySets;
-    QList<telemFieldsMeta> telemDataFields;
+    QList<TelemFieldsMeta> telemDataFields;
     QButtonGroup* btnsDataSets;
 
     void setupDisplaySetData();
     void clearValuesGrid();
-    void setupDataFields(int dspSet);
-    void setupCurves(int valuesSetId);
+    void setupDataFields(displaySetTypes dspSet);
+    void setupCurves(displaySetTypes dspSet);
     float getTelemValue(const int idx);
+    QVariant getParamName(const float id);
+    bool mavUsesNewDatasets();
 
 public slots:
     void initChart(UASInterface *uav);
