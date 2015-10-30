@@ -3053,7 +3053,7 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="5" column="1">
+                       <item row="6" column="1">
                         <widget class="QComboBox" name="NAV_CTRL_HOM_GO">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3160,14 +3160,14 @@ padding: 1px 5px;</string>
                          </item>
                         </widget>
                        </item>
-                       <item row="5" column="0">
+                       <item row="6" column="0">
                         <widget class="QLabel" name="label_NAV_CTRL_HOM_GO">
                          <property name="text">
                           <string>Home Go</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="5" column="2">
+                       <item row="6" column="2">
                         <widget class="QSpinBox" name="NAV_CTRL_HOM_GO_val">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3195,6 +3195,151 @@ padding: 1px 5px;</string>
                          </property>
                          <property name="value">
                           <number>-501</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="9" column="1">
+                        <widget class="QComboBox" name="NAV_CTRL_WP_REC">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch control for mission waypoint recording or skipping.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;When NOT in mission mode&lt;/span&gt;, activating this switch will record a new waypoint at the current craft position and add it to the current mission plan (or start a new mission if there isn't one already).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;When in mission mode&lt;/span&gt;, activating this switch will skip from the current to the next waypoint in the mission plan (if there is one).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;While craft is disarmed&lt;/span&gt;, activating this switch and holding sticks Throttle down/Rudder left/Pitch down/Roll right for 2 seconds will clear all current waypoints.&lt;/p&gt;&lt;p&gt;To perform any action, the switch must be held active for at least one second. Switch must be moved back to off position before further activations will be registered.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="currentIndex">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <property name="text">
+                           <string>Off</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>1</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">2</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">3</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">4</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">5</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">6</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">7</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">8</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">9</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">10</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">11</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">12</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">13</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">14</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">15</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">16</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item row="9" column="0">
+                        <widget class="QLabel" name="label_NAV_CTRL_WP_REC">
+                         <property name="text">
+                          <string>Waypoint Rec/Skip</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="9" column="2">
+                        <widget class="QSpinBox" name="NAV_CTRL_WP_REC_val">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio value at which this control is considered active. &lt;/p&gt;&lt;p&gt;The control activation is affected by the Switch Deadband setting as well. The actual radio value must be within +/- of the Switch Deadband value range.&lt;/p&gt;&lt;p&gt;Example: If Control Value is set to be active at +500 and Switch Deadband is set to 250, then radio value must be within the range of +250 to +750 for the control to be considered active.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="keyboardTracking">
+                          <bool>false</bool>
+                         </property>
+                         <property name="minimum">
+                          <number>-2047</number>
+                         </property>
+                         <property name="maximum">
+                          <number>2047</number>
+                         </property>
+                         <property name="singleStep">
+                          <number>10</number>
+                         </property>
+                         <property name="value">
+                          <number>501</number>
                          </property>
                         </widget>
                        </item>
@@ -3229,8 +3374,8 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="8" column="2">
-                        <widget class="QSpinBox" name="GMBL_CTRL_TRIG_ON_val">
+                       <item row="10" column="2">
+                        <widget class="QSpinBox" name="GMBL_CTRL_TRG_ON_val">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -3260,14 +3405,14 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="7" column="0">
+                       <item row="8" column="0">
                         <widget class="QLabel" name="label_NAV_CTRL_HF_LOCK">
                          <property name="text">
                           <string>Head-Free Lock</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="6" column="1">
+                       <item row="7" column="1">
                         <widget class="QComboBox" name="NAV_CTRL_HF_SET">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3381,7 +3526,7 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="4" column="2">
+                       <item row="5" column="2">
                         <widget class="QSpinBox" name="NAV_CTRL_HOM_SET_val">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3412,7 +3557,7 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="8" column="1">
+                       <item row="10" column="1">
                         <widget class="QComboBox" name="GMBL_CTRL_TRG_ON">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3657,14 +3802,14 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="6" column="0">
+                       <item row="7" column="0">
                         <widget class="QLabel" name="label_NAV_CTRL_HF_SET">
                          <property name="text">
                           <string>Head-Free Set</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="6" column="2">
+                       <item row="7" column="2">
                         <widget class="QSpinBox" name="NAV_CTRL_HF_SET_val">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3695,7 +3840,7 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="8" column="0">
+                       <item row="10" column="0">
                         <widget class="QLabel" name="label_GMBL_CTRL_TRG_ON">
                          <property name="text">
                           <string>Camera Trigger</string>
@@ -3740,14 +3885,14 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="4" column="0">
+                       <item row="5" column="0">
                         <widget class="QLabel" name="label_NAV_CTRL_HOM_SET">
                          <property name="text">
                           <string>Home Set</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="4" column="1">
+                       <item row="5" column="1">
                         <widget class="QComboBox" name="NAV_CTRL_HOM_SET">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3873,7 +4018,7 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="7" column="2">
+                       <item row="8" column="2">
                         <widget class="QSpinBox" name="NAV_CTRL_HF_LOCK_val">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -3904,7 +4049,7 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="7" column="1">
+                       <item row="8" column="1">
                         <widget class="QComboBox" name="NAV_CTRL_HF_LOCK">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -4153,6 +4298,151 @@ padding: 1px 5px;</string>
                          </property>
                          <property name="value">
                           <number>0</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="4" column="1">
+                        <widget class="QComboBox" name="NAV_CTRL_GUIDED">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>50</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch to mission mode. Mission mode has highest priority of all flight modes. Manual Mode is active whenever none of the other modes are activated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="currentIndex">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <property name="text">
+                           <string>Off</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">1</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">2</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">3</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">4</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">5</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">6</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">7</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">8</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">9</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">10</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">11</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">12</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">13</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">14</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">15</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string notr="true">16</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item row="4" column="2">
+                        <widget class="QSpinBox" name="NAV_CTRL_GUIDED_val">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio value at which this control is considered active. &lt;/p&gt;&lt;p&gt;The control activation is affected by the Switch Deadband setting as well. The actual radio value must be within +/- of the Switch Deadband value range.&lt;/p&gt;&lt;p&gt;Example: If Control Value is set to be active at +500 and Switch Deadband is set to 250, then radio value must be within the range of +250 to +750 for the control to be considered active.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                         </property>
+                         <property name="keyboardTracking">
+                          <bool>false</bool>
+                         </property>
+                         <property name="minimum">
+                          <number>-2047</number>
+                         </property>
+                         <property name="maximum">
+                          <number>2047</number>
+                         </property>
+                         <property name="singleStep">
+                          <number>10</number>
+                         </property>
+                         <property name="value">
+                          <number>0</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="4" column="0">
+                        <widget class="QLabel" name="label_NAV_CTRL_GUIDED">
+                         <property name="text">
+                          <string>Guided Mode</string>
                          </property>
                         </widget>
                        </item>

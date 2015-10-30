@@ -1708,6 +1708,8 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     else
         paramaq->setFilePath(LastFilePath);
 
+    // reset system info of connected AQ
+    setConnectedSystemInfoDefaults();
     // do this before we recieve any data stream announcements or messages
     onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
 
@@ -1725,8 +1727,6 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
     connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
 
-    // reset system info of connected AQ
-    setConnectedSystemInfoDefaults();
     paramaq->requestParameterList();
 
     VisibleWidget = 2;
@@ -1767,6 +1767,7 @@ void QGCAutoquad::setUASstatus(bool timeout, unsigned int ms)
 
 void QGCAutoquad::uasVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, QString fwVerStr, QString hwVerStr)
 {
+    Q_UNUSED(hwVerStr)
     if (!uas || uasId != uas->getUASID())
         return;
 
@@ -1793,6 +1794,7 @@ void QGCAutoquad::uasVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, Q
         verStr += tr(" [unknown]");
 
     ui->lbl_aq_fw_version->setText(verStr);
+
 }
 
 void QGCAutoquad::dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off)
@@ -1840,6 +1842,9 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         paraName = paramNameGuiToOnboard(w->objectName());
         paraLabel = parent->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
         paraContainer = parent->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
+        swValBox = NULL;
+        if (paraName.contains(paramsSwitchControls))
+            swValBox = parent->findChild<QSpinBox *>(QString("%1_val").arg(paraName));
 
         if (!paramaq->paramExistsAQ(paraName)) {
             w->hide();
@@ -1847,6 +1852,8 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
                 paraLabel->hide();
             if (paraContainer)
                 paraContainer->hide();
+            if (swValBox)
+                swValBox->hide();
             continue;
         }
 
@@ -1855,6 +1862,8 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             paraLabel->show();
         if (paraContainer)
             paraContainer->show();
+        if (swValBox)
+            swValBox->show();
 
         ok = true;
         precision = 6;
@@ -1866,7 +1875,6 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         else if (paraName.contains(paramsSwitchControls)) {
             utmp = val.toUInt();
             val = utmp & 0xFF;
-            swValBox = parent->findChild<QSpinBox *>(QString("%1_val").arg(paraName));
             if (val.toBool() && swValBox) {
                 tmp = (utmp >> 8) & 0x7FF;
                 if (!(utmp & (1<<19)))
@@ -1959,6 +1967,30 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
     }
 }
 
+void QGCAutoquad::setupAdjustableParameters()
+{
+    if (paramaq && useTunableParams && paramsLoadedForAqBuildNumber != aqBuildNumber) {
+        QMap <QString, int> *pmap = paramaq->getParameterIdMap(190);
+        foreach (QComboBox* cb, allTunableParamsCombos) {
+            cb->blockSignals(true);
+            cb->setUpdatesEnabled(false);
+            cb->clear();
+            cb->addItem(tr("Off"), 0);
+            if (pmap) {
+                QMapIterator<QString, int> i(*pmap);
+                while (i.hasNext()) {
+                    i.next();
+                    if (!i.key().contains(paramsNonTunable))
+                        cb->addItem(i.key(), i.value());
+                }
+            }
+            cb->blockSignals(false);
+            cb->setUpdatesEnabled(true);
+            cb->update();
+        }
+    }
+}
+
 void QGCAutoquad::loadParametersToUI() {
 
     motPortTypeCAN = paramaq->paramExistsAQ("MOT_CAN") || paramaq->paramExistsAQ("MOT_CANL");
@@ -1969,21 +2001,8 @@ void QGCAutoquad::loadParametersToUI() {
     useTunableParams = paramaq->paramExistsAQ("CTRL_ADJ_PARAM_1");
     emit firmwareInfoUpdated();
 
-    if (useTunableParams) {
-        foreach (QComboBox* cb, allTunableParamsCombos) {
-            cb->clear();
-            cb->addItem(tr("Off"), 0);
-        }
-        int pid;
-        foreach (QString pname, paramaq->getParameterNames(190)) {
-            pid = paramaq->getParameterId(190, pname);
-            if (!pname.contains(paramsNonTunable))
-                foreach (QComboBox* cb, allTunableParamsCombos)
-                    cb->addItem(pname, pid);
-        }
-    }
-
     mtx_paramsAreLoading = true;
+    setupAdjustableParameters();
     getGUIpara(ui->tab_aq_settings);
     populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
@@ -2004,6 +2023,9 @@ void QGCAutoquad::loadParametersToUI() {
     }
 
     mtx_paramsAreLoading = false;
+
+    paramsLoadedForAqBuildNumber = aqBuildNumber;
+
 }
 
 bool QGCAutoquad::checkAqConnected(bool interactive) {
@@ -2482,6 +2504,7 @@ void QGCAutoquad::setConnectedSystemInfoDefaults()
     aqCanReboot = false;
     useNewControlsScheme = true;
     useTunableParams = true;
+    paramsLoadedForAqBuildNumber = 0;
 
     setAqHasQuatos(false);  // assume no Quatos unless told otherwise for this UAV
     ui->lbl_aq_fw_version->setText("AutoQuad Firmware v. [unknown]");
@@ -2513,22 +2536,12 @@ void QGCAutoquad::setHardwareInfo()
 void QGCAutoquad::setFirmwareInfo()
 {
     if (aqBuildNumber) {
-        if (aqBuildNumber < 1663)
-            motPortTypeCAN_H = false;
-
-        if (aqBuildNumber < 1423)
-            maxMotorPorts = 14;
-
-        if (aqBuildNumber < 1418)
-            motPortTypeCAN = false;
-
-        if (aqBuildNumber < 1790)
-            useRadioSetupParam = false;
-
-        if (aqBuildNumber >= 1740)
-            aqCanReboot = true;
-
+        motPortTypeCAN_H = (aqBuildNumber >= 1663);
+        maxMotorPorts = (aqBuildNumber < 1423) ? 14 : 16;
+        motPortTypeCAN = (aqBuildNumber >= 1418);
+        useRadioSetupParam = (aqBuildNumber >= 1790);
     }
+    aqCanReboot = (aqBuildNumber >= 1740);
     emit firmwareInfoUpdated();
 }
 

@@ -96,6 +96,7 @@ private slots:
     void dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
 
     // AQ Settings
+    void setupAdjustableParameters();
     void loadParametersToUI();
     void saveAQSettings();
     void saveDialogButtonClicked(QAbstractButton *btn);
@@ -253,6 +254,7 @@ private:
     QList<QComboBox *> allRadioChanCombos;
     QList<QComboBox *> allTunableParamsCombos;
     quint8 paramSaveType;
+    int paramsLoadedForAqBuildNumber;
     bool restartAfterParamSave;
 
     // Tracking

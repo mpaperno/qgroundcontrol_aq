@@ -26,6 +26,19 @@ public:
         else
             return -1;
     }
+    QMap<QString, int> *getParameterIdMap(int component) {
+        if (parameters.contains(component))
+            return parameterIDs.value(component);
+        else
+            return NULL;
+    }
+
+    QString getParameterNameById(int component, const int pId) {
+        if (parameters.contains(component))
+            return parameterIDs.value(component)->key(pId, "");
+        else
+            return "";
+    }
 
     bool getParameterValue(int component, const QString& parameter, QVariant& value) const {
         if (!parameters.contains(component))
