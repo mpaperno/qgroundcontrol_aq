@@ -2,13 +2,10 @@
 # QGC Windows-only configuration directives
 #
 
-win32-msvc2010:message(Building for Windows Visual Studio 2010 (32bit))
-win32-msvc2012:message(Building for Windows Visual Studio 2012 (32bit))
-win32-g++:message(Building for Windows GCC (32bit))
-
 # Get rid of the console for release builds.
 #ReleaseBuild:CONFIG -= console
 CONFIG += console
+CONFIG += embed_manifest_exe
 
 RC_FILE = $$BASEDIR/qgroundcontrol.rc
 
@@ -17,7 +14,7 @@ DEFINES += USE_GOOGLE_EARTH_PLUGIN
 # to make the internal min/max functions work
 DEFINES += NOMINMAX
 
-win32-msvc2010|win32-msvc2012|win32-msvc2013 {
+win32-msvc* {
 	# QWebkit is not needed on MS-Windows compilation environment
 	CONFIG -= webkit webkitwidgets
 

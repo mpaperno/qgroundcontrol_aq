@@ -699,7 +699,7 @@ void PrimaryFlightDisplay::drawPitchScale(
             if(displayDegrees>90) displayDegrees = 180-displayDegrees;
             else if (displayDegrees<-90) displayDegrees = -180 - displayDegrees;
             if (SHOW_ZERO_ON_SCALES || degrees) {
-                QString s_number; //= QString("%d").arg(degrees);
+                QString s_number; // = QString("%d").arg(degrees);
                 s_number.sprintf("%d", displayDegrees);
                 if (drawNumbersLeft)  drawTextRightCenter(painter, s_number, mediumTextSize, -PITCH_SCALE_MAJORWIDTH * w-10, 0);
                 if (drawNumbersRight) drawTextLeftCenter(painter, s_number, mediumTextSize, PITCH_SCALE_MAJORWIDTH * w+10, 0);
@@ -747,7 +747,7 @@ void PrimaryFlightDisplay::drawRollScale(
 
             painter.drawLine(start, end);
 
-            QString s_number; //= QString("%d").arg(degrees);
+            QString s_number; // = QString("%d").arg(degrees);
             if (SHOW_ZERO_ON_SCALES || degrees)
                 s_number.sprintf("%d", abs(degrees));
 

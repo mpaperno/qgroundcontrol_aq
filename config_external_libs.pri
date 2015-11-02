@@ -23,6 +23,8 @@ include(libs/opmapcontrol/opmapcontrol_external.pri)
 include(libs/qwt/qwt.pri)
 
 # Include serial port library
+CONFIG += qesp_linux_udev
+DEFINES += QESP_NO_PORTABILITY_WARN
 include(libs/thirdParty/qextserialport/src/qextserialport.pri)
 
 

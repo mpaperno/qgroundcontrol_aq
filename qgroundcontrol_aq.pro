@@ -12,7 +12,7 @@
 #
 # AutoQuad Maintainer:
 # Maxim Paperno <MPaperno@WorldDesign.com>
-# (c) 2013-2014 Maxim Paperno
+# (c) 2013-2015 Maxim Paperno
 #
 # Original Conversion for AutoQuad
 # 2012-2013 by Peter Hafner
@@ -55,9 +55,11 @@ linux-g++* {
 CONFIG(debug, debug|release) {
 	message(Debug build)
 	CONFIG += DebugBuild
+	DEFINES += QT_DEBUG
 } else:CONFIG(release, debug|release) {
 	message(Release build)
 	CONFIG += ReleaseBuild
+	DEFINES += QT_NO_DEBUG
 } else {
 	error(Unsupported build type)
 }
@@ -106,14 +108,6 @@ DEFINES += MAVLINK_NO_DATA
 #DEFINES += QGC_USE_VLC
 # Turn off serial port warnings
 #DEFINES += _TTY_NOWARN_
-
-ReleaseBuild {
-	DEFINES += QT_NO_DEBUG
-}
-
-DebugRelease {
-	DEFINES += QT_DEBUG
-}
 
 # if the variable MAVLINK_CONF contains the name of an
 # additional project, QGroundControl includes the support

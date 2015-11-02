@@ -12,7 +12,7 @@
 #
 # AutoQuad Maintainer:
 # Maxim Paperno <MPaperno@WorldDesign.com>
-# (c) 2013-2014 Maxim Paperno
+# (c) 2013-2015 Maxim Paperno
 #
 # Original Conversion for AutoQuad
 # 2012-2013 by Peter Hafner
@@ -33,225 +33,140 @@
 
 TARGETDIR = $$DESTDIR
 
-# MAC OS X
-MacBuild: {
+greaterThan(QT_MAJOR_VERSION, 4) {
+	QT_DLL_LIST = Qt5Core Qt5Gui Qt5Widgets Qt5Multimedia Qt5Network Qt5OpenGL Qt5Sql Qt5Svg Qt5Test Qt5WebKit Qt5WebKitWidgets Qt5Xml Qt5XmlPatterns
+	QT_DLL_LIST += Qt5Concurrent Qt5MultimediaWidgets Qt5Positioning Qt5PrintSupport Qt5Qml Qt5Quick Qt5Sensors Qt5WebChannel
+	QT_PLUGIN_LIST += imageformats iconengines sqldrivers audio mediaservice platforms
+} else {
+	QT_DLL_LIST = QtCore4 QtGui4 QtMultimedia4 QtNetwork4 QtOpenGL4 QtSql4 QtSvg4 QtTest4 QtWebKit4 QtXml4 QtXmlPatterns4
+	QT_PLUGIN_LIST = imageformats iconengines sqldrivers
+}
+QT_DLL_LIST += icu*
 
+# copy AQ binary utils based on OS type
+SOURCE_BINFILES_PATH = $$BASEDIR/aq/bin
+WinBuild:SOURCE_BINFILES_PATH = $${SOURCE_BINFILES_PATH}/aq_win_all/*.*
+MacBuild {
+		  SOURCE_BINFILES_PATH = $${SOURCE_BINFILES_PATH}/aq_osx_all/*
+		  binfiles.extra = chmod +x $$SOURCE_BINFILES_PATH
+}
+LinuxBuild {
+		  SOURCE_BINFILES_PATH = $${SOURCE_BINFILES_PATH}/aq_unix_all/*
+		  binfiles.extra = chmod +x $$SOURCE_BINFILES_PATH
+}
+
+WinBuild:ReleaseBuild {
+	target.path = $${TARGETDIR}
+
+	target.files += $$BASEDIR/libs/lib/sdl/win32/SDL.dll
+	contains(DEFINES, QGC_USE_VLC) {
+		# Copy VLC files
+		#target.files += $$BASEDIR_WIN/libs/vl/plugins/*.dll
+		target.files += $$BASEDIR/libs/vlc/libvlc*.dll
+	}
+
+	# Copy compiler-specific DLLs
+	win32-msvc* {
+		win32-msvc2010:MSVC_SHORT_VERSION = "100"
+		win32-msvc2012:MSVC_SHORT_VERSION = "110"
+		win32-msvc2013:MSVC_SHORT_VERSION = "120"
+		#MSVC_ENV_VAR = "VS"$${MSVC_SHORT_VERSION}"COMNTOOLS"
+		#MSVC_REDIST_DLL_PATH = $$getenv($${MSVC_ENV_VAR})  # qmake complains that $$getenv() is not valid even though it is documented and works
+		win32-msvc2010:MSVC_REDIST_DLL_PATH = $(VS100COMNTOOLS)
+		win32-msvc2012:MSVC_REDIST_DLL_PATH = $(VS110COMNTOOLS)
+		win32-msvc2013:MSVC_REDIST_DLL_PATH = $(VS120COMNTOOLS)
+		MSVC_REDIST_DLL_PATH ~= s,Common7.{1}Tools.{1},VC\redist\x86\Microsoft.VC$${MSVC_SHORT_VERSION}.CRT\,ig
+		#isEmpty(MSVC_REDIST_DLL_PATH): error("MSVC directory not found in" $$MSVC_ENV_VAR "environment variable")
+		target.files += $${MSVC_REDIST_DLL_PATH}msvc?1?0.dll
+	}
+	# MinGW DLLs can be found in QT bins install root
+	win32-g++:QT_DLL_LIST += libgcc* libwin* libstd~1
+
+	for(QT_DLL, QT_DLL_LIST) {
+		target.files += $$[QT_INSTALL_BINS]/$${QT_DLL}.dll
+	}
+
+	INSTALLS += target
+
+	for(QT_PLUGIN, QT_PLUGIN_LIST) {
+		qtplugins_$${QT_PLUGIN}.path = $${TARGETDIR}/$${QT_PLUGIN}
+		qtplugins_$${QT_PLUGIN}.files = $$[QT_INSTALL_PLUGINS]/$${QT_PLUGIN}/*.dll
+		INSTALLS += qtplugins_$${QT_PLUGIN}
+	}
+	for(QT_PLUGIN, QT_PLUGIN_LIST) {
+		qtpluginsclean_$${QT_PLUGIN}.path = $${TARGETDIR}/$${QT_PLUGIN}
+		qtpluginsclean_$${QT_PLUGIN}.extra = del /Q $$replace(TARGETDIR, /, \\)\\$${QT_PLUGIN}\\*d.dll
+		INSTALLS += qtpluginsclean_$${QT_PLUGIN}
+	}
+
+	# clean up stuff not needed by release versions
+	cleanup.path = $${TARGETDIR}
+	greaterThan(QT_MAJOR_VERSION, 4) {
+		cleanup.extra = del /Q /F $$replace(TARGETDIR, /, \\)\\*.manifest && del /Q /F $$replace(TARGETDIR, /, \\)\\platforms\\qminimal* && del /Q /F $$replace(TARGETDIR, /, \\)\\platforms\\qoffscreen*
+	} else {
+		cleanup.extra = del /Q /F $$replace(TARGETDIR, /, \\)\\$${TARGET}.exp && del /Q /F $$replace(TARGETDIR, /, \\)\\$${TARGET}.lib
+	}
+	INSTALLS += cleanup
+}
+
+MacBuild {
 	TARGETDIR = $${TARGETDIR}/$${TARGET}.app
+	macdeploy.path = $$TARGETDIR
+	macdeploy.extra = $$dirname(QMAKE_QMAKE)/macdeployqt $$TARGETDIR
 
-	QMAKE_POST_LINK += $$quote(echo "Copying files")
+	frameworks.path = $$TARGETDIR/Contents/Frameworks
+	frameworks.files = $$BASEDIR/libs/lib/Frameworks/*
+	frameworks_nametool.path = $$TARGETDIR
+	frameworks_nametool.extra = install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/Contents/MacOS/$$TARGET
+	INSTALLS += frameworks frameworks_nametool
 
-	# Copy AQ files
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/aq/bin
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_osx_all/* $$TARGETDIR/Contents/MacOS/aq/bin
-	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/Contents/MacOS/aq/bin/*
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/aq/mixes
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/Contents/MacOS/aq/mixes
+	ReleaseBuild:DoMacDeploy:INSTALLS += macdeploy
 
-	# Copy google earth starter file
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/files
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/*.* $$TARGETDIR/Contents/MacOS/files
-	# Copy audio files
-	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/audio $$TARGETDIR/Contents/MacOS/files/.
-	# Copy style files
-	QMAKE_POST_LINK += && cp -r $$BASEDIR/files/styles $$TARGETDIR/Contents/MacOS/files/.
-	# Copy language files
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/Contents/MacOS/files/lang
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/Contents/MacOS/files/lang
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/Contents/MacOS/files/lang/.
-	# Copy libraries
-	#QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/libs
-	#QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/$${MACBITS}/lib/* $$TARGETDIR/qgroundcontrol.app/Contents/libs
-	# Copy frameworks
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/qgroundcontrol.app/Contents/Frameworks
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/libs/lib/Frameworks/* $$TARGETDIR/Contents/Frameworks
-
-	# SDL Framework
-	QMAKE_POST_LINK += && install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/Contents/MacOS/$$TARGET
-
-
-	# Fix library paths inside executable
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-#	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-#	QMAKE_POST_LINK += && install_name_tool -change libosgViewer.dylib "@executable_path/../libs/libosgViewer.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-#	QMAKE_POST_LINK += && install_name_tool -change libosgGA.dylib "@executable_path/../libs/libosgGA.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-#	QMAKE_POST_LINK += && install_name_tool -change libosgDB.dylib "@executable_path/../libs/libosgDB.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-#	QMAKE_POST_LINK += && install_name_tool -change libosgText.dylib "@executable_path/../libs/libosgText.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-#	QMAKE_POST_LINK += && install_name_tool -change libosgWidget.dylib "@executable_path/../libs/libosgWidget.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/MacOS/qgroundcontrol
-
-	# Fix library paths within libraries (inter-library dependencies)
-
-	# OSG GA LIBRARY
-#	QMAKE_POST_LINK += && install_name_tool -change libosgGA.dylib "@executable_path/../libs/libosgGA.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgGA.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgDB.dylib "@executable_path/../libs/libosgDB.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgGA.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgUtil.dylib "@executable_path/../libs/libosgUtil.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgGA.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgGA.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgGA.dylib
-
-	# OSG DB LIBRARY
-#	QMAKE_POST_LINK += && install_name_tool -change libosgDB.dylib "@executable_path/../libs/libosgDB.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgDB.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgUtil.dylib "@executable_path/../libs/libosgUtil.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgDB.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgDB.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgDB.dylib
-
-	# OSG TEXT LIBRARY
-#	QMAKE_POST_LINK += && install_name_tool -change libosgText.dylib "@executable_path/../libs/libosgText.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgText.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgDB.dylib "@executable_path/../libs/libosgDB.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgText.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgUtil.dylib "@executable_path/../libs/libosgUtil.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgText.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgText.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgText.dylib
-
-	# OSG UTIL LIBRARY
-#	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgUtil.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgUtil.dylib
-
-
-	# OSG VIEWER LIBRARY
-#	QMAKE_POST_LINK += && install_name_tool -change libosgGA.dylib "@executable_path/../libs/libosgGA.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgViewer.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgText.dylib "@executable_path/../libs/libosgText.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgViewer.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgDB.dylib "@executable_path/../libs/libosgDB.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgViewer.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgUtil.dylib "@executable_path/../libs/libosgUtil.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgViewer.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgViewer.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgViewer.dylib
-
-	# OSG WIDGET LIBRARY
-#	QMAKE_POST_LINK += && install_name_tool -change libosgGA.dylib "@executable_path/../libs/libosgGA.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgText.dylib "@executable_path/../libs/libosgText.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgDB.dylib "@executable_path/../libs/libosgDB.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgUtil.dylib "@executable_path/../libs/libosgUtil.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosg.dylib "@executable_path/../libs/libosg.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
-#	QMAKE_POST_LINK += && install_name_tool -change libosgViewer.dylib "@executable_path/../libs/libosgViewer.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosgWidget.dylib
-
-	# CORE OSG LIBRARY
-#	QMAKE_POST_LINK += && install_name_tool -change libOpenThreads.dylib "@executable_path/../libs/libOpenThreads.dylib" $$TARGETDIR/qgroundcontrol.app/Contents/libs/libosg.dylib
-
-	DoMacDeploy: QMAKE_POST_LINK += && $$dirname(QMAKE_QMAKE)/macdeployqt $$TARGETDIR
-
+	# extend target dir for subsequent file copy ops
+	TARGETDIR = $${TARGETDIR}/Contents/MacOS
 }
 
+LinuxBuild:ReleaseBuild {
+	QMAKE_LFLAGS += -Wl,-rpath,"'\$$ORIGIN/qtlibs'"
 
-# GNU/Linux
-LinuxBuild{
-
-
-	QMAKE_POST_LINK += $$quote(echo "Copying files")
-
-	# Validated copy commands
-	!exists($$TARGETDIR){
-		QMAKE_POST_LINK += && mkdir -p $$TARGETDIR
-	}
-
-	# Copy AQ and supporting files
-	Build32Bits {
-		exists(/usr/local):LIBS += -L/usr/local
-	}
-	Build64Bits {
-		exists(/usr/local/lib64):LIBS += -L/usr/local/lib64
-	}
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/bin
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/bin/aq_unix_all/* $$TARGETDIR/aq/bin
-	QMAKE_POST_LINK += && mkdir -p $$TARGETDIR/aq/mixes
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/aq/mixes/* $$TARGETDIR/aq/mixes
-	QMAKE_POST_LINK += && chmod +x $$TARGETDIR/aq/bin/*
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/*.* $$TARGETDIR/files
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/audio $$TARGETDIR/files/audio
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/styles $$TARGETDIR/files/styles
-	QMAKE_POST_LINK += && cp -f $$BASEDIR/files/lang/*.qm $$TARGETDIR/files/lang
-	QMAKE_POST_LINK += && cp -rf $$BASEDIR/files/lang/flags $$TARGETDIR/files/lang/flags
-
-	# osg/osgEarth dynamic casts might fail without this compiler option.
-	# see http://osgearth.org/wiki/FAQ for details.
-	#QMAKE_CXXFLAGS += -Wl,-E
-}
-
-# Windows
-WinBuild {
-
-	# Copy dependencies
-	BASEDIR_WIN = $$replace(BASEDIR,"/","\\")
-	TARGETDIR_WIN = $$replace(TARGETDIR,"/","\\")
+	Build32Bits:exists(/usr/local):LIBS += -L/usr/local
+	Build64Bits:exists(/usr/local/lib64):LIBS += -L/usr/local/lib64
 
 	greaterThan(QT_MAJOR_VERSION, 4) {
-		QTLIBDLLPFX = "Qt5"
-		QTLIBDBGDLLSFX = "d.dll"
-	} else {
-		QTLIBDLLPFX = "Qt"
-		QTLIBDBGDLLSFX = "d4.dll"
+		QT_DLL_LIST += Qt5DBus
+		QT_PLUGIN_LIST += platformthemes
 	}
 
-	QMAKE_POST_LINK += $$quote(echo "Copying files"$$escape_expand(\\n))
+	target.path = $${TARGETDIR}/qtlibs
+	for(QT_DLL, QT_DLL_LIST) {
+		target.files += $$[QT_INSTALL_LIBS]/lib$${QT_DLL}.so.5
+	}
+	#target.files += $$[QT_INSTALL_LIBS]/libicu*.so.5*
 
-	# Copy AQ files
-	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\aq\\bin\\aq_win_all\\*" "$$TARGETDIR_WIN\\aq\\bin" $$escape_expand(\\n))
-	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\aq\\mixes\\*" "$$TARGETDIR_WIN\\aq\\mixes" $$escape_expand(\\n))
-	# Copy application resources
-	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\*.*" "$$TARGETDIR_WIN\\files\\" $$escape_expand(\\n))
-	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\audio" "$$TARGETDIR_WIN\\files\\audio" $$escape_expand(\\n))
-	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\styles" "$$TARGETDIR_WIN\\files\\styles" $$escape_expand(\\n))
-	QMAKE_POST_LINK += $$quote(xcopy /D /Y /I "$$BASEDIR_WIN\\files\\lang\\*.qm" "$$TARGETDIR_WIN\\files\\lang" $$escape_expand(\\n))
-	QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$BASEDIR_WIN\\files\\lang\\flags" "$$TARGETDIR_WIN\\files\\lang\\flags" $$escape_expand(\\n))
-
-	ReleaseBuild {
-
-		COPY_DLL_LIST = \
-			$$BASEDIR_WIN\\libs\\lib\\sdl\\win32\\SDL.dll \
-			$$(QTDIR)\\bin\\icu*.dll \
-#			$$BASEDIR_WIN\\libs\\thirdParty\\libxbee\\lib\\libxbee.dll \
-
-		QT_DLL_LIST = Core Gui Multimedia Network OpenGL Sql Svg Test WebKit Xml XmlPatterns
-		QT_PLUGIN_LIST = imageformats iconengines sqldrivers
-		greaterThan(QT_MAJOR_VERSION, 4) {
-			QT_DLL_LIST += Concurrent MultimediaWidgets Positioning PrintSupport Qml Quick Sensors WebChannel WebKitWidgets Widgets
-			QT_PLUGIN_LIST += audio mediaservice platforms
-		}
-		for(QT_DLL, QT_DLL_LIST) {
-			COPY_DLL_LIST += $$(QTDIR)\\bin\\$${QTLIBDLLPFX}$${QT_DLL}.dll
-		}
-
-		# Copy compiler-specific DLLs
-		win32-msvc* {
-			win32-msvc2010:MSVC_SHORT_VERSION = "100"
-			win32-msvc2012:MSVC_SHORT_VERSION = "110"
-			win32-msvc2013:MSVC_SHORT_VERSION = "120"
-			MSVC_ENV_VAR = "VS"$${MSVC_SHORT_VERSION}"COMNTOOLS"
-			MSVC_REDIST_DLL_PATH = $$getenv($$MSVC_ENV_VAR)
-			MSVC_REDIST_DLL_PATH ~= s,Common7.{1}Tools.{1},VC\redist\x86\Microsoft.VC$${MSVC_SHORT_VERSION}.CRT\,ig
-			#isEmpty(MSVC_REDIST_DLL_PATH): error("MSVC directory not found in" $$MSVC_ENV_VAR "environment variable")
-			COPY_DLL_LIST += "\"$${MSVC_REDIST_DLL_PATH}msvc?1?0.dll\""
-		}
-		win32-g++ {
-			# we need to know where MinGW lives so we can copy some DLLs from there.
-			MINGW_PATH = $$(MINGW_PATH)
-			isEmpty(MINGW_PATH): error("MINGW_PATH not found")
-			COPY_DLL_LIST += $${MINGW_PATH}\\bin\\libwinpthread-1.dll
-			COPY_DLL_LIST += $${MINGW_PATH}\\bin\\libstdc++-6.dll
-		}
-
-		# Copy VLC files
-		contains(DEFINES, QGC_USE_VLC) {
-			#QMAKE_POST_LINK += $$quote(xcopy /D /Y "$$BASEDIR_WIN\\libs\\vlc\\plugins\\*"  "$$TARGETDIR_WIN\\plugins" /E /I $$escape_expand(\\n))
-			COPY_DLL_LIST += $$BASEDIR_WIN\\libs\\vlc\\libvlccore.dll
-			COPY_DLL_LIST += $$BASEDIR_WIN\\libs\\vlc\\libvlc.dll
-		}
-
-		# Copy all DLLs to base folder
-		for(COPY_DLL, COPY_DLL_LIST) {
-			QMAKE_POST_LINK += $$quote(xcopy /D /Y "$${COPY_DLL}" "$$TARGETDIR_WIN"$$escape_expand(\\n))
-		}
-		# Copy all QT plugin DLLs and delete the debug ones
-		for(QT_PLUGIN, QT_PLUGIN_LIST) {
-			QMAKE_POST_LINK += $$quote(xcopy /D /Y /E /I "$$(QTDIR)\\plugins\\$${QT_PLUGIN}\\*.dll" "$$TARGETDIR_WIN\\$${QT_PLUGIN}" $$escape_expand(\\n))
-			QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\$${QT_PLUGIN}\\*$${QTLIBDBGDLLSFX}" $$escape_expand(\\n))
-		}
-		# clean up stuff not needed by release versions
-		greaterThan(QT_MAJOR_VERSION, 4) {
-			QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\*.manifest" $$escape_expand(\\n))
-			QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\platforms\\qminimal*" $$escape_expand(\\n))
-			QMAKE_POST_LINK += $$quote(del /Q "$$TARGETDIR_WIN\\platforms\\qoffscreen*" $$escape_expand(\\n))
-		} else {
-			QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.exp" $$escape_expand(\\n))
-			QMAKE_POST_LINK += $$quote(del /F "$$TARGETDIR_WIN\\qgroundcontrol.lib" $$escape_expand(\\n))
-		}
-
-	}  # end if release version
+	for(QT_PLUGIN, QT_PLUGIN_LIST) {
+		qtplugins_$${QT_PLUGIN}.path = $${TARGETDIR}/$${QT_PLUGIN}
+		qtplugins_$${QT_PLUGIN}.files = $$[QT_INSTALL_PLUGINS]/$${QT_PLUGIN}/lib*.so
+		INSTALLS += qtplugins_$${QT_PLUGIN}
+	}
+	INSTALLS += target
 }
+
+binfiles.path = $${TARGETDIR}/aq/bin
+binfiles.files = $${SOURCE_BINFILES_PATH}
+mixes.path = $${TARGETDIR}/aq/mixes
+mixes.files = $${BASEDIR}/aq/mixes/*
+langfiles.path = $${TARGETDIR}/files/lang
+# lupdate reports two errors in external library files (one from Win7 SDK and another from VLC lib) which makes Creator report errors during a build, which is annoying
+#langfiles.extra = $$[QT_INSTALL_BINS]/lupdate -silent -no-obsolete $${_PRO_FILE_} && $$[QT_INSTALL_BINS]/lrelease $${_PRO_FILE_}
+langfiles.extra = $$[QT_INSTALL_BINS]/lrelease $${_PRO_FILE_}
+langfiles.files = $${BASEDIR}/files/lang/*.qm
+flagfiles.path = $${TARGETDIR}/files/lang/flags
+flagfiles.files = $${BASEDIR}/files/lang/flags/*
+extrafiles.path = $${TARGETDIR}/files
+extrafiles.files = $${BASEDIR}/files/*.*
+audiofiles.path = $${TARGETDIR}/files/audio
+audiofiles.files = $${BASEDIR}/files/audio/*.*
+cssfiles.path = $${TARGETDIR}/files/styles
+cssfiles.files = $${BASEDIR}/files/styles/*.css
+
+INSTALLS += binfiles mixes langfiles flagfiles extrafiles audiofiles cssfiles

@@ -4,7 +4,7 @@
 
 * [AutoQuad Project](http://autoquad.org/)
 
-* [AutoQuad Forums](http://forums.autoquad.org)
+* [AutoQuad Forums](http://forum.autoquad.org)
 
 * [QGC AQ Release Notes](http://autoquad.org/wiki/wiki/whats-new/autoquad-software-changes/)
 
@@ -46,8 +46,11 @@ In general we recommend installing the latest Qt libraries and development envir
 1. Download and install Qt 5 (including QtCreator) for your OS from: <http://www.qt.io/download-open-source/>
 2. Choose the Qt flavor which matches your development environment, see OS-specific notes below.
 3. Install Qt as per their instructions.
-4. Open the qgroundcontrol_aq.pro file (at the root of this project) in QtCreator.
-5. Assuming all the requirements below are met, you should be able to initiate a build (big green button on lower left of QtCreator).
+
+#### Open and configure the project
+1. Open the qgroundcontrol_aq.pro file (at the root of this project) in QtCreator.
+2. In the project Build Settings, expand the "Make" step and in the "Make arguments" field enter: `release install` (or `debug install` for debug type build).
+3. Assuming all the requirements below are met, you should be able to initiate a build (big green button on lower left of QtCreator).  Make sure you first select the proper build type (Release or Debug) using the menu just above the green arrow button.
 
 ### Build on Linux
 Supported builds for Linux are 32 or 64-bit, built using gcc.
@@ -114,7 +117,7 @@ Lorenz Meier <lm@inf.ethz.ch>
 
 AutoQuad Maintainer:
 Maxim Paperno <MPaperno@WorldDesign.com>
-(c) 2013-2014 Maxim Paperno
+(c) 2013-2015 Maxim Paperno
 
 Original Conversion for AutoQuad
 (c) 2012-2013 by Peter Hafner
