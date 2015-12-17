@@ -87,54 +87,6 @@ static void mavlink_test_aq_telemetry_f(uint8_t system_id, uint8_t component_id,
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 }
 
-static void mavlink_test_aq_home_position(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
-{
-	mavlink_message_t msg;
-        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
-        uint16_t i;
-	mavlink_aq_home_position_t packet_in = {
-		963497464,963497672,73.0,101.0,129.0,18275
-    };
-	mavlink_aq_home_position_t packet1, packet2;
-        memset(&packet1, 0, sizeof(packet1));
-        	packet1.lat = packet_in.lat;
-        	packet1.lon = packet_in.lon;
-        	packet1.alt = packet_in.alt;
-        	packet1.refalt = packet_in.refalt;
-        	packet1.throttle = packet_in.throttle;
-        	packet1.heading = packet_in.heading;
-        
-        
-
-        memset(&packet2, 0, sizeof(packet2));
-	mavlink_msg_aq_home_position_encode(system_id, component_id, &msg, &packet1);
-	mavlink_msg_aq_home_position_decode(&msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-
-        memset(&packet2, 0, sizeof(packet2));
-	mavlink_msg_aq_home_position_pack(system_id, component_id, &msg , packet1.lat , packet1.lon , packet1.alt , packet1.refalt , packet1.heading , packet1.throttle );
-	mavlink_msg_aq_home_position_decode(&msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-
-        memset(&packet2, 0, sizeof(packet2));
-	mavlink_msg_aq_home_position_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.lat , packet1.lon , packet1.alt , packet1.refalt , packet1.heading , packet1.throttle );
-	mavlink_msg_aq_home_position_decode(&msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-
-        memset(&packet2, 0, sizeof(packet2));
-        mavlink_msg_to_send_buffer(buffer, &msg);
-        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
-        	comm_send_ch(MAVLINK_COMM_0, buffer[i]);
-        }
-	mavlink_msg_aq_home_position_decode(last_msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-        
-        memset(&packet2, 0, sizeof(packet2));
-	mavlink_msg_aq_home_position_send(MAVLINK_COMM_1 , packet1.lat , packet1.lon , packet1.alt , packet1.refalt , packet1.heading , packet1.throttle );
-	mavlink_msg_aq_home_position_decode(last_msg, &packet2);
-        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
-}
-
 static void mavlink_test_aq_esc_telemetry(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 	mavlink_message_t msg;
@@ -189,7 +141,6 @@ static void mavlink_test_aq_esc_telemetry(uint8_t system_id, uint8_t component_i
 static void mavlink_test_autoquad(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 	mavlink_test_aq_telemetry_f(system_id, component_id, last_msg);
-	mavlink_test_aq_home_position(system_id, component_id, last_msg);
 	mavlink_test_aq_esc_telemetry(system_id, component_id, last_msg);
 }
 

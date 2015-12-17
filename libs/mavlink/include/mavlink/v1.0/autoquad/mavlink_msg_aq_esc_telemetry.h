@@ -4,26 +4,15 @@
 
 typedef struct __mavlink_aq_esc_telemetry_t
 {
- uint32_t time_boot_ms; ///< Timestamp of the component clock since boot time in ms.
- uint32_t data0[4]; ///< Data bits 1-32 for each ESC.
- uint32_t data1[4]; ///< Data bits 33-64 for each ESC. Data is described as follows: 
-				// unsigned int state :   3;
-			    // unsigned int vin :	  12;  // x 100
-			    // unsigned int amps :	  14;  // x 100
-			    // unsigned int rpm :	  15;
-			    // unsigned int duty :	  8;   // x (255/100)
-			    // - Data Version 2 -
-			    //     unsigned int errors :    9;   // Bad detects error count
-			    // - Data Version 3 -
-			    //     unsigned int temp   :    9;   // (Deg C + 32) * 4
-			    // unsigned int errCode : 3;
-			
- uint16_t status_age[4]; ///< Age of each ESC telemetry reading in ms compared to boot time. A value of 0xFFFF means timeout/no data.
- uint8_t seq; ///< Sequence number of message (first set of 4 motors is #1, next 4 is #2, etc).
- uint8_t num_motors; ///< Total number of active ESCs/motors on the system.
- uint8_t num_in_seq; ///< Number of active ESCs in this sequence (1 through this many array members will be populated with data)
- uint8_t escid[4]; ///< ESC/Motor ID
- uint8_t data_version[4]; ///< Version of data structure (determines contents).
+ uint32_t time_boot_ms; /*< Timestamp of the component clock since boot time in ms.*/
+ uint32_t data0[4]; /*< Data bits 1-32 for each ESC.*/
+ uint32_t data1[4]; /*< Data bits 33-64 for each ESC.*/
+ uint16_t status_age[4]; /*< Age of each ESC telemetry reading in ms compared to boot time. A value of 0xFFFF means timeout/no data.*/
+ uint8_t seq; /*< Sequence number of message (first set of 4 motors is #1, next 4 is #2, etc).*/
+ uint8_t num_motors; /*< Total number of active ESCs/motors on the system.*/
+ uint8_t num_in_seq; /*< Number of active ESCs in this sequence (1 through this many array members will be populated with data)*/
+ uint8_t escid[4]; /*< ESC/Motor ID*/
+ uint8_t data_version[4]; /*< Version of data structure (determines contents).*/
 } mavlink_aq_esc_telemetry_t;
 
 #define MAVLINK_MSG_ID_AQ_ESC_TELEMETRY_LEN 55
@@ -68,18 +57,7 @@ typedef struct __mavlink_aq_esc_telemetry_t
  * @param status_age Age of each ESC telemetry reading in ms compared to boot time. A value of 0xFFFF means timeout/no data.
  * @param data_version Version of data structure (determines contents).
  * @param data0 Data bits 1-32 for each ESC.
- * @param data1 Data bits 33-64 for each ESC. Data is described as follows: 
-				// unsigned int state :   3;
-			    // unsigned int vin :	  12;  // x 100
-			    // unsigned int amps :	  14;  // x 100
-			    // unsigned int rpm :	  15;
-			    // unsigned int duty :	  8;   // x (255/100)
-			    // - Data Version 2 -
-			    //     unsigned int errors :    9;   // Bad detects error count
-			    // - Data Version 3 -
-			    //     unsigned int temp   :    9;   // (Deg C + 32) * 4
-			    // unsigned int errCode : 3;
-			
+ * @param data1 Data bits 33-64 for each ESC.
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_aq_esc_telemetry_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
@@ -133,18 +111,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_pack(uint8_t system_id, uint
  * @param status_age Age of each ESC telemetry reading in ms compared to boot time. A value of 0xFFFF means timeout/no data.
  * @param data_version Version of data structure (determines contents).
  * @param data0 Data bits 1-32 for each ESC.
- * @param data1 Data bits 33-64 for each ESC. Data is described as follows: 
-				// unsigned int state :   3;
-			    // unsigned int vin :	  12;  // x 100
-			    // unsigned int amps :	  14;  // x 100
-			    // unsigned int rpm :	  15;
-			    // unsigned int duty :	  8;   // x (255/100)
-			    // - Data Version 2 -
-			    //     unsigned int errors :    9;   // Bad detects error count
-			    // - Data Version 3 -
-			    //     unsigned int temp   :    9;   // (Deg C + 32) * 4
-			    // unsigned int errCode : 3;
-			
+ * @param data1 Data bits 33-64 for each ESC.
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_aq_esc_telemetry_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
@@ -224,18 +191,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_encode_chan(uint8_t system_i
  * @param status_age Age of each ESC telemetry reading in ms compared to boot time. A value of 0xFFFF means timeout/no data.
  * @param data_version Version of data structure (determines contents).
  * @param data0 Data bits 1-32 for each ESC.
- * @param data1 Data bits 33-64 for each ESC. Data is described as follows: 
-				// unsigned int state :   3;
-			    // unsigned int vin :	  12;  // x 100
-			    // unsigned int amps :	  14;  // x 100
-			    // unsigned int rpm :	  15;
-			    // unsigned int duty :	  8;   // x (255/100)
-			    // - Data Version 2 -
-			    //     unsigned int errors :    9;   // Bad detects error count
-			    // - Data Version 3 -
-			    //     unsigned int temp   :    9;   // (Deg C + 32) * 4
-			    // unsigned int errCode : 3;
-			
+ * @param data1 Data bits 33-64 for each ESC.
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -410,18 +366,7 @@ static inline uint16_t mavlink_msg_aq_esc_telemetry_get_data0(const mavlink_mess
 /**
  * @brief Get field data1 from aq_esc_telemetry message
  *
- * @return Data bits 33-64 for each ESC. Data is described as follows: 
-				// unsigned int state :   3;
-			    // unsigned int vin :	  12;  // x 100
-			    // unsigned int amps :	  14;  // x 100
-			    // unsigned int rpm :	  15;
-			    // unsigned int duty :	  8;   // x (255/100)
-			    // - Data Version 2 -
-			    //     unsigned int errors :    9;   // Bad detects error count
-			    // - Data Version 3 -
-			    //     unsigned int temp   :    9;   // (Deg C + 32) * 4
-			    // unsigned int errCode : 3;
-			
+ * @return Data bits 33-64 for each ESC.
  */
 static inline uint16_t mavlink_msg_aq_esc_telemetry_get_data1(const mavlink_message_t* msg, uint32_t *data1)
 {
