@@ -371,9 +371,6 @@ public:
         case MAV_AUTOPILOT_GENERIC:
             return "GENERIC";
             break;
-        case MAV_AUTOPILOT_PIXHAWK:
-            return "PIXHAWK";
-            break;
         case MAV_AUTOPILOT_SLUGS:
             return "SLUGS";
             break;
@@ -454,7 +451,7 @@ public slots:
     float getBatteryWarnVoltage();
 
     /** @brief Launches the system **/
-    void launch();
+    void launch(float vspd = 0.0f, float hitRad = 1.0f);
     /** @brief Write this waypoint to the list of waypoints */
     //void setWaypoint(Waypoint* wp); FIXME tbd
     /** @brief Set currently active waypoint */
@@ -462,7 +459,7 @@ public slots:
     /** @brief Order the robot to return home **/
     void home();
     /** @brief Order the robot to land **/
-    void land();
+    void land(float vspd = 0.0f);
     void halt();
     void go();
 
@@ -591,6 +588,8 @@ public slots:
     void setLocalOriginAtCurrentGPSPosition();
     /** @brief Set world frame origin / home position at this GPS position */
     void setHomePosition(double lat, double lon, double alt);
+    /** @brief Set home at current GPS position */
+    void setHomeAtCurrentPosition();
     /** @brief Set local position setpoint */
     void setLocalPositionSetpoint(float x, float y, float z, float yaw);
     /** @brief Add an offset in body frame to the setpoint */

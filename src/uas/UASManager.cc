@@ -320,6 +320,13 @@ bool UASManager::launchActiveUAS()
     return (activeUAS); ///< Returns true if the UAS exists, false else
 }
 
+bool UASManager::landActiveUAS()
+{
+    // If the active UAS is set, execute command
+    if (getActiveUAS()) activeUAS->land();
+    return (activeUAS); ///< Returns true if the UAS exists, false else
+}
+
 bool UASManager::haltActiveUAS()
 {
     // If the active UAS is set, execute command

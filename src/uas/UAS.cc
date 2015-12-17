@@ -1234,7 +1234,14 @@ void UAS::setHomePosition(double lat, double lon, double alt)
 //        qDebug() << "lat:" << home.latitude << " lon:" << home.longitude;
 //        mavlink_msg_set_gps_global_origin_encode(mavlink->getSystemId(), mavlink->getComponentId(), &msg, &home);
 //        sendMessage(msg);
-//    }
+    //    }
+}
+
+void UAS::setHomeAtCurrentPosition()
+{
+    mavlink_message_t msg;
+    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), MAV_COMP_ID_ALL, MAV_CMD_DO_SET_HOME, 1, 1, 0, 0, 0, 0, 0, 0);
+    sendMessage(msg);
 }
 
 /**
@@ -1666,18 +1673,10 @@ float UAS::filterVoltage(float value) const
 * The mode can be preflight or unknown.
 * @Return the mode of the autopilot
 */
-QString UAS::getNavModeText(int mode)
+QString UAS::getNavModeText(int /*mode*/)
 {
     QString ret = tr("UNKNOWN");
-    if (autopilot == MAV_AUTOPILOT_PIXHAWK)
-    {
-        switch (mode)
-        {
-        case 0:
-            ret = tr("PREFLIGHT");
-            break;
-        }
-    }
+
 
     // If nothing matches, return unknown
     return ret;
@@ -2197,17 +2196,6 @@ void UAS::executeCommand(MAV_CMD command, int confirmation, float param1, float 
 }
 
 /**
- * Launches the system
- *
- */
-void UAS::launch()
-{
-    mavlink_message_t msg;
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), 0, MAV_CMD_NAV_TAKEOFF, 1, 0, 0, 0, 0, 0, 0, 0);
-    sendMessage(msg);
-}
-
-/**
  * @warning Depending on the UAS, this might make the rotors of a helicopter spinning
  *
  */
@@ -2338,23 +2326,35 @@ void UAS::home()
 {
     mavlink_message_t msg;
 
-    double latitude = UASManager::instance()->getHomeLatitude();
-    double longitude = UASManager::instance()->getHomeLongitude();
-    double altitude = UASManager::instance()->getHomeAltitude();
-    int frame = UASManager::instance()->getHomeFrame();
+//    double latitude = UASManager::instance()->getHomeLatitude();
+//    double longitude = UASManager::instance()->getHomeLongitude();
+//    double altitude = UASManager::instance()->getHomeAltitude();
+//    int frame = UASManager::instance()->getHomeFrame();
+//    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_CMD_OVERRIDE_GOTO, 1, MAV_GOTO_DO_CONTINUE, MAV_GOTO_HOLD_AT_CURRENT_POSITION, frame, 0, latitude, longitude, altitude);
 
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_CMD_OVERRIDE_GOTO, 1, MAV_GOTO_DO_CONTINUE, MAV_GOTO_HOLD_AT_CURRENT_POSITION, frame, 0, latitude, longitude, altitude);
+    mavlink_msg_command_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_FRAME_GLOBAL, MAV_CMD_NAV_RETURN_TO_LAUNCH, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+    sendMessage(msg);
+}
+
+/**
+ * Launches the system
+ *
+ */
+void UAS::launch(float vspd, float hitRad)
+{
+    mavlink_message_t msg;
+    mavlink_msg_command_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_FRAME_GLOBAL, MAV_CMD_NAV_TAKEOFF, 1, 0, hitRad, 0, 0, vspd, 0, 0, 0);
     sendMessage(msg);
 }
 
 /**
 * Order the robot to land on the runway
 */
-void UAS::land()
+void UAS::land(float vspd)
 {
     mavlink_message_t msg;
 
-    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_CMD_NAV_LAND, 1, 0, 0, 0, 0, 0, 0, 0);
+    mavlink_msg_command_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_FRAME_GLOBAL, MAV_CMD_NAV_LAND, 1, 0, 0, vspd, 0, 0, 0, 0, 0);
     sendMessage(msg);
 }
 

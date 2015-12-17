@@ -183,20 +183,29 @@ public slots:
      */
     bool launchActiveUAS();
 
-    bool haltActiveUAS();
-
-    bool continueActiveUAS();
-
     /**
      * @brief Land the active UAS
      *
      * The groundstation has always one Unmanned Air System selected.
      * All commands are executed on the UAS in focus. This command starts
-     * the land sequence. Depending on the onboard control, this could mean
-     * returning to the landing spot as well as descending on the current
-     * position.
+     * the landing sequence.
      *
-     * @return True if the UAS could be landed, false else
+     * @return True if the UAS could be launched, false else
+     */
+    bool landActiveUAS();
+
+    bool haltActiveUAS();
+
+    bool continueActiveUAS();
+
+    /**
+     * @brief Return the active UAS to launch/home location
+     *
+     * The groundstation has always one Unmanned Air System selected.
+     * All commands are executed on the UAS in focus. This command starts
+     * instructs the UAV to return to its pre-programmed launch/home position
+     *
+     * @return True if the UAS could be returned, false else
      */
     bool returnActiveUAS();
 
