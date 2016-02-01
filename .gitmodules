@@ -1,1 +1,4 @@
 
+[submodule "libs/mavlink"]
+	path = libs/mavlink
+	url = https://github.com/AutoQuad/mavlink_headers.git

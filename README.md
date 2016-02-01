@@ -18,11 +18,16 @@
 ## Obtaining source code
 There are three ways to obtain the QGroundControl source code from our GitHub repository. You can either download a snapshot of the code in a ZIP file, clone the repository, or fork the repository if you plan to contribute to development. If you prefer one of the last two options you will need Git installed on your system; goto GitHub Help and see Set Up Git.
 
+**If you use Git**, make sure to **update submodules** after a clone or updates pull. This will pull in the latest MAVLink headers from another repo.
+
+**If you download an archive**, you will also need to download the latest version of https://github.com/AutoQuad/mavlink_headers and place the content in the `lib/mavlink` folder of QGC source code.
+
 ### Clone the Repository
 This option assumes that you have Git already. To clone (checkout) the QGC repository, run the following command in the directory that you want the qgroundcontrol_aq folder to be created:
 
 ```
 git clone https://github.com/AutoQuad/qgroundcontrol_aq.git
+git submodule update --init
 ```
 
 ### Fork the Repository
@@ -30,14 +35,17 @@ If you plan to contribute to the development of QGC, you will want this option, 
 
 Goto GitHub Help and see Fork A Repo
 Fork the QGC Repo
+Update Submodules
 
 ## Building QGroundControl
 QGroundControl builds are supported for OSX, Linux and Windows. Qt versions 4.8.6 and 5.x are supported (Qt5 recommended, tested up to 5.4 at time of writing). See the individual sections below for specific requirements for each OS. 
 
+In general we recommend installing the latest Qt libraries and development environment (QtCreator), as this will provide the simplest and most tested build setup.
+
+**If you get errors about missing MAVLink variables/functions** then you need to read the part above about git *submodule update* or *downloading the mavlink headers* manually.
+
 **To build without Text-To-Speech** (and skip the corresponding optional, possibly onerous, steps below), you need to add "NO_TEXT_TO_SPEECH" to your
 Qt DEFINES variable.  You can do this by un-commenting "#DEFINES += NO_TEXT_TO_SPEECH" in qgroundcontrol_aq.pro.
-
-In general we recommend installing the latest Qt libraries and development environment (QtCreator), as this will provide the simplest and most tested build setup.
 
 ### Common Instructions
 

@@ -114,7 +114,7 @@ DEFINES += MAVLINK_NO_DATA
 # of custom MAVLink messages of this project. It will also
 # create a QGC_USE_{AUTOPILOT_NAME}_MESSAGES macro for use within the actual code.
 MAVLINK_CONF = "autoquad"
-MAVLINKPATH = $$BASEDIR/libs/mavlink/include/mavlink/v1.0
+MAVLINKPATH = $$BASEDIR/libs/mavlink/include
 
 LANGUAGE = C++
 CODECFORTR = UTF-8
