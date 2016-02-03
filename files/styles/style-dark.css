@@ -389,6 +389,16 @@ QHeaderView::up-arrow {
 	top: -4px;
 }
 
+
+/*
+	 TreeWidget
+*/
+
+QTreeWidget::item {
+	padding: 1px 2px;
+}
+
+
 /*
     ToolTip
 */
@@ -497,17 +507,25 @@ QComboBox:on {
 QCheckBox::indicator,
 QRadioButton::indicator,
 QGroupBox::indicator,
+QTreeWidget::indicator:checked,
+QTreeWidget::indicator:unchecked,
 QListView::indicator {
 	 border: 1px solid #b1b1b1;
     border-radius: 2px;
     width: 10px;
     height: 10px;
 }
-QRadioButton::indicator {
+QRadioButton::indicator,
+QTreeWidget::indicator:checked,
+QTreeWidget::indicator:unchecked {
 	 border-radius: 6px;
 	 border-width: 2px;
 	 width: 9px;
 	 height: 9px;
+}
+QTreeWidget::indicator:checked,
+QTreeWidget::indicator:unchecked {
+	 border-width: 1px;
 }
 
 QCheckBox::indicator:checked,
@@ -521,6 +539,9 @@ QListView:indicator:checked:hover,
 QListView:indicator:checked:pressed {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #056991, stop: 1 #379AC3);
 }
+QTreeWidget:indicator:checked,
+QTreeWidget:indicator:checked:hover,
+QTreeWidget:indicator:checked:pressed,
 QRadioButton::indicator:checked,
 QRadioButton::indicator:checked:hover,
 QRadioButton::indicator:checked:pressed {
@@ -540,6 +561,7 @@ QCheckBox::indicator:indeterminate:pressed {
 QCheckBox::indicator:disabled,
 QRadioButton::indicator:disabled,
 QGroupBox:indicator:disabled,
+QTreeWidget:indicator:disabled,
 QListView:indicator:disabled {
 	border-color: #383838;
 	background-color: #202020;
@@ -549,6 +571,7 @@ QGroupBox:indicator:checked:disabled,
 QListView:indicator:checked:disabled {
 	background-color: rgba(5, 105, 145, 100);
 }
+QTreeWidget:indicator:checked:disabled,
 QRadioButton::indicator:checked:disabled {
 	background-color: QRadialGradient(
 		 cx: 0.5, cy: 0.5,

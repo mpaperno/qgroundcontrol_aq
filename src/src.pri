@@ -78,7 +78,9 @@ FORMS += src/ui/MainWindow.ui \
 	 src/ui/aq_pwmPortsConfig.ui \
 	 src/ui/aq_LogViewer.ui \
 	 src/ui/ESCtelemetryWidget.ui \
-	 src/ui/map/GoToWaypointDialog.ui
+	 src/ui/map/GoToWaypointDialog.ui \
+	 src/ui/WaypointDialog.ui \
+	 src/ui/SelectAdjustableParamDialog.ui
 
 HEADERS += src/MG.h \
 	 src/QGCCore.h \
@@ -194,7 +196,9 @@ HEADERS += src/MG.h \
 	 src/ui/QGCDataViewWidget.h \
 	 src/uas/autoquadMAV.h \
 	 src/ui/ESCtelemetryWidget.h \
-	 src/ui/linechart/ChartPlot.h
+	 src/ui/linechart/ChartPlot.h \
+	 src/ui/WaypointDialog.h \
+	 src/ui/SelectAdjustableParamDialog.h
 
 SOURCES += src/main.cc \
 	 src/QGCCore.cc \
@@ -301,7 +305,9 @@ SOURCES += src/main.cc \
 	 src/ui/aq_LogViewer.cc \
 	 src/ui/QGCDataViewWidget.cc \
 	 src/ui/ESCtelemetryWidget.cpp \
-	 src/ui/linechart/ChartPlot.cc
+	 src/ui/linechart/ChartPlot.cc \
+	 src/ui/WaypointDialog.cpp \
+	 src/ui/SelectAdjustableParamDialog.cpp
 
 # Enable Google Earth only on Mac OS 32b and Windows
 contains(DEFINES, USE_GOOGLE_EARTH_PLUGIN) {
