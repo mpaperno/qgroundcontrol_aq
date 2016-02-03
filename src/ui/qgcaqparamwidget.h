@@ -10,6 +10,7 @@
 #include <QStyledItemDelegate>
 #include <QMenu>
 
+#include "autoquadMAV.h"
 #include "QGCUASParamManager.h"
 #include "UASInterface.h"
 
@@ -27,7 +28,7 @@ public:
 	void setParaAQ(QString parameterName, QVariant value);
 	void loadParaAQ();
     void setFilePath(QString fileName);
-    bool paramExistsAQ(const QString& param) { return parameters.contains(190) && parameters.value(190)->contains(param); }
+    bool paramExistsAQ(const QString& param) { return parameters.contains(MAV_DEFAULT_SYSTEM_COMPONENT) && parameters.value(MAV_DEFAULT_SYSTEM_COMPONENT)->contains(param); }
     bool isParamMinKnown(const QString& param) { return paramMin.contains(param); }
     bool isParamMaxKnown(const QString& param) { return paramMax.contains(param); }
     bool isParamDefaultKnown(const QString& param) { return paramDefault.contains(param); }
@@ -43,20 +44,20 @@ signals:
     void requestParameter(int component, int parameter);
     /** @brief Request a single parameter by name */
     void requestParameter(int component, const QString& parameter);
-    void requestParameterRefreshed();
+    void requestParameterRefreshed(uint8_t component);
     void paramRequestTimeout(int readCount, int writeCount);
-    void parameterListRequested();
+    void parameterListRequested(uint8_t component);
 
 public slots:
     void retranslateUi();
     /** @brief Add a component to the list */
     void addComponent(int uas, int component, QString componentName);
     /** @brief Add a parameter to the list with retransmission / safety checks */
-    void addParameter(int uas, int component, int paramCount, int paramId, QString parameterName, QVariant value);
+    void addParameter(int uas, int component, int paramCount, int paramId, QString parameterName, QVariant value, uint8_t type);
 /** @brief Add a parameter to the list */
     void addParameter(int uas, int component, QString parameterName, QVariant value);
     /** @brief Request list of parameters from MAV */
-    void requestParameterList();
+    void requestParameterList(uint8_t compId = MAV_DEFAULT_SYSTEM_COMPONENT);
     /** @brief Request one single parameter */
     void requestParameterUpdate(int component, const QString& parameter);
     /** @brief Set one parameter, changes value in RAM of MAV */

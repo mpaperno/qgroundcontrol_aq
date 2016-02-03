@@ -168,7 +168,7 @@ QGCAQParamWidget::QGCAQParamWidget(UASInterface* uas_ext, QWidget *parent) :
     connect(tree, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(trackExpandedItems(QTreeWidgetItem*)));
 
     // New parameters from UAS
-    connect(uas_ext, SIGNAL(parameterChanged(int,int,int,int,QString,QVariant)), this, SLOT(addParameter(int,int,int,int,QString,QVariant)));
+    connect(uas_ext, SIGNAL(parameterChanged(int,int,int,int,QString,QVariant,uint8_t)), this, SLOT(addParameter(int,int,int,int,QString,QVariant,uint8_t)));
 
     // Connect retransmission guard
     connect(this, SIGNAL(requestParameter(int,QString)), uas_ext, SLOT(requestParameter(int,QString)));
@@ -440,6 +440,19 @@ UASInterface* QGCAQParamWidget::getUAS()
 void QGCAQParamWidget::addComponent(int uas, int component, QString componentName)
 {
     Q_UNUSED(uas);
+    // Create map in parameters
+    if (!parameters.contains(component)) {
+        parameters.insert(component, new QMap<QString, QVariant>());
+    }
+    // Create map in changed parameters
+    if (!changedValues.contains(component)) {
+        changedValues.insert(component, new QMap<QString, QVariant>());
+    }
+
+    if (component != MAV_DEFAULT_SYSTEM_COMPONENT)
+        return;
+
+    tree->blockSignals(true);
     if (components->contains(component)) {
         // Update existing
         components->value(component)->setData(0, Qt::DisplayRole, componentName);
@@ -455,15 +468,8 @@ void QGCAQParamWidget::addComponent(int uas, int component, QString componentNam
         paramGroups.insert(component, new QMap<QString, QTreeWidgetItem*>());
         tree->addTopLevelItem(comp);
         tree->update();
-        // Create map in parameters
-        if (!parameters.contains(component)) {
-            parameters.insert(component, new QMap<QString, QVariant>());
-        }
-        // Create map in changed parameters
-        if (!changedValues.contains(component)) {
-            changedValues.insert(component, new QMap<QString, QVariant>());
-        }
     }
+    tree->blockSignals(false);
 }
 
 /**
@@ -471,20 +477,27 @@ void QGCAQParamWidget::addComponent(int uas, int component, QString componentNam
  * @param component id of the component
  * @param parameterName human friendly name of the parameter
  */
-void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int paramId, QString parameterName, QVariant value)
+void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int paramId, QString parameterName, QVariant value, uint8_t type)
 {
     //qDebug() << __FILE__ << __LINE__ << paramId << parameterName << value << uas << component;
     //if (sender()) qDebug() << sender();
 
     addParameter(uas, component, parameterName, value);
+
     if (!parameterIDs.contains(component))
         parameterIDs.insert(component, new QMap<QString, int>());
     parameterIDs.value(component)->insert(parameterName, paramId);
 
+    if (!parameterTypes.contains(component))
+        parameterTypes.insert(component, new QMap<QString, uint8_t>());
+    parameterTypes.value(component)->insert(parameterName, type);
+
     // Missing packets list has to be instantiated for all components
-    if (!transmissionMissingPackets.contains(component)) {
+    if (!transmissionMissingPackets.contains(component))
         transmissionMissingPackets.insert(component, new QList<int>());
-    }
+
+    if (!transmissionParamsReceived.contains(component))
+        transmissionParamsReceived.insert(component, 0);
 
     // List mode is different from single parameter transfers
     if (transmissionListMode) {
@@ -493,15 +506,13 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
         if (!transmissionListSizeKnown.contains(component))
         {
             // Mark list size as known
-            transmissionListSizeKnown.insert(component, true);
+            transmissionListSizeKnown.insert(component, paramCount);
 
-            // Mark all parameters as missing
-            for (int i = 0; i < paramCount; ++i)
-            {
-                if (!transmissionMissingPackets.value(component)->contains(i))
-                {
-                    transmissionMissingPackets.value(component)->append(i);
-                }
+            if (component == MAV_DEFAULT_SYSTEM_COMPONENT) {
+                // Mark all parameters as missing
+                for (int i = 0; i < paramCount; ++i)
+                    if (!transmissionMissingPackets.value(component)->contains(i))
+                        transmissionMissingPackets.value(component)->append(i);
             }
 
             // There is only one transmission timeout for all components
@@ -519,10 +530,13 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
         setRetransmissionGuardEnabled(true);
     }
 
+    ++transmissionParamsReceived[component];
+
     // Mark this parameter as received in read list
     int index = transmissionMissingPackets.value(component)->indexOf(paramId);
     // If the MAV sent the parameter without request, it wont be in missing list
-    if (index != -1) transmissionMissingPackets.value(component)->removeAt(index);
+    if (index != -1)
+        transmissionMissingPackets.value(component)->removeAt(index);
 
     if (changedValues.contains(component) && changedValues.value(component)->contains(parameterName))
         changedValues.value(component)->remove(parameterName);
@@ -542,64 +556,58 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
         map->remove(parameterName);
     }
 
-    int missCount = 0;
+    int missCount = paramCount - transmissionParamsReceived.value(component);
     foreach (int key, transmissionMissingPackets.keys())
-    {
-        missCount +=  transmissionMissingPackets.value(key)->count();
-    }
+        if (key != component)
+            missCount +=  transmissionMissingPackets.value(key)->count();
 
     int missWriteCount = 0;
     foreach (int key, transmissionMissingWriteAckPackets.keys())
-    {
         missWriteCount += transmissionMissingWriteAckPackets.value(key)->count();
-    }
 
-    if (justWritten && !writeMismatch && missWriteCount == 0)
-    {
-        // Just wrote one and count went to 0 - this was the last missing write parameter
-        statusLabel->setText(tr("SUCCESS: WROTE ALL PARAMETERS"));
-        QPalette pal = statusLabel->palette();
-        pal.setColor(backgroundRole(), QGC::colorGreen);
-        statusLabel->setPalette(pal);
-    } else if (justWritten && !writeMismatch)
-    {
-        statusLabel->setText(tr("SUCCESS: Wrote %2 (#%1/%4): %3").arg(paramId+1).arg(parameterName).arg(value.toDouble()).arg(paramCount));
-        QPalette pal = statusLabel->palette();
-        pal.setColor(backgroundRole(), QGC::colorGreen);
-        statusLabel->setPalette(pal);
-    } else if (justWritten && writeMismatch)
-    {
-        // Mismatch, tell user
-        QPalette pal = statusLabel->palette();
-        pal.setColor(backgroundRole(), QGC::colorRed);
-        statusLabel->setPalette(pal);
-        statusLabel->setText(tr("FAILURE: Wrote %1: sent %2 != onboard %3").arg(parameterName).arg(map->value(parameterName).toDouble()).arg(value.toDouble()));
-    }
-    else
-    {
-        if (missCount > 0)
-        {
-            QPalette pal = statusLabel->palette();
-            pal.setColor(backgroundRole(), QGC::colorOrange);
-            statusLabel->setPalette(pal);
-        }
-        else
-        {
+    if (justWritten) {
+        if (!writeMismatch && !missWriteCount) {
+            // Just wrote one and count went to 0 - this was the last missing write parameter
+            statusLabel->setText(tr("SUCCESS: WROTE ALL PARAMETERS"));
             QPalette pal = statusLabel->palette();
             pal.setColor(backgroundRole(), QGC::colorGreen);
             statusLabel->setPalette(pal);
         }
+        else if (!writeMismatch)  {
+            statusLabel->setText(tr("SUCCESS: Wrote %2 (#%1/%4): %3").arg(paramId+1).arg(parameterName).arg(value.toDouble()).arg(paramCount));
+            QPalette pal = statusLabel->palette();
+            pal.setColor(backgroundRole(), QGC::colorGreen);
+            statusLabel->setPalette(pal);
+        } else {
+            // Mismatch, tell user
+            QPalette pal = statusLabel->palette();
+            pal.setColor(backgroundRole(), QGC::colorRed);
+            statusLabel->setPalette(pal);
+            statusLabel->setText(tr("FAILURE: Wrote %1: sent %2 != onboard %3").arg(parameterName).arg(map->value(parameterName).toDouble()).arg(value.toDouble()));
+        }
+    }
+    else {
+
+        if (missCount) {
+            QPalette pal = statusLabel->palette();
+            pal.setColor(backgroundRole(), QGC::colorOrange);
+            statusLabel->setPalette(pal);
+        }
+        else {
+            QPalette pal = statusLabel->palette();
+            pal.setColor(backgroundRole(), QGC::colorGreen);
+            statusLabel->setPalette(pal);
+        }
+
         QString val = QString("%1").arg(value.toFloat(), 5, 'f', 1, QChar(' '));
         //statusLabel->setText(tr("OK: %1 %2 #%3/%4, %5 miss").arg(parameterName).arg(val).arg(paramId+1).arg(paramCount).arg(missCount));
-        if (missCount == 0)
-        {
+        if (!missCount) {
             // Transmission done
             QTime time = QTime::currentTime();
             QString timeString = time.toString();
             statusLabel->setText(tr("All received. (updated at %1)").arg(timeString));
         }
-        else
-        {
+        else {
             // Transmission in progress
             statusLabel->setText(QString("OK: %1 %2 (%3/%4)").arg(parameterName).arg(val).arg(paramCount-missCount).arg(paramCount));
         }
@@ -608,17 +616,17 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
     // Check if last parameter was received
     if (missCount == 0 && missWriteCount == 0)
     {
+        //if (transmissionActive) {
+            // Expand visual tree
+            if (component == MAV_DEFAULT_SYSTEM_COMPONENT)
+                tree->expandItem(tree->topLevelItem(0));
+        //}
+
         this->transmissionActive = false;
         this->transmissionListMode = false;
-        transmissionListSizeKnown.clear();
-        foreach (int key, transmissionMissingPackets.keys())
-        {
-            transmissionMissingPackets.value(key)->clear();
-        }
-        emit requestParameterRefreshed();
+        emit requestParameterRefreshed(component);
+        qDebug() << "FINISHED LOADING PARAM LIST for component " << component;
 
-        // Expand visual tree
-        tree->expandItem(tree->topLevelItem(0));
     }
 }
 
@@ -636,8 +644,6 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
     QTreeWidgetItem* parameterItem = NULL;
     QTreeWidgetItem* parentItem = NULL;
 
-    tree->blockSignals(true);
-
     // Get component
     if (!components->contains(component))
     {
@@ -649,6 +655,9 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
             break;
         case MAV_COMP_ID_IMU:
             componentName = tr("IMU");
+            break;
+        case MAV_COMP_ID_SYSTEM_CONTROL:
+            componentName = tr("Remote Adjustable");
             break;
         default:
             componentName = tr("System ") + this->uas->getUASName();
@@ -666,6 +675,11 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
 
     parameters.value(component)->insert(parameterName, value);
 
+
+    if (component != MAV_DEFAULT_SYSTEM_COMPONENT)
+        return;
+
+    tree->blockSignals(true);
 
     QString splitToken = "_";
     // Check if auto-grouping can work
@@ -779,35 +793,44 @@ void QGCAQParamWidget::addParameter(int uas, int component, QString parameterNam
  * Send a request to deliver the list of onboard parameters
  * to the MAV.
  */
-void QGCAQParamWidget::requestParameterList()
+void QGCAQParamWidget::requestParameterList(uint8_t compId)
 {
-    if (!mav) return;
-    // FIXME This call does not belong here
-    // Once the comm handling is moved to a new
-    // Param manager class the settings can be directly
-    // loaded from MAVLink protocol
-    loadSettings();
-    // End of FIXME
+    if (!mav)
+        return;
 
-    emit parameterListRequested();
+    if (compId == MAV_DEFAULT_SYSTEM_COMPONENT) {
+        // FIXME This call does not belong here
+        // Once the comm handling is moved to a new
+        // Param manager class the settings can be directly
+        // loaded from MAVLink protocol
+        loadSettings();
+        // End of FIXME
 
-    // Clear view and request param list
-    clear();
-    parameters.clear();
-    received.clear();
-    // Clear transmission state
-    transmissionListMode = true;
-    transmissionListSizeKnown.clear();
-    foreach (int key, transmissionMissingPackets.keys())
-    {
-        transmissionMissingPackets.value(key)->clear();
+        // Clear view
+        clear();
     }
+
+    if (parameters.contains(compId) && !parameters.value(compId)->isEmpty())
+        parameters.value(compId)->clear();
+
+    //received.clear();
+
+    // Clear transmission state
+    transmissionListSizeKnown.clear();
+    transmissionParamsReceived.clear();
+    foreach (int key, transmissionMissingPackets.keys())
+        transmissionMissingPackets.value(key)->clear();
+
+    transmissionListMode = true;
     transmissionActive = true;
 
     // Set status text
     statusLabel->setText(tr("Requested param list.. waiting"));
 
-    mav->requestParameters();
+    mav->requestParameters(compId);
+
+    emit parameterListRequested(compId);
+
 }
 
 void QGCAQParamWidget::parameterItemChanged(QTreeWidgetItem* current, int column)
@@ -1005,7 +1028,7 @@ void QGCAQParamWidget::loadParameters()
 
         changed = false;
         uasId = mav->getUASID();
-        component = 190;
+        component = MAV_DEFAULT_SYSTEM_COMPONENT;
         
         if (line.contains(QRegExp("^#define[\\t ]+[A-Z]{1,}"))){
             fileFormat = 2; // AQ .params format
@@ -1429,10 +1452,10 @@ void QGCAQParamWidget::trackExpandedItems(QTreeWidgetItem *item)
 
 QVariant QGCAQParamWidget::getParaAQ(QString parameterName)
 {
-    if ( !parameters.contains(190) )
+    if ( !parameters.contains(MAV_DEFAULT_SYSTEM_COMPONENT) )
         return "";
-	if (parameters.value(190)->contains(parameterName)) {
-		QVariant var = parameters.value(190)->value(parameterName);
+    if (parameters.value(MAV_DEFAULT_SYSTEM_COMPONENT)->contains(parameterName)) {
+        QVariant var = parameters.value(MAV_DEFAULT_SYSTEM_COMPONENT)->value(parameterName);
 		return var;
 	}
     return "";
@@ -1440,7 +1463,7 @@ QVariant QGCAQParamWidget::getParaAQ(QString parameterName)
 
 void QGCAQParamWidget::setParaAQ(QString parameterName, QVariant value)
 {
-    setParameter(190, parameterName, value);
+    setParameter(MAV_DEFAULT_SYSTEM_COMPONENT, parameterName, value);
 }
 
 void QGCAQParamWidget::loadParaAQ()

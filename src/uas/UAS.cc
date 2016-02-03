@@ -278,28 +278,25 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
     {
         QString componentName;
 
-        switch (message.compid)
-        {
-        case MAV_COMP_ID_ALL:
-        {
-            componentName = tr("ANONYMOUS");
-            break;
-        }
-        case MAV_COMP_ID_IMU:
-        {
-            componentName = tr("IMU #1");
-            break;
-        }
-        case MAV_COMP_ID_CAMERA:
-        {
-            componentName = tr("CAMERA");
-            break;
-        }
-        case MAV_COMP_ID_MISSIONPLANNER:
-        {
-            componentName = tr("MISSIONPLANNER");
-            break;
-        }
+        switch (message.compid) {
+            case MAV_COMP_ID_ALL:
+                componentName = tr("ANONYMOUS");
+                break;
+            case MAV_COMP_ID_IMU:
+                componentName = tr("IMU #1");
+                break;
+            case MAV_COMP_ID_CAMERA:
+                componentName = tr("CAMERA");
+                break;
+            case MAV_COMP_ID_MISSIONPLANNER:
+                componentName = tr("MISSIONPLANNER");
+                break;
+            case MAV_COMP_ID_SYSTEM_CONTROL:
+                componentName = tr("Remote Adjustable");
+                break;
+            default:
+                componentName = tr("System");
+                break;
         }
 
         components.insert(message.compid, componentName);
@@ -864,11 +861,12 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             // Construct a string stopping at the first NUL (0) character, else copy the whole
             // byte array (max MAVLINK_MSG_PARAM_VALUE_FIELD_PARAM_ID_LEN, so safe)
             QString parameterName(bytes);
-            QVariant param;
             int component = message.compid;
-            mavlink_param_union_t val;
-            val.param_float = value.param_value;
-            val.type = value.param_type;
+//            mavlink_param_union_t val;
+//            val.param_float = value.param_value;
+//            val.type = (value.param_type & 0x0F);  // take only the first 4 bits, leave the rest for possible flags
+
+            QVariant param(value.param_value);
 
             // Insert component if necessary
             if (!parameters.contains(component))
@@ -881,26 +879,39 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 parameters.value(component)->remove(parameterName);
 
             // Insert with correct type
-            switch (value.param_type)
-            {
-            case MAV_PARAM_TYPE_REAL32:
-                param = QVariant(val.param_float);
-                break;
-            case MAV_PARAM_TYPE_UINT32:
-                param = QVariant(val.param_uint32);
-                break;
-            case MAV_PARAM_TYPE_INT32:
-                param = QVariant(val.param_int32);
-                break;
-            default:
-                qCritical() << "INVALID DATA TYPE USED AS PARAMETER VALUE: " << value.param_type;
-                return;
-            }
+//            switch (val.type)
+//            {
+//            case MAV_PARAM_TYPE_REAL32:
+//                param = QVariant(val.param_float);
+//                break;
+//            case MAV_PARAM_TYPE_UINT32:
+//                param = QVariant(val.param_uint32);
+//                break;
+//            case MAV_PARAM_TYPE_INT32:
+//                param = QVariant(val.param_int32);
+//                break;
+//            case MAV_PARAM_TYPE_UINT16:
+//                param = QVariant(val.param_uint16);
+//                break;
+//            case MAV_PARAM_TYPE_INT16:
+//                param = QVariant(val.param_int16);
+//                break;
+//            case MAV_PARAM_TYPE_UINT8:
+//                param = QVariant(val.param_uint8);
+//                break;
+//            case MAV_PARAM_TYPE_INT8:
+//                param = QVariant(val.param_int8);
+//                break;
+//            default:
+//                param = QVariant(val.param_float);
+//                qDebug() << "INVALID DATA TYPE USED AS PARAMETER VALUE: " << value.param_type;
+//                return;
+//            }
 
             parameters.value(component)->insert(parameterName, param);
             // Emit change
             emit parameterChanged(uasId, message.compid, parameterName, param);
-            emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param);
+            emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param, value.param_type);
             //qDebug() << __FILE__ << __LINE__ << "RECEIVED PARAM:" << parameterName << param;
         }
             break;
@@ -1832,12 +1843,12 @@ int UAS::getCommunicationStatus() const
     return commStatus;
 }
 
-void UAS::requestParameters()
+void UAS::requestParameters(uint8_t compId)
 {
     mavlink_message_t msg;
-    mavlink_msg_param_request_list_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), MAV_COMP_ID_ALL);
+    mavlink_msg_param_request_list_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), compId);
     sendMessage(msg);
-    qDebug() << __FILE__ << __LINE__ << "LOADING PARAM LIST";
+    qDebug() << "LOADING PARAM LIST for component " << compId;
 }
 
 void UAS::writeParametersToStorage()
@@ -2322,7 +2333,7 @@ void UAS::go()
 /**
 * Order the robot to return home
 */
-void UAS::home()
+void UAS::home(float hspd)
 {
     mavlink_message_t msg;
 
@@ -2332,7 +2343,7 @@ void UAS::home()
 //    int frame = UASManager::instance()->getHomeFrame();
 //    mavlink_msg_command_long_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_CMD_OVERRIDE_GOTO, 1, MAV_GOTO_DO_CONTINUE, MAV_GOTO_HOLD_AT_CURRENT_POSITION, frame, 0, latitude, longitude, altitude);
 
-    mavlink_msg_command_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_FRAME_GLOBAL, MAV_CMD_NAV_RETURN_TO_LAUNCH, 1, 0, 0, 0, 0, 0, 0, 0, 0);
+    mavlink_msg_command_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_FRAME_GLOBAL, MAV_CMD_NAV_RETURN_TO_LAUNCH, 1, 0, hspd, 0, 0, 0, 0, 0, 0);
     sendMessage(msg);
 }
 
@@ -2340,10 +2351,10 @@ void UAS::home()
  * Launches the system
  *
  */
-void UAS::launch(float vspd, float hitRad)
+void UAS::launch(float vspd, float hitRad, float alt, uint8_t frame)
 {
     mavlink_message_t msg;
-    mavlink_msg_command_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, MAV_FRAME_GLOBAL, MAV_CMD_NAV_TAKEOFF, 1, 0, hitRad, 0, 0, vspd, 0, 0, 0);
+    mavlink_msg_command_int_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, uasId, MAV_COMP_ID_ALL, frame, MAV_CMD_NAV_TAKEOFF, 1, 0, hitRad, 0, 0, vspd, 0, 0, alt);
     sendMessage(msg);
 }
 

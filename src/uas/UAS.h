@@ -451,13 +451,13 @@ public slots:
     float getBatteryWarnVoltage();
 
     /** @brief Launches the system **/
-    void launch(float vspd = 0.0f, float hitRad = 1.0f);
+    void launch(float vspd = 0.0f, float hitRad = 1.0f, float alt = 5.0f, uint8_t frame = MAV_FRAME_GLOBAL_RELATIVE_ALT);
     /** @brief Write this waypoint to the list of waypoints */
     //void setWaypoint(Waypoint* wp); FIXME tbd
     /** @brief Set currently active waypoint */
     //void setWaypointActive(int id); FIXME tbd
     /** @brief Order the robot to return home **/
-    void home();
+    void home(float hspd = 0.0f);
     /** @brief Order the robot to land **/
     void land(float vspd = 0.0f);
     void halt();
@@ -536,7 +536,7 @@ public slots:
     void setMode(int mode);
 
     /** @brief Request all parameters */
-    void requestParameters();
+    void requestParameters(uint8_t compId = MAV_COMP_ID_ALL);
 
     /** @brief Request a single parameter by name */
     void requestParameter(int component, const QString& parameter);

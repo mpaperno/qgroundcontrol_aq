@@ -3,7 +3,10 @@
 
 #include <stdint.h>
 
+#define MAV_DEFAULT_SYSTEM_COMPONENT            MAV_COMP_ID_MISSIONPLANNER
+#define MAV_ADJUSTABLE_PARAMS_LIST_COMPONENT    MAV_COMP_ID_SYSTEM_CONTROL
 #define MAV_CUSTOM_VERSION_PARSE_REGEX   "^(?:A(?:auto)?Q(?:quad)? FW ver: )?((\\d+)\\.(\\d+)(?:[\\-\\s\\dA-Zrev]*[\\.b](\\d+))?[\\s\\-\\dA-Z_]*),?((?: ?(?:HW ver: (\\d) ?)?(?:hw)?(?:rev)?(?:\\.?(\\d))(?:\\.(\\d))?))?"
+
 namespace AUTOQUADMAV {
 
     enum mavlinkCustomDataSets {

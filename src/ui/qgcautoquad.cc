@@ -4,6 +4,7 @@
 #include "MG.h"
 #include "MainWindow.h"
 #include "aq_comm.h"
+#include "autoquadMAV.h"
 #include "qgcaqparamwidget.h"
 #include "aq_pwmPortsConfig.h"
 #include "LinkManager.h"
@@ -11,6 +12,7 @@
 #include "SerialLinkInterface.h"
 #include "SerialLink.h"
 #include "GAudioOutput.h"
+#include "SelectAdjustableParamDialog.h"
 
 #include <QWidget>
 #include <QFileDialog>
@@ -29,7 +31,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     paramaq(NULL),
     esc32(NULL),
     connectedLink(NULL),
-    mtx_paramsAreLoading(false)
+    mtx_paramsAreLoading(false),
+    m_selectAdjParamsDialog(NULL)
 {
 
     VisibleWidget = 0;
@@ -46,14 +49,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 #endif
 
     // these regexes are used for matching field names to AQ params
-    fldnameRx.setPattern("^(COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|TELEMETRY|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
+    fldnameRx.setPattern("^(CONFIG|COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|TELEMETRY|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
-    paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN|ESC).+|GMBL_.+_PORT|SIG_.+_PRT|SPVR_VIN_SOURCE|CTRL_ADJ_PARAM_[0-9]+)$");
+    paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN|ESC).+|GMBL_.+_PORT|SIG_.+_PRT|SPVR_VIN_SOURCE|CONFIG_ADJUST_P[0-9]+)$");
     paramsRadioControls.setPattern("^(RADIO|NAV|GMBL)_.+_(CH|CHAN)$");
     paramsSwitchControls.setPattern("^(NAV|GMBL|SPVR)_CTRL_[A-Z0-9_]+$");
-    paramsTunableControls.setPattern("^CTRL_ADJ_PARAM_[0-9]+$");
-    paramsTunableControlChannels.setPattern("^(QUATOS_.+_KNOB|CTRL_ADJ_PARAM_[0-9]+_chan)$");
-    paramsNonTunable.setPattern("^((CONFIG|COMM|IMU|LIC|RADIO|SPVR|SIG|TELEMETRY)_.+|(CTRL_(ADJ_PARAM_.+|PID_TYPE)|GMBL_.+_(PORT|CHAN|TILT)|NAV_CTRL_.+|MOT_(CAN|FRAM|ESC_|PWRD_).+|QUATOS_(MM_.+|.+_KNOB)))$");
+    paramsTunableControls.setPattern("^CONFIG_ADJUST_P[0-9]+$");
+    paramsTunableControlChannels.setPattern("^(QUATOS_.+_KNOB|CONFIG_ADJUST_P[0-9]+_chan)$");
+    //paramsNonTunable.setPattern("^((CONFIG|COMM|IMU|LIC|RADIO|SPVR|SIG|TELEMETRY)_.+|(CTRL_PID_TYPE|GMBL_.+_(PORT|CHAN|TILT)|NAV_CTRL_.+|MOT_(CAN|FRAM|ESC_|PWRD_).+|QUATOS_(MM_.+|.+_KNOB)))$");
 
     /*
      * Start the UI
@@ -182,10 +185,13 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(paramsRadioControls));
     allRadioChanCombos.append(ui->groupBox_tuningChannels->findChildren<QComboBox *>(paramsTunableControlChannels));
 
-    allTunableParamsCombos.append(ui->groupBox_tuningChannels->findChildren<QComboBox *>(paramsTunableControls));
+    allTunableParamWidgets.append(ui->groupBox_tuningChannels->findChildren<QPushButton *>(paramsTunableControls));
 
-    foreach (QComboBox* cb, allTunableParamsCombos)
-        cb->addItem(tr("Off"), 0);
+    foreach (QPushButton* pb, allTunableParamWidgets) {
+        pb->setProperty("paramName", pb->objectName());
+        pb->setProperty("paramValue", 0);
+        pb->setEnabled(false);
+    }
 
     for (int i=0; i < 8; ++i) {
         allRadioChanProgressBars << ui->groupBox_Radio_Values->findChild<QProgressBar *>(QString("progressBar_chan_%1").arg(i));
@@ -201,7 +207,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->pushButton_start_calibration->setToolTip("WARNING: EXPERIMENTAL!!");
 
-#ifdef QT_NO_DEBUG
+#if 1 || defined(QT_NO_DEBUG)
     ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
 #endif
 
@@ -257,15 +263,25 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
     //connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
     connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)),this,SLOT(onToggleRadioValuesRefresh(bool)));
-    foreach (QComboBox* cb, QList<QComboBox *>() << allRadioChanCombos << allTunableParamsCombos)
+    foreach (QComboBox* cb, QList<QComboBox *>() << allRadioChanCombos)
         connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(validateRadioSettings()));
     foreach (QSpinBox *sb, ui->groupBox_channelMapping->findChildren<QSpinBox *>(QRegExp("CTRL_[A-Z0-9_]+_val$")))
         connect(sb, SIGNAL(valueChanged(int)), this, SLOT(validateRadioSettings()));
+    foreach (QPushButton* pb, allTunableParamWidgets)
+        connect(pb, SIGNAL(clicked(bool)), this, SLOT(onTunableParamBtnClick()));
 
-#ifndef QT_NO_DEBUG
+#if 0 && !defined(QT_NO_DEBUG)
     connect(ui->pushButton_dev1, SIGNAL(clicked()),this, SLOT(pushButton_dev1()));
     connect(ui->pushButton_ObjectTracking, SIGNAL(clicked()),this, SLOT(pushButton_tracking()));
     connect(ui->pushButton_ObjectTracking_File, SIGNAL(clicked()),this, SLOT(pushButton_tracking_file()));
+
+    //Process Slots for tracking
+    ps_tracking.setProcessChannelMode(QProcess::MergedChannels);
+    connect(&ps_tracking, SIGNAL(finished(int)), this, SLOT(prtstexitTR(int)));
+    connect(&ps_tracking, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdoutTR()));
+    connect(&ps_tracking, SIGNAL(readyReadStandardError()), this, SLOT(prtstderrTR()));
+    TrackingIsrunning = 0;
+
 #endif
 
     //Process Slots
@@ -274,13 +290,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(&ps_master, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdout()));
 //    connect(&ps_master, SIGNAL(readyReadStandardError()), this, SLOT(prtstderr()));
     connect(&ps_master, SIGNAL(error(QProcess::ProcessError)), this, SLOT(extProcessError(QProcess::ProcessError)));
-
-    //Process Slots for tracking
-    ps_tracking.setProcessChannelMode(QProcess::MergedChannels);
-    connect(&ps_tracking, SIGNAL(finished(int)), this, SLOT(prtstexitTR(int)));
-    connect(&ps_tracking, SIGNAL(readyReadStandardOutput()), this, SLOT(prtstdoutTR()));
-    connect(&ps_tracking, SIGNAL(readyReadStandardError()), this, SLOT(prtstderrTR()));
-    TrackingIsrunning = 0;
 
     setupPortList();
     loadSettings();
@@ -306,8 +315,8 @@ QGCAutoquad::~QGCAutoquad()
         btnConnectEsc32();
     if (ps_master.state() == QProcess::Running)
         ps_master.close();
-    if (ps_tracking.state() == QProcess::Running)
-        ps_tracking.close();
+//    if (ps_tracking.state() == QProcess::Running)
+//        ps_tracking.close();
 
     writeSettings();
     delete ui;
@@ -431,7 +440,7 @@ void QGCAutoquad::writeSettings()
 
 void QGCAutoquad::adjustUiForHardware()
 {
-    ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6);
+    //ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
 }
@@ -1713,7 +1722,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     // do this before we recieve any data stream announcements or messages
     onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
 
-    connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
+    //connect(uas, SIGNAL(globalPositionChanged(UASInterface*,double,double,double,quint64)), this, SLOT(globalPositionChangedAq(UASInterface*,double,double,double,quint64)) );
     connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(handleStatusText(int, int, int, QString)));
     connect(uas, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRssiDisplayValue(float)));
     connect(uas, SIGNAL(dataStreamAnnounced(int,uint8_t,uint16_t,bool)), this, SLOT(dataStreamUpdate(int,uint8_t,uint16_t,bool)));
@@ -1723,11 +1732,11 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     //connect(uas, SIGNAL(connected()), this, SLOT(uasConnected())); // this doesn't do anything
     connect(uas, SIGNAL(systemVersionChanged(int,uint32_t,uint32_t,QString,QString)), this, SLOT(uasVersionChanged(int,uint32_t,uint32_t,QString,QString)));
 
-    connect(paramaq, SIGNAL(requestParameterRefreshed()), this, SLOT(loadParametersToUI()));
+    connect(paramaq, SIGNAL(requestParameterRefreshed(uint8_t)), this, SLOT(onParametersLoaded(uint8_t)));
     connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
-    connect(paramaq, SIGNAL(parameterListRequested()), this, SLOT(uasConnected()));
+    connect(paramaq, SIGNAL(parameterListRequested(uint8_t)), this, SLOT(uasConnected(uint8_t)));
 
-    paramaq->requestParameterList();
+    paramaq->requestParameterList(MAV_DEFAULT_SYSTEM_COMPONENT);
 
     VisibleWidget = 2;
 }
@@ -1885,6 +1894,10 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         else if (paraName.contains(paramsTunableControls)) {
             utmp = val.toUInt();
             val = utmp & 0x3FF; // param ID
+            if (val.toInt())
+                valstr = paramaq->getParameterNameById(MAV_DEFAULT_SYSTEM_COMPONENT, val.toInt());
+            else
+                valstr = tr("None");
             tmp = (utmp >> 10) & 0x3F; // channel
             tunableValDblBox = parent->findChild<QDoubleSpinBox *>(QString("%1_scale").arg(paraName));
             tunableValChan = parent->findChild<QComboBox *>(QString("%1_chan").arg(paraName));
@@ -1917,6 +1930,12 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         }
         else if (QSpinBox* sb = qobject_cast<QSpinBox *>(w))
             sb->setValue(val.toInt(&ok));
+        else if (QPushButton* pb = qobject_cast<QPushButton *>(w)) {
+            pb->setText(valstr);
+            pb->setProperty("paramName", paraName);
+            pb->setProperty("paramValue", val);
+            pb->setEnabled(true);
+        }
         else
             continue;
 
@@ -1967,42 +1986,24 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
     }
 }
 
-void QGCAutoquad::setupAdjustableParameters()
-{
-    if (paramaq && useTunableParams && paramsLoadedForAqBuildNumber != aqBuildNumber) {
-        QMap <QString, int> *pmap = paramaq->getParameterIdMap(190);
-        foreach (QComboBox* cb, allTunableParamsCombos) {
-            cb->blockSignals(true);
-            cb->setUpdatesEnabled(false);
-            cb->clear();
-            cb->addItem(tr("Off"), 0);
-            if (pmap) {
-                QMapIterator<QString, int> i(*pmap);
-                while (i.hasNext()) {
-                    i.next();
-                    if (!i.key().contains(paramsNonTunable))
-                        cb->addItem(i.key(), i.value());
-                }
-            }
-            cb->blockSignals(false);
-            cb->setUpdatesEnabled(true);
-            cb->update();
-        }
-    }
-}
-
-void QGCAutoquad::loadParametersToUI() {
+void QGCAutoquad::onParametersLoaded(uint8_t component) {
+    if (component != MAV_DEFAULT_SYSTEM_COMPONENT)
+        return;
 
     motPortTypeCAN = paramaq->paramExistsAQ("MOT_CAN") || paramaq->paramExistsAQ("MOT_CANL");
     motPortTypeCAN_H = paramaq->paramExistsAQ("MOT_CANH");
     maxMotorPorts = paramaq->paramExistsAQ("MOT_PWRD_16_P") ? 16 : 14;
     useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
     useNewControlsScheme = paramaq->paramExistsAQ("NAV_CTRL_PH");
-    useTunableParams = paramaq->paramExistsAQ("CTRL_ADJ_PARAM_1");
+    useTunableParams = paramaq->paramExistsAQ("CONFIG_ADJUST_P1");
     emit firmwareInfoUpdated();
 
+    loadParametersToUI();
+}
+
+void QGCAutoquad::loadParametersToUI() {
+
     mtx_paramsAreLoading = true;
-    setupAdjustableParameters();
     getGUIpara(ui->tab_aq_settings);
     populateButtonGroups(this);
     aqPwmPortConfig->loadOnboardConfig();
@@ -2023,7 +2024,6 @@ void QGCAutoquad::loadParametersToUI() {
     }
 
     mtx_paramsAreLoading = false;
-
     paramsLoadedForAqBuildNumber = aqBuildNumber;
 
 }
@@ -2111,6 +2111,8 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
                 }
             }
         }
+        else if (QPushButton* pb = qobject_cast<QPushButton *>(w))
+            val_local = pb->property("paramValue").toFloat(&ok);
         else
             continue;
 
@@ -2333,6 +2335,37 @@ void QGCAutoquad::saveDialogRestartOptionChecked(bool chk) {
     restartAfterParamSave = chk;
 }
 
+void QGCAutoquad::onTunableParamBtnClick()
+{
+    QPushButton *btn = qobject_cast<QPushButton *>(sender());
+    if (!paramaq || !btn)
+        return;
+
+    bool ok;
+    uint16_t pVal = btn->property("paramValue").toInt(&ok);
+    QString pName = btn->property("paramName").toString();
+    if (!ok || pName.isEmpty())
+        return;
+
+    if (!m_selectAdjParamsDialog)
+        m_selectAdjParamsDialog = new SelectAdjustableParamDialog(this, paramaq);
+
+    int ret = m_selectAdjParamsDialog->selectParam(pName, pVal, aqBuildNumber);
+
+    if (ret == QDialog::Rejected)
+        return;
+
+    uint16_t oldVal = pVal;
+    pVal = m_selectAdjParamsDialog->selParamId();
+    btn->setProperty("paramValue", pVal);
+    if (pVal) {
+        btn->setText(paramaq->getParameterNameById(MAV_DEFAULT_SYSTEM_COMPONENT, pVal));
+    } else
+        btn->setText(tr("None"));
+    if (oldVal != pVal)
+        validateRadioSettings();
+}
+
 QString QGCAutoquad::paramNameGuiToOnboard(QString paraName) {
     paraName = paraName.replace(dupeFldnameRx, "");
 
@@ -2475,19 +2508,10 @@ void QGCAutoquad::extProcessError(QProcess::ProcessError err) {
 }
 
 
-void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time)
+void QGCAutoquad::uasConnected(uint8_t component)
 {
-    Q_UNUSED(time);
-    if ( !uas)
-        return;
-    this->lat = lat;
-    this->lon = lon;
-    this->alt = alt;
-}
-
-void QGCAutoquad::uasConnected()
-{
-    uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
+    if (component == MAV_DEFAULT_SYSTEM_COMPONENT)
+        uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
 }
 
 void QGCAutoquad::setConnectedSystemInfoDefaults()
@@ -2601,6 +2625,17 @@ void QGCAutoquad::paramRequestTimeoutNotify(int readCount, int writeCount) {
 // Tracking
 //
 
+#if 0
+
+void QGCAutoquad::globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time)
+{
+    Q_UNUSED(time);
+    if ( !uas)
+        return;
+    this->lat = lat;
+    this->lon = lon;
+    this->alt = alt;
+}
 
 void QGCAutoquad::pushButton_tracking() {
     if ( TrackingIsrunning == 0) {
@@ -2763,12 +2798,13 @@ void QGCAutoquad::sendTracking(){
 void QGCAutoquad::prtstderrTR() {
     qDebug() << ps_tracking.readAllStandardError();
 }
+#endif
 
 void QGCAutoquad::pushButton_dev1(){
 //    QString audiostring = QString("Hello, welcome to AutoQuad");
 //    GAudioOutput::instance()->say(audiostring.toLower());
-    float headingInDegree = ui->lineEdit_13->text().toFloat();
-    uas->sendCommmandToAq(7, 1, headingInDegree,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f);
+//    float headingInDegree = ui->lineEdit_13->text().toFloat();
+//    uas->sendCommmandToAq(7, 1, headingInDegree,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f);
 //    QEventLoop waiter;
 //    connect(uas, SIGNAL(textMessageReceived()), &waiter, SLOT(quit()));
 //    QTimer::singleShot(5000, &waiter, SLOT(quit()));

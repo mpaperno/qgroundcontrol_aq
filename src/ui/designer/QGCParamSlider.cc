@@ -94,11 +94,11 @@ void QGCParamSlider::setActiveUAS(UASInterface* activeUas)
     {
         if (uas)
         {
-            disconnect(uas, SIGNAL(parameterChanged(int,int,int,int,QString,QVariant)), this, SLOT(setParameterValue(int,int,int,int,QString,QVariant)));
+            disconnect(uas, 0, this, 0);
         }
 
         // Connect buttons and signals
-        connect(activeUas, SIGNAL(parameterChanged(int,int,int,int,QString,QVariant)), this, SLOT(setParameterValue(int,int,int,int,QString,QVariant)), Qt::UniqueConnection);
+        connect(activeUas, SIGNAL(parameterChanged(int,int,int,int,QString,QVariant,uint8_t)), this, SLOT(setParameterValue(int,int,int,int,QString,QVariant)), Qt::UniqueConnection);
         uas = activeUas;
         // Update current param value
         requestParameter();
@@ -298,9 +298,10 @@ void QGCParamSlider::setSliderValue(int sliderValue)
  * @brief parameterName Key/name of the parameter
  * @brief value Value of the parameter
  */
-void QGCParamSlider::setParameterValue(int uas, int component, int paramCount, int paramIndex, QString parameterName, QVariant value)
+void QGCParamSlider::setParameterValue(int uas, int component, int paramCount, int paramIndex, QString parameterName, QVariant value, uint8_t type)
 {
     Q_UNUSED(paramCount);
+    Q_UNUSED(type);
     // Check if this component and parameter are part of the list
     bool found = false;
     for (int i = 0; i< ui->editSelectComponentComboBox->count(); ++i)

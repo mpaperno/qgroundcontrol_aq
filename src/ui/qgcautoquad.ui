@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1229</width>
-    <height>880</height>
+    <width>1230</width>
+    <height>827</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -257,7 +257,7 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Upload &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  or &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file via serial connection. Supported in all AutoQuad hardware when connected via serial port (USB to serial adapter).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad M4 USB&lt;/span&gt;: Upload .bin file via DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Currently supported only on AQ M4.&lt;/span&gt; Choose this option if your AutoQuad is connected directly via USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;not&lt;/span&gt; a USB-to-serial adapter, and you have a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file. &lt;span style=&quot; text-decoration: underline;&quot;&gt;When using DFU, make sure only one flashable device is attached to your system.&lt;/span&gt; You cannot select the port or speed for flashing.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32 Serial&lt;/span&gt;: Flash ESC32 firmware &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  file via serial connection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Upload &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  or &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file via serial connection. Supported in all AutoQuad hardware when connected via serial port (USB to serial adapter).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad M4 USB&lt;/span&gt;: Upload .bin file via DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Currently supported only on AQ M4.&lt;/span&gt; Choose this option if your AutoQuad is connected directly via USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;not&lt;/span&gt; a USB-to-serial adapter, and you have a &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  firmware file. &lt;span style=&quot; text-decoration: underline;&quot;&gt;When using DFU, make sure only one flashable device is attached to your system.&lt;/span&gt; You cannot select the port or speed for flashing.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32 Serial&lt;/span&gt;: Flash ESC32 firmware &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  file via serial connection.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="sizeAdjustPolicy">
                 <enum>QComboBox::AdjustToContents</enum>
@@ -1363,8 +1363,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>696</width>
-                <height>783</height>
+                <width>697</width>
+                <height>730</height>
                </rect>
               </property>
               <property name="sizePolicy">
@@ -4477,7 +4477,7 @@ padding: 1px 5px;</string>
                  </property>
                  <layout class="QHBoxLayout" name="horizontalLayout_12">
                   <item alignment="Qt::AlignTop">
-                   <widget class="QWidget" name="container_CTRL_ADJ_PARAM_1" native="true">
+                   <widget class="QWidget" name="container_CONFIG_ADJUST_P1" native="true">
                     <layout class="QHBoxLayout" name="horizontalLayout_24">
                      <property name="spacing">
                       <number>0</number>
@@ -4518,42 +4518,22 @@ padding: 1px 5px;</string>
                          </property>
                         </widget>
                        </item>
-                       <item row="2" column="4">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_5">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="sizeAdjustPolicy">
-                          <enum>QComboBox::AdjustToContents</enum>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="3" column="0">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_3">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="sizeAdjustPolicy">
-                          <enum>QComboBox::AdjustToContents</enum>
-                         </property>
-                        </widget>
-                       </item>
                        <item row="1" column="2">
-                        <widget class="QDoubleSpinBox" name="CTRL_ADJ_PARAM_1_scale">
+                        <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P1_scale">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="decimals">
                           <number>4</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.000100000000000</double>
                          </property>
                          <property name="maximum">
                           <double>0.025500000000000</double>
@@ -4567,7 +4547,7 @@ padding: 1px 5px;</string>
                         </widget>
                        </item>
                        <item row="3" column="1">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_3_chan">
+                        <widget class="QComboBox" name="CONFIG_ADJUST_P3_chan">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -4579,6 +4559,9 @@ padding: 1px 5px;</string>
                            <width>50</width>
                            <height>0</height>
                           </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="currentIndex">
                           <number>0</number>
@@ -4671,7 +4654,7 @@ padding: 1px 5px;</string>
                         </widget>
                        </item>
                        <item row="1" column="1">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_1_chan">
+                        <widget class="QComboBox" name="CONFIG_ADJUST_P1_chan">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -4683,6 +4666,9 @@ padding: 1px 5px;</string>
                            <width>50</width>
                            <height>0</height>
                           </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="currentIndex">
                           <number>0</number>
@@ -4774,21 +4760,8 @@ padding: 1px 5px;</string>
                          </item>
                         </widget>
                        </item>
-                       <item row="1" column="4">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_4">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="sizeAdjustPolicy">
-                          <enum>QComboBox::AdjustToContents</enum>
-                         </property>
-                        </widget>
-                       </item>
                        <item row="2" column="1">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_2_chan">
+                        <widget class="QComboBox" name="CONFIG_ADJUST_P2_chan">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -4800,6 +4773,9 @@ padding: 1px 5px;</string>
                            <width>50</width>
                            <height>0</height>
                           </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="currentIndex">
                           <number>0</number>
@@ -4892,15 +4868,21 @@ padding: 1px 5px;</string>
                         </widget>
                        </item>
                        <item row="2" column="2">
-                        <widget class="QDoubleSpinBox" name="CTRL_ADJ_PARAM_2_scale">
+                        <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P2_scale">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="decimals">
                           <number>4</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.000100000000000</double>
                          </property>
                          <property name="maximum">
                           <double>0.025500000000000</double>
@@ -4910,45 +4892,6 @@ padding: 1px 5px;</string>
                          </property>
                          <property name="value">
                           <double>0.002000000000000</double>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="3" column="4">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_6">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="sizeAdjustPolicy">
-                          <enum>QComboBox::AdjustToContents</enum>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="1" column="0">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_1">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="sizeAdjustPolicy">
-                          <enum>QComboBox::AdjustToContents</enum>
-                         </property>
-                        </widget>
-                       </item>
-                       <item row="2" column="0">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_2">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="sizeAdjustPolicy">
-                          <enum>QComboBox::AdjustToContents</enum>
                          </property>
                         </widget>
                        </item>
@@ -4994,7 +4937,7 @@ padding: 1px 3px;</string>
                         </widget>
                        </item>
                        <item row="2" column="5">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_5_chan">
+                        <widget class="QComboBox" name="CONFIG_ADJUST_P5_chan">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -5006,6 +4949,9 @@ padding: 1px 3px;</string>
                            <width>50</width>
                            <height>0</height>
                           </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="currentIndex">
                           <number>0</number>
@@ -5098,7 +5044,7 @@ padding: 1px 3px;</string>
                         </widget>
                        </item>
                        <item row="1" column="5">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_4_chan">
+                        <widget class="QComboBox" name="CONFIG_ADJUST_P4_chan">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -5110,6 +5056,9 @@ padding: 1px 3px;</string>
                            <width>50</width>
                            <height>0</height>
                           </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="currentIndex">
                           <number>0</number>
@@ -5202,7 +5151,7 @@ padding: 1px 3px;</string>
                         </widget>
                        </item>
                        <item row="3" column="5">
-                        <widget class="QComboBox" name="CTRL_ADJ_PARAM_6_chan">
+                        <widget class="QComboBox" name="CONFIG_ADJUST_P6_chan">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -5214,6 +5163,9 @@ padding: 1px 3px;</string>
                            <width>50</width>
                            <height>0</height>
                           </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                          <property name="currentIndex">
                           <number>0</number>
@@ -5306,15 +5258,21 @@ padding: 1px 3px;</string>
                         </widget>
                        </item>
                        <item row="3" column="6">
-                        <widget class="QDoubleSpinBox" name="CTRL_ADJ_PARAM_6_scale">
+                        <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P6_scale">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="decimals">
                           <number>4</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.000100000000000</double>
                          </property>
                          <property name="maximum">
                           <double>0.025500000000000</double>
@@ -5328,15 +5286,21 @@ padding: 1px 3px;</string>
                         </widget>
                        </item>
                        <item row="3" column="2">
-                        <widget class="QDoubleSpinBox" name="CTRL_ADJ_PARAM_3_scale">
+                        <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P3_scale">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="decimals">
                           <number>4</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.000100000000000</double>
                          </property>
                          <property name="maximum">
                           <double>0.025500000000000</double>
@@ -5350,15 +5314,21 @@ padding: 1px 3px;</string>
                         </widget>
                        </item>
                        <item row="1" column="6">
-                        <widget class="QDoubleSpinBox" name="CTRL_ADJ_PARAM_4_scale">
+                        <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P4_scale">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="decimals">
                           <number>4</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.000100000000000</double>
                          </property>
                          <property name="maximum">
                           <double>0.025500000000000</double>
@@ -5372,15 +5342,21 @@ padding: 1px 3px;</string>
                         </widget>
                        </item>
                        <item row="2" column="6">
-                        <widget class="QDoubleSpinBox" name="CTRL_ADJ_PARAM_5_scale">
+                        <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P5_scale">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
                          <property name="decimals">
                           <number>4</number>
+                         </property>
+                         <property name="minimum">
+                          <double>0.000100000000000</double>
                          </property>
                          <property name="maximum">
                           <double>0.025500000000000</double>
@@ -5468,6 +5444,138 @@ padding: 1px 5px;</string>
                           </size>
                          </property>
                         </spacer>
+                       </item>
+                       <item row="1" column="0">
+                        <widget class="QPushButton" name="CONFIG_ADJUST_P1">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">text-align: left;</string>
+                         </property>
+                         <property name="text">
+                          <string>None</string>
+                         </property>
+                         <property name="type" stdset="0">
+                          <string notr="true">dataDisplay</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="0">
+                        <widget class="QPushButton" name="CONFIG_ADJUST_P2">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">text-align: left;</string>
+                         </property>
+                         <property name="text">
+                          <string>None</string>
+                         </property>
+                         <property name="type" stdset="0">
+                          <string notr="true">dataDisplay</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="3" column="0">
+                        <widget class="QPushButton" name="CONFIG_ADJUST_P3">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">text-align: left;</string>
+                         </property>
+                         <property name="text">
+                          <string>None</string>
+                         </property>
+                         <property name="type" stdset="0">
+                          <string notr="true">dataDisplay</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="4">
+                        <widget class="QPushButton" name="CONFIG_ADJUST_P4">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">text-align: left;</string>
+                         </property>
+                         <property name="text">
+                          <string>None</string>
+                         </property>
+                         <property name="type" stdset="0">
+                          <string notr="true">dataDisplay</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="4">
+                        <widget class="QPushButton" name="CONFIG_ADJUST_P5">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">text-align: left;</string>
+                         </property>
+                         <property name="text">
+                          <string>None</string>
+                         </property>
+                         <property name="type" stdset="0">
+                          <string notr="true">dataDisplay</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="3" column="4">
+                        <widget class="QPushButton" name="CONFIG_ADJUST_P6">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">text-align: left;</string>
+                         </property>
+                         <property name="text">
+                          <string>None</string>
+                         </property>
+                         <property name="type" stdset="0">
+                          <string notr="true">dataDisplay</string>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </item>
@@ -8216,7 +8324,7 @@ padding: 1px 5px;</string>
                       </sizepolicy>
                      </property>
                      <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AM2 &lt;/span&gt; is the thrust applied to acheive the correction rate  that  is demanded by AM1.  A higher  value demands more thrust to acheive the desired correction rate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AM2 &lt;/span&gt; is the thrust applied to acheive the correction rate  that  is demanded by AM1.  A higher  value demands more thrust to acheive the desired correction rate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -8245,7 +8353,7 @@ padding: 1px 5px;</string>
                       </sizepolicy>
                      </property>
                      <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PROP_K1&lt;/span&gt; is a constant that  describe the propellor torque:  The more torque (eg bigger/steeper prop), the lower this value. Default value is about for a 10-12″ prop. Slowflyers have more torque than Speed type props (e-props, thin electric, etc).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PROP_K1&lt;/span&gt; is a constant that  describe the propellor torque:  The more torque (eg bigger/steeper prop), the lower this value. Default value is about for a 10-12″ prop. Slowflyers have more torque than Speed type props (e-props, thin electric, etc).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -8345,7 +8453,7 @@ padding: 1px 5px;</string>
                       </sizepolicy>
                      </property>
                      <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;QUATOS_L1_ASP&lt;/span&gt; is some component you should not mess with!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;QUATOS_L1_ASP&lt;/span&gt; is some component you should not mess with!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -8384,7 +8492,7 @@ padding: 1px 5px;</string>
                       </sizepolicy>
                      </property>
                      <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; is rate response limiters expressed in radians per second. 1 radian equals 57.29 degrees. (QUATOS_M_TLT_RT)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; is rate response limiters expressed in radians per second. 1 radian equals 57.29 degrees. (QUATOS_M_TLT_RT)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -8413,7 +8521,7 @@ padding: 1px 5px;</string>
                       </sizepolicy>
                      </property>
                      <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; is rate response limiters expressed in radians per second. 1 radian equals 57.29 degrees. (QUATOS_M_YAW_RT)  Don't forget to adjust Yaw Rate in Radio &amp;amp; Controls settngs to match.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; is rate response limiters expressed in radians per second. 1 radian equals 57.29 degrees. (QUATOS_M_YAW_RT)  Don't forget to adjust Yaw Rate in Radio &amp;amp; Controls settngs to match.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -10902,7 +11010,7 @@ padding: 1px 5px;</string>
          </widget>
          <widget class="QWidget" name="tab_aq_esc32">
           <attribute name="title">
-           <string>ESC32 Settings</string>
+           <string>ESC32v2 Settings</string>
           </attribute>
           <layout class="QGridLayout" name="gridLayout_13">
            <property name="topMargin">
@@ -10913,6 +11021,35 @@ padding: 1px 5px;</string>
            </property>
            <item row="6" column="0">
             <spacer name="verticalSpacer_15">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="3">
+            <spacer name="horizontalSpacer_13">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::MinimumExpanding</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>1</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="1" rowspan="3">
+            <spacer name="verticalSpacer_26">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -11235,6 +11372,549 @@ padding: 1px 5px;</string>
                    </property>
                   </item>
                  </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QGroupBox" name="groupBox_9">
+             <property name="title">
+              <string>PWM Input</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <layout class="QFormLayout" name="formLayout_42">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_143">
+                  <property name="text">
+                   <string>Min. Valid:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="PWM_MIN_VALUE">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum input PWM pulse length in microseconds which the ESC will consider to be valid. For DJI Naza this value has to be 900!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_141">
+                  <property name="text">
+                   <string>Min. Throttle:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="PWM_LO_VALUE">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the lowest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_122">
+                  <property name="text">
+                   <string>Motor Start:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="PWM_MIN_START">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds at which the motor will be started.  Once running, the throttle can be brought as low as PWM_LO_VALUE as long as the motor does not stall.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_139">
+                  <property name="text">
+                   <string>Min. Period:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="PWM_MIN_PERIOD">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 450Hz. For MultiWii and ArduCopter APM this value needs to be changed to 2000!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_215">
+                  <property name="text">
+                   <string>Low Pass Filter:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="PWM_LOWPASS">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass on PWM input values (0 = none, 10 = heavy, no upper limit)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="formLayout_43">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_144">
+                  <property name="text">
+                   <string>Max. Valid:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="PWM_MAX_VALUE">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum input PWM pulse length in microseconds which the ESC will consider to be valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_142">
+                  <property name="text">
+                   <string>Max. Throttle:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="PWM_HI_VALUE">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the highest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_140">
+                  <property name="text">
+                   <string>Max. Period:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="PWM_MAX_PERIOD">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 40Hz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_145">
+                  <property name="text">
+                   <string>RPM Scale:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="PWM_RPM_SCALE">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The scale of the input PWM pulse length.  In closed loop RPM run mode, PWM_LO_VALUE will indicate 0 RPM and PWM_HI_VALUE will indicate this RPM. Closed loop modes only!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <spacer name="horizontalSpacer_11">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="2" column="0">
+                 <spacer name="horizontalSpacer_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QGroupBox" name="groupBox_8">
+             <property name="title">
+              <string>Advanced</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <layout class="QFormLayout" name="formLayout_40">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_125">
+                  <property name="text">
+                   <string>Min. Period:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="MIN_PERIOD">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_127">
+                  <property name="text">
+                   <string>Blanking:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="BLANKING_MICROS">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of microseconds to ignore back EMF after a commutation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_129">
+                  <property name="text">
+                   <string>Start Voltage:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="START_VOLTAGE">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The amount of voltage presented to the motor during startup. Allowable range is 0.1v to 3.0v&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_133">
+                  <property name="text">
+                   <string>Start Align Time:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="START_ALIGN_TIME">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ms to align rotor in known position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_137">
+                  <property name="text">
+                   <string>Start Align Volt.:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="START_ALIGN_VOLTAGE">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;max voltage during align (around 0.8 * START_VOLTAGE)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLabel" name="label_130">
+                  <property name="text">
+                   <string>Good Dets. Start:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QLineEdit" name="GOOD_DETECTS_START">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Once started, the number of good, in order zero crossings needed to be detected before the motor is considered to be in the running state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="label_219">
+                  <property name="text">
+                   <string>RPM Low Pass:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QLineEdit" name="RPM_MEAS_LP">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass measured RPM values for closed loop control (0 = none, 0.99 = max, &amp;gt;=1 not allowed)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QFormLayout" name="formLayout_41">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_166">
+                  <property name="text">
+                   <string>Max. Period:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="MAX_PERIOD">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_117">
+                  <property name="text">
+                   <string>Switch Freq:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="SWITCH_FREQ">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The output PWM pulse frequency used to power the motor windings in KHz.  Valid range is from 4KHz to 64KHz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_173">
+                  <property name="text">
+                   <string>Start Steps Num:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="START_STEPS_NUM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;steps without commutation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_178">
+                  <property name="text">
+                   <string>Start Steps Period:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="START_STEPS_PERIOD">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us betweet steps&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_211">
+                  <property name="text">
+                   <string>Start Step Accel.:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="START_STEPS_ACCEL">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us each following step will be shorter (acceleration)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QLabel" name="label_115">
+                  <property name="frameShape">
+                   <enum>QFrame::NoFrame</enum>
+                  </property>
+                  <property name="text">
+                   <string>Bad Dets. Disarm:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QLineEdit" name="BAD_DETECTS_DISARM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; The number of missed zero crossing detects allowed before the ESC considers the motor not to be running at which point will go into the disarmed state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="0" column="2" rowspan="2">
+            <widget class="QGroupBox" name="groupBox_7">
+             <property name="title">
+              <string>Calibrated Terms</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <layout class="QFormLayout" name="formLayout_38">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_151">
+                  <property name="text">
+                   <string>CL 1:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="CL1TERM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="CL2TERM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_152">
+                  <property name="text">
+                   <string>CL 2:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_153">
+                  <property name="text">
+                   <string>CL 3:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="CL3TERM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="CL4TERM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_154">
+                  <property name="text">
+                   <string>CL 4:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLineEdit" name="CL5TERM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_123">
+                  <property name="text">
+                   <string>CL 5:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QLineEdit" name="FF1TERM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="label_149">
+                  <property name="text">
+                   <string>FF 1:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QLineEdit" name="FF2TERM">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="label_150">
+                  <property name="text">
+                   <string>FF 2:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="9" column="1">
+                 <widget class="QLineEdit" name="THR1TERM"/>
+                </item>
+                <item row="9" column="0">
+                 <widget class="QLabel" name="label_165">
+                  <property name="text">
+                   <string>THR 1:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="0">
+                 <widget class="QLabel" name="label_169">
+                  <property name="text">
+                   <string>THR 2:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="10" column="1">
+                 <widget class="QLineEdit" name="THR2TERM"/>
+                </item>
+                <item row="5" column="1">
+                 <spacer name="horizontalSpacer_14">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="8" column="1">
+                 <spacer name="horizontalSpacer_15">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </item>
@@ -11920,370 +12600,6 @@ padding: 1px 5px;</string>
              </layout>
             </widget>
            </item>
-           <item row="2" column="3">
-            <spacer name="horizontalSpacer_13">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::MinimumExpanding</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>1</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="1">
-            <widget class="QGroupBox" name="groupBox_9">
-             <property name="title">
-              <string>PWM Input</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_18">
-              <item>
-               <layout class="QFormLayout" name="formLayout_42">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_143">
-                  <property name="text">
-                   <string>Min. Valid:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="PWM_MIN_VALUE">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum input PWM pulse length in microseconds which the ESC will consider to be valid. For DJI Naza this value has to be 900!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_141">
-                  <property name="text">
-                   <string>Min. Throttle:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="PWM_LO_VALUE">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the lowest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_122">
-                  <property name="text">
-                   <string>Motor Start:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="PWM_MIN_START">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds at which the motor will be started.  Once running, the throttle can be brought as low as PWM_LO_VALUE as long as the motor does not stall.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_139">
-                  <property name="text">
-                   <string>Min. Period:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="PWM_MIN_PERIOD">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 450Hz. For MultiWii and ArduCopter APM this value needs to be changed to 2000!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="label_215">
-                  <property name="text">
-                   <string>Low Pass Filter:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLineEdit" name="PWM_LOWPASS">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass on PWM input values (0 = none, 10 = heavy, no upper limit)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QFormLayout" name="formLayout_43">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_144">
-                  <property name="text">
-                   <string>Max. Valid:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="PWM_MAX_VALUE">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum input PWM pulse length in microseconds which the ESC will consider to be valid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_142">
-                  <property name="text">
-                   <string>Max. Throttle:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="PWM_HI_VALUE">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The input PWM pulse length in microseconds for the highest throttle setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_140">
-                  <property name="text">
-                   <string>Max. Period:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="PWM_MAX_PERIOD">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum period in microseconds that the ESC will consider an input PWM waveform to be valid.  Default value represents approx 40Hz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="label_145">
-                  <property name="text">
-                   <string>RPM Scale:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLineEdit" name="PWM_RPM_SCALE">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The scale of the input PWM pulse length.  In closed loop RPM run mode, PWM_LO_VALUE will indicate 0 RPM and PWM_HI_VALUE will indicate this RPM. Closed loop modes only!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <spacer name="horizontalSpacer_11">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="2" column="0">
-                 <spacer name="horizontalSpacer_12">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="0" column="2" rowspan="2">
-            <widget class="QGroupBox" name="groupBox_7">
-             <property name="title">
-              <string>Calibrated Terms</string>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
-              <item>
-               <layout class="QFormLayout" name="formLayout_38">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_151">
-                  <property name="text">
-                   <string>CL 1:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="CL1TERM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="CL2TERM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_152">
-                  <property name="text">
-                   <string>CL 2:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_153">
-                  <property name="text">
-                   <string>CL 3:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="CL3TERM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="CL4TERM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_154">
-                  <property name="text">
-                   <string>CL 4:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLineEdit" name="CL5TERM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CL1TERM through CL5TERM are used by the virtual current limiter which will not function until they are set.  If CL1TERM through CL5TERM is not set, a PI controller will be used for current limiting instead. CL1TERM through CL5TERM can be calculated using the esc32Cal program with the –cl option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="label_123">
-                  <property name="text">
-                   <string>CL 5:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="1">
-                 <widget class="QLineEdit" name="FF1TERM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="label_149">
-                  <property name="text">
-                   <string>FF 1:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="1">
-                 <widget class="QLineEdit" name="FF2TERM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Feed forward terms used for the RPM controller.  Closed loop RPM mode will not function until FF1 &amp;amp; FF2 terms have been set. These values should be calculated using the esc32Cal program with the –r2v option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="0">
-                 <widget class="QLabel" name="label_150">
-                  <property name="text">
-                   <string>FF 2:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="9" column="1">
-                 <widget class="QLineEdit" name="THR1TERM"/>
-                </item>
-                <item row="9" column="0">
-                 <widget class="QLabel" name="label_165">
-                  <property name="text">
-                   <string>THR 1:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="10" column="0">
-                 <widget class="QLabel" name="label_169">
-                  <property name="text">
-                   <string>THR 2:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="10" column="1">
-                 <widget class="QLineEdit" name="THR2TERM"/>
-                </item>
-                <item row="5" column="1">
-                 <spacer name="horizontalSpacer_14">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>10</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="8" column="1">
-                 <spacer name="horizontalSpacer_15">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>10</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item row="4" column="1" rowspan="3">
-            <spacer name="verticalSpacer_26">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
            <item row="4" column="2" rowspan="3">
             <spacer name="verticalSpacer_25">
              <property name="orientation">
@@ -12297,212 +12613,20 @@ padding: 1px 5px;</string>
              </property>
             </spacer>
            </item>
-           <item row="2" column="1">
-            <widget class="QGroupBox" name="groupBox_8">
-             <property name="title">
-              <string>Advanced</string>
+           <item row="3" column="1" colspan="2">
+            <widget class="QLabel" name="label_32">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_16">
-              <item>
-               <layout class="QFormLayout" name="formLayout_40">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_125">
-                  <property name="text">
-                   <string>Min. Period:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="MIN_PERIOD">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_127">
-                  <property name="text">
-                   <string>Blanking:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="BLANKING_MICROS">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of microseconds to ignore back EMF after a commutation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_129">
-                  <property name="text">
-                   <string>Start Voltage:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="START_VOLTAGE">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The amount of voltage presented to the motor during startup. Allowable range is 0.1v to 3.0v&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_133">
-                  <property name="text">
-                   <string>Start Align Time:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="START_ALIGN_TIME">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ms to align rotor in known position&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="label_137">
-                  <property name="text">
-                   <string>Start Align Volt.:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLineEdit" name="START_ALIGN_VOLTAGE">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;max voltage during align (around 0.8 * START_VOLTAGE)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0">
-                 <widget class="QLabel" name="label_130">
-                  <property name="text">
-                   <string>Good Dets. Start:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="1">
-                 <widget class="QLineEdit" name="GOOD_DETECTS_START">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Once started, the number of good, in order zero crossings needed to be detected before the motor is considered to be in the running state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="label_219">
-                  <property name="text">
-                   <string>RPM Low Pass:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="1">
-                 <widget class="QLineEdit" name="RPM_MEAS_LP">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;lowpass measured RPM values for closed loop control (0 = none, 0.99 = max, &amp;gt;=1 not allowed)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QFormLayout" name="formLayout_41">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_166">
-                  <property name="text">
-                   <string>Max. Period:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLineEdit" name="MAX_PERIOD">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum commutation period allowed in microseconds&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_117">
-                  <property name="text">
-                   <string>Switch Freq:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLineEdit" name="SWITCH_FREQ">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The output PWM pulse frequency used to power the motor windings in KHz.  Valid range is from 4KHz to 64KHz.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_173">
-                  <property name="text">
-                   <string>Start Steps Num:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="START_STEPS_NUM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;steps without commutation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_178">
-                  <property name="text">
-                   <string>Start Steps Period:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLineEdit" name="START_STEPS_PERIOD">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us betweet steps&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="label_211">
-                  <property name="text">
-                   <string>Start Step Accel.:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QLineEdit" name="START_STEPS_ACCEL">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;us each following step will be shorter (acceleration)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0">
-                 <widget class="QLabel" name="label_115">
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <property name="text">
-                   <string>Bad Dets. Disarm:</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="1">
-                 <widget class="QLineEdit" name="BAD_DETECTS_DISARM">
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; The number of missed zero crossing detects allowed before the ESC considers the motor not to be running at which point will go into the disarmed state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
+             <property name="text">
+              <string>WARNING: Do NOT use this settings page for ESC32v3 (version 3)! It is not compatible.</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
           </layout>

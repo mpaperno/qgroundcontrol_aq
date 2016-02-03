@@ -12,11 +12,14 @@
 class QGCAQParamWidget;
 class AQPWMPortsConfig;
 class AQEsc32;
+class SelectAdjustableParamDialog;
+
 class QTextEdit;
 class QToolButton;
 class QProgressBar;
 class QLabel;
 class QComboBox;
+class QPushButton;
 
 namespace Ui {
 class QGCAutoquad;
@@ -96,11 +99,12 @@ private slots:
     void dataStreamUpdate(const int uasId, const uint8_t stream_id, const uint16_t rate, const bool on_off);
 
     // AQ Settings
-    void setupAdjustableParameters();
+    void onParametersLoaded(uint8_t component);
     void loadParametersToUI();
     void saveAQSettings();
     void saveDialogButtonClicked(QAbstractButton *btn);
     void saveDialogRestartOptionChecked(bool chk);
+    void onTunableParamBtnClick();
     QString paramNameGuiToOnboard(QString paraName);
     int calcRadioSetting();
     void convertPidAttValsToFW68Scales();
@@ -149,8 +153,7 @@ private slots:
     void prtstexit(int stat);
     void prtstdout();
     void extProcessError(QProcess::ProcessError err);
-    void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
-    void uasConnected();
+    void uasConnected(uint8_t component);
     void handleStatusText(int uasId, int compid, int severity, QString text);
     void setConnectedSystemInfoDefaults();
     void setHardwareInfo();
@@ -159,13 +162,16 @@ private slots:
     void paramRequestTimeoutNotify(int readCount, int writeCount);
     void pushButton_dev1();
 
+#if 0
     // Tracking
+    void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
     void pushButton_tracking();
     void pushButton_tracking_file();
     void prtstexitTR(int);
     void prtstdoutTR();
     void prtstderrTR();
     void sendTracking();
+#endif
 
 /*
  * Variables
@@ -186,7 +192,7 @@ public:
     bool useRadioSetupParam;        // firmware uses newer RADIO_SETUP parameter
     bool usingQuatos;               // firmware reports quatos attitutde controller is used
     bool useNewControlsScheme;      // firmware supports _CTRL_ type parameters for control switch values
-    bool useTunableParams;          // firmware supports CTRL_ADJ_PARAM_n for live parameter adjustment
+    bool useTunableParams;          // firmware supports CONFIG_ADJUST_Pn for live parameter adjustment
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files
@@ -250,14 +256,15 @@ private:
     QRegExp paramsSwitchControls;
     QRegExp paramsTunableControls;
     QRegExp paramsTunableControlChannels;
-    QRegExp paramsNonTunable;
+    //QRegExp paramsNonTunable;
     QList<QComboBox *> allRadioChanCombos;
-    QList<QComboBox *> allTunableParamsCombos;
+    QList<QPushButton *> allTunableParamWidgets;
     quint8 paramSaveType;
     int paramsLoadedForAqBuildNumber;
     bool restartAfterParamSave;
 
     // Tracking
+#if 0
     double lat,lon,alt;
     QProcess ps_tracking;
     int TrackingIsrunning;
@@ -277,6 +284,7 @@ private:
     float res1,res2;
     QStringList SplitRes;
     float currentPosN, currentPosE;
+#endif
 
     // Misc
     int VisibleWidget;
@@ -286,6 +294,7 @@ private:
     bool mtx_paramsAreLoading;
     QString UsersParamsFile;
     QTextEdit* activeProcessStatusWdgt;
+    SelectAdjustableParamDialog *m_selectAdjParamsDialog;
 
 };
 

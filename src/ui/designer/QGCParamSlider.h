@@ -28,7 +28,7 @@ public slots:
     /** @brief Set the slider value as parameter value */
     void setSliderValue(int sliderValue);
     /** @brief Update the UI with the new parameter value */
-    void setParameterValue(int uas, int component, int paramCount, int paramIndex, QString parameterName, const QVariant value);
+    void setParameterValue(int uas, int component, int paramCount, int paramIndex, QString parameterName, const QVariant value, uint8_t type);
     void writeSettings(QSettings& settings);
     void readSettings(const QSettings& settings);
     void refreshParamList();

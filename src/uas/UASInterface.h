@@ -216,13 +216,13 @@ public slots:
     virtual void setAirframe(int airframe) = 0;
 
     /** @brief Launches the system/Liftof **/
-    virtual void launch(float vspd = 0.0f, float hitRad = 1.0f) = 0;
+    virtual void launch(float vspd = 0.0f, float hitRad = 1.0f, float alt = 5.0f, uint8_t frame = MAV_FRAME_GLOBAL_RELATIVE_ALT) = 0;
     /** @brief Set a new waypoint **/
     //virtual void setWaypoint(Waypoint* wp) = 0;
     /** @brief Set this waypoint as next waypoint to fly to */
     //virtual void setWaypointActive(int wp) = 0;
     /** @brief Order the robot to return home / to land on the runway **/
-    virtual void home() = 0;
+    virtual void home(float hspd = 0.0f) = 0;
     /** @brief Order the robot to land **/
     virtual void land(float vspd = 0.0f) = 0;
     /** @brief Halt the system */
@@ -263,7 +263,7 @@ public slots:
     /** @brief Set home at current GPS position */
     virtual void setHomeAtCurrentPosition() = 0;
     /** @brief Request all onboard parameters of all components */
-    virtual void requestParameters() = 0;
+    virtual void requestParameters(uint8_t compId = MAV_COMP_ID_ALL) = 0;
     /** @brief Request one specific onboard parameter */
     virtual void requestParameter(int component, const QString& parameter) = 0;
     /** @brief Write parameter to permanent storage */
@@ -445,7 +445,7 @@ signals:
     void waypointReached(UASInterface* uas, int id);
     void autoModeChanged(bool autoMode);
     void parameterChanged(int uas, int component, QString parameterName, QVariant value);
-    void parameterChanged(int uas, int component, int parameterCount, int parameterId, QString parameterName, QVariant value);
+    void parameterChanged(int uas, int component, int parameterCount, int parameterId, QString parameterName, QVariant value, uint8_t type);
     void patternDetected(int uasId, QString patternPath, float confidence, bool detected);
     void letterDetected(int uasId, QString letter, float confidence, bool detected);
     /**
