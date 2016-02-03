@@ -11,8 +11,10 @@
 
 class QGCAQParamWidget;
 class AQPWMPortsConfig;
-class AQEsc32;
 class SelectAdjustableParamDialog;
+#ifdef INCLUDE_ESC32V2_UI
+class AQEsc32ConfigWidget;
+#endif
 
 class QTextEdit;
 class QToolButton;
@@ -41,8 +43,10 @@ public:
     bool checkAqConnected(bool interactive = false);
     void setAqHasQuatos(const bool yes);
     bool aqHasQuatos() { return usingQuatos; }
-    void Esc32UpdateStatusText(QString text);
     QString extProcessErrorToString(QProcess::ProcessError err);
+
+public slots:
+    void flashFwStart();
 
 protected:
     void showEvent(QShowEvent* event);
@@ -86,7 +90,6 @@ private slots:
     void fwTypeChange();
     void selectFWToFlash();
     void flashFW();
-    void flashFwStart();
     void flashFwDfu();
 
     // UAS setup
@@ -118,35 +121,6 @@ private slots:
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
     void on_toolButton_toggleRadioValues_clicked(bool checked);
-
-    // ESC32
-    void setPortNameEsc32(QString port);
-    void btnConnectEsc32();
-    void flashFWEsc32();
-    void Esc32LoadConfig(QString Config);
-    void Esc32ShowConfig(QMap<QString, QString> paramPairs, bool disableMissing = 1);
-    void btnSaveToEsc32();
-    void Esc32SaveParamsToFile();
-    void Esc32LoadParamsFromFile();
-    void btnArmEsc32();
-    void btnStartStopEsc32();
-    void btnSetRPM();
-    void saveEEpromEsc32();
-    void ParaWrittenEsc32(QString ParaName);
-    void CommandWrittenEsc32(int CommandName, QVariant V1, QVariant V2 );
-    void ESc32Disconnected();
-    void Esc32Connected();
-    void Esc32StartCalibration();
-    void btnReadConfigEsc32();
-    void Esc32LoadDefaultConf();
-    void Esc32ReLoadConf();
-    void Esc32CaliGetCommand(int Command);
-    void Esc32StartLogging();
-    void Esc32CalibrationFinished(int mode);
-    void Esc32BootModOk();
-    void Esc32BootModFailure(QString err);
-    void Esc32BootModeTimeout();
-    void Esc32GotFirmwareVersion(QString ver);
 
     // Misc.
     bool checkProcRunning(bool warn = true);
@@ -203,7 +177,7 @@ protected:
     UASInterface* uas;
 //    SerialLink* seriallink;
     QGCAQParamWidget* paramaq;
-    AQEsc32 *esc32;
+
     AQPWMPortsConfig* aqPwmPortConfig;
     LinkInterface* connectedLink;
 
@@ -228,21 +202,6 @@ private:
     QString portName;
     bool fwFlashActive;
 
-    // ESC32
-    int WaitForParaWriten;
-    int Esc32CalibrationMode;
-    bool FlashEsc32Active;
-    bool skipParamChangeCheck;
-    bool esc32_connected;
-    bool esc32_armed;
-    bool esc32_running;
-    bool esc32_calibrating;
-    QString portNameEsc32;
-    QString FwFileForEsc32;
-    QString ParaNameWritten;
-    QMap<QString, QString> paramEsc32;
-    QMap<QString, QString> paramEsc32Written;
-
     // Radio
     QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
     QList<QProgressBar *> allRadioChanProgressBars;
@@ -263,8 +222,23 @@ private:
     int paramsLoadedForAqBuildNumber;
     bool restartAfterParamSave;
 
-    // Tracking
+    // Misc
+    int VisibleWidget;
+    QString LastFilePath;
+    int devCommand;
+    QProcess ps_master;
+    bool mtx_paramsAreLoading;
+    QString UsersParamsFile;
+    QTextEdit* activeProcessStatusWdgt;
+    SelectAdjustableParamDialog *m_selectAdjParamsDialog;
+
+#ifdef INCLUDE_ESC32V2_UI
+    // ESC32
+    AQEsc32ConfigWidget *esc32Cfg;
+#endif
+
 #if 0
+    // Tracking
     double lat,lon,alt;
     QProcess ps_tracking;
     int TrackingIsrunning;
@@ -285,16 +259,6 @@ private:
     QStringList SplitRes;
     float currentPosN, currentPosE;
 #endif
-
-    // Misc
-    int VisibleWidget;
-    QString LastFilePath;
-    int devCommand;
-    QProcess ps_master;
-    bool mtx_paramsAreLoading;
-    QString UsersParamsFile;
-    QTextEdit* activeProcessStatusWdgt;
-    SelectAdjustableParamDialog *m_selectAdjParamsDialog;
 
 };
 

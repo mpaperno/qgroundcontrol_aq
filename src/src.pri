@@ -186,7 +186,6 @@ HEADERS += src/MG.h \
 #    src/ui/QGCHilXPlaneConfiguration.h \
 	 src/ui/qgcautoquad.h \
 	 src/ui/qgcaqparamwidget.h \
-	 src/aq_comm.h \
 	 src/ui/linechart/aqlinechartwidget.h \
 #    src/ui/aq_LogExporter.h \
 	 src/ui/aq_telemetryView.h \
@@ -198,7 +197,8 @@ HEADERS += src/MG.h \
 	 src/ui/ESCtelemetryWidget.h \
 	 src/ui/linechart/ChartPlot.h \
 	 src/ui/WaypointDialog.h \
-	 src/ui/SelectAdjustableParamDialog.h
+	 src/ui/SelectAdjustableParamDialog.h \
+	 src/AQLogParser.h
 
 SOURCES += src/main.cc \
 	 src/QGCCore.cc \
@@ -296,7 +296,6 @@ SOURCES += src/main.cc \
 #    src/ui/QGCHilXPlaneConfiguration.cc \
 	 src/ui/qgcautoquad.cc \
 	 src/ui/qgcaqparamwidget.cc \
-	 src/aq_comm.cpp \
 	 src/ui/linechart/aqlinechartwidget.cpp \
 #    src/ui/aq_LogExporter.cpp \
 	 src/ui/aq_telemetryView.cpp \
@@ -307,7 +306,18 @@ SOURCES += src/main.cc \
 	 src/ui/ESCtelemetryWidget.cpp \
 	 src/ui/linechart/ChartPlot.cc \
 	 src/ui/WaypointDialog.cpp \
-	 src/ui/SelectAdjustableParamDialog.cpp
+	 src/ui/SelectAdjustableParamDialog.cpp \
+	 src/AQLogParser.cpp
+
+
+
+contains(DEFINES, INCLUDE_ESC32V2_UI) {
+	SOURCES += src/AQEsc32.cpp\
+		src/ui/AQEsc32ConfigWidget.cpp
+	HEADERS += src/AQEsc32.h \
+		src/ui/AQEsc32ConfigWidget.h
+	FORMS += src/ui/AQEsc32ConfigWidget.ui
+}
 
 # Enable Google Earth only on Mac OS 32b and Windows
 contains(DEFINES, USE_GOOGLE_EARTH_PLUGIN) {

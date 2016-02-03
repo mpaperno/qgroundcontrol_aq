@@ -1,7 +1,7 @@
 #ifndef AQ_LOGVIEWER_H
 #define AQ_LOGVIEWER_H
 
-#include "aq_comm.h"
+#include "AQLogParser.h"
 #include "IncrementalPlot.h"
 #include "qwt_plot_marker.h"
 #include "qwt_plot_picker.h"

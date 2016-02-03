@@ -102,12 +102,18 @@ BASEDIR = $$_PRO_FILE_PWD_
 DEFINES *= QT_MESSAGELOGCONTEXT
 DEFINES *= QT_USE_QSTRINGBUILDER
 DEFINES += MAVLINK_NO_DATA
+
 # set to build w/out QtSpeech
 #DEFINES += NO_TEXT_TO_SPEECH
+
 # set to build with VLC support # Windows only #
 #DEFINES += QGC_USE_VLC
+
 # Turn off serial port warnings
 #DEFINES += _TTY_NOWARN_
+
+# Include ESC32v2 setup GUI
+#DEFINES += INCLUDE_ESC32V2_UI
 
 # if the variable MAVLINK_CONF contains the name of an
 # additional project, QGroundControl includes the support
