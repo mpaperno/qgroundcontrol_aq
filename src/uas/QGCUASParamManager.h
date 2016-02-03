@@ -1,7 +1,7 @@
 #ifndef QGCUASPARAMMANAGER_H
 #define QGCUASPARAMMANAGER_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <QWidget>
 #include <QMap>
 #include <QTimer>

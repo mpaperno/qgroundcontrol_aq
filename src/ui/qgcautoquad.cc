@@ -187,10 +187,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     adjustUiForFirmware();
     setupRadioPorts();
 
-#if 1 || defined(QT_NO_DEBUG)
-    ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
-#endif
-
 #ifdef INCLUDE_ESC32V2_UI
     esc32Cfg = new AQEsc32ConfigWidget(this);
     esc32Cfg->setBaudRates(baudRates);
@@ -202,9 +198,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->tabLayout_aqEsc32Config->addWidget(esc32Cfg);
 
     ui->comboBox_fwType->addItem(tr("ESC32 Serial"), "esc32");
-
 #else
-    ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide esc tab
+    ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-2); // hide esc tab
+#endif
+
+#if 1 || defined(QT_NO_DEBUG)
+    ui->tab_aq_settings->removeTab(ui->tab_aq_settings->count()-1); // hide devel tab
 #endif
 
     // done setting up UI //
@@ -523,7 +522,7 @@ void QGCAutoquad::setupRadioTypes()
 
 void QGCAutoquad::setupRadioPorts()
 {
-    int cidx;
+    int cidx, dflt = 0;
     int pcount = 18;
     QStringList ports;
 
@@ -539,8 +538,10 @@ void QGCAutoquad::setupRadioPorts()
         cb->clear();
         if (!cb->objectName().contains(QRegExp("^RADIO_.+_CH$")))
             cb->addItem(tr("Off"));
+        else if (cidx < 0)
+            cidx = dflt++;
         cb->addItems(ports);
-        if (cidx >= cb->count())
+        if (cidx < 0 || cidx >= cb->count())
             cidx = 0;
         cb->setCurrentIndex(cidx);
         cb->blockSignals(false);
@@ -651,7 +652,7 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/) {
     QMultiMap<QString, QString> usedChannelParams;
     QPair<int, QString> val;
     QSpinBox *sb = NULL;
-    QComboBox *param_cb = NULL;
+    QPushButton *param_cb = NULL;
     QString cbname, cbtxt;
     bool ok = true, skip;
     int dband = ui->CTRL_DBAND_SWTCH->value();
@@ -667,9 +668,9 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/) {
                 essentialPorts.append(cbtxt);
             else if (cbname.contains(QRegExp("^(RADIO_+._CH|NAV_HDFRE_CHAN)$")))
                 continue;
-            else if (cbname.contains(paramsTunableControlChannels) && (param_cb = cb->parent()->findChild<QComboBox *>(QString("%1").arg(cbname).replace("_chan", "")))) {
+            else if (cbname.contains(paramsTunableControlChannels) && (param_cb = cb->parent()->findChild<QPushButton *>(QString("%1").arg(cbname).replace("_chan", "")))) {
                 //qDebug() << cbname << param_cb->objectName() << param_cb->currentIndex();
-                if (!param_cb->currentIndex())
+                if (!param_cb->property("paramValue").toUInt())
                     continue;
             }
 

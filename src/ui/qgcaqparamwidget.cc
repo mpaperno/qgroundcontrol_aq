@@ -556,7 +556,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
         map->remove(parameterName);
     }
 
-    int missCount = paramCount - transmissionParamsReceived.value(component);
+    int missCount = transmissionListMode ? paramCount - transmissionParamsReceived.value(component) : 0;
     foreach (int key, transmissionMissingPackets.keys())
         if (key != component)
             missCount +=  transmissionMissingPackets.value(key)->count();
@@ -1187,8 +1187,10 @@ void QGCAQParamWidget::retransmissionGuardTick()
                 missingWriteCount += transmissionMissingWriteAckPackets.value(component)->count();
                 transmissionMissingWriteAckPackets.value(component)->clear();
             }
-            statusLabel->setText(tr("TIMEOUT! MISSING: %1 read, %2 write.").arg(missingReadCount).arg(missingWriteCount));
-            emit paramRequestTimeout(missingReadCount, missingWriteCount);
+            if (missingReadCount || missingWriteCount) {
+                statusLabel->setText(tr("TIMEOUT! MISSING: %1 read, %2 write.").arg(missingReadCount).arg(missingWriteCount));
+                emit paramRequestTimeout(missingReadCount, missingWriteCount);
+            }
         }
 
         // Re-request at maximum retransmissionBurstRequestSize parameters at once
