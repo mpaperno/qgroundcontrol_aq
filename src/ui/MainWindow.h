@@ -38,6 +38,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QSplashScreen>
 #include <qlist.h>
 
+#include "configuration.h"
 #include "ui_MainWindow.h"
 #include "LinkInterface.h"
 #include "UASInterface.h"

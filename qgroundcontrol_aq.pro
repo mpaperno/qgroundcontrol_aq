@@ -36,6 +36,16 @@ message(Qt version $$[QT_VERSION])
 TEMPLATE = app
 TARGET = qgroundcontrol_aq
 
+# build directories
+DESTDIR = $${OUT_PWD}/bin
+BUILDDIR = $${OUT_PWD}/build
+OBJECTS_DIR = $${BUILDDIR}/obj
+MOC_DIR = $${BUILDDIR}/moc
+UI_DIR = $${BUILDDIR}/ui
+RCC_DIR = $${BUILDDIR}/rcc
+# root of project files, used later in install step
+BASEDIR = $$_PRO_FILE_PWD_
+
 ## Set up some config vars for ease of use
 # platform
 linux-g++* {
@@ -56,10 +66,12 @@ CONFIG(debug, debug|release) {
 	message(Debug build)
 	CONFIG += DebugBuild
 	DEFINES += QT_DEBUG
+	STYLES_PATH = $${BASEDIR}/files/styles/
 } else:CONFIG(release, debug|release) {
 	message(Release build)
 	CONFIG += ReleaseBuild
 	DEFINES += QT_NO_DEBUG
+	STYLES_PATH = :/files/styles/
 } else {
 	error(Unsupported build type)
 }
@@ -86,17 +98,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 	CONFIG += qt thread
 }
 
-# build directories
-DESTDIR = $${OUT_PWD}/bin
-BUILDDIR = $${OUT_PWD}/build
-OBJECTS_DIR = $${BUILDDIR}/obj
-MOC_DIR = $${BUILDDIR}/moc
-UI_DIR = $${BUILDDIR}/ui
-RCC_DIR = $${BUILDDIR}/rcc
-# root of project files, used later in install step
-BASEDIR = $$_PRO_FILE_PWD_
-
 ## Misc definitions & settings
+STYLES_DEFAULT_FILE = $${STYLES_PATH}style-default.css
 
 # Make sure custom qDebug() handler has context available
 DEFINES *= QT_MESSAGELOGCONTEXT
@@ -131,6 +134,12 @@ exists(user_config.pri) {
 	 include(user_config.pri)
 	 message("----- USING CUSTOM USER QGROUNDCONTROL CONFIG FROM user_config.pri -----")
 }
+
+
+DEFINES += STYLES_PATH=\\\"$${STYLES_PATH}\\\"
+DEFINES += STYLES_DEFAULT_FILE=\\\"$${STYLES_DEFAULT_FILE}\\\"
+#DEFINES += STYLES_NO_DEFAULT  # define this to skip the base default css entirely
+
 
 # OS-specific external libs and settings
 MacBuild: include(config_OSX.pri)

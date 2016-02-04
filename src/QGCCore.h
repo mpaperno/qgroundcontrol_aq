@@ -35,6 +35,7 @@ This file is part of the PIXHAWK project
 
 #include <QApplication>
 
+#include "configuration.h"
 #include "MainWindow.h"
 #include "UASManager.h"
 #include "LinkManager.h"
@@ -67,11 +68,12 @@ public:
     static void loadTranslations(const QDir& dir);
     static const QStringList availableLanguages();
     static const QString getLangFilePath();
-    static const QString getStyleFilePath();
+    static const QString readFileToString(const QString &file);
 
     static QString langPath;     /**< Path of language files.  */
     static QString stylePath;    /**< Path of css files.  */
 
+    static const QString getStyleFilePath() { return stylePath; }
     bool shouldExit(void) { return m_exit; }
 
 public slots:

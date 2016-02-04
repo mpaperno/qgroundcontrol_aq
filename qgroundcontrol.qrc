@@ -126,6 +126,9 @@
         <file>files/images/actions/fill-090.png</file>
         <file>files/images/actions/fill-180.png</file>
         <file>files/images/actions/fill-270.png</file>
+        <file>files/styles/style-dark.css</file>
+        <file>files/styles/style-default.css</file>
+        <file>files/styles/style-light.css</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>

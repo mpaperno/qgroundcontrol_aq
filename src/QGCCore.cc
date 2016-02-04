@@ -71,7 +71,7 @@ This file is part of the QGROUNDCONTROL project
 QTranslator* QGCCore::current = 0;
 Translators QGCCore::translators;
 QString QGCCore::langPath = "/files/lang/";
-QString QGCCore::stylePath = "/files/styles/";
+QString QGCCore::stylePath = STYLES_PATH;
 
 /**
  * @brief Constructor for the main application.
@@ -390,11 +390,14 @@ const QString QGCCore::getLangFilePath()
     return ret;
 }
 
-const QString QGCCore::getStyleFilePath()
+const QString QGCCore::readFileToString(const QString &file)
 {
-    QString ret = QApplication::applicationDirPath();
-    ret.append(stylePath);
+    QString ret;
+    QFile fh(file);
+    if (fh.open(QFile::ReadOnly | QFile::Text)) {
+        ret = fh.readAll();
+        fh.close();
+    }
     return ret;
 }
-
 

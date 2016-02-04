@@ -48,7 +48,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMGround">
@@ -101,11 +101,9 @@
     <property name="separatorsCollapsible">
      <bool>false</bool>
     </property>
-    <addaction name="actionShutdownMAV"/>
     <addaction name="actionLiftoff"/>
     <addaction name="actionLand"/>
-    <addaction name="actionEmergency_Land"/>
-    <addaction name="actionEmergency_Kill"/>
+    <addaction name="actionReturnToHome"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -498,6 +496,15 @@
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
+   </property>
+  </action>
+  <action name="actionReturnToHome">
+   <property name="icon">
+    <iconset resource="../../qgroundcontrol.qrc">
+     <normaloff>:/files/images/actions/go-home.svg</normaloff>:/files/images/actions/go-home.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Return To Home</string>
    </property>
   </action>
  </widget>

@@ -14,6 +14,13 @@
 #define QGC_APPLICATION_NAME    "QGroundControl"
 #define QGC_APPLICATION_VERSION "v. 1.0.2 (beta)"
 
+#ifndef STYLES_PATH
+    #define STYLES_PATH  ":/files/styles/"
+#endif
+#if !defined(STYLES_DEFAULT_FILE) && !defined(STYLES_NO_DEFAULT)
+    #define STYLES_DEFAULT_FILE  STYLES_PATH "style-default.css"
+#endif
+
 namespace QGC
 
 {

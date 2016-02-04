@@ -15,15 +15,6 @@ QWidget:disabled {
 	background-color: #202020;
 	etch-disabled-text: 0;
 }
-QWidget[styleType="ok"] {
-	color: rgba(187, 230, 187, 255);
-}
-QWidget[styleType="warning"] {
-	color: rgba(255, 140, 0, 255);
-}
-QWidget[styleType="error"] {
-	color: rgba(255, 0, 0, 255);
-}
 
 QScrollBar {
 	border-radius: 6px;
@@ -731,11 +722,10 @@ QLabel {
 /* label with emphasis  */
 QLabel[labelStyle="emphasis"] {
 	 color: #4CBBFF;
-	 font-weight: bold;
-	 font-size: 13px;
 }
-QLabel[labelStyle="emphasis"]:disabled {
-	color: #727272;
+
+QLabel[styleType="indicator"] {
+	border-color: #b1b1b1;
 }
 
 /*
@@ -771,11 +761,6 @@ QSplitter::handle:vertical:hover {
 }
 
 
-
-/*QSplitter#splitter {
-	 width: 18px;
-}*/
-
 /*
     H/V Line
 */
@@ -787,41 +772,12 @@ QFrame[frameShape="4"], QFrame[frameShape="5"] {
     ProgressBar
 */
 QProgressBar {
-	border: 1px solid #4A4A4F;
-	border-radius: 4px;
-	text-align: center;
-	padding: 2px;
 	color: #DDDDDF;
-        background-color: #111118;
-}
-QProgressBar:horizontal {
-    max-height: 11px;
-    min-height: 6px;
-}
-QProgressBar:vertical {
-    max-width: 11px;
-}
-QProgressBar::chunk {
-	background-color: #3C7B9E;
-	border-radius: 3px;
+	background-color: #111118;
 }
 QProgressBar::chunk:disabled {
 	background-color: #727272;
 }
-QProgressBar::chunk#batteryBar {
-	background-color: green;
-}
-QProgressBar::chunk#speedBar {
-	background-color: yellow;
-}
-QProgressBar::chunk#thrustBar {
-	background-color: orange;
-}
-
-QProgressBar#progressBar_rssi::chunk {
-    background-color: #2c5f7b;
-}
-
 
 /*
     CalendarWidget
@@ -847,133 +803,32 @@ QCalendarWidget QTableView  {
     alternate-background-color: #6D6D6D;
 }
 
-/*
-	LCD Number display
-*/
-QLCDNumber,
-QLCDNumber[status="ok"] {
-	background-color: rgba(187, 230, 187, 240);
-	color: rgba(45, 45, 45, 245);
-}
-QLCDNumber[status="warning"],
-QLCDNumber[status="warningH"],
-QLCDNumber[status="warningL"] {
-	background-color: rgba(255, 140, 0, 200);
-}
-QLCDNumber[status="error"],
-QLCDNumber[status="errorH"],
-QLCDNumber[status="errorL"] {
-	background-color: rgba(255, 0, 0, 200);
-}
-QLCDNumber:disabled {
-	background-color: rgba(187, 230, 187, 30);
-	color: rgba(45, 45, 45, 200);
-}
-
-
 /* Specific elements */
 
 /*
     Main application toolbar styling (Operator/Engineer/Pilot/Logging/Replay buttons and battery level bar)
 */
-QToolBar#QGC_TOOLBAR {
-    max-height: 36px;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid #484848;
-    border-top: 1px solid #969696;
-    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #8B8B8B, stop:0.3 #808080, stop:0.34 #747474, stop:1 #484848);
-    padding: 0;
-}
+
 QToolBar#QGC_TOOLBAR QToolButton  {
-    font-weight: bold;
-    color: #DDDDDF;
-    height: 16px;
-    min-width: 24px;
-    border: 1px solid #BBBBBB;
-    border-right-width: 0;
-    border-left-width: 0;
-    border-radius: 0px;
-    margin: 4px 0px;
-    padding: 0 1px;
-    background-color: #222222;
+	 min-width: 24px;
 }
-QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
-    margin-left: 10px;
-    border-left-width: 1px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-QToolBar#QGC_TOOLBAR QToolButton#actionDataView {
-    margin-right: 8px;
-    border-right-width: 1px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-QToolBar#QGC_TOOLBAR QToolButton:hover {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
-}
-QToolBar#QGC_TOOLBAR QToolButton:checked {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2c2c2c, stop: 1 #808080);
-    border-color: #379AC3;
-}
-QToolBar#QGC_TOOLBAR QToolButton:pressed {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
-    border-color: #379AC3;
-}
+
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
-    margin: 0px 4px 0px 0px;
-    border: 1px solid #4A4A4F;
-    border-radius: 4px;
-    text-align: center;
-    padding: 2px;
+	 margin: 0px 4px 0px 0px;
     color: #111111;
-    background-color: #111118;
-    height: 10px; }
+	 background-color: #111118;
+}
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal QLabel {
-    font-size: 9px; color: #111111;
-}
-QToolBar#QGC_TOOLBAR QProgressBar::chunk {
-    background-color: green;
-}
-QToolBar#QGC_TOOLBAR QLabel {
-    max-height: 20px;
-    font-weight: bold;
-    font-size: 12px;
-    margin: 1px 3px;
-}
-QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
-    border-radius: 4px;
-    padding: 0 3px;
-/*    max-height: 18px;
-    margin: 2px 2px 2px 4px;
-    font: 14px;*/
+	 color: #111111;
 }
 QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
-	padding: 0 5px;
 	margin: -4px 0 0 0px;
-	max-height: 34px;
-}
-QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
-    margin-left: 0;
-    font-size: 14px;
-    color: #3C7B9E;
-}
-QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
-    /*font: 12px;*/
-}
-QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
-    /*font: 12px;*/
-    color: yellow;
-}
-QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
-    font-size: 11px;
-    /*font-style: italic;*/
 }
 
 
 
 /* Custom pushbuttons */
+
 QPushButton#forceLandButton,
 QPushButton#killButton {
 	font-weight: bold;

@@ -230,7 +230,7 @@ MainWindow::MainWindow(QSplashScreen *splashScreen):
     toolBar->setPerspectiveChangeActions(actions);
 
     // hide system menu for now since it's not useful
-    ui.menuUnmanned_System->menuAction()->setVisible(false);
+    //ui.menuUnmanned_System->menuAction()->setVisible(false);
 
     emit initStatusChanged("Building common widgets.");
 
@@ -1050,7 +1050,7 @@ void MainWindow::loadStyle(QGC_MAINWINDOW_STYLE style)
     QString defaultNativeStyle = "";
 #endif
     QString stylePath = QGCCore::getStyleFilePath();
-    QString styleFileName = stylePath + "style-default.css";
+    QString styleFileName = "default"; //stylePath + "style-default.css";
 
     qApp->setStyleSheet("");
 
@@ -1153,28 +1153,34 @@ bool MainWindow::selectStylesheet()
 
 void MainWindow::reloadStylesheet(const QString file)
 {
-    QFile *styleSheet;
-    if (!file.isEmpty())
-        styleSheet = new QFile(file);
-    else
-        styleSheet = new QFile(styleFileName);
+    //QString stylePath = QGCCore::getStyleFilePath();
+    QString fileName;
+    QString style;
 
-    if (!styleSheet || !styleSheet->exists()) {
-        showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file '%1'' was not found").arg(file));
-        return;
-    }
-    if (styleSheet->open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString style = QString(styleSheet->readAll());
-        //style.replace("ICONDIR", QGCCore::getStyleFilePath());
-        qApp->setStyleSheet(style);
-        styleFileName = QFileInfo(*styleSheet).absoluteFilePath();
-        emit styleChanged((int)currentStyle);
-        qDebug() << "Loaded stylesheet:" << styleFileName;
-    }
-    else
-        showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file %1 was not readable").arg(file));
+    // always load default style first
+#if defined(STYLES_DEFAULT_FILE)
+    style = QGCCore::readFileToString(STYLES_DEFAULT_FILE);
+    qDebug() << "Loaded stylesheet:" << STYLES_DEFAULT_FILE;
+#endif
 
-    delete styleSheet;
+    if (file.isEmpty() && !styleFileName.isEmpty())
+        fileName = styleFileName;
+    else if (file != "default") {
+        fileName = file;
+    }
+
+    if (!fileName.isEmpty()) {
+        if (!QFileInfo::QFileInfo(fileName).exists()) {
+            showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file '%1'' was not found").arg(fileName));
+            return;
+        }
+        styleFileName = fileName;
+        style += QGCCore::readFileToString(fileName);
+        qDebug() << "Loaded stylesheet:" << fileName;
+    }
+
+    qApp->setStyleSheet(style);
+    emit styleChanged((int)currentStyle);
 }
 
 /**
@@ -1289,7 +1295,8 @@ void MainWindow::connectCommonActions()
 
     // Unmanned System controls
     connect(ui.actionLiftoff, SIGNAL(triggered()), UASManager::instance(), SLOT(launchActiveUAS()));
-    connect(ui.actionLand, SIGNAL(triggered()), UASManager::instance(), SLOT(returnActiveUAS()));
+    connect(ui.actionLand, SIGNAL(triggered()), UASManager::instance(), SLOT(landActiveUAS()));
+    connect(ui.actionReturnToHome, SIGNAL(triggered()), UASManager::instance(), SLOT(returnActiveUAS()));
     connect(ui.actionEmergency_Land, SIGNAL(triggered()), UASManager::instance(), SLOT(stopActiveUAS()));
     connect(ui.actionEmergency_Kill, SIGNAL(triggered()), UASManager::instance(), SLOT(killActiveUAS()));
     connect(ui.actionShutdownMAV, SIGNAL(triggered()), UASManager::instance(), SLOT(shutdownActiveUAS()));
@@ -1428,7 +1435,7 @@ void MainWindow::setActiveUAS(UASInterface* uas)
 {
     // Enable and rename menu
     ui.menuUnmanned_System->setTitle(uas->getUASName());
-    //    if (!ui.menuUnmanned_System->isEnabled()) ui.menuUnmanned_System->setEnabled(true);
+    //ui.menuUnmanned_System->setEnabled(true);
 }
 
 void MainWindow::UASSpecsChanged(int uas)

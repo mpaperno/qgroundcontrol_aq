@@ -1,5 +1,5 @@
 /*
-	 This style sheet is loaded for all application styles except dark (indoor), and light (outdoor)
+	 This style sheet is loaded for ALL application styles before any other css (eg. before dark (indoor) and light (outdoor) schemes)
 */
 
 QWidget[styleType="ok"] {
@@ -21,6 +21,13 @@ QLabel[labelStyle="emphasis"]:disabled {
 	color: #727272;
 }
 
+QLabel[styleType="indicator"] {
+	min-width: 0.6em;
+	border: 1px solid;
+	border-radius: 3px;
+	padding: 0px;
+}
+
 /*
 	 ProgressBar
 */
@@ -29,7 +36,6 @@ QProgressBar {
 	border-radius: 4px;
 	text-align: center;
 	padding: 0.1em;
-	color: #FFFFFF;
 	background-color: #A7A7AB;
 }
 QProgressBar:disabled {
@@ -50,6 +56,9 @@ QProgressBar::chunk {
 	 background-color: #3C7B9E;
 	 border-radius: 3px;
 }
+QProgressBar::chunk:disabled {
+	background-color: #878787;
+}
 QProgressBar::chunk#batteryBar {
 	background-color: green;
 }
@@ -63,10 +72,22 @@ QProgressBar::chunk#progressBar_rssi,
 QProgressBar::chunk#rssiBar {
 	 background-color: #2c5f7b;
 }
-QProgressBar::chunk:disabled {
-	background-color: #878787;
-}
 
+QProgressBar[styleType="radioControls"]:horizontal {
+	border-radius: 4px;
+	max-height: 5px;
+	min-height: 3px;
+	margin: 0px 0em 8px 2.5em;
+	text-align: top left;
+	padding: 2px;
+}
+QProgressBar[styleType="radioControls"]::chunk:horizontal {
+	border-radius: 2px;
+}
+QProgressBar[styleType="radioControlsRSSI"]:horizontal {
+	margin: 0px 0em 0px 3em;
+	text-align: left;
+}
 
 
 /*
@@ -144,13 +165,6 @@ QToolBar#QGC_TOOLBAR QToolButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
     border-color: #379AC3;
 }
-QToolBar#QGC_TOOLBAR QLabel {
-	 font-weight: bold;
-	 font-size: 10.5pt;
-	 margin: 0.1em 0.3em;
-	 background-color: transparent;
-	 color: #DDDDDF;
-}
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
     margin: 0px 0px 0px 4px;
     border: 1px solid #4A4A4F;
@@ -161,11 +175,15 @@ QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
     background-color: #caeccb;
 	 height: 1em;
 }
-QToolBar#QGC_TOOLBAR QProgressBar:horizontal QLabel {
-	 font-size: 9pt;
-}
 QToolBar#QGC_TOOLBAR QProgressBar::chunk {
 	 background-color: green;
+}
+QToolBar#QGC_TOOLBAR QLabel {
+	 font-weight: bold;
+	 font-size: 10.5pt;
+	 margin: 0.1em 0.3em;
+	 background-color: transparent;
+	 color: #DDDDDF;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
     border-radius: 4px;
