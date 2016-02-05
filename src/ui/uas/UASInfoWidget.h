@@ -110,6 +110,7 @@ protected:
     float gpsEpv;
     quint8 gpsFixType;
     bool changed;
+    bool m_uasTimeout;
     QTimer* updateTimer;
     QString name;
     quint64 startTime;
@@ -118,6 +119,10 @@ protected:
 
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
+
+protected slots:
+    void setWidgetTitle();
+    void setUASstatus(bool timeout, unsigned int ms);
 
 private:
     Ui::uasInfo ui;

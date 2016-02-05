@@ -37,6 +37,7 @@ This file is part of the PIXHAWK project
 #include <QDir>
 #include <cstdlib>
 #include <cmath>
+//#include <QDockWidget>
 
 #include <QDebug>
 
@@ -72,14 +73,17 @@ UASInfoWidget::UASInfoWidget(QWidget *parent, QString name) : QWidget(parent)
     receiveLoss = 0;
     sendLoss = 0;
     changed = true;
+    m_uasTimeout = false;
     errors = QMap<QString, int>();
 
     updateTimer = new QTimer(this);
+    updateTimer->setInterval(updateInterval);
+    updateTimer->stop();
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(refresh()));
-    updateTimer->start(updateInterval);
 
     connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)));
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)));
+    connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(removeUAS(UASInterface*)));
 
     this->setVisible(false);
 }
@@ -94,7 +98,9 @@ void UASInfoWidget::showEvent(QShowEvent* event)
     // React only to internal (pre-display)
     // events
     Q_UNUSED(event);
-    updateTimer->start(updateInterval);
+    setWidgetTitle();
+    refresh();
+    updateTimer->start();
 }
 
 void UASInfoWidget::hideEvent(QHideEvent* event)
@@ -105,18 +111,39 @@ void UASInfoWidget::hideEvent(QHideEvent* event)
     updateTimer->stop();
 }
 
+void UASInfoWidget::setWidgetTitle()
+{
+    QString ttl = tr("Status Details");
+    QString sys = tr("[not connected]");
+    if (activeUAS && !m_uasTimeout) {
+        sys = activeUAS->getUASName();
+        ttl += " " % tr("for system: %1").arg(sys);
+        this->setEnabled(true);
+    } else {
+        ttl += QString(": %1").arg(sys);
+        this->setEnabled(false);
+    }
+
+    ui.label_uavName->setText(ttl);
+
+//    QDockWidget *pwin = qobject_cast<QDockWidget *>(this->parent());
+//    if (pwin)
+//        pwin->setWindowTitle(ttl);
+//    else
+//        this->setWindowTitle(ttl);
+}
+
 void UASInfoWidget::addUAS(UASInterface* uas)
 {
-    if (uas != NULL && uas->getUASID() == UASManager::instance()->getActiveUAS()->getUASID()) {
+    if (uas != NULL && uas->getUASID() == UASManager::instance()->getActiveUAS()->getUASID())
         setActiveUAS(uas);
-    }
 }
 
 void UASInfoWidget::removeUAS(UASInterface *uas)
 {
     disconnect(uas, 0, this, 0);
-    if (activeUAS && activeUAS->getUASID() == uas->getUASID())
-        activeUAS = NULL;
+    if (activeUAS && activeUAS == uas)
+        setActiveUAS(NULL);
 }
 
 void UASInfoWidget::setActiveUAS(UASInterface* uas)
@@ -134,6 +161,33 @@ void UASInfoWidget::setActiveUAS(UASInterface* uas)
         connect(activeUAS, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
         connect(activeUAS, SIGNAL(valueChanged(int,QString,QString,QVariant,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,QVariant,quint64)));
         connect(activeUAS, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsFix(UASInterface*,int)));
+        connect(activeUAS, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
+
+        updateTimer->start();
+    }
+    else if (!uas && activeUAS) {
+        updateTimer->stop();
+        activeUAS = NULL;
+    }
+
+    setWidgetTitle();
+    refresh();
+}
+
+void UASInfoWidget::setUASstatus(bool timeout, unsigned int ms)
+{
+    Q_UNUSED(ms);
+    if (activeUAS) {
+        bool t = m_uasTimeout;
+        m_uasTimeout = timeout;
+        if (t != timeout) {
+            setWidgetTitle();
+            refresh();
+        }
+        if (timeout)
+            updateTimer->stop();
+        else
+            updateTimer->start();
     }
 }
 
@@ -229,49 +283,77 @@ void UASInfoWidget::refresh()
     QString text;
     QString color;
 
-    ui.voltageLabel->setText(QString::number(this->voltage, 'f', voltageDecimals));
-    ui.batteryBar->setValue(qMax(0,qMin(static_cast<int>(this->chargeLevel), 100)));
+    if (activeUAS && activeUAS->getCommunicationStatus() == UASInterface::COMM_CONNECTED) {
+        ui.voltageLabel->setText(QString::number(this->voltage, 'f', voltageDecimals));
+        ui.batteryBar->setValue(qMax(0,qMin(static_cast<int>(this->chargeLevel), 100)));
 
-    ui.loadLabel->setText(QString::number(this->load, 'f', loadDecimals));
-    ui.loadBar->setValue(qMax(0, qMin(static_cast<int>(this->load), 100)));
+        ui.loadLabel->setText(QString::number(this->load, 'f', loadDecimals));
+        ui.loadBar->setValue(qMax(0, qMin(static_cast<int>(this->load), 100)));
 
-    ui.receiveLossBar->setValue(qMax(0, qMin(static_cast<int>(receiveLoss), 100)));
-    ui.receiveLossLabel->setText(QString::number(receiveLoss, 'f', 2));
+        ui.receiveLossBar->setValue(qMax(0, qMin(static_cast<int>(receiveLoss), 100)));
+        ui.receiveLossLabel->setText(QString::number(receiveLoss, 'f', 2));
 
-    ui.sendLossBar->setValue(sendLoss);
-    ui.sendLossLabel->setText(QString::number(sendLoss, 'f', 2));
+        ui.sendLossBar->setValue(sendLoss);
+        ui.sendLossLabel->setText(QString::number(sendLoss, 'f', 2));
 
-    ui.rssiLabel->setText(text.sprintf("%6.2f", this->rssi));
-    ui.rssiBar->setValue(qMax(0, qMin(static_cast<int>(this->rssi), 99)));
+        ui.rssiLabel->setText(text.sprintf("%6.2f", this->rssi));
+        ui.rssiBar->setValue(qMax(0, qMin(static_cast<int>(this->rssi), 100)));
 
-    text = "No fix";
-    color = "red";
-    if (gpsFixType == 2) {
-        text = "2D fix";
-        color = "yellow";
+        text = tr("No fix");
+        color = "red";
+        if (gpsFixType == 2) {
+            text = tr("2D fix");
+            color = "yellow";
+        }
+        else if (gpsFixType == 3) {
+            text = tr("3D fix");
+            color = "green";
+        }
+        ui.fixTypeLabel->setText(text);
+        ui.fixTypeLabel->setStyleSheet("font-size: 11pt; font-weight: bold; color: " + color + ";");
+
+        if (gpsEph > 0.0f)
+            ui.haccLabel->setText(tr("HAcc:") % " " % QString::number(gpsEph, 'f', 2) + "m");
+        if (gpsEpv > 0.0f)
+            ui.vaccLabel->setText(tr("VAcc:") % " " % QString::number(gpsEpv, 'f', 2) + "m");
+
+        QString errorString;
+        QMapIterator<QString, int> i(errors);
+        while (i.hasNext()) {
+            i.next();
+            errorString += QString(i.key() + ": %1 ").arg(i.value());
+
+            // FIXME
+            errorString.replace("IMU:", "");
+
+
+        }
+        ui.errorLabel->setText(errorString);
     }
-    else if (gpsFixType == 3) {
-        text = "3D fix";
-        color = "green";
+    else {
+        ui.voltageLabel->setText("0");
+        ui.batteryBar->setValue(0);
+
+        ui.loadLabel->setText("0");
+        ui.loadBar->setValue(0);
+
+        ui.receiveLossLabel->setText("0");
+        ui.sendLossBar->setValue(0);
+
+        ui.sendLossLabel->setText("0");
+        ui.sendLossBar->setValue(0);
+
+        ui.rssiLabel->setText("0");
+        ui.rssiBar->setValue(0);
+
+        ui.fixTypeLabel->setText(tr("No fix"));
+        ui.fixTypeLabel->setStyleSheet("font-size: 11pt; font-weight: bold; color: red;");
+        ui.haccLabel->setText(tr("HAcc:") % " 0.00");
+        ui.vaccLabel->setText(tr("VAcc:") % " 0.00");
+
+        if (activeUAS && m_uasTimeout)
+            ui.errorLabel->setText(tr("SYSTEM TIMEOUT"));
+        else
+            ui.errorLabel->setText(tr("No System Connected"));
     }
-    ui.fixTypeLabel->setText(text);
-    ui.fixTypeLabel->setStyleSheet("font-weight: bold; color: " + color + ";");
-
-    if (gpsEph > 0.0f)
-        ui.haccLabel->setText("Hacc: " + QString::number(gpsEph, 'f', 2) + "m");
-    if (gpsEpv > 0.0f)
-        ui.vaccLabel->setText("Vacc: " + QString::number(gpsEpv, 'f', 2) + "m");
-
-    QString errorString;
-    QMapIterator<QString, int> i(errors);
-    while (i.hasNext()) {
-        i.next();
-        errorString += QString(i.key() + ": %1 ").arg(i.value());
-
-        // FIXME
-        errorString.replace("IMU:", "");
-
-
-    }
-    ui.errorLabel->setText(errorString);
 }
