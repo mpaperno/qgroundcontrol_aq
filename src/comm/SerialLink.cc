@@ -13,12 +13,12 @@
 #include <QDebug>
 #include <QSettings>
 #include <QMutexLocker>
+#include <QDateTime>
 //#include <QSerialPortInfo>
 
 #include "SerialLink.h"
 #include "LinkManager.h"
 #include "QGC.h"
-#include <MG.h>
 
 SerialLink::SerialLink(QString portname, int baudRate, bool hardwareFlowControl, bool parity,
                        int dataBits, int stopBits) :
@@ -148,7 +148,7 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
     bool isValid = isPortHandleValid();
 
     if (!isValid && pi.vendorID == SERIAL_AQUSB_VENDOR_ID && pi.productID == SERIAL_AQUSB_PRODUCT_ID)
-        waitingToReconnect = MG::TIME::getGroundTimeNow();
+        waitingToReconnect = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
     //qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName() << waitingToReconnect;
 
@@ -164,10 +164,10 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
 void SerialLink::deviceDiscovered(const QextPortInfo &pi)
 {
 //    qDebug() <<  pi.portName  << pi.friendName << pi.physName << pi.enumName << pi.vendorID << pi.productID << getPortName()
-//             << waitingToReconnect << MG::TIME::getGroundTimeNow() << MG::TIME::getGroundTimeNow() - waitingToReconnect;
+//             << waitingToReconnect << QDateTime::currentDateTime().toMSecsSinceEpoch() << QDateTime::currentDateTime().toMSecsSinceEpoch() - waitingToReconnect;
     Q_UNUSED(pi);
     if (waitingToReconnect && !port) {
-        if (MG::TIME::getGroundTimeNow() - waitingToReconnect > reconnect_wait_timeout) {
+        if (QDateTime::currentDateTime().toMSecsSinceEpoch() - waitingToReconnect > reconnect_wait_timeout) {
             waitingToReconnect = 0;
             return;
         }
@@ -477,7 +477,7 @@ bool SerialLink::hardwareConnect()
         return false;
     }
 
-    connectionStartTime = MG::TIME::getGroundTimeNow();
+    connectionStartTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
     setUsbDeviceInfo();
 
     if(isConnected()) {
@@ -705,7 +705,7 @@ qint64 SerialLink::getNominalDataRate()
 qint64 SerialLink::getTotalUpstream()
 {
     QMutexLocker locker(&statisticsMutex);
-    return bitsSentTotal / ((MG::TIME::getGroundTimeNow() - connectionStartTime) / 1000);
+    return bitsSentTotal / ((QDateTime::currentDateTime().toMSecsSinceEpoch() - connectionStartTime) / 1000);
 }
 
 qint64 SerialLink::getCurrentUpstream()
@@ -731,7 +731,7 @@ qint64 SerialLink::getBitsReceived()
 qint64 SerialLink::getTotalDownstream()
 {
     QMutexLocker locker(&statisticsMutex);
-    return bitsReceivedTotal / ((MG::TIME::getGroundTimeNow() - connectionStartTime) / 1000);
+    return bitsReceivedTotal / ((QDateTime::currentDateTime().toMSecsSinceEpoch() - connectionStartTime) / 1000);
 }
 
 qint64 SerialLink::getCurrentDownstream()

@@ -140,6 +140,7 @@ void AQLinechartWidget::selectAllCurves(bool all)
     for (i = curveLabels->begin(); i != curveLabels->end(); ++i) {
         activePlot->setVisibleById(i.key(), all);
     }
+    selectAllCheckBox->setChecked(all);
 }
 
 void AQLinechartWidget::writeSettings()
