@@ -62,9 +62,14 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
     ui->comboBox_style->addItems(MainWindow::instance()->getAvailableStyles());
     ui->comboBox_style->setCurrentIndex(ui->comboBox_style->findText(MainWindow::instance()->getStyleName()));
     ui->lineEdit_customStylePath->setText(MainWindow::instance()->getCustomStyleFile());
+    ui->checkBox_loadDefaultStyle->setChecked(MainWindow::instance()->getLoadDefaultStyles());
     customStyle();
     connect(ui->comboBox_style, SIGNAL(currentIndexChanged(QString)), this, SLOT(onStyleChange(QString)));
     connect(ui->toolButton_selectCustomStyle, SIGNAL(clicked()), this, SLOT(selectCustomStyle()));
+    connect(ui->checkBox_loadDefaultStyle, SIGNAL(toggled(bool)), MainWindow::instance(), SLOT(setLoadDefaultStyles(bool)));
+#ifndef STYLES_DEFAULT_FILE
+    ui->checkBox_loadDefaultStyle->hide();
+#endif
 
     // Close / destroy
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(deleteLater()));
@@ -87,6 +92,7 @@ bool QGCSettingsWidget::customStyle() {
     ui->label_style_custom->setVisible(isCustom);
     ui->lineEdit_customStylePath->setVisible(isCustom);
     ui->toolButton_selectCustomStyle->setVisible(isCustom);
+    ui->checkBox_loadDefaultStyle->setVisible(isCustom);
 
     return isCustom;
 }

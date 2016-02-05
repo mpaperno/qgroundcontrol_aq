@@ -13,7 +13,7 @@ class QGCSettingsWidget : public QDialog
     Q_OBJECT
 
 public:
-    QGCSettingsWidget(QWidget *parent = 0, Qt::WindowFlags flags = Qt::Sheet);
+    QGCSettingsWidget(QWidget *parent = 0, Qt::WindowFlags flags = Qt::Sheet | Qt::WindowStaysOnTopHint);
     ~QGCSettingsWidget();
 
 public slots:

@@ -118,31 +118,21 @@ public:
     int getStyleIdByName(const QString &style) { return m_windowStyleNames.key(style); }
 
     /** @brief Get auto link reconnect setting */
-    bool autoReconnectEnabled()
-    {
-        return autoReconnect;
-    }
+    bool autoReconnectEnabled() { return autoReconnect; }
 
     /** @brief Get low power mode setting */
-    bool lowPowerModeEnabled()
-    {
-        return lowPowerMode;
-    }
+    bool lowPowerModeEnabled() { return lowPowerMode; }
 
     QString getCurrentLanguage() { return currentLanguage; }
 
-    QGCMAVLinkLogPlayer* getLogPlayer()
-    {
-        return logPlayer;
-    }
+    QGCMAVLinkLogPlayer* getLogPlayer() { return logPlayer; }
 
-    MAVLinkProtocol* getMAVLink()
-    {
-        return mavlink;
-    }
+    MAVLinkProtocol* getMAVLink() { return mavlink; }
 
     QList<QAction*> listLinkMenuActions(void);
     QAction *getActionByLink(LinkInterface *link);
+
+    bool getLoadDefaultStyles() const { return loadDefaultStyles; }
 
 public slots:
 
@@ -222,6 +212,7 @@ public slots:
 
     QString getCustomStyleFile() { return customStyleFile; }
     void setCustomStyleFile(QString fileName);
+    void setLoadDefaultStyles(bool value);
 
     /** @brief Add a custom tool widget */
     void createCustomWidget();
@@ -431,6 +422,7 @@ protected:
     bool autoReconnect;
     Qt::WindowStates windowStateVal;
     bool lowPowerMode; ///< If enabled, QGC reduces the update rates of all widgets
+    bool loadDefaultStyles;
 //    QGCFlightGearLink* fgLink;
 //    QTimer windowNameUpdateTimer;
 

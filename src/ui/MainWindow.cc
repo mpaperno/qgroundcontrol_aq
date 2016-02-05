@@ -151,7 +151,8 @@ MainWindow::MainWindow(QSplashScreen *splashScreen):
     styleFileName(""),
     customStyleFile(""),
     autoReconnect(false),
-    lowPowerMode(false)
+    lowPowerMode(false),
+    loadDefaultStyles(true)
 {
     Q_ASSERT(_instance == NULL);
     _instance = this;
@@ -954,6 +955,7 @@ void MainWindow::loadSettings()
     autoReconnect = settings.value("AUTO_RECONNECT", autoReconnect).toBool();
     currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", QGC_MAINWINDOW_STYLE_DARK).toInt();
     customStyleFile = settings.value("CUSTOM_STYLE_FILE", customStyleFile).toString();
+    loadDefaultStyles = settings.value("USE_DEFAULT_BASE_STYLES", loadDefaultStyles).toBool();
     lowPowerMode = settings.value("LOW_POWER_MODE", lowPowerMode).toBool();
     defaultLanguage = settings.value("UI_LANGUAGE", defaultLanguage).toString();
     settings.endGroup();
@@ -966,6 +968,7 @@ void MainWindow::storeSettings()
     settings.setValue("AUTO_RECONNECT", autoReconnect);
     settings.setValue("CURRENT_STYLE", currentStyle);
     settings.setValue("CUSTOM_STYLE_FILE", customStyleFile);
+    settings.setValue("USE_DEFAULT_BASE_STYLES", loadDefaultStyles);
     if (!aboutToCloseFlag && isVisible())
     {
         settings.setValue(getWindowGeometryKey(), saveGeometry());
@@ -983,6 +986,11 @@ void MainWindow::storeSettings()
     settings.setValue("UI_LANGUAGE", currentLanguage);
     settings.endGroup();
     settings.sync();
+}
+
+void MainWindow::setLoadDefaultStyles(bool value)
+{
+    loadDefaultStyles = value;
 }
 
 void MainWindow::configureWindowName()
@@ -1159,22 +1167,25 @@ void MainWindow::reloadStylesheet(const QString file)
 
     // always load default style first
 #if defined(STYLES_DEFAULT_FILE)
-    style = QGCCore::readFileToString(STYLES_DEFAULT_FILE);
-    qDebug() << "Loaded stylesheet:" << STYLES_DEFAULT_FILE;
+    if (currentStyle != QGC_MAINWINDOW_STYLE_CUSTOM || loadDefaultStyles) {
+        style = QGCCore::readFileToString(STYLES_DEFAULT_FILE);
+        qDebug() << "Loaded stylesheet:" << STYLES_DEFAULT_FILE;
+    }
 #endif
 
     if (file.isEmpty() && !styleFileName.isEmpty())
         fileName = styleFileName;
-    else if (file != "default") {
+    else
         fileName = file;
-    }
 
-    if (!fileName.isEmpty()) {
+    styleFileName = fileName;
+
+    if (!fileName.isEmpty() && fileName != "default") {
         if (!QFileInfo::QFileInfo(fileName).exists()) {
-            showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file '%1'' was not found").arg(fileName));
+            showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file '%1' was not found").arg(fileName));
+            styleFileName = "";
             return;
         }
-        styleFileName = fileName;
         style += QGCCore::readFileToString(fileName);
         qDebug() << "Loaded stylesheet:" << fileName;
     }
@@ -1581,12 +1592,6 @@ void MainWindow::UASDeleted(UASInterface* uas)
     if (debugConsoleDockWidget) {
         if (DebugConsole *debugConsole = dynamic_cast<DebugConsole*>(debugConsoleDockWidget->widget()))
             disconnect(uas, 0, debugConsole, 0);
-    }
-
-    // Health / System status indicator
-    if (infoDockWidget) {
-        if (UASInfoWidget *infoWidget = dynamic_cast<UASInfoWidget*>(infoDockWidget->widget()))
-            infoWidget->removeUAS(uas);
     }
 
     // UAS List
