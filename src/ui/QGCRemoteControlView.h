@@ -72,14 +72,16 @@ public slots:
 
 protected slots:
     void removeActiveUAS();
-    QMap<QLabel*, QProgressBar*> *drawDataDisplay(int min, int max, QString label);
+    QPair<QLabel*, QProgressBar*> *drawDataDisplay(int min, int max, QString label);
     void appendChannelWidget(int channelId, bool valType);
+    void setStatusTitle(bool on);
 
 protected:
     void changeEvent(QEvent *e);
     int uasId;
     float rssi;
     bool updated;
+    bool m_uasTimeout;
     QVBoxLayout* channelLayout;
     QMap<int, int> raw;
     QMap<int, float> normalized;

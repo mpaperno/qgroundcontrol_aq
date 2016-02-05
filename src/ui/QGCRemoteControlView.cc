@@ -66,6 +66,7 @@ QGCRemoteControlView::QGCRemoteControlView(QWidget *parent) :
     connect(UASManager::instance(), SIGNAL(activeUASSet(int)), this, SLOT(setUASId(int)));
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
 
+    setStatusTitle(false);
     //connect(&updateTimer, SIGNAL(timeout()), this, SLOT(redraw()));
     //updateTimer.start(1500);
 }
@@ -82,6 +83,14 @@ QGCRemoteControlView::~QGCRemoteControlView()
 	}
 }
 
+void QGCRemoteControlView::setStatusTitle(bool on)
+{
+    if (uasId > -1 && on)
+        ui->label_uavName->setText(QString("RC Input of %1").arg(UASManager::instance()->getUASForId(uasId)->getUASName()));
+    else
+        ui->label_uavName->setText(tr("No System Connected"));
+}
+
 void QGCRemoteControlView::removeActiveUAS()
 {
     if (uasId == -1)
@@ -92,6 +101,7 @@ void QGCRemoteControlView::removeActiveUAS()
         disconnect(uas, 0, this, 0);
     uasId = -1;
     toggleRadioValuesUpdate(false);
+    setStatusTitle(false);
 
     // Clear channel count
     raw.clear();
@@ -124,7 +134,7 @@ void QGCRemoteControlView::setUASId(int id)
     if (newUAS) {
         // New UAS exists, connect
         uasId = id;
-        ui->label_uavName->setText(QString("RC Input of %1").arg(newUAS->getUASName()));
+        setStatusTitle(true);
         connect(newUAS, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(setRemoteRSSI(float)));
         connect(newUAS, SIGNAL(remoteControlChannelRawChanged(int,float)), this, SLOT(setChannelRaw(int,float)));
         //connect(newUAS, SIGNAL(remoteControlChannelScaledChanged(int,float)), this, SLOT(setChannelScaled(int,float)));
@@ -142,9 +152,13 @@ void QGCRemoteControlView::uasDeleted(UASInterface *mav)
 void QGCRemoteControlView::setUASstatus(bool timeout, unsigned int ms)
 {
     Q_UNUSED(ms);
-    if (uasId != -1) {
-        if (timeout)
+    if (uasId != -1 && timeout != m_uasTimeout) {
+        if (timeout) {
             toggleRadioValuesUpdate(false);
+            setStatusTitle(false);
+        } else
+            setStatusTitle(true);
+        m_uasTimeout = timeout;
     }
 }
 
@@ -159,6 +173,9 @@ void QGCRemoteControlView::dataStreamUpdate(const int uasId, const uint8_t strea
 
 void QGCRemoteControlView::setChannelRaw(int channelId, float raw)
 {
+    if(!isVisible())
+        return;
+
     if (!ui->scrollAreaWidget->isEnabled())
         toggleRadioValuesUpdate(true);
 
@@ -177,6 +194,9 @@ void QGCRemoteControlView::setChannelRaw(int channelId, float raw)
 
 void QGCRemoteControlView::setChannelScaled(int channelId, float normalized)
 {
+    if(!isVisible())
+        return;
+
     if (!ui->scrollAreaWidget->isEnabled())
         toggleRadioValuesUpdate(true);
 
@@ -196,14 +216,22 @@ void QGCRemoteControlView::setChannelScaled(int channelId, float normalized)
 
 void QGCRemoteControlView::setRemoteRSSI(float rssiNormalized)
 {
+    if(!isVisible())
+        return;
+
     if (!rssiBar) {
-        rssiBar = drawDataDisplay(0, 99, tr("Radio Quality"))->values().at(0);
+        rssiBar = drawDataDisplay(0, 99, tr("Radio Quality"))->second;
+        rssiBar->setProperty("styleType", "radioControlsRSSI");
+        rssiBar->setObjectName("rssiBar");
+        rssiBar->style()->unpolish(rssiBar);
+        rssiBar->style()->polish(rssiBar);
+        rssiBar->update();
     }
     rssi = rssiNormalized;
     redrawRssi();
 }
 
-QMap<QLabel*, QProgressBar*> *QGCRemoteControlView::drawDataDisplay(int min, int max, QString label)
+QPair<QLabel *, QProgressBar *> *QGCRemoteControlView::drawDataDisplay(int min, int max, QString label)
 {
     // Create new layout
     QHBoxLayout* layout = new QHBoxLayout();
@@ -222,8 +250,7 @@ QMap<QLabel*, QProgressBar*> *QGCRemoteControlView::drawDataDisplay(int min, int
     layout->addWidget(pb);
     channelLayout->addLayout(layout);
 
-    QMap<QLabel*, QProgressBar*> *ret = new(QMap<QLabel*, QProgressBar*>);
-    ret->insert(lbl_val, pb);
+    QPair<QLabel*, QProgressBar*> *ret = new QPair<QLabel*, QProgressBar*>(lbl_val, pb);
     return ret;
 }
 
@@ -241,9 +268,9 @@ void QGCRemoteControlView::appendChannelWidget(int channelId, bool valType)
         max = 1500;
     }
 
-    QMap<QLabel*, QProgressBar*> *obj = drawDataDisplay(min, max, label);
-    rawLabels.insert(channelId, obj->keys().at(0));
-    progressBars.insert(channelId, obj->values().at(0));
+    QPair<QLabel*, QProgressBar*> *obj = drawDataDisplay(min, max, label);
+    rawLabels.insert(channelId, obj->first);
+    progressBars.insert(channelId, obj->second);
 }
 
 void QGCRemoteControlView::redraw(int channelId)
@@ -251,27 +278,26 @@ void QGCRemoteControlView::redraw(int channelId)
     if(!isVisible())
         return;
 
+    int val = raw.value(channelId);
     // Update percent bars
-    if (rawLabels.contains(channelId))
-        rawLabels.value(channelId)->setText(QString("%1 us").arg(raw.value(channelId), 4, 10, QChar('0')));
+    if (rawLabels.contains(channelId) && rawLabels.value(channelId))
+        rawLabels.value(channelId)->setText(QString("%1 us").arg(val, 4, 10, QChar('0')));
 
     if (progressBars.contains(channelId)) {
-        int vv = raw.value(channelId)*1.0f;
-        if (vv > progressBars.value(channelId)->maximum())
-            vv = progressBars.value(channelId)->maximum();
-        if (vv < progressBars.value(channelId)->minimum())
-            vv = progressBars.value(channelId)->minimum();
-
-        progressBars.value(channelId)->setValue(vv);
+        QProgressBar *pb = progressBars.value(channelId);
+        if (!pb)
+            return;
+        //val *= 1;
+        pb->setValue(qMax(pb->minimum(), qMin(val, pb->maximum())));
     }
 }
 
 void QGCRemoteControlView::redrawRssi()
 {
-    if(!isVisible() || !rssiBar || rssi < 0.0f || rssi > 99.0f)
+    if(!isVisible() || !rssiBar)
         return;
 
-    rssiBar->setValue(rssi);
+    rssiBar->setValue(qMax(rssiBar->minimum(), qMin((int)rssi, rssiBar->maximum())));
 }
 
 void QGCRemoteControlView::toggleRadioValuesUpdate(bool enable)
