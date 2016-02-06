@@ -5,9 +5,8 @@
 #include "MAV2DIcon.h"
 #include "Waypoint2DIcon.h"
 #include "UASWaypointManager.h"
-#include "ui_GoToWaypointDialog.h"
+#include "WaypointDialog.h"
 
-#include <QDialog>
 #include <QInputDialog>
 
 QGCMapWidget::QGCMapWidget(QWidget *parent) :
@@ -41,24 +40,25 @@ void QGCMapWidget::showEvent(QShowEvent* event)
     // Pass on to parent widget
     OPMapWidget::showEvent(event);
 
-    connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
-    connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(activeUASSet(UASInterface*)), Qt::UniqueConnection);
-    foreach (UASInterface* uas, UASManager::instance()->getUASList())
-    {
-        addUAS(uas);
-    }
-
 
     if (!mapInitialized)
     {
+        connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
+        connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(activeUASSet(UASInterface*)), Qt::UniqueConnection);
+        connect(UASManager::instance(), SIGNAL(homePositionChanged(double,double,double)), this, SLOT(updateHomePosition(double,double,double)));
+        foreach (UASInterface* uas, UASManager::instance()->getUASList())
+        {
+            addUAS(uas);
+        }
+
         internals::PointLatLng pos_lat_lon = internals::PointLatLng(0, 0);
 
         SetMouseWheelZoomType(internals::MouseWheelZoomType::MousePositionWithoutCenter);	    // set how the mouse wheel zoom functions
         SetFollowMouse(true);				    // we want a contiuous mouse position reading
 
         SetShowHome(true);					    // display the HOME position on the map
-        Home->SetSafeArea(30);                         // set radius (meters)
-        Home->SetShowSafeArea(true);                                         // show the safe area
+        //Home->SetSafeArea(30);                         // set radius (meters)
+        //Home->SetShowSafeArea(true);                                         // show the safe area
         Home->SetCoord(pos_lat_lon);             // set the HOME position
 
         setFrameStyle(QFrame::NoFrame);      // no border frame
@@ -681,35 +681,23 @@ void QGCMapWidget::updateWaypointList(int uas)
 
 void QGCMapWidget::dialogGoToWaypoint(internals::PointLatLng pos)
 {
-    Ui::GoToWaypointDialog *dlgUi = new Ui::GoToWaypointDialog();
-    QDialog *dlg = new QDialog();
-    dlgUi->setupUi(dlg);
-    
-    dlgUi->fld_lat->setValue(pos.Lat());
-    dlgUi->fld_lon->setValue(pos.Lng());
+    WaypointDialog *dlg = new WaypointDialog();
 
-    QSettings settings;
-    settings.beginGroup("QGC_MAPWIDGET");
-    dlgUi->fld_alt->setValue(settings.value("GOTOWPT_ALT", dlgUi->fld_alt->value()).toDouble());
-    dlgUi->fld_hdg->setValue(settings.value("GOTOWPT_HDG", dlgUi->fld_hdg->value()).toDouble());
-    dlgUi->fld_hvel->setValue(settings.value("GOTOWPT_HVEL", dlgUi->fld_hvel->value()).toDouble());
-    dlgUi->fld_vvel->setValue(settings.value("GOTOWPT_VVEL", dlgUi->fld_vvel->value()).toDouble());
-    dlgUi->opt_alt_rel->setChecked(settings.value("GOTOWPT_ALT_REL", dlgUi->opt_alt_rel->isChecked()).toBool());
-    dlgUi->opt_saveDefaults->setChecked(settings.value("GOTOWPT_SAVE_DFLT", dlgUi->opt_saveDefaults->isChecked()).toBool());
-    dlgUi->sel_lat->setChecked(settings.value("GOTOWPT_SEL_LAT", dlgUi->sel_lat->isChecked()).toBool());
-    dlgUi->sel_lon->setChecked(settings.value("GOTOWPT_SEL_LON", dlgUi->sel_lon->isChecked()).toBool());
-    dlgUi->sel_alt->setChecked(settings.value("GOTOWPT_SEL_ALT", dlgUi->sel_alt->isChecked()).toBool());
-    dlgUi->sel_hdg->setChecked(settings.value("GOTOWPT_SEL_HDG", dlgUi->sel_hdg->isChecked()).toBool());
-    dlgUi->sel_hvel->setChecked(settings.value("GOTOWPT_SEL_HVEL", dlgUi->sel_hvel->isChecked()).toBool());
-    dlgUi->sel_vvel->setChecked(settings.value("GOTOWPT_SEL_VVEL", dlgUi->sel_vvel->isChecked()).toBool());
+    dlg->setSettingsPrefix("GOTOWPT");
+    dlg->setLabel(tr("Enter waypoint details and select which value(s) to send."));
+    dlg->setLatLon(QPointF(pos.Lat(), pos.Lng()));
 
     if (!dlg->exec()) {
         dlg->deleteLater();
         return;
     }
 
-    Waypoint *wp = new Waypoint(0, dlgUi->fld_lat->value(), dlgUi->fld_lon->value(), dlgUi->fld_alt->value(), dlgUi->fld_hvel->value(), dlgUi->fld_vvel->value(), 0.0, dlgUi->fld_hdg->value(),
-                                false, false, dlgUi->opt_alt_rel->isChecked() ? MAV_FRAME_GLOBAL_RELATIVE_ALT_INT : MAV_FRAME_GLOBAL_INT, MAV_CMD_NAV_WAYPOINT, tr("Go-To Waypoint"));
+    QStringList selected = dlg->getSelFields();
+    QPointF latLon = dlg->getLatLon();
+    QPair<double, bool> alt = dlg->getAlt();
+
+    Waypoint *wp = new Waypoint(0, latLon.x(), latLon.y(), alt.first, dlg->getHVel(), dlg->getVVel(), 0.0, dlg->getHdg(),
+                                false, false, alt.second ? MAV_FRAME_GLOBAL_RELATIVE_ALT_INT : MAV_FRAME_GLOBAL_INT, MAV_CMD_NAV_WAYPOINT, tr("Go-To Waypoint"));
 
     if (goToWaypointItem)
         delete goToWaypointItem;
@@ -724,28 +712,10 @@ void QGCMapWidget::dialogGoToWaypoint(internals::PointLatLng pos)
 
     UASInterface *uas = UASManager::instance()->getActiveUAS();
     if (uas)
-        uas->setGlobalTargetPosition(dlgUi->fld_lat->value(), dlgUi->fld_lon->value(), (float)dlgUi->fld_alt->value(), (float)dlgUi->fld_hdg->value(),
-                                     (float)dlgUi->fld_hvel->value(), (float)dlgUi->fld_vvel->value(), dlgUi->opt_alt_rel->isChecked(),
-                                     dlgUi->sel_lat->isChecked(), dlgUi->sel_lon->isChecked(), dlgUi->sel_alt->isChecked(), dlgUi->sel_hdg->isChecked(),
-                                     dlgUi->sel_hvel->isChecked(), dlgUi->sel_vvel->isChecked());
+        uas->setGlobalTargetPosition(latLon.x(), latLon.y(), alt.first, dlg->getHdg(), dlg->getHVel(), dlg->getVVel(), alt.second,
+                                     selected.contains("lat"), selected.contains("lon"), selected.contains("alt"), selected.contains("hdg"),
+                                     selected.contains("hvel"), selected.contains("vvel"));
 
-    settings.setValue("GOTOWPT_SAVE_DFLT", dlgUi->opt_saveDefaults->isChecked());
-    if (dlgUi->opt_saveDefaults->isChecked()) {
-        settings.setValue("GOTOWPT_ALT", dlgUi->fld_alt->value());
-        settings.setValue("GOTOWPT_HDG", dlgUi->fld_hdg->value());
-        settings.setValue("GOTOWPT_HVEL", dlgUi->fld_hvel->value());
-        settings.setValue("GOTOWPT_VVEL", dlgUi->fld_vvel->value());
-        settings.setValue("GOTOWPT_ALT_REL", dlgUi->opt_alt_rel->isChecked());
-        settings.setValue("GOTOWPT_SEL_LAT", dlgUi->sel_lat->isChecked());
-        settings.setValue("GOTOWPT_SEL_LON", dlgUi->sel_lon->isChecked());
-        settings.setValue("GOTOWPT_SEL_ALT", dlgUi->sel_alt->isChecked());
-        settings.setValue("GOTOWPT_SEL_HDG", dlgUi->sel_hdg->isChecked());
-        settings.setValue("GOTOWPT_SEL_HVEL", dlgUi->sel_hvel->isChecked());
-        settings.setValue("GOTOWPT_SEL_VVEL", dlgUi->sel_vvel->isChecked());
-    }
-    settings.endGroup();
-    settings.sync();
-    
     dlg->deleteLater();
 }
 

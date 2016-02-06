@@ -13,10 +13,10 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QSettings>
-#include "UAS.h"
-#include "UASInterface.h"
 #include "UASManager.h"
+#include "UAS.h"
 #include "QGC.h"
+#include "WaypointDialog.h"
 
 #define PI 3.1415926535897932384626433832795
 #define MEAN_EARTH_DIAMETER	12756274.0
@@ -91,10 +91,10 @@ bool UASManager::setHomePosition(double lat, double lon, double alt)
             emit homePositionChanged(homeLat, homeLon, homeAlt);
 
             // Update all UAVs
-            foreach (UASInterface* mav, systems)
-            {
-                mav->setHomePosition(homeLat, homeLon, homeAlt);
-            }
+//            foreach (UASInterface* mav, systems)
+//            {
+//                mav->setHomePosition(homeLat, homeLon, homeAlt);
+//            }
         }
     }
     return changed;
@@ -210,19 +210,20 @@ void UASManager::uavChangedHomePosition(int uav, double lat, double lon, double 
     // this means that the currently select UAS can change the home location
     // of the whole swarm. This makes sense, but more control might be needed
     if (uav == activeUAS->getUASID())
-    {
-        if (setHomePosition(lat, lon, alt))
-        {
-            foreach (UASInterface* mav, systems)
-            {
-                // Only update the other systems, not the original source
-                if (mav->getUASID() != uav)
-                {
-                    mav->setHomePosition(homeLat, homeLon, homeAlt);
-                }
-            }
-        }
-    }
+        setHomePosition(lat, lon, alt);
+//    {
+//        if (setHomePosition(lat, lon, alt))
+//        {
+//            foreach (UASInterface* mav, systems)
+//            {
+//                // Only update the other systems, not the original source
+//                if (mav->getUASID() != uav)
+//                {
+//                    mav->setHomePosition(homeLat, homeLon, homeAlt);
+//                }
+//            }
+//        }
+//    }
 }
 
 /**
@@ -315,16 +316,69 @@ UASInterface* UASManager::silentGetActiveUAS()
 
 bool UASManager::launchActiveUAS()
 {
-    // If the active UAS is set, execute command
-    if (getActiveUAS()) activeUAS->launch();
-    return (activeUAS); ///< Returns true if the UAS exists, false else
+    return launchUAS(activeUAS); ///< Returns true if the UAS exists, false else
+}
+
+bool UASManager::launchUAS(UASInterface *uas)
+{
+    if (!uas)
+        return false;
+
+    WaypointDialog *dlg = new WaypointDialog();
+
+    dlg->setSettingsPrefix("LAUNCHWPT");
+    dlg->setLabel(tr("Set TAKEOFF waypoint details. Deselected fields will send default values."));
+    dlg->toggleLatLon(false);
+    dlg->toggleHdg(false);
+    dlg->toggleHVel(false);
+
+    if (!dlg->exec()) {
+        dlg->deleteLater();
+        return false;
+    }
+
+    QStringList selected = dlg->getSelFields();
+    float vspd = (selected.contains("vvel")) ? dlg->getVVel() : 0.0f;
+    QPair<double, bool> altpr = dlg->getAlt();
+    float alt = (selected.contains("alt")) ? altpr.first : 5.0f;
+    uint8_t frame = (selected.contains("alt") && !altpr.second) ? MAV_FRAME_GLOBAL : MAV_FRAME_GLOBAL_RELATIVE_ALT;
+
+    uas->launch(vspd, dlg->getHRadius(), alt, frame);
+    dlg->deleteLater();
+    return true;
 }
 
 bool UASManager::landActiveUAS()
 {
-    // If the active UAS is set, execute command
-    if (getActiveUAS()) activeUAS->land();
-    return (activeUAS); ///< Returns true if the UAS exists, false else
+    return landUAS(activeUAS); ///< Returns true if the UAS exists, false else
+}
+
+bool UASManager::landUAS(UASInterface *uas)
+{
+    if (!uas)
+        return false;
+
+    WaypointDialog *dlg = new WaypointDialog();
+
+    dlg->setSettingsPrefix("LANDWPT");
+    dlg->setLabel(tr("Set LANDING waypoint details. Deselected fields will send default values."));
+    dlg->toggleLatLon(false);
+    dlg->toggleAlt(false);
+    dlg->toggleHdg(false);
+    dlg->toggleHVel(false);
+    dlg->toggleHRadius(false);
+
+    if (!dlg->exec()) {
+        dlg->deleteLater();
+        return false;
+    }
+
+    QStringList selected = dlg->getSelFields();
+    float vspd = (selected.contains("vvel")) ? dlg->getVVel() : 0.0f;
+
+    uas->land(vspd);
+    dlg->deleteLater();
+    return true;
 }
 
 bool UASManager::haltActiveUAS()
@@ -343,9 +397,35 @@ bool UASManager::continueActiveUAS()
 
 bool UASManager::returnActiveUAS()
 {
-    // If the active UAS is set, execute command
-    if (getActiveUAS()) activeUAS->home();
-    return (activeUAS); ///< Returns true if the UAS exists, false else
+    return returnUAS(activeUAS); ///< Returns true if the UAS exists, false else
+}
+
+bool UASManager::returnUAS(UASInterface *uas)
+{
+    if (!uas)
+        return false;
+
+    WaypointDialog *dlg = new WaypointDialog();
+
+    dlg->setSettingsPrefix("LANDWPT");
+    dlg->setLabel(tr("Set LANDING waypoint details. Deselected fields will send default values."));
+    dlg->toggleLatLon(false);
+    dlg->toggleAlt(false);
+    dlg->toggleHdg(false);
+    dlg->toggleVVel(false);
+    dlg->toggleHRadius(false);
+
+    if (!dlg->exec()) {
+        dlg->deleteLater();
+        return false;
+    }
+
+    QStringList selected = dlg->getSelFields();
+    float hspd = (selected.contains("hvel")) ? dlg->getHVel() : 0.0f;
+
+    uas->home(hspd);
+    dlg->deleteLater();
+    return true;
 }
 
 bool UASManager::stopActiveUAS()

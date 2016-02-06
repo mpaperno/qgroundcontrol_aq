@@ -182,6 +182,7 @@ public slots:
      * @return True if the UAS could be launched, false else
      */
     bool launchActiveUAS();
+    bool launchUAS(UASInterface* uas);
 
     /**
      * @brief Land the active UAS
@@ -193,6 +194,7 @@ public slots:
      * @return True if the UAS could be launched, false else
      */
     bool landActiveUAS();
+    bool landUAS(UASInterface* uas);
 
     bool haltActiveUAS();
 
@@ -208,6 +210,7 @@ public slots:
      * @return True if the UAS could be returned, false else
      */
     bool returnActiveUAS();
+    bool returnUAS(UASInterface* uas);
 
 
     /**
