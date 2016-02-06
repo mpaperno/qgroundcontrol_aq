@@ -74,7 +74,6 @@ private slots:
     bool radioHasPPM();
     void radioType_changed(int idx);
     void on_tab_aq_settings_currentChanged(int idx);
-    void on_groupBox_controlAdvancedSettings_toggled(bool arg1);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void splitterCollapseToggle();
     void splitterMoved();
@@ -120,7 +119,6 @@ private slots:
     void toggleRadioStream(const bool enable);
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
-    void on_toolButton_toggleRadioValues_clicked(bool checked);
 
     // Misc.
     bool checkProcRunning(bool warn = true);
@@ -204,20 +202,13 @@ private:
 
     // Radio
     QTimer delayedSendRCTimer;  // for setting radio channel refresh freq.
-    QList<QProgressBar *> allRadioChanProgressBars;
-    QList<QLabel *> allRadioChanValueLabels;
+    QMap<uint8_t, QList<QPair<QWidget *, QWidget *> > > radioChannelIndicatorsMap;  // for quick lookup of incoming radio data telemetry by channel #
 
     // AQ settings
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
     QRegExp paramsReqRestartRx;
-    QRegExp paramsRadioControls;
-    QRegExp paramsSwitchControls;
-    QRegExp paramsTunableControls;
-    QRegExp paramsTunableControlChannels;
-    //QRegExp paramsNonTunable;
     QList<QComboBox *> allRadioChanCombos;
-    QList<QPushButton *> allTunableParamWidgets;
     quint8 paramSaveType;
     int paramsLoadedForAqBuildNumber;
     bool restartAfterParamSave;
@@ -228,6 +219,7 @@ private:
     int devCommand;
     QProcess ps_master;
     bool mtx_paramsAreLoading;
+    bool m_initComplete;
     QString UsersParamsFile;
     QTextEdit* activeProcessStatusWdgt;
     SelectAdjustableParamDialog *m_selectAdjParamsDialog;

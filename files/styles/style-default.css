@@ -21,11 +21,35 @@ QLabel[labelStyle="emphasis"]:disabled {
 	color: #727272;
 }
 
+QLabel[labelStyle="columnLabel"] {
+	color: #f2f2f3;
+	border: 1px solid rgba(125, 125, 125, 125);
+	border-radius: 3px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161, stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);
+	/*background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));*/
+	padding: 1px 5px;
+}
+QLabel[labelStyle="columnLabel"][styleType="compact"] {
+	padding: 1px 1px;
+}
+
 QLabel[styleType="indicator"] {
 	min-width: 0.6em;
 	border: 1px solid;
 	border-radius: 3px;
 	padding: 0px;
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.35 rgba(36, 88, 209, 200), stop:1 rgba(0, 0, 0, 0));
+}
+QLabel[styleType="indicator"][value="0"] {
+	background-color: transparent;
+}
+
+QLabel[labelStyle="pad_left_smaller_dim"] {
+	font-size: 7pt;
+	margin: 0 0 .4em .3em;
+	color: rgba(0, 0, 0, 150);
+	text-align: top left;
+	padding: 0;
 }
 
 /*
@@ -35,32 +59,31 @@ QProgressBar {
 	border: 1px solid #4A4A4F;
 	border-radius: 4px;
 	text-align: center;
-	padding: 0.1em;
-	background-color: #A7A7AB;
-}
-QProgressBar:disabled {
-	color: #EBEBEB;
-	border-color: #383838;
-	background-color: #CFCFCF;
-	etch-disabled-text: 0;
+	padding: 0.05em .1em;
+	background-color: #f0f0f0;
 }
 QProgressBar:horizontal {
-	 max-height: 1em;
-	 min-height: 0.8em;
+	 max-height: .8em;
+	 min-height: 0.2em;
 }
 QProgressBar:vertical {
-	 max-width: 1em;
-	 min-width: 0.8em;
+	 max-width: .8em;
+	 min-width: 0.2em;
 }
 QProgressBar::chunk {
-	 background-color: #3C7B9E;
-	 border-radius: 3px;
+	background-color: #3C7B9E;
+	border-radius: 3px;
 }
-QProgressBar::chunk:disabled {
-	background-color: #878787;
+QProgressBar::chunk:horizontal {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.25 rgba(36, 88, 209, 210), stop:1 rgba(0, 0, 0, 0));
 }
-QProgressBar::chunk#batteryBar {
-	background-color: green;
+QProgressBar::chunk:vertical {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.0, y2:0.5, stop:0.25 rgba(36, 88, 209, 230), stop:1 rgba(0, 0, 0, 0));
+}
+
+QProgressBar#batteryBar::chunk:horizontal,
+QProgressBar#toolBarBatteryBar::chunk:horizontal {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0, stop:0.25 rgba(31, 170, 28, 255), stop:1 rgba(0, 0, 0, 0));
 }
 QProgressBar::chunk#speedBar {
 	background-color: yellow;
@@ -68,18 +91,20 @@ QProgressBar::chunk#speedBar {
 QProgressBar::chunk#thrustBar {
 	background-color: orange;
 }
-QProgressBar::chunk#progressBar_rssi,
-QProgressBar::chunk#rssiBar {
-	 background-color: #2c5f7b;
+QProgressBar#progressBar_rssi::chunk:horizontal,
+QProgressBar#rssiBar::chunk:horizontal {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0, stop:0.25 rgba(204, 82, 0, 255), stop:1 rgba(0, 0, 0, 0));
+}
+QProgressBar#loadBar::chunk:horizontal {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0, stop:0.25 rgba(124, 0, 166, 255), stop:1 rgba(0, 0, 0, 0));
 }
 
 QProgressBar[styleType="radioControls"]:horizontal {
-	border-radius: 4px;
-	max-height: 5px;
-	min-height: 3px;
-	margin: 0px 0em 8px 2.5em;
+	border-radius: 3px;
+	max-height: .3em;
+	margin: .2em 0em .4em 2.2em;
 	text-align: top left;
-	padding: 2px;
+	padding: 0.01em .11em;
 }
 QProgressBar[styleType="radioControls"]::chunk:horizontal {
 	border-radius: 2px;
@@ -88,6 +113,20 @@ QProgressBar[styleType="radioControlsRSSI"]:horizontal {
 	margin: 0px 0em 0px 3em;
 	text-align: left;
 }
+
+QProgressBar:disabled {
+	color: #EBEBEB;
+	border-color: #383838;
+	background-color: rgba(207, 207, 207, 150);
+	etch-disabled-text: 0;
+}
+QProgressBar::chunk:horizontal:disabled {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 100), stop:1 rgba(0, 0, 0, 0));
+}
+QProgressBar::chunk:vertical:disabled {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 100), stop:1 rgba(0, 0, 0, 0));
+}
+
 
 
 /*
@@ -171,12 +210,9 @@ QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
     border-radius: 4px;
     text-align: center;
 	 padding: 0.1em;
-    /*color: #DDDDDF;*/
-    background-color: #caeccb;
-	 height: 1em;
-}
-QToolBar#QGC_TOOLBAR QProgressBar::chunk {
-	 background-color: green;
+	 background-color: #caeccb;
+	 max-height: 2em;
+	 padding: 0.00em .1em;
 }
 QToolBar#QGC_TOOLBAR QLabel {
 	 font-weight: bold;
@@ -191,9 +227,9 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
 	 max-height: 1.5em;
 }
 QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
-	 padding: 0 0.3em;
-	 margin: 0;
-	 max-height: 1.5em;
+	margin: -4px 0 0 0px;
+	padding: 0 0.3em;
+	max-height: 1.5em;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
     margin-left: 0;
@@ -208,10 +244,12 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
     color: yellow;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
+	margin-left: 0;
 	 font-size: 9pt;
     /*font-style: italic;*/
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel {
     margin-left: 0;
+	 font-size: 13pt;
 }
 

@@ -16,6 +16,11 @@ QWidget:disabled {
 	etch-disabled-text: 0;
 }
 
+QLabel[labelStyle="pad_left_smaller_dim"] {
+	color: rgba(242, 242, 243, 180);
+}
+
+
 QScrollBar {
 	border-radius: 6px;
 	padding: 2px;
@@ -775,9 +780,9 @@ QProgressBar {
 	color: #DDDDDF;
 	background-color: #111118;
 }
-QProgressBar::chunk:disabled {
+/*QProgressBar::chunk:disabled {
 	background-color: #727272;
-}
+}*/
 
 /*
     CalendarWidget
@@ -809,22 +814,9 @@ QCalendarWidget QTableView  {
     Main application toolbar styling (Operator/Engineer/Pilot/Logging/Replay buttons and battery level bar)
 */
 
-QToolBar#QGC_TOOLBAR QToolButton  {
-	 min-width: 24px;
-}
-
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
-	 margin: 0px 4px 0px 0px;
-    color: #111111;
 	 background-color: #111118;
 }
-QToolBar#QGC_TOOLBAR QProgressBar:horizontal QLabel {
-	 color: #111111;
-}
-QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
-	margin: -4px 0 0 0px;
-}
-
 
 
 /* Custom pushbuttons */
