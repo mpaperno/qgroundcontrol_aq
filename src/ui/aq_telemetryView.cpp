@@ -53,7 +53,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     displaySets.append(DisplaySet(DSPSET_GIMBAL, "Gimbal"));
     displaySets.append(DisplaySet(DSPSET_RC, "RC"));
     displaySets.append(DisplaySet(DSPSET_CONFIG, "Config"));
-    displaySets.append(DisplaySet(DSPSET_STACKS, "Stacks"));
+    displaySets.append(DisplaySet(DSPSET_STACKS, "MCU"));
     displaySets.append(DisplaySet(DSPSET_DEBUG, "Debug"));
 
     // define all data fields
@@ -165,16 +165,19 @@ void AQTelemetryView::setupDisplaySetData() {
     telemDataFields.append(TelemFieldsMeta("UKF_VELE", unit, valIdx++, msgidx, dset));
     telemDataFields.append(TelemFieldsMeta("UKF_VELD", unit, valIdx++, msgidx, dset));
     msgidx = AQMAV_DATASET_UKF;
-    telemDataFields.append(TelemFieldsMeta("UKF_GYO_BIAS_X", unit, 1, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_GYO_BIAS_Y", unit, 2, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_GYO_BIAS_Z", unit, 3, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_ACC_BIAS_X", unit, 4, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_ACC_BIAS_Y", unit, 5, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_ACC_BIAS_Z", unit, 6, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_Q1", unit, 7, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_Q2", unit, 8, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_Q3", unit, 9, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("UKF_Q4", unit, 10, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_PRES_ALT", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("ALTITUDE", unit, valIdx++, msgidx, dset));
+    valIdx=1;
+    telemDataFields.append(TelemFieldsMeta("UKF_GYO_BIAS_X", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_GYO_BIAS_Y", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_GYO_BIAS_Z", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_ACC_BIAS_X", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_ACC_BIAS_Y", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_ACC_BIAS_Z", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_Q1", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_Q2", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_Q3", unit, valIdx++, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("UKF_Q4", unit, valIdx++, msgidx, dset));
 
     // nav
     dset = DSPSET_NAV;
@@ -223,12 +226,13 @@ void AQTelemetryView::setupDisplaySetData() {
     msgidx = AQMAV_DATASET_SUPERVISOR;
     telemDataFields.append(TelemFieldsMeta("state", TELEM_VALUETYPE_INT, 1, msgidx, dset));
     telemDataFields.append(TelemFieldsMeta("flightTime", unit, 2, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("flightTimeRemaining", unit, 3, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("flightSecAvg", unit, 4, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("vIn", unit, 18, msgidx, dset));
     telemDataFields.append(TelemFieldsMeta("vIn_LPF", unit, 5, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("StateOfCahrge", unit, 6, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("lastGoodRadio_usec", TELEM_VALUETYPE_INT, 7, msgidx, dset));
     telemDataFields.append(TelemFieldsMeta("idlePercent", unit, 8, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("comm.txBufStarved", TELEM_VALUETYPE_INT, 17, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("lastGoodRadio_usec", TELEM_VALUETYPE_INT, 7, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("RADIO_QUALITY", TELEM_VALUETYPE_INT, 19, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("RADIO_ERRORS", TELEM_VALUETYPE_INT, 20, msgidx, dset));
 
     unit = TELEM_VALUETYPE_INT;
 
@@ -264,16 +268,19 @@ void AQTelemetryView::setupDisplaySetData() {
 
     dset = DSPSET_STACKS;
     msgidx = AQMAV_DATASET_STACKSFREE;
-    telemDataFields.append(TelemFieldsMeta("INIT", unit, 1, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("FILER", unit, 2, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("SUPERVISOR", unit, 3, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("ADC", unit, 4, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("RADIO", unit, 5, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("CONTROL", unit, 6, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("GPS", unit, 7, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("RUN", unit, 8, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("COMM", unit, 9, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("DIMU", unit, 10, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack INIT", unit, 1, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack FILER", unit, 2, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack SUPERVISOR", unit, 3, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack ADC", unit, 4, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack RADIO", unit, 5, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack CONTROL", unit, 6, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack GPS", unit, 7, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack RUN", unit, 8, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack COMM", unit, 9, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack DIMU", unit, 10, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("RAM heapUsed", unit, 18, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("RAM heapHighWater", unit, 19, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("RAM dataSramUsed", unit, 20, msgidx, dset));
 
     if (newDs) {
 
@@ -404,7 +411,7 @@ void AQTelemetryView::setupCurves(displaySetTypes dspSet) {
             continue;
 
         QVariant var = QVariant::fromValue(0.0f);
-        AqTeleChart->appendData(uasId, telemDataFields[i].label, "", var, 0);
+        AqTeleChart->appendData(uasId, displaySets.at(dspSet).name % "." % telemDataFields[i].label, "", var, 0);
     }
 
 }
@@ -431,10 +438,15 @@ void AQTelemetryView::uasVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVe
     if (!uas || uasId != uas->getUASID())
         return;
 
-    aqFwVerMaj = (fwVer >> 24) & 0xFF;
-    aqFwVerMin = (fwVer >> 16) & 0xFF;
-    aqFwVerBld = fwVer & 0xFFFF;
-    setupDisplaySetData();
+    uint8_t maj = (fwVer >> 24) & 0xFF,
+            min= (fwVer >> 16) & 0xFF;
+    uint16_t bld = fwVer & 0xFFFF;
+    if (maj != aqFwVerMaj || min != aqFwVerMin || bld != aqFwVerBld) {
+        aqFwVerMaj = maj;
+        aqFwVerMin = min;
+        aqFwVerBld = bld;
+        setupDisplaySetData();
+    }
 }
 
 bool AQTelemetryView::teleValuesStart() {
@@ -619,7 +631,7 @@ void AQTelemetryView::getNewTelemetry(int uasId, int valIdx){
             valStr = telemDataFields.at(i).unit == TELEM_VALUETYPE_INT ? QString::number((int)val) : QString::number(val);
         }
         le->setText(valStr);
-        AqTeleChart->appendData(uasId, telemDataFields.at(i).label, "", var, 0);
+        AqTeleChart->appendData(uasId, displaySets.at(telemDataFields.at(i).dspSetId).name % "." % telemDataFields.at(i).label, "", var, 0);
     }
 }
 
