@@ -35,6 +35,7 @@ This file is part of the QGROUNDCONTROL project
 #include "UASInterface.h"
 #include <MAVLinkProtocol.h>
 #include <QVector3D>
+#include <QElapsedTimer>
 #include "QGCMAVLink.h"
 //#include "QGCHilLink.h"
 //#include "QGCFlightGearLink.h"
@@ -76,10 +77,14 @@ public:
     const QString& getShortState() const;
     /** @brief Get short mode */
     const QString& getShortMode() const;
+    /** @brief Get short auxiliary mode text */
+    const QString& getShortAuxMode() const;
     /** @brief Translate from mode id to text */
     static QString getShortModeTextFor(int id);
     /** @brief Translate from mode id to audio text */
     static QString getAudioModeTextFor(int id);
+    /** @brief Translate custom mode id to texts */
+    static void getCustomModeTexts(uint32_t custom_mode, uint8_t base_mode, QString *shortMode = 0, QString *audioMode = 0, QStringList *auxModes = 0, QStringList *alerts = 0);
     /** @brief Get the unique system id */
     int getUASID() const;
     /** @brief Get the airframe */
@@ -98,6 +103,8 @@ public:
     float filterVoltage(float value) const;
     /** @brief Get the links associated with this robot */
     QList<LinkInterface*>* getLinks();
+
+    const uint32_t getCustomMode() { return customMode; }
 
     double getLocalX() const
     {
@@ -203,10 +210,9 @@ protected: //COMMENTS FOR TEST UNIT
     bool batteryRemainingEstimateEnabled; ///< If the estimate is enabled, QGC will try to estimate the remaining battery life
     float chargeLevel;          ///< Charge level of battery, in percent
     int timeRemaining;          ///< Remaining time calculated based on previous and current
-    uint8_t mode;              ///< The current mode of the MAV
-    uint32_t custom_mode;       ///< The current mode of the MAV
-    int status;                 ///< The current status of the MAV
-    uint32_t navMode;                ///< The current navigation mode of the MAV
+    uint8_t mode;               ///< The current base_mode of the MAV
+    uint8_t status;             ///< The current system_status of the MAV
+    uint32_t customMode;        ///< The current custom_mode mode of the MAV
     quint64 onboardTimeOffset;
 
     bool controlRollManual;     ///< status flag, true if roll is controlled manually
@@ -256,12 +262,15 @@ protected: //COMMENTS FOR TEST UNIT
     QGCUASParamManager* paramManager; ///< Parameter manager class
     QString shortStateText;         ///< Short textual state description
     QString shortModeText;          ///< Short textual mode description
+    QString customModeText;          ///< Short textual mode description
     bool attitudeStamped;           ///< Should arriving data be timestamped with the last attitude? This helps with broken system time clocks on the MAV
     quint64 lastAttitude;           ///< Timestamp of last attitude measurement
 //    QGCHilLink* simulation;         ///< Hardware in the loop simulation link
     bool isLocalPositionKnown;      ///< If the local position has been received for this MAV
     bool isGlobalPositionKnown;     ///< If the global position has been received for this MAV
     bool systemIsArmed;             ///< If the system is armed
+    uint8_t gpsFixType;
+    QElapsedTimer gpsLockTimer;     ///< track when the gps lock type switched
     QVector3D nedPosGlobalOffset;   ///< Offset between the system's NED position measurements and the swarm / global 0/0/0 origin
     QVector3D nedAttGlobalOffset;   ///< Offset between the system's NED position measurements and the swarm / global 0/0/0 origin
 
@@ -620,7 +629,7 @@ signals:
     /** @brief A new camera image has arrived */
     void imageReady(UASInterface* uas);
     /** @brief HIL controls have changed */
-    void hilControlsChanged(uint64_t time, float rollAilerons, float pitchElevator, float yawRudder, float throttle, uint8_t systemMode, uint8_t navMode);
+    void hilControlsChanged(uint64_t time, float rollAilerons, float pitchElevator, float yawRudder, float throttle, uint8_t systemMode, uint8_t customMode);
     /** @brief HIL actuator outputs have changed */
     void hilActuatorsChanged(uint64_t time, float act1, float act2, float act3, float act4, float act5, float act6, float act7, float act8);
 

@@ -78,8 +78,7 @@ void UASControlWidget::setUAS(UASInterface* uas)
         disconnect(ui.landButton, SIGNAL(clicked()), oldUAS, SLOT(home()));
         disconnect(ui.shutdownButton, SIGNAL(clicked()), oldUAS, SLOT(shutdown()));
         //connect(ui.setHomeButton, SIGNAL(clicked()), uas, SLOT(setLocalOriginAtCurrentGPSPosition()));
-        disconnect(uas, SIGNAL(modeChanged(int,QString,QString)), this, SLOT(updateMode(int,QString,QString)));
-        disconnect(uas, SIGNAL(statusChanged(int)), this, SLOT(updateState(int)));
+        disconnect(uas, 0, this, 0);
     }
 
     // Connect user interface controls
@@ -89,7 +88,7 @@ void UASControlWidget::setUAS(UASInterface* uas)
     connect(ui.shutdownButton, SIGNAL(clicked()), uas, SLOT(shutdown()));
     //connect(ui.setHomeButton, SIGNAL(clicked()), uas, SLOT(setLocalOriginAtCurrentGPSPosition()));
     connect(uas, SIGNAL(modeChanged(int,QString,QString)), this, SLOT(updateMode(int,QString,QString)));
-    connect(uas, SIGNAL(statusChanged(int)), this, SLOT(updateState(int)));
+    connect(uas, SIGNAL(statusChanged(uint8_t)), this, SLOT(updateState(uint8_t)));
 
     ui.controlStatusLabel->setText(tr("Connected to ") + uas->getUASName());
 
@@ -144,7 +143,7 @@ void UASControlWidget::updateMode(int uas,QString mode,QString description)
     Q_UNUSED(description);
 }
 
-void UASControlWidget::updateState(int state)
+void UASControlWidget::updateState(uint8_t state)
 {
     switch (state)
     {

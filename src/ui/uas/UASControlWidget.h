@@ -62,7 +62,7 @@ public slots:
     /** @brief Update the mode */
     void updateMode(int uas,QString mode,QString description);
     /** @brief Update state */
-    void updateState(int state);
+    void updateState(uint8_t state);
     /** @brief Update internal state machine */
     void updateStatemachine();
 

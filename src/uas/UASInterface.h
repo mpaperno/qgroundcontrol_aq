@@ -63,8 +63,13 @@ public:
     virtual const QString& getShortState() const = 0;
     /** @brief Get short mode */
     virtual const QString& getShortMode() const = 0;
+    /** @brief Get short auxiliary mode text */
+    virtual const QString& getShortAuxMode() const = 0;
     /** @brief Translate mode id into text */
-    static QString getShortModeTextFor(int id);
+    //virtual const QString getShortModeTextFor(int id) = 0;
+    /** @brief Translate custom mode id to texts */
+    //virtual const void getCustomModeTexts(uint32_t custom_mode, uint8_t base_mode, QString *shortMode = 0, QString *audioMode = 0, QStringList *auxModes = 0, QStringList *alerts = 0) = 0;
+    virtual const uint32_t getCustomMode() = 0;
     //virtual QColor getColor() = 0;
     virtual int getUASID() const = 0; ///< Get the ID of the connected UAS
     /** @brief The time interval the robot is switched on **/
@@ -337,7 +342,7 @@ protected:
 
 signals:
     /** @brief The robot state has changed */
-    void statusChanged(int stateFlag);
+    void statusChanged(uint8_t stateFlag);
     /** @brief A new component was detected or created */
     void componentCreated(int uas, int component, const QString& name);
     /** @brief The robot state has changed

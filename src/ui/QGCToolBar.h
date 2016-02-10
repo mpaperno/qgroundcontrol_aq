@@ -74,13 +74,17 @@ public slots:
     void updateWaypointDistance(double distance);
     /** @brief Update arming state */
     void updateArmingState(bool armed);
+    /** @brief Update radio status */
+    void updateRSSI(float rssiNormalized);
     /** @brief Repaint widgets */
     void updateView();
     /** @brief Update connection timeout time */
     void heartbeatTimeout(bool timeout, unsigned int ms);
 
+    void toggleActiveUasView(bool on);
+
 protected:
-    void createCustomWidgets();
+//    void createCustomWidgets();
     void createUI();
 
     QAction* toggleLoggingAction;
@@ -92,20 +96,24 @@ protected:
     QLabel* toolBarTimeoutLabel;
     QLabel* toolBarSafetyLabel;
     QLabel* toolBarModeLabel;
+    QLabel* toolBarAuxModeLabel;
     QLabel* toolBarStateLabel;
 //    QLabel* toolBarWpLabel;
 //    QLabel* toolBarDistLabel;
     QLabel* toolBarMessageLabel;
     QProgressBar* toolBarBatteryBar;
+    QProgressBar* toolBarRssiBar;
     QLabel* toolBarBatteryVoltageLabel;
     QGCMAVLinkLogPlayer* player;
     bool changed;
     float batteryPercent;
     float batteryVoltage;
+    float rssi;
     int wpId;
     double wpDistance;
     QString state;
     QString mode;
+    QString auxMode;
     QString systemName;
     QString lastSystemMessage;
     QTimer updateViewTimer;

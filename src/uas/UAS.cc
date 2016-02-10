@@ -62,9 +62,9 @@ UAS::UAS(MAVLinkProtocol* protocol, int id) : UASInterface(),
     lpVoltage(12.0f),
     currentCurrent(0.0f),
     batteryRemainingEstimateEnabled(true),
-    mode(-1),
+    mode(0),
     status(-1),
-    navMode(-1),
+    customMode(0),
     onboardTimeOffset(0),
     controlRollManual(true),
     controlPitchManual(true),
@@ -415,6 +415,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             QString armModeAudio = "";
             bool statechanged = false;
             bool modechanged = false;
+            bool customChanged = false;
             bool armingchanged = false;
             int audioSeverity = 1;
 
@@ -448,52 +449,74 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 shortStateText = uasState;
 
                 // Adjust for better audio
-                if (uasState == QString("STANDBY")) uasState = tr("standing by");
-                if (uasState == QString("EMERGENCY")) uasState = tr("emergency condition");
-                if (uasState == QString("CRITICAL")) uasState = tr("critical condition");
-                if (uasState == QString("SHUTDOWN")) uasState = tr("shutting down");
+                if (uasState == QString("STANDBY"))
+                    uasState = tr("standing by");
+                else if (uasState == QString("EMERGENCY"))
+                    uasState = tr("emergency condition");
+                else if (uasState == QString("CRITICAL"))
+                    uasState = tr("critical condition");
+                else if (uasState == QString("SHUTDOWN"))
+                    uasState = tr("shutting down");
 
                 stateAudio = uasState;
             }
 
-            if (/*systemIsArmed &&*/ this->mode != static_cast<int>(state.base_mode))
+            if (this->mode != state.base_mode)
             {
-                modechanged = true;
-                uint8_t oldMode = this->mode;
-                this->mode = static_cast<int>(state.base_mode);
-                shortModeText = getShortModeTextFor(this->mode);
 
-                emit modeChanged(this->getUASID(), shortModeText, "");
+                if (!state.custom_mode) {
+                    modechanged = true;
+                    shortModeText = getShortModeTextFor(state.base_mode);
+                    emit modeChanged(this->getUASID(), shortModeText, "");
+                    if (systemIsArmed && !(this->mode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED) && !(state.base_mode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED))
+                        modeAudio = tr(" now in ") + getAudioModeTextFor(state.base_mode);
+                }
 
-                if (!(this->mode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED) && !(oldMode & MAV_MODE_FLAG_DECODE_POSITION_GUIDED))
-                    modeAudio = tr(" now in ") + getAudioModeTextFor(this->mode);
+                this->mode = state.base_mode;
             }
 
-            if (navMode != state.custom_mode)
+            if (customMode != state.custom_mode)
             {
-                emit navModeChanged(uasId, state.custom_mode, getNavModeText(state.custom_mode));
-                navMode = state.custom_mode;
-                //navModeAudio = tr(" changed nav mode to ") + tr("FIXME");
+                customChanged = true;
+                customMode = state.custom_mode;
+                if (customMode) {
+                    QStringList alerts, auxModes;
+                    QString newMode;
+                    getCustomModeTexts(customMode, this->mode, &newMode, &modeAudio, &auxModes, &alerts);
+                    if (newMode != shortModeText)
+                        modechanged = true;
+                    shortModeText = newMode;
+                    customModeText = auxModes.join('|');
+
+                    emit modeChanged(this->getUASID(), shortModeText, customModeText);
+
+                    if (!alerts.isEmpty()) {
+                        shortStateText.remove(QRegExp(":.*$")).append(":" % alerts.join('|'));
+                        emit statusChanged(this, shortStateText, "");
+                    }
+                }
+
+                //emit navModeChanged(uasId, state.custom_mode, getNavModeText(state.custom_mode));
             }
 
             // AUDIO
-            audiostring += armModeAudio;
-            if (armModeAudio.length() && (stateAudio.length() || modeAudio.length()))
-                audiostring += tr(" and ");
-            audiostring += modeAudio;
-            if (modeAudio.length() && stateAudio.length())
-                audiostring += tr(" and ");
-            audiostring += stateAudio;
+            QStringList audioList;
+            if (armingchanged && !armModeAudio.isEmpty())
+                audioList << armModeAudio;
+            if (statechanged && !stateAudio.isEmpty())
+                audioList << stateAudio;
+            if (modechanged && !modeAudio.isEmpty())
+                audioList << modeAudio;
+            audiostring = audioList.join(QByteArray(" and "));
 
             if (statechanged && ((int)state.system_status == (int)MAV_STATE_CRITICAL || state.system_status == (int)MAV_STATE_EMERGENCY))
             {
-                audiostring = tr("Emergency condition! ") + audiostring;
+                //audiostring = tr("Emergency condition! ") + audiostring;
                 audioSeverity = 2;
-                // GAudioOutput::instance()->say(QString("emergency condition %1").arg(audioSystemName));
                 QTimer::singleShot(3000, GAudioOutput::instance(), SLOT(startEmergency()));
             }
 
-            if (audiostring.length() && (modechanged || statechanged || armingchanged))
+            if (!audiostring.isEmpty())
             {
                 GAudioOutput::instance()->stopEmergency();
                 GAudioOutput::instance()->say(audiostring, audioSeverity);
@@ -777,18 +800,27 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 emit globalPositionChanged(this, latitude, longitude, altitude, time);
                 emit valueChanged(uasId, "altitude", "m", altitude, time);
 
-                if (pos.fix_type > 2) {
-                    if (!positionLock) {
-                        GAudioOutput::instance()->notifyPositive();
-                        GAudioOutput::instance()->say(tr("GPS lock established."));
+                if (pos.fix_type != gpsFixType) {
+                    if (!gpsLockTimer.isValid())
+                        gpsLockTimer.start();
+                    else if (gpsLockTimer.hasExpired(3000)) {
+                        if (pos.fix_type > 2) {
+                            if (!positionLock) {
+                                GAudioOutput::instance()->notifyPositive();
+                                GAudioOutput::instance()->say(tr("GPS lock established."));
+                            }
+                            positionLock = true;
+                            isGlobalPositionKnown = true;
+                        } else {
+                            if (positionLock)
+                                GAudioOutput::instance()->alert(tr("GPS lock lost."));
+                            positionLock = false;
+                            isGlobalPositionKnown = false;
+                        }
+
+                        gpsFixType = pos.fix_type;
+                        gpsLockTimer.invalidate();
                     }
-                    positionLock = true;
-                    isGlobalPositionKnown = true;
-                } else {
-                    if (positionLock)
-                        GAudioOutput::instance()->alert(tr("GPS lock lost."));
-                    positionLock = false;
-                    isGlobalPositionKnown = false;
                 }
 
                 // Smaller than threshold and not NaN
@@ -799,6 +831,8 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
                 else
                     emit textMessageReceived(uasId, message.compid, 255, tr("GCS ERROR: RECEIVED INVALID SPEED OF %1 m/s").arg(vel));
             }
+            else
+                gpsFixType = 0;
         }
             break;
         case MAVLINK_MSG_ID_GPS_STATUS:
@@ -1594,7 +1628,7 @@ void UAS::setMode(int mode)
 {
     //this->mode = mode; //no call assignament, update receive message from UAS
     mavlink_message_t msg;
-    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, (uint8_t)uasId, (uint8_t)mode, (uint16_t)navMode);
+    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, (uint8_t)uasId, (uint8_t)mode, customMode);
     sendMessage(msg);
     qDebug() << "SENDING REQUEST TO SET MODE TO SYSTEM" << uasId << ", REQUEST TO SET MODE " << (uint8_t)mode;
 }
@@ -2213,7 +2247,7 @@ void UAS::executeCommand(MAV_CMD command, int confirmation, float param1, float 
 void UAS::armSystem()
 {
     mavlink_message_t msg;
-    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode | MAV_MODE_FLAG_SAFETY_ARMED, navMode);
+    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode | MAV_MODE_FLAG_SAFETY_ARMED, customMode);
     sendMessage(msg);
 }
 
@@ -2224,7 +2258,7 @@ void UAS::armSystem()
 void UAS::disarmSystem()
 {
     mavlink_message_t msg;
-    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode & ~MAV_MODE_FLAG_SAFETY_ARMED, navMode);
+    mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode & ~MAV_MODE_FLAG_SAFETY_ARMED, customMode);
     sendMessage(msg);
 }
 
@@ -2503,7 +2537,7 @@ void UAS::sendHilState(uint64_t time_us, float roll, float pitch, float yaw, flo
     {
         // Attempt to set HIL mode
         mavlink_message_t msg;
-        mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode | MAV_MODE_FLAG_HIL_ENABLED, navMode);
+        mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode | MAV_MODE_FLAG_HIL_ENABLED, customMode);
         sendMessage(msg);
         qDebug() << __FILE__ << __LINE__ << "HIL is onboard not enabled, trying to enable.";
     }
@@ -2710,9 +2744,92 @@ QString UAS::getShortModeTextFor(int id)
     return mode;
 }
 
+void UAS::getCustomModeTexts(uint32_t custom_mode, uint8_t base_mode, QString *shortMode, QString *audioMode, QStringList *auxModes, QStringList *alerts)
+{
+#ifdef HAVE_ENUM_AUTOQUAD_NAV_STATUS
+    if (custom_mode & AQ_NAV_STATUS_READY) {
+        if (shortMode)
+            *shortMode = tr("READY");
+        if (audioMode)
+            *audioMode = tr("ready");
+    } else if (custom_mode & AQ_NAV_STATUS_CALIBRATING) {
+        if (shortMode)
+            *shortMode = tr("CALIB");
+    } else if (custom_mode & AQ_NAV_STATUS_STANDBY) {
+        if (shortMode)
+            *shortMode = tr("MANUAL-STBY");
+        if (audioMode)
+            *audioMode = tr("throttle off");
+    } else if (custom_mode & AQ_NAV_STATUS_GUIDED) {
+        if (shortMode)
+            *shortMode = tr("GUIDED");
+        if (audioMode)
+            *audioMode = tr("guided mode");
+    } else if (custom_mode & AQ_NAV_STATUS_MISSION) {
+        if (shortMode)
+            *shortMode = tr("MISSION");
+        if (audioMode)
+            *audioMode = tr("mission mode");
+    } else if (custom_mode & AQ_NAV_STATUS_POSHOLD) {
+        if (shortMode)
+            *shortMode = tr("POS-HOLD");
+        if (audioMode)
+            *audioMode = tr("position hold");
+    }
+    else if (custom_mode & AQ_NAV_STATUS_ALTHOLD) {
+        if (shortMode)
+            *shortMode = tr("ALT-HOLD");
+        if (audioMode)
+            *audioMode = tr("altitude hold");
+    }
+    else if (custom_mode & AQ_NAV_STATUS_MANUAL) {
+        if (shortMode)
+            *shortMode = tr("MANUAL");
+        if (audioMode)
+            *audioMode = tr("manual control");
+    }
+
+    if (shortMode && base_mode & MAV_MODE_FLAG_DECODE_POSITION_HIL)
+        shortMode->prepend("HIL:");
+
+    if (alerts) {
+        if (custom_mode & AQ_NAV_STATUS_FAILSAFE)
+            alerts->append(tr("FAILSAFE"));
+        if (custom_mode & AQ_NAV_STATUS_NO_RC)
+            alerts->append(tr("NO RC"));
+        if (custom_mode & AQ_NAV_STATUS_FUEL_CRITICAL)
+            alerts->append(tr("BAT-CRIT"));
+        else if (custom_mode & AQ_NAV_STATUS_FUEL_LOW)
+            alerts->append(tr("BAT-LOW"));
+        if (custom_mode & AQ_NAV_STATUS_CEILING_REACHED)
+            alerts->append(tr("AT-CEIL"));
+    }
+
+    if (auxModes) {
+        if (custom_mode & AQ_NAV_STATUS_DVH)
+            auxModes->append(tr("DVH"));
+        if (custom_mode & AQ_NAV_STATUS_DAO)
+            auxModes->append(tr("DAO"));
+        if (custom_mode & AQ_NAV_STATUS_CEILING)
+            auxModes->append(tr("CEIL"));
+        if (custom_mode & AQ_NAV_STATUS_HF_DYNAMIC)
+            auxModes->append(tr("HF-DYN"));
+        if (custom_mode & AQ_NAV_STATUS_HF_LOCKED)
+            auxModes->append(tr("HF"));
+        if (custom_mode & AQ_NAV_STATUS_RTH)
+            auxModes->append(tr("RTH"));
+    }
+#endif
+}
+
 const QString& UAS::getShortMode() const
 {
     return shortModeText;
+}
+
+const QString &UAS::getShortAuxMode() const
+{
+    return customModeText;
 }
 
 /**

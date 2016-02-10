@@ -92,7 +92,8 @@ QProgressBar::chunk#thrustBar {
 	background-color: orange;
 }
 QProgressBar#progressBar_rssi::chunk:horizontal,
-QProgressBar#rssiBar::chunk:horizontal {
+QProgressBar#rssiBar::chunk:horizontal,
+QProgressBar#toolBarRssiBar::chunk:horizontal {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0, stop:0.25 rgba(204, 82, 0, 255), stop:1 rgba(0, 0, 0, 0));
 }
 QProgressBar#loadBar::chunk:horizontal {
@@ -120,7 +121,13 @@ QProgressBar:disabled {
 	background-color: rgba(207, 207, 207, 150);
 	etch-disabled-text: 0;
 }
-QProgressBar::chunk:horizontal:disabled {
+QProgressBar::chunk:horizontal:disabled,
+QProgressBar#progressBar_rssi::chunk:horizontal:disabled,
+QProgressBar#rssiBar::chunk:horizontal:disabled,
+QProgressBar#toolBarRssiBar::chunk:horizontal:disabled,
+QProgressBar#batteryBar::chunk:horizontal:disabled,
+QProgressBar#toolBarBatteryBar::chunk:horizontal:disabled,
+QProgressBar#loadBar::chunk:horizontal:disabled {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 100), stop:1 rgba(0, 0, 0, 0));
 }
 QProgressBar::chunk:vertical:disabled {
@@ -204,12 +211,17 @@ QToolBar#QGC_TOOLBAR QToolButton:pressed {
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
     border-color: #379AC3;
 }
+QToolBar#QGC_TOOLBAR QWidget#toolBarProgressBarsWdgt {
+	margin: 0;
+	padding: 0;
+	max-width: 7em;
+	background-color: transparent;
+}
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
-    margin: 0px 0px 0px 4px;
-    border: 1px solid #4A4A4F;
-    border-radius: 4px;
-    text-align: center;
-	 padding: 0.1em;
+	 margin: .15em 0;
+	 border: 1px solid #4A4A4F;
+	 border-radius: 4px;
+	 text-align: center;
 	 background-color: #caeccb;
 	 max-height: 2em;
 	 padding: 0.00em .1em;
@@ -237,7 +249,12 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
     color: #3C7B9E;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
-    /*font: 12px;*/
+	 color: rgb(100, 232, 255);
+	 margin-right: .05em;
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarAuxModeLabel {
+	 color: rgb(196, 247, 255);
+	 margin-left: 0;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
     /*font: 12px;*/
@@ -251,5 +268,15 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
 QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel {
     margin-left: 0;
 	 font-size: 13pt;
+	 color: #00ea00;
+}
+
+QToolBar#QGC_TOOLBAR QLabel:disabled,
+QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel:disabled,
+QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel:disabled,
+QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel:disabled,
+QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel:disabled,
+QToolBar#QGC_TOOLBAR QLabel#toolBarSafetyLabel:disabled {
+	color: #868686;
 }
 

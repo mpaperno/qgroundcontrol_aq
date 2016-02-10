@@ -133,6 +133,7 @@ void UASWaypointManager::handleGlobalPositionChanged(UASInterface* mav, double l
 
 void UASWaypointManager::handleWaypointCount(quint8 systemId, quint8 compId, quint16 count)
 {
+    Q_UNUSED(compId)
     if (systemId == current_partner_systemid) {
 
         if (current_state != WP_SENDLIST) {
