@@ -61,20 +61,13 @@ void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
     }
 
     // set timeout label visible
-    if (timeout)
-    {
+    if (timeout) {
         // Alternate colors to increase visibility
-        if ((ms / 1000) % 2 == 0)
-        {
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .5em; background-color: %2; }").arg(QGC::colorMagenta.name()));
-        }
-        else
-        {
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .5em; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
-        }
+        QString color = !((ms / 1000) % 2) ? QGC::colorMagenta.name() : QGC::colorMagenta.dark(250).name();
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .5em; background-color: %2; }").arg(color));
         toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
     }
-    else if (toolBarTimeoutLabel->text() != "")
+    else if (!toolBarTimeoutLabel->text().isEmpty())
         toggleActiveUasView(true);
 }
 
@@ -333,14 +326,11 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
     // Do nothing if system is the same or NULL
     if ((active == NULL) || mav == active) return;
 
-    if (mav)
-    {
+    if (mav) {
         // Disconnect old system
         disconnect(mav, 0, this, 0);
         if (mav->getWaypointManager())
-        {
             disconnect(mav->getWaypointManager(), 0, this, 0);
-        }
     }
 
     // Connect new system
@@ -364,12 +354,13 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
     toggleActiveUasView(true);
     systemName = mav->getUASName();
     systemArmed = mav->isArmed();
-    toolBarNameLabel->setText(mav->getUASName());
-    toolBarNameLabel->setStyleSheet(QString("QLabel { color: %1; }").arg(mav->getColor().name()));
-    toolBarModeLabel->setText(mav->getShortMode());
-    toolBarStateLabel->setText(mav->getShortState());
-    toolBarAuxModeLabel->setText(mav->getShortAuxMode());
+    mode = mav->getShortMode();
+    state = mav->getShortState();
+    auxMode = mav->getShortAuxMode();
     setSystemType(mav, mav->getSystemType());
+    toolBarNameLabel->setStyleSheet(QString("QLabel { color: %1; }").arg(mav->getColor().name()));
+    changed = true;
+    updateView();
     updateViewTimer.start();
 }
 
@@ -442,8 +433,9 @@ void QGCToolBar::updateCurrentWaypoint(quint16 id)
 
 void QGCToolBar::updateBatteryRemaining(UASInterface* uas, double voltage, double percent, int seconds)
 {
-    Q_UNUSED(uas);
     Q_UNUSED(seconds);
+    if (mav != uas)
+        return;
     if (batteryPercent != percent || batteryVoltage != voltage) changed = true;
     batteryPercent = percent;
     batteryVoltage = voltage;
@@ -451,17 +443,21 @@ void QGCToolBar::updateBatteryRemaining(UASInterface* uas, double voltage, doubl
 
 void QGCToolBar::updateState(UASInterface* system, QString name, QString description)
 {
-    Q_UNUSED(system);
     Q_UNUSED(description);
-    if (state != name) changed = true;
-    state = name;
-    /* important, immediately update */
-    updateView();
+    if (mav != system)
+        return;
+    if (state != name) {
+        changed = true;
+        state = name;
+        /* important, immediately update */
+        updateView();
+    }
 }
 
 void QGCToolBar::updateMode(int system, QString name, QString description)
 {
-    Q_UNUSED(system);
+    if (mav->getUASID() != system)
+        return;
     if (mode != name || auxMode != description)
         changed = true;
     mode = name;

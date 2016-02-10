@@ -175,6 +175,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
             val_sb = cb->parent()->findChild<QSpinBox *>(paramName % "_val");
             param_pb = cb->parent()->findChild<QPushButton *>(paramName);
             cb->setProperty("paramName", paramName);
+            cb->setProperty("existsOnboard", cb->isVisible());
             cb->setProperty("indicator_ptr", QVariant::fromValue<void *>(indicator));
             cb->setProperty("btn_ptr", QVariant::fromValue<void *>(param_pb));
             cb->setProperty("value_ptr", QVariant::fromValue<void *>(val_sb));
@@ -690,7 +691,7 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
     foreach (QComboBox* cb, allRadioChanCombos) {
         cbname = cb->objectName();
         cbtxt = cb->currentText();
-        if (!cbtxt.toUInt(&ok2) || !ok2 || !cb->isVisible())
+        if (!cbtxt.toUInt(&ok2) || !ok2 || !cb->property("existsOnboard").isValid() || !cb->property("existsOnboard").toBool())
             continue;
 
         chan = cbtxt.toUInt();
@@ -756,7 +757,7 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
     //qDebug() << usedChannelParams << conflictParams << radioChannelIndicatorsMap;
 
     foreach (QComboBox* cb, allRadioChanCombos) {
-        if (!cb->isVisible())
+        if ( !cb->property("existsOnboard").isValid() || !cb->property("existsOnboard").toBool())
             continue;
 
         cbname = cb->objectName();
@@ -788,7 +789,8 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
                 indicator->setVisible(true);
                 indicator->setDisabled(!skip);
                 indicator->setProperty("status", 1);
-            } else if (indicator->isVisible()) {
+            }
+            else {
                 indicator->setDisabled(true);
                 indicator->setProperty("status", 0);
                 oldval = indicator->property("value").toInt();
@@ -1100,7 +1102,7 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
             bar->setValue(qMax(bar->minimum(), qMin(val, bar->maximum())));
         }
         else if (pair.second && (sb = qobject_cast<QSpinBox *>(pair.second))) {
-            if (val - dband <= sb->value() + dband && sb->value() - dband <= val + dband)
+            if (val >= sb->value() - dband && val <= sb->value() + dband)
                 tempval = 1;
             else
                 tempval = 0;
@@ -1292,6 +1294,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
 
         if (!paramaq->paramExistsAQ(paraName)) {
             w->hide();
+            w->setProperty("existsOnboard", false);
             if (paraLabel)
                 paraLabel->hide();
             if (paraContainer)
@@ -1300,10 +1303,16 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
                 swValBox->hide();
             if (paraIndicator)
                 paraIndicator->hide();
+            if (w->property("channel_ptr").isValid()) {
+               w = (QWidget *)w->property("channel_ptr").value<void *>();
+               if (w)
+                   w->setProperty("existsOnboard", false);
+            }
             continue;
         }
 
         w->show();
+        w->setProperty("existsOnboard", true);
         if (paraLabel){
             paraLabel->setToolTip(paraName);
             paraLabel->show();
@@ -1343,6 +1352,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             tunableValDblBox = (QDoubleSpinBox *)w->property("scale_ptr").value<void *>();
             tunableValChan = (QComboBox *)w->property("channel_ptr").value<void *>();
             if (tunableValDblBox && tunableValChan) {
+                tunableValChan->setProperty("existsOnboard", true);
                 tunableValChan->setCurrentIndex(tmp);
                 if (val.toBool())
                     tunableValDblBox->setValue(((utmp >> 16) & 0xFF) / 10000.0f);

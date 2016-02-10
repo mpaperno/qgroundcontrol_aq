@@ -450,15 +450,15 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
                 // Adjust for better audio
                 if (uasState == QString("STANDBY"))
-                    uasState = tr("standing by");
+                    stateAudio = tr("standing by");
                 else if (uasState == QString("EMERGENCY"))
-                    uasState = tr("emergency condition");
+                    stateAudio = tr("emergency condition");
                 else if (uasState == QString("CRITICAL"))
-                    uasState = tr("critical condition");
+                    stateAudio = tr("critical condition");
                 else if (uasState == QString("SHUTDOWN"))
-                    uasState = tr("shutting down");
-
-                stateAudio = uasState;
+                    stateAudio = tr("shutting down");
+                else
+                    stateAudio = uasState;
             }
 
             if (this->mode != state.base_mode)

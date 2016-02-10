@@ -153,6 +153,7 @@ void UASInfoWidget::setActiveUAS(UASInterface* uas)
             disconnect(activeUAS, 0, this, 0);
 
         activeUAS = uas;
+        m_uasTimeout = false;
 
         connect(activeUAS, SIGNAL(batteryChanged(UASInterface*,double,double,int)), this, SLOT(updateBattery(UASInterface*,double,double,int)));
         connect(activeUAS, SIGNAL(dropRateChanged(int,float)), this, SLOT(updateReceiveLoss(int,float)));
