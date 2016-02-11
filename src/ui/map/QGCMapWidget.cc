@@ -6,6 +6,7 @@
 #include "Waypoint2DIcon.h"
 #include "UASWaypointManager.h"
 #include "WaypointDialog.h"
+#include "MainWindow.h"
 
 #include <QInputDialog>
 
@@ -19,7 +20,8 @@ QGCMapWidget::QGCMapWidget(QWidget *parent) :
     trailType(mapcontrol::UAVTrailType::ByTimeElapsed),
     trailInterval(2.0f),
     followUAVID(0),
-    mapInitialized(false)
+    mapInitialized(false),
+    remoteGuidanceEnabled(true)
 {
     // Widget is inactive until shown
     loadSettings(true);
@@ -46,6 +48,7 @@ void QGCMapWidget::showEvent(QShowEvent* event)
         connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
         connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(activeUASSet(UASInterface*)), Qt::UniqueConnection);
         connect(UASManager::instance(), SIGNAL(homePositionChanged(double,double,double)), this, SLOT(updateHomePosition(double,double,double)));
+        connect(MainWindow::instance(), SIGNAL(remoteGuidanceEnabledChanged(bool)), this, SLOT(setRemoteGuidanceEnabled(bool)));
         foreach (UASInterface* uas, UASManager::instance()->getUASList())
         {
             addUAS(uas);
@@ -185,12 +188,17 @@ void QGCMapWidget::mouseDoubleClickEvent(QMouseEvent* event)
 
 void QGCMapWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::RightButton && UASManager::instance()->getActiveUAS() && mapInitialized) {
+    if (remoteGuidanceEnabled && event->button() == Qt::RightButton && UASManager::instance()->getActiveUAS() && mapInitialized) {
         event->accept();
         dialogGoToWaypoint(currentMousePosition());
     }/* else
         event->ignore();*/
     OPMapWidget::mouseReleaseEvent(event);
+}
+
+void QGCMapWidget::setRemoteGuidanceEnabled(bool value)
+{
+    remoteGuidanceEnabled = value;
 }
 
 

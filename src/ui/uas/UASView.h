@@ -95,6 +95,11 @@ public slots:
     /** @brief Update the navigation mode state */
     void updateNavMode(int uasid, int mode, const QString& text);
 
+    void setRemoteGuidanceEnabled(bool on);
+    void launch();
+    void land();
+    void home();
+
 protected:
     void changeEvent(QEvent *e);
     QTimer* refreshTimer;

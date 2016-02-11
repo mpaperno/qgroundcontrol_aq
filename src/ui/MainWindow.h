@@ -170,6 +170,7 @@ public slots:
     void startVideoCapture();
     void stopVideoCapture();
     void saveScreen();
+    void setRemoteGuidanceEnabled(bool on);
 
     /** @brief Load view for pilot */
     void loadPilotView();
@@ -257,6 +258,7 @@ public slots:
 signals:
     void initStatusChanged(const QString& message);
     void styleChanged(int style);
+    void remoteGuidanceEnabledChanged(bool on);
 #ifdef MOUSE_ENABLED_LINUX
     /** @brief Forward X11Event to catch 3DMouse inputs */
     void x11EventOccured(XEvent *event);

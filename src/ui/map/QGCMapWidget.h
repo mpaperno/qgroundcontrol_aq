@@ -35,6 +35,7 @@ public:
     /** @brief Get the trail interval */
     float getTrailInterval() { return trailInterval; }
 
+
 signals:
     void homePositionChanged(double latitude, double longitude, double altitude);
     /** @brief Signal for newly created map waypoints */
@@ -121,6 +122,8 @@ public slots:
     /** @brief Open a dialog for "Go To" UAV command */
     void dialogGoToWaypoint(internals::PointLatLng pos);
 
+    void setRemoteGuidanceEnabled(bool value);
+
 protected slots:
     /** @brief Convert a map edit into a QGC waypoint event */
     void handleMapWaypointEdit(WayPointItem* waypoint);
@@ -159,6 +162,7 @@ protected:
     float trailInterval;                ///< Time or distance between trail items
     int followUAVID;                    ///< Which UAV should be tracked?
     bool mapInitialized;                ///< Map initialized?
+    bool remoteGuidanceEnabled;         //// UAV supports remote guidance commands
 
 
 };

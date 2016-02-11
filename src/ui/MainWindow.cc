@@ -1039,6 +1039,12 @@ void MainWindow::enableAutoReconnect(bool enabled)
     autoReconnect = enabled;
 }
 
+void MainWindow::setRemoteGuidanceEnabled(bool on)
+{
+    ui.menuUnmanned_System->setEnabled(on);
+    emit remoteGuidanceEnabledChanged(on);
+}
+
 void MainWindow::loadStyleByName(const QString style)
 {
     loadStyle((QGC_MAINWINDOW_STYLE)m_windowStyleNames.key(style));
@@ -1446,7 +1452,6 @@ void MainWindow::setActiveUAS(UASInterface* uas)
 {
     // Enable and rename menu
     ui.menuUnmanned_System->setTitle(uas->getUASName());
-    //ui.menuUnmanned_System->setEnabled(true);
 }
 
 void MainWindow::UASSpecsChanged(int uas)

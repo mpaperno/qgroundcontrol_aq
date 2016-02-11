@@ -84,10 +84,15 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
 
     m_ui->setupUi(this);
 
-    // hide all the control buttons for AQ
-    QList<QPushButton *> btns = m_ui->uasViewFrame->findChildren<QPushButton *>(QRegExp(".+Button"));
-    foreach (QPushButton *btn, btns)
-        btn->hide();
+    // hide some control buttons for AQ
+//    QList<QPushButton *> btns = m_ui->uasViewFrame->findChildren<QPushButton *>(QRegExp(".+Button"));
+//    foreach (QPushButton *btn, btns)
+//        btn->hide();
+    m_ui->haltButton->hide();
+    m_ui->continueButton->hide();
+    m_ui->abortButton->hide();
+    m_ui->killButton->hide();
+    m_ui->shutdownButton->hide();
     // AQ doesn't send thrust data
     m_ui->thrustBar->hide();
 
@@ -104,20 +109,26 @@ UASView::UASView(UASInterface* uas, QWidget *parent) :
     connect(uas, SIGNAL(loadChanged(UASInterface*, double)), this, SLOT(updateLoad(UASInterface*, double)));
     connect(uas, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool, unsigned int)));
     connect(uas, SIGNAL(waypointSelected(int,int)), this, SLOT(selectWaypoint(int,int)));
-    connect(uas->getWaypointManager(), SIGNAL(currentWaypointChanged(quint16)), this, SLOT(currentWaypointUpdated(quint16)));
     connect(uas, SIGNAL(systemTypeSet(UASInterface*,uint)), this, SLOT(setSystemType(UASInterface*,uint)));
-    connect(UASManager::instance(), SIGNAL(activeUASStatusChanged(UASInterface*,bool)), this, SLOT(updateActiveUAS(UASInterface*,bool)));
     connect(uas, SIGNAL(textMessageReceived(int,int,int,QString)), this, SLOT(showStatusText(int, int, int, QString)));
     connect(uas, SIGNAL(navModeChanged(int, int, QString)), this, SLOT(updateNavMode(int, int, QString)));
+
+    connect(uas->getWaypointManager(), SIGNAL(currentWaypointChanged(quint16)), this, SLOT(currentWaypointUpdated(quint16)));
+
+    connect(UASManager::instance(), SIGNAL(activeUASStatusChanged(UASInterface*,bool)), this, SLOT(updateActiveUAS(UASInterface*,bool)));
+    connect(MainWindow::instance(), SIGNAL(remoteGuidanceEnabledChanged(bool)), this, SLOT(setRemoteGuidanceEnabled(bool)));
 
     // Setup UAS selection
     connect(m_ui->uasViewFrame, SIGNAL(clicked(bool)), this, SLOT(setUASasActive(bool)));
 
     // Setup user interaction
-    connect(m_ui->liftoffButton, SIGNAL(clicked()), uas, SLOT(launch()));
+    connect(m_ui->liftoffButton, SIGNAL(clicked()), this, SLOT(launch()));
+    connect(m_ui->landButton, SIGNAL(clicked()), this, SLOT(land()));
+    connect(m_ui->rthButton, SIGNAL(clicked()), this, SLOT(home()));
+
     connect(m_ui->haltButton, SIGNAL(clicked()), uas, SLOT(halt()));
     connect(m_ui->continueButton, SIGNAL(clicked()), uas, SLOT(go()));
-    connect(m_ui->landButton, SIGNAL(clicked()), uas, SLOT(land()));
+    connect(m_ui->setHomeButton, SIGNAL(clicked()), uas, SLOT(setHomeAtCurrentPosition()));
     connect(m_ui->abortButton, SIGNAL(clicked()), uas, SLOT(emergencySTOP()));
     connect(m_ui->killButton, SIGNAL(clicked()), uas, SLOT(emergencyKILL()));
     connect(m_ui->shutdownButton, SIGNAL(clicked()), uas, SLOT(shutdown()));
@@ -189,6 +200,14 @@ void UASView::updateNavMode(int uasid, int mode, const QString& text)
     Q_UNUSED(uasid);
     Q_UNUSED(mode);
     m_ui->navLabel->setText(text);
+}
+
+void UASView::setRemoteGuidanceEnabled(bool on)
+{
+    m_ui->landButton->setVisible(on);
+    m_ui->setHomeButton->setVisible(on);
+    m_ui->rthButton->setVisible(on);
+    m_ui->liftoffButton->setVisible(on);
 }
 
 void UASView::showStatusText(int uasid, int componentid, int severity, QString text)
@@ -439,7 +458,7 @@ void UASView::updateSpeed(UASInterface*, double x, double y, double z, quint64 u
 
 void UASView::currentWaypointUpdated(quint16 waypoint)
 {
-    m_ui->waypointLabel->setText(tr("WP") + QString::number(waypoint));
+    m_ui->waypointLabel->setText(tr("WP") + QString::number((int16_t)waypoint));
 }
 
 void UASView::setWaypoint(int uasId, int id, double x, double y, double z, double yaw, bool autocontinue, bool current)
@@ -582,6 +601,21 @@ void UASView::selectAirframe()
             uas->setAirframe(airframes.indexOf(item));
         }
     }
+}
+
+void UASView::launch()
+{
+    UASManager::instance()->launchUAS(uas);
+}
+
+void UASView::land()
+{
+    UASManager::instance()->landUAS(uas);
+}
+
+void UASView::home()
+{
+    UASManager::instance()->returnUAS(uas);
 }
 
 void UASView::showHILUi()
