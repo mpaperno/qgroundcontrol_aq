@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1233</width>
+    <width>1212</width>
     <height>885</height>
    </rect>
   </property>
@@ -528,7 +528,10 @@
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string>Value</string>
+                        <string>@ Value</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
@@ -614,6 +617,9 @@
                        </property>
                        <property name="text">
                         <string>Chan.</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
@@ -833,6 +839,9 @@
                        </property>
                        <property name="text">
                         <string>Switch Control</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
@@ -1188,7 +1197,10 @@
                       </widget>
                      </item>
                      <item row="0" column="3" alignment="Qt::AlignHCenter">
-                      <widget class="QLabel" name="label_32">
+                      <widget class="QLabel" name="label_colHdr_switchInd_1">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -1515,6 +1527,9 @@
                        <property name="text">
                         <string>Chan.</string>
                        </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
                        </property>
@@ -1605,6 +1620,9 @@
                        </property>
                        <property name="text">
                         <string>Switch Control</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
@@ -1728,6 +1746,9 @@
                        <property name="text">
                         <string>Axis Control</string>
                        </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
                        </property>
@@ -1799,6 +1820,9 @@
                        <property name="text">
                         <string>0 | 700 | 1400</string>
                        </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
                        <property name="labelStyle" stdset="0">
                         <string>pad_left_smaller_dim</string>
                        </property>
@@ -1807,10 +1831,13 @@
                      <item row="5" column="4" alignment="Qt::AlignTop">
                       <widget class="QLabel" name="label_14">
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Recommended radio channel value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio channel  control direction and recommended value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="text">
-                        <string>-700 | 0 | +700</string>
+                        <string>L -700 | +700 R</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
                         <string>pad_left_smaller_dim</string>
@@ -1820,10 +1847,13 @@
                      <item row="7" column="4" alignment="Qt::AlignTop">
                       <widget class="QLabel" name="label_15">
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Recommended radio channel value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio channel control direction and recommended value range.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;FORWARD-PITCH is NEGATIVE VALUE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="text">
-                        <string>-700 | 0 | +700</string>
+                        <string>F -700 | +700 B</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
                         <string>pad_left_smaller_dim</string>
@@ -1833,10 +1863,13 @@
                      <item row="9" column="4" alignment="Qt::AlignTop">
                       <widget class="QLabel" name="label_16">
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Recommended radio channel value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio channel  control direction and recommended value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="text">
-                        <string>-700 | 0 | +700</string>
+                        <string>CC -700 | +700 C</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
                         <string>pad_left_smaller_dim</string>
@@ -1989,6 +2022,9 @@
                        <property name="text">
                         <string>Scale/Rate</string>
                        </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
                        </property>
@@ -2047,7 +2083,7 @@
                      <item row="7" column="0" colspan="4">
                       <widget class="QProgressBar" name="ind_RADIO_PITC_CH">
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This number and bar graph represents the current value for this channel being reported from the UAV via radio channels telemetry. &lt;/p&gt;&lt;p&gt;Radio values telemetry needs to be active for this to work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This number and bar graph represents the current value for this channel being reported from the UAV via radio channels telemetry. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;FORWARD&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;-PITCH is &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;NEGATIVE&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; VALUE, &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;BACK&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;  is &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;POSITIVE&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Radio values telemetry needs to be active for this to work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="minimum">
                         <number>-1024</number>
@@ -2178,7 +2214,7 @@
                         </size>
                        </property>
                        <property name="toolTip">
-                        <string>Elevator / Nick</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Elevator / Nick&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;FORWARD&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;-PITCH is &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;NEGATIVE&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; VALUE, &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;BACK&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;  is &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;POSITIVE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="essentialPort" stdset="0">
                         <bool>true</bool>
@@ -2364,6 +2400,9 @@
                        <property name="text">
                         <string>Chan.</string>
                        </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
                        <property name="labelStyle" stdset="0">
                         <string notr="true">columnLabel</string>
                        </property>
@@ -2409,801 +2448,367 @@
                </layout>
               </widget>
              </item>
-             <item row="2" column="0" alignment="Qt::AlignLeft">
-              <widget class="QGroupBox" name="groupBox_tuningChannels">
+             <item row="0" column="0" colspan="3">
+              <widget class="QWidget" name="widget_radioType" native="true">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="title">
-                <string>Tunable Parameters</string>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_12">
-                <item alignment="Qt::AlignTop">
-                 <widget class="QWidget" name="container_CONFIG_ADJUST_P1" native="true">
+               <layout class="QGridLayout" name="gridLayout_15" columnstretch="0,0,0,1,6">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>3</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="horizontalSpacing">
+                 <number>0</number>
+                </property>
+                <property name="verticalSpacing">
+                 <number>4</number>
+                </property>
+                <item row="2" column="2" alignment="Qt::AlignLeft">
+                 <widget class="QComboBox" name="comboBox_radioSetup2">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <layout class="QHBoxLayout" name="horizontalLayout_24">
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 2&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this could be Motor Port 14 for &lt;span style=&quot; text-decoration: underline;&quot;&gt;PPM input only&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the external radio connection for Spektrum, SBus, SUMD, MLink, or PPM.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QComboBox::AdjustToContents</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4" rowspan="4" alignment="Qt::AlignTop">
+                 <widget class="QFrame" name="frame">
+                  <property name="frameShape">
+                   <enum>QFrame::NoFrame</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
                    <property name="spacing">
-                    <number>0</number>
-                   </property>
-                   <property name="leftMargin">
-                    <number>0</number>
+                    <number>6</number>
                    </property>
                    <property name="topMargin">
-                    <number>0</number>
+                    <number>3</number>
                    </property>
                    <property name="rightMargin">
-                    <number>10</number>
+                    <number>9</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>0</number>
+                    <number>7</number>
                    </property>
                    <item>
-                    <layout class="QGridLayout" name="gridLayout_16">
-                     <property name="horizontalSpacing">
-                      <number>6</number>
+                    <layout class="QHBoxLayout" name="horizontalLayout_6">
+                     <property name="spacing">
+                      <number>10</number>
                      </property>
-                     <property name="verticalSpacing">
-                      <number>7</number>
+                     <property name="rightMargin">
+                      <number>3</number>
                      </property>
-                     <item row="0" column="2">
-                      <widget class="QLabel" name="label_20">
+                     <item>
+                      <widget class="QLabel" name="label_10">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>RC Signal Quality:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QProgressBar" name="progressBar_rssi">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
-                       <property name="text">
-                        <string>Scale</string>
-                       </property>
-                       <property name="labelStyle" stdset="0">
-                        <string notr="true">columnLabel</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="2">
-                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P1_scale">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="decimals">
-                        <number>4</number>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;AutoQuad RADIO_QUALITY indicator, roughly a measure of lost radio packets and signal quality.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="minimum">
-                        <double>0.000100000000000</double>
+                        <number>0</number>
                        </property>
                        <property name="maximum">
-                        <double>0.025500000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.000100000000000</double>
+                        <number>99</number>
                        </property>
                        <property name="value">
-                        <double>0.002000000000000</double>
+                        <number>0</number>
+                       </property>
+                       <property name="format">
+                        <string notr="true">%p%</string>
+                       </property>
+                       <property name="styleType" stdset="0">
+                        <string notr="true">radioControlsRSSI</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="1">
-                      <widget class="QComboBox" name="CONFIG_ADJUST_P3_chan">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>50</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QComboBox" name="CONFIG_ADJUST_P1_chan">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>50</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="1">
-                      <widget class="QComboBox" name="CONFIG_ADJUST_P2_chan">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>50</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="2">
-                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P2_scale">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="decimals">
-                        <number>4</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>0.025500000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>0.002000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QLabel" name="label_9">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Chan.</string>
-                       </property>
-                       <property name="labelStyle" stdset="0">
-                        <string notr="true">columnLabel</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="0">
-                      <widget class="QLabel" name="label_11">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Parameter</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                       <property name="labelStyle" stdset="0">
-                        <string notr="true">columnLabel</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="5">
-                      <widget class="QComboBox" name="CONFIG_ADJUST_P5_chan">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>50</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="5">
-                      <widget class="QComboBox" name="CONFIG_ADJUST_P4_chan">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>50</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="5">
-                      <widget class="QComboBox" name="CONFIG_ADJUST_P6_chan">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="minimumSize">
-                        <size>
-                         <width>50</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="6">
-                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P6_scale">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="decimals">
-                        <number>4</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>0.025500000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>0.002000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="2">
-                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P3_scale">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="decimals">
-                        <number>4</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>0.025500000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>0.002000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="6">
-                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P4_scale">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="decimals">
-                        <number>4</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>0.025500000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>0.002000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="6">
-                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P5_scale">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="decimals">
-                        <number>4</number>
-                       </property>
-                       <property name="minimum">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="maximum">
-                        <double>0.025500000000000</double>
-                       </property>
-                       <property name="singleStep">
-                        <double>0.000100000000000</double>
-                       </property>
-                       <property name="value">
-                        <double>0.002000000000000</double>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="4">
-                      <widget class="QLabel" name="label_29">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Parameter</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                       <property name="labelStyle" stdset="0">
-                        <string notr="true">columnLabel</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="5">
-                      <widget class="QLabel" name="label_30">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Chan.</string>
-                       </property>
-                       <property name="labelStyle" stdset="0">
-                        <string notr="true">columnLabel</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="6">
-                      <widget class="QLabel" name="label_31">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>Scale</string>
-                       </property>
-                       <property name="labelStyle" stdset="0">
-                        <string notr="true">columnLabel</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="3" rowspan="4">
-                      <spacer name="horizontalSpacer_6">
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_3">
+                     <property name="spacing">
+                      <number>8</number>
+                     </property>
+                     <item>
+                      <spacer name="horizontalSpacer_10">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
-                       <property name="sizeType">
-                        <enum>QSizePolicy::Fixed</enum>
-                       </property>
                        <property name="sizeHint" stdset="0">
                         <size>
-                         <width>13</width>
+                         <width>0</width>
                          <height>20</height>
                         </size>
                        </property>
                       </spacer>
                      </item>
-                     <item row="1" column="0">
-                      <widget class="QPushButton" name="CONFIG_ADJUST_P1">
+                     <item>
+                      <widget class="QLabel" name="label_12">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">text-align: left;</string>
-                       </property>
                        <property name="text">
-                        <string>None</string>
-                       </property>
-                       <property name="type" stdset="0">
-                        <string notr="true">dataDisplay</string>
+                        <string>RC Channels Telemetry:</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="0">
-                      <widget class="QPushButton" name="CONFIG_ADJUST_P2">
+                     <item>
+                      <widget class="QSpinBox" name="spinBox_rcGraphRefreshFreq">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh frequency of channels graph.  Higher frequencies consume more resources like telemetry bandwidth and processor time, but make the channel value bars and switch indicators more responsive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
-                       <property name="styleSheet">
-                        <string notr="true">text-align: left;</string>
+                       <property name="suffix">
+                        <string> Hz</string>
                        </property>
-                       <property name="text">
-                        <string>None</string>
+                       <property name="maximum">
+                        <number>50</number>
                        </property>
-                       <property name="type" stdset="0">
-                        <string notr="true">dataDisplay</string>
+                       <property name="value">
+                        <number>4</number>
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="0">
-                      <widget class="QPushButton" name="CONFIG_ADJUST_P3">
+                     <item>
+                      <widget class="QToolButton" name="toolButton_toggleRadioGraph">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">text-align: left;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggle radio channel value updates on/off.  Use this to enable the channel monitor indicator next to each control and switch configuration (bar graph or active indicator).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="text">
-                        <string>None</string>
+                        <string/>
                        </property>
-                       <property name="type" stdset="0">
-                        <string notr="true">dataDisplay</string>
+                       <property name="icon">
+                        <iconset resource="../../qgroundcontrol.qrc">
+                         <normaloff>:/files/images/actions/media-playback-start.svg</normaloff>
+                         <normalon>:/files/images/actions/media-playback-stop.svg</normalon>
+                         <disabledon>:/files/images/actions/media-playback-stop.svg</disabledon>
+                         <activeoff>:/files/images/actions/media-playback-start.svg</activeoff>
+                         <activeon>:/files/images/actions/media-playback-stop.svg</activeon>
+                         <selectedoff>:/files/images/actions/media-playback-start.svg</selectedoff>
+                         <selectedon>:/files/images/actions/media-playback-stop.svg</selectedon>:/files/images/actions/media-playback-start.svg</iconset>
                        </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="4">
-                      <widget class="QPushButton" name="CONFIG_ADJUST_P4">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
+                       <property name="checkable">
+                        <bool>true</bool>
                        </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       <property name="checked">
+                        <bool>false</bool>
                        </property>
-                       <property name="styleSheet">
-                        <string notr="true">text-align: left;</string>
-                       </property>
-                       <property name="text">
-                        <string>None</string>
-                       </property>
-                       <property name="type" stdset="0">
-                        <string notr="true">dataDisplay</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="4">
-                      <widget class="QPushButton" name="CONFIG_ADJUST_P5">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">text-align: left;</string>
-                       </property>
-                       <property name="text">
-                        <string>None</string>
-                       </property>
-                       <property name="type" stdset="0">
-                        <string notr="true">dataDisplay</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="4">
-                      <widget class="QPushButton" name="CONFIG_ADJUST_P6">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">text-align: left;</string>
-                       </property>
-                       <property name="text">
-                        <string>None</string>
-                       </property>
-                       <property name="type" stdset="0">
-                        <string notr="true">dataDisplay</string>
+                       <property name="autoRaise">
+                        <bool>false</bool>
                        </property>
                       </widget>
                      </item>
                     </layout>
                    </item>
                   </layout>
+                  <zorder></zorder>
+                  <zorder></zorder>
                  </widget>
                 </item>
-                <item alignment="Qt::AlignTop">
-                 <widget class="QWidget" name="container_QUATOS_AM1_KNOB" native="true">
+                <item row="3" column="2" alignment="Qt::AlignLeft">
+                 <widget class="QComboBox" name="comboBox_multiRadioMode">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <layout class="QGridLayout" name="gridLayout_20">
-                   <property name="leftMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>10</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>0</number>
-                   </property>
-                   <property name="spacing">
-                    <number>6</number>
-                   </property>
-                   <item row="2" column="1">
-                    <widget class="QComboBox" name="QUATOS_AM2_KNOB">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>50</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Quatos tuning parameter, see documentation.</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QLabel" name="label_22">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>Chan.</string>
-                     </property>
-                     <property name="labelStyle" stdset="0">
-                      <string notr="true">columnLabel</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="0">
-                    <widget class="QLabel" name="label_QUATOS_K1_KNOB">
-                     <property name="text">
-                      <string>Overall Gain (L1-K1)</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="1">
-                    <widget class="QComboBox" name="QUATOS_PT_KNOB">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>50</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Quatos tuning parameter, see documentation.</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_QUATOS_AM1_KNOB">
-                     <property name="text">
-                      <string>Correction Rate (AM1)</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="1">
-                    <widget class="QComboBox" name="QUATOS_K1_KNOB">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>50</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Quatos tuning parameter, see documentation.</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QComboBox" name="QUATOS_AM1_KNOB">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>50</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="toolTip">
-                      <string>Quatos tuning parameter, see documentation.</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="0">
-                    <widget class="QLabel" name="label_QUATOS_PT_KNOB">
-                     <property name="text">
-                      <string>Prop. Torque (PROP-K1)</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_23">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>Quatos Parameter</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                     <property name="labelStyle" stdset="0">
-                      <string notr="true">columnLabel</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="0">
-                    <widget class="QLabel" name="label_QUATOS_AM2_KNOB">
-                     <property name="text">
-                      <string>Thrust Rate (AM2)</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="2">
-                    <widget class="QLabel" name="label_24">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>Scale</string>
-                     </property>
-                     <property name="labelStyle" stdset="0">
-                      <string notr="true">columnLabel</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="2">
-                    <widget class="QLabel" name="label_25">
-                     <property name="text">
-                      <string>0.002</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="2">
-                    <widget class="QLabel" name="label_26">
-                     <property name="text">
-                      <string>0.002</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="3" column="2">
-                    <widget class="QLabel" name="label_27">
-                     <property name="text">
-                      <string>0.002</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="4" column="2">
-                    <widget class="QLabel" name="label_28">
-                     <property name="text">
-                      <string>0.002</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When using multiple radio inputs at once, different operating modes are available:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Diversity&lt;/span&gt; -- The receiver with the highest signal quality level is used. This is the default.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Split Control&lt;/span&gt; - RC1 is used for channels 1-18, and RC2 is used for channels 19-36. This could be useful for custom firmare implementations or future releases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QComboBox::AdjustToContents</enum>
+                  </property>
                  </widget>
+                </item>
+                <item row="0" column="2" alignment="Qt::AlignLeft">
+                 <widget class="QComboBox" name="RADIO_TYPE">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QComboBox::AdjustToContents</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_RADIO_TYPE">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Radio Type</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_RADIO_SETUP">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Radio Type (RC1)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_radioSetup2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Radio Type (RC2)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2" alignment="Qt::AlignLeft">
+                 <widget class="QComboBox" name="RADIO_SETUP">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>130</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Primary radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 1&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this is the main external reciever port (white 3-pin connector for Spektrum, SBus, SUMD, MLink) &lt;span style=&quot; text-decoration: underline;&quot;&gt;or&lt;/span&gt; Motor Port 14 for PPM input.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the built-in radio port (Deltang or CYRF).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QComboBox::AdjustToContents</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_multiRadioMode">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Multi-Radio Mode</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <spacer name="horizontalSpacer_4">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Expanding</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item row="0" column="1" rowspan="4">
+                 <spacer name="horizontalSpacer_11">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>15</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
              </item>
-             <item row="1" column="1" rowspan="2">
+             <item row="1" column="1">
               <widget class="QWidget" name="horizontalWidget" native="true">
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <property name="spacing">
@@ -3583,93 +3188,473 @@
                </layout>
               </widget>
              </item>
-             <item row="0" column="0" colspan="2">
-              <widget class="QWidget" name="widget_radioType" native="true">
+             <item row="2" column="0" colspan="2">
+              <widget class="QGroupBox" name="groupBox_tuningChannels">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <layout class="QGridLayout" name="gridLayout_15" columnstretch="0,0,0,1,6">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
+               <property name="title">
+                <string>Tunable Parameters</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_21">
                 <property name="topMargin">
-                 <number>3</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
+                 <number>5</number>
                 </property>
                 <property name="horizontalSpacing">
-                 <number>0</number>
+                 <number>6</number>
                 </property>
                 <property name="verticalSpacing">
-                 <number>4</number>
+                 <number>5</number>
                 </property>
-                <item row="2" column="2" alignment="Qt::AlignLeft">
-                 <widget class="QComboBox" name="comboBox_radioSetup2">
+                <item row="1" column="0" alignment="Qt::AlignTop">
+                 <widget class="QWidget" name="container_CONFIG_ADJUST_P1" native="true">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>130</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 2&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this could be Motor Port 14 for &lt;span style=&quot; text-decoration: underline;&quot;&gt;PPM input only&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the external radio connection for Spektrum, SBus, SUMD, MLink, or PPM.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="sizeAdjustPolicy">
-                   <enum>QComboBox::AdjustToContents</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="4" rowspan="4" alignment="Qt::AlignTop">
-                 <widget class="QFrame" name="frame">
-                  <property name="frameShape">
-                   <enum>QFrame::NoFrame</enum>
-                  </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
+                  <layout class="QHBoxLayout" name="horizontalLayout_24">
                    <property name="spacing">
-                    <number>6</number>
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
                    </property>
                    <property name="topMargin">
-                    <number>3</number>
+                    <number>0</number>
                    </property>
                    <property name="rightMargin">
-                    <number>9</number>
+                    <number>0</number>
                    </property>
                    <property name="bottomMargin">
-                    <number>7</number>
+                    <number>0</number>
                    </property>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_6">
-                     <property name="spacing">
-                      <number>10</number>
+                    <layout class="QGridLayout" name="gridLayout_16">
+                     <property name="horizontalSpacing">
+                      <number>6</number>
                      </property>
-                     <property name="rightMargin">
-                      <number>3</number>
+                     <property name="verticalSpacing">
+                      <number>7</number>
                      </property>
-                     <item>
-                      <widget class="QLabel" name="label_10">
+                     <item row="0" column="2">
+                      <widget class="QLabel" name="label_20">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string>RC Signal Quality:</string>
+                        <string>Scale</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
                        </property>
                       </widget>
                      </item>
-                     <item>
-                      <widget class="QProgressBar" name="progressBar_rssi">
+                     <item row="1" column="2">
+                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P1_scale">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="decimals">
+                        <number>4</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>0.025500000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>0.002000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QComboBox" name="CONFIG_ADJUST_P3_chan">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QComboBox" name="CONFIG_ADJUST_P1_chan">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QComboBox" name="CONFIG_ADJUST_P2_chan">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="2">
+                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P2_scale">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="decimals">
+                        <number>4</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>0.025500000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>0.002000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QLabel" name="label_9">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Chan.</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_11">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Parameter</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="6">
+                      <widget class="QComboBox" name="CONFIG_ADJUST_P5_chan">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="6">
+                      <widget class="QComboBox" name="CONFIG_ADJUST_P4_chan">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="6">
+                      <widget class="QComboBox" name="CONFIG_ADJUST_P6_chan">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>50</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="7">
+                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P6_scale">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="decimals">
+                        <number>4</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>0.025500000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>0.002000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="2">
+                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P3_scale">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="decimals">
+                        <number>4</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>0.025500000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>0.002000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="7">
+                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P4_scale">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="decimals">
+                        <number>4</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>0.025500000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>0.002000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="7">
+                      <widget class="QDoubleSpinBox" name="CONFIG_ADJUST_P5_scale">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. Best explained as a formula where: &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pf&lt;/span&gt; is the final parameter value.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Po&lt;/span&gt; is the original value from settings.&lt;br/&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rv&lt;/span&gt; is the current radio channel value.&lt;/p&gt;&lt;p&gt;Pf = Po + (Po * Rv * Scale)&lt;/p&gt;&lt;p&gt;Example, let's say you are adjusting Tilt Rate D starting with default value of &lt;span style=&quot; font-weight:600;&quot;&gt;34600&lt;/span&gt;, your radio channel value is &lt;span style=&quot; font-weight:600;&quot;&gt;-250&lt;/span&gt;, and the scale is default of &lt;span style=&quot; font-weight:600;&quot;&gt;0.002&lt;/span&gt;:&lt;/p&gt;&lt;p&gt;Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300&lt;/p&gt;&lt;p&gt;You can see the result is exactly half of the original value. Another way to look at the Scale setting is as a percentage, so 0.002 means scale the value 0.2% for every radio channel step. 250 * 0.2% = 50%, which is our result in the example.&lt;/p&gt;&lt;p&gt;You can select a Scale value of up to &lt;span style=&quot; font-weight:600;&quot;&gt;0.0255&lt;/span&gt;, which would be 2.55% for every radio value step (very large changes are possible, &lt;span style=&quot; font-weight:600;&quot;&gt;be careful!&lt;/span&gt;).&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="decimals">
+                        <number>4</number>
+                       </property>
+                       <property name="minimum">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="maximum">
+                        <double>0.025500000000000</double>
+                       </property>
+                       <property name="singleStep">
+                        <double>0.000100000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>0.002000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="5">
+                      <widget class="QLabel" name="label_29">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Parameter</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="6">
+                      <widget class="QLabel" name="label_30">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Chan.</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="7">
+                      <widget class="QLabel" name="label_31">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Scale</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="4" rowspan="4">
+                      <spacer name="horizontalSpacer_6">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeType">
+                        <enum>QSizePolicy::Fixed</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>13</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QPushButton" name="CONFIG_ADJUST_P1">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                          <horstretch>0</horstretch>
@@ -3677,268 +3662,571 @@
                         </sizepolicy>
                        </property>
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;AutoQuad RADIO_QUALITY indicator, roughly a measure of lost radio packets and signal quality.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
-                       <property name="minimum">
-                        <number>0</number>
+                       <property name="styleSheet">
+                        <string notr="true">text-align: left;</string>
                        </property>
-                       <property name="maximum">
-                        <number>99</number>
+                       <property name="text">
+                        <string>None</string>
                        </property>
-                       <property name="value">
-                        <number>0</number>
+                       <property name="type" stdset="0">
+                        <string notr="true">dataDisplay</string>
                        </property>
-                       <property name="format">
-                        <string notr="true">%p%</string>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QPushButton" name="CONFIG_ADJUST_P2">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">text-align: left;</string>
+                       </property>
+                       <property name="text">
+                        <string>None</string>
+                       </property>
+                       <property name="type" stdset="0">
+                        <string notr="true">dataDisplay</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QPushButton" name="CONFIG_ADJUST_P3">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">text-align: left;</string>
+                       </property>
+                       <property name="text">
+                        <string>None</string>
+                       </property>
+                       <property name="type" stdset="0">
+                        <string notr="true">dataDisplay</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="5">
+                      <widget class="QPushButton" name="CONFIG_ADJUST_P4">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">text-align: left;</string>
+                       </property>
+                       <property name="text">
+                        <string>None</string>
+                       </property>
+                       <property name="type" stdset="0">
+                        <string notr="true">dataDisplay</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="5">
+                      <widget class="QPushButton" name="CONFIG_ADJUST_P5">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">text-align: left;</string>
+                       </property>
+                       <property name="text">
+                        <string>None</string>
+                       </property>
+                       <property name="type" stdset="0">
+                        <string notr="true">dataDisplay</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="5">
+                      <widget class="QPushButton" name="CONFIG_ADJUST_P6">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">text-align: left;</string>
+                       </property>
+                       <property name="text">
+                        <string>None</string>
+                       </property>
+                       <property name="type" stdset="0">
+                        <string notr="true">dataDisplay</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="8">
+                      <widget class="QLabel" name="ind_CONFIG_ADJUST_P6">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="text">
+                        <string>N/A</string>
                        </property>
                        <property name="styleType" stdset="0">
-                        <string notr="true">radioControlsRSSI</string>
+                        <string notr="true">tunableValue</string>
+                       </property>
+                       <property name="telem_index" stdset="0">
+                        <UInt>5</UInt>
                        </property>
                       </widget>
                      </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_3">
-                     <property name="spacing">
-                      <number>8</number>
-                     </property>
-                     <item>
-                      <spacer name="horizontalSpacer_10">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
+                     <item row="1" column="3">
+                      <widget class="QLabel" name="ind_CONFIG_ADJUST_P1">
+                       <property name="enabled">
+                        <bool>false</bool>
                        </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>0</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="label_12">
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>RC Channels Telemetry:</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QSpinBox" name="spinBox_rcGraphRefreshFreq">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh frequency of channels graph.  Higher frequencies consume more resources like telemetry bandwidth and processor time, but make the channel value bars and switch indicators more responsive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
-                       <property name="suffix">
-                        <string> Hz</string>
+                       <property name="text">
+                        <string>N/A</string>
                        </property>
-                       <property name="maximum">
-                        <number>50</number>
+                       <property name="styleType" stdset="0">
+                        <string notr="true">tunableValue</string>
                        </property>
-                       <property name="value">
-                        <number>1</number>
+                       <property name="telem_index" stdset="0">
+                        <UInt>0</UInt>
                        </property>
                       </widget>
                      </item>
-                     <item>
-                      <widget class="QToolButton" name="toolButton_toggleRadioGraph">
+                     <item row="2" column="3">
+                      <widget class="QLabel" name="ind_CONFIG_ADJUST_P2">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
                        <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
                        <property name="toolTip">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggle radio channel value updates on/off.  Use this to enable the channel monitor indicator next to each control and switch configuration (bar graph or active indicator).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="text">
-                        <string/>
+                        <string>N/A</string>
                        </property>
-                       <property name="icon">
-                        <iconset resource="../../qgroundcontrol.qrc">
-                         <normaloff>:/files/images/actions/media-playback-start.svg</normaloff>
-                         <normalon>:/files/images/actions/media-playback-stop.svg</normalon>
-                         <disabledon>:/files/images/actions/media-playback-stop.svg</disabledon>
-                         <activeoff>:/files/images/actions/media-playback-start.svg</activeoff>
-                         <activeon>:/files/images/actions/media-playback-stop.svg</activeon>
-                         <selectedoff>:/files/images/actions/media-playback-start.svg</selectedoff>
-                         <selectedon>:/files/images/actions/media-playback-stop.svg</selectedon>:/files/images/actions/media-playback-start.svg</iconset>
+                       <property name="styleType" stdset="0">
+                        <string notr="true">tunableValue</string>
                        </property>
-                       <property name="checkable">
-                        <bool>true</bool>
+                       <property name="telem_index" stdset="0">
+                        <UInt>1</UInt>
                        </property>
-                       <property name="checked">
+                      </widget>
+                     </item>
+                     <item row="0" column="3">
+                      <widget class="QLabel" name="label_colHdr_adjValsInd_1">
+                       <property name="enabled">
                         <bool>false</bool>
                        </property>
-                       <property name="autoRaise">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="text">
+                        <string>Value</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="8">
+                      <widget class="QLabel" name="ind_CONFIG_ADJUST_P4">
+                       <property name="enabled">
                         <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="text">
+                        <string>N/A</string>
+                       </property>
+                       <property name="styleType" stdset="0">
+                        <string notr="true">tunableValue</string>
+                       </property>
+                       <property name="telem_index" stdset="0">
+                        <UInt>3</UInt>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="8">
+                      <widget class="QLabel" name="label_colHdr_adjValsInd_2">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="text">
+                        <string>Value</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="labelStyle" stdset="0">
+                        <string notr="true">columnLabel</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="8">
+                      <widget class="QLabel" name="ind_CONFIG_ADJUST_P5">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="text">
+                        <string>N/A</string>
+                       </property>
+                       <property name="styleType" stdset="0">
+                        <string notr="true">tunableValue</string>
+                       </property>
+                       <property name="telem_index" stdset="0">
+                        <UInt>4</UInt>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="3">
+                      <widget class="QLabel" name="ind_CONFIG_ADJUST_P3">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="text">
+                        <string>N/A</string>
+                       </property>
+                       <property name="styleType" stdset="0">
+                        <string notr="true">tunableValue</string>
+                       </property>
+                       <property name="telem_index" stdset="0">
+                        <UInt>2</UInt>
                        </property>
                       </widget>
                      </item>
                     </layout>
                    </item>
                   </layout>
-                  <zorder></zorder>
-                  <zorder></zorder>
-                 </widget>
-                </item>
-                <item row="3" column="2" alignment="Qt::AlignLeft">
-                 <widget class="QComboBox" name="comboBox_multiRadioMode">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>130</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When using multiple radio inputs at once, different operating modes are available:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Diversity&lt;/span&gt; -- The receiver with the highest signal quality level is used. This is the default.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Split Control&lt;/span&gt; - RC1 is used for channels 1-18, and RC2 is used for channels 19-36. This could be useful for custom firmare implementations or future releases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="sizeAdjustPolicy">
-                   <enum>QComboBox::AdjustToContents</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2" alignment="Qt::AlignLeft">
-                 <widget class="QComboBox" name="RADIO_TYPE">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>130</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="sizeAdjustPolicy">
-                   <enum>QComboBox::AdjustToContents</enum>
-                  </property>
                  </widget>
                 </item>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_RADIO_TYPE">
+                 <widget class="QLabel" name="label_adjustParamsChannelSwitchWarning">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
                   </property>
                   <property name="text">
-                   <string>Radio Type</string>
+                   <string>NOTE: You must save parameters to AQ before current values telemetry will be correct.</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_RADIO_SETUP">
+                <item row="0" column="1" rowspan="2" alignment="Qt::AlignTop">
+                 <widget class="QWidget" name="container_QUATOS_AM1_KNOB" native="true">
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="text">
-                   <string>Radio Type (RC1)</string>
-                  </property>
+                  <layout class="QGridLayout" name="gridLayout_20">
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="spacing">
+                    <number>6</number>
+                   </property>
+                   <item row="2" column="1">
+                    <widget class="QComboBox" name="QUATOS_AM2_KNOB">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>50</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Quatos tuning parameter, see documentation.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="label_22">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Chan.</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="labelStyle" stdset="0">
+                      <string notr="true">columnLabel</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_QUATOS_K1_KNOB">
+                     <property name="text">
+                      <string>Overall Gain (L1-K1)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="1">
+                    <widget class="QComboBox" name="QUATOS_PT_KNOB">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>50</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Quatos tuning parameter, see documentation.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_QUATOS_AM1_KNOB">
+                     <property name="text">
+                      <string>Correction Rate (AM1)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QComboBox" name="QUATOS_K1_KNOB">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>50</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Quatos tuning parameter, see documentation.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QComboBox" name="QUATOS_AM1_KNOB">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>50</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Quatos tuning parameter, see documentation.</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QLabel" name="label_QUATOS_PT_KNOB">
+                     <property name="text">
+                      <string>Prop. Torque (PROP-K1)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_23">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Quatos Parameter</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="labelStyle" stdset="0">
+                      <string notr="true">columnLabel</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_QUATOS_AM2_KNOB">
+                     <property name="text">
+                      <string>Thrust Rate (AM2)</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLabel" name="label_24">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Scale</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="labelStyle" stdset="0">
+                      <string notr="true">columnLabel</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="2">
+                    <widget class="QLabel" name="label_25">
+                     <property name="text">
+                      <string>0.002</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QLabel" name="label_26">
+                     <property name="text">
+                      <string>0.002</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="2">
+                    <widget class="QLabel" name="label_27">
+                     <property name="text">
+                      <string>0.002</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="2">
+                    <widget class="QLabel" name="label_28">
+                     <property name="text">
+                      <string>0.002</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_radioSetup2">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Radio Type (RC2)</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2" alignment="Qt::AlignLeft">
-                 <widget class="QComboBox" name="RADIO_SETUP">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>130</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Primary radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 1&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this is the main external reciever port (white 3-pin connector for Spektrum, SBus, SUMD, MLink) &lt;span style=&quot; text-decoration: underline;&quot;&gt;or&lt;/span&gt; Motor Port 14 for PPM input.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the built-in radio port (Deltang or CYRF).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                  <property name="sizeAdjustPolicy">
-                   <enum>QComboBox::AdjustToContents</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_multiRadioMode">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Multi-Radio Mode</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="3">
-                 <spacer name="horizontalSpacer_4">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Expanding</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="0" column="1" rowspan="4">
-                 <spacer name="horizontalSpacer_11">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Fixed</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>15</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
                 </item>
                </layout>
               </widget>

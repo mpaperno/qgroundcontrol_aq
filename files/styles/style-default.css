@@ -23,25 +23,29 @@ QLabel[labelStyle="emphasis"]:disabled {
 
 QLabel[labelStyle="columnLabel"] {
 	color: #f2f2f3;
-	border: 1px solid rgba(125, 125, 125, 125);
-	border-radius: 3px;
+	border: .1em solid rgba(125, 125, 125, 125);
+	border-radius: .3em;
 	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161, stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);
 	/*background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));*/
-	padding: 1px 5px;
+	padding: .1em .3em;
+	text-align: center;
 }
 QLabel[labelStyle="columnLabel"][styleType="compact"] {
-	padding: 1px 1px;
+	padding: .1em;
 }
 
 QLabel[styleType="indicator"] {
 	min-width: 0.6em;
-	border: 1px solid;
-	border-radius: 3px;
-	padding: 0px;
+	border: .1em solid;
+	border-radius: .3em;
+	padding: 0;
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.35 rgba(36, 88, 209, 200), stop:1 rgba(0, 0, 0, 0));
 }
 QLabel[styleType="indicator"][value="0"] {
 	background-color: transparent;
+}
+QLabel[styleType="tunableValue"] {
+	border-width: 0;
 }
 
 QLabel[labelStyle="pad_left_smaller_dim"] {
@@ -56,8 +60,8 @@ QLabel[labelStyle="pad_left_smaller_dim"] {
 	 ProgressBar
 */
 QProgressBar {
-	border: 1px solid #4A4A4F;
-	border-radius: 4px;
+	border: .1em solid #4A4A4F;
+	border-radius: .4em;
 	text-align: center;
 	padding: 0.05em .1em;
 	background-color: #f0f0f0;
@@ -72,7 +76,7 @@ QProgressBar:vertical {
 }
 QProgressBar::chunk {
 	background-color: #3C7B9E;
-	border-radius: 3px;
+	border-radius: .3em;
 }
 QProgressBar::chunk:horizontal {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.25 rgba(36, 88, 209, 210), stop:1 rgba(0, 0, 0, 0));
@@ -101,17 +105,17 @@ QProgressBar#loadBar::chunk:horizontal {
 }
 
 QProgressBar[styleType="radioControls"]:horizontal {
-	border-radius: 3px;
+	border-radius: .3em;
 	max-height: .3em;
 	margin: .2em 0em .4em 2.2em;
 	text-align: top left;
 	padding: 0.01em .11em;
 }
 QProgressBar[styleType="radioControls"]::chunk:horizontal {
-	border-radius: 2px;
+	border-radius: .2em;
 }
 QProgressBar[styleType="radioControlsRSSI"]:horizontal {
-	margin: 0px 0em 0px 3em;
+	margin: 0 0 0 3em;
 	text-align: left;
 }
 

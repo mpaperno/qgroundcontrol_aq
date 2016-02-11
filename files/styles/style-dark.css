@@ -729,8 +729,13 @@ QLabel[labelStyle="emphasis"] {
 	 color: #4CBBFF;
 }
 
-QLabel[styleType="indicator"] {
-	border-color: #b1b1b1;
+QLabel[styleType="indicator"],
+QLabel[styleType="tunableValue"] {
+	border-color: #777777;
+}
+QLabel[styleType="indicator"]:disabled,
+QLabel[styleType="tunableValue"]:disabled {
+	border-color: #383838;
 }
 
 /*

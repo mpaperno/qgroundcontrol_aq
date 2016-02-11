@@ -79,6 +79,9 @@ private slots:
     void splitterCollapseToggle();
     void splitterMoved();
     bool validateRadioSettings();
+    bool checkTunableParamsChanged();
+    bool checkLegacyChannelsChanged();
+    bool hasAnyTunableParams();
 //  void on_groupBox_ppmOptions_toggled(bool arg1);
     void on_radioButton_attitude_pid_clicked() { setAqHasQuatos(false); }
     void on_radioButton_attitude_quatos_clicked() { setAqHasQuatos(true); }
@@ -117,8 +120,10 @@ private slots:
     void delayedSendRcRefreshFreq();
     void sendRcRefreshFreq();
     void toggleRadioStream(const bool enable);
+    void toggleConfigTelemetry(bool enable);
     void setRadioChannelDisplayValue(int channelId, float normalized);
     void setRssiDisplayValue(float normalized);
+    void getNewTelemetryF(int uasId, mavlink_aq_telemetry_f_t values);
 
     // Misc.
     bool checkProcRunning(bool warn = true);
@@ -221,6 +226,7 @@ private:
     QProcess ps_master;
     bool mtx_paramsAreLoading;
     bool m_initComplete;
+    bool m_configTelemIsRunning;
     QString UsersParamsFile;
     QTextEdit* activeProcessStatusWdgt;
     SelectAdjustableParamDialog *m_selectAdjParamsDialog;
