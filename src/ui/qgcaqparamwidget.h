@@ -44,7 +44,6 @@ signals:
     void requestParameter(int component, int parameter);
     /** @brief Request a single parameter by name */
     void requestParameter(int component, const QString& parameter);
-    void requestParameterRefreshed(uint8_t component);
     void paramRequestTimeout(int readCount, int writeCount);
     void parameterListRequested(uint8_t component);
 

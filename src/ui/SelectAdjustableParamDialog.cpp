@@ -205,7 +205,7 @@ void SelectAdjustableParamDialog::setParamManager(QGCUASParamManager *paramManag
         disconnect(m_paramManager, 0, this, 0);
 
     m_paramManager = paramManager;
-    connect(m_paramManager, SIGNAL(requestParameterRefreshed(uint8_t)), this, SLOT(onParamsLoaded(uint8_t)));
+    connect(m_paramManager, SIGNAL(parameterListUpToDate(uint8_t)), this, SLOT(onParamsLoaded(uint8_t)));
 }
 
 void SelectAdjustableParamDialog::on_buttonBox_clicked(QAbstractButton *button)

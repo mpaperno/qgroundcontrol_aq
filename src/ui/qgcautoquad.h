@@ -58,6 +58,7 @@ signals:
     void hardwareInfoUpdated(void);
     void firmwareInfoUpdated(void);
     void aqHasQuatosChanged(bool hasquatos);
+    void remoteGuidanceEnabledChanged(bool on);
 
 private slots:
 
@@ -92,7 +93,6 @@ private slots:
     void flashFwDfu();
 
     // UAS setup
-//  void addUAS(UASInterface* uas_ext);
     void setActiveUAS(UASInterface* uas_ext);
     void uasDeleted(UASInterface *mav);
     void removeActiveUAS();
@@ -165,6 +165,7 @@ public:
     bool usingQuatos;               // firmware reports quatos attitutde controller is used
     bool useNewControlsScheme;      // firmware supports _CTRL_ type parameters for control switch values
     bool useTunableParams;          // firmware supports CONFIG_ADJUST_Pn for live parameter adjustment
+    bool remoteGuidanceEnabled;     // firmware supports remote guidance commands
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files

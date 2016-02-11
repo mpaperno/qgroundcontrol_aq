@@ -17,10 +17,16 @@ public:
     QGCUASParamManager(UASInterface* uas, QWidget *parent = 0);
 
     QList<QString> getParameterNames(int component) const {
-        return parameters.value(component)->keys();
+        if (parameterIDs.contains(component))
+            return parameters.value(component)->keys();
+        else
+            return QList<QString>();
     }
     QList<QVariant> getParameterValues(int component) const {
-        return parameters.value(component)->values();
+        if (parameterIDs.contains(component))
+            return parameters.value(component)->values();
+        else
+            return QList<QVariant>();
     }
     int getParameterId(int component, const QString& parameter) {
         if (parameterIDs.contains(component))
@@ -42,19 +48,12 @@ public:
             return "";
     }
 
+    bool checkParamExists(int component, const QString& param) {  return parameters.contains(component) && parameters.value(component)->contains(param); }
+
     bool getParameterValue(int component, const QString& parameter, QVariant& value) const {
-        if (!parameters.contains(component))
-        {
+        if (!parameters.contains(component) || !parameters.value(component)->contains(parameter))
             return false;
-        }
-
-        if (!parameters.value(component)->contains(parameter))
-        {
-            return false;
-        }
-
         value = parameters.value(component)->value(parameter);
-
         return true;
     }
 
@@ -74,7 +73,7 @@ public:
 signals:
     void parameterChanged(int component, QString parameter, QVariant value);
     void parameterChanged(int component, int parameterIndex, QVariant value);
-    void parameterListUpToDate(int component);
+    void parameterListUpToDate(uint8_t component);
 
 public slots:
     /** @brief Write one parameter to the MAV */

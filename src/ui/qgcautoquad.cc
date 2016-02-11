@@ -298,14 +298,12 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq()));
 
     // UAS slots
-//    QList<UASInterface*> mavs = UASManager::instance()->getUASList();
-//    foreach (UASInterface* currMav, mavs) {
-//        addUAS(currMav);
-//    }
     setActiveUAS(UASManager::instance()->getActiveUAS());
-    //connect(UASManager::instance(), SIGNAL(UASCreated(UASInterface*)), this, SLOT(addUAS(UASInterface*)), Qt::UniqueConnection);
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)), Qt::UniqueConnection);
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
+
+    // MainWindow slots
+    connect(this, SIGNAL(remoteGuidanceEnabledChanged(bool)), MainWindow::instance(), SLOT(setRemoteGuidanceEnabled(bool)));
 
     m_initComplete = true;
 }
@@ -1085,6 +1083,9 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
     if (!this->isVisible() || !radioChannelIndicatorsMap.contains(channelId))
         return;
 
+    if (!ui->toolButton_toggleRadioGraph->isChecked())
+        toggleRadioValuesUpdate(true);
+
     QProgressBar *bar;
     QSpinBox *sb;
     int oldval;
@@ -1131,12 +1132,6 @@ void QGCAutoquad::setRssiDisplayValue(float normalized)
 // UAS Interfaces
 //
 
-//void QGCAutoquad::addUAS(UASInterface* uas_ext)
-//{
-//    QString uasColor = uas_ext->getColor().name().remove(0, 1);
-
-//}
-
 void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
 {
     if (!uas_ext)
@@ -1165,7 +1160,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     connect(uas, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
     connect(uas, SIGNAL(systemVersionChanged(int,uint32_t,uint32_t,QString,QString)), this, SLOT(uasVersionChanged(int,uint32_t,uint32_t,QString,QString)));
 
-    connect(paramaq, SIGNAL(requestParameterRefreshed(uint8_t)), this, SLOT(onParametersLoaded(uint8_t)));
+    connect(paramaq, SIGNAL(parameterListUpToDate(uint8_t)), this, SLOT(onParametersLoaded(uint8_t)));
     connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
     connect(paramaq, SIGNAL(parameterListRequested(uint8_t)), this, SLOT(uasConnected(uint8_t)));
 
@@ -1447,7 +1442,10 @@ void QGCAutoquad::onParametersLoaded(uint8_t component) {
     useRadioSetupParam = paramaq->paramExistsAQ("RADIO_SETUP");
     useNewControlsScheme = paramaq->paramExistsAQ("NAV_CTRL_PH");
     useTunableParams = paramaq->paramExistsAQ("CONFIG_ADJUST_P1");
+    remoteGuidanceEnabled = paramaq->paramExistsAQ("NAV_CTRL_GUIDED");
+
     emit firmwareInfoUpdated();
+    emit remoteGuidanceEnabledChanged(remoteGuidanceEnabled);
 
     loadParametersToUI();
 }

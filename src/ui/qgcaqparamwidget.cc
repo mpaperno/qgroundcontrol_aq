@@ -624,7 +624,7 @@ void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int 
 
         this->transmissionActive = false;
         this->transmissionListMode = false;
-        emit requestParameterRefreshed(component);
+        emit parameterListUpToDate(component);
         qDebug() << "FINISHED LOADING PARAM LIST for component " << component;
 
     }
