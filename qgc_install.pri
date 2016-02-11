@@ -155,20 +155,22 @@ binfiles.path = $${TARGETDIR}/aq/bin
 binfiles.files = $${SOURCE_BINFILES_PATH}
 mixes.path = $${TARGETDIR}/aq/mixes
 mixes.files = $${BASEDIR}/aq/mixes/*
-langfiles.path = $${TARGETDIR}/files/lang
-ReleaseBuild {
-	# lupdate reports two errors in external library files (one from Win7 SDK and another from VLC lib) which makes Creator report errors during a build, which is annoying
-	#langfiles.extra = $$[QT_INSTALL_BINS]/lupdate -silent -no-obsolete $${_PRO_FILE_} && $$[QT_INSTALL_BINS]/lrelease $${_PRO_FILE_}
-	langfiles.extra = $$[QT_INSTALL_BINS]/lrelease $${_PRO_FILE_}
-}
-langfiles.files = $${BASEDIR}/files/lang/*.qm
-flagfiles.path = $${TARGETDIR}/files/lang/flags
-flagfiles.files = $${BASEDIR}/files/lang/flags/*
 extrafiles.path = $${TARGETDIR}/files
 extrafiles.files = $${BASEDIR}/files/*.*
 audiofiles.path = $${TARGETDIR}/files/audio
 audiofiles.files = $${BASEDIR}/files/audio/*.*
-cssfiles.path = $${TARGETDIR}/files/styles
-cssfiles.files = $${BASEDIR}/files/styles/*.css
 
-INSTALLS += binfiles mixes langfiles flagfiles extrafiles audiofiles cssfiles
+INSTALLS += binfiles mixes extrafiles audiofiles
+
+ReleaseBuild {
+	langfiles.path = $${TARGETDIR}/files/lang
+	# lupdate reports two errors in external library files (one from Win7 SDK and another from VLC lib) which makes Creator report errors during a build, which is annoying
+	#langfiles.extra = $$[QT_INSTALL_BINS]/lupdate -silent -no-obsolete $${_PRO_FILE_} && $$[QT_INSTALL_BINS]/lrelease $${_PRO_FILE_}
+	langfiles.extra = $$[QT_INSTALL_BINS]/lrelease $${_PRO_FILE_}
+	langfiles.files = $${BASEDIR}/files/lang/*.qm
+	flagfiles.path = $${TARGETDIR}/files/lang/flags
+	flagfiles.files = $${BASEDIR}/files/lang/flags/*
+	cssfiles.path = $${TARGETDIR}/files/styles
+	cssfiles.files = $${BASEDIR}/files/styles/*.css
+	INSTALLS += langfiles flagfiles cssfiles
+}

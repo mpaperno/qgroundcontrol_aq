@@ -328,8 +328,7 @@ void DebugConsole::receiveTextMessage(int id, int component, int severity, QStri
 {
     Q_UNUSED(component);
     Q_UNUSED(severity);
-    if (isVisible())
-    {
+    //if (isVisible())  {
         QString name = UASManager::instance()->getUASForId(id)->getUASName();
 //        QString comp;
 //        // Get a human readable name if possible
@@ -356,7 +355,7 @@ void DebugConsole::receiveTextMessage(int id, int component, int severity, QStri
         m_ui->receiveText->appendHtml(QString("<font color=\"%1\">(%2) %4</font>\n").arg(UASManager::instance()->getUASForId(id)->getColor().name(), name, text));
         // Ensure text area scrolls correctly
         m_ui->receiveText->ensureCursorVisible();
-    }
+    //}
 }
 
 void DebugConsole::updateTrafficMeasurements()

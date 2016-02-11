@@ -30,7 +30,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
 
     ui->Frequenz_Telemetry->addItem("1 Hz", 1000000);
     ui->Frequenz_Telemetry->addItem("10 Hz", 100000);
-    ui->Frequenz_Telemetry->addItem("25 Hz", 50000);
+    ui->Frequenz_Telemetry->addItem("25 Hz", 40000);
     ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
 //    ui->Frequenz_Telemetry->addItem("75 Hz", 13333);
 //    ui->Frequenz_Telemetry->addItem("100 Hz", 10000);
