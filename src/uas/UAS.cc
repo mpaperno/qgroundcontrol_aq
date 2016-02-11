@@ -265,6 +265,29 @@ bool UAS::getSelected() const
     return (UASManager::instance()->getActiveUAS() == this);
 }
 
+
+
+void UAS::setCmdResponseFilter(const QList<int> &value)
+{
+    cmdResponseFilter = value;
+}
+
+void UAS::editCmdResponseFilter(const int &msg, bool add)
+{
+    if (add && !cmdResponseFilter.contains(msg))
+        cmdResponseFilter.append(msg);
+    else if (!add && cmdResponseFilter.contains(msg))
+        cmdResponseFilter.removeAll(msg);
+}
+
+void UAS::editUnknownMessageFilter(const int &msg, bool add)
+{
+    if (add && !unknownPackets.contains(msg))
+        unknownPackets.append(msg);
+    else if (!add && unknownPackets.contains(msg))
+        unknownPackets.removeAll(msg);
+}
+
 void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 {
     if (!link) return;
@@ -960,7 +983,8 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             {
             case MAV_CMD_ACK_OK:
             {
-                emit textMessageReceived(uasId, message.compid, 0, tr("SUCCESS: Executed CMD: %1").arg(ack.command));
+                if (!cmdResponseFilter.contains(ack.command))
+                    emit textMessageReceived(uasId, message.compid, 0, tr("SUCCESS: Executed CMD: %1").arg(ack.command));
             }
                 break;
             case MAV_CMD_ACK_ERR_FAIL:
@@ -1220,7 +1244,9 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
         case MAVLINK_MSG_ID_NAMED_VALUE_INT:
         case MAVLINK_MSG_ID_MANUAL_CONTROL:
         case MAVLINK_MSG_ID_HIGHRES_IMU:
+        case MAVLINK_MSG_ID_PARAM_SET:
             break;
+
         default:
         {
             if (!unknownPackets.contains(message.msgid))

@@ -162,7 +162,6 @@ public:
         /* Create color map */
         static QList<QColor> colors = QList<QColor>()
             << QColor(215,75,6)  // burnt orange
-            << QColor(66,35,174) // dk blue/purple
             << QColor(43,144,38) // dk green
             << QColor(125,7,107) // dk eggplant
             << QColor(232,33,47)
@@ -183,6 +182,7 @@ public:
             << QColor(231,72,28)
             << QColor(104,64,240)
             << QColor(203,254,121)
+            << QColor(66,35,174) // dk blue/purple
             << QColor(161,252,116);
 
         static int nextColor = -1;
@@ -309,6 +309,10 @@ public slots:
      * @brief Set the current robot as focused in the user interface
      */
     virtual void setSelected() = 0;
+
+    virtual void setCmdResponseFilter(const QList<int> &value) = 0;
+    virtual void editCmdResponseFilter(const int &msg, bool add = true) = 0;
+    virtual void editUnknownMessageFilter(const int &msg, bool add = true) = 0;
 
     virtual void enableDataStream(const int streamId, const int rate) = 0;
     virtual void enableAllDataTransmission(int rate) = 0;

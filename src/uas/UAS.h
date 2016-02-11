@@ -178,7 +178,8 @@ protected: //COMMENTS FOR TEST UNIT
     QString firmwareVersionStr;
 
     QList<LinkInterface*>* links; ///< List of links this UAS can be reached by
-    QList<int> unknownPackets;    ///< Packet IDs which are unknown and have been received
+    QList<int> unknownPackets;    ///< Packet IDs which are unknown and have been received, these will be ignored when seen again
+    QList<int> cmdResponseFilter; ///< List of command IDs for which to filter ACK_OK responses
     MAVLinkProtocol* mavlink;     ///< Reference to the MAVLink instance
     BatteryType batteryType;      ///< The battery type
     int cells;                    ///< Number of cells
@@ -427,6 +428,8 @@ public:
     QString getHardwareVersionStr() const { return hardwareVersionStr; }
     QString getFirmwareVersionStr() const { return firmwareVersionStr; }
 
+    QList<int> getCmdResponseFilter() const { return cmdResponseFilter; }
+
 public slots:
     /** @brief Set the autopilot type */
     void setAutopilotType(int apType)
@@ -577,6 +580,10 @@ public slots:
 
     /** @brief Get the ids of all components */
     QList<int> getComponentIds();
+
+    void setCmdResponseFilter(const QList<int> &value);
+    void editCmdResponseFilter(const int &msg, bool add = true);
+    void editUnknownMessageFilter(const int &msg, bool add = true);
 
     void enableDataStream(const int streamId, const int rate);
     void enableAllDataTransmission(int rate);
