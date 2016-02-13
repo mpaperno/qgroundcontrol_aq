@@ -22,6 +22,7 @@ class QProgressBar;
 class QLabel;
 class QComboBox;
 class QPushButton;
+class QSpinBox;
 
 namespace Ui {
 class QGCAutoquad;
@@ -67,6 +68,8 @@ private slots:
     void writeSettings();
 
     // UI handlers
+    void splitterCollapseToggle();
+    void splitterMoved();
     void adjustUiForHardware();
     void adjustUiForFirmware();
     void adjustUiForQuatos();
@@ -74,18 +77,20 @@ private slots:
     void setupRadioPorts();
     bool radioHasPPM();
     void radioType_changed(int idx);
-    void on_tab_aq_settings_currentChanged(int idx);
+//    void on_tab_aq_settings_currentChanged(int idx);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void on_MOT_ESC_TYPE_currentIndexChanged(int index);
-    void splitterCollapseToggle();
-    void splitterMoved();
+    void on_groupBox_tuningChannels_toggled(bool arg1);
+    void on_groupBox_gimbal_toggled(bool arg1);
+    void on_groupBox_autoTrigger_toggled(bool arg1);
+    void onSwitchValueChanged(QSpinBox *origin = 0, QComboBox *target = 0);
+    void onSwitchPositionChanged(QComboBox *origin = 0, QSpinBox *target = 0);
+    void toggleRadioSwitchAdvancedSetup(bool on);
+    void checkRadioSwitchHasAdvancedSetup();
     bool validateRadioSettings();
     bool checkTunableParamsChanged();
     bool checkLegacyChannelsChanged();
     bool hasAnyTunableParams();
-    void on_groupBox_tuningChannels_toggled(bool arg1);
-    void on_groupBox_gimbal_toggled(bool arg1);
-    void on_groupBox_autoTrigger_toggled(bool arg1);
     void on_radioButton_attitude_pid_clicked() { setAqHasQuatos(false); }
     void on_radioButton_attitude_quatos_clicked() { setAqHasQuatos(true); }
 
@@ -219,6 +224,7 @@ private:
     QRegExp paramsReqRestartRx;
     QRegExp paramsTunableControls;
     QList<QComboBox *> allRadioChanCombos;
+    QList<QSpinBox *> allRadioSwitchValueBoxes;
     quint8 paramSaveType;
     int paramsLoadedForAqBuildNumber;
     bool restartAfterParamSave;

@@ -40,6 +40,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     VisibleWidget = 0;
     fwFlashActive = false;
+	 maxMotorPorts = 16;
+	 maxPwmPorts = 14;
 
     aqBinFolderPath = QCoreApplication::applicationDirPath() + "/aq/bin/";
     aqMotorMixesPath = QCoreApplication::applicationDirPath() + "/aq/mixes/";
@@ -170,6 +172,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     {
         QString paramName;
         QSpinBox *val_sb = NULL;
+		  QComboBox *pos_cb = NULL;
         QDoubleSpinBox *scale_sb = NULL;
         QPushButton *param_pb = NULL;
         QWidget *indicator;
@@ -197,8 +200,20 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
                 connect(cb, SIGNAL(activated(int)), this, SLOT(checkTunableParamsChanged()));
             }
             if (val_sb) {
-                val_sb->setProperty("paramName", paramName);
-                connect(val_sb, SIGNAL(editingFinished()), this, SLOT(validateRadioSettings()));
+					 pos_cb = cb->parent()->findChild<QComboBox *>(paramName % "_pos");
+					 if (pos_cb) {
+						 pos_cb->insertItems(0, QStringList() << tr("High") << tr("Mid") << tr("Low"));
+						 cb->setProperty("swpos_ptr", QVariant::fromValue<void *>(pos_cb));
+						 pos_cb->setProperty("paramName", paramName);
+						 pos_cb->setProperty("existsOnboard", true);
+						 pos_cb->setProperty("value_ptr", QVariant::fromValue<void *>(val_sb));
+						 connect(pos_cb, SIGNAL(activated(int)), this, SLOT(onSwitchPositionChanged()));
+						 allRadioSwitchValueBoxes.append(val_sb);
+					 }
+					 val_sb->setProperty("paramName", paramName);
+					 val_sb->setProperty("existsOnboard", true);
+					 val_sb->setProperty("swpos_ptr", QVariant::fromValue<void *>(pos_cb));
+					 connect(val_sb, SIGNAL(editingFinished()), this, SLOT(onSwitchValueChanged()));
             }
             if (indicator) {
                 indicator->setProperty("paramName", paramName);
@@ -223,7 +238,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     setFirmwareInfo();  // set defaults based on fw version
     adjustUiForHardware();
     adjustUiForFirmware();
-    setupRadioPorts();
+	 setupRadioPorts();
 
 #ifdef INCLUDE_ESC32V2_UI
     esc32Cfg = new AQEsc32ConfigWidget(this);
@@ -271,6 +286,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->comboBox_fwType, SIGNAL(currentIndexChanged(int)), this, SLOT(fwTypeChange()));
     connect(ui->toolButton_fwReloadPorts, SIGNAL(clicked()), this, SLOT(setupPortList()));
+	 connect(ui->checkBox_showAdvRadioCfg, SIGNAL(clicked(bool)), this, SLOT(toggleRadioSwitchAdvancedSetup(bool)));
+
 
     connect(ui->pushButton_save_to_aq, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
     connect(ui->cmdBtn_ConvertTov68AttPIDs, SIGNAL(clicked()), this, SLOT(convertPidAttValsToFW68Scales()));
@@ -292,6 +309,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     TrackingIsrunning = 0;
 #endif
 
+	 // MainWindow slots
+	 connect(this, SIGNAL(remoteGuidanceEnabledChanged(bool)), MainWindow::instance(), SLOT(setRemoteGuidanceEnabled(bool)));
+
     //Process Slots
     ps_master.setProcessChannelMode(QProcess::MergedChannels);
     connect(&ps_master, SIGNAL(finished(int)), this, SLOT(prtstexit(int)));
@@ -309,9 +329,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     setActiveUAS(UASManager::instance()->getActiveUAS());
     connect(UASManager::instance(), SIGNAL(activeUASSet(UASInterface*)), this, SLOT(setActiveUAS(UASInterface*)), Qt::UniqueConnection);
     connect(UASManager::instance(), SIGNAL(UASDeleted(UASInterface*)), this, SLOT(uasDeleted(UASInterface*)));
-
-    // MainWindow slots
-    connect(this, SIGNAL(remoteGuidanceEnabledChanged(bool)), MainWindow::instance(), SLOT(setRemoteGuidanceEnabled(bool)));
 
     m_initComplete = true;
 }
@@ -411,6 +428,8 @@ void QGCAutoquad::loadSettings()
 	 ui->groupBox_tuningChannels->setChecked(settings.value("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked()).toBool());
 	 ui->groupBox_gimbal->setChecked(settings.value("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked()).toBool());
 	 ui->groupBox_autoTrigger->setChecked(settings.value("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked()).toBool());
+	 ui->checkBox_showAdvRadioCfg->setChecked(settings.value("SHOW_ADVANCED_SWITCH_SETUP", ui->checkBox_showAdvRadioCfg->isChecked()).toBool());
+	 toggleRadioSwitchAdvancedSetup(ui->checkBox_showAdvRadioCfg->isChecked());
 
     settings.endGroup();
     settings.sync();
@@ -436,6 +455,7 @@ void QGCAutoquad::writeSettings()
 	 settings.setValue("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked());
 	 settings.setValue("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked());
 	 settings.setValue("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked());
+	 settings.setValue("SHOW_ADVANCED_SWITCH_SETUP", ui->checkBox_showAdvRadioCfg->isChecked());
 
     settings.sync();
     settings.endGroup();
@@ -445,6 +465,28 @@ void QGCAutoquad::writeSettings()
 //
 // UI handlers
 //
+
+void QGCAutoquad::splitterCollapseToggle() {
+	 QList<int> sz = ui->splitter_aqWidgetSidebar->sizes();
+	 static int leftW = qMax(sz.at(0), ui->tabWidget_aq_left->minimumWidth());
+	 QList<int> newsz;
+	 if (sz.at(0) > 0) {
+		  leftW = sz.at(0);
+		  newsz << 0 << leftW + sz.at(1);
+		  splitterToggleBtn->setArrowType(Qt::RightArrow);
+	 } else {
+		  newsz << leftW << sz.at(1) - leftW;
+		  splitterToggleBtn->setArrowType(Qt::LeftArrow);
+	 }
+	 ui->splitter_aqWidgetSidebar->setSizes(newsz);
+}
+
+void QGCAutoquad::splitterMoved() {
+	 if (ui->splitter_aqWidgetSidebar->sizes().at(0) > 0)
+		  splitterToggleBtn->setArrowType(Qt::LeftArrow);
+	 else
+		  splitterToggleBtn->setArrowType(Qt::RightArrow);
+}
 
 void QGCAutoquad::adjustUiForHardware()
 {
@@ -468,6 +510,7 @@ void QGCAutoquad::adjustUiForFirmware()
 //    ui->comboBox_multiRadioMode->setVisible(useRadioSetupParam);
 //    ui->label_multiRadioMode->setVisible(useRadioSetupParam);
     ui->groupBox_tuningChannels->setVisible(usingQuatos || useTunableParams);
+	 ui->checkBox_showAdvRadioCfg->setVisible(useNewControlsScheme);
 
     // radio loss stage 2 failsafe options
     uint8_t idx = ui->SPVR_FS_RAD_ST2->currentIndex();
@@ -635,14 +678,14 @@ void QGCAutoquad::radioType_changed(int idx) {
     }
 }
 
-void QGCAutoquad::on_tab_aq_settings_currentChanged(int idx)
-{
-    Q_UNUSED(idx);
-    QWidget *arg1 = ui->tab_aq_settings->currentWidget();
-    bool vis = !(arg1->objectName() == "tab_aq_esc32" || arg1->objectName() == "tab_aq_generate_para");
-    ui->lbl_aq_fw_version->setVisible(vis);
-    ui->pushButton_save_to_aq->setVisible(vis);
-}
+//void QGCAutoquad::on_tab_aq_settings_currentChanged(int idx)
+//{
+//    Q_UNUSED(idx);
+//    QWidget *arg1 = ui->tab_aq_settings->currentWidget();
+//    bool vis = !(arg1->objectName() == "tab_aq_esc32");
+//    ui->lbl_aq_fw_version->setVisible(vis);
+//    ui->pushButton_save_to_aq->setVisible(vis);
+//}
 
 void QGCAutoquad::on_SPVR_FS_RAD_ST2_currentIndexChanged(int index)
 {
@@ -656,28 +699,6 @@ void QGCAutoquad::on_MOT_ESC_TYPE_currentIndexChanged(int index)
     ui->checkBox_escCalibration->setChecked(false);
     ui->checkBox_escCalibration->setEnabled(!ui->MOT_ESC_TYPE->currentIndex());
     ui->groupBox_escPwm->setEnabled(ui->MOT_ESC_TYPE->currentIndex() != 1);
-}
-
-void QGCAutoquad::splitterCollapseToggle() {
-    QList<int> sz = ui->splitter_aqWidgetSidebar->sizes();
-    static int leftW = qMax(sz.at(0), ui->tabWidget_aq_left->minimumWidth());
-    QList<int> newsz;
-    if (sz.at(0) > 0) {
-        leftW = sz.at(0);
-        newsz << 0 << leftW + sz.at(1);
-        splitterToggleBtn->setArrowType(Qt::RightArrow);
-    } else {
-        newsz << leftW << sz.at(1) - leftW;
-        splitterToggleBtn->setArrowType(Qt::LeftArrow);
-    }
-    ui->splitter_aqWidgetSidebar->setSizes(newsz);
-}
-
-void QGCAutoquad::splitterMoved() {
-    if (ui->splitter_aqWidgetSidebar->sizes().at(0) > 0)
-        splitterToggleBtn->setArrowType(Qt::LeftArrow);
-    else
-        splitterToggleBtn->setArrowType(Qt::RightArrow);
 }
 
 void QGCAutoquad::on_groupBox_tuningChannels_toggled(bool arg1)
@@ -697,6 +718,85 @@ void QGCAutoquad::on_groupBox_autoTrigger_toggled(bool arg1)
 	ui->groupBox_autoTriggerEvents->setVisible(arg1);
 }
 
+void QGCAutoquad::onSwitchValueChanged(QSpinBox *origin, QComboBox *target)
+{
+	if (!origin || !target) {
+		if ( !(origin = qobject_cast<QSpinBox *>(sender())) || !origin->property("swpos_ptr").isValid() ||
+			  !(target = static_cast<QComboBox *>(origin->property("swpos_ptr").value<void *>())) )
+			return;
+	}
+	if (!origin || !target)
+		return;
+
+	target->blockSignals(true);
+	if (origin->value() < -250)
+		target->setCurrentIndex(2);
+	else if (origin->value() > 250)
+		target->setCurrentIndex(0);
+	else
+		target->setCurrentIndex(1);
+	target->blockSignals(false);
+
+	if (!mtx_paramsAreLoading)
+		validateRadioSettings();
+}
+
+void QGCAutoquad::onSwitchPositionChanged(QComboBox *origin, QSpinBox *target)
+{
+	if (!origin || !target) {
+		if ( !(origin = qobject_cast<QComboBox *>(sender())) || !origin->property("value_ptr").isValid() ||
+			  !(target = static_cast<QSpinBox *>(origin->property("value_ptr").value<void *>())) )
+			return;
+	}
+	if (!origin || !target)
+		return;
+
+	target->blockSignals(true);
+	if (origin->currentIndex() == 0)
+		target->setValue(501);
+	else if (origin->currentIndex() == 1)
+		target->setValue(0);
+	else
+		target->setValue(-501);
+	target->blockSignals(false);
+
+	if (!mtx_paramsAreLoading)
+		validateRadioSettings();
+}
+
+void QGCAutoquad::toggleRadioSwitchAdvancedSetup(bool on)
+{
+	QComboBox *cb;
+	ui->label_colHdr_switchValue->setVisible(on);
+	ui->label_colHdr_switchPos->setVisible(!on);
+	ui->CTRL_DBAND_SWTCH->setVisible(on);
+	ui->label_CTRL_DBAND_SWTCH->setVisible(on);
+	if (!on)
+		ui->CTRL_DBAND_SWTCH->setValue(250);
+	foreach (QSpinBox *sb, allRadioSwitchValueBoxes) {
+		if (!sb->property("existsOnboard").toBool() || !(cb = static_cast<QComboBox *>(sb->property("swpos_ptr").value<void *>())))
+			continue;
+		if (!on)
+			onSwitchValueChanged(sb, cb);
+		sb->setVisible(on);
+		cb->setVisible(!on);
+	}
+	ui->checkBox_showAdvRadioCfg->setChecked(on);
+}
+
+void QGCAutoquad::checkRadioSwitchHasAdvancedSetup()
+{
+	bool has = false;
+	foreach (QSpinBox *sb, allRadioSwitchValueBoxes) {
+		if (sb->value() != 0 && sb->value() != -501 && sb->value() != 501) {
+			has = true;
+			break;
+		}
+	}
+	if (ui->CTRL_DBAND_SWTCH->value() != 250)
+		has = true;
+	toggleRadioSwitchAdvancedSetup(has);
+}
 
 // make sure no radio channel assignments conflict
 bool QGCAutoquad::validateRadioSettings(/*int idx*/)
@@ -709,6 +809,7 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
     QMultiMap<QString, QString> usedChannelParams;
     QPair<int, QString> val;
     QSpinBox *val_sb = NULL;
+	 QComboBox *pos_cb = NULL;
     QPushButton *param_pb = NULL;
     QWidget *indicator;
     QString cbname, cbtxt, paramName;
@@ -727,8 +828,8 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
 
         paramName = cbname;
         paramName.replace("_chan", "");
-        val_sb = (QSpinBox *)cb->property("value_ptr").value<void *>();
-        param_pb = (QPushButton *)cb->property("btn_ptr").value<void *>();
+		  val_sb = static_cast<QSpinBox *>(cb->property("value_ptr").value<void *>());
+		  param_pb = static_cast<QPushButton *>(cb->property("btn_ptr").value<void *>());
 
         if (cb->property("essentialPort").isValid())
             essentialPorts.append(cbtxt);
@@ -785,8 +886,9 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
         chan = cbtxt.toUInt(&valid);
         paramName = cbname;
         paramName.replace("_chan", "");
-        indicator = (QWidget *)cb->property("indicator_ptr").value<void *>();
-        val_sb = (QSpinBox *)cb->property("value_ptr").value<void *>();
+		  indicator = static_cast<QWidget *>(cb->property("indicator_ptr").value<void *>());
+		  val_sb = static_cast<QSpinBox *>(cb->property("value_ptr").value<void *>());
+		  pos_cb = static_cast<QComboBox *>(cb->property("swpos_ptr").value<void *>());
 
         if (conflictParams.contains(cbname)) {
             if (essentialPorts.contains(cbtxt)) {
@@ -798,15 +900,21 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
             cb->setStyleSheet("");
 
         if (val_sb) {
-            if (conflictSwitchValues.contains(val_sb->objectName()))
-                val_sb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
-            else
-                val_sb->setStyleSheet("");
+			  if (conflictSwitchValues.contains(val_sb->objectName())) {
+				  val_sb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
+				  if (pos_cb)
+					  pos_cb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
+			  }
+			  else {
+				  val_sb->setStyleSheet("");
+				  if (pos_cb)
+					  pos_cb->setStyleSheet("");
+			  }
         }
 
         if (indicator) {
             if (indicator->property("ind_type").toString() == "value_lbl") {
-                param_pb = (QPushButton *)cb->property("btn_ptr").value<void *>();
+					 param_pb = static_cast<QPushButton *>(cb->property("btn_ptr").value<void *>());
                 if (!param_pb->property("paramValue").toUInt())
                     chan = 0;
             }
@@ -1436,6 +1544,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     QWidget *paraContainer;
     QWidget *paraIndicator;
     QSpinBox *swValBox;
+	 QComboBox *swPosBox;
     QComboBox *tunableValChan;
     QDoubleSpinBox *tunableValDblBox;
 
@@ -1447,10 +1556,13 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         paraContainer = parent->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
         paraIndicator = NULL;
         if (w->property("indicator_ptr").isValid())
-            paraIndicator = (QWidget *)w->property("indicator_ptr").value<void *>();
+				paraIndicator = static_cast<QWidget *>(w->property("indicator_ptr").value<void *>());
         swValBox = NULL;
-        if (w->property("value_ptr").isValid())
-            swValBox = (QSpinBox *)w->property("value_ptr").value<void *>();
+		  swPosBox = NULL;
+		  if (w->property("value_ptr").isValid()) {
+			  swValBox = static_cast<QSpinBox *>(w->property("value_ptr").value<void *>());
+			  swPosBox = static_cast<QComboBox *>(w->property("swpos_ptr").value<void *>());
+		  }
 
         if (!paramaq->paramExistsAQ(paraName)) {
             w->hide();
@@ -1459,12 +1571,18 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
                 paraLabel->hide();
             if (paraContainer)
                 paraContainer->hide();
-            if (swValBox)
-                swValBox->hide();
+				if (swValBox) {
+					swValBox->hide();
+					swValBox->setProperty("existsOnboard", false);
+				}
+				if (swPosBox) {
+					swPosBox->hide();
+					swPosBox->setProperty("existsOnboard", false);
+				}
             if (paraIndicator)
                 paraIndicator->hide();
             if (w->property("channel_ptr").isValid()) {
-               w = (QWidget *)w->property("channel_ptr").value<void *>();
+					w = static_cast<QWidget *>(w->property("channel_ptr").value<void *>());
                if (w)
                    w->setProperty("existsOnboard", false);
             }
@@ -1479,8 +1597,14 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         }
         if (paraContainer)
             paraContainer->show();
-        if (swValBox)
-            swValBox->show();
+		  if (swValBox) {
+			  swValBox->show();
+			  swValBox->setProperty("existsOnboard", true);
+		  }
+		  if (swPosBox) {
+			  swPosBox->show();
+			  swPosBox->setProperty("existsOnboard", false);
+		  }
         if (paraIndicator)
             paraIndicator->show();
 
@@ -1509,8 +1633,8 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
             else
                 valstr = tr("None");
             tmp = (utmp >> 10) & 0x3F; // channel
-            tunableValDblBox = (QDoubleSpinBox *)w->property("scale_ptr").value<void *>();
-            tunableValChan = (QComboBox *)w->property("channel_ptr").value<void *>();
+				tunableValDblBox = static_cast<QDoubleSpinBox *>(w->property("scale_ptr").value<void *>());
+				tunableValChan = static_cast<QComboBox *>(w->property("channel_ptr").value<void *>());
             if (tunableValDblBox && tunableValChan) {
                 tunableValChan->setProperty("existsOnboard", true);
                 tunableValChan->setCurrentIndex(tmp);
@@ -1645,6 +1769,7 @@ void QGCAutoquad::loadParametersToUI() {
 
     mtx_paramsAreLoading = false;
     paramsLoadedForAqBuildNumber = aqBuildNumber;
+	 checkRadioSwitchHasAdvancedSetup();
     validateRadioSettings();
     checkTunableParamsChanged();
     checkLegacyChannelsChanged();
@@ -1764,7 +1889,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         }
         else if (w->property("value_ptr").isValid()) {
             utmp = ((quint32)val_local & 0xFF);
-            swValBox = (QSpinBox *)w->property("value_ptr").value<void *>();
+				swValBox = static_cast<QSpinBox *>(w->property("value_ptr").value<void *>());
             if (swValBox) {
                 utmp |= abs(swValBox->value()) << 8;
                 if (swValBox->value() > 0)
@@ -1774,8 +1899,8 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         }
         else if (w->property("channel_ptr").isValid()) {
             utmp = ((quint32)val_local & 0x3FF);
-            tunableValDblBox = (QDoubleSpinBox *)w->property("scale_ptr").value<void *>();
-            tunableValChan = (QComboBox *)w->property("channel_ptr").value<void *>();
+				tunableValDblBox = static_cast<QDoubleSpinBox *>(w->property("scale_ptr").value<void *>());
+				tunableValChan = static_cast<QComboBox *>(w->property("channel_ptr").value<void *>());
             if (tunableValDblBox && tunableValChan)
                 utmp |= ((tunableValChan->currentIndex() & 0x3F) << 10) | (((quint32)(tunableValDblBox->value() * 10000) & 0xFF) << 16);
             val_local = utmp;
