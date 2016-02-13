@@ -54,7 +54,7 @@ void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
     if (ms > 10000) {
         if (!currentLink || !currentLink->isConnected()) {
             toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 3px; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .3em; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
             toggleActiveUasView(false);
             return;
         }
@@ -64,7 +64,7 @@ void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
     if (timeout) {
         // Alternate colors to increase visibility
         QString color = !((ms / 1000) % 2) ? QGC::colorMagenta.name() : QGC::colorMagenta.dark(250).name();
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .5em; background-color: %2; }").arg(color));
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .3em; background-color: %2; }").arg(color));
         toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
     }
     else if (!toolBarTimeoutLabel->text().isEmpty())
@@ -97,7 +97,7 @@ void QGCToolBar::createUI() {
     toolBarTimeoutLabel = new QLabel(tr("NOT CONNECTED"), this);
     toolBarTimeoutLabel->setToolTip(tr("System connection status, interval since last message if timed out."));
     toolBarTimeoutLabel->setObjectName("toolBarTimeoutLabel");
-    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { background-color: %2; padding: 0 3px; }").arg(QGC::colorMagenta.dark(250).name()));
+    toolBarTimeoutLabel->setStyleSheet(QString("QLabel { background-color: %2; padding: 0 .3em; }").arg(QGC::colorMagenta.dark(250).name()));
     addWidget(toolBarTimeoutLabel);
 
     toolBarSafetyLabel = new QLabel(tr("SAFE"), this);
@@ -190,7 +190,7 @@ void QGCToolBar::createUI() {
 void QGCToolBar::toggleActiveUasView(bool on)
 {
     if (on) {
-        toolBarTimeoutLabel->setStyleSheet(QString(" padding: 0;"));
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel {padding: 0;}"));
         toolBarTimeoutLabel->setText("");
         if (mav)
             toolBarNameLabel->setStyleSheet(QString("QLabel { color: %1; }").arg(mav->getColor().name()));

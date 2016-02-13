@@ -55,7 +55,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN|ESC).+|GMBL_.+_PORT|SIG_.+_PRT|SPVR_VIN_SOURCE|CONFIG_ADJUST_P[0-9]+)$");
     //paramsRadioControls.setPattern("^(RADIO|NAV|GMBL)_.+_(CH|CHAN)$");
     //paramsSwitchControls.setPattern("^(NAV|GMBL|SPVR)_CTRL_[A-Z0-9_]+$");
-    //paramsTunableControls.setPattern("^CONFIG_ADJUST_P[0-9]+$");
+    paramsTunableControls.setPattern("^CONFIG_ADJUST_P[0-9]+$");
     //paramsTunableControlChannels.setPattern("^(QUATOS_.+_KNOB|CONFIG_ADJUST_P[0-9]+_chan)$");
     //paramsNonTunable.setPattern("^((CONFIG|COMM|IMU|LIC|RADIO|SPVR|SIG|TELEMETRY)_.+|(CTRL_PID_TYPE|GMBL_.+_(PORT|CHAN|TILT)|NAV_CTRL_.+|MOT_(CAN|FRAM|ESC_|PWRD_).+|QUATOS_(MM_.+|.+_KNOB)))$");
 
@@ -92,6 +92,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->comboBox_multiRadioMode->addItem(tr("Split"), 1);
 
     ui->SPVR_FS_RAD_ST1->addItem(tr("Position Hold"), 0);
+
+    ui->QUATOS_ENABLE->setId(ui->radioButton_attitude_pid, 0);
+    ui->QUATOS_ENABLE->setId(ui->radioButton_attitude_quatos, 1);
 
     // baud rates
 
@@ -134,9 +137,13 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // Final UI tweaks
 
     ui->label_legacyChannelSwitchWarning->hide();
-    ui->label_adjustParamsChannelSwitchWarning->hide();
+	 ui->label_adjustParamsChannelSwitchWarning->hide();
     ui->groupBox_ppmOptions->hide();
     ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
+
+	 on_groupBox_tuningChannels_toggled(ui->groupBox_tuningChannels->isChecked());
+	 on_groupBox_gimbal_toggled(ui->groupBox_gimbal->isChecked());
+	 on_groupBox_autoTrigger_toggled(ui->groupBox_autoTrigger->isChecked());
 
     // hide some controls which may get shown later based on AQ fw version
     ui->comboBox_multiRadioMode->hide();
@@ -153,8 +160,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->cmdBtn_ConvertTov68AttPIDs->hide();
     ui->container_RADIO_FLAP_CH->hide();
 
-//    ui->widget_controlAdvancedSettings->setVisible(ui->groupBox_controlAdvancedSettings->isChecked());
-//    ui->widget_ppmOptions->setVisible(ui->groupBox_ppmOptions->isChecked());
 
     // save this for easy iteration later
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO|NAV|GMBL)_.+_(CH|CHAN)$")));
@@ -402,8 +407,10 @@ void QGCAutoquad::loadSettings()
     }
 
     ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
-    ui->toolButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
-    ui->groupBox_controlAdvancedSettings->setChecked(settings.value("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked()).toBool());
+	 //ui->toolButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
+	 ui->groupBox_tuningChannels->setChecked(settings.value("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked()).toBool());
+	 ui->groupBox_gimbal->setChecked(settings.value("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked()).toBool());
+	 ui->groupBox_autoTrigger->setChecked(settings.value("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked()).toBool());
 
     settings.endGroup();
     settings.sync();
@@ -425,8 +432,10 @@ void QGCAutoquad::writeSettings()
 
     settings.setValue("SETTINGS_SPLITTER_SIZES", ui->splitter_aqWidgetSidebar->saveState());
     settings.setValue("SETTING_SELECTED_LEFT_TAB", ui->tabWidget_aq_left->currentIndex());
-    settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->toolButton_toggleRadioGraph->isChecked());
-    settings.setValue("ADDL_CTRL_SETTINGS_GRP_STATE", ui->groupBox_controlAdvancedSettings->isChecked());
+	 //settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->toolButton_toggleRadioGraph->isChecked());
+	 settings.setValue("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked());
+	 settings.setValue("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked());
+	 settings.setValue("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked());
 
     settings.sync();
     settings.endGroup();
@@ -442,6 +451,10 @@ void QGCAutoquad::adjustUiForHardware()
     //ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+    QVariant v(0);
+    if (aqHardwareVersion == 8)
+		  v.setValue(1 | 32);  // Qt::ItemIsSelectable | Qt::ItemIsEnabled
+    ui->MOT_ESC_TYPE->model()->setData(ui->MOT_ESC_TYPE->model()->index(1, 0), v, Qt::UserRole - 1);
 }
 
 void QGCAutoquad::adjustUiForFirmware()
@@ -467,7 +480,7 @@ void QGCAutoquad::adjustUiForFirmware()
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
 
     // gimbal auto-triggering options
-    ui->groupBox_gmbl_auto_triggering->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
+	 ui->groupBox_autoTrigger->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
 
     // param widget buttons
     if (paramaq) {
@@ -637,6 +650,14 @@ void QGCAutoquad::on_SPVR_FS_RAD_ST2_currentIndexChanged(int index)
     ui->SPVR_FS_ADD_ALT->setVisible(index == 2);
 }
 
+void QGCAutoquad::on_MOT_ESC_TYPE_currentIndexChanged(int index)
+{
+    Q_UNUSED(index)
+    ui->checkBox_escCalibration->setChecked(false);
+    ui->checkBox_escCalibration->setEnabled(!ui->MOT_ESC_TYPE->currentIndex());
+    ui->groupBox_escPwm->setEnabled(ui->MOT_ESC_TYPE->currentIndex() != 1);
+}
+
 void QGCAutoquad::splitterCollapseToggle() {
     QList<int> sz = ui->splitter_aqWidgetSidebar->sizes();
     static int leftW = qMax(sz.at(0), ui->tabWidget_aq_left->minimumWidth());
@@ -659,10 +680,22 @@ void QGCAutoquad::splitterMoved() {
         splitterToggleBtn->setArrowType(Qt::RightArrow);
 }
 
-//void QGCAutoquad::on_groupBox_ppmOptions_toggled(bool arg1)
-//{
-//    ui->widget_ppmOptions->setVisible(arg1);
-//}
+void QGCAutoquad::on_groupBox_tuningChannels_toggled(bool arg1)
+{
+	 ui->widget_tuningChannels->setVisible(arg1);
+}
+
+void QGCAutoquad::on_groupBox_gimbal_toggled(bool arg1)
+{
+	ui->groupBox_gimbalRoll->setVisible(arg1);
+	ui->groupBox_gimbalPitch->setVisible(arg1);
+}
+
+void QGCAutoquad::on_groupBox_autoTrigger_toggled(bool arg1)
+{
+	ui->groupBox_autoTriggerPulses->setVisible(arg1);
+	ui->groupBox_autoTriggerEvents->setVisible(arg1);
+}
 
 
 // make sure no radio channel assignments conflict
@@ -822,7 +855,7 @@ bool QGCAutoquad::checkTunableParamsChanged()
         QComboBox *tunableValChan;
         QDoubleSpinBox *tunableValDblBox;
 
-        foreach (QWidget *w, ui->groupBox_tuningChannels->findChildren<QWidget *>(QRegExp("^CONFIG_ADJUST_P[0-9]+$"))) {
+        foreach (QWidget *w, ui->groupBox_tuningChannels->findChildren<QWidget *>(paramsTunableControls)) {
             if (w->property("channel_ptr").isValid() && w->property("paramValue").isValid()) {
                 val = (w->property("paramValue").toUInt() & 0x3FF);
                 tunableValDblBox = static_cast<QDoubleSpinBox *>(w->property("scale_ptr").value<void *>());
@@ -876,7 +909,7 @@ bool QGCAutoquad::hasAnyTunableParams()
     quint32 val;
     QComboBox *tunableValChan;
 
-    foreach (QWidget *w, ui->groupBox_tuningChannels->findChildren<QWidget *>(QRegExp("^CONFIG_ADJUST_P[0-9]+$"))) {
+    foreach (QWidget *w, ui->groupBox_tuningChannels->findChildren<QWidget *>(paramsTunableControls)) {
         if (w->property("channel_ptr").isValid() && w->property("paramValue").isValid()) {
             val = w->property("paramValue").toUInt();
             if (!val)
@@ -888,6 +921,9 @@ bool QGCAutoquad::hasAnyTunableParams()
             }
         }
     }
+	 if (ret)
+		 ui->groupBox_tuningChannels->setChecked(true);
+
     return ret;
 }
 
@@ -1529,8 +1565,10 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         // gimbal pitch/roll revese checkboxes
         ui->reverse_gimbal_pitch->setChecked(paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat() < 0);
         ui->reverse_gimbal_roll->setChecked(paramaq->getParaAQ("GMBL_SCAL_ROLL").toFloat() < 0);
+        ui->checkBox_escCalibration->setChecked(paramaq->paramExistsAQ("MOT_ESC_TYPE") && (paramaq->getParaAQ("MOT_ESC_TYPE").toUInt() & 0x800000));
 
         on_SPVR_FS_RAD_ST2_currentIndexChanged(ui->SPVR_FS_RAD_ST2->currentIndex());
+        on_MOT_ESC_TYPE_currentIndexChanged(0);
     }
 
 }
@@ -1548,15 +1586,16 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
 
         foreach (QAbstractButton* abtn, g->buttons()) {
             if (paramaq->paramExistsAQ(paraName)) {
-                abtn->setEnabled(true);
+					 //abtn->setEnabled(true);
                 if (g->exclusive()) { // individual values
                     abtn->setChecked(val.toInt() == g->id(abtn));
                 } else { // bitmask
                     abtn->setChecked((val.toInt() & g->id(abtn)));
                 }
-            } else {
-                abtn->setEnabled(false);
-            }
+				}
+//				else {
+//                abtn->setEnabled(false);
+//            }
         }
     }
 }
@@ -1600,6 +1639,9 @@ void QGCAutoquad::loadParametersToUI() {
         ui->RADIO_SETUP->setCurrentIndex(idx);
         radioType_changed(idx);
     }
+
+    if (paramaq->paramExistsAQ("QUATOS_ENABLE"))
+        setAqHasQuatos(paramaq->getParaAQ("QUATOS_ENABLE").toBool());
 
     mtx_paramsAreLoading = false;
     paramsLoadedForAqBuildNumber = aqBuildNumber;
@@ -1713,8 +1755,12 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
             if (chkstate)
                 val_local = 0.0f - val_local;
-        } else if (paraName == "RADIO_SETUP") {
+        }
+        else if (paraName == "RADIO_SETUP") {
             val_local = (float)calcRadioSetting();
+        }
+        else if (paraName == "MOT_ESC_TYPE" && ui->checkBox_escCalibration->isChecked()) {
+            val_local = ((uint32_t)val_local | 0x800000);
         }
         else if (w->property("value_ptr").isValid()) {
             utmp = ((quint32)val_local & 0xFF);

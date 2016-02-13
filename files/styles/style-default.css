@@ -238,9 +238,12 @@ QToolBar#QGC_TOOLBAR QLabel {
 	 color: #DDDDDF;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
-    border-radius: 4px;
-    padding: 0 3px;
+	 border-radius: 4px;
+	 margin: 0.1em 0;
 	 max-height: 1.5em;
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarSafetyLabel  {
+	/*padding-left: 0;*/
 }
 QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
 	margin: -4px 0 0 0px;
@@ -250,7 +253,7 @@ QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
 QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
     margin-left: 0;
 	 font-size: 12pt;
-    color: #3C7B9E;
+	 color: #3C7B9E;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
 	 color: rgb(100, 232, 255);
@@ -261,7 +264,6 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarAuxModeLabel {
 	 margin-left: 0;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
-    /*font: 12px;*/
     color: yellow;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {

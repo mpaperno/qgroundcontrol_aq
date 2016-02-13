@@ -76,13 +76,16 @@ private slots:
     void radioType_changed(int idx);
     void on_tab_aq_settings_currentChanged(int idx);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
+    void on_MOT_ESC_TYPE_currentIndexChanged(int index);
     void splitterCollapseToggle();
     void splitterMoved();
     bool validateRadioSettings();
     bool checkTunableParamsChanged();
     bool checkLegacyChannelsChanged();
     bool hasAnyTunableParams();
-//  void on_groupBox_ppmOptions_toggled(bool arg1);
+    void on_groupBox_tuningChannels_toggled(bool arg1);
+    void on_groupBox_gimbal_toggled(bool arg1);
+    void on_groupBox_autoTrigger_toggled(bool arg1);
     void on_radioButton_attitude_pid_clicked() { setAqHasQuatos(false); }
     void on_radioButton_attitude_quatos_clicked() { setAqHasQuatos(true); }
 
@@ -214,6 +217,7 @@ private:
     QRegExp fldnameRx;          // these regexes are used for matching field names to AQ params
     QRegExp dupeFldnameRx;
     QRegExp paramsReqRestartRx;
+    QRegExp paramsTunableControls;
     QList<QComboBox *> allRadioChanCombos;
     quint8 paramSaveType;
     int paramsLoadedForAqBuildNumber;
