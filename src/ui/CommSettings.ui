@@ -191,6 +191,9 @@
        <property name="checkable">
         <bool>true</bool>
        </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
        <property name="default">
         <bool>true</bool>
        </property>
@@ -241,6 +244,15 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>connectButton</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>closeButton</tabstop>
+  <tabstop>linkType</tabstop>
+  <tabstop>connectionType</tabstop>
+  <tabstop>linkScrollArea</tabstop>
+  <tabstop>protocolScrollArea</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

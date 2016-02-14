@@ -835,7 +835,7 @@
                      <item row="9" column="0">
                       <widget class="QLabel" name="label_NAV_CTRL_WP_REC">
                        <property name="text">
-                        <string>Wpt. Rec/Skip/Clr</string>
+                        <string>Wpt. Rec/Skp/Clr</string>
                        </property>
                       </widget>
                      </item>
@@ -1643,7 +1643,7 @@
                         <bool>true</bool>
                        </property>
                        <property name="labelStyle" stdset="0">
-                        <string>pad_left_smaller_dim</string>
+                        <string notr="true">pad_left_smaller_dim</string>
                        </property>
                       </widget>
                      </item>
@@ -1665,7 +1665,7 @@
                         <bool>true</bool>
                        </property>
                        <property name="labelStyle" stdset="0">
-                        <string>pad_left_smaller_dim</string>
+                        <string notr="true">pad_left_smaller_dim</string>
                        </property>
                       </widget>
                      </item>
@@ -2020,7 +2020,7 @@
                      <item row="14" column="0" colspan="2">
                       <widget class="QLabel" name="label_GMBL_PSTHR_CHAN">
                        <property name="text">
-                        <string>Passthrough 1</string>
+                        <string>Passthrough</string>
                        </property>
                       </widget>
                      </item>
@@ -2043,7 +2043,7 @@
                         <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
-                        <string>pad_left_smaller_dim</string>
+                        <string notr="true">pad_left_smaller_dim</string>
                        </property>
                       </widget>
                      </item>
@@ -2059,7 +2059,7 @@
                         <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
-                        <string>pad_left_smaller_dim</string>
+                        <string notr="true">pad_left_smaller_dim</string>
                        </property>
                       </widget>
                      </item>
@@ -2075,7 +2075,7 @@
                         <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
-                        <string>pad_left_smaller_dim</string>
+                        <string notr="true">pad_left_smaller_dim</string>
                        </property>
                       </widget>
                      </item>
@@ -2091,7 +2091,7 @@
                         <set>Qt::AlignCenter</set>
                        </property>
                        <property name="labelStyle" stdset="0">
-                        <string>pad_left_smaller_dim</string>
+                        <string notr="true">pad_left_smaller_dim</string>
                        </property>
                       </widget>
                      </item>
@@ -2814,19 +2814,6 @@
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QLabel" name="label_12">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="text">
-                        <string>RC Telemetry:</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
                       <widget class="QSpinBox" name="spinBox_rcGraphRefreshFreq">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2860,7 +2847,7 @@
                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggle radio channel value updates on/off.  Use this to enable the channel monitor indicator next to each control and switch configuration (bar graph or active indicator).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                        <property name="text">
-                        <string/>
+                        <string>RC Telemetry</string>
                        </property>
                        <property name="icon">
                         <iconset resource="../../qgroundcontrol.qrc">
@@ -2872,14 +2859,20 @@
                          <selectedoff>:/files/images/actions/media-playback-start.svg</selectedoff>
                          <selectedon>:/files/images/actions/media-playback-stop.svg</selectedon>:/files/images/actions/media-playback-start.svg</iconset>
                        </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>14</width>
+                         <height>14</height>
+                        </size>
+                       </property>
                        <property name="checkable">
                         <bool>true</bool>
                        </property>
                        <property name="checked">
                         <bool>false</bool>
                        </property>
-                       <property name="autoRaise">
-                        <bool>false</bool>
+                       <property name="toolButtonStyle">
+                        <enum>Qt::ToolButtonTextBesideIcon</enum>
                        </property>
                       </widget>
                      </item>

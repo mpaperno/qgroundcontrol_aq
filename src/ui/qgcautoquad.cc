@@ -140,14 +140,14 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     ui->label_legacyChannelSwitchWarning->hide();
 	 ui->label_adjustParamsChannelSwitchWarning->hide();
-    ui->groupBox_ppmOptions->hide();
-    ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
+	 ui->spinBox_rcGraphRefreshFreq->hide();
+	 ui->groupBox_ppmOptions->hide();
 
 	 on_groupBox_tuningChannels_toggled(ui->groupBox_tuningChannels->isChecked());
 	 on_groupBox_gimbal_toggled(ui->groupBox_gimbal->isChecked());
 	 on_groupBox_autoTrigger_toggled(ui->groupBox_autoTrigger->isChecked());
 
-    // hide some controls which may get shown later based on AQ fw version
+	 // hide some controls which may get shown later based on AQ fw version
     ui->comboBox_multiRadioMode->hide();
     ui->label_multiRadioMode->hide();
     ui->RADIO_AUX3_CH->hide();
@@ -646,11 +646,9 @@ void QGCAutoquad::radioType_changed(int idx) {
     emit hardwareInfoUpdated();
 
     if (radioHasPPM()) { // PPM
-        ui->groupBox_ppmOptions->show();
-        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+		  ui->groupBox_ppmOptions->show();
     } else {
-        ui->groupBox_ppmOptions->hide();
-        ui->groupBox_ppmOptions->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
+		  ui->groupBox_ppmOptions->hide();
     }
 
     if (useRadioSetupParam && ui->RADIO_SETUP->currentIndex() > 0 && ui->comboBox_radioSetup2->currentIndex() > 0) {

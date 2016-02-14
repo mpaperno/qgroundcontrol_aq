@@ -14,6 +14,9 @@
    <string>TeleTabWidget</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QTabWidget" name="TelemetryTabWidget">
      <property name="windowTitle">
@@ -167,6 +170,26 @@ font-size: 11px;</string>
       </widget>
      </item>
      <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>5</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>7</number>
+     </property>
+     <item>
       <widget class="QLabel" name="label_dataSets">
        <property name="text">
         <string>Data Set(s):</string>
@@ -187,32 +210,23 @@ font-size: 11px;</string>
       </widget>
      </item>
      <item>
+      <layout class="QHBoxLayout" name="hLayout_dataSets">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
+      </layout>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>10</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="hLayout_dataSets"/>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>578</width>
+         <width>5</width>
          <height>20</height>
         </size>
        </property>
