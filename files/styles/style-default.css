@@ -56,6 +56,15 @@ QLabel[labelStyle="pad_left_smaller_dim"] {
 	padding: 0;
 }
 
+QLabel[labelStyle="larger"] {
+	font-size: 11pt;
+}
+
+QLabel[labelStyle="gpsFixStatus"] {
+	font-size: 11pt;
+	font-weight: bold;
+}
+
 /*
 	 ProgressBar
 */
@@ -101,6 +110,10 @@ QProgressBar#toolBarRssiBar::chunk:horizontal {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0, stop:0.25 rgba(204, 82, 0, 255), stop:1 rgba(0, 0, 0, 0));
 }
 QProgressBar#loadBar::chunk:horizontal {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0, stop:0.25 rgba(87, 87, 172, 255), stop:1 rgba(0, 0, 0, 0));
+}
+QProgressBar#hAccBar::chunk:horizontal,
+QProgressBar#vAccBar::chunk:horizontal {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0, stop:0.25 rgba(124, 0, 166, 255), stop:1 rgba(0, 0, 0, 0));
 }
 
@@ -131,7 +144,9 @@ QProgressBar#rssiBar::chunk:horizontal:disabled,
 QProgressBar#toolBarRssiBar::chunk:horizontal:disabled,
 QProgressBar#batteryBar::chunk:horizontal:disabled,
 QProgressBar#toolBarBatteryBar::chunk:horizontal:disabled,
-QProgressBar#loadBar::chunk:horizontal:disabled {
+QProgressBar#loadBar::chunk:horizontal:disabled,
+QProgressBar#hAccBar::chunk:horizontal:disabled,
+QProgressBar#vAccBar::chunk:horizontal:disabled {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 100), stop:1 rgba(0, 0, 0, 0));
 }
 QProgressBar::chunk:vertical:disabled {
@@ -171,110 +186,126 @@ QScrollArea > QWidget > QWidget { background: transparent; }
 	 Main application toolbar styling (Operator/Engineer/Pilot/Logging/Replay buttons and battery level bar)
 */
 QToolBar#QGC_TOOLBAR {
-	 max-height: 2.5em;
-    margin: 0;
-    padding: 0;
-    border-bottom: 1px solid #484848;
-    border-top: 1px solid #969696;
-    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #8B8B8B, stop:0.3 #808080, stop:0.34 #747474, stop:1 #484848);
-    padding: 0;
-}
-QToolBar#QGC_TOOLBAR QToolButton  {
-    font-weight: bold;
-    color: #DDDDDF;
-	 height: 1.5em;
-	 /*min-width: 24px;*/
-    border: 1px solid #BBBBBB;
-    border-right-width: 0;
-    border-left-width: 0;
-    border-radius: 0px;
-    margin: 4px 0px;
-    padding: 0 1px;
-    background-color: #222222;
-}
-QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
-    margin-left: 10px;
-    border-left-width: 1px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-QToolBar#QGC_TOOLBAR QToolButton#actionDataView {
-    margin-right: 8px;
-    border-right-width: 1px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-QToolBar#QGC_TOOLBAR QToolButton:hover {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
-}
-QToolBar#QGC_TOOLBAR QToolButton:checked {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2c2c2c, stop: 1 #808080);
-    border-color: #379AC3;
-}
-QToolBar#QGC_TOOLBAR QToolButton:pressed {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
-    border-color: #379AC3;
-}
-QToolBar#QGC_TOOLBAR QWidget#toolBarProgressBarsWdgt {
+	max-height: 2.8em;
 	margin: 0;
 	padding: 0;
-	max-width: 7em;
+	border-bottom: .1em solid #484848;
+	border-top: .1em solid #969696;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #8B8B8B, stop:0.3 #808080, stop:0.34 #747474, stop:1 #484848);
+	padding: 0;
+}
+QToolBar#QGC_TOOLBAR QToolButton  {
+	font-weight: bold;
+	color: #DDDDDF;
+	height: 1.7em;
+	margin: .3em 0;
+	padding: .1em .1em;
+	border: .1em solid #BBBBBB;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-radius: 0;
+	background-color: #222222;
+}
+QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
+	margin-left: .4em;
+	border-left-width: .1em;
+	border-top-left-radius: .4em;
+	border-bottom-left-radius: .4em;
+}
+QToolBar#QGC_TOOLBAR QToolButton#actionDataView {
+	margin-right: .2em;
+	border-right-width: .1em;
+	border-top-right-radius: .4em;
+	border-bottom-right-radius: .4em;
+}
+QToolBar#QGC_TOOLBAR QToolButton:hover {
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
+}
+QToolBar#QGC_TOOLBAR QToolButton:checked {
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2c2c2c, stop: 1 #808080);
+	border-color: #379AC3;
+}
+QToolBar#QGC_TOOLBAR QToolButton:pressed {
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
+	border-color: #379AC3;
+}
+
+QToolBar#QGC_TOOLBAR QWidget[styleType="toolBarStackedWdgt"] {
+	margin: 0 .2em;
+	padding: 0;
 	background-color: transparent;
 }
+
+QToolBar#QGC_TOOLBAR QWidget[styleType="toolBarStackedWdgt"]#toolBarProgressBarsWdgt {
+	margin: 0;
+	max-width: 7.5em;
+}
+
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
-	 margin: .15em 0;
-	 border: 1px solid #4A4A4F;
-	 border-radius: 4px;
-	 text-align: center;
-	 background-color: #caeccb;
-	 max-height: 2em;
-	 padding: 0.00em .1em;
+	max-height: .3em;
+	margin: .1em 0;
+	border: .1em solid #4A4A4F;
+	border-radius: .3em;
+	text-align: center;
+	background-color: #caeccb;
+	padding: 0.00em .1em;
 }
+QToolBar#QGC_TOOLBAR QProgressBar#toolBarBatteryBar:horizontal {
+	margin: .15em 0 .05em;
+}
+QToolBar#QGC_TOOLBAR QProgressBar#toolBarRssiBar:horizontal {
+	margin-bottom: .15em;
+}
+QToolBar#QGC_TOOLBAR QProgressBar#hAccBar {
+	margin-top: 0;
+}
+
 QToolBar#QGC_TOOLBAR QLabel {
-	 font-weight: bold;
-	 font-size: 10.5pt;
-	 margin: 0.1em 0.3em;
-	 background-color: transparent;
-	 color: #DDDDDF;
+	font-weight: bold;
+	font-size: 11.5pt;
+	margin: 0.1em 0.3em;
+	background-color: transparent;
+	color: #DDDDDF;
 }
-QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel {
-	 border-radius: 4px;
-	 margin: 0.1em 0;
-	 max-height: 1.5em;
-}
-QToolBar#QGC_TOOLBAR QLabel#toolBarSafetyLabel  {
-	/*padding-left: 0;*/
+QToolBar#QGC_TOOLBAR QLabel#toolBarTimeoutLabel,
+QToolBar#QGC_TOOLBAR QLabel#toolBarSafetyLabel {
+	border-radius: .4em;
+	margin: 0.1em 0;
+	max-height: 1.6em;
 }
 QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
-	margin: -4px 0 0 0px;
-	padding: 0 0.3em;
-	max-height: 1.5em;
+	margin: -.3em 0 0 0;
+	padding: 0 0 0 0.1em;
+	max-height: 2em;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
-    margin-left: 0;
-	 font-size: 12pt;
-	 color: #3C7B9E;
+	margin-left: 0;
+	font-size: 12pt;
+	color: #3C7B9E;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
-	 color: rgb(100, 232, 255);
-	 margin-right: .05em;
+	color: rgb(100, 232, 255);
+	margin-right: .05em;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarAuxModeLabel {
-	 color: rgb(196, 247, 255);
-	 margin-left: 0;
+	color: rgb(196, 247, 255);
+	margin-left: 0;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel {
-    color: yellow;
+	color: yellow;
+	border-radius: .4em;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
+	margin-right: .5em;
 	margin-left: 0;
-	 font-size: 9pt;
-    /*font-style: italic;*/
+	font-size: 10pt;
 }
-QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel {
-    margin-left: 0;
-	 font-size: 13pt;
-	 color: #00ea00;
+QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel,
+QToolBar#QGC_TOOLBAR QLabel#toolBarGpsFixLabel {
+	margin: 0 .1em 0 0;
+	padding: 0;
+	font-size: 11pt;
+	qproperty-alignment: AlignRight;
 }
 
 QToolBar#QGC_TOOLBAR QLabel:disabled,
@@ -282,7 +313,8 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel:disabled,
-QToolBar#QGC_TOOLBAR QLabel#toolBarSafetyLabel:disabled {
+QToolBar#QGC_TOOLBAR QLabel#toolBarSafetyLabel:disabled,
+QToolBar#QGC_TOOLBAR QLabel#toolBarGpsFixLabel:disabled {
 	color: #868686;
 }
 

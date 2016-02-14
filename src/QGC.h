@@ -72,6 +72,10 @@ const QColor colorDarkYellow(180, 180, 0);
 const QColor colorBackground("#050508");
 const QColor colorBlack(0, 0, 0);
 
+const QColor colorTextOK(0, 204, 0, 255);
+const QColor colorTextWarn(255, 225, 17, 255);
+const QColor colorTextErr(255, 0, 0, 255);
+
 /** @brief Get the current ground time in microseconds */
 quint64 groundTimeUsecs();
 /** @brief Get the current ground time in milliseconds */

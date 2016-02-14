@@ -588,10 +588,10 @@ QCheckBox::indicator:indeterminate:disabled {
     PushButton
 */
 QPushButton {
-	height: 20px;
-	border: 1px solid transparent;
-	border-radius: 2px;
-	padding: 0px 5px;
+	height: 1.5em;
+	border: .1em solid transparent;
+	border-radius: .4em;
+	padding: 0 .4em;
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);
 }
 QPushButton:focus {
@@ -644,13 +644,13 @@ QPushButton[type="push-vital"]:hover {
     ToolButton
 */
 QToolButton {
-    min-height: 18px;
+	 min-height: 1.4em;
     /*max-height: 20px;*/
-    icon-size: 18px;
-	 border: 1px solid transparent;
-    border-radius: 2px;
-    padding-left: 3px;
-    padding-right: 3px;
+	 icon-size: 16px;
+	 border: .1em solid transparent;
+	 border-radius: .3em;
+	 padding-left: .3em;
+	 padding-right: .3em;
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);
 }
 
@@ -670,17 +670,17 @@ QToolButton[autoRaise="true"] {
 
 QToolButton:checked {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #090909, stop: 1 #353535);
-	border: 1px solid #777777;
+	border-color: #777777;
 }
 QToolButton:hover {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #404040, stop: 1 #808080);
 }
 QToolButton[autoRaise="true"]:hover {
-    border: 1px solid #777777;
+	 border-color: #777777;
 }
 QToolButton:pressed {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #bbbbbb, stop: 1 #b0b0b0);
-	border: 1px solid #379AC3;
+	border-color: #379AC3;
 }
 QToolButton::menu-indicator {
     subcontrol-position: right middle;

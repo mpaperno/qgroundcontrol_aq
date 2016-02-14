@@ -49,28 +49,6 @@ QGCToolBar::QGCToolBar(QWidget *parent) :
 
 }
 
-void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
-{
-    if (ms > 10000) {
-        if (!currentLink || !currentLink->isConnected()) {
-            toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
-            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .3em; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
-            toggleActiveUasView(false);
-            return;
-        }
-    }
-
-    // set timeout label visible
-    if (timeout) {
-        // Alternate colors to increase visibility
-        QString color = !((ms / 1000) % 2) ? QGC::colorMagenta.name() : QGC::colorMagenta.dark(250).name();
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .3em; background-color: %2; }").arg(color));
-        toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
-    }
-    else if (!toolBarTimeoutLabel->text().isEmpty())
-        toggleActiveUasView(true);
-}
-
 void QGCToolBar::createUI() {
 
 //    toggleLoggingAction = new QAction(QIcon(":"), "Logging", this);
@@ -120,39 +98,41 @@ void QGCToolBar::createUI() {
     toolBarAuxModeLabel->setObjectName("toolBarAuxModeLabel");
     addWidget(toolBarAuxModeLabel);
 
-    toolBarBatteryBar = new QProgressBar(this);
-    toolBarBatteryBar->setMinimum(0);
-    toolBarBatteryBar->setMaximum(100);
-//    toolBarBatteryBar->setMinimumWidth(20);
-//    toolBarBatteryBar->setMaximumWidth(100);
-    toolBarBatteryBar->setToolTip(tr("Battery charge level"));
-    toolBarBatteryBar->setObjectName("toolBarBatteryBar");
-    //addWidget(toolBarBatteryBar);
-
-    toolBarRssiBar = new QProgressBar(this);
-    toolBarRssiBar->setMinimum(0);
-    toolBarRssiBar->setMaximum(100);
-//    toolBarRssiBar->setMinimumWidth(20);
-//    toolBarRssiBar->setMaximumWidth(100);
-    toolBarRssiBar->setToolTip(tr("Radio reception quality"));
-    toolBarRssiBar->setObjectName("toolBarRssiBar");
-    //addWidget(toolBarRssiBar);
-
-    QWidget *progressBarsWdgt = new QWidget(this);
-    progressBarsWdgt->setObjectName("toolBarProgressBarsWdgt");
-    progressBarsWdgt->setLayout(new QVBoxLayout());
-    progressBarsWdgt->setContentsMargins(0,0,0,0);
-    progressBarsWdgt->layout()->setContentsMargins(0,0,0,0);
-    progressBarsWdgt->layout()->setSpacing(0);
-    progressBarsWdgt->layout()->addWidget(toolBarBatteryBar);
-    progressBarsWdgt->layout()->addWidget(toolBarRssiBar);
-    addWidget(progressBarsWdgt);
-
     toolBarBatteryVoltageLabel = new QLabel("---- V");
     //toolBarBatteryVoltageLabel->setStyleSheet(QString("QLabel { color: %1; }").arg(QColor(Qt::green).name()));
     toolBarBatteryVoltageLabel->setToolTip(tr("Battery voltage"));
     toolBarBatteryVoltageLabel->setObjectName("toolBarBatteryVoltageLabel");
-    addWidget(toolBarBatteryVoltageLabel);
+    //addWidget(toolBarBatteryVoltageLabel);
+
+    toolBarGpsFixLabel = new QLabel("No GPS");
+    toolBarGpsFixLabel->setToolTip(tr("GPS Fix Type"));
+    toolBarGpsFixLabel->setObjectName("toolBarGpsFixLabel");
+    //addWidget(toolBarGpsFixLabel);
+
+
+    QWidget *spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    spacer->setDisabled(true);
+    addWidget(spacer);
+
+    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
+    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
+    toolBarMessageLabel->setObjectName("toolBarMessageLabel");
+    addWidget(toolBarMessageLabel);
+
+    addSeparator();
+
+    QWidget *labelsStackedWdgt = new QWidget(this);
+    labelsStackedWdgt->setObjectName("labelsStackedWdgt");
+    labelsStackedWdgt->setProperty("styleType", "toolBarStackedWdgt");
+    labelsStackedWdgt->setLayout(new QVBoxLayout());
+    labelsStackedWdgt->setContentsMargins(0,0,0,0);
+    labelsStackedWdgt->layout()->setContentsMargins(0,0,0,0);
+    labelsStackedWdgt->layout()->setSpacing(0);
+    labelsStackedWdgt->layout()->addWidget(toolBarBatteryVoltageLabel);
+    labelsStackedWdgt->layout()->addWidget(toolBarGpsFixLabel);
+    addWidget(labelsStackedWdgt);
+
 
 //    toolBarWpLabel = new QLabel("WP--", this);
 //    toolBarWpLabel->setStyleSheet("QLabel { margin: 0px 2px; font: 18px; color: #3C7B9E; }");
@@ -163,10 +143,40 @@ void QGCToolBar::createUI() {
 //	toolBarDistLabel->setToolTip(tr("Distance to current mission"));
 //    addWidget(toolBarDistLabel);
 
-    toolBarMessageLabel = new QLabel(tr("No system messages."), this);
-    toolBarMessageLabel->setToolTip(tr("Most recent system message"));
-    toolBarMessageLabel->setObjectName("toolBarMessageLabel");
-    addWidget(toolBarMessageLabel);
+    toolBarBatteryBar = new QProgressBar(this);
+    toolBarBatteryBar->setMinimum(0);
+    toolBarBatteryBar->setMaximum(100);
+    toolBarBatteryBar->setToolTip(tr("Battery charge level"));
+    toolBarBatteryBar->setObjectName("toolBarBatteryBar");
+    toolBarBatteryBar->setTextVisible(false);
+    //addWidget(toolBarBatteryBar);
+
+    toolBarRssiBar = new QProgressBar(this);
+    toolBarRssiBar->setMinimum(0);
+    toolBarRssiBar->setMaximum(100);
+    toolBarRssiBar->setToolTip(tr("Radio reception quality"));
+    toolBarRssiBar->setObjectName("toolBarRssiBar");
+    toolBarRssiBar->setTextVisible(false);
+    //addWidget(toolBarRssiBar);
+
+    toolBarGpsBar = new QProgressBar(this);
+    toolBarGpsBar->setMinimum(0);
+    toolBarGpsBar->setMaximum(10);
+    toolBarGpsBar->setToolTip(tr("GPS Horizontal Accuracy on a scale of 0 to 10m. The more filled the bar is, the better the accuracy."));
+    toolBarGpsBar->setObjectName("hAccBar");
+    toolBarGpsBar->setTextVisible(false);
+
+    QWidget *progressBarsWdgt = new QWidget(this);
+    progressBarsWdgt->setObjectName("toolBarProgressBarsWdgt");
+    progressBarsWdgt->setProperty("styleType", "toolBarStackedWdgt");
+    progressBarsWdgt->setLayout(new QVBoxLayout());
+    progressBarsWdgt->setContentsMargins(0,0,0,0);
+    progressBarsWdgt->layout()->setContentsMargins(0,0,6,0);
+    progressBarsWdgt->layout()->setSpacing(0);
+    progressBarsWdgt->layout()->addWidget(toolBarBatteryBar);
+    progressBarsWdgt->layout()->addWidget(toolBarRssiBar);
+    progressBarsWdgt->layout()->addWidget(toolBarGpsBar);
+    addWidget(progressBarsWdgt);
 
     // DONE INITIALIZING BUTTONS
 
@@ -189,22 +199,28 @@ void QGCToolBar::createUI() {
 
 void QGCToolBar::toggleActiveUasView(bool on)
 {
-    if (on) {
-        toolBarTimeoutLabel->setStyleSheet(QString("QLabel {padding: 0;}"));
-        toolBarTimeoutLabel->setText("");
-        if (mav)
-            toolBarNameLabel->setStyleSheet(QString("QLabel { color: %1; }").arg(mav->getColor().name()));
-    } else {
-        toolBarSafetyLabel->setStyleSheet("");
-        toolBarNameLabel->setStyleSheet("");
-    }
     toolBarNameLabel->setEnabled(on);
     toolBarSafetyLabel->setEnabled(on);
     toolBarStateLabel->setEnabled(on);
     toolBarModeLabel->setEnabled(on);
     toolBarBatteryBar->setEnabled(on);
     toolBarRssiBar->setEnabled(on);
+    toolBarGpsBar->setEnabled(on);
     toolBarBatteryVoltageLabel->setEnabled(on);
+    toolBarGpsFixLabel->setEnabled(on);
+    if (on) {
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel {padding: 0; margin: 0;}"));
+        toolBarTimeoutLabel->setText("");
+        if (mav)
+            toolBarNameLabel->setStyleSheet(QString("QLabel { color: %1; }").arg(mav->getColor().name()));
+        changed = true;
+    } else {
+        toolBarSafetyLabel->setStyleSheet("");
+        toolBarNameLabel->setStyleSheet("");
+        toolBarBatteryVoltageLabel->setStyleSheet("");
+        toolBarGpsFixLabel->setStyleSheet("");
+        toolBarStateLabel->setStyleSheet("");
+    }
 }
 
 void QGCToolBar::setPerspectiveChangeActions(const QList<QAction*> &actions)
@@ -344,6 +360,7 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
     connect(active, SIGNAL(armingChanged(bool)), this, SLOT(updateArmingState(bool)));
     connect(active, SIGNAL(heartbeatTimeout(bool, unsigned int)), this, SLOT(heartbeatTimeout(bool,unsigned int)));
     connect(active, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
+    connect(active, SIGNAL(valueChanged(int,QString,QString,QVariant,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,QVariant,quint64)));
     if (active->getWaypointManager())
     {
         connect(active->getWaypointManager(), SIGNAL(currentWaypointChanged(quint16)), this, SLOT(updateCurrentWaypoint(quint16)));
@@ -366,6 +383,105 @@ void QGCToolBar::setActiveUAS(UASInterface* active)
 
 //void QGCToolBar::createCustomWidgets() {}
 
+void QGCToolBar::heartbeatTimeout(bool timeout, unsigned int ms)
+{
+    if (ms > 10000) {
+        if (!currentLink || !currentLink->isConnected()) {
+            toolBarTimeoutLabel->setText(tr("DISCONNECTED"));
+            toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .3em; background-color: %2; }").arg(QGC::colorMagenta.dark(250).name()));
+            toggleActiveUasView(false);
+            return;
+        }
+    }
+
+    // set timeout label visible
+    if (timeout) {
+        // Alternate colors to increase visibility
+        QString color = !((ms / 1000) % 2) ? QGC::colorMagenta.name() : QGC::colorMagenta.dark(250).name();
+        toolBarTimeoutLabel->setStyleSheet(QString("QLabel { padding: 0 .3em; background-color: %2; }").arg(color));
+        toolBarTimeoutLabel->setText(tr("CONNECTION LOST: %1 s").arg((ms / 1000.0f), 2, 'f', 1, ' '));
+    }
+    else if (!toolBarTimeoutLabel->text().isEmpty())
+        toggleActiveUasView(true);
+}
+
+void QGCToolBar::updateView()
+{
+    if (!changed)
+        return;
+    QString text;
+    QString color;
+    float gpsPrct;
+
+    changed = false;
+
+//    toolBarDistLabel->setText(tr("%1 m").arg(wpDistance, 6, 'f', 2, '0'));
+//    toolBarWpLabel->setText(tr("WP%1").arg(wpId));
+    toolBarBatteryBar->setValue(batteryPercent);
+    toolBarRssiBar->setValue(rssi);
+
+    if (gpsEph > 0.0f) {
+        gpsPrct = qMin((float)toolBarGpsBar->maximum(), gpsEph);
+        toolBarGpsBar->setValue(toolBarGpsBar->maximum() - qRound(gpsPrct));
+    } else
+        toolBarGpsBar->setValue(0);
+
+    text = tr("No GPS");
+    color = QGC::colorTextErr.name(QColor::HexArgb);
+    if (gpsFixType == 2) {
+        text = tr("GPS 2D");
+        color = QGC::colorTextWarn.name(QColor::HexArgb);
+    }
+    else if (gpsFixType == 3) {
+        text = tr("GPS 3D");
+        color = QGC::colorTextOK.name(QColor::HexArgb);
+    }
+    toolBarGpsFixLabel->setText(text);
+    if (toolBarGpsFixLabel->isEnabled())
+        toolBarGpsFixLabel->setStyleSheet("color: " + color + ";");
+
+    color = QGC::colorTextOK.name(QColor::HexArgb);
+    if (batteryPercent < 5)
+        color = QGC::colorTextErr.name(QColor::HexArgb);
+    else if ((mav->getBatteryRemainingEstimateEnabled() && batteryVoltage < mav->getBatteryWarnVoltage()) || (!mav->getBatteryRemainingEstimateEnabled() && batteryPercent < mav->getBatteryWarnPercent()))
+        color = QGC::colorTextWarn.name(QColor::HexArgb);
+    toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
+    if (toolBarBatteryVoltageLabel->isEnabled())
+        toolBarBatteryVoltageLabel->setStyleSheet("color: " + color + ";");
+
+    color = QGC::colorTextOK.name(QColor::HexArgb);
+    if (systemArmed)
+        color = QGC::colorTextWarn.name(QColor::HexArgb);
+    color.append("; ");
+    if (state.contains(QRegExp("(CRITICAL|EMERGENCY|FAIL)")))
+        color.append("background-color: " % QGC::colorMagenta.name() % ";");
+
+    toolBarStateLabel->setText(state);
+    if (toolBarStateLabel->isEnabled())
+        toolBarStateLabel->setStyleSheet("color: " + color + ";");
+
+    toolBarModeLabel->setText(mode);
+    toolBarAuxModeLabel->setText(auxMode);
+    toolBarNameLabel->setText(systemName);
+    toolBarMessageLabel->setText(lastSystemMessage);
+
+    if (systemArmed)
+    {
+        if (toolBarSafetyLabel->isEnabled())
+            toolBarSafetyLabel->setStyleSheet(QString("QLabel { color: %1; background-color: %2; }").arg(QGC::colorRed.name()).arg(QGC::colorYellow.name()));
+        toolBarSafetyLabel->setText(tr("ARMED"));
+    }
+    else
+    {
+        if (toolBarSafetyLabel->isEnabled())
+            toolBarSafetyLabel->setStyleSheet(QString("QLabel { color: %1; }").arg(QGC::colorTextOK.name(QColor::HexArgb)));
+        else
+            toolBarSafetyLabel->setStyleSheet("");
+        toolBarSafetyLabel->setText(tr("SAFE"));
+    }
+
+}
+
 void QGCToolBar::updateArmingState(bool armed)
 {
     if (systemArmed != armed) {
@@ -385,49 +501,17 @@ void QGCToolBar::updateRSSI(float rssiNormalized)
     }
 }
 
-void QGCToolBar::updateView()
-{
-    if (!changed)
-        return;
-
-//    toolBarDistLabel->setText(tr("%1 m").arg(wpDistance, 6, 'f', 2, '0'));
-//    toolBarWpLabel->setText(tr("WP%1").arg(wpId));
-    toolBarBatteryBar->setValue(batteryPercent);
-    toolBarRssiBar->setValue(rssi);
-    toolBarBatteryVoltageLabel->setText(tr("%1 V").arg(batteryVoltage, 4, 'f', 1, ' '));
-    toolBarStateLabel->setText(state);
-    toolBarModeLabel->setText(mode);
-    toolBarAuxModeLabel->setText(auxMode);
-    toolBarNameLabel->setText(systemName);
-    toolBarMessageLabel->setText(lastSystemMessage);
-
-    if (systemArmed)
-    {
-        if (toolBarSafetyLabel->isEnabled())
-            toolBarSafetyLabel->setStyleSheet(QString("QLabel { color: %1; background-color: %2; }").arg(QGC::colorRed.name()).arg(QGC::colorYellow.name()));
-        toolBarSafetyLabel->setText(tr("ARMED"));
-    }
-    else
-    {
-        if (toolBarSafetyLabel->isEnabled())
-            toolBarSafetyLabel->setStyleSheet("QLabel { color: #14C814; }");
-        else
-            toolBarSafetyLabel->setStyleSheet("");
-        toolBarSafetyLabel->setText(tr("SAFE"));
-    }
-
-    changed = false;
-}
-
 void QGCToolBar::updateWaypointDistance(double distance)
 {
-    if (wpDistance != distance) changed = true;
+    if (wpDistance != distance)
+        changed = true;
     wpDistance = distance;
 }
 
 void QGCToolBar::updateCurrentWaypoint(quint16 id)
 {
-    if (wpId != id) changed = true;
+    if (wpId != id)
+        changed = true;
     wpId = id;
 }
 
@@ -436,7 +520,8 @@ void QGCToolBar::updateBatteryRemaining(UASInterface* uas, double voltage, doubl
     Q_UNUSED(seconds);
     if (mav != uas)
         return;
-    if (batteryPercent != percent || batteryVoltage != voltage) changed = true;
+    if (batteryPercent != percent || batteryVoltage != voltage)
+        changed = true;
     batteryPercent = percent;
     batteryVoltage = voltage;
 }
@@ -458,20 +543,48 @@ void QGCToolBar::updateMode(int system, QString name, QString description)
 {
     if (mav->getUASID() != system)
         return;
-    if (mode != name || auxMode != description)
+    if (mode != name || auxMode != description) {
         changed = true;
-    mode = name;
-    auxMode = description;
-    /* important, immediately update */
-    updateView();
+        mode = name;
+        auxMode = description;
+        /* important, immediately update */
+        updateView();
+    }
+}
+
+void QGCToolBar::updateGpsAcc(const int uasId, const QString &name, const QString &unit, const QVariant val, const quint64 msec)
+{
+    Q_UNUSED(unit);
+    Q_UNUSED(msec);
+    float acc;
+    if (!mav || mav->getUASID() != uasId || !val.isValid())
+        return;
+    if (name.contains(QString("eph"))) {
+        acc = val.toFloat() / 100.0f;
+        if (gpsEph != acc) {
+            changed = true;
+            gpsEph = acc;
+        }
+    }
+    else if (name.contains(QString("epv"))) {
+        acc = val.toFloat() / 100.0f;
+        if (gpsEpv != acc) {
+            changed = true;
+            gpsEpv = acc;
+        }
+    }
+    else if (name.contains(QString("fix_type"))) {
+        if (gpsEpv != val.toUInt()) {
+            changed = true;
+            gpsFixType = val.toUInt();
+        }
+    }
 }
 
 void QGCToolBar::updateName(const QString& name)
 {
     if (systemName != name)
-    {
         changed = true;
-    }
     systemName = name;
 }
 
@@ -555,7 +668,7 @@ void QGCToolBar::receiveTextMessage(int uasid, int componentid, int severity, QS
     Q_UNUSED(componentid);
     Q_UNUSED(severity);
     text = text.trimmed();
-    if (lastSystemMessage != text) changed = true;
+    changed = true;
     lastSystemMessage = text;
 }
 

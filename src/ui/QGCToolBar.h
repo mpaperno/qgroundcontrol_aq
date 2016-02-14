@@ -54,6 +54,8 @@ public slots:
     void updateState(UASInterface* system, QString name, QString description);
     /** @brief Set the system mode */
     void updateMode(int system, QString name, QString description);
+    /** @brief Set the gps accuracies */
+    void updateGpsAcc(const int uasId, const QString &name, const QString &unit, const QVariant val, const quint64 msec);
     /** @brief Update the system name */
     void updateName(const QString& name);
     /** @brief Set the MAV system type */
@@ -103,12 +105,17 @@ protected:
     QLabel* toolBarMessageLabel;
     QProgressBar* toolBarBatteryBar;
     QProgressBar* toolBarRssiBar;
+    QProgressBar* toolBarGpsBar;
     QLabel* toolBarBatteryVoltageLabel;
+    QLabel* toolBarGpsFixLabel;
     QGCMAVLinkLogPlayer* player;
     bool changed;
     float batteryPercent;
     float batteryVoltage;
     float rssi;
+    float gpsEph;
+    float gpsEpv;
+    quint8 gpsFixType;
     int wpId;
     double wpDistance;
     QString state;
