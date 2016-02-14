@@ -20,6 +20,7 @@ WaypointDialog::~WaypointDialog()
 
 void WaypointDialog::showEvent(QShowEvent *event)
 {
+    Q_UNUSED(event)
     loadDefaults();
 }
 

@@ -2878,9 +2878,7 @@
                      </item>
                     </layout>
                    </item>
-                  </layout>
-                  <zorder></zorder>
-                  <zorder></zorder>
+						</layout>
                  </widget>
                 </item>
                 <item row="3" column="2" alignment="Qt::AlignLeft">
@@ -5736,9 +5734,7 @@
           </layout>
           <zorder>groupBox_gimbal</zorder>
           <zorder>container_MOT_ESC_TYPE</zorder>
-          <zorder>groupBox_escPwm</zorder>
-          <zorder>verticalSpacer_3</zorder>
-          <zorder>horizontalSpacer_8</zorder>
+			 <zorder>groupBox_escPwm</zorder>
           <zorder>groupBox_autoTrigger</zorder>
          </widget>
          <widget class="QWidget" name="tab_tiltYawPID">

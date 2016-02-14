@@ -33,8 +33,8 @@ namespace QGCAUTOQUAD {
     const QString APP_NAME = "QGroundControl for AutoQuad";
     const QString APP_ORG = "AutoQuad";
     const QString APP_DOMAIN = "org.autoquad";
-    const QString APP_VERSION_TXT = "1.7 ALPHA 2";
-    const unsigned APP_VERSION = 0x01700002; // bytes: maj|min|patch|build
+    const QString APP_VERSION_TXT = "1.7 BETA 1";
+    const unsigned APP_VERSION = 0x01700004; // bytes: maj|min|patch|build
 }
 
 #endif // QGC_CONFIGURATION_H
