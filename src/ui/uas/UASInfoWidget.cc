@@ -30,6 +30,7 @@ This file is part of the PIXHAWK project
  */
 
 #include "MG.h"
+#include "QGC.h"
 #include "UASInfoWidget.h"
 #include "UASManager.h"
 
@@ -122,6 +123,7 @@ void UASInfoWidget::setWidgetTitle()
     } else {
         ttl += QString(": %1").arg(sys);
         this->setEnabled(false);
+        ui.fixTypeLabel->setStyleSheet("");
     }
 
     ui.label_uavName->setText(ttl);
@@ -161,7 +163,7 @@ void UASInfoWidget::setActiveUAS(UASInterface* uas)
         connect(activeUAS, SIGNAL(errCountChanged(int,QString,QString,int)), this, SLOT(updateErrorCount(int,QString,QString,int)));
         connect(activeUAS, SIGNAL(remoteControlRSSIChanged(float)), this, SLOT(updateRSSI(float)));
         connect(activeUAS, SIGNAL(valueChanged(int,QString,QString,QVariant,quint64)), this, SLOT(updateGpsAcc(int,QString,QString,QVariant,quint64)));
-        connect(activeUAS, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsFix(UASInterface*,int)));
+        // connect(activeUAS, SIGNAL(gpsLocalizationChanged(UASInterface*,int)), this, SLOT(updateGpsFix(UASInterface*,int)));
         connect(activeUAS, SIGNAL(heartbeatTimeout(bool,unsigned int)), this, SLOT(setUASstatus(bool,unsigned int)));
 
         updateTimer->start();
@@ -256,6 +258,8 @@ void UASInfoWidget::updateGpsAcc(const int uasId, const QString &name, const QSt
         gpsEph = val.toFloat()/100.0f;
     else if (name.contains(QString("epv")))
         gpsEpv = val.toFloat()/100.0f;
+    else if (name.contains(QString("fix_type")))
+        gpsFixType = val.toUInt();
 
 }
 
@@ -283,6 +287,7 @@ void UASInfoWidget::refresh()
 {
     QString text;
     QString color;
+    float gpsPrct;
 
     if (activeUAS && activeUAS->getCommunicationStatus() == UASInterface::COMM_CONNECTED) {
         ui.voltageLabel->setText(QString::number(this->voltage, 'f', voltageDecimals));
@@ -301,22 +306,29 @@ void UASInfoWidget::refresh()
         ui.rssiBar->setValue(qMax(0, qMin(static_cast<int>(this->rssi), 100)));
 
         text = tr("No fix");
-        color = "red";
+        color = QGC::colorTextErr.name(QColor::HexArgb);
         if (gpsFixType == 2) {
-            text = tr("2D fix");
-            color = "yellow";
+            text = tr("2D");
+            color = QGC::colorTextWarn.name(QColor::HexArgb);
         }
         else if (gpsFixType == 3) {
-            text = tr("3D fix");
-            color = "green";
+            text = tr("3D");
+            color = QGC::colorTextOK.name(QColor::HexArgb);
         }
         ui.fixTypeLabel->setText(text);
-        ui.fixTypeLabel->setStyleSheet("font-size: 11pt; font-weight: bold; color: " + color + ";");
+        if (ui.fixTypeLabel->isEnabled())
+            ui.fixTypeLabel->setStyleSheet("QLabel {color: " + color + ";}");
 
-        if (gpsEph > 0.0f)
+        if (gpsEph > 0.0f) {
             ui.haccLabel->setText(tr("HAcc:") % " " % QString::number(gpsEph, 'f', 2) + "m");
-        if (gpsEpv > 0.0f)
+            gpsPrct = qMin((float)ui.hAccBar->maximum(), gpsEph);
+            ui.hAccBar->setValue(ui.hAccBar->maximum() - qRound(gpsPrct));
+        }
+        if (gpsEpv > 0.0f) {
             ui.vaccLabel->setText(tr("VAcc:") % " " % QString::number(gpsEpv, 'f', 2) + "m");
+            gpsPrct = qMin((float)ui.vAccBar->maximum(), gpsEpv);
+            ui.vAccBar->setValue(ui.vAccBar->maximum() - qRound(gpsPrct));
+        }
 
         QString errorString;
         QMapIterator<QString, int> i(errors);
@@ -348,9 +360,12 @@ void UASInfoWidget::refresh()
         ui.rssiBar->setValue(0);
 
         ui.fixTypeLabel->setText(tr("No fix"));
-        ui.fixTypeLabel->setStyleSheet("font-size: 11pt; font-weight: bold; color: red;");
+        if (ui.fixTypeLabel->isEnabled())
+            ui.fixTypeLabel->setStyleSheet(QString("QLabel{ color: %1; }").arg(QGC::colorTextErr.name(QColor::HexArgb)));
         ui.haccLabel->setText(tr("HAcc:") % " 0.00");
         ui.vaccLabel->setText(tr("VAcc:") % " 0.00");
+        ui.hAccBar->setValue(0);
+        ui.vAccBar->setValue(0);
 
         if (activeUAS && m_uasTimeout)
             ui.errorLabel->setText(tr("SYSTEM TIMEOUT"));
