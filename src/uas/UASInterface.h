@@ -340,6 +340,10 @@ public slots:
     virtual QString getBatterySpecs() = 0;
     virtual float getBatteryEmptyVoltage() = 0;
     virtual float getBatteryWarnVoltage() = 0;
+    virtual float getBatteryWarnPercent() = 0;
+
+    virtual bool getBatteryRemainingEstimateEnabled() const = 0;
+    virtual void setBatteryRemainingEstimateEnabled(bool value) = 0;
 
 protected:
     QColor color;

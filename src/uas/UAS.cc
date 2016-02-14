@@ -265,6 +265,16 @@ bool UAS::getSelected() const
     return (UASManager::instance()->getActiveUAS() == this);
 }
 
+bool UAS::getBatteryRemainingEstimateEnabled() const
+{
+    return batteryRemainingEstimateEnabled;
+}
+
+void UAS::setBatteryRemainingEstimateEnabled(bool value)
+{
+    batteryRemainingEstimateEnabled = value;
+}
+
 
 
 void UAS::setCmdResponseFilter(const QList<int> &value)
@@ -814,6 +824,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             emit valueChanged(uasId, "GPS_RAW_INT.eph", "m", pos.eph, time);
             emit valueChanged(uasId, "GPS_RAW_INT.epv", "m", pos.epv, time);
+            emit valueChanged(uasId, "GPS_RAW_INT.fix_type", "", pos.fix_type, time);
 
             if ((float)pos.eph/100.0f < 20)
             {
@@ -3005,6 +3016,14 @@ float UAS::getBatteryWarnVoltage()
 {
     if (batteryRemainingEstimateEnabled)
         return warnVoltage;
+    else
+        return -1.0;
+}
+
+float UAS::getBatteryWarnPercent()
+{
+    if (!batteryRemainingEstimateEnabled)
+        return warnLevelPercent;
     else
         return -1.0;
 }

@@ -430,6 +430,9 @@ public:
 
     QList<int> getCmdResponseFilter() const { return cmdResponseFilter; }
 
+    bool getBatteryRemainingEstimateEnabled() const;
+    void setBatteryRemainingEstimateEnabled(bool value);
+
 public slots:
     /** @brief Set the autopilot type */
     void setAutopilotType(int apType)
@@ -461,6 +464,7 @@ public slots:
     QString getBatterySpecs();
     float getBatteryEmptyVoltage();
     float getBatteryWarnVoltage();
+    float getBatteryWarnPercent();
 
     /** @brief Launches the system **/
     void launch(float vspd = 0.0f, float hitRad = 1.0f, float alt = 5.0f, uint8_t frame = MAV_FRAME_GLOBAL_RELATIVE_ALT);
