@@ -161,8 +161,8 @@ void QGCToolBar::createUI() {
 
     toolBarGpsBar = new QProgressBar(this);
     toolBarGpsBar->setMinimum(0);
-    toolBarGpsBar->setMaximum(10);
-    toolBarGpsBar->setToolTip(tr("GPS Horizontal Accuracy on a scale of 0 to 10m. The more filled the bar is, the better the accuracy."));
+    toolBarGpsBar->setMaximum(50);
+    toolBarGpsBar->setToolTip(tr("GPS Horizontal Accuracy on a scale of 0 to 5m. The more filled the bar is, the better the accuracy."));
     toolBarGpsBar->setObjectName("hAccBar");
     toolBarGpsBar->setTextVisible(false);
 
@@ -421,7 +421,7 @@ void QGCToolBar::updateView()
     toolBarRssiBar->setValue(rssi);
 
     if (gpsEph > 0.0f) {
-        gpsPrct = qMin((float)toolBarGpsBar->maximum(), gpsEph);
+        gpsPrct = qMin((float)toolBarGpsBar->maximum(), gpsEph * 10.0f);
         toolBarGpsBar->setValue(toolBarGpsBar->maximum() - qRound(gpsPrct));
     } else
         toolBarGpsBar->setValue(0);

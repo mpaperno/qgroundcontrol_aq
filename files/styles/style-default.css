@@ -56,14 +56,12 @@ QLabel[labelStyle="pad_left_smaller_dim"] {
 	padding: 0;
 }
 
-QLabel[labelStyle="larger"] {
-	font-size: 11pt;
-}
-
-QLabel[labelStyle="gpsFixStatus"] {
+QLabel[labelStyle="gpsFixStatus"],
+QLabel[labelStyle="gpsAcc"] {
 	font-size: 11pt;
 	font-weight: bold;
 }
+
 
 /*
 	 ProgressBar
@@ -77,11 +75,13 @@ QProgressBar {
 }
 QProgressBar:horizontal {
 	height: .8em;
+	width: 3em;  /* acts like a min-width */
 	max-height: .8em;
 	min-height: 0.2em;
 }
 QProgressBar:vertical {
 	width: .8em;
+	height: 3em;  /* acts like a min-height */
 	max-width: .8em;
 	min-width: 0.2em;
 }

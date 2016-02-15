@@ -320,13 +320,13 @@ void UASInfoWidget::refresh()
             ui.fixTypeLabel->setStyleSheet("QLabel {color: " + color + ";}");
 
         if (gpsEph > 0.0f) {
-            ui.haccLabel->setText(tr("HAcc:") % " " % QString::number(gpsEph, 'f', 2) + "m");
-            gpsPrct = qMin((float)ui.hAccBar->maximum(), gpsEph);
+            ui.hAcc->setText(QString::number(gpsEph, 'f', 2));
+            gpsPrct = qMin((float)ui.hAccBar->maximum(), gpsEph * 10.0f);
             ui.hAccBar->setValue(ui.hAccBar->maximum() - qRound(gpsPrct));
         }
         if (gpsEpv > 0.0f) {
-            ui.vaccLabel->setText(tr("VAcc:") % " " % QString::number(gpsEpv, 'f', 2) + "m");
-            gpsPrct = qMin((float)ui.vAccBar->maximum(), gpsEpv);
+            ui.vAcc->setText(QString::number(gpsEpv, 'f', 2));
+            gpsPrct = qMin((float)ui.vAccBar->maximum(), gpsEpv * 10.0f);
             ui.vAccBar->setValue(ui.vAccBar->maximum() - qRound(gpsPrct));
         }
 
@@ -362,8 +362,8 @@ void UASInfoWidget::refresh()
         ui.fixTypeLabel->setText(tr("No fix"));
         if (ui.fixTypeLabel->isEnabled())
             ui.fixTypeLabel->setStyleSheet(QString("QLabel{ color: %1; }").arg(QGC::colorTextErr.name(QColor::HexArgb)));
-        ui.haccLabel->setText(tr("HAcc:") % " 0.00");
-        ui.vaccLabel->setText(tr("VAcc:") % " 0.00");
+        ui.hAcc->setText("0.00");
+        ui.vAcc->setText("0.00");
         ui.hAccBar->setValue(0);
         ui.vAccBar->setValue(0);
 
