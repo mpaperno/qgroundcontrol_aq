@@ -143,6 +143,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 	 ui->spinBox_rcGraphRefreshFreq->hide();
 	 ui->groupBox_ppmOptions->hide();
 
+	 on_groupBox_addlRadioControls_toggled(ui->groupBox_addlRadioControls->isChecked());
 	 on_groupBox_tuningChannels_toggled(ui->groupBox_tuningChannels->isChecked());
 	 on_groupBox_gimbal_toggled(ui->groupBox_gimbal->isChecked());
 	 on_groupBox_autoTrigger_toggled(ui->groupBox_autoTrigger->isChecked());
@@ -425,6 +426,7 @@ void QGCAutoquad::loadSettings()
 
     ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
 	 //ui->toolButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
+	 ui->groupBox_addlRadioControls->setChecked(settings.value("ADDL_RADIO_CONTROLS_GRP_STATE", ui->groupBox_addlRadioControls->isChecked()).toBool());
 	 ui->groupBox_tuningChannels->setChecked(settings.value("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked()).toBool());
 	 ui->groupBox_gimbal->setChecked(settings.value("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked()).toBool());
 	 ui->groupBox_autoTrigger->setChecked(settings.value("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked()).toBool());
@@ -452,6 +454,7 @@ void QGCAutoquad::writeSettings()
     settings.setValue("SETTINGS_SPLITTER_SIZES", ui->splitter_aqWidgetSidebar->saveState());
     settings.setValue("SETTING_SELECTED_LEFT_TAB", ui->tabWidget_aq_left->currentIndex());
 	 //settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->toolButton_toggleRadioGraph->isChecked());
+	 settings.setValue("ADDL_RADIO_CONTROLS_GRP_STATE", ui->groupBox_addlRadioControls->isChecked());
 	 settings.setValue("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked());
 	 settings.setValue("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked());
 	 settings.setValue("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked());
@@ -697,6 +700,11 @@ void QGCAutoquad::on_MOT_ESC_TYPE_currentIndexChanged(int index)
     ui->checkBox_escCalibration->setChecked(false);
     ui->checkBox_escCalibration->setEnabled(!ui->MOT_ESC_TYPE->currentIndex());
     ui->groupBox_escPwm->setEnabled(ui->MOT_ESC_TYPE->currentIndex() != 1);
+}
+
+void QGCAutoquad::on_groupBox_addlRadioControls_toggled(bool arg1)
+{
+	ui->widget_addlRadioControls->setVisible(arg1);
 }
 
 void QGCAutoquad::on_groupBox_tuningChannels_toggled(bool arg1)

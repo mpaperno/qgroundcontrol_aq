@@ -80,6 +80,7 @@ private slots:
 //    void on_tab_aq_settings_currentChanged(int idx);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void on_MOT_ESC_TYPE_currentIndexChanged(int index);
+    void on_groupBox_addlRadioControls_toggled(bool arg1);
     void on_groupBox_tuningChannels_toggled(bool arg1);
     void on_groupBox_gimbal_toggled(bool arg1);
     void on_groupBox_autoTrigger_toggled(bool arg1);
