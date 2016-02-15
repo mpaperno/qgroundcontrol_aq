@@ -14,9 +14,9 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     valGridCol(0),
     aqFwVerMaj(0),
     aqFwVerMin(0),
-    aqFwVerBld(0),
-    currentDataSet(TELEM_DATASET_DEFAULT),
+	 aqFwVerBld(0),
     valuesGridLayout(NULL),
+	 currentDataSet(TELEM_DATASET_DEFAULT),
     btnsDataSets(NULL),
     AqTeleChart(NULL),
     uas(NULL)

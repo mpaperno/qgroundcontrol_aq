@@ -20,6 +20,11 @@
 #if !defined(STYLES_DEFAULT_FILE) && !defined(STYLES_NO_DEFAULT)
     #define STYLES_DEFAULT_FILE  STYLES_PATH "style-default.css"
 #endif
+#ifdef Q_OS_MAC
+	#define STYLES_OS_FILE    STYLES_PATH "default-mac.css"
+//#elif defined(Q_OS_LINUX)
+//	#define STYLES_OS_FILE    STYLES_PATH "default-linux.css"
+#endif
 
 namespace QGC
 

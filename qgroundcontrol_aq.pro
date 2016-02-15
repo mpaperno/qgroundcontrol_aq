@@ -57,7 +57,7 @@ linux-g++* {
 } else : macx* {
 	message(Mac build)
 	CONFIG += MacBuild
-	CONFIG += DoMacDeploy
+	#CONFIG += DoMacDeploy #uncomment or speicfy on cmd-line to run macdeployqt after install steps
 } else {
 	error(Unsupported build type)
 }

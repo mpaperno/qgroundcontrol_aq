@@ -112,15 +112,13 @@ WinBuild:ReleaseBuild {
 MacBuild {
 	TARGETDIR = $${TARGETDIR}/$${TARGET}.app
 	macdeploy.path = $$TARGETDIR
-	macdeploy.extra = $$dirname(QMAKE_QMAKE)/macdeployqt $$TARGETDIR
+	macdeploy.extra = macdeployqt $$TARGETDIR
 
 	frameworks.path = $$TARGETDIR/Contents/Frameworks
 	frameworks.files = $$BASEDIR/libs/lib/Frameworks/*
 	frameworks_nametool.path = $$TARGETDIR
 	frameworks_nametool.extra = install_name_tool -change "@rpath/SDL.framework/Versions/A/SDL" "@executable_path/../Frameworks/SDL.framework/Versions/A/SDL" $$TARGETDIR/Contents/MacOS/$$TARGET
 	INSTALLS += frameworks frameworks_nametool
-
-	ReleaseBuild:DoMacDeploy:INSTALLS += macdeploy
 
 	# extend target dir for subsequent file copy ops
 	TARGETDIR = $${TARGETDIR}/Contents/MacOS
@@ -173,4 +171,6 @@ ReleaseBuild {
 	cssfiles.path = $${TARGETDIR}/files/styles
 	cssfiles.files = $${BASEDIR}/files/styles/*.css
 	INSTALLS += langfiles flagfiles cssfiles
+
+	MacBuild:DoMacDeploy:INSTALLS += macdeploy
 }

@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1275</width>
+    <width>1386</width>
     <height>885</height>
    </rect>
   </property>
@@ -374,9 +374,6 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">padding: 0.2em 0.7em 0.15em;</string>
          </property>
          <property name="text">
           <string>  Save Settings to AQ </string>
@@ -2878,7 +2875,7 @@
                      </item>
                     </layout>
                    </item>
-						</layout>
+                  </layout>
                  </widget>
                 </item>
                 <item row="3" column="2" alignment="Qt::AlignLeft">
@@ -5734,7 +5731,7 @@
           </layout>
           <zorder>groupBox_gimbal</zorder>
           <zorder>container_MOT_ESC_TYPE</zorder>
-			 <zorder>groupBox_escPwm</zorder>
+          <zorder>groupBox_escPwm</zorder>
           <zorder>groupBox_autoTrigger</zorder>
          </widget>
          <widget class="QWidget" name="tab_tiltYawPID">

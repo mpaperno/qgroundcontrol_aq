@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QPair>
 #include <QCoreApplication>
-#include <cstdint>
+#include <stdint.h>
 
 class AQLogParser
 {

@@ -104,7 +104,7 @@ public:
     /** @brief Get the links associated with this robot */
     QList<LinkInterface*>* getLinks();
 
-    const uint32_t getCustomMode() { return customMode; }
+	 uint32_t getCustomMode() { return customMode; }
 
     double getLocalX() const
     {

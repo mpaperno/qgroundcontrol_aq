@@ -1,0 +1,38 @@
+/* Override styles for Mac OS X */
+
+* {
+	font-size: 11pt;
+}
+
+QGroupBox:flat {
+	 padding: .5em 0 0 0;
+	 margin-top: 2ex; /* leave space at the top for the title */
+}
+QGroupBox::title:flat {
+	 top: -.6em;
+	 padding-right: .5em;
+}
+
+QLabel[labelStyle="pad_left_smaller_dim"] {
+	font-size: 9pt;
+}
+
+QLabel[labelStyle="larger"] {
+	font-size: 13pt;
+}
+
+QLabel[labelStyle="gpsFixStatus"] {
+	font-size: 14pt;
+}
+
+QToolBar#QGC_TOOLBAR QLabel {
+	font-size: 16pt;
+}
+
+QToolBar#QGC_TOOLBAR QLabel#toolBarMessageLabel {
+	font-size: 13pt;
+}
+QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel,
+QToolBar#QGC_TOOLBAR QLabel#toolBarGpsFixLabel {
+	font-size: 15pt;
+}

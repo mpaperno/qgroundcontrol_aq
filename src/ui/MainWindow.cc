@@ -1178,6 +1178,12 @@ void MainWindow::reloadStylesheet(const QString file)
         qDebug() << "Loaded stylesheet:" << STYLES_DEFAULT_FILE;
     }
 #endif
+#ifdef STYLES_OS_FILE
+	 if (currentStyle != QGC_MAINWINDOW_STYLE_CUSTOM || loadDefaultStyles) {
+		  style += QGCCore::readFileToString(STYLES_OS_FILE);
+		  qDebug() << "Loaded stylesheet:" << STYLES_OS_FILE;
+	 }
+#endif
 
     if (file.isEmpty() && !styleFileName.isEmpty())
         fileName = styleFileName;

@@ -36,7 +36,7 @@ QLabel[labelStyle="columnLabel"][styleType="compact"] {
 
 QLabel[styleType="indicator"] {
 	min-width: 0.6em;
-	border: .1em solid;
+	border: .05em solid;
 	border-radius: .3em;
 	padding: 0;
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.35 rgba(36, 88, 209, 200), stop:1 rgba(0, 0, 0, 0));
@@ -69,23 +69,25 @@ QLabel[labelStyle="gpsFixStatus"] {
 	 ProgressBar
 */
 QProgressBar {
-	border: .1em solid #4A4A4F;
+	border: .05em solid #4A4A4F;
 	border-radius: .4em;
 	text-align: center;
 	padding: 0.05em .1em;
 	background-color: #f0f0f0;
 }
 QProgressBar:horizontal {
-	 max-height: .8em;
-	 min-height: 0.2em;
+	height: .8em;
+	max-height: .8em;
+	min-height: 0.2em;
 }
 QProgressBar:vertical {
-	 max-width: .8em;
-	 min-width: 0.2em;
+	width: .8em;
+	max-width: .8em;
+	min-width: 0.2em;
 }
 QProgressBar::chunk {
 	background-color: #3C7B9E;
-	border-radius: .3em;
+	border-radius: .25em;
 }
 QProgressBar::chunk:horizontal {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.25 rgba(36, 88, 209, 210), stop:1 rgba(0, 0, 0, 0));
@@ -118,8 +120,9 @@ QProgressBar#vAccBar::chunk:horizontal {
 }
 
 QProgressBar[styleType="radioControls"]:horizontal {
-	border-radius: .3em;
+	border-radius: .2em;
 	max-height: .3em;
+	height: .3em;
 	margin: .2em 0em .4em 2.2em;
 	text-align: top left;
 	padding: 0.01em .11em;
@@ -182,6 +185,8 @@ QLCDNumber:disabled {
 QScrollArea { background: transparent; }
 QScrollArea > QWidget > QWidget { background: transparent; }
 
+/*#pushButton_save_to_aq { padding: 0.2em 0.7em 0.15em; }*/
+
 /*
 	 Main application toolbar styling (Operator/Engineer/Pilot/Logging/Replay buttons and battery level bar)
 */
@@ -200,7 +205,7 @@ QToolBar#QGC_TOOLBAR QToolButton  {
 	height: 1.7em;
 	margin: .3em 0;
 	padding: .1em .1em;
-	border: .1em solid #BBBBBB;
+	border: .05em solid #BBBBBB;
 	border-right-width: 0;
 	border-left-width: 0;
 	border-radius: 0;
@@ -242,12 +247,12 @@ QToolBar#QGC_TOOLBAR QWidget[styleType="toolBarStackedWdgt"]#toolBarProgressBars
 }
 
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
-	max-height: .3em;
+	height: .3em;
 	margin: .1em 0;
-	border: .1em solid #4A4A4F;
+	border: .05em solid #4A4A4F;
 	border-radius: .3em;
 	text-align: center;
-	background-color: #caeccb;
+	background-color: #111118;
 	padding: 0.00em .1em;
 }
 QToolBar#QGC_TOOLBAR QProgressBar#toolBarBatteryBar:horizontal {
@@ -280,7 +285,6 @@ QToolBar#QGC_TOOLBAR QLabel#mavSymbolLabel {
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel {
 	margin-left: 0;
-	font-size: 12pt;
 	color: #3C7B9E;
 }
 QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel {
