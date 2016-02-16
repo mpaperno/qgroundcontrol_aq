@@ -67,11 +67,13 @@ CONFIG(debug, debug|release) {
 	CONFIG += DebugBuild
 	DEFINES += QT_DEBUG
 	STYLES_PATH = $${BASEDIR}/files/styles/
+	DOCFILES_PATH = $${BASEDIR}/files/docs/
 } else:CONFIG(release, debug|release) {
 	message(Release build)
 	CONFIG += ReleaseBuild
 	DEFINES += QT_NO_DEBUG
 	STYLES_PATH = :/files/styles/
+	DOCFILES_PATH = :/files/docs/
 } else {
 	error(Unsupported build type)
 }
@@ -139,6 +141,7 @@ exists(user_config.pri) {
 DEFINES += STYLES_PATH=\\\"$${STYLES_PATH}\\\"
 DEFINES += STYLES_DEFAULT_FILE=\\\"$${STYLES_DEFAULT_FILE}\\\"
 #DEFINES += STYLES_NO_DEFAULT  # define this to skip the base default css entirely
+DEFINES += DOCFILES_PATH=\\\"$${DOCFILES_PATH}\\\"
 
 
 # OS-specific external libs and settings

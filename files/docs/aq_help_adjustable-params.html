@@ -1,0 +1,42 @@
+<html>
+	<head>
+	<style>
+	th { background-color: #CCC; color: #000; vertical-align: top; }
+	</style>
+	</head>
+	<body>
+		<h2>RC-Adjustable Parameters</h2>
+		
+		<p>This feature lets you adjust certain parameters while in-flight. For example to tune attitude settings for PID or Quatos controller.</p>
+		<p><strong>Be very careful when using this option! Use the setup interface with RC Telemetry active to make sure you are getting the desired result before flying!</strong></p>
+		<p>You can control the amount of adjustment applied by setting the Scale parameter described below, and also using your RC Tx to set end-points for the channels being used.
+			For example by setting a small channel output range (end-points close together), you can get very precise adjustment of a parameter over the full physical throw of your
+			knob/slider control.  Conversely, setting a large output range will let you make large adjustments quickly.</p>
+
+		<h3>Scale</h3>
+		<p>This is the multiplier applied to the radio channel value
+			before adjustment of the parameter value. Best explained as a
+			formula where:</p>
+		<p>
+			<span style="font-weight: 600;">Pf</span> is the final parameter value.<br />
+			<span style="font-weight: 600;">Po</span> is the original value from settings.<br />
+			<span style="font-weight: 600;">Rv</span> is the current radio channel value.
+		</p>
+		<p style="font-family: monospace;">Pf = Po + (Po * Rv * Scale)</p>
+		<p>
+			Example, let's say you are adjusting Tilt Rate D starting with
+			default value of <span style="font-weight: 600;">34600</span>,
+			your radio channel value is <span style="font-weight: 600;">-250</span>,
+			and the scale is default of <span style="font-weight: 600;">0.002</span>:
+		</p>
+		<p style="font-family: monospace;">Pf = 34600 + ( 34600 * (-250) * 0.002 ) = 17300</p>
+		<p>You can see the result is exactly half of the original value.
+			Another way to look at the Scale setting is as a percentage, so
+			0.002 means scale the value 0.2% for every radio channel step. 250
+			* 0.2% = 50%, which is our result in the example.</p>
+		<p>You can select a Scale value of up to <span style="font-weight: 600;">0.0255</span>, 
+			which would be 2.55% for every radio value step (very
+			large changes are possible, <span style="font-weight: 600;">be careful!</span>).<br />
+		</p>
+</body>
+</html>

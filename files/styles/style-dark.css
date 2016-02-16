@@ -776,8 +776,16 @@ QSplitter::handle:vertical:hover {
 */
 QFrame[frameShape="4"], QFrame[frameShape="5"] {
 	 color: #666666;
-	 background-color: #666666;
+	 border-radius: .1em;
 }
+QFrame[frameShape="4"] {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(191, 191, 191, 100), stop:1 rgba(0, 0, 0, 0));
+}
+QFrame[frameShape="5"] {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.0, y2:0.5, stop:0.25 rgba(191, 191, 191, 100), stop:1 rgba(0, 0, 0, 0));
+}
+
+
 /*
     ProgressBar
 */
@@ -865,4 +873,3 @@ QFrame#frame_toolbarButtons {
     border: 1px solid #66666B;
     border-radius: 5px;
 }
-

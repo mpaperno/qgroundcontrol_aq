@@ -15,6 +15,9 @@ class SelectAdjustableParamDialog;
 #ifdef INCLUDE_ESC32V2_UI
 class AQEsc32ConfigWidget;
 #endif
+#ifdef INCLUDE_DEVEL_WIDGET
+class AQDevelWidget.h;
+#endif
 
 class QTextEdit;
 class QToolButton;
@@ -73,19 +76,24 @@ private slots:
     void adjustUiForHardware();
     void adjustUiForFirmware();
     void adjustUiForQuatos();
+    void on_tab_aq_settings_currentChanged(int idx);
+    void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
+    void on_MOT_ESC_TYPE_currentIndexChanged(int index);
+    void on_groupBox_gimbal_toggled(bool arg1);
+    void on_groupBox_autoTrigger_toggled(bool arg1);
+
+    // radio config UI
     void setupRadioTypes();
     void setupRadioPorts();
     bool radioHasPPM();
     void radioType_changed(int idx);
-//    void on_tab_aq_settings_currentChanged(int idx);
-    void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
-    void on_MOT_ESC_TYPE_currentIndexChanged(int index);
     void on_groupBox_addlRadioControls_toggled(bool arg1);
     void on_groupBox_tuningChannels_toggled(bool arg1);
-    void on_groupBox_gimbal_toggled(bool arg1);
-    void on_groupBox_autoTrigger_toggled(bool arg1);
+    void on_toolButton_radioHelp_clicked();
+    void on_toolButton_adjParamsHelp_clicked();
     void onSwitchValueChanged(QSpinBox *origin = 0, QComboBox *target = 0);
     void onSwitchPositionChanged(QComboBox *origin = 0, QSpinBox *target = 0);
+    void onTunableParamBtnClick();
     void toggleRadioSwitchAdvancedSetup(bool on);
     void checkRadioSwitchHasAdvancedSetup();
     bool validateRadioSettings();
@@ -118,7 +126,6 @@ private slots:
     void saveAQSettings();
     void saveDialogButtonClicked(QAbstractButton *btn);
     void saveDialogRestartOptionChecked(bool chk);
-    void onTunableParamBtnClick();
     QString paramNameGuiToOnboard(QString paraName);
     int calcRadioSetting();
     void convertPidAttValsToFW68Scales();
@@ -146,18 +153,6 @@ private slots:
     void setFirmwareInfo();
     bool checkAqSerialConnection(QString port = "");
     void paramRequestTimeoutNotify(int readCount, int writeCount);
-    void pushButton_dev1();
-
-#if 0
-    // Tracking
-    void globalPositionChangedAq(UASInterface *, double lat, double lon, double alt, quint64 time);
-    void pushButton_tracking();
-    void pushButton_tracking_file();
-    void prtstexitTR(int);
-    void prtstdoutTR();
-    void prtstderrTR();
-    void sendTracking();
-#endif
 
 /*
  * Variables
@@ -246,28 +241,8 @@ private:
     // ESC32
     AQEsc32ConfigWidget *esc32Cfg;
 #endif
-
-#if 0
-    // Tracking
-    double lat,lon,alt;
-    QProcess ps_tracking;
-    int TrackingIsrunning;
-    QString FileNameForTracking;
-    int TrackingResX;
-    int TrackingResY;
-    int TrackingMoveX;
-    int TrackingMoveY;
-    int OldTrackingMoveX;
-    int OldTrackingMoveY;
-    float focal_lenght;
-    float camera_yaw_offset;
-    float camera_pitch_offset;
-    float pixel_size;
-    int pixelFilterX;
-    int pixelFilterY;
-    float res1,res2;
-    QStringList SplitRes;
-    float currentPosN, currentPosE;
+#ifdef INCLUDE_DEVEL_WIDGET
+    AQDevelWidget *develWdgt;
 #endif
 
 };

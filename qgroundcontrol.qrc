@@ -130,6 +130,9 @@
         <file>files/styles/style-default.css</file>
         <file>files/styles/style-light.css</file>
         <file>files/styles/default-mac.css</file>
+        <file>files/images/actions/question-frame.png</file>
+        <file alias="files/docs/aq_help_radio-settings">files/docs/aq_help_radio-settings.html</file>
+        <file alias="files/docs/aq_help_adjustable-params">files/docs/aq_help_adjustable-params.html</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>

@@ -72,8 +72,10 @@ public:
 
     static QString langPath;     /**< Path of language files.  */
     static QString stylePath;    /**< Path of css files.  */
+    static QString docsPath;     /**< Path of documentation files.  */
 
     static const QString getStyleFilePath() { return stylePath; }
+    static const QString getDocsFilePath() { return docsPath; }
     bool shouldExit(void) { return m_exit; }
 
 public slots:

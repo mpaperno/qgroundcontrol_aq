@@ -80,7 +80,8 @@ FORMS += src/ui/MainWindow.ui \
 	 src/ui/ESCtelemetryWidget.ui \
 	 src/ui/map/GoToWaypointDialog.ui \
 	 src/ui/WaypointDialog.ui \
-	 src/ui/SelectAdjustableParamDialog.ui
+	 src/ui/SelectAdjustableParamDialog.ui \
+	 src/ui/AQDevelWidget.ui
 
 HEADERS += src/MG.h \
 	 src/QGCCore.h \
@@ -198,7 +199,8 @@ HEADERS += src/MG.h \
 	 src/ui/linechart/ChartPlot.h \
 	 src/ui/WaypointDialog.h \
 	 src/ui/SelectAdjustableParamDialog.h \
-	 src/AQLogParser.h
+	 src/AQLogParser.h \
+	 src/ui/AQDevelWidget.h
 
 SOURCES += src/main.cc \
 	 src/QGCCore.cc \
@@ -307,7 +309,8 @@ SOURCES += src/main.cc \
 	 src/ui/linechart/ChartPlot.cc \
 	 src/ui/WaypointDialog.cpp \
 	 src/ui/SelectAdjustableParamDialog.cpp \
-	 src/AQLogParser.cpp
+	 src/AQLogParser.cpp \
+	 src/ui/AQDevelWidget.cpp
 
 
 

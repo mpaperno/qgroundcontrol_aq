@@ -72,6 +72,7 @@ QTranslator* QGCCore::current = 0;
 Translators QGCCore::translators;
 QString QGCCore::langPath = "/files/lang/";
 QString QGCCore::stylePath = STYLES_PATH;
+QString QGCCore::docsPath = DOCFILES_PATH;
 
 /**
  * @brief Constructor for the main application.

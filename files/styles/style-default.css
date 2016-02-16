@@ -35,6 +35,7 @@ QLabel[labelStyle="columnLabel"][styleType="compact"] {
 }
 
 QLabel[styleType="indicator"] {
+	qproperty-text: "";
 	min-width: 0.6em;
 	border: .05em solid;
 	border-radius: .3em;
@@ -50,9 +51,9 @@ QLabel[styleType="tunableValue"] {
 
 QLabel[labelStyle="pad_left_smaller_dim"] {
 	font-size: 7pt;
-	margin: 0 0 .4em .3em;
 	color: rgba(0, 0, 0, 150);
-	text-align: top left;
+	margin: -.2em 0 0 0em;
+	text-align: top;
 	padding: 0;
 }
 
@@ -75,7 +76,7 @@ QProgressBar {
 }
 QProgressBar:horizontal {
 	height: .8em;
-	width: 3em;  /* acts like a min-width */
+	width: 4em;  /* acts like a min-width */
 	max-height: .8em;
 	min-height: 0.2em;
 }
@@ -123,7 +124,7 @@ QProgressBar[styleType="radioControls"]:horizontal {
 	border-radius: .2em;
 	max-height: .3em;
 	height: .3em;
-	margin: .2em 0em .4em 2.2em;
+	margin: .2em 0em .3em 2.2em;
 	text-align: top left;
 	padding: 0.01em .11em;
 }
@@ -153,7 +154,7 @@ QProgressBar#vAccBar::chunk:horizontal:disabled {
 	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 100), stop:1 rgba(0, 0, 0, 0));
 }
 QProgressBar::chunk:vertical:disabled {
-	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 100), stop:1 rgba(0, 0, 0, 0));
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.0, y2:0.5, stop:0.25 rgba(135, 135, 135, 100), stop:1 rgba(0, 0, 0, 0));
 }
 
 
