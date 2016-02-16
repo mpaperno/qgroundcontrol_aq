@@ -246,6 +246,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     adjustUiForHardware();
     adjustUiForFirmware();
     setupRadioPorts();
+    showStatusMessage();
+    ui->widget_buttonBox->setEnabled(false);
 
 #ifdef INCLUDE_ESC32V2_UI
     esc32Cfg = new AQEsc32ConfigWidget(this);
@@ -344,18 +346,6 @@ QGCAutoquad::~QGCAutoquad()
     delete ui;
 }
 
-void QGCAutoquad::changeEvent(QEvent *e)
-{
-    QWidget::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}
-
 void QGCAutoquad::hideEvent(QHideEvent* event)
 {
     if ( VisibleWidget <= 1)
@@ -380,6 +370,24 @@ void QGCAutoquad::showEvent(QShowEvent* event)
     }
     QWidget::showEvent(event);
     emit visibilityChanged(true);
+}
+
+void QGCAutoquad::changeEvent(QEvent *e)
+{
+    QWidget::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
+
+void QGCAutoquad::resizeEvent(QResizeEvent *event)
+{
+    buttonBoxResized();
+    QWidget::resizeEvent(event);
 }
 
 void QGCAutoquad::loadSettings()
@@ -475,13 +483,50 @@ void QGCAutoquad::splitterCollapseToggle() {
 		  splitterToggleBtn->setArrowType(Qt::LeftArrow);
 	 }
 	 ui->splitter_aqWidgetSidebar->setSizes(newsz);
+     buttonBoxResized();
 }
 
 void QGCAutoquad::splitterMoved() {
 	 if (ui->splitter_aqWidgetSidebar->sizes().at(0) > 0)
 		  splitterToggleBtn->setArrowType(Qt::LeftArrow);
 	 else
-		  splitterToggleBtn->setArrowType(Qt::RightArrow);
+         splitterToggleBtn->setArrowType(Qt::RightArrow);
+
+     buttonBoxResized();
+}
+
+void QGCAutoquad::buttonBoxResized()
+{
+    Qt::ToolButtonStyle tbs;
+    int w = ui->widget_buttonBox->size().width();
+
+    tbs = (w > 580) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsRefresh->setToolButtonStyle(tbs);
+
+    tbs = (w > 700) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsLoadDefault->setToolButtonStyle(tbs);
+
+    tbs = (w > 780) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsLoadFlash->setToolButtonStyle(tbs);
+
+    tbs = (w > 850) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsSaveFlash->setToolButtonStyle(tbs);
+
+    ui->btn_paramsLoadSD->setVisible(w > 900);
+    ui->btn_paramsSaveSD->setVisible(w > 900);
+
+    tbs = (w > 920) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsLoadFile->setToolButtonStyle(tbs);
+
+    tbs = (w > 980) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsSaveFile->setToolButtonStyle(tbs);
+
+    tbs = (w > 1050) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsLoadSD->setToolButtonStyle(tbs);
+
+    tbs = (w > 1100) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsSaveSD->setToolButtonStyle(tbs);
+
 }
 
 void QGCAutoquad::adjustUiForHardware()
@@ -1471,6 +1516,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     setConnectedSystemInfoDefaults();
     // do this before we recieve any data stream announcements or messages
     onToggleRadioValuesRefresh(ui->toolButton_toggleRadioGraph->isChecked());
+    ui->widget_buttonBox->setEnabled(true);
 
     uas->editCmdResponseFilter(MAV_CMD_AQ_TELEMETRY, true);
 
@@ -1482,7 +1528,7 @@ void QGCAutoquad::setActiveUAS(UASInterface* uas_ext)
     connect(uas, SIGNAL(systemVersionChanged(int,uint32_t,uint32_t,QString,QString)), this, SLOT(uasVersionChanged(int,uint32_t,uint32_t,QString,QString)));
 
     connect(paramaq, SIGNAL(parameterListUpToDate(uint8_t)), this, SLOT(onParametersLoaded(uint8_t)));
-    connect(paramaq, SIGNAL(paramRequestTimeout(int,int)), this, SLOT(paramRequestTimeoutNotify(int,int)));
+    connect(paramaq, SIGNAL(paramWriteCompleted(int,int,QString)), this, SLOT(onParamWriteCompleted(int,int,QString)));
     connect(paramaq, SIGNAL(parameterListRequested(uint8_t)), this, SLOT(uasConnected(uint8_t)));
 
 #ifdef INCLUDE_DEVEL_WIDGET
@@ -1498,7 +1544,6 @@ void QGCAutoquad::uasDeleted(UASInterface *mav)
 {
     if (uas && mav && mav == uas) {
         removeActiveUAS();
-        toggleRadioValuesUpdate(false);
     }
 }
 
@@ -1515,16 +1560,19 @@ void QGCAutoquad::removeActiveUAS()
         }
         uas = NULL;
         toggleRadioValuesUpdate(false);
+        ui->widget_buttonBox->setEnabled(false);
     }
 }
 
 void QGCAutoquad::setUASstatus(bool timeout, unsigned int ms)
 {
     Q_UNUSED(ms);
-    if (uas) {
-        if (timeout)
-            toggleRadioValuesUpdate(false);
-    }
+    if (!uas)
+        return;
+
+    ui->widget_buttonBox->setEnabled(!timeout);
+    if (timeout)
+        toggleRadioValuesUpdate(false);
 }
 
 void QGCAutoquad::uasVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, QString fwVerStr, QString hwVerStr)
@@ -1542,20 +1590,30 @@ void QGCAutoquad::uasVersionChanged(int uasId, uint32_t fwVer, uint32_t hwVer, Q
     setFirmwareInfo();
 
     QString verStr = QString("AQ FW: v");
+    QString ttStr = "AQ Firmare Version: v";
+    QString t;
     if (aqFirmwareVersion.length()) {
-        verStr += QString("%1").arg(aqFirmwareVersion);
-        verStr += QString(" (%1.%2.%3)").arg((fwVer >> 24) & 0xFF).arg((fwVer >> 16) & 0xFF).arg(aqBuildNumber);
-    }  else
-        verStr += tr(" [unknown]");
+        t = QString("%1").arg(aqFirmwareVersion);
+        verStr += t;
+        ttStr += t % QString(" (%1.%2.%3)").arg((fwVer >> 24) & 0xFF).arg((fwVer >> 16) & 0xFF).arg(aqBuildNumber);
+    }  else {
+        t += tr(" [unknown]");
+        verStr += t;
+        ttStr += t;
+    }
     verStr += " HW: v";
+    ttStr += "\nAQ Hardware Version: v";
     if (aqHardwareVersion) {
-        verStr += QString("%1").arg(QString::number(aqHardwareVersion));
+        t = QString("%1").arg(QString::number(aqHardwareVersion));
         if (aqHardwareRevision > -1)
-            verStr += QString(".%1").arg(QString::number(aqHardwareRevision));
+            t += QString(".%1").arg(QString::number(aqHardwareRevision));
     } else
-        verStr += tr(" [unknown]");
+        t = tr(" [unknown]");
+    verStr += t;
+    ttStr += t;
 
     ui->lbl_aq_fw_version->setText(verStr);
+    ui->lbl_aq_fw_version->setToolTip(ttStr);
 
 }
 
@@ -1780,9 +1838,12 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
     }
 }
 
-void QGCAutoquad::onParametersLoaded(uint8_t component) {
+void QGCAutoquad::onParametersLoaded(uint8_t component)
+{
     if (component != MAV_DEFAULT_SYSTEM_COMPONENT)
         return;
+
+    showStatusMessage();
 
     motPortTypeCAN = paramaq->paramExistsAQ("MOT_CAN") || paramaq->paramExistsAQ("MOT_CANL");
     motPortTypeCAN_H = paramaq->paramExistsAQ("MOT_CANH");
@@ -1855,15 +1916,14 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 {
     float val_uas, val_local;
     quint32 utmp;
-    QString paraName, msg;
+    QString paraName;
     QSpinBox *swValBox;
     QComboBox *tunableValChan;
     QDoubleSpinBox *tunableValDblBox;
     QStringList errors;
     bool ok, chkstate;
     quint8 errLevel = 0;  // 0=no error; 1=soft error; 2=hard error
-    QList<float> changeVals;
-    QMap<QString, QList<float> > changeList; // param name, old val, new val
+    QMap<QString, QPair<float, float> > changeList; // param name, old val, new val
     QMessageBox msgBox;
     QVariant tmp;
 
@@ -1962,14 +2022,8 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
             val_local = utmp;
         }
 
-
-        // FIXME with a real float comparator
-        if (val_uas != val_local) {
-            changeVals.clear();
-            changeVals.append(val_uas);
-            changeVals.append(val_local);
-            changeList.insert(paraName, changeVals);
-        }
+        if (fabs(val_uas - val_local) > 2.0f * FLT_EPSILON)
+            changeList.insert(paraName, QPair<float, float>(val_uas, val_local));
     }
 
     if (errors.size()) {
@@ -2005,122 +2059,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
     }
 
-    if ( changeList.size() ) {
-        paramSaveType = 1;  // save to volatile
-        restartAfterParamSave = false;
-
-        if (interactive) {
-            paramSaveType = 0;
-
-            QString msgBoxText = tr("%n parameter(s) modified:<br>", "one or more params have changed", changeList.size());
-            msg = tr("<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n");
-            QMapIterator<QString, QList<float> > i(changeList);
-            QString val1, val2, restartFlag;
-            bool restartRequired = false;
-            while (i.hasNext()) {
-                i.next();
-                val1.setNum(i.value().at(0), 'g', 8);
-                val2.setNum(i.value().at(1), 'g', 8);
-                restartFlag = "";
-                // check if restart is required for this param
-                if (i.key().contains(paramsReqRestartRx)) {
-                    restartRequired = true;
-                    restartFlag = "* ";
-                }
-
-                msg += QString("<tr><td style=\"padding: 1px 7px 0 1px;\"><span style=\"color: rgba(255, 0, 0, 200); font-weight: bold;\">%1</span>%2</td><td>%3 </td><td>%4</td></tr>\n").arg(restartFlag, i.key(), val1, val2);
-            }
-            msg += "</tbody></table>\n";
-            if (restartRequired)
-                msgBoxText += "<span style=\"color: rgba(255, 0, 0, 200); font-weight: bold;\">* restart required</span>";
-
-            QDialog* dialog = new QDialog(this);
-            dialog->setSizeGripEnabled(true);
-            dialog->setWindowTitle(tr("Verify Changed Parameters"));
-            dialog->setWindowModality(Qt::ApplicationModal);
-            dialog->setWindowFlags(dialog->windowFlags() & ~Qt::WindowContextHelpButtonHint);
-
-            QSizePolicy sizepol(QSizePolicy::Expanding, QSizePolicy::Fixed, QSizePolicy::Label);
-            sizepol.setVerticalStretch(0);
-            QLabel* prompt = new QLabel(msgBoxText, dialog);
-            prompt->setTextFormat(Qt::RichText);
-            prompt->setSizePolicy(sizepol);
-            QLabel* prompt2 = new QLabel(tr("Do you wish to continue?"), dialog);
-            prompt2->setSizePolicy(sizepol);
-
-            QCheckBox* restartOption = new QCheckBox(tr("Restart after save?"), dialog);
-            restartOption->setToolTip(tr("<html><p>Selecting this option will attempt to automatically restart the flight controller after saving parameters. \
-                                         Only do this when saving to permanent memory.  You may loose the link to the flight controller and need to reconnect.</p></html>"));
-            restartOption->setObjectName("chkbox_restart");
-            restartOption->setSizePolicy(sizepol);
-            restartOption->setVisible(aqCanReboot);
-
-            QTextEdit* message = new QTextEdit(msg, dialog);
-            message->setReadOnly(true);
-            message->setAcceptRichText(true);
-
-            QDialogButtonBox* bbox = new QDialogButtonBox(Qt::Horizontal, dialog);
-            QPushButton *btn_saveToRam = bbox->addButton(tr("Save to Volatile Memory"), QDialogButtonBox::AcceptRole);
-            btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
-            btn_saveToRam->setObjectName("btn_saveToRam");
-            btn_saveToRam->setAutoDefault(false);
-            QPushButton *btn_saveToRom = bbox->addButton(tr("Save to Permanent Memory"), QDialogButtonBox::AcceptRole);
-            btn_saveToRom->setToolTip(tr("The settings will be immediately active and persist AFTER flight controller is restarted."));
-            btn_saveToRom->setObjectName("btn_saveToRom");
-            btn_saveToRom->setAutoDefault(false);
-            QPushButton *btn_cancel = bbox->addButton(tr("Cancel"), QDialogButtonBox::RejectRole);
-            btn_cancel->setToolTip(tr("Do not save any settings."));
-            btn_cancel->setDefault(true);
-
-            QVBoxLayout* dlgLayout = new QVBoxLayout(dialog);
-            dlgLayout->setSpacing(8);
-            dlgLayout->addWidget(prompt);
-            dlgLayout->addWidget(message);
-            QHBoxLayout* promptLayout = new QHBoxLayout;
-            promptLayout->setSpacing(8);
-            promptLayout->addWidget(prompt2);
-            promptLayout->addWidget(restartOption);
-            promptLayout->setAlignment(restartOption, Qt::AlignRight);
-            dlgLayout->addLayout(promptLayout);
-            dlgLayout->addWidget(bbox);
-
-            dialog->setLayout(dlgLayout);
-
-            connect(btn_cancel, SIGNAL(clicked()), dialog, SLOT(reject()));
-            connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
-            connect(btn_saveToRom, SIGNAL(clicked()), dialog, SLOT(accept()));
-            connect(bbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(saveDialogButtonClicked(QAbstractButton*)));
-            connect(restartOption, SIGNAL(clicked(bool)), this, SLOT(saveDialogRestartOptionChecked(bool)));
-
-            bool dlgret = dialog->exec();
-            dialog->deleteLater();
-
-            if (dlgret == QDialog::Rejected || !paramSaveType)
-                return false;
-
-        }
-
-        QMapIterator<QString, QList<float> > i(changeList);
-        while (i.hasNext()) {
-            i.next();
-            paramaq->setParaAQ(i.key(), i.value().at(1));
-        }
-
-        if (paramSaveType == 2) {
-            uas->writeParametersToStorageAQ();
-        }
-
-        if (restartAfterParamSave) {
-            MainWindow::instance()->showStatusMessage(tr("Restarting flight controller..."), 4000);
-            QTimer::singleShot(2000, paramaq, SLOT(restartUas()));
-        }
-
-        return true;
-    } else {
-        if (interactive)
-            MainWindow::instance()->showInfoMessage(tr("Warning"), tr("No changed parameters detected.  Nothing saved."));
-        return false;
-    }
+    return saveParamChanges(changeList, interactive);
 }
 
 void QGCAutoquad::saveAQSettings() {
@@ -2129,6 +2068,132 @@ void QGCAutoquad::saveAQSettings() {
         return;
     }
     saveSettingsToAq(ui->tab_aq_settings);
+}
+
+bool QGCAutoquad::saveParamChanges(QMap<QString, QPair<float, float> > changeList, bool interactive)
+{
+    if ( changeList.size() ) {
+        paramSaveType = 1;  // save to volatile
+        restartAfterParamSave = false;
+
+        if (interactive && !showSaveDialog(changeList))
+            return false;
+
+        QMapIterator<QString, QPair<float, float> > i(changeList);
+        while (i.hasNext()) {
+            i.next();
+            paramaq->setParaAQ(i.key(), i.value().second);
+        }
+
+        if (paramSaveType == 2) {
+            uas->writeParametersToStorageAQ();
+        }
+
+        if (restartAfterParamSave) {
+            showStatusMessage(tr("Restarting flight controller..."), 6000);
+            QTimer::singleShot(2000, paramaq, SLOT(restartUas()));
+        }
+
+        return true;
+    }
+    else {
+        if (interactive)
+            MainWindow::instance()->showInfoMessage(tr("Warning"), tr("No changed parameters detected.  Nothing to save."));
+        return false;
+    }
+}
+
+bool QGCAutoquad::showSaveDialog(QMap<QString, QPair<float, float> > changeList)
+{
+    QString msg, msgBoxText, val1, val2, restartFlag;
+    bool restartRequired = false;
+
+    paramSaveType = 0;
+
+    msgBoxText = tr("%n parameter(s) modified:<br>", "one or more params have changed", changeList.size());
+    msg = tr("<table border=\"0\"><thead><tr><th>Parameter </th><th>Old Value </th><th>New Value </th></tr></thead><tbody>\n");
+
+    QMapIterator<QString, QPair<float, float> > i(changeList);
+    while (i.hasNext()) {
+        i.next();
+        val1.setNum(i.value().first, 'g', 8);
+        val2.setNum(i.value().second, 'g', 8);
+        restartFlag = "";
+        // check if restart is required for this param
+        if (i.key().contains(paramsReqRestartRx)) {
+            restartRequired = true;
+            restartFlag = "* ";
+        }
+
+        msg += QString("<tr><td style=\"padding: 1px 7px 0 1px;\"><span style=\"color: rgba(255, 0, 0, 200); font-weight: bold;\">%1</span>%2</td><td>%3 </td><td>%4</td></tr>\n").arg(restartFlag, i.key(), val1, val2);
+    }
+
+    msg += "</tbody></table>\n";
+    if (restartRequired)
+        msgBoxText += "<span style=\"color: rgba(255, 0, 0, 200); font-weight: bold;\">* restart required</span>";
+
+    QDialog* dialog = new QDialog(this);
+    dialog->setSizeGripEnabled(true);
+    dialog->setWindowTitle(tr("Verify Changed Parameters"));
+    dialog->setWindowModality(Qt::ApplicationModal);
+    dialog->setWindowFlags(dialog->windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+    QSizePolicy sizepol(QSizePolicy::Expanding, QSizePolicy::Fixed, QSizePolicy::Label);
+    sizepol.setVerticalStretch(0);
+    QLabel* prompt = new QLabel(msgBoxText, dialog);
+    prompt->setTextFormat(Qt::RichText);
+    prompt->setSizePolicy(sizepol);
+    QLabel* prompt2 = new QLabel(tr("Do you wish to continue?"), dialog);
+    prompt2->setSizePolicy(sizepol);
+
+    QCheckBox* restartOption = new QCheckBox(tr("Restart after save?"), dialog);
+    restartOption->setToolTip(tr("<html><p>Selecting this option will attempt to automatically restart the flight controller after saving parameters. \
+                                 Only do this when saving to permanent memory.  You may loose the link to the flight controller and need to reconnect.</p></html>"));
+    restartOption->setObjectName("chkbox_restart");
+    restartOption->setSizePolicy(sizepol);
+    restartOption->setVisible(aqCanReboot);
+
+    QTextEdit* message = new QTextEdit(msg, dialog);
+    message->setReadOnly(true);
+    message->setAcceptRichText(true);
+
+    QDialogButtonBox* bbox = new QDialogButtonBox(Qt::Horizontal, dialog);
+    QPushButton *btn_saveToRam = bbox->addButton(tr("Save to Volatile Memory"), QDialogButtonBox::AcceptRole);
+    btn_saveToRam->setToolTip(tr("The settings will be immediately active and persist UNTIL the flight controller is restarted."));
+    btn_saveToRam->setObjectName("btn_saveToRam");
+    btn_saveToRam->setAutoDefault(false);
+    QPushButton *btn_saveToRom = bbox->addButton(tr("Save to Permanent Memory"), QDialogButtonBox::AcceptRole);
+    btn_saveToRom->setToolTip(tr("The settings will be immediately active and persist AFTER flight controller is restarted."));
+    btn_saveToRom->setObjectName("btn_saveToRom");
+    btn_saveToRom->setAutoDefault(false);
+    QPushButton *btn_cancel = bbox->addButton(tr("Cancel"), QDialogButtonBox::RejectRole);
+    btn_cancel->setToolTip(tr("Do not save any settings."));
+    btn_cancel->setDefault(true);
+
+    QVBoxLayout* dlgLayout = new QVBoxLayout(dialog);
+    dlgLayout->setSpacing(8);
+    dlgLayout->addWidget(prompt);
+    dlgLayout->addWidget(message);
+    QHBoxLayout* promptLayout = new QHBoxLayout;
+    promptLayout->setSpacing(8);
+    promptLayout->addWidget(prompt2);
+    promptLayout->addWidget(restartOption);
+    promptLayout->setAlignment(restartOption, Qt::AlignRight);
+    dlgLayout->addLayout(promptLayout);
+    dlgLayout->addWidget(bbox);
+
+    dialog->setLayout(dlgLayout);
+
+    connect(btn_cancel, SIGNAL(clicked()), dialog, SLOT(reject()));
+    connect(btn_saveToRam, SIGNAL(clicked()), dialog, SLOT(accept()));
+    connect(btn_saveToRom, SIGNAL(clicked()), dialog, SLOT(accept()));
+    connect(bbox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(saveDialogButtonClicked(QAbstractButton*)));
+    connect(restartOption, SIGNAL(clicked(bool)), this, SLOT(saveDialogRestartOptionChecked(bool)));
+
+    bool dlgret = dialog->exec();
+    dialog->deleteLater();
+
+    return (dlgret != QDialog::Rejected && paramSaveType);
 }
 
 void QGCAutoquad::saveDialogButtonClicked(QAbstractButton* btn) {
@@ -2141,6 +2206,12 @@ void QGCAutoquad::saveDialogButtonClicked(QAbstractButton* btn) {
 
 void QGCAutoquad::saveDialogRestartOptionChecked(bool chk) {
     restartAfterParamSave = chk;
+}
+
+void QGCAutoquad::onParametersChanged(int component, QMap<QString, QPair<float, float> > changes)
+{
+    if (component == MAV_DEFAULT_SYSTEM_COMPONENT)
+        saveParamChanges(changes, true);
 }
 
 QString QGCAutoquad::paramNameGuiToOnboard(QString paraName) {
@@ -2203,6 +2274,67 @@ void QGCAutoquad::convertPidAttValsToFW68Scales() {
     }
 }
 
+
+void QGCAutoquad::on_btn_paramsRefresh_clicked()
+{
+    if (!paramaq)
+        return;
+    paramaq->requestParameterList(MAV_DEFAULT_SYSTEM_COMPONENT);
+}
+
+void QGCAutoquad::on_btn_paramsLoadDefault_clicked()
+{
+    if (!paramaq)
+        return;
+    paramaq->loadOnboardDefaults();
+}
+
+void QGCAutoquad::on_btn_paramsLoadFlash_clicked()
+{
+    if (!paramaq)
+        return;
+    paramaq->readParameters();
+}
+
+void QGCAutoquad::on_btn_paramsSaveFlash_clicked()
+{
+    if (!uas)
+        return;
+    uas->writeParametersToStorageAQ();
+}
+
+void QGCAutoquad::on_btn_paramsLoadSD_clicked()
+{
+    if (!paramaq)
+        return;
+    paramaq->loadParaFromSD();
+}
+
+void QGCAutoquad::on_btn_paramsSaveSD_clicked()
+{
+    if (!paramaq)
+        return;
+    paramaq->saveParaToSD();
+}
+
+void QGCAutoquad::on_btn_paramsLoadFile_clicked()
+{
+    if (!paramaq)
+        return;
+
+    connect(paramaq, SIGNAL(parametersChanged(int,QMap<QString,QPair<float,float> >)), this, SLOT(onParametersChanged(int,QMap<QString,QPair<float,float> >)));
+    bool ret = paramaq->loadParameters();
+    disconnect(paramaq, SIGNAL(parametersChanged(int,QMap<QString,QPair<float,float> >)), this, 0);
+    if (!ret)
+        showStatusMessage(tr("No changed parameters detected, nothing to load."), 4000);
+}
+
+void QGCAutoquad::on_btn_paramsSaveFile_clicked()
+{
+    if (!paramaq)
+        return;
+    paramaq->saveParameters();
+}
 
 
 //
@@ -2287,8 +2419,10 @@ void QGCAutoquad::extProcessError(QProcess::ProcessError err) {
 
 void QGCAutoquad::uasConnected(uint8_t component)
 {
-    if (component == MAV_DEFAULT_SYSTEM_COMPONENT)
+    if (component == MAV_DEFAULT_SYSTEM_COMPONENT) {
         uas->sendCommmandToAq(MAV_CMD_AQ_REQUEST_VERSION, 1);
+        showStatusMessage(tr("Parameter list requested, please wait..."));
+    }
 }
 
 void QGCAutoquad::setConnectedSystemInfoDefaults()
@@ -2393,7 +2527,32 @@ bool QGCAutoquad::checkAqSerialConnection(QString port) {
     return IsConnected;
 }
 
-void QGCAutoquad::paramRequestTimeoutNotify(int readCount, int writeCount) {
-    MainWindow::instance()->showStatusMessage(tr("PARAMETER READ/WRITE TIMEOUT! Missing: %1 read, %2 write.").arg(readCount).arg(writeCount));
+void QGCAutoquad::onParamWriteCompleted(int component, int writeStatCode, QString writeStatus)
+{
+    Q_UNUSED(component)
+    showStatusMessage(writeStatus, writeStatCode ? 0 : 4000);
+    qDebug() << writeStatus;
+}
+
+void QGCAutoquad::showStatusMessage(const QString &msg, const uint32_t timeout)
+{
+    if (statusMsgTimer.remainingTime() > 0 && msg.isEmpty())
+        return;
+
+    if (msg.isEmpty())
+        ui->statusDisplay->hide();
+    else {
+        statusMsgTimer.stop();
+        ui->statusDisplay->show();
+        ui->statusDisplay->setText(msg);
+    }
+
+    if (timeout) {
+        statusMsgTimer.setInterval(timeout);
+        statusMsgTimer.setSingleShot(true);
+        connect(&statusMsgTimer, SIGNAL(timeout()), this, SLOT(showStatusMessage()));
+        statusMsgTimer.start();
+        //QTimer::singleShot(timeout, this, SLOT(showStatusMessage()));
+    }
 }
 

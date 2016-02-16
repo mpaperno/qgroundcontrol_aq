@@ -133,6 +133,15 @@
         <file>files/images/actions/question-frame.png</file>
         <file alias="files/docs/aq_help_radio-settings">files/docs/aq_help_radio-settings.html</file>
         <file alias="files/docs/aq_help_adjustable-params">files/docs/aq_help_adjustable-params.html</file>
+        <file>files/images/actions/arrow-circle.png</file>
+        <file>files/images/actions/arrow-return-180-left.png</file>
+        <file>files/images/actions/binary_upload.png</file>
+        <file>files/images/actions/drive-download.png</file>
+        <file>files/images/actions/drive-upload.png</file>
+        <file>files/images/actions/folder--arrow.png</file>
+        <file>files/images/actions/sd-memory-card_read.png</file>
+        <file>files/images/actions/sd-memory-card_write.png</file>
+        <file>files/images/actions/folder-horizontal-open-table.png</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>

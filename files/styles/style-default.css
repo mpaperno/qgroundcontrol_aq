@@ -63,6 +63,12 @@ QLabel[labelStyle="gpsAcc"] {
 	font-weight: bold;
 }
 
+QLabel[styleType="aqParamsStatus"] {
+	qproperty-alignment: AlignRight;
+	font-weight: bold;
+	margin: 0 .1em .3em 0;
+}
+
 
 /*
 	 ProgressBar

@@ -92,7 +92,7 @@ public slots:
     void saveConfigFile(QString file);
     void loadCustomConfig(int numMotors);
     void loadOnboardConfig(void);
-    quint8 saveOnboardConfig(QMap<QString, QList<float> > *changeList, QStringList *errors);
+    quint8 saveOnboardConfig(QMap<QString, QPair<float, float> > *changeList, QStringList *errors);
     void loadFrameTypes(void);
     bool validateForm(void);
     bool convertXmlFile(QString &file);

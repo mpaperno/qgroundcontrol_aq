@@ -120,6 +120,9 @@ DEFINES += MAVLINK_NO_DATA
 # Include ESC32v2 setup GUI
 #DEFINES += INCLUDE_ESC32V2_UI
 
+# Include test/development tab in AQ settings widget
+#DEFINES += INCLUDE_DEVEL_WIDGET
+
 # if the variable MAVLINK_CONF contains the name of an
 # additional project, QGroundControl includes the support
 # of custom MAVLink messages of this project. It will also

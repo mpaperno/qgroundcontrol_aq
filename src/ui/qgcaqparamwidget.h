@@ -44,7 +44,6 @@ signals:
     void requestParameter(int component, int parameter);
     /** @brief Request a single parameter by name */
     void requestParameter(int component, const QString& parameter);
-    void paramRequestTimeout(int readCount, int writeCount);
     void parameterListRequested(uint8_t component);
 
 public slots:
@@ -76,7 +75,7 @@ public slots:
     /** @brief Store parameters to a file */
     void saveParameters(int fileFormat = 1);  // fileFormat: 0 = QGC format, 1 = AQ params.txt format
     /** @brief Load parameters from a file */
-    void loadParameters();
+    bool loadParameters();
 
     /** @brief Check for missing parameters */
     void retransmissionGuardTick();

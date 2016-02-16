@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1078</width>
-    <height>965</height>
+    <width>1110</width>
+    <height>941</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,7 +28,7 @@
     <number>5</number>
    </property>
    <property name="bottomMargin">
-    <number>5</number>
+    <number>4</number>
    </property>
    <item row="0" column="0">
     <widget class="QSplitter" name="splitter_aqWidgetSidebar">
@@ -367,58 +367,7 @@
        <property name="verticalSpacing">
         <number>7</number>
        </property>
-       <item row="1" column="1" alignment="Qt::AlignRight|Qt::AlignTop">
-        <widget class="QPushButton" name="pushButton_save_to_aq">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>  Save Settings to AQ </string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../qgroundcontrol.qrc">
-           <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>18</width>
-           <height>18</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lbl_aq_fw_version">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip">
-          <string>AutoQuad firmware version</string>
-         </property>
-         <property name="statusTip">
-          <string>AutoQuad firmware version</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::NoFrame</enum>
-         </property>
-         <property name="text">
-          <string>AutoQuad Firmware Version: [not connected]</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-         <property name="margin">
-          <number>5</number>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
+       <item row="0" column="0" colspan="3">
         <widget class="QTabWidget" name="tab_aq_settings">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -442,6 +391,9 @@
           <layout class="QGridLayout" name="gridLayout_4">
            <property name="topMargin">
             <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
            </property>
            <property name="spacing">
             <number>0</number>
@@ -867,6 +819,9 @@
                <layout class="QGridLayout" name="gridLayout_21">
                 <property name="topMargin">
                  <number>7</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>3</number>
                 </property>
                 <property name="spacing">
                  <number>0</number>
@@ -9421,10 +9376,356 @@
          </widget>
         </widget>
        </item>
+       <item row="1" column="0" colspan="3">
+        <widget class="QWidget" name="widget_buttonBox" native="true">
+         <layout class="QGridLayout" name="gridLayout_19">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="horizontalSpacing">
+           <number>3</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0" colspan="12">
+           <widget class="QLabel" name="statusDisplay">
+            <property name="text">
+             <string>Messages</string>
+            </property>
+            <property name="styleType" stdset="0">
+             <string>aqParamsStatus</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QToolButton" name="btn_paramsRefresh">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh this view of currently active onboard parameters. Any changes you made will be lost.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Refresh</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/arrow-circle.png</normaloff>:/files/images/actions/arrow-circle.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="11">
+           <widget class="QToolButton" name="pushButton_save_to_aq">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Send the currently displayed settings to the flight controller. You will be able to review the changes (if any) and have the option to cancel. Settings can be saved to temporary (running) memory, and optionally to permanent (flash) storage memory. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Save to AQ...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</normaloff>:/files/images/contrib/AQ_logo_quad-only_outlined_112px.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QToolButton" name="btn_paramsLoadFlash">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load parameters from onboard flash memory into active running memory and show them here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Load Flash</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/drive-upload.png</normaloff>:/files/images/actions/drive-upload.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lbl_aq_fw_version">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>AutoQuad firmware version</string>
+            </property>
+            <property name="statusTip">
+             <string>AutoQuad firmware version</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="text">
+             <string>AQ Version: [not connected]</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <spacer name="horizontalSpacer_14">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>10</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="8">
+           <widget class="QToolButton" name="btn_paramsLoadFile">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load parameters from a local file into this interface. You can then save them to the flight controller if you want.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Load File</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/folder-horizontal-open-table.png</normaloff>:/files/images/actions/folder-horizontal-open-table.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="9">
+           <widget class="QToolButton" name="btn_paramsSaveFile">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save currently loaded parameters to a local file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Save File</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/folder--arrow.png</normaloff>:/files/images/actions/folder--arrow.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="7">
+           <widget class="QToolButton" name="btn_paramsSaveSD">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save currently loaded parameters to onboard disk storage. You will need a memory card inserted/attached to the flight controller.  Next time AQ is started, it will load these parameter values, overriding any other settings (defaults or loaded from flash memory).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Save SD</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/sd-memory-card_write.png</normaloff>:/files/images/actions/sd-memory-card_write.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <widget class="QToolButton" name="btn_paramsLoadSD">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load parameters from onboard disk storage (SD card) into active running memory and show them here.  This does not automatcially save the parameters to flash memory. &lt;/p&gt;&lt;p&gt;You will need a memory card inserted/attached to the flight controller with a PARAMS.txt file already on it.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Load SD</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/sd-memory-card_read.png</normaloff>:/files/images/actions/sd-memory-card_read.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QToolButton" name="btn_paramsLoadDefault">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load default parameter values into active running memory and show them here.  Default values are not stored to onboard flash memory unless you specifically do so afterwards.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Load Defaults</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/arrow-return-180-left.png</normaloff>:/files/images/actions/arrow-return-180-left.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QToolButton" name="btn_paramsSaveFlash">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copy current parameters in non-permanent memory of the aircraft to permanent memory. If you have modified any parameters, save or transmit them first.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Write Flash</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../qgroundcontrol.qrc">
+              <normaloff>:/files/images/actions/drive-download.png</normaloff>:/files/images/actions/drive-download.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="10">
+           <spacer name="horizontalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>3</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
       </layout>
-      <zorder>tab_aq_settings</zorder>
-      <zorder>pushButton_save_to_aq</zorder>
-      <zorder>lbl_aq_fw_version</zorder>
      </widget>
     </widget>
    </item>
@@ -9433,7 +9734,6 @@
  <tabstops>
   <tabstop>tabWidget_aq_left</tabstop>
   <tabstop>tab_aq_settings</tabstop>
-  <tabstop>pushButton_save_to_aq</tabstop>
   <tabstop>RADIO_TYPE</tabstop>
   <tabstop>RADIO_SETUP</tabstop>
   <tabstop>comboBox_radioSetup2</tabstop>

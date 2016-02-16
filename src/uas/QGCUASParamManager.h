@@ -73,7 +73,9 @@ public:
 signals:
     void parameterChanged(int component, QString parameter, QVariant value);
     void parameterChanged(int component, int parameterIndex, QVariant value);
+    void parametersChanged(int component, QMap<QString, QPair<float, float> > changes);
     void parameterListUpToDate(uint8_t component);
+    void paramWriteCompleted(int component, int status, QString message);
 
 public slots:
     /** @brief Write one parameter to the MAV */

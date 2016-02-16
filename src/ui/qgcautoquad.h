@@ -56,6 +56,7 @@ protected:
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
     void changeEvent(QEvent *e);
+    void resizeEvent(QResizeEvent * event);
 
 signals:
     void visibilityChanged(bool visible);
@@ -73,6 +74,7 @@ private slots:
     // UI handlers
     void splitterCollapseToggle();
     void splitterMoved();
+    void buttonBoxResized();
     void adjustUiForHardware();
     void adjustUiForFirmware();
     void adjustUiForQuatos();
@@ -124,10 +126,21 @@ private slots:
     void onParametersLoaded(uint8_t component);
     void loadParametersToUI();
     void saveAQSettings();
+    bool saveParamChanges(QMap<QString, QPair<float, float> > changeList, bool interactive);
+    bool showSaveDialog(QMap<QString, QPair<float, float> > changeList);
     void saveDialogButtonClicked(QAbstractButton *btn);
     void saveDialogRestartOptionChecked(bool chk);
+    void onParametersChanged(int component, QMap<QString, QPair<float, float> > changes);
     QString paramNameGuiToOnboard(QString paraName);
     int calcRadioSetting();
+    void on_btn_paramsRefresh_clicked();
+    void on_btn_paramsLoadFlash_clicked();
+    void on_btn_paramsSaveFlash_clicked();
+    void on_btn_paramsLoadDefault_clicked();
+    void on_btn_paramsLoadSD_clicked();
+    void on_btn_paramsSaveSD_clicked();
+    void on_btn_paramsSaveFile_clicked();
+    void on_btn_paramsLoadFile_clicked();
     void convertPidAttValsToFW68Scales();
 
     // Radio channels display
@@ -152,7 +165,8 @@ private slots:
     void setHardwareInfo();
     void setFirmwareInfo();
     bool checkAqSerialConnection(QString port = "");
-    void paramRequestTimeoutNotify(int readCount, int writeCount);
+    void onParamWriteCompleted(int component, int writeStatCode, QString writeStatus);
+    void showStatusMessage(const QString &msg = "", const uint32_t timeout = 0);
 
 /*
  * Variables
@@ -234,6 +248,7 @@ private:
     bool m_initComplete;
     bool m_configTelemIsRunning;
     QString UsersParamsFile;
+    QTimer statusMsgTimer;
     QTextEdit* activeProcessStatusWdgt;
     SelectAdjustableParamDialog *m_selectAdjParamsDialog;
 

@@ -785,7 +785,7 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
         loadedMixMetaData.craftName = aq->getUAS()->getUASName();
 }
 
-quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeList, QStringList *errors) {
+quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QPair<float, float> > *changeList, QStringList *errors) {
 
     if (!aq->checkAqConnected(true))
         return 2;
@@ -798,7 +798,6 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
     uint16_t motCAN = 0, motCAN_H = 0;
     motorPortSettings mot, pconfig;
     QMap<QString, float> configMap;
-    QList<float> changeVals;
     quint8 err = 0; // 0=no error, 1=soft error, 2=fatal error
 
     validateForm();
@@ -912,12 +911,8 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QList<float> > *changeL
         mi.next();
         if (paramHandler->paramExistsAQ(mi.key())) {
             val_uas = paramHandler->getParaAQ(mi.key()).toFloat();
-            if (val_uas != mi.value()) {
-                changeVals.clear();
-                changeVals.append(val_uas);
-                changeVals.append(mi.value());
-                changeList->insert(mi.key(), changeVals);
-            }
+            if (val_uas != mi.value())
+                changeList->insert(mi.key(), QPair<float, float>(val_uas, mi.value()));
         } else {
             errors->append(mi.key());
             err = 1;
