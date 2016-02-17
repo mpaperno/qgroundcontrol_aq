@@ -152,7 +152,8 @@ MainWindow::MainWindow(QSplashScreen *splashScreen):
     customStyleFile(""),
     autoReconnect(false),
     lowPowerMode(false),
-    loadDefaultStyles(true)
+    loadDefaultStyles(true),
+    showPerspectiveChangeButtons(true)
 {
     Q_ASSERT(_instance == NULL);
     _instance = this;
@@ -229,6 +230,7 @@ MainWindow::MainWindow(QSplashScreen *splashScreen):
     actions << ui.actionEngineersView;
     actions << ui.actionDataView;
     toolBar->setPerspectiveChangeActions(actions);
+    toolBar->toggleButtonsVisible(showPerspectiveChangeButtons);
 
     // hide system menu for now since it's not useful
     //ui.menuUnmanned_System->menuAction()->setVisible(false);
@@ -927,12 +929,12 @@ void MainWindow::loadCustomWidgetsFromDefaults(const QString& systemType, const 
     QDir platformWidgets(platformDir);
     files.append(platformWidgets.entryList());
 
-    if (files.count() == 0)
-    {
+//    if (files.count() == 0)
+//    {
 //        qDebug() << "No default custom widgets for system " << systemType << "autopilot" << autopilotType << " found";
 //        qDebug() << "Tried with path: " << defaultsDir;
-        showStatusMessage(tr("Did not find any custom widgets in %1").arg(defaultsDir));
-    }
+//        showStatusMessage(tr("Did not find any custom widgets in %1").arg(defaultsDir));
+//    }
 
     // Load all custom widgets found in the AP folder
     for(int i = 0; i < files.count(); ++i)
@@ -956,6 +958,7 @@ void MainWindow::loadSettings()
     currentStyle = (QGC_MAINWINDOW_STYLE)settings.value("CURRENT_STYLE", QGC_MAINWINDOW_STYLE_DARK).toInt();
     customStyleFile = settings.value("CUSTOM_STYLE_FILE", customStyleFile).toString();
     loadDefaultStyles = settings.value("USE_DEFAULT_BASE_STYLES", loadDefaultStyles).toBool();
+    showPerspectiveChangeButtons = settings.value("SHOW_PERSPECTIVE_BUTTONS", showPerspectiveChangeButtons).toBool();
     lowPowerMode = settings.value("LOW_POWER_MODE", lowPowerMode).toBool();
     defaultLanguage = settings.value("UI_LANGUAGE", defaultLanguage).toString();
     settings.endGroup();
@@ -969,6 +972,7 @@ void MainWindow::storeSettings()
     settings.setValue("CURRENT_STYLE", currentStyle);
     settings.setValue("CUSTOM_STYLE_FILE", customStyleFile);
     settings.setValue("USE_DEFAULT_BASE_STYLES", loadDefaultStyles);
+    settings.setValue("SHOW_PERSPECTIVE_BUTTONS", showPerspectiveChangeButtons);
     if (!aboutToCloseFlag && isVisible())
     {
         settings.setValue(getWindowGeometryKey(), saveGeometry());
@@ -986,6 +990,14 @@ void MainWindow::storeSettings()
     settings.setValue("UI_LANGUAGE", currentLanguage);
     settings.endGroup();
     settings.sync();
+}
+
+
+
+void MainWindow::setShowPerspectiveChangeButtons(bool value)
+{
+    showPerspectiveChangeButtons = value;
+    toolBar->toggleButtonsVisible(value);
 }
 
 void MainWindow::setLoadDefaultStyles(bool value)

@@ -58,6 +58,10 @@ QGCSettingsWidget::QGCSettingsWidget(QWidget *parent, Qt::WindowFlags flags) :
     ui->comboBox_language->setCurrentIndex(ui->comboBox_language->findData(MainWindow::instance()->getCurrentLanguage()));
     connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), this, SLOT(loadLanguage(int)));
 
+    // Toolbar
+    ui->showPerspectiveBtns->setChecked(MainWindow::instance()->getShowPerspectiveChangeButtons());
+    connect(ui->showPerspectiveBtns, SIGNAL(toggled(bool)), MainWindow::instance(), SLOT(setShowPerspectiveChangeButtons(bool)));
+
     // Style
     ui->comboBox_style->addItems(MainWindow::instance()->getAvailableStyles());
     ui->comboBox_style->setCurrentIndex(ui->comboBox_style->findText(MainWindow::instance()->getStyleName()));

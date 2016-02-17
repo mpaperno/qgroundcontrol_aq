@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>448</width>
-    <height>314</height>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,37 @@
        <property name="verticalSpacing">
         <number>8</number>
        </property>
-       <item row="3" column="0">
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="lowPowerCheckBox">
+         <property name="toolTip">
+          <string>Lowers all update rates to save battery power</string>
+         </property>
+         <property name="text">
+          <string>Enable low power mode</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../qgroundcontrol.qrc">
+           <normaloff>:/files/images/status/battery-caution.svg</normaloff>:/files/images/status/battery-caution.svg</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_message">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="styleType" stdset="0">
+          <string notr="true">warning</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
         <layout class="QFormLayout" name="formLayout">
          <property name="horizontalSpacing">
           <number>8</number>
@@ -142,23 +172,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_message">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="styleType" stdset="0">
-          <string notr="true">warning</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -171,20 +185,6 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="lowPowerCheckBox">
-         <property name="toolTip">
-          <string>Lowers all update rates to save battery power</string>
-         </property>
-         <property name="text">
-          <string>Enable low power mode</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../qgroundcontrol.qrc">
-           <normaloff>:/files/images/status/battery-caution.svg</normaloff>:/files/images/status/battery-caution.svg</iconset>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0" alignment="Qt::AlignTop">
         <widget class="QCheckBox" name="reconnectCheckBox">
          <property name="text">
@@ -193,6 +193,20 @@
          <property name="icon">
           <iconset resource="../../qgroundcontrol.qrc">
            <normaloff>:/files/images/devices/network-wireless.svg</normaloff>:/files/images/devices/network-wireless.svg</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="showPerspectiveBtns">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select to show the Pilot/Mission/Config/Data buttons in the main toolbar.  Hide them to create more room for status display, then use the Perspectives menu or use the Alt-key shortcuts (Alt-P, Alt-M, Alt-C, and Alt-D, respectively).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Show perspective switch buttons on toolbar</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../qgroundcontrol.qrc">
+           <normaloff>:/files/images/actions/ui-toolbar.png</normaloff>:/files/images/actions/ui-toolbar.png</iconset>
          </property>
         </widget>
        </item>

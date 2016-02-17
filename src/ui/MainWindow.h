@@ -133,6 +133,7 @@ public:
     QAction *getActionByLink(LinkInterface *link);
 
     bool getLoadDefaultStyles() const { return loadDefaultStyles; }
+    bool getShowPerspectiveChangeButtons() const { return showPerspectiveChangeButtons; }
 
 public slots:
 
@@ -214,6 +215,7 @@ public slots:
     QString getCustomStyleFile() { return customStyleFile; }
     void setCustomStyleFile(QString fileName);
     void setLoadDefaultStyles(bool value);
+    void setShowPerspectiveChangeButtons(bool value);
 
     /** @brief Add a custom tool widget */
     void createCustomWidget();
@@ -425,6 +427,7 @@ protected:
     Qt::WindowStates windowStateVal;
     bool lowPowerMode; ///< If enabled, QGC reduces the update rates of all widgets
     bool loadDefaultStyles;
+    bool showPerspectiveChangeButtons;
 //    QGCFlightGearLink* fgLink;
 //    QTimer windowNameUpdateTimer;
 

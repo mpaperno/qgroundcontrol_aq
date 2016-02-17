@@ -223,6 +223,12 @@ void QGCToolBar::toggleActiveUasView(bool on)
     }
 }
 
+void QGCToolBar::toggleButtonsVisible(bool on)
+{
+    foreach (QAction *act, perspectiveActions)
+        act->setVisible(on);
+}
+
 void QGCToolBar::setPerspectiveChangeActions(const QList<QAction*> &actions)
 {
     if (actions.count())
@@ -244,7 +250,7 @@ void QGCToolBar::setPerspectiveChangeActions(const QList<QAction*> &actions)
             connect(btn, SIGNAL(clicked(bool)), actions.at(i), SIGNAL(triggered(bool)));
             connect(actions.at(i),SIGNAL(triggered(bool)),btn,SLOT(setChecked(bool)));
             connect(actions.at(i),SIGNAL(toggled(bool)),btn,SLOT(setChecked(bool)));
-            addWidget(btn);
+            perspectiveActions.append(addWidget(btn));
             group->addButton(btn);
         }
 

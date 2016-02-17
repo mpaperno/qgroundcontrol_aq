@@ -1673,7 +1673,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
     </message>
     <message>
         <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="592"/>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1333"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1328"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -1683,139 +1683,139 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation>Nie można otworzyć pliku do zapisu: %1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="807"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="806"/>
         <source>There is an unbalanced total value in one or more of the motor configuration columns. This may lead to upredictable behavior.</source>
         <translation>Występuje niezrównoważenie w jednej lub więcej kolumnach konfiguracji silników. Może to prowadzić do niewłaściwego zachowania.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="811"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="810"/>
         <source>You have invalid values in the motor configuration table.</source>
         <translation>Masz nieprawidłowe wartości w tabeli konfiguracji silnika.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="815"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="814"/>
         <source>You have selected the same port for multiple outputs.</source>
         <translation>Wybrano ten sam port dla różnych wyjść.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="819"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="818"/>
         <source>You have selected motor and gimbal ports, or gimbal roll/pitch and trigger ports, which use the same hardware timers. Please check the port number chart image for a reference.</source>
         <translation>Wybrałeś wyjścia silników i porty gimbala lub migawkę i porty gimbala na wyjściach pracujących na tych samych sprzętowych timerach. Sprawdź numery portów i porównaj z diagramem.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="823"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="822"/>
         <source>You have selected a PWM output port which does not exist on your current hardware.</source>
         <translation>Wybrałeś port PWM który nie istnieje w tym FC.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="867"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="866"/>
         <source>You have selected CAN motor output type but your current firmware does not appear to support it.</source>
         <translation>Wybrałeś wyjście CAN dla silnika ale ta wersja oprogramowania go nie wspiera.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="877"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="876"/>
         <source>You have selected CAN-HIGH motor output type but your current firmware does not appear to support it.</source>
         <translation>Wybrałeś wyjście CAN-HIGH dla silnika ale ta wersja oprogramowania go nie wspiera.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="940"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="935"/>
         <source>Select...</source>
         <translation>Wybierz...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1107"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1102"/>
         <source>Filed to start conversion tool on file &apos;%1&apos; with error: %2
 </source>
         <translation>Nie udało się uruchomić narzędzia konwersji pliku &apos;%1&apos; z błędem: %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1110"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1105"/>
         <source>Failed to run conversion tool on file &apos;%1&apos; with error: %2
 </source>
         <translation>Nie udało się przeprowadzić konwersji pliku &apos;%1&apos; z błędem: %2
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1117"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1112"/>
         <source>Something went wrong when running the conversion tool. Please check the details.</source>
         <translation>Coś poszło źle podczas konwersji pliku. Sprawdź szczegóły.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1126"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1121"/>
         <source>Failed to open temporary file with error: %1.</source>
         <translation>Nie udało się otworzyć pliku tymczasowego, błąd: %1.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1292"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1287"/>
         <source>XML Frame Definition</source>
         <translation>Definicja ramy XML</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1299"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1294"/>
         <source>Select or Create AQ Motor Mix File</source>
         <translation>Wybierz lub stwórz plik miksera</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1291"/>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1343"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1286"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1338"/>
         <source>AQ Mixing Table</source>
         <translation>Tabela mikserów AQ</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1138"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1133"/>
         <source>XML conversion tool completed successfully.</source>
         <translation>Konwersja XML zakończona prawidłowo.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1142"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1137"/>
         <source> Click the Details button to view generated messages/output.</source>
         <translation>Kliknij przycisk szczegółów aby zobaczyc wygenerowane wiadomości.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1145"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1140"/>
         <source>XML Conversion Error</source>
         <translation>Błąd konwersji XML</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1147"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1142"/>
         <source>XML Conversion Success</source>
         <translation>Konwersja XML zakończona sikcesem</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1297"/>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1363"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1292"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1358"/>
         <source>All File Types</source>
         <translation>Wszystkie typy plików</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1362"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1357"/>
         <source>Select an Image File</source>
         <translation>Wybierz plik obrazu</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1363"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1358"/>
         <source>Image Files</source>
         <translation>Pliki obrazów</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1306"/>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1370"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1301"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1365"/>
         <source>Could not open file. %1</source>
         <translation>Nie można otworzyć pliku. %1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1306"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1301"/>
         <source>Error!</source>
         <translation>Błąd!</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1333"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1328"/>
         <source>There is nothing to save...</source>
         <translation>Brak parametrów do zapisu...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1343"/>
+        <location filename="../../src/ui/aq_pwmPortsConfig.cc" line="1338"/>
         <source>Save File</source>
         <translation>Zapisz plik</translation>
     </message>
@@ -3697,187 +3697,186 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation>ALT + D</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="456"/>
+        <location filename="../../src/ui/MainWindow.cc" line="458"/>
         <source>Current Language changed to %1</source>
         <translation>Bieżący język zmieniony na %1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="475"/>
+        <location filename="../../src/ui/MainWindow.cc" line="477"/>
         <source>AQ IMU Calibration</source>
         <translation>Kalibracja IMU AQ</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="482"/>
+        <location filename="../../src/ui/MainWindow.cc" line="484"/>
         <source>AQ Log Export</source>
         <translation>Eksport logu AQ</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="552"/>
-        <location filename="../../src/ui/MainWindow.cc" line="555"/>
+        <location filename="../../src/ui/MainWindow.cc" line="554"/>
+        <location filename="../../src/ui/MainWindow.cc" line="557"/>
         <source>Unmanned Systems</source>
         <translation>Systemy bezzałogowe</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="671"/>
-        <location filename="../../src/ui/MainWindow.cc" line="674"/>
+        <location filename="../../src/ui/MainWindow.cc" line="673"/>
+        <location filename="../../src/ui/MainWindow.cc" line="676"/>
         <source>Mission Plan</source>
         <translation>Plan misji</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="560"/>
-        <location filename="../../src/ui/MainWindow.cc" line="563"/>
+        <location filename="../../src/ui/MainWindow.cc" line="562"/>
+        <location filename="../../src/ui/MainWindow.cc" line="565"/>
         <source>Status Details</source>
         <translation>Szczegółowy status</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="586"/>
-        <location filename="../../src/ui/MainWindow.cc" line="594"/>
+        <location filename="../../src/ui/MainWindow.cc" line="588"/>
+        <location filename="../../src/ui/MainWindow.cc" line="596"/>
         <source>Communication Console</source>
         <translation>Konsola komunikacji</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="568"/>
+        <location filename="../../src/ui/MainWindow.cc" line="570"/>
         <source>MAVLink Log Player</source>
         <translation>Odtwarzacz logów MAVLink</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="573"/>
+        <location filename="../../src/ui/MainWindow.cc" line="575"/>
         <source>MAVLink Log Replay</source>
         <translation>Powtórz log MAVLink</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="578"/>
+        <location filename="../../src/ui/MainWindow.cc" line="580"/>
         <source>MAVLink Message Inspector</source>
         <translation>Inspektor wiadomości MAVLink</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="581"/>
+        <location filename="../../src/ui/MainWindow.cc" line="583"/>
         <source>MAVLink Inspector</source>
         <translation>Inspektor MAVLink</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="643"/>
+        <location filename="../../src/ui/MainWindow.cc" line="645"/>
         <source>Horizontal Situation Indicator</source>
         <translation>Wskaźnik sytuacji poziomej</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="646"/>
+        <location filename="../../src/ui/MainWindow.cc" line="648"/>
         <source>Horizontal Situation</source>
         <translation>Sytuacja pozioma</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="679"/>
-        <location filename="../../src/ui/MainWindow.cc" line="684"/>
+        <location filename="../../src/ui/MainWindow.cc" line="681"/>
+        <location filename="../../src/ui/MainWindow.cc" line="686"/>
         <source>Custom Gauges</source>
         <translation>Niestandardowe przyrządy</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="635"/>
+        <location filename="../../src/ui/MainWindow.cc" line="637"/>
         <source>HUD</source>
         <translation>HUD</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="638"/>
-        <location filename="../../src/ui/MainWindow.cc" line="747"/>
+        <location filename="../../src/ui/MainWindow.cc" line="640"/>
+        <location filename="../../src/ui/MainWindow.cc" line="749"/>
         <source>Head Up Display</source>
         <translation>Head Up Display</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="627"/>
-        <location filename="../../src/ui/MainWindow.cc" line="630"/>
+        <location filename="../../src/ui/MainWindow.cc" line="629"/>
+        <location filename="../../src/ui/MainWindow.cc" line="632"/>
         <source>Primary Flight Display</source>
         <translation>Wyświetlanie podstawowego lotu</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="599"/>
-        <location filename="../../src/ui/MainWindow.cc" line="602"/>
+        <location filename="../../src/ui/MainWindow.cc" line="601"/>
+        <location filename="../../src/ui/MainWindow.cc" line="604"/>
         <source>ESC Telemetry</source>
         <translation>Telemetria ESC</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="651"/>
-        <location filename="../../src/ui/MainWindow.cc" line="654"/>
+        <location filename="../../src/ui/MainWindow.cc" line="653"/>
+        <location filename="../../src/ui/MainWindow.cc" line="656"/>
         <source>RC Channels Monitor</source>
         <translation>Monitor kanałów RC</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="752"/>
+        <location filename="../../src/ui/MainWindow.cc" line="754"/>
         <source>AutoQuad</source>
         <translation>AutoQuad</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="758"/>
+        <location filename="../../src/ui/MainWindow.cc" line="760"/>
         <source>Log Analysis &amp;&amp; Telemetry</source>
         <translation>Analiza logów &amp;&amp; telemetrii</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="766"/>
+        <location filename="../../src/ui/MainWindow.cc" line="768"/>
         <source>Local 3D</source>
         <translation>Lokalne 3D</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="774"/>
+        <location filename="../../src/ui/MainWindow.cc" line="776"/>
         <source>Google Earth</source>
         <translation>Google Earth</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="889"/>
+        <location filename="../../src/ui/MainWindow.cc" line="891"/>
         <source>Specify Widget File Name</source>
         <translation>Określ nazwę pliku Widgetu</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1011"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1023"/>
         <source>All File Types</source>
         <translation>Wszystkie typy plików</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1152"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1164"/>
         <source>CSS Stylesheet</source>
         <translation>Arkusz stylów CSS</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1152"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1164"/>
         <source>Select a stylesheet</source>
         <translation>Wybierz arkusz stylów</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1197"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1209"/>
         <source>Stylesheet file &apos;%1&apos; was not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1362"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1374"/>
         <source>To get to the online help, please open %1 in a browser.</source>
         <translation>Aby otrzymać pomoc online, proszę otworzyć %1 w przeglądarce.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="934"/>
         <source>Did not find any custom widgets in %1</source>
-        <translation>Nie znaleziono żadnych niestandardowych widgetów w %1</translation>
+        <translation type="vanished">Nie znaleziono żadnych niestandardowych widgetów w %1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="946"/>
+        <location filename="../../src/ui/MainWindow.cc" line="948"/>
         <source>Loaded custom widget %1</source>
         <translation>Niestandardowy Widget %1 załadowany</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1006"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1018"/>
         <source>/untitled.</source>
         <translation>/ bez tytułu.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1008"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1020"/>
         <source>Save As</source>
         <translation>Zapisz jako</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1158"/>
-        <location filename="../../src/ui/MainWindow.cc" line="1197"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1170"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1209"/>
         <source>QGroundControl did lot load a new style</source>
         <translation>QGroundControl nie załadował nowego stylu</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1158"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1170"/>
         <source>No suitable .css file selected. Please select a valid .css file.</source>
         <translation>Plik .css niewłaściwy. Wybierz prawidłowy plik .css.</translation>
     </message>
@@ -3890,18 +3889,18 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Plik arkusza stylu %1 nie był czytelny</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1362"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1374"/>
         <source>Could not open help in browser</source>
         <translation>Nie można otworzyć pomocy w przeglądarce</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1476"/>
-        <location filename="../../src/ui/MainWindow.cc" line="1598"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1488"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1610"/>
         <source>No System</source>
         <translation>Brak systemu</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cc" line="1558"/>
+        <location filename="../../src/ui/MainWindow.cc" line="1570"/>
         <source>Select %1 for control</source>
         <translation>Wybierz %1 do kontroli</translation>
     </message>
@@ -3976,7 +3975,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
     </message>
     <message>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="231"/>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="915"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="912"/>
         <source>Save File</source>
         <translation>Zapisz plik</translation>
     </message>
@@ -4001,12 +4000,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation>Na SD</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1513"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1496"/>
         <source>Restarting the UAS</source>
         <translation>Restartowanie UAS</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1514"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1497"/>
         <source>Are you sure you want to restart the remote system?</source>
         <translation>Jesteś pewny restartowania zdalnego systemu ?</translation>
     </message>
@@ -4121,52 +4120,51 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation>&lt;html&gt;&lt;body&gt;&lt;p&gt;Restartuj zdalny system.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="571"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="573"/>
         <source>SUCCESS: WROTE ALL PARAMETERS</source>
         <translation>SUKCES: WSZYSTKIE PARAMETRY ZAPISANE</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="577"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="575"/>
         <source>SUCCESS: Wrote %2 (#%1/%4): %3</source>
         <translation>SUKCES: Zapisano %2 (#%1 / %4): %3</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="586"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="579"/>
         <source>FAILURE: Wrote %1: sent %2 != onboard %3</source>
         <translation>BŁĄD: Zapisano %1:  wysyłano %2! = w pamięci %3</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="608"/>
         <source>All received. (updated at %1)</source>
-        <translation>Wszystkie otrzymane. (zaktualizowany w %1)</translation>
+        <translation type="vanished">Wszystkie otrzymane. (zaktualizowany w %1)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="654"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="653"/>
         <source>Camera</source>
         <translation>Kamera</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="657"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="656"/>
         <source>IMU</source>
         <translation>IMU</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="660"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="659"/>
         <source>Remote Adjustable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="663"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="662"/>
         <source>System </source>
         <translation>System</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="780"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="779"/>
         <source>Default: %1</source>
         <translation>Domyślnie: %1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="915"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="912"/>
         <location filename="../../src/ui/qgcaqparamwidget.cc" line="1004"/>
         <source>Parameter File</source>
         <translation>Plik parametrów</translation>
@@ -4187,7 +4185,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation>Nie można otworzyć zapisanego pliku parametrów.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1369"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1352"/>
         <source>Transmitting %n parameter(s).</source>
         <translation>
             <numerusform>Transmisja %n parametru(ów).</numerusform>
@@ -4196,22 +4194,27 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="828"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="827"/>
         <source>Requested param list.. waiting</source>
         <translation>Oczekiwanie na listę parametrów... czekam</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="855"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="603"/>
+        <source>Parameters loaded (updated at %1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="853"/>
         <source>Changed Param %1:%2: %3</source>
         <translation>Zmieniony parametr %1: %2: %3</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="921"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="918"/>
         <source>Could not open params file. %1</source>
         <translation>Nie można otworzyć pliku parametrów. %1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="921"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="918"/>
         <source>Error!</source>
         <translation>Błąd!</translation>
     </message>
@@ -4221,37 +4224,37 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation>Zaznacz zapisany plik parametrów</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1191"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1173"/>
         <source>TIMEOUT! MISSING: %1 read, %2 write.</source>
         <translation>LIMIT CZASU! BRAK: %1 odczytany, zapisany %2.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1210"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1193"/>
         <source>Requested retransmission of #%1</source>
         <translation>Żadanaie retransmisji %1 #</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1250"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1233"/>
         <source>Requested rewrite of: %1: %2</source>
         <translation>Żądanie ponownego zapisania: %1: %2</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1282"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1265"/>
         <source>REJ. %1 &lt; min</source>
         <translation>REJ. %1 &lt; min</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1287"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1270"/>
         <source>REJ. %1 &gt; max</source>
         <translation>REJ. %1 &gt; max</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1367"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1350"/>
         <source>No transmission: No changed values.</source>
         <translation>Brak transmisji: wartości niezmienione.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1414"/>
+        <location filename="../../src/ui/qgcaqparamwidget.cc" line="1397"/>
         <source>There are locally changed parameters. Please transmit them first (&lt;TRANSMIT&gt;) or update them with the onboard values (&lt;REFRESH&gt;) before storing onboard from RAM to ROM.</source>
         <translation>Parametry zostały zmienione lokalnie. Proszę je najpierw wysłać (&lt;TRANSMITUJ&gt;) lub zaktualizować wartości (&lt;ODŚWIERZ&gt;) przed zapisaniem ich z RAM do ROM.</translation>
     </message>
@@ -4309,7 +4312,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
     </message>
     <message>
         <location filename="../../src/ui/qgcautoquad.ui" line="142"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1156"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1204"/>
         <source>Select Firmware File</source>
         <translation>Wybierz plik Firmware</translation>
     </message>
@@ -4369,23 +4372,21 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation>Rezultaty uaktualniania firmware&apos;u:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="379"/>
         <source>  Save Settings to AQ </source>
-        <translation>  Zapisz ustawienia do AQ </translation>
+        <translation type="vanished">  Zapisz ustawienia do AQ </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="402"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="405"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9512"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9515"/>
         <source>AutoQuad firmware version</source>
         <translation>Wersja oprogramowania AutoQuad</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="411"/>
         <source>AutoQuad Firmware Version: [not connected]</source>
-        <translation>Wersja oprogramowania AutoQuad: [nie podłączony]</translation>
+        <translation type="vanished">Wersja oprogramowania AutoQuad: [nie podłączony]</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="440"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="389"/>
         <source>Radio &amp;&amp; Controls</source>
         <translation>Radio &amp;&amp; Sterowanie</translation>
     </message>
@@ -4394,13 +4395,13 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Ustawienia nadajnika</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2069"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2664"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2024"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2619"/>
         <source>Throttle</source>
         <translation>Throttle</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5254"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5209"/>
         <source>0</source>
         <translation>0</translation>
     </message>
@@ -4409,7 +4410,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">0 / 700 / 1400</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2678"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2633"/>
         <source>Roll</source>
         <translation>Roll</translation>
     </message>
@@ -4418,12 +4419,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">-700 / 0 / + 700</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2671"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2626"/>
         <source>Pitch</source>
         <translation>Pitch</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3021"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2976"/>
         <source>Yaw</source>
         <translation>Yaw</translation>
     </message>
@@ -4436,7 +4437,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Position Hold &gt;-250</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3354"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3309"/>
         <source>Flight Mode</source>
         <translation>Tryb lotu</translation>
     </message>
@@ -4453,7 +4454,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Powrót do startu &gt;-250</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3361"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3316"/>
         <source>Home Action</source>
         <translation>Ustawienia RTH</translation>
     </message>
@@ -4462,8 +4463,8 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">ustaw HOME &gt; 250</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2943"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2976"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2898"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2931"/>
         <source>Gimbal Tilt</source>
         <translation>Pochylenie Gimbala</translation>
     </message>
@@ -4476,17 +4477,17 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Wskaźnik AutoQuad RADIO_QUALITY, pomiar ilości utraconych pakietów i jakości sygnału.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="619"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="571"/>
         <source> Hz</source>
         <translation> Hz</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="747"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="699"/>
         <source>Radio Type</source>
         <translation>Typ radia</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2470"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2425"/>
         <source>Controls Setup</source>
         <translation>Ustawienia sterowania</translation>
     </message>
@@ -4495,33 +4496,33 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Pass-thru 1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3638"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3593"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Gear. Camera trigger port, or use as passthrough for any other Tx-controlled function.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Port wyzwalacza migawki lub do wykorzystania jako pass-thru dla innych funkcji Tx.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3335"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3290"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Flaps/Aux 1. Switch between manual / position hold / mission modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Przełącznik między trybem manualnym / position hold / trybem misji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2870"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2898"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2825"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2853"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 3. Gimbal tilt control, or use as passthrough for any other Tx-controlled function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kontrola pochylenia Gimbala, lub jako pass-thru dla innych funkcji Tx&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3266"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3221"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aka Aux 2. Switch to set home position and activate Return to Home function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Przełącznik ustawienia pozycji HOME oraz aktywacji RTH&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3380"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3335"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for controlling Heading Free mode. Low position (&amp;lt; -250) turns HF on. Mid position (~0) turns HF off. Hight position (&amp;gt; 250) sets reference heading.  Keep switch in high position to continously set reference (aka. &amp;quot;dynamic mode&amp;quot;).&lt;/p&gt;&lt;p&gt;Reference heading is set as follows: &lt;/p&gt;&lt;p&gt;1) When not flying OR within 2 meters of Home position: reference heading is based on actual craft orienation.&lt;/p&gt;&lt;p&gt;2) When flying AND 2 meters or more away from home position: reference heading is based on bearing to home position.  In other words, &amp;quot;back&amp;quot; stick will bring the craft back towards home, regardless of its actual orientation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Kanał sterowania trybem Heading-Free. Niskie położenie (&amp;lt;-250) włączenie HF. Pozycja środkowa (~ 0) wyłącza HF. Wysokie położenie (&amp;gt; 250) ustawienie pozycji odniesienia.  Trzymaj przełącznik w wysokiej pozycji, aby stale ustawiać pozycję odniesienia (zwane &quot;tryb dynamiczny&quot;).&lt;/p&gt;&lt;p&gt;Pozycję odniesienia ustala się w następujący sposób:&lt;/p&gt;&lt;p&gt;1) Jeżeli nie latasz lub latasz w odległości DO 2m od pozycji HOME, kierunek odniesienia jest rzeczywistym aktualnym kierunkiem.&lt;/p&gt;&lt;p&gt;2) Podczas lotu 2 metry i więcej od pozycji HOME: pozycja odniesienia opera sie na kierunku DO pozycji HOME.  Innymi słowy, jeżeli ruszysz drążek do siebie, kopter wróci do &quot;bazy&quot; niezależnie od jego aktualnej orientacji (kierunku).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="652"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="700"/>
         <source>Off</source>
         <translation>Wył</translation>
     </message>
@@ -4530,12 +4531,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3247"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3202"/>
         <source>Heading-Free</source>
         <translation>Heading-Free</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2626"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2581"/>
         <source>Gas</source>
         <translation>Przepustnica</translation>
     </message>
@@ -4544,44 +4545,44 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Ster wysokości</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3043"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2998"/>
         <source>Rudder</source>
         <translation>Ster kierunku</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2595"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2550"/>
         <source>Aileron</source>
         <translation>Lotki</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1277"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1575"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1818"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2539"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2930"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3310"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3942"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4414"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1232"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1530"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1773"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2494"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2885"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3265"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3897"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4369"/>
         <source>Chan.</source>
         <translation>Kanał.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2917"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2872"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optional extra passthrough channel, to be directed to Passthrough Port in Output -&amp;gt; Gimbal settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Opcjonalny dodatkowy kanał pass-thru, przekazywanie danych z kanału na wyjście, patrz -&amp;gt; Ustawienia Gimbala.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2268"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2223"/>
         <source>PPM Settings</source>
         <translation>Ustawienia PPM</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2292"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2247"/>
         <source>Chan. Val. Scale</source>
         <translation>Skala wart. kanałów</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2305"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2260"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Amount to divide pulse value by to arrive at acceptable AQ value.  Default of 3 is good for FrSky, Graupner, possibly others.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Wartość podziału impulsu dopuszczalnego przez AQ.  Domyślnie 3, dobre dla FrSky, Graupner,i innych.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -4590,29 +4591,29 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Throt. Niska wartość</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2337"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2292"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse value at at lowest stick position (affects throttle only)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Wartość w najniższym położeniu drążka (dotyczy tylko przepustnicy)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2085"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2117"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2149"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2217"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2340"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2372"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5075"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5119"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5163"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5348"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5392"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5436"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5651"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5695"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6025"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6069"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6113"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6157"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2040"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2072"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2104"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2172"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2295"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2327"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5030"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5074"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5118"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5303"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5347"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5391"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5606"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5650"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5980"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6024"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6068"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6112"/>
         <source> µs</source>
         <translation> µs</translation>
     </message>
@@ -4621,57 +4622,57 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Wartość środka kanału</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2369"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2324"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse value at middle stick/switch position (affects all channels except throttle)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Wartości w pozycji środkowej drążka/przełącznika (dotyczy wszystkich kanałów z wyjątkiem przepustnicy)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2691"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2716"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2741"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3101"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2646"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2671"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2696"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3056"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier applied to radio channel value to determine final control amount when in manual modes.  Leave these at defaults until you know why to change them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Mnożnik zastosowany do kanału radiowego do ustalenia wartości końcowej w trybach manualnych.  Zostaw wartości domyślne, dopóki nie wiesz, dlaczego warto je zmienić.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3073"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3028"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Manual mode yaw rate in degrees per second at full control deflection(+/-700).  This rate is scaled based on control stick position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Mnożnik YAW w trybie ręcznym w stopniach na sekundę przy pełnym wychyleniu drążka (+/-700).  Skala mnożnika jest oparta o położenie drążka.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3076"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8348"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3031"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8303"/>
         <source> °/s</source>
         <translation> ° /s</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="760"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="712"/>
         <source>Radio Type (RC1)</source>
         <translation>Typ radia (RC1)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="773"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="725"/>
         <source>Radio Type (RC2)</source>
         <translation>Typ radia (RC2)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="712"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="664"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When using multiple radio inputs at once, different operating modes are available:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Diversity&lt;/span&gt; -- The receiver with the highest signal quality level is used. This is the default.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Split Control&lt;/span&gt; - RC1 is used for channels 1-18, and RC2 is used for channels 19-36. This could be useful for custom firmare implementations or future releases.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gdy używasz wielu wejść radiowych naraz dostępne są różne tryby pracy:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Diversity&lt;/span&gt; -- Używany jest odbiornik, który ma najsilniejszy sygnał. Tryb domyślny.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Split&lt;/span&gt; - RC1 jest używany dla kanałów 1-18, a RC2 dla kanałów 19-36. Użyteczne dla przyszłych wersji.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="808"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="760"/>
         <source>Multi-Radio Mode</source>
         <translation>Tryb Multi-Radio</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2082"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2146"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2037"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2101"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Deadband is only active in altitude/position hold modes (CTRL_DBAND_THRO).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Martwy zakres jest aktywnyw trybie pos/alt hold (CTRL_DBAND_THRO).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2114"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2069"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Deadband is only active in position hold mode (CTRL_DEAD_BAND).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Martwy zakres aktywny tylko w trybie alt/pos HOLD (CTRL_DEAD_BAND).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -4680,7 +4681,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Min. wartość przepustnicy</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2214"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2169"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum user throttle to activate motors (CTRL_MIN_THROT).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Minimalna wartość do aktywacji silników (CTRL_MIN_THROT).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -4689,29 +4690,29 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Max. wysterowanie na oś</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2246"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2201"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum control applied to motors for each of the roll/pitch/yaw axes (CTRL_MAX).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalne wysterowanie silników dla każdej z osi (pitch/roll/yaw) (CTRL_MAX).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4977"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4932"/>
         <source>Mixing &amp;&amp; Output</source>
         <translation>Mikser &amp;&amp; Wyjścia</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6457"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6412"/>
         <source>Yaw Rate PID</source>
         <translation>Yaw Rate PID</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6309"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6480"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6693"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6906"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7767"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7892"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8032"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8157"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6264"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6435"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6648"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6861"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7722"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7847"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7987"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8112"/>
         <source>P:</source>
         <translation>P:</translation>
     </message>
@@ -4721,402 +4722,402 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3885"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4433"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3840"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4388"/>
         <source>@ Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3746"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3765"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3784"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3828"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3847"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3866"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4591"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4686"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4755"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4831"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3701"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3720"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3739"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3783"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3802"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3821"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4546"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4641"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4710"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4786"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This marker indicates if a switch is currently active (indicator color filled) or not (indicator empty). &lt;/p&gt;&lt;p&gt;Radio values telemetry needs to be active for this to work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3806"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4474"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3761"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4429"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This column indicates if a switch is currently active (indicator color filled) or not (indicator empty). &lt;/p&gt;&lt;p&gt;Radio values telemetry needs to be active for this to work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3809"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4477"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3764"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4432"/>
         <source>A</source>
         <translation type="unfinished">A</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4241"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4452"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4196"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4407"/>
         <source>Position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4260"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4279"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4298"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4317"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4336"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4355"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4546"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4667"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4850"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4869"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4215"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4234"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4253"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4272"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4291"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4310"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4501"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4622"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4805"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4824"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio switch position (channel value) at which this control is considered active. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;High&lt;/span&gt;: +251 to +750&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mid&lt;/span&gt;:   -250 to +250&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Low&lt;/span&gt;:   -251 to -750&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3440"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3459"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3478"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3517"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3536"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3555"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3395"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3414"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3433"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3472"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3491"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3510"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Recommended radio channel value range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2773"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2798"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3122"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3147"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3172"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3194"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3390"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3576"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3601"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2728"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2753"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3077"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3102"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3127"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3149"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3345"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3531"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3556"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This number and bar graph represents the current value for this channel being reported from the UAV via radio channels telemetry. &lt;/p&gt;&lt;p&gt;Radio values telemetry needs to be active for this to work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2950"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2905"/>
         <source>Passthrough</source>
         <translation type="unfinished">Przekazywanie</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2823"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2778"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This number and bar graph represents the current value for this channel being reported from the UAV via radio channels telemetry. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;FORWARD&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;-PITCH is &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;NEGATIVE&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; VALUE, &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;BACK&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;  is &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;POSITIVE&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Radio values telemetry needs to be active for this to work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2564"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2519"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Elevator / Nick&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;FORWARD&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;-PITCH is &lt;/span&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;NEGATIVE&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; VALUE, &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;BACK&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;  is &lt;/span&gt;&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;POSITIVE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4926"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4881"/>
         <source>NOTE: You must save parameters to AQ before radio channels telemetry will be correct.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="522"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="474"/>
         <source>RC Signal Quality:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="535"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="487"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;AutoQuad RADIO_QUALITY indicator, roughly a measure of lost radio packets and signal quality.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="564"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="516"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable advanced switch controls setup to adjust activation values precisely. This can be useful to set up more than three controls on one channel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="567"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="519"/>
         <source>Advanced Switch Cfg.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="616"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="568"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh frequency of channels graph.  Higher frequencies consume more resources like telemetry bandwidth and processor time, but make the channel value bars and switch indicators more responsive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="638"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="590"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggle radio channel value updates on/off.  Use this to enable the channel monitor indicator next to each control and switch configuration (bar graph or active indicator).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="641"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="593"/>
         <source>RC Telemetry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2201"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2156"/>
         <source>Min. Throttle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2233"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2188"/>
         <source>Max. Axis Ctrl.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2324"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2279"/>
         <source>Throt. Low Val.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2356"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2311"/>
         <source>Channel Mid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="856"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="808"/>
         <source>RC-Adjustable Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="992"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="947"/>
         <source>NOTE: You must save parameters to AQ before current values telemetry will be correct.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1063"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1110"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1129"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1302"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1321"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1340"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1018"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1065"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1084"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1257"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1276"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1295"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select which radio channel will adjust this parameter value. Note that you can control the precision and range of the adjustment using end-point and exponential/curve settings on your radio.&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1013"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1035"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1189"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1211"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1381"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1403"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="968"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="990"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1144"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1166"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1336"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1358"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name of the adjustable parameter. Press button to select.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1428"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1453"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1478"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1616"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1641"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1685"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1723"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1748"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1383"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1408"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1433"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1571"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1596"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1640"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1678"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1703"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When radio telemetry is active, this column shows the actual live parameter value as reported by the UAV, taking the configured radio channel value into account.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note&lt;/span&gt; that you must save any changes to adjustable params setup before the current values are correctly shown.  These values are being sent directly from the UAV, so it cannot know that you have changed settings until you save them.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1431"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1456"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1481"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1644"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1726"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1751"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1386"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1411"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1436"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1599"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1681"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1706"/>
         <source>N/A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4987"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4942"/>
         <source>ESC &amp;&amp; Gimbal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5976"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5931"/>
         <source>ESC PWM Output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6000"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5955"/>
         <source>Arm:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6044"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5999"/>
         <source>Minimum:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6063"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6018"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The lowest pulse width in the PWM ESC calibration range.  This could be the same or a bit lower than Motor Start pulse width.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6107"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6062"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width sent to ESCs at which motors are sure to start safely and smoothly. Depending on your motor/ESC, this could be the same as, or a bit higher than, the Minimum pulse width setting. In flight, the output pulse will not fall below this value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6132"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6087"/>
         <source>Maximum:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6151"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6106"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum pulse width sent to ESCs which should result in maximum motor output.  This is the high end of the ESC PWM calibration range.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5923"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5878"/>
         <source>ESC Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5935"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5890"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set the PWM ESC type used. If using ESC32 or the AQ M4 onboard brushed motor ESCs, select those options. Otherwise, select Standard PWM.&lt;/p&gt;&lt;p&gt;On AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this setting lets you use the &lt;span style=&quot; font-weight:600;&quot;&gt;external motor ports&lt;/span&gt; (on expansion header/boards) to run brushless motors.&lt;/p&gt;&lt;p&gt;This setting has no effect when using ESC32 on CAN bus on either AQ6 or M4.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5939"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5894"/>
         <source>Standard PWM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5944"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5899"/>
         <source>M4 Onboard DC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5949"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5904"/>
         <source>AQ ESC32 v2 or v3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5963"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5918"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;WARNING!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Remove propellers from all motors before using this feature!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Select this to perform a &amp;quot;typical&amp;quot; ESC end-point calibration procedure the next time the flight controller starts up.&lt;/p&gt;&lt;p&gt;At &lt;span style=&quot; font-weight:600;&quot;&gt;next startup of the flight controlle&lt;/span&gt;r, the PWM outputs on all configured motor ports will go to &lt;span style=&quot; font-weight:600;&quot;&gt;Maximum PWM&lt;/span&gt; setting for a few seconds, then to Minimum PWM. &lt;/p&gt;&lt;p&gt;This setting will automatically be disabled for the following startup, and all parameters will be saved to flash memory. If this fails for any reason, the calibration will not be performed.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Watch the communications console for informative messages. &lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5966"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5921"/>
         <source>Run ESC Clibration On Next Startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4999"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4954"/>
         <source>Gimbal Outputs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5611"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5566"/>
         <source>Trigger Pulse and Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5761"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5716"/>
         <source>Trigger Events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5798"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5854"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5753"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5809"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_DIST &amp;amp; GMBL_TRIG_TIME&lt;/p&gt;&lt;p&gt;Set one/both to a value to enable automatic triggering. The triggering starts/runs only when in FLYING state. If both are set, whichever condition is met first will fire the trigger (time is checked first). &lt;/p&gt;&lt;p&gt;Manual (Camera Trigger switch) control has priority over automatic triggering. If manual override is active, the next auto-trigger will happen right after Camera Trigger is turned off, or when the next time/distance interval is reached, whichever is later.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6213"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6168"/>
         <source>Attitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6326"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6503"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6716"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6939"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7784"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7909"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8039"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8164"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6281"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6458"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6671"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6894"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7739"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7864"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7994"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8119"/>
         <source>I:</source>
         <translation>I:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6343"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6526"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6739"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6952"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6298"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6481"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6694"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6907"/>
         <source>D:</source>
         <translation>D:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6360"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6549"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6762"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6975"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6315"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6504"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6717"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6930"/>
         <source>F:</source>
         <translation>F:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6384"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6579"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6792"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7005"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7723"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7838"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7998"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8150"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6339"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6534"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6747"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6960"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7678"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7793"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7953"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8105"/>
         <source>P Max:</source>
         <translation>P Max:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6401"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6602"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6815"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7028"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7740"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7855"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8015"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8133"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6356"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6557"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6770"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6983"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7695"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7810"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7970"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8088"/>
         <source>I Max:</source>
         <translation>I Max:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6418"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6625"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6838"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7051"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6373"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6580"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6793"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7006"/>
         <source>D Max:</source>
         <translation>D Max:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6435"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6648"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6861"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7074"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7791"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7916"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8056"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8181"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6390"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6603"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6816"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7029"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7746"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7871"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8011"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8136"/>
         <source>Out Max:</source>
         <translation>Na Max:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6670"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6625"/>
         <source>Yaw Angle PID</source>
         <translation>Yaw Angle PID</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6883"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6838"/>
         <source>Tilt Angle PID</source>
         <translation>Tilt Angle PID</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9098"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9053"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt;: TTY Serial on J2 expansion header.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AQ M4&lt;/span&gt;: TTY Serial on motor (PWM) ports 7 and 8. &lt;span style=&quot; font-weight:600;&quot;&gt;Disable any protocol when using motors/PWM output on these ports! &lt;/span&gt;&lt;/p&gt;&lt;p&gt;M4 Pin mappings are as follows:&lt;/p&gt;&lt;p&gt;    PWM 7 = Serial Tx, J2.10 on expansion header.&lt;br/&gt;    PWM 8 = Serial Rx, J1.10 on expansion header&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="261"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="264"/>
         <source>ESC32v2 Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6286"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6241"/>
         <source>Tilt Rate PID</source>
         <translation>Tilt Rate PID</translation>
     </message>
@@ -5137,7 +5138,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Navigation Altitude Position</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7108"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7063"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will re-calculate the currently shown Rate and Angle PID values to firmware v6.8 (and up) scaling (multiplies all values by 4.82).&lt;/p&gt;&lt;p&gt;The new values are only displayed here, you still need to save them to AQ (if you want to).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Ponowna kalkulacja aktualnie wyświetlanych wartości Rate i Angle PID dla firwarów v6.8 i wyższych (Mnoży wszystkie wartości przez 4.82).&lt;/p&gt;&lt;p&gt;Nowe wartości są tylko wyświetlane tutaj, trzeba jeszcze zapisać je do AQ (jeśli chcesz).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5151,205 +5152,205 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad Serial&lt;/span&gt;: Wczytaj plik&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  lub &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.bin&lt;/span&gt;  z firmware&apos;em poprzez połączenie szeregowe. Wspierane we wszystkich wersjach AutoQuada.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AutoQuad M4 USB&lt;/span&gt;: Wczytaj plik .bin poprzez DFU (STM bootloader via USB). &lt;span style=&quot; text-decoration: underline;&quot;&gt;Aktualnie wspierane tylko przez  AQ M4.&lt;/span&gt; Wybierz tą opcję jeżeli twój Autoquad jest podłączony bezpośrednio przez USB, &lt;span style=&quot; text-decoration: underline;&quot;&gt;a nie&lt;/span&gt; przez konwerter USB na serial, oraz gdy masz &lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;plik .bin&lt;/span&gt;  firmware&apos;u. &lt;span style=&quot; text-decoration: underline;&quot;&gt;Jeżeli używasz DFU, upewnij się, że do Twojego systemu jest podłączone tylko jedno urządzenie w którym możesz wymienić firmware.&lt;/span&gt; Nie możesz ustawić portu oraz prędkości dla flashowania.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;ESC32 Serial&lt;/span&gt;: Flashuj firmware w ESC32 plikiem&lt;span style=&quot; font-weight:600; font-style:italic;&quot;&gt;.hex&lt;/span&gt;  przez połączenie szeregowe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="690"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="642"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 2&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this could be Motor Port 14 for &lt;span style=&quot; text-decoration: underline;&quot;&gt;PPM input only&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the external radio connection for Spektrum, SBus, SUMD, MLink, or PPM.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Typ radia na &lt;span style=&quot; font-weight:600;&quot;&gt;porcie RC 2&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;W &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; jest to Port M14 dla &lt;span style=&quot; text-decoration: underline;&quot;&gt;sygnału PPM&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;W AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, jest to zewnętrzny port radiowy dla Spektrum, SBus, SUMD, MLink, lub PPM.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; i &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; wspierają protokoły Spektrum DSM2 i DSMX.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="792"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="744"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Primary radio type on &lt;span style=&quot; font-weight:600;&quot;&gt;RC port 1&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;For &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; this is the main external reciever port (white 3-pin connector for Spektrum, SBus, SUMD, MLink) &lt;span style=&quot; text-decoration: underline;&quot;&gt;or&lt;/span&gt; Motor Port 14 for PPM input.&lt;/p&gt;&lt;p&gt;For AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, this is the built-in radio port (Deltang or CYRF).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; radio types support Spektrum DSM2 and DSMX protocols.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Podstawowy typ radia na &lt;span style=&quot; font-weight:600;&quot;&gt;porcie RC 1&lt;/span&gt;.&lt;/p&gt;&lt;p&gt;W &lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt; jest to główny port radiowy (biały 3 pinowy konektor dla Spektrum, SBus, SUMD, MLink) &lt;span style=&quot; text-decoration: underline;&quot;&gt;lub&lt;/span&gt;  Port M14 dla sygnału PPM.&lt;/p&gt;&lt;p&gt;W AQ &lt;span style=&quot; font-weight:600;&quot;&gt;M4&lt;/span&gt;, jest to wbudowany odbiornik (Deltang lub CYRF).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CYRF&lt;/span&gt; i &lt;span style=&quot; font-weight:600;&quot;&gt;Deltang&lt;/span&gt; wspierają protokoły Spektrum DSM2 i DSMX.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2651"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2963"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2606"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2918"/>
         <source>Axis Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3291"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4043"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4527"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3246"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3998"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4482"/>
         <source>Switch Control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3415"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4401"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3370"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4356"/>
         <source>Camera Trigger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3733"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3688"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch to Altitude Hold mode. AH mode is overriden by Position Hold and Mission Modes. Manual Mode is active whenever none of the other modes are activated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3714"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3669"/>
         <source>Altitude Hold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3704"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3659"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch to activate Return to Home function&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3685"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3640"/>
         <source>Home Go</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3904"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3983"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4062"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4093"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4124"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4210"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4496"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4636"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4724"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4800"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3859"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3938"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4017"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4048"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4079"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4165"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4451"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4591"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4679"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4755"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Radio value at which this control is considered active. &lt;/p&gt;&lt;p&gt;The control activation is affected by the Switch Deadband setting as well. The actual radio value must be within +/- of the Switch Deadband value range.&lt;/p&gt;&lt;p&gt;Example: If Control Value is set to be active at +500 and Switch Deadband is set to 250, then radio value must be within the range of +250 to +750 for the control to be considered active.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4787"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4742"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch control for mission waypoint recording or skipping.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;When NOT in mission mode&lt;/span&gt;, activating this switch will record a new waypoint at the current craft position and add it to the current mission plan (or start a new mission if there isn&apos;t one already).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;When in mission mode&lt;/span&gt;, activating this switch will skip from the current to the next waypoint in the mission plan (if there is one).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;While craft is disarmed&lt;/span&gt;, activating this switch and holding sticks Throttle down/Rudder left/Pitch down/Roll right for 2 seconds will clear all current waypoints.&lt;/p&gt;&lt;p&gt;To perform any action, the switch must be held active for at least one second. Switch must be moved back to off position before further activations will be registered.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4604"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4559"/>
         <source>Head-Free Lock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4571"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4526"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for setting Heading Free reference heading. Keep switch in this position to continously set reference (aka. &amp;quot;dynamic mode&amp;quot;).&lt;/p&gt;&lt;p&gt;Reference heading is set as follows: &lt;/p&gt;&lt;p&gt;1) When not flying OR within 2 meters of Home position: reference heading is based on actual craft orienation.&lt;/p&gt;&lt;p&gt;2) When flying AND 2 meters or more away from home position: reference heading is based on bearing to home position. In other words, &amp;quot;back&amp;quot; stick will bring the craft back towards home, regardless of its actual orientation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4008"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3963"/>
         <source>Mission Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4711"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4666"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Camera trigger switch, or use this channel as passthrough for any other Tx-controlled function.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3967"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4161"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3922"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4116"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch to mission mode. Mission mode has highest priority of all flight modes. Manual Mode is active whenever none of the other modes are activated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4578"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4533"/>
         <source>Head-Free Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3929"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3884"/>
         <source>Home Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4027"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3982"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch to set home position.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1619"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1688"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1574"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1643"/>
         <source>Value</source>
         <translation type="unfinished">Wartość</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4623"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4578"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Channel for enabling Heading Free &amp;quot;Locked&amp;quot; mode based on pre-set reference heading (see Head-Free Set setting).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4187"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4142"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Switch to Position Hold mode. PH mode overrides Altitude Hold mode and is overriden by Mission Mode. Manual Mode is active whenever none of the other modes are activated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4168"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="100"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4123"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="101"/>
         <source>Position Hold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4197"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4152"/>
         <source>Guided Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1556"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1663"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1941"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2520"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1511"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1618"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1896"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2475"/>
         <source>Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1170"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1594"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1125"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1549"/>
         <source>Parameter</source>
         <translation type="unfinished">Parametr</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1831"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1786"/>
         <source>Overall Gain (L1-K1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1857"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1812"/>
         <source>Correction Rate (AM1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1902"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1857"/>
         <source>Prop. Torque (PROP-K1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1915"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1870"/>
         <source>Quatos Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1928"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1883"/>
         <source>Thrust Rate (AM2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1954"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1961"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1968"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1975"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1909"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1916"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1923"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1930"/>
         <source>0.002</source>
         <translation type="unfinished">0.002</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2042"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1997"/>
         <source>Controls Deadband</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2101"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2056"/>
         <source>Pitch/Roll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2133"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2088"/>
         <source>Switches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2174"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2129"/>
         <source>Control Limits</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5358,37 +5359,37 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">PID &amp;&amp; Quatos Tuning</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7111"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7066"/>
         <source>Re-scale attitude PID values for firmware version 6.8+    </source>
         <translation>Przeskalowane wartości attitude PID dla firmware w wersji 6.8 +    </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7145"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7100"/>
         <source>Quatos Tuning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7171"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7126"/>
         <source>QUATOS_AM1</source>
         <translation>QUATOS_AM1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7174"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7129"/>
         <source>Correction Rate:</source>
         <translation>Szybkość korekty:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7187"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7142"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AM1&lt;/span&gt; is the Attitude Correction Rate demanded by the controller. A higher value demands more correction rate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AM1&lt;/span&gt; jest to szybkość korekty poziomu żadana przez kontroler. Wyższe wartości, szybsza korekta.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7200"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7155"/>
         <source>QUATOS_AM2</source>
         <translation>QUATOS_AM2</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7203"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7158"/>
         <source>Thrust Rate:</source>
         <translation>Ilość ciągu:</translation>
     </message>
@@ -5397,12 +5398,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AM2 &lt;/span&gt;jest to siła ciągu użyta do osiągnięcia szybkości korekty położenia wymaganej przez AM1.  Wyższe wartości to więcej ciągu użytego do korekty położenia.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7229"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7184"/>
         <source>QUATOS_PROP_K1</source>
         <translation>QUATOS_PROP_K1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7232"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7187"/>
         <source>Prop. Torque:</source>
         <translation>Moment śmigła:</translation>
     </message>
@@ -5411,32 +5412,32 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PROP_K1&lt;/span&gt; jest to stała która opisuje moment obrotowy śmigła: Większy moment (większe śmigło), niższa wartość. Domyślna wartość jest dobra dla śmigła 10-12&quot; Śmigła SF (slowflyer) mają większy moment od E (electric).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7258"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7213"/>
         <source>QUATOS_L1_K1</source>
         <translation>QUATOS_L1_K1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7261"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7216"/>
         <source>Overall Gain:</source>
         <translation>Ogólna czułość:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7274"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7229"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;L1_K1&lt;/span&gt; is the Overall gain factor for the adaptive control.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;L1_K1&lt;/span&gt; jest to parametr czułości dla całego kontrolera adaptacyjnego.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7384"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7339"/>
         <source>Manual Response Speed (QUATOS_QUAT_TAU)</source>
         <translation>Szybkość reakcji Manualnej (QUATOS_QUAT_TAU)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7387"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7342"/>
         <source>Man. Resp. Speed:</source>
         <translation>Szybk. reakcji man. :</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7400"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7355"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;QUAT_TAU&lt;/span&gt; is a filtering constant that adjusts the speed at which attitude change demands from the RC are applied. Lower to get more sharp/fast attitude changes. Raise to smooth.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;QUAT_TAU&lt;/span&gt; jest to stała filtracji, która reguluje prędkość reakcji na zmiany położenia rządane przez drążki. Niższa wartość dla szybszych/ostrzejszych zmian, wyższe dla bardziej gładkich.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5445,12 +5446,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;QUATOS_L1_ASP&lt;/span&gt; parametr, którego nie powinno się zmieniać!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7297"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7252"/>
         <source>QUATOS_M_TLT_RT</source>
         <translation>QUATOS_M_TLT_RT</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7300"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7255"/>
         <source>Max. Tilt Rate:</source>
         <translation>Max. szybk. wychyl.:</translation>
     </message>
@@ -5459,13 +5460,13 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; i &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; są to ograniczniki szybkości reakcji wyrażone w radianach na sekundę. 1 radian to 57.29 stopni. (QUATOS_M_TLT_RT)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7326"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7281"/>
         <source>QUATOS_M_YAW_RT</source>
         <translation>QUATOS_M_YAW_RT</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7329"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8326"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7284"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8281"/>
         <source>Max. Yaw Rate:</source>
         <translation>Max. szybk. obr. :</translation>
     </message>
@@ -5474,7 +5475,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; są to ograniczniki szybkości reakcji wyrażone w radianach na sekundę. 1 radian to 57.29 stopni. (QUATOS_M_YAW_RT)  Nie zapomnij aby dostosować Yaw Rate (szybk. obr) w zakładce Radio &amp;amp; Sterowanie.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7355"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7310"/>
         <source>QUATOS_MAX_OUT</source>
         <translation>QUATOS_MAX_OUT</translation>
     </message>
@@ -5483,172 +5484,172 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Ustawienia gimbala</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5038"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4993"/>
         <source>Roll Axis</source>
         <translation>Oś Roll</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5050"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5323"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5005"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5278"/>
         <source>PWM Min:</source>
         <translation>PWM Min:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5069"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5342"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5024"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5297"/>
         <source>Minumum pulse width sent to servo/controller</source>
         <translation>Minimalna szerokość impulsów wysyłanych na serwo/kontroler</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5094"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5367"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5049"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5322"/>
         <source>PWM Mid:</source>
         <translation>PWM środek:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5113"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5386"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5068"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5341"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width sent to servo/controller for mid-point (level adjustment)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Szerokość impulsów wysyłanych do serwa/kontrolera w połowie zakresu (regulacja poziomu)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5138"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5411"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5093"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5366"/>
         <source>PWM Max:</source>
         <translation>PWM Max:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5157"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5430"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5112"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5385"/>
         <source>Maximum pulse width sent to servo/controller</source>
         <translation>Maksymalna szerokość impulsów wysyłanych na serwo/kontroler</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5182"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5455"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5137"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5410"/>
         <source>Scale:</source>
         <translation>Skala:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5201"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5474"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5156"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5429"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stabilization scaling factor in degrees per second of pulse width.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Współczynnik skali stabilizacji w stopni na sekundę w szerokości impulsu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5207"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5162"/>
         <source>0.01428571</source>
         <translation>0.01428571</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5229"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5184"/>
         <source>Expo:</source>
         <translation>Expo:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5248"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5203"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Roll axis exponential (slows down movement around center). When set, the GMBL_SCAL_ROLL must be lowered. An expo of 30, will result in a GMBL_SCAL_ROLL of 1/500 instead of 1/70.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Expo osi roll (spowalnia ruch wokół centrum). Po ustawieniu, GMBL_SCAL_ROLL musi być obniżona. Expo 30, spowoduje GMBL_SCAL_ROLL 1/500, a nie 1/70.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5276"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5292"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5549"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5565"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5231"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5247"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5504"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5520"/>
         <source>Select to reverse movement direction on this axis</source>
         <translation>Zaznacz, aby zmienić kierunek ruchu na tej osi</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5279"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5552"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5234"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5507"/>
         <source>Reverse:</source>
         <translation>Rewers:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5311"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5266"/>
         <source>Pitch Axis</source>
         <translation>Oś Pitch</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5480"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5435"/>
         <source>0.01098901</source>
         <translation>0.01098901</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5502"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5457"/>
         <source>Slew Rate:</source>
         <translation>Szybkość narastania:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5521"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5476"/>
         <source>Smooth out manual tilt commands</source>
         <translation>Wygładzenie manualnego pochylania</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5527"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5482"/>
         <source>0.0</source>
         <translation>0.0</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5581"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5536"/>
         <source>Automated Triggering</source>
         <translation>Automatyczne wyzwalanie</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5626"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5581"/>
         <source>Trig. Chan. Neutral Position:</source>
         <translation>Poz. neutr. kanału migawki:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5645"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5600"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_CH_NEU&lt;/p&gt;&lt;p&gt;This defines the &amp;quot;neutral&amp;quot; state of the GEAR channel when no manual triggering is being done. It is used by the automated triggering to determine when it is OK to fire (it can also be thought of as the &amp;quot;on&amp;quot; position for auto-triggering). &lt;/p&gt;&lt;p&gt;This can be set to any &amp;quot;AQ&amp;quot; radio value (-1024 - +1024), for example zero for a middle switch position, or -500 for switch low. The actual radio value must be within +/- of the configured control dead-band (40 by default). So if zero is defined for this param, the actual channel value would need to be within +/- 40 (by default).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_CH_NEU&lt;/p&gt; &lt;p&gt;Definiuje &amp;quot;neutralny&amp;quot; stan kanału gdy nie jest wyzwolona migawka (ręcznie). Parametrjest używany przez automatyczne wyzwalanie do określenia, kiedy można wyzwolić migawkę (można również traktować jako pozycja auto-migawki). &lt;/p&gt; &lt;p&gt;Można ustawić dowolną wartość radia &amp;quot;AQ&amp;quot; (-1024-+1024), na przykład zerowej pozycji środkowej przełącznika lub niska pozycja -500 dla przełącznika. Wartość rzeczywista radia musi być w skonfigurowana z martwą strefą (40 domyślnie). Więc jeśli zdefiniujemy zero dla tego parametru, wartość rzeczywista kanału będzie w zakresie +/-40 (domyślnie).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5670"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5625"/>
         <source>Trigger Active PWM:</source>
         <translation>PWM aktywnej migawki:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5689"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5644"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_PWM - Pulse width to output when trigger is active. &lt;span style=&quot; text-decoration: underline;&quot;&gt;This is for automatic mode only&lt;/span&gt; (manual mode is completely passthrough).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_PWM - szerokość impulsu wyjściowego, kiedy migawka jest aktywna. &lt;span style=&quot;text-decoration: underline;&quot;&gt; Tylko dla trybu automatycznego&lt;/span&gt; (tryb ręczny jest całkowicie przepuszczany).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5714"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5669"/>
         <source>Trigger Active Duration:</source>
         <translation>Czas trwania migawki:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5733"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5688"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_TIM - How long to keep the trigger output level active, in ms.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_ON_TIM - Jak długo ma być zachowany poziom wyjścia aktywnej migawki, w ms&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5739"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5694"/>
         <source> ms</source>
         <translation>ms</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5773"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5829"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5728"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5784"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GMBL_TRIG_DIST &amp;amp; GMBL_TRIG_TIME&lt;/p&gt;&lt;p&gt;Set one/both to a value to enable automatic triggering. The triggering starts/runs only when in FLYING state. If both are set, whichever condition is met first will fire the trigger (time is checked first). &lt;/p&gt;&lt;p&gt;Manual (GEAR channel) control has priority over automatic triggering. If manual override is active, the next auto-trigger will happen right after GEAR is moved back to neutral position, or when the next time/distance interval is reached, whichever is later.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;GMBL_TRIG_DIST &amp;amp; GMBL_TRIG_TIME&lt;/p&gt; &lt;p&gt;Ustaw jedną lub obydwie wartości, aby umożliwić automatyczne wyzwalanie. Wyzwalanie zaczyna działać tylko wtedy, gdy w kopter LATA. Jeśli są ustawione obydwa parametry, którykolwiek warunek jest spełniony nastąpi uruchomienie wyzwalacza (czas jest sprawdzany pierwszy). &lt;/p&gt; &lt;p&gt;Sterowanie ręczne (kanał GEAR) ma pierwszeństwo przed automatycznym wyzwalaniem. Jeśli aktywne jest ręczne wyzwalanie, kolejne automatyczne wyzwalenie nastąpi dopiero wtedy gdy przełącznik ręczny będzie w pozycji neutralnej, albo po osiągnięciu następnego interwału czasu/odległości, którykolwiek nastąpi później.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5776"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5731"/>
         <source>Time:</source>
         <translation>Czas:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5804"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5759"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5860"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8468"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8768"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5815"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8423"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8723"/>
         <source> m</source>
         <translation> m</translation>
     </message>
@@ -5657,12 +5658,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Interwał wyzwalacza</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="5832"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5787"/>
         <source>Distance:</source>
         <translation>Odległość:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8491"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8446"/>
         <source>Misc. Settings</source>
         <translation>Ustawienia dodatkowe</translation>
     </message>
@@ -5675,7 +5676,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Max. prędkość obrotu (Yaw)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8345"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8300"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum navigation yaw rate deg/s (in auto modes).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalna prędkość obrotu (YAW)w stopniach/s (w trybie auto).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5684,14 +5685,14 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Max. Prędkość pozioma</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8389"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8344"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum speed constraint while in automated modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Ograniczenie prędkości maksymalnej w trybie automatycznym.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8232"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8392"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8430"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8187"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8347"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8385"/>
         <source> m/s</source>
         <translation> m/s</translation>
     </message>
@@ -5700,7 +5701,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Max. Prędkość pionowa</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8427"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8382"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum descent rate while in automated modes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalna prędkość opadania w trybie automatycznym.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5709,12 +5710,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Limit wysokości</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8465"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8420"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Meters relative to home alt. Maximum altitude in AH/PH/mission/dvh modes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Maksymalna wysokość w trybach AH/PH/misji&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8229"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8184"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Default velocity for mission landing leg when none is specified in mission plan.  Used as landing descent rate during failsafe activation.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Domyślna prędkość lądowania w trybie misji gdy gdy ta prędkość nie jest ustawiona w planie misji.  Parametr używany także do lądowania w trybie failsafe.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5723,12 +5724,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Domyślna prędkość lądowania</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8524"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8479"/>
         <source>Mounting &amp;&amp; Environment</source>
         <translation>Montaż &amp;&amp; Środowisko</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8536"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8491"/>
         <source>DIMU Flip:</source>
         <translation>DIMU Flip:</translation>
     </message>
@@ -5745,34 +5746,34 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Oś Y (pitch)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8571"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8526"/>
         <source>IMU Rotation:</source>
         <translation>Rotacja IMU:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8593"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8631"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8669"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8548"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8586"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8624"/>
         <source> °</source>
         <translation> °</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8609"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8564"/>
         <source>Magnetic Declination:</source>
         <translation>Deklinacja magnetyczna:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8628"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8583"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local declination in operating area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Lokalna deklinacja w okolicach lotu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8647"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8602"/>
         <source>Magnetic Inclination:</source>
         <translation>Inklinacja magnetyczna:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8666"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8621"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local inclination in operating area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Lokalna inklinacja w okolicach lotu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5785,7 +5786,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">PWM uzbrojenia:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6019"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="5974"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse width at which the ESCs should arm, but motors not running yet.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Szerokość impulsu, przy którym ESC zostaną uzbrojone, ale silniki jeszcze nie wystartują.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5814,43 +5815,43 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Szerokość impulsu, przy którym silniki osiągną maksymalną moc.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8935"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8890"/>
         <source>Communication Ports</source>
         <translation>Porty komunikacyjne</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8965"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8920"/>
         <source>Serial Port 1</source>
         <translation>Port szeregowy 1</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8982"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9014"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9118"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9222"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9326"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8937"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8969"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9073"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9177"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9281"/>
         <source>Baud Rate:</source>
         <translation>Szybkość transmisji:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9049"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9153"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9257"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9361"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9004"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9108"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9212"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9316"/>
         <source>Protocol:</source>
         <translation>Protokół:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1019"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1041"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1195"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1217"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1387"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1409"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8553"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="134"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="809"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1690"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="974"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="996"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1150"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1172"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1342"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1364"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8508"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="135"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="857"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1751"/>
         <source>None</source>
         <translation>Brak</translation>
     </message>
@@ -5935,15 +5936,15 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż lub ukryj panel z wartościami kanałów radiowych.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1760"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="1805"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1831"/>
         <location filename="../../src/ui/qgcautoquad.ui" line="1850"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1876"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1895"/>
         <source>Quatos tuning parameter, see documentation.</source>
         <translation>Quatos - parametry strojenia, zobacz w dokumentacji.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7584"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7539"/>
         <source>Quatos</source>
         <translation>Quatos</translation>
     </message>
@@ -5956,7 +5957,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">L1 ASP:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6240"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6195"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refer to online &lt;a href=&quot;http://autoquad.org/wiki/wiki/configuring-autoquad-flightcontroller/tuning-and-troubleshooting/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#9b1229;&quot;&gt;PID&lt;/span&gt;&lt;/a&gt; and &lt;a href=&quot;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-final-setup-and-tuning/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#9b1229;&quot;&gt;Quatos&lt;/span&gt;&lt;/a&gt; documentation for help.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Popatrz też na &lt;a href=&quot;http://autoquad.org/wiki/wiki/configuring-autoquad-flightcontroller/tuning-and-troubleshooting/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#9b1229;&quot;&gt;PID&lt;/span&gt;&lt;/a&gt; i &lt;a href=&quot;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-final-setup-and-tuning/&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline; color:#9b1229;&quot;&gt;Quatos&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5965,129 +5966,129 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Pokaż ustawienia:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7565"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7520"/>
         <source>PID</source>
         <translation>PID</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8590"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8545"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flight controller/IMU orientation compared to vehicle front (negative values for CCW rotation).&lt;/p&gt;&lt;p&gt;Rotation is applied after DIMU Flip setting.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Orientacja FC/IMU w stosunku do przodu modelu (negatywne wartości dla obrotu CCW ).&lt;/p&gt;&lt;p&gt;Rotacja jest stosowana PO ustawieniu &quot;flipa&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="136"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="137"/>
         <source>MAVLink</source>
         <translation>MAVLink</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="137"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="138"/>
         <source>AQ Serial</source>
         <translation>AQ serial</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9101"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9056"/>
         <source>Serial Port 2</source>
         <translation>Port szeregowy 2</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9202"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9157"/>
         <source>USB Interface (AQ v7)</source>
         <translation>Interfejs USB (AQ v7)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9205"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9160"/>
         <source>Serial Port 3</source>
         <translation>Port szeregowy 3</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9306"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9261"/>
         <source>OMAP Interface (AQ v7)</source>
         <translation>Interfejs OMAP (AQ v7)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9309"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9264"/>
         <source>Serial Port 4</source>
         <translation>Port szeregowy 4</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8691"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8646"/>
         <source>Radio Failsafe</source>
         <translation>Failsafe</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8697"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8652"/>
         <source>Stage1 Action:</source>
         <translation>Próg 1:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8720"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8675"/>
         <source>Stage2 Action:</source>
         <translation>Próg 2:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8739"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8694"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Land: Immediately start descent and disarm at landing. &lt;/p&gt;&lt;p&gt;RTH, Land: First return to home position and altitude (if set), then start descent.&lt;/p&gt;&lt;p&gt;Ascend, RTH, Land: If below home position altitude, then first ascend to that altitude, then return to home position, then descend.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NOTE&lt;/span&gt;: Landing velocity is determined by the NAV_LANDING_VEL parameter (aka Dflt. Landing Rate on this settings screen).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Ląduj: natychmiastowe rozpoczęcie lądowania i rozbrojenie silników.&lt;/p&gt;&lt;p&gt;RTH, Ląduj:najpierw powrót do HOME i wysokości HOME (jeśli ustawiono), a następnie rozpoczęcie lądowania.&lt;/p&gt;&lt;p&gt;Wznieś, RTH, Ląduj: Jeśli kopter znajduje się poniżej wysokości położenia HOME,to najpierw wznoszenie do ustalonej wysokości, następnie RTH, a potem lądowanie.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600;&quot;&gt; Uwaga&lt;/span&gt;: prędkość lądowania ustalona jest przez NAV_LANDING_VEL (Domyślna prędkość lądowania).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8765"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8720"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Add this many meters to home altitude when Stage 2 failsafe is activated using the &amp;quot;Ascend, RTH, Land&amp;quot; option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Określa ile metrów dodać do wysokości HOME podczas 2 kroku Failsafe gdy ustawione jest &amp;quot;Wznieś, RTH, Ląduj&amp;quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8746"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8701"/>
         <source>Add Altitude:</source>
         <translation>Dodaj wysokość:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="587"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="539"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open Help text about RC setup.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="590"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="960"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="728"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="542"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="915"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="776"/>
         <source>Radio Settings Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="944"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="899"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When this option is enabled, saving parameters to onboard flash memory will save the adjusted values (if any) instead of the original onboard parameter values. This will also affect the parameter values you see in the Onboard Parameters list when you Refresh it (if this option is enabled, the parameters loaded will show adjusted values instead of saved ones).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="947"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="902"/>
         <source>Use adjusted values when saving parameters to flash memory.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="957"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="912"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open Help text about RC-Adjustable Parameters.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1076"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1142"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1249"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1353"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1500"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1528"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1031"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1097"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1204"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1308"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1455"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1483"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This is the multiplier applied to the radio channel value before adjustment of the parameter value. See the Help document for details (click the question mark button at bottom right of the RC-Adjustable Parameters area).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1991"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1946"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Deadband / Limits / PPM&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="1994"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="1949"/>
         <source>Additional Control Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="2403"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2358"/>
         <source>&lt;html&gt;
 	&lt;head&gt;
 	&lt;style&gt;
@@ -6156,215 +6157,320 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3002"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="2957"/>
         <source>Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3443"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3398"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;MAN&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3462"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3417"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;PH&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3481"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3436"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;MSN&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3520"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3475"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;RTH&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3539"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3494"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;off&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="3558"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="3513"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;SET&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4371"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4885"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4895"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4326"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4840"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4850"/>
         <source>radioSwitchGroupSep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="4768"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="4723"/>
         <source>Wpt. Rec/Skp/Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7216"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7171"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AM2 &lt;/span&gt; is the thrust applied to acheive the correction rate  that  is demanded by AM1.  A higher  value demands more thrust to acheive the desired correction rate.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7245"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7200"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PROP_K1&lt;/span&gt; is a constant that  describe the propellor torque:  The more torque (eg bigger/steeper prop), the lower this value. Default value is about for a 10-12″ prop. Slowflyers have more torque than Speed type props (e-props, thin electric, etc).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7313"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7268"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; is rate response limiters expressed in radians per second. 1 radian equals 57.29 degrees. (QUATOS_M_TLT_RT)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7342"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7297"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;M_TLT RATE&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;M_YAW_RATE&lt;/span&gt; is rate response limiters expressed in radians per second. 1 radian equals 57.29 degrees. (QUATOS_M_YAW_RT)  Don&apos;t forget to adjust Yaw Rate in Radio &amp;amp; Controls settngs to match.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7412"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7367"/>
         <source>Motor Thrust Values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7433"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7388"/>
         <source>Thrust Factor A1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7453"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7408"/>
         <source>Thrust Factor A2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7514"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7469"/>
         <source>License Key:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7552"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7507"/>
         <source>Attitude Controller:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7611"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7566"/>
         <source>Navigation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7642"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7597"/>
         <source>PIDs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7666"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7621"/>
         <source>Horizontal (Position)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7681"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7949"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7636"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7904"/>
         <source>Speed Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7806"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8071"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7761"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8026"/>
         <source>Distance Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7934"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7889"/>
         <source>Vertical (Altitude)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8204"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8159"/>
         <source>Defaults</source>
         <translation type="unfinished">Domyślne</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8210"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8165"/>
         <source>Landing Rate:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8264"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8219"/>
         <source>Altitude Controller</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8270"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8225"/>
         <source>Max. Valid GPS Accuracy:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8283"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8238"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum GPS horizontal accuracy reading to consider acceptable for altitude hold controller. Above this value, a separate Altitude UKF controller is used which is based exclusively on readings from the pressure sensor.&lt;/p&gt;&lt;p&gt;Set it to zero to disable GPS estimates entirely, for example, or something high but &amp;lt; 100 (eg. 99) to always use GPS altitude when an antenna is connected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8308"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8263"/>
         <source>Limits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8370"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8325"/>
         <source>Max. Speed:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8408"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8363"/>
         <source>Max. Descent Rate:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8446"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8401"/>
         <source>Ceiling Altitude:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8549"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8504"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Digital IMU flip direction (AQ6 with DIMU add-on, or AQ M4). Note that Flip setting is applied before the IMU Rotation setting.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;None&lt;/span&gt;: Board is right side up (On AQ6 that is DIMU expander facing up. On M4 that is the side with the USB connector and large CPU chip in the center).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Roll Axis&lt;/span&gt;: Left becomes right. For example, on M4 this means arm #4 is pointing to the right instead of left and GPS chip is facing up.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Pitch Axis&lt;/span&gt;: Front becomes back. For example, on M4 this means the #3 arm is pointing forward instead of to the back, and the GPS chip is facing up.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8558"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8513"/>
         <source>Around Roll Axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8563"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8518"/>
         <source>Around Pitch Axis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8781"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8736"/>
         <source>Low Battery Warnings</source>
         <translation>Ostrzeżenia niskiego poziomu energii</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8790"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8745"/>
         <source>Stage 1 Warning:</source>
         <translation>Ostrzeżenie 1 stopnia:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8809"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8847"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8764"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8802"/>
         <source>Voltage per battery cell</source>
         <translation>Napięcia na celi baterii</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8812"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8850"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8767"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8805"/>
         <source>V</source>
         <translation>V</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8828"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8783"/>
         <source>Stage 2 Warning:</source>
         <translation>Ostrzeżenie 2 stopnia:</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9403"/>
+        <source>Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9406"/>
+        <source>aqParamsStatus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9419"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Reload this view of currently active onboard parameters. Any changes you made will be lost.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9422"/>
+        <source>Refresh</source>
+        <translation type="unfinished">Odśwież</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9451"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Send the currently displayed settings to the flight controller. You will be able to review the changes (if any) and have the option to cancel. Settings can be saved to temporary (running) memory, and optionally to permanent (flash) storage memory. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9454"/>
+        <source>Save to AQ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9480"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load from Flash&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load parameters from onboard flash memory into active running memory and show them here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9483"/>
+        <source>Load Flash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9521"/>
+        <source>AQ Version: [not connected]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9550"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load from File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load parameters from a local file into this interface. You can then save them to the flight controller if you want.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9553"/>
+        <source>Load File</source>
+        <translation type="unfinished">Wczytaj plik</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9582"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Save to File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Save currently loaded parameters to a local file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9585"/>
+        <source>Save File</source>
+        <translation type="unfinished">Zapisz plik</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9614"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Save to SD&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Save currently loaded parameters to onboard disk storage. You will need a memory card inserted/attached to the flight controller. Next time AQ is started, it will load these parameter values, overriding any other settings (defaults or loaded from flash memory).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9617"/>
+        <source>Save SD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9646"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load from SD&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load parameters from onboard disk storage (SD card) into active running memory and show them here. This does not automatcially save the parameters to flash memory. &lt;/p&gt;&lt;p&gt;You will need a memory card inserted/attached to the flight controller with a PARAMS.txt file already on it.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9649"/>
+        <source>Load SD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9678"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load Defaults&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load default parameter values into active running memory and show them here. Default values are not stored to onboard flash memory unless you specifically do so afterwards.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9681"/>
+        <source>Load Defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9710"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Write to Flash&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Copy current parameters in non-permanent memory of the aircraft to permanent memory. If you have modified any parameters, save or transmit them first.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9713"/>
+        <source>Write Flash</source>
+        <translation type="unfinished">Zapisz Flash</translation>
     </message>
     <message>
         <source>ESC32 Settings</source>
@@ -6555,12 +6661,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Załaduj domyślne wartości konfiguracji do pamięci nietrwałej ESC32, a następnie wyświetl je tutaj.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7358"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7313"/>
         <source>Max. Output:</source>
         <translation>Max wyjścia:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7371"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7326"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;QUATOS_MAX_OUT&lt;/span&gt; is the maximum moment that the adaptive control can demand.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;QUATOS_MAX_OUT&lt;/span&gt; jest to maksymalna wartość momentu jaką może wykorzystać kontroler adaptacyjny.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -6569,7 +6675,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Parametry ciągu Quatos</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7430"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7385"/>
         <source>MOT_VALUE2T_A1</source>
         <translation>MOT_VALUE2T_A1</translation>
     </message>
@@ -6578,7 +6684,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Wsp. ciągu A1:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7450"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7405"/>
         <source>MOT_VALUE2T_A2</source>
         <translation>MOT_VALUE2T_A2</translation>
     </message>
@@ -6587,40 +6693,40 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Wsp. ciągu A2:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7470"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7425"/>
         <source>MOT_VALUE_SCAL</source>
         <translation>MOT_VALUE_SCAL</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7473"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7428"/>
         <source>Scale Factor:</source>
         <translation>Wsp. skali:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="7492"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="7447"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;RPM (or voltage) Scale Factor for Quatos controller. &lt;/p&gt;&lt;p&gt;For use with ESC32, set this to equal PWM_RPM_SCALE setting on the ESC. &lt;/p&gt;&lt;p&gt;For voltage factor (like on M4 built-in ESCs), use nominal motors voltage (e.g. 3.5V for M4 brushed motors).&lt;/p&gt;&lt;p&gt;See &lt;a href=&quot;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;RPM (albo napięcie) - wsółczynnik skali dla kontrolera Quatos. &lt;/p&gt;&lt;p&gt;Gdy używasz ESC32 wpisz dokładną wartość PWM_RPM_SCALE z ustawień ESC. &lt;/p&gt;&lt;p&gt;Jeżeli ustawiasz współczynnik napięciowy (jak w przypadku M4 i wbudowanych  ESC), użyj nominalnej wartości napięcia dla silników (np. 3.5V dla silników szczotkowych w M4).&lt;/p&gt;&lt;p&gt;Zobacz &lt;a href=&quot;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://autoquad.org/wiki/wiki/quatos-adaptive-control/quatos-thrust-curve-measurement-and-interpolation/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8869"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8824"/>
         <source>Input Power Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8892"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8847"/>
         <source>Main Battery Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8962"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8917"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AQ6&lt;/span&gt;: Main FTDI/serial connector pins at back of board.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;AQ M4&lt;/span&gt;: TTY Serial on J2 expansion header (use with expander board like KissSys or N4).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9068"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9172"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9276"/>
-        <location filename="../../src/ui/qgcautoquad.ui" line="9380"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9023"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9127"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9231"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="9335"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Telemetry/communication protocol type to send to this serial port, if any.&lt;/p&gt;&lt;p&gt;&amp;quot;Custom Telemetry&amp;quot; might be things like FrSky SmartPort or Graupner HoTT, depending on other settings of firmware versions. &lt;/p&gt;&lt;p&gt;Protocols marked with a (*) are currently unused by AutoQuad.&lt;/p&gt;&lt;p&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Do not enable a protocol if you are not using it.&lt;/span&gt; *&lt;br/&gt;This wastes time and resources on the flight controller and may slow down the telemetry you are actually using.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6629,12 +6735,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Wejście zasilania</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8875"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8830"/>
         <source>Voltage Sensor:</source>
         <translation>Czujnik napięcia:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8888"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8843"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Voltage sensor input -- select main source of flight battery voltage monitoring.  Some hardware may support an external voltage input sensor (for example the &lt;span style=&quot; font-weight:600;&quot;&gt;M4 v2&lt;/span&gt;).  On the M4 this may be useful when using external brushless ESCs.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wejście czujnika napięcia -- wybierz główne źródło zasilania.  Część kontrolerów ma zewnętrzne wejście czujnika napięcia (np. &lt;span style=&quot; font-weight:600;&quot;&gt;M4 v2&lt;/span&gt;).  W M4 jest to przydatne gdy używamy zewnętrznych regulatorów (ESC).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -6643,7 +6749,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Główne złącze baterii (domyślnie)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="8897"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="8852"/>
         <source>External Voltage Sensor</source>
         <translation>Zewnętrzny czujnik napięcia</translation>
     </message>
@@ -6756,7 +6862,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Długość impulsu PWM w mikrosekundach dla najniższego ustawienia przepustnicy.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.ui" line="6088"/>
+        <location filename="../../src/ui/qgcautoquad.ui" line="6043"/>
         <source>Motor Start:</source>
         <translation>Start silnika:</translation>
     </message>
@@ -6993,7 +7099,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Wczytaj plik</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="266"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="269"/>
         <source>Devel</source>
         <translation>Devel</translation>
     </message>
@@ -7114,8 +7220,8 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Wartości domyślne załadowane z flash.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1181"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1204"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1229"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1252"/>
         <source>Error!</source>
         <translation>Błąd!</translation>
     </message>
@@ -7136,89 +7242,94 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Załadowana bierząca konfiguracja.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="82"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="83"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;p&gt;Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;&lt;p&gt;Kliknij przycisk strzałki aby zwinąć/rozwinąć lewy panel. Kliknij i przeciągnij aby zmienić rozmiar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="97"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="98"/>
         <source>Diversity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="98"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="99"/>
         <source>Split</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="121"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="122"/>
         <source>AutoQuad Serial</source>
         <translation>AutoQuad szeregowy</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="212"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="213"/>
         <source>High</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="212"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="213"/>
         <source>Mid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="212"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="213"/>
         <source>Low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="260"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="263"/>
         <source>ESC32 Serial</source>
         <translation>ESC32 szeregowy</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="593"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="641"/>
         <source>No Radio</source>
         <translation>Brak radia</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="594"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="642"/>
         <source>Spektrum 11Bit</source>
         <translation>Spektrum 11Bit</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="595"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="643"/>
         <source>Spektrum 10Bit</source>
         <translation>Spektrum 10Bit</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="596"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="644"/>
         <source>S-BUS (Futaba, others)</source>
         <translation>S-BUS (Futaba, inne)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="597"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="645"/>
         <source>PPM</source>
         <translation>PPM</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="599"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="647"/>
         <source>SUMD (Graupner)</source>
         <translation>SUMD (Graupner)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="601"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="649"/>
         <source>M-Link (Multiplex)</source>
         <translation>M-Link (Multiplex)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="604"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="652"/>
         <source>Deltang (onboard M4v1)</source>
         <translation>Deltang (wbudowany M4v1)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="606"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="654"/>
         <source>CYRF (onboard M4v2+)</source>
         <translation>CYRF (wbudowany M4v2+)</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2427"/>
+        <source>Parameter list requested, please wait...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Testing for ESC32 bootloader mode...
@@ -7324,92 +7435,92 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Ładowanie zachowanej konfiguracji ...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1165"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1213"/>
         <source>Warning!</source>
         <translation>Ostrzeżenie!</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1181"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1229"/>
         <source>Please select the firwmare type.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1209"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1257"/>
         <source>WARNING: You are already connected to AutoQuad. If you continue, you will be disconnected and then re-connected afterwards.
 
 </source>
         <translation>OSTRZEŻENIE: Już jesteś podłączony do AutoQuada. Jeżeli będziesz kontynuował zostaniesz rozłączony i połączony ponownie.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1214"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1262"/>
         <source>WARNING: Flashing firmware will reset all ESC32 settings back to default values. Make sure you have your custom settings saved.
 
 </source>
         <translation>Aktualizacja firmwaru zresetuje wszystkie ustawienia ESC32 do wartości domyślnych. Upewnij się, że masz zapisany plik parametrów.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1221"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1269"/>
         <source>Confirm Firmware Flashing</source>
         <translation>Potwierdź aktualizację Firmware</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1976"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2033"/>
         <source>One or more parameter(s) could not be saved:</source>
         <translation>Nie można zapisać jedenego lub więcej parametrów:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2016"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2117"/>
         <source>&lt;table border=&quot;0&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Parameter &lt;/th&gt;&lt;th&gt;Old Value &lt;/th&gt;&lt;th&gt;New Value &lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;
 </source>
         <translation>&lt;table border=&quot;0&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Parametr &lt;/th&gt;&lt;th&gt;Stara wartość &lt;/th&gt;&lt;th&gt;Nowa wartość &lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="122"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="123"/>
         <source>AutoQuad M4 USB</source>
         <translation>AutoQuad M4 USB</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="135"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="136"/>
         <source>Multiplex (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="138"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="139"/>
         <source>GPS Passthrough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="139"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="140"/>
         <source>Custom Telemetry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="140"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="141"/>
         <source>CLI (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="141"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="142"/>
         <source>OMAP Console (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="142"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="143"/>
         <source>OMAP PPP (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="734"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="782"/>
         <source>Adjustable Parameters Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1157"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1205"/>
         <source>AQ or ESC32 firmware</source>
         <translation>AQ lub ESC32 firmware</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1165"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1213"/>
         <source>Could not open firmware file. %1</source>
         <translation>Nie można otworzyć pliku z firmware. %1</translation>
     </message>
@@ -7418,7 +7529,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
         <translation type="vanished">Proszę wybrać typ firmware&apos;u (AutoQuad lub ESC32).</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1192"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1240"/>
         <source>Make sure your AQ is connected via USB and is already in bootloader mode.  To enter bootloader mode,first connect the BOOT pins (or hold the BOOT button) and then turn the AQ on.
 
 </source>
@@ -7427,7 +7538,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1195"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1243"/>
         <source>Please make sure you have the dfu-util program installed on this computer. See http://dfu-util.gnumonks.org/ .Mac OS X users should install via MacPorts (http://www.macports.org/).
 
 </source>
@@ -7436,7 +7547,7 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1198"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1246"/>
         <source>An automatic restart of AQ will be attempted after flashing, but may not be possible, depending on the USB driver being used. You may see an error message at the end of the flash utility output messages, which can be ignored. In this case, simply restart AQ manually.
 
 </source>
@@ -7445,12 +7556,12 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1204"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1252"/>
         <source>Please select an available COM port.</source>
         <translation>Proszę wybrać dostępny port COM.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1212"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1260"/>
         <source>WARNING: Flashing firmware will reset all AutoQuad settings back to default values. Make sure you have your generated parameters and custom settings saved.
 
 </source>
@@ -7459,14 +7570,14 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1216"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1264"/>
         <source>Make sure you are using the %1 port.
 </source>
         <translation>Upewnij się, że używasz portu %1.
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1217"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1265"/>
         <source>There is a delay before the flashing process shows any progress. Please wait at least 20sec. before you retry!
 
 </source>
@@ -7475,28 +7586,28 @@ Może być konieczne ręczne zwarcie pinów BOOT0 aby wejść w tryb bootloadera
 </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1549"/>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1556"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1603"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="1614"/>
         <source> [unknown]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1988"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2045"/>
         <source>Parameter save error.</source>
         <translation>Błąd zapisu parametru.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1989"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2046"/>
         <source>Cannot save due to error(s). Click the Details button for more information.</source>
         <translation>Nie można zapisać z powodu błędu(ów). Kliknij przycisk Szczegóły, aby uzyskać więcej informacji.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1994"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2051"/>
         <source>Parameter save warning.</source>
         <translation>Ostrzeżenie zapisu parametru.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="1995"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2052"/>
         <source>Possible problem(s) exist. Click the Details button for more information.
 
 Do you wish to ignore this and continue saving?</source>
@@ -7504,8 +7615,13 @@ Do you wish to ignore this and continue saving?</source>
 
 Czcesz zignorować i kontynuować zapis ?</translation>
     </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2104"/>
+        <source>No changed parameters detected.  Nothing to save.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location filename="../../src/ui/qgcautoquad.cc" line="2015"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2116"/>
         <source>%n parameter(s) modified:&lt;br&gt;</source>
         <comment>one or more params have changed</comment>
         <translation>
@@ -7515,82 +7631,85 @@ Czcesz zignorować i kontynuować zapis ?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2039"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2140"/>
         <source>Verify Changed Parameters</source>
         <translation>Sprawdź, zmienione parametry</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2048"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2149"/>
         <source>Do you wish to continue?</source>
         <translation>Czy chcesz kontynuować?</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2051"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2152"/>
         <source>Restart after save?</source>
         <translation>Restart po zapisie ?</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2052"/>
         <source>&lt;html&gt;&lt;p&gt;Selecting this option will attempt to automatically restart the flight controller after saving parameters.                                          Only do this when saving to permanent memory.  You may loose the link to the flight controller and need to reconnect.&lt;/p&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;p&gt;Zaznaczenie tej opcji skutkuje automatycznym restartem kontrolera po zapisie parametrów.                                          Używaj tylko gdy, gdy parametry są zapisywane do pamięci nieulotnej.  Możesz utracić połączenie z kontrolerem i może to wymagać powtórnego połączenia.&lt;/p&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;p&gt;Zaznaczenie tej opcji skutkuje automatycznym restartem kontrolera po zapisie parametrów.                                          Używaj tylko gdy, gdy parametry są zapisywane do pamięci nieulotnej.  Możesz utracić połączenie z kontrolerem i może to wymagać powtórnego połączenia.&lt;/p&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2063"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2164"/>
         <source>Save to Volatile Memory</source>
         <translation>Zapisz do pamięci nietrwałej</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2064"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2165"/>
         <source>The settings will be immediately active and persist UNTIL the flight controller is restarted.</source>
         <translation>Ustawienia zostaną aktywne i utrzymane aż do ponownego uruchomienia kontrolera lotu.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2067"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2168"/>
         <source>Save to Permanent Memory</source>
         <translation>Zapisz do pamięci stałej</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2068"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2169"/>
         <source>The settings will be immediately active and persist AFTER flight controller is restarted.</source>
         <translation>Ustawienia zostaną aktywne i utrzymane nawet po ponownym uruchomienia kontrolera lotu.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2071"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2172"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2072"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2173"/>
         <source>Do not save any settings.</source>
         <translation>Nie zapisano ustawień.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2114"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2096"/>
         <source>Restarting flight controller...</source>
         <translation>Restartowanie kontrolera lotu...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2121"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2104"/>
         <source>Warning</source>
         <translation>Ostrzeżenie</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2121"/>
         <source>No changed parameters detected.  Nothing saved.</source>
-        <translation>Parametry nie zostały zmienione. Nic nie zapisano.</translation>
+        <translation type="vanished">Parametry nie zostały zmienione. Nic nie zapisano.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2128"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2070"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2128"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2070"/>
         <source>You have the same port assigned to multiple controls!</source>
         <translation>Ten sam port został przypisany do różnych funkcji!</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2195"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2153"/>
+        <source>&lt;html&gt;&lt;p&gt;Selecting this option will attempt to automatically restart the flight controller after saving parameters.                                  Only do this when saving to permanent memory.  You may loose the link to the flight controller and need to reconnect.&lt;/p&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2269"/>
         <source>&lt;html&gt;&lt;p&gt;The &lt;b&gt;Tilt Rate&lt;/b&gt;, &lt;b&gt;Tilt Angle&lt;/b&gt;, and &lt;b&gt;Yaw Rate&lt;/b&gt; PIDs, and the &lt;b&gt;Max. Ctrl. Per Axis&lt;/b&gt; (CTRL_MAX) parameter have been converted                 and are displayed here, but have NOT been sent to AQ (Ctrl. Max. is shown on the Radio &amp; Controls setup screen).&lt;/p&gt;                &lt;p&gt;To return to the old values, simply refresh the onboard parameters list.&lt;/p&gt;                &lt;p&gt;Please note that the conversions are approximate. Each value (except the F term!) has been multipled by 4.82 You may want to round some of the numbers a bit.&lt;/p&gt;                &lt;p&gt;You may also wish to refer to the &lt;a href=&apos;http://code.google.com/p/autoquad/source/diff?spec=svn234&amp;r=234&amp;format=side&amp;path=/trunk/onboard/config_default.h#sc_svn233_59&apos;&gt;                original code changes&lt;/a&gt; for reference.&lt;/p&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;p&gt;Parametry &lt;b&gt;Tilt Rate&lt;/b&gt;, &lt;b&gt;Tilt Angle&lt;/b&gt; i &lt;b&gt;Yaw Rate&lt;/b&gt; PID, oraz &lt;b&gt;Max. Ctrl. na oś&lt;/b&gt; (CTRL_MAX) zostały przekonwertowane i są tutaj wyświetlone, ale nie zostały wysłane do AQ (Ctrl. Max. jest wyświetlony w zakładce Radio &amp; Sterowanie).&lt;/p&gt;
 &lt;p&gt;Aby powrócić do starych ustawień, po prostu odświerz wartości.&lt;/p&gt;
@@ -7598,65 +7717,69 @@ Czcesz zignorować i kontynuować zapis ?</translation>
 &lt;p&gt;Możesz dokładniej sprawdzić zmiany &lt;a href=&apos;http://code.google.com/p/autoquad/source/diff?spec=svn234&amp;r=234&amp;format=side&amp;path=/trunk/onboard/config_default.h#sc_svn233_59&apos;&gt; w kodzie &lt;/a&gt; dla porównania.&lt;/p&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2201"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2275"/>
         <source>Attitude PID values converted.</source>
         <translation>PIDy wysokości zostały przekonwertowane.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2217"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2332"/>
+        <source>No changed parameters detected, nothing to load.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2352"/>
         <source>Process already running.</source>
         <translation>Proces już działa.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2218"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2353"/>
         <source>There appears to be an external process (calculation step or firmware flashing) already running. Please abort it first.</source>
         <translation>Prawdopodobnie jakiś zewnętrzny proces (kalkulacje lub aktualizacja oprogramowania) już działa. Przerwij go najpierw.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2229"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2364"/>
         <source>Restart the device.</source>
         <translation>Restart urządzenia.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2229"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2364"/>
         <source>Please cycle power to the AQ/ESC or press the AQ reset button to reboot.</source>
         <translation>Zrestartuj prądowo AQ/ESC32 albo naciśnij przycisk reset na AQ.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2257"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2392"/>
         <source>Failed to start.</source>
         <translation>Błąd uruchomienia.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2260"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2395"/>
         <source>Process terminated (aborted or crashed).</source>
         <translation>Proces przerwany.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2263"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2398"/>
         <source>Timeout waiting for process.</source>
         <translation>Minął czas oczekiwania na proces.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2266"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2401"/>
         <source>Cannot write to process, exiting.</source>
         <translation>Nie można zapisać do procesu, wyjście.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2269"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2404"/>
         <source>Cannot read from process, exiting.</source>
         <translation>Nie można odczytać z procesu, wyjście.</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2272"/>
+        <location filename="../../src/ui/qgcautoquad.cc" line="2407"/>
         <source>Unknown error</source>
         <translation>Nieznany błąd</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qgcautoquad.cc" line="2397"/>
         <source>PARAMETER READ/WRITE TIMEOUT! Missing: %1 read, %2 write.</source>
         <translatorcomment>Minął czas odczytu/zapisu parametrów. Brakuje %1, %2 .</translatorcomment>
-        <translation>ODCZYT/ZAPIS PARAMETRU TIMEOUT! Brakuje: Czytaj %1, %2 pisać.</translation>
+        <translation type="vanished">ODCZYT/ZAPIS PARAMETRU TIMEOUT! Brakuje: Czytaj %1, %2 pisać.</translation>
     </message>
 </context>
 <context>
@@ -10081,27 +10204,37 @@ przy którym WP zostanie uznany za osiągnięty</translation>
         <translation>Ustawienia ogólne</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="67"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="97"/>
         <source>Visual Style</source>
         <translation>Styl wyświetlania</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="87"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="117"/>
         <source>Custom CSS:</source>
         <translation>Własny CSS:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="96"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="126"/>
         <source>Select a file...</source>
         <translation>Wybierz plik...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="103"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="133"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="47"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="202"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select to show the Pilot/Mission/Config/Data buttons in the main toolbar.  Hide them to create more room for status display, then use the Perspectives menu or use the Alt-key shortcuts (Alt-P, Alt-M, Alt-C, and Alt-D, respectively).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="205"/>
+        <source>Show perspective switch buttons on toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="77"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
@@ -10111,22 +10244,22 @@ przy którym WP zostanie uznany za osiągnięty</translation>
         <translation>Automatyczne połączenie ostatniego portu szeregowego na starcie (nie zalecane)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="137"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="167"/>
         <source>Mute all audio output</source>
         <translation>Wycisz wszystkie wyjścia audio</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="125"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="155"/>
         <source>Load default base style first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="177"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="33"/>
         <source>Lowers all update rates to save battery power</source>
         <translation>Obniża wszystkie prędkości odświerzania aby oszczędzać baterię</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.ui" line="180"/>
+        <location filename="../../src/ui/QGCSettingsWidget.ui" line="36"/>
         <source>Enable low power mode</source>
         <translation>Włącz tryb niskiego poboru energii</translation>
     </message>
@@ -10136,13 +10269,13 @@ przy którym WP zostanie uznany za osiągnięty</translation>
         <translation>Ustawienia QGroundControl</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.cc" line="108"/>
-        <location filename="../../src/ui/QGCSettingsWidget.cc" line="119"/>
+        <location filename="../../src/ui/QGCSettingsWidget.cc" line="112"/>
+        <location filename="../../src/ui/QGCSettingsWidget.cc" line="123"/>
         <source>Please wait...</source>
         <translation>Proszę czekać ...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCSettingsWidget.cc" line="112"/>
+        <location filename="../../src/ui/QGCSettingsWidget.cc" line="116"/>
         <source>You may need to restart QGroundControl to switch to a fully native look and feel.</source>
         <translation>Musisz zrestartować QGroundControl aby przełączyć na pełny natywny tryb wyświetlania.</translation>
     </message>
@@ -10150,12 +10283,12 @@ przy którym WP zostanie uznany za osiągnięty</translation>
 <context>
     <name>QGCToolBar</name>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="390"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="396"/>
         <source>DISCONNECTED</source>
         <translation>ROZŁĄCZONY</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="402"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="408"/>
         <source>CONNECTION LOST: %1 s</source>
         <translation>UTRATA POŁĄCZENIA: %1 s</translation>
     </message>
@@ -10234,53 +10367,53 @@ przy którym WP zostanie uznany za osiągnięty</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="299"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="305"/>
         <source>Specify MAVLink log file to save to</source>
         <translation>Określ plik logu MAVLink, do zapisu</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="299"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="305"/>
         <source>MAVLink Logfile</source>
         <translation>Plik logu MAVLink</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="320"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="326"/>
         <source>The selected logfile is not writable</source>
         <translation>Wybrany plik nie jest zapisywalny</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="321"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="327"/>
         <source>Please make sure that the file %1 is writable or select a different file</source>
         <translation>Proszę upewnić się, że plik %1 jest zapisywalny lub wybrać inny plik</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="429"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="435"/>
         <source>No GPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="432"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="438"/>
         <source>GPS 2D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="436"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="442"/>
         <source>GPS 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="448"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="454"/>
         <source>%1 V</source>
         <translation>%1 V</translation>
     </message>
     <message>
-        <location filename="../../src/ui/QGCToolBar.cc" line="472"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="478"/>
         <source>ARMED</source>
         <translation>UZBROJONY</translation>
     </message>
     <message>
         <location filename="../../src/ui/QGCToolBar.cc" line="81"/>
-        <location filename="../../src/ui/QGCToolBar.cc" line="480"/>
+        <location filename="../../src/ui/QGCToolBar.cc" line="486"/>
         <source>SAFE</source>
         <translation>BEZPIECZNY</translation>
     </message>

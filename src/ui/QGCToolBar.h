@@ -84,6 +84,7 @@ public slots:
     void heartbeatTimeout(bool timeout, unsigned int ms);
 
     void toggleActiveUasView(bool on);
+    void toggleButtonsVisible(bool on);
 
 protected:
 //    void createCustomWidgets();
@@ -91,6 +92,7 @@ protected:
 
     QAction* toggleLoggingAction;
     QAction* logReplayAction;
+    QList<QAction *> perspectiveActions;
     UASInterface* mav;
     QHBoxLayout* hlayout;
     QLabel* symbolLabel;
