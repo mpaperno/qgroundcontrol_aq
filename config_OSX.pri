@@ -29,7 +29,7 @@ LIBS += -framework IOKit \
 	-framework ApplicationServices \
 	-lm
 
-QMAKE_CXXFLAGS_WARN_OFF += -Wno-switch
+QMAKE_CXXFLAGS_WARN_ON += -Wno-switch
 
 exists(/opt/local/include/libfreenect)|exists(/usr/local/include/libfreenect) {
 	message("Building support for libfreenect")

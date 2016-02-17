@@ -201,17 +201,18 @@ QToolBar#QGC_TOOLBAR {
 	max-height: 2.8em;
 	margin: 0;
 	padding: 0;
-	border-bottom: .1em solid #484848;
-	border-top: .1em solid #969696;
+	border-bottom: .05em solid #484848;
+	border-top: .05em solid #969696;
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #8B8B8B, stop:0.3 #808080, stop:0.34 #747474, stop:1 #484848);
 	padding: 0;
+	spacing: 0;
 }
 QToolBar#QGC_TOOLBAR QToolButton  {
 	font-weight: bold;
 	color: #DDDDDF;
 	height: 1.7em;
 	margin: .3em 0;
-	padding: .1em .1em;
+	padding: .1em .05em;
 	border: .05em solid #BBBBBB;
 	border-right-width: 0;
 	border-left-width: 0;
@@ -220,13 +221,13 @@ QToolBar#QGC_TOOLBAR QToolButton  {
 }
 QToolBar#QGC_TOOLBAR QToolButton#actionPilotsView {
 	margin-left: .4em;
-	border-left-width: .1em;
+	border-left-width: .05em;
 	border-top-left-radius: .4em;
 	border-bottom-left-radius: .4em;
 }
 QToolBar#QGC_TOOLBAR QToolButton#actionDataView {
 	margin-right: .2em;
-	border-right-width: .1em;
+	border-right-width: .05em;
 	border-top-right-radius: .4em;
 	border-bottom-right-radius: .4em;
 }
@@ -322,6 +323,7 @@ QToolBar#QGC_TOOLBAR QLabel#toolBarGpsFixLabel {
 QToolBar#QGC_TOOLBAR QLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarNameLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarModeLabel:disabled,
+QToolBar#QGC_TOOLBAR QLabel#toolBarAuxModeLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarStateLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarBatteryVoltageLabel:disabled,
 QToolBar#QGC_TOOLBAR QLabel#toolBarSafetyLabel:disabled,

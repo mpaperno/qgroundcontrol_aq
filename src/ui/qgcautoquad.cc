@@ -29,6 +29,7 @@
 #include <QStringList>
 #include <QDialogButtonBox>
 #include <qextserialenumerator.h>
+#include <float.h>
 
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
