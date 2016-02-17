@@ -370,6 +370,7 @@ void QGCAutoquad::showEvent(QShowEvent* event)
         }
     }
     QWidget::showEvent(event);
+    buttonBoxResized();
     emit visibilityChanged(true);
 }
 
@@ -499,33 +500,34 @@ void QGCAutoquad::splitterMoved() {
 void QGCAutoquad::buttonBoxResized()
 {
     Qt::ToolButtonStyle tbs;
+    int base = 500;
     int w = ui->widget_buttonBox->size().width();
 
-    tbs = (w > 580) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsLoadSD->setVisible(w > base);
+    ui->btn_paramsSaveSD->setVisible(w > base);
+
+    tbs = (w > (base += 100)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
     ui->btn_paramsRefresh->setToolButtonStyle(tbs);
 
-    tbs = (w > 700) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    tbs = (w > (base += 100)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
     ui->btn_paramsLoadDefault->setToolButtonStyle(tbs);
 
-    tbs = (w > 780) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    tbs = (w > (base += 80)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
     ui->btn_paramsLoadFlash->setToolButtonStyle(tbs);
 
-    tbs = (w > 850) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
-    ui->btn_paramsSaveFlash->setToolButtonStyle(tbs);
-
-    ui->btn_paramsLoadSD->setVisible(w > 900);
-    ui->btn_paramsSaveSD->setVisible(w > 900);
-
-    tbs = (w > 920) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    tbs = (w > (base += 60)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
     ui->btn_paramsLoadFile->setToolButtonStyle(tbs);
 
-    tbs = (w > 980) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    tbs = (w > (base += 60)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
     ui->btn_paramsSaveFile->setToolButtonStyle(tbs);
 
-    tbs = (w > 1050) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    tbs = (w > (base += 60)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    ui->btn_paramsSaveFlash->setToolButtonStyle(tbs);
+
+    tbs = (w > (base += 80)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
     ui->btn_paramsLoadSD->setToolButtonStyle(tbs);
 
-    tbs = (w > 1100) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
+    tbs = (w > (base += 60)) ? Qt::ToolButtonTextBesideIcon : Qt::ToolButtonIconOnly;
     ui->btn_paramsSaveSD->setToolButtonStyle(tbs);
 
 }

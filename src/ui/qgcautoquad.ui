@@ -9416,7 +9416,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Refresh this view of currently active onboard parameters. Any changes you made will be lost.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Reload this view of currently active onboard parameters. Any changes you made will be lost.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Refresh</string>
@@ -9433,6 +9433,9 @@
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -9474,7 +9477,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load parameters from onboard flash memory into active running memory and show them here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load from Flash&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load parameters from onboard flash memory into active running memory and show them here.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Load Flash</string>
@@ -9491,6 +9494,9 @@
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -9541,7 +9547,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load parameters from a local file into this interface. You can then save them to the flight controller if you want.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load from File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load parameters from a local file into this interface. You can then save them to the flight controller if you want.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Load File</string>
@@ -9559,6 +9565,9 @@
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="9">
@@ -9570,7 +9579,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save currently loaded parameters to a local file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Save to File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Save currently loaded parameters to a local file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Save File</string>
@@ -9588,6 +9597,9 @@
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="7">
@@ -9599,7 +9611,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save currently loaded parameters to onboard disk storage. You will need a memory card inserted/attached to the flight controller.  Next time AQ is started, it will load these parameter values, overriding any other settings (defaults or loaded from flash memory).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Save to SD&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Save currently loaded parameters to onboard disk storage. You will need a memory card inserted/attached to the flight controller. Next time AQ is started, it will load these parameter values, overriding any other settings (defaults or loaded from flash memory).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Save SD</string>
@@ -9617,6 +9629,9 @@
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
             </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="6">
@@ -9628,7 +9643,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load parameters from onboard disk storage (SD card) into active running memory and show them here.  This does not automatcially save the parameters to flash memory. &lt;/p&gt;&lt;p&gt;You will need a memory card inserted/attached to the flight controller with a PARAMS.txt file already on it.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load from SD&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load parameters from onboard disk storage (SD card) into active running memory and show them here. This does not automatcially save the parameters to flash memory. &lt;/p&gt;&lt;p&gt;You will need a memory card inserted/attached to the flight controller with a PARAMS.txt file already on it.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Load SD</string>
@@ -9646,6 +9661,9 @@
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
             </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="3">
@@ -9657,7 +9675,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load default parameter values into active running memory and show them here.  Default values are not stored to onboard flash memory unless you specifically do so afterwards.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Load Defaults&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Load default parameter values into active running memory and show them here. Default values are not stored to onboard flash memory unless you specifically do so afterwards.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Load Defaults</string>
@@ -9675,6 +9693,9 @@
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextBesideIcon</enum>
             </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="1" column="5">
@@ -9686,7 +9707,7 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copy current parameters in non-permanent memory of the aircraft to permanent memory. If you have modified any parameters, save or transmit them first.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Write to Flash&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Copy current parameters in non-permanent memory of the aircraft to permanent memory. If you have modified any parameters, save or transmit them first.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>Write Flash</string>
@@ -9703,6 +9724,9 @@
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
             </property>
            </widget>
           </item>

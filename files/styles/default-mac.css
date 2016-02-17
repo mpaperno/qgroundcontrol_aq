@@ -5,12 +5,13 @@
 }
 
 QGroupBox:flat {
-	 padding: .5em 0 0 0;
-	 margin-top: 2ex; /* leave space at the top for the title */
+	padding: 1em 0 0 0;
+	margin-top: 2ex;
 }
 QGroupBox::title:flat {
-	 top: -.6em;
-	 padding-right: .5em;
+	subcontrol-origin: margin;
+	margin-top: .4em;
+	padding-right: .5em;
 }
 
 QLabel[labelStyle="pad_left_smaller_dim"] {
@@ -26,18 +27,18 @@ QLabel[labelStyle="gpsFixStatus"] {
 }
 
 QToolButton {
-	  border: .05em solid #8f8f91;
-	  border-radius: .3em;
-	  background-color: white;
-	  font-size: 12pt;
+	border: .05em solid #8f8f91;
+	border-radius: .3em;
+	background-color: white;
+	font-size: 12pt;
 }
 QToolButton[autoRaise="true"] {
 	border: .05em solid transparent;
 	background-color: transparent;
 }
 QToolButton:hover {
-	 border-color: black;
-	 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(77, 77, 77, 35), stop:1 rgba(149, 149, 149, 10));
+	border-color: black;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(77, 77, 77, 35), stop:1 rgba(149, 149, 149, 10));
 }
 QToolButton:checked {
 	border-color: black;

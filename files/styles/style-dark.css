@@ -153,35 +153,32 @@ QDialog {
     GroupBox
 */
 QGroupBox {
-    border: 1px solid #66666B;
-    border-radius: 3px;
-    padding: 8px 0px 0px 0px;
-    margin-top: 2ex; /* leave space at the top for the title */
+	border: 1px solid #66666B;
+	border-radius: 3px;
+	padding: 8px 0px 0px 0px;
+	margin-top: 2ex; /* leave space at the top for the title */
 }
 QGroupBox:flat {
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-    border-radius: 0;
+	border-left: 0;
+	border-right: 0;
+	border-bottom: 0;
+	border-radius: 0;
 }
 QGroupBox::title {
-     subcontrol-origin: margin;
-     /* subcontrol-position: top left; position at the top left */
-    /*top: 0px;*/
-    left: 10px;
-    margin: 0 3px 0px 3px;
-    padding: 0 3px 0px 0px;
-    font-weight: bold;
-    font-size: 8px;
-    color: #DDDDDF;
-	 etch-disabled-text: 0;
+	subcontrol-origin: margin;
+	left: 10px;
+	margin: 0 3px 0px 3px;
+	padding: 0 3px 0px 0px;
+	font-weight: bold;
+	font-size: 8px;
+	color: #DDDDDF;
+	etch-disabled-text: 0;
 }
 QGroupBox::title:disabled {
-    color: #727272;
-    font-weight: normal;
-	 etch-disabled-text: 0;
+	color: #727272;
+	font-weight: normal;
+	etch-disabled-text: 0;
 }
-
 
 /*
     DockWidget
@@ -194,23 +191,23 @@ QDockWidget
 	border: 1px solid #1a1a1a;
 }
 QDockWidget::title {
-    text-align: left;
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #3F556A, stop: 1 #293645);
-    color: #EDEDED;
-	 padding: 3px 30px 5px 10px;
-	 margin-top: 2px;
-	 height: 16px;
-	 border-radius: 2px;
+	text-align: left;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #3F556A, stop: 1 #293645);
+	color: #EDEDED;
+	padding: 3px 30px 5px 10px;
+	margin-top: 2px;
+	height: 16px;
+	border-radius: 2px;
 }
 QDockWidget::close-button,
 QDockWidget::float-button {
-	 icon-size: 16px;
-	 border-radius: 6px;
-	 padding: 3px;
-	 margin: 0;
-	 top: 5px;
-	 right: 4px;
-	 opacity: 200;
+	icon-size: 16px;
+	border-radius: 6px;
+	padding: 3px;
+	margin: 0;
+	top: 5px;
+	right: 4px;
+	opacity: 200;
 }
 QDockWidget::float-button {
 	right: 30px;
@@ -647,10 +644,10 @@ QToolButton {
 	 min-height: 1.4em;
     /*max-height: 20px;*/
 	 icon-size: 16px;
-	 border: .1em solid transparent;
+	 border: .05em solid transparent;
 	 border-radius: .3em;
-	 padding-left: .3em;
-	 padding-right: .3em;
+	 padding-left: .1em;
+	 padding-right: .1em;
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);
 }
 
@@ -665,7 +662,7 @@ QToolButton[autoRaise="true"] {
     /*background-color: #050508;*/
     /*background-color: qlineargradient(spread:reflect, x1:0.500318, y1:0, x2:0, y2:0, stop:0.05 rgba(0, 0, 0, 30), stop:1 rgba(255, 255, 255, 30));*/
     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 rgba(89, 102, 111, 60), stop: 1 rgba(65, 75, 82, 60));
-    border: 1px solid transparent;
+	 border: .05em solid transparent;
 }
 
 QToolButton:checked {
@@ -827,6 +824,10 @@ QCalendarWidget QTableView  {
     Main application toolbar styling (Operator/Engineer/Pilot/Logging/Replay buttons and battery level bar)
 */
 
+
+QToolBar#QGC_TOOLBAR QToolButton  {
+	padding: .1em .05em;  /* restore default padding for Mac */
+}
 QToolBar#QGC_TOOLBAR QProgressBar:horizontal {
 	 background-color: #111118;
 }
