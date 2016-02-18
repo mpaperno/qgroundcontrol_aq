@@ -37,6 +37,8 @@ This file is part of the PIXHAWK project
 #include <QDebug>
 #include <QDir>
 #include <QThread>
+#include <QWidget>
+#include <QStyle>
 #include <cmath>
 
 #if QT_VERSION >= 0x050000
@@ -468,6 +470,16 @@ public:
         qSort(supportedBaudRates);
 
         return supportedBaudRates;
+    }
+};
+
+class UTIL
+{
+public:
+    static void refreshStyleOnWidget(QWidget *w) {
+        w->style()->unpolish(w);
+        w->style()->polish(w);
+        w->update();
     }
 };
 
