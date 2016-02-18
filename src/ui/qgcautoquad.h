@@ -26,6 +26,7 @@ class QLabel;
 class QComboBox;
 class QPushButton;
 class QSpinBox;
+class QGroupBox;
 
 namespace Ui {
 class QGCAutoquad;
@@ -75,22 +76,19 @@ private slots:
     void splitterCollapseToggle();
     void splitterMoved();
     void buttonBoxResized();
+    void toggleGroupBox(bool on, QGroupBox *gb = 0);
     void adjustUiForHardware();
     void adjustUiForFirmware();
     void adjustUiForQuatos();
     void on_tab_aq_settings_currentChanged(int idx);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void on_MOT_ESC_TYPE_currentIndexChanged(int index);
-    void on_groupBox_gimbal_toggled(bool arg1);
-    void on_groupBox_autoTrigger_toggled(bool arg1);
 
     // radio config UI
     void setupRadioTypes();
     void setupRadioPorts();
     bool radioHasPPM();
     void radioType_changed(int idx);
-    void on_groupBox_addlRadioControls_toggled(bool arg1);
-    void on_groupBox_tuningChannels_toggled(bool arg1);
     void on_toolButton_radioHelp_clicked();
     void on_toolButton_adjParamsHelp_clicked();
     void onSwitchValueChanged(QSpinBox *origin = 0, QComboBox *target = 0);
@@ -133,6 +131,8 @@ private slots:
     void onParametersChanged(int component, QMap<QString, QPair<float, float> > changes);
     QString paramNameGuiToOnboard(QString paraName);
     int calcRadioSetting();
+    void convertPidAttValsToFW68Scales();
+    // config actions button handlers
     void on_btn_paramsRefresh_clicked();
     void on_btn_paramsLoadFlash_clicked();
     void on_btn_paramsSaveFlash_clicked();
@@ -141,7 +141,6 @@ private slots:
     void on_btn_paramsSaveSD_clicked();
     void on_btn_paramsSaveFile_clicked();
     void on_btn_paramsLoadFile_clicked();
-    void convertPidAttValsToFW68Scales();
 
     // Radio channels display
     void toggleRadioValuesUpdate(bool enable);

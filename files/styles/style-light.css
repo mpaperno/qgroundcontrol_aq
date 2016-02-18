@@ -33,19 +33,6 @@ QWidget:disabled {
 /* Containers first */
 
 /*
-    MainWindow
-*/
- QMainWindow::separator {
-     background: #D3D3D3;
-	  width: 6px; /* when vertical */
-	  height: 6px; /* when horizontal */
-	  margin: 3px;
-}
- QMainWindow::separator:hover {
-     background: silver;
-}
-
-/*
     Dialog
 */
 QDialog {
@@ -57,31 +44,35 @@ QDialog {
     GroupBox
 */
 QGroupBox {
-    border: 1px solid #222216;
-    border-radius: 3px;
-    padding: 8px 0px 0px 0px;
-    margin-top: 2ex; /* leave space at the top for the title */
+	 border: 1px solid #222216;
+	 border-radius: .3em;
+	 padding-top: .6em;
+	 margin-top: 2ex;
 }
 QGroupBox:flat {
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-    border-radius: 0;
+	 border-left: 0;
+	 border-right: 0;
+	 border-bottom: 0;
+	 border-radius: 0;
 }
- QGroupBox::title {
-     subcontrol-origin: margin;
-     /* subcontrol-position: top left; position at the top left */
-	top: -3px;
-    left: 10px;
-    margin: 2px 3px 0px 3px;
-    padding: 0 3px 0px 0px;
-    font-weight: bold;
-	font-size: 8px;
-    color: #000000;
- }
-QWidget::title:disabled {
-    color: #d5d5d5;
-    font-weight: normal;
+QGroupBox:flat:!checked {
+	padding-top: 0;
+}
+QGroupBox::title {
+	subcontrol-origin: margin;
+	/*top: -2px;*/
+	left: .3em;
+	margin: 0 .4em;
+	font-weight: bold;
+}
+QGroupBox::title:flat {
+	left: 0;
+	margin: .1em .4em 0 0;
+}
+QGroupBox::title:disabled {
+	 color: #d5d5d5;
+	 font-weight: normal;
+	 etch-disabled-text: 0;
 }
 
 /*
@@ -161,35 +152,38 @@ QMenuBar::item {
 /*
     TabWidget
 */
- QTabWidget::pane { /* The tab widget frame */
-     border: 1px solid #62676B;
-     border-radius: 2px;
-     position: absolute;
-     top: -0.5em;
- }
- QTabWidget::tab-bar {
-     alignment: center;
- }
+QTabWidget::pane { /* The tab widget frame */
+  border: 1px solid #62676B;
+  border-radius: 2px;
+  position: absolute;
+  top: -0.5em;
+}
+QTabWidget::tab-bar {
+	alignment: center;
+}
 
 /*
     TabBar
 */
  /* Style the tab using the tab sub-control. Note that
      it reads QTabBar _not_ QTabWidget */
- QTabBar::tab {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #C4C4C4, stop: 1 #E5E5E5);
-    border: 1px solid #62676B;
-    border-radius: 4px;
-    min-width: 8ex;
-    padding: 2px;
-    margin-right: 4px;
- }
- QTabBar::tab:first {
-    margin-left: 4px;
- }
- QTabBar::tab:selected, QTabBar::tab:hover {
-    border: 2px solid #333333;
- }
+QTabBar {
+	alignment: center;
+}
+QTabBar::tab {
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #C4C4C4, stop: 1 #E5E5E5);
+	border: 1px solid #62676B;
+	border-radius: 4px;
+	min-width: 8ex;
+	padding: 2px;
+	margin-right: 4px;
+}
+QTabBar::tab:first {
+	margin-left: 4px;
+}
+QTabBar::tab:selected, QTabBar::tab:hover {
+	border: 2px solid #333333;
+}
 
 /*
     ToolTip
@@ -290,8 +284,11 @@ QSpinBox::down-button, QDoubleSpinBox::down-button {
 	 PushButton, ToolButton
 */
 QPushButton, QToolButton {
-	 border-color: #465158;
-	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #BBB, stop: 1 #777);
+	height: 1.5em;
+	border: .05em solid transparent;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #BBB, stop: 1 #777);
+	border-radius: .4em;
+	padding: 0 .4em;
 }
 QPushButton:checked, QToolButton:checked {
 	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #444, stop: 1 #888);
@@ -299,35 +296,50 @@ QPushButton:checked, QToolButton:checked {
 }
 QPushButton:hover, QToolButton:hover {
 	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #B8D3E6, stop: 1 #899FAD);
+	 border-color: #465158;
 }
 QPushButton:disabled, QToolButton:disabled {
 	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #EEE, stop: 1 #CCC);
 	 color: #AAA;
 }
+QToolButton {
+	padding: 0 .1em;
+}
+QToolButton[autoRaise="true"] {
+	 background-color: transparent;
+	 border-color: #465158;
+}
+QToolButton[autoRaise="true"]:hover {
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #B8D3E6, stop: 1 #899FAD);
+}
 
+/* Green/Orange toggle and push button */
+QPushButton[type="toggle-ok-warn"],
+QPushButton[type="push-ok"] {
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #18A154, stop: 1 #187C00);
+	 color: #FFF;
+}
+QPushButton[type="toggle-ok-warn"]:hover,
+QPushButton[type="push-ok"]:hover {
+	 background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 0 #31D87A, stop: 1 #187C00);
+}
+QPushButton[type="toggle-ok-warn"]:checked,
+QPushButton[type="push-warn"] {
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #C16F0B, stop: 1 #945F00);
+	 color: #FFF;
+}
+QPushButton[type="toggle-ok-warn"]:checked:hover,
+QPushButton[type="push-warn"]:hover {
+	 background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 0 #E09F55, stop: 1 #945F00);
+}
 
-/*
-    CalendarWidget
-*/
-QCalendarWidget QTableView {
-    border: 2px solid #111111;
-    padding-bottom: 6px;
+/* Red warning button */
+QPushButton[type="push-vital"] {
+	 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #A80F2D, stop: 1 #751125);
+	 color: #FFF;
 }
-QCalendarWidget QWidget#qt_calendar_navigationbar {
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #59666f, stop: 1 #414B52);
-}
-QCalendarWidget QToolButton#qt_calendar_monthbutton {
-	padding-right: 13px;
-}
-QCalendarWidget QToolButton#qt_calendar_yearbutton {
-	padding-right: 5px;
-}
-QCalendarWidget QSpinBox#qt_calendar_yearedit  {
-	min-width: 50px;
-}
-QCalendarWidget QTableView  {
-	/*background-color: #333333;*/
-    alternate-background-color: #6D6D6D;
+QPushButton[type="push-vital"]:hover {
+	 background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 0 #F20034, stop: 1 #9E0022);
 }
 
 
@@ -365,28 +377,4 @@ QPushButton#controlButton {
 }
 QPushButton#controlButton:checked {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #b76f11, stop: 1 #e1a718);
-}
-
-
-/* Custom labels */
-QLabel#toolBarNameLabel {
-	font: bold 16px;
-	color: #3C7B9E;
-}
-QLabel#toolBarModeLabel {
-	font: 12px;
-}
-QLabel#toolBarStateLabel {
-	font: 12px;
-	color: #3C7B9E;
-}
-QLabel#toolBarMessageLabel {
-	font: 12px;
-    font-style: italic;
-	color: #3C7B9E;
-}
-
-/* Button container frame */
-QFrame#frame_toolbarButtons {
-    padding: 4px 5px;
 }

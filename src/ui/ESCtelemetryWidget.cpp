@@ -6,6 +6,7 @@
  *
  */
 
+#include "MG.h"
 #include "ESCtelemetryWidget.h"
 #include "ui_ESCtelemetryWidget.h"
 
@@ -687,9 +688,7 @@ void ESCtelemetryWidget::updateLCD(QLCDNumber *wdgt, const float &val, const int
         } else
             m_valueWarnings.removeAll(valkey);
 
-        wdgt->style()->unpolish(wdgt);
-        wdgt->style()->polish(wdgt);
-        wdgt->update();
+        MG::UTIL::refreshStyleOnWidget(wdgt);
     }
 }
 

@@ -36,6 +36,7 @@ This file is part of the QGROUNDCONTROL project
 #include <QProgressBar>
 #include <QScrollArea>
 
+#include "MG.h"
 #include "QGCRemoteControlView.h"
 #include "ui_QGCRemoteControlView.h"
 #include "UASManager.h"
@@ -223,9 +224,7 @@ void QGCRemoteControlView::setRemoteRSSI(float rssiNormalized)
         rssiBar = drawDataDisplay(0, 99, tr("Radio Quality"))->second;
         rssiBar->setProperty("styleType", "radioControlsRSSI");
         rssiBar->setObjectName("rssiBar");
-        rssiBar->style()->unpolish(rssiBar);
-        rssiBar->style()->polish(rssiBar);
-        rssiBar->update();
+        MG::UTIL::refreshStyleOnWidget(rssiBar);
     }
     rssi = rssiNormalized;
     redrawRssi();

@@ -12,6 +12,54 @@ QWidget[styleType="error"] {
 	color: rgba(255, 0, 0, 255);
 }
 
+/*
+	 MainWindow separators and Splitter
+*/
+QMainWindow::separator,
+QSplitter::handle {
+	 border: .05em solid transparent;
+	 border-radius: .3em;
+	 margin: 0;
+}
+QMainWindow::separator:vertical,
+QSplitter::handle:horizontal {
+	 background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.0, y2:0.5, stop:0.25 rgba(135, 135, 135, 80), stop:1 rgba(0, 0, 0, 0));
+	 width: .4em;
+}
+QMainWindow::separator:horizontal,
+QSplitter::handle:vertical {
+	 background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 80), stop:1 rgba(0, 0, 0, 0));
+	 height: .4em;
+}
+QMainWindow::separator:vertical:hover,
+QSplitter::handle:hover:horizontal {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.0, y2:0.5, stop:0.25 rgba(135, 135, 135, 220), stop:1 rgba(0, 0, 0, 0));
+}
+QMainWindow::separator:horizontal:hover,
+QSplitter::handle:hover:vertical {
+	background-color: qlineargradient(spread:reflect, x1:0.5, y1:0.5, x2:0.5, y2:0.0, stop:0.15 rgba(135, 135, 135, 220), stop:1 rgba(0, 0, 0, 0));
+}
+
+/*
+	 Splitter
+*/
+QSplitter[styleType="withButton"] {
+	width: 1.2em;
+	border-radius: .7em;
+}
+
+
+/*
+	 TabWidget
+*/
+QTabWidget::tab-bar {
+	alignment: center;
+}
+
+
+/*
+	 Label
+*/
 /* label with emphasis  */
 QLabel[labelStyle="emphasis"] {
 	 font-weight: bold;
@@ -68,7 +116,6 @@ QLabel[styleType="aqParamsStatus"] {
 	font-weight: bold;
 	margin: 0 .1em .3em 0;
 }
-
 
 /*
 	 ProgressBar

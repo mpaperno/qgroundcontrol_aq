@@ -115,31 +115,6 @@ QSizeGrip {
 
 /* Containers first */
 
-/*
-    MainWindow
-*/
-QMainWindow::separator:vertical {
-	 background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
-	 /*border: 1px solid #4c4c4c;*/
-	 width: 8px;
-	 margin: 0 3px;
-}
-QMainWindow::separator:horizontal {
-	 background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
-	 /*border: 1px solid #4c4c4c;*/
-	 height: 8px;
-	 margin: 3px 0;
-}
-QMainWindow::separator:hover {
-	border: 1px solid #6c6c6c;
-}
-QMainWindow::separator:vertical:hover {
-	background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
-}
-QMainWindow::separator:horizontal:hover {
-	background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
-}
-
 
 /*
     Dialog
@@ -153,10 +128,10 @@ QDialog {
     GroupBox
 */
 QGroupBox {
-	border: 1px solid #66666B;
-	border-radius: 3px;
-	padding: 8px 0px 0px 0px;
-	margin-top: 2ex; /* leave space at the top for the title */
+	border: .05em solid #66666B;
+	border-radius: .3em;
+	padding-top: .7em;
+	margin-top: 2ex;
 }
 QGroupBox:flat {
 	border-left: 0;
@@ -164,21 +139,26 @@ QGroupBox:flat {
 	border-bottom: 0;
 	border-radius: 0;
 }
+QGroupBox:flat:!checked {
+	padding-top: 0;
+}
+
 QGroupBox::title {
 	subcontrol-origin: margin;
-	left: 10px;
-	margin: 0 3px 0px 3px;
-	padding: 0 3px 0px 0px;
+	left: .3em;
+	margin: 0 .4em;
 	font-weight: bold;
-	font-size: 8px;
-	color: #DDDDDF;
-	etch-disabled-text: 0;
+}
+QGroupBox::title:flat {
+	left: 0;
+	margin-left: 0;
 }
 QGroupBox::title:disabled {
 	color: #727272;
 	font-weight: normal;
 	etch-disabled-text: 0;
 }
+
 
 /*
     DockWidget
@@ -733,38 +713,6 @@ QLabel[styleType="tunableValue"] {
 QLabel[styleType="indicator"]:disabled,
 QLabel[styleType="tunableValue"]:disabled {
 	border-color: #383838;
-}
-
-/*
-    Splitter
-*/
-QSplitter:vertical {
-	 min-width: 8px;
-}
-
-/*QSplitter:handle {
-	background-color: #202020;
-}
-QSplitter::handle:hover {
-	background-color: #303030;
-}*/
-
-QSplitter::handle:horizontal {
-	 background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
-	 margin: 0;
-}
-QSplitter::handle:vertical {
-	 background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #343434, stop:0.7 #343434, stop:1 #161616);
-	 margin: 0;
-}
-QSplitter::handle:hover {
-/*	border: 1px solid #6c6c6c;*/
-}
-QSplitter::handle:horizontal:hover {
-	background-color: QLinearGradient(x1:0, y1:0, x2:1, y2:0, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
-}
-QSplitter::handle:vertical:hover {
-	background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #161616, stop:0.3 #379AC3, stop:0.7 #379AC3, stop:1 #161616);
 }
 
 

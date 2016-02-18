@@ -77,8 +77,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->tabLayout_aqMixingOutput->addWidget(aqPwmPortConfig);
 
     // set up the splitter expand/collapse button
-    ui->splitter_aqWidgetSidebar->setStyleSheet("QSplitter#splitter_aqWidgetSidebar {width: 15px;}");
     QSplitterHandle *shandle = ui->splitter_aqWidgetSidebar->handle(1);
+    ui->splitter_aqWidgetSidebar->setProperty("styleType", "withButton");
+    shandle->setProperty("styleType", "withButton");
     shandle->setContentsMargins(0, 25, 0, 0);
     shandle->setToolTip(tr("<html><body><p>Click the arrow button to collapse/expand the left sidebar. Click and drag anywhere to resize.</p></body></html>"));
     QVBoxLayout *hlayout = new QVBoxLayout;
@@ -87,6 +88,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     splitterToggleBtn->setObjectName("toolButton_splitterToggleBtn");
     splitterToggleBtn->setArrowType(Qt::LeftArrow);
     splitterToggleBtn->setCursor(QCursor(Qt::ArrowCursor));
+    splitterToggleBtn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     hlayout->addWidget(splitterToggleBtn);
     hlayout->setAlignment(splitterToggleBtn, Qt::AlignTop);
     hlayout->addStretch(3);
@@ -149,11 +151,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->label_adjustParamsChannelSwitchWarning->hide();
     ui->spinBox_rcGraphRefreshFreq->hide();
     ui->groupBox_ppmOptions->hide();
-
-    on_groupBox_addlRadioControls_toggled(ui->groupBox_addlRadioControls->isChecked());
-    on_groupBox_tuningChannels_toggled(ui->groupBox_tuningChannels->isChecked());
-    on_groupBox_gimbal_toggled(ui->groupBox_gimbal->isChecked());
-    on_groupBox_autoTrigger_toggled(ui->groupBox_autoTrigger->isChecked());
 
 	 // hide some controls which may get shown later based on AQ fw version
     ui->comboBox_multiRadioMode->hide();
@@ -258,8 +255,6 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     esc32Cfg->setLastFilePath(LastFilePath);
     connect(esc32Cfg, SIGNAL(flashFwStart()), this, SLOT(flashFwStart()));
 
-    ui->tabLayout_aqEsc32Config->addWidget(esc32Cfg);
-
     ui->comboBox_fwType->addItem(tr("ESC32 Serial"), "esc32");
     ui->tab_aq_settings->addTab(esc32Cfg, tr("ESC32v2 Settings")); // add esc tab
 #endif
@@ -296,15 +291,18 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     connect(ui->flashButton, SIGNAL(clicked()), this, SLOT(flashFW()));
     connect(ui->comboBox_fwType, SIGNAL(currentIndexChanged(int)), this, SLOT(fwTypeChange()));
     connect(ui->toolButton_fwReloadPorts, SIGNAL(clicked()), this, SLOT(setupPortList()));
+    connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)),this,SLOT(onToggleRadioValuesRefresh(bool)));
     connect(ui->checkBox_showAdvRadioCfg, SIGNAL(clicked(bool)), this, SLOT(toggleRadioSwitchAdvancedSetup(bool)));
-
+    // collapsible group boxes
+    connect(ui->groupBox_gimbal, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
+    connect(ui->groupBox_autoTrigger, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
+    connect(ui->groupBox_addlRadioControls, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
+    connect(ui->groupBox_tuningChannels, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
 
     connect(ui->pushButton_save_to_aq, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
     connect(ui->cmdBtn_ConvertTov68AttPIDs, SIGNAL(clicked()), this, SLOT(convertPidAttValsToFW68Scales()));
-
+    // timer
     connect(&delayedSendRCTimer, SIGNAL(timeout()), this, SLOT(sendRcRefreshFreq()));
-    //connect(ui->checkBox_raw_value, SIGNAL(clicked()),this,SLOT(toggleRadioValuesUpdate()));
-    connect(ui->toolButton_toggleRadioGraph, SIGNAL(clicked(bool)),this,SLOT(onToggleRadioValuesRefresh(bool)));
 
     // MainWindow slots
     connect(this, SIGNAL(remoteGuidanceEnabledChanged(bool)), MainWindow::instance(), SLOT(setRemoteGuidanceEnabled(bool)));
@@ -429,11 +427,11 @@ void QGCAutoquad::loadSettings()
 
     ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
 	 //ui->toolButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
-	 ui->groupBox_addlRadioControls->setChecked(settings.value("ADDL_RADIO_CONTROLS_GRP_STATE", ui->groupBox_addlRadioControls->isChecked()).toBool());
-	 ui->groupBox_tuningChannels->setChecked(settings.value("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked()).toBool());
-	 ui->groupBox_gimbal->setChecked(settings.value("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked()).toBool());
-	 ui->groupBox_autoTrigger->setChecked(settings.value("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked()).toBool());
-	 ui->checkBox_showAdvRadioCfg->setChecked(settings.value("SHOW_ADVANCED_SWITCH_SETUP", ui->checkBox_showAdvRadioCfg->isChecked()).toBool());
+     ui->groupBox_addlRadioControls->setChecked(settings.value("ADDL_RADIO_CONTROLS_GRP_STATE", false).toBool());
+     ui->groupBox_tuningChannels->setChecked(settings.value("TUNABLE_PARAMS_GRP_STATE", false).toBool());
+     ui->groupBox_gimbal->setChecked(settings.value("GIMBAL_AXES_GRP_STATE", false).toBool());
+     ui->groupBox_autoTrigger->setChecked(settings.value("AUTO_TRIGGERS_GRP_STATE", false).toBool());
+     ui->checkBox_showAdvRadioCfg->setChecked(settings.value("SHOW_ADVANCED_SWITCH_SETUP", false).toBool());
 	 toggleRadioSwitchAdvancedSetup(ui->checkBox_showAdvRadioCfg->isChecked());
 
     settings.endGroup();
@@ -532,6 +530,23 @@ void QGCAutoquad::buttonBoxResized()
 
 }
 
+void QGCAutoquad::toggleGroupBox(bool on, QGroupBox *gb)
+{
+    if (!gb && !sender())
+        return;
+
+    QGroupBox *box;
+    if (gb)
+        box = gb;
+    else if (!(box = qobject_cast<QGroupBox *>(sender())))
+        return;
+
+    foreach (QWidget *w, box->findChildren<QWidget *>(QRegExp("^widget_"), Qt::FindDirectChildrenOnly))
+        w->setVisible(on);
+
+    MG::UTIL::refreshStyleOnWidget(box);
+}
+
 void QGCAutoquad::adjustUiForHardware()
 {
     //ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6);
@@ -594,9 +609,8 @@ void QGCAutoquad::on_tab_aq_settings_currentChanged(int idx)
 {
     Q_UNUSED(idx);
     QWidget *arg1 = ui->tab_aq_settings->currentWidget();
-    bool vis = !(arg1->objectName() == "tab_aq_esc32");
-    ui->lbl_aq_fw_version->setVisible(vis);
-    ui->pushButton_save_to_aq->setVisible(vis);
+    bool vis = !(arg1->objectName() == "AQEsc32ConfigWidget");
+    ui->widget_buttonBox->setVisible(vis);
 }
 
 void QGCAutoquad::on_SPVR_FS_RAD_ST2_currentIndexChanged(int index)
@@ -611,18 +625,6 @@ void QGCAutoquad::on_MOT_ESC_TYPE_currentIndexChanged(int index)
     ui->checkBox_escCalibration->setChecked(false);
     ui->checkBox_escCalibration->setEnabled(!ui->MOT_ESC_TYPE->currentIndex());
     ui->groupBox_escPwm->setEnabled(ui->MOT_ESC_TYPE->currentIndex() != 1);
-}
-
-void QGCAutoquad::on_groupBox_gimbal_toggled(bool arg1)
-{
-    ui->groupBox_gimbalRoll->setVisible(arg1);
-    ui->groupBox_gimbalPitch->setVisible(arg1);
-}
-
-void QGCAutoquad::on_groupBox_autoTrigger_toggled(bool arg1)
-{
-    ui->groupBox_autoTriggerPulses->setVisible(arg1);
-    ui->groupBox_autoTriggerEvents->setVisible(arg1);
 }
 
 
@@ -758,16 +760,6 @@ void QGCAutoquad::radioType_changed(int idx) {
         prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
         newRadioValue = ui->RADIO_TYPE->itemData(idx).toInt(&ok);
     }
-}
-
-void QGCAutoquad::on_groupBox_addlRadioControls_toggled(bool arg1)
-{
-	ui->widget_addlRadioControls->setVisible(arg1);
-}
-
-void QGCAutoquad::on_groupBox_tuningChannels_toggled(bool arg1)
-{
-	 ui->widget_tuningChannels->setVisible(arg1);
 }
 
 void QGCAutoquad::on_toolButton_radioHelp_clicked()
@@ -1038,11 +1030,8 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
                 indicator->setProperty("status", 0);
                 oldval = indicator->property("value").toInt();
                 indicator->setProperty("value", 0);
-                if (indicator->property("ind_type").toString() == "fill" && oldval) {
-                    indicator->style()->unpolish(indicator);
-                    indicator->style()->polish(indicator);
-                    indicator->update();
-                }
+                if (indicator->property("ind_type").toString() == "fill" && oldval)
+                    MG::UTIL::refreshStyleOnWidget(indicator);
                 indicator->setVisible(false);
             }
         }
@@ -1366,11 +1355,8 @@ void QGCAutoquad::toggleRadioValuesUpdate(bool enable)
             w->setEnabled(enable && active);
             oldval = pair.first->property("value").toInt();
             pair.first->setProperty("value", 0);
-            if (pair.first->property("ind_type").toString() == "fill" && oldval) {
-                pair.first->style()->unpolish(pair.first);
-                pair.first->style()->polish(pair.first);
-                pair.first->update();
-            }
+            if (pair.first->property("ind_type").toString() == "fill" && oldval)
+                MG::UTIL::refreshStyleOnWidget(pair.first);
             else if (pair.first->property("ind_type").toString() == "value_lbl")
                 pair.first->setProperty("text", "N/A");
         }
@@ -1461,9 +1447,7 @@ void QGCAutoquad::setRadioChannelDisplayValue(int channelId, float normalized)
         pair.first->setProperty("value", tempval);
 
         if (oldval != tempval && pair.first->property("ind_type").toString() == "fill") {
-            pair.first->style()->unpolish(pair.first);
-            pair.first->style()->polish(pair.first);
-            pair.first->update();
+            MG::UTIL::refreshStyleOnWidget(pair.first);
         }
     }
 
