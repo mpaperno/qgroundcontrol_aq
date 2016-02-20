@@ -274,8 +274,8 @@ void AQLogViewer::showChannels() {
 
 void AQLogViewer::save_plot_image(){
 //    QString fileName = "plot.svg";
-//    fileName = QFileDialog::getSaveFileName(this, "Export File Name", \
-//                                            DEFAULT_STORAGE_PATH, \
+//    fileName = QFileDialog::getSaveFileName(this, "Export File Name",
+//                                            DEFAULT_STORAGE_PATH,
 //                                            "SVG Images (*.svg)"); // ;;PDF Documents (*.pdf)
 
 //    if (!fileName.contains(".")) {

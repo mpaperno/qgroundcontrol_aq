@@ -27,25 +27,19 @@ This option assumes that you have Git already. To clone (checkout) the QGC repos
 
 ```
 git clone https://github.com/AutoQuad/qgroundcontrol_aq.git
+cd qgroundcontrol_aq
 git submodule update --init
 ```
 
-### Fork the Repository
-If you plan to contribute to the development of QGC, you will want this option, which also requires that you have Git set up. To fork the QGC repository, do the following:
-
-Goto GitHub Help and see Fork A Repo
-Fork the QGC Repo
-Update Submodules
-
 ## Building QGroundControl
-QGroundControl builds are supported for OSX, Linux and Windows. Qt versions 4.8.6 and 5.x are supported (Qt5 recommended, tested up to 5.4 at time of writing). See the individual sections below for specific requirements for each OS. 
+QGroundControl builds are supported for OSX, Linux and Windows. Qt versions 4.8.6 and 5.x are supported (Qt5 recommended, tested up to 5.5.1 at time of writing). See the individual sections below for specific requirements for each OS. 
 
 In general we recommend installing the latest Qt libraries and development environment (QtCreator), as this will provide the simplest and most tested build setup.
 
 **If you get errors about missing MAVLink variables/functions** then you need to read the part above about git *submodule update* or *downloading the mavlink headers* manually.
 
-**To build without Text-To-Speech** (and skip the corresponding optional, possibly onerous, steps below), you need to add "NO_TEXT_TO_SPEECH" to your
-Qt DEFINES variable.  You can do this by un-commenting "#DEFINES += NO_TEXT_TO_SPEECH" in qgroundcontrol_aq.pro.
+**To build without Text-To-Speech** you need to add "NO_TEXT_TO_SPEECH" to your
+Qt DEFINES variable.  You can do this by un-commenting "#DEFINES += NO_TEXT_TO_SPEECH" in qgroundcontrol_aq.pro or adding the DEFINE line to your build configuration in QtCreator.  On Linux, speech support will be automatcially disabled if the required development files are not found.
 
 ### Common Instructions
 
@@ -63,20 +57,21 @@ Qt DEFINES variable.  You can do this by un-commenting "#DEFINES += NO_TEXT_TO_S
 ### Build on Linux
 Supported builds for Linux are 32 or 64-bit, built using gcc.
 
-#### Install Qt5 and SDL1.2 prerequisites (Qt can also be installed via download as described above).
-* For Ubuntu (requires 14.10 for Qt5.3): `sudo apt-get install qtcreator qttools5-dev qtbase5-dev qt5-default qtdeclarative5-dev libqt5svg5-dev libqt5webkit5-dev libsdl1.2-dev build-essential libudev-dev`
-* For Fedora: `sudo yum install qt-creator qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtsvg-devel qt5-qtwebkit-devel SDL-devel SDL-static systemd-devel`
-* For Arch Linux: `pacman -Sy qtcreator qt5-base qt5-declarative qt5-serialport qt5-svg qt5-webkit`
+#### Install gcc, SDL1.2, udev.
+* Ubuntu/Debian: `sudo apt-get install build-essential libsdl1.2-dev libudev-dev`
+* For Fedora: `sudo yum install systemd-devel SDL-devel SDL-static`
 
-#### [Optional] Install additional libraries
-* For text-to-speech (espeak)
-	* For Ubuntu: `sudo apt-get install curl libasound2-dev libncurses5-dev festival festival-dev`
-	* For Fedora: `sudo yum install curl libasound2-dev libncurses5-dev festival festival-dev`
-	* For Arch Linux: `pacman -Sy festival festival-dev`
+#### Install Qt5 (Qt can also be installed via download as described above, recommended).
+* For Ubuntu (requires 14.10 for Qt5.3): `sudo apt-get install qtcreator qttools5-dev qtbase5-dev qt5-default qtdeclarative5-dev libqt5svg5-dev libqt5webkit5-dev libsdl1.2-dev build-essential libudev-dev`
+* For Fedora: `sudo yum install qt-creator qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtsvg-devel qt5-qtwebkit-devel`
+
+#### [Optional] Install additional libraries for text-to-speech support
+* For text-to-speech (festival)
+	* For Ubuntu: `sudo apt-get install festival-dev festival festvox-en1`
+	* For Fedora: `sudo yum install festival-dev festival festvox-en1`
 
 #### Build QGroundControl
-1. [Optional] For text to speech support, first go to libs/QtSpeech and run: `sh ./get-festival.sh`  (this may produce some errors but should still be OK in the end).
-2. Build using QtCreator as described above.  Alternately, build from the command line:
+1. Build using QtCreator as described above.  Alternately, build from the command line:
  1. Change directory to you `qgroundcontrol_aq` source directory.
  2. Run `qmake`
  3. Run `make`
@@ -121,14 +116,14 @@ Simply open the qgroundcontrol_aq.pro file in QtCreator, adjust the build direct
 
 QGroundControl Creator:
 Lorenz Meier <lm@inf.ethz.ch>
-(c) 2009-2011 QGroundControl Developers
+Copyright 2009-2011 QGroundControl Developers
 
 AutoQuad Maintainer:
 Maxim Paperno <MPaperno@WorldDesign.com>
-(c) 2013-2015 Maxim Paperno
+Copyright 2013-2016 Maxim Paperno
 
 Original Conversion for AutoQuad
-(c) 2012-2013 by Peter Hafner
+Copyright 2012-2013 by Peter Hafner
 
 ## License
 

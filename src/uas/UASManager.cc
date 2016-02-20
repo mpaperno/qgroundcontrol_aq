@@ -125,8 +125,8 @@ void UASManager::initReference(const double & latitude, const double & longitude
 {
     Eigen::Matrix3d R;
     double s_long, s_lat, c_long, c_lat;
-    sincos(latitude * DEG2RAD, &s_lat, &c_lat);
-    sincos(longitude * DEG2RAD, &s_long, &c_long);
+    QSinCos(latitude * DEG2RAD, &s_lat, &c_lat);
+    QSinCos(longitude * DEG2RAD, &s_long, &c_long);
 
     R(0, 0) = -s_long;
     R(0, 1) = c_long;
@@ -151,8 +151,8 @@ Eigen::Vector3d UASManager::wgs84ToEcef(const double & latitude, const double & 
     const double e_sq = 6.69437999014e-3; // first eccentricity squared
 
     double s_long, s_lat, c_long, c_lat;
-    sincos(latitude * DEG2RAD, &s_lat, &c_lat);
-    sincos(longitude * DEG2RAD, &s_long, &c_long);
+    QSinCos(latitude * DEG2RAD, &s_lat, &c_lat);
+    QSinCos(longitude * DEG2RAD, &s_long, &c_long);
 
     const double N = a / sqrt(1 - e_sq * s_lat * s_lat);
 

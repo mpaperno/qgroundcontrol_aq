@@ -4,6 +4,8 @@
 
 DEFINES += __STDC_LIMIT_MACROS
 
+QMAKE_CXXFLAGS_WARN_ON += -Wno-switch -Wno-enum-compare
+
 INCLUDEPATH += /usr/include \
 	  /usr/local/include \
 
@@ -11,6 +13,18 @@ LIBS += \
 	-lm \
 	-lSDL \
 	-lSDLmain
+
+# speech support
+!contains(DEFINES, NO_TEXT_TO_SPEECH) {
+	 exists(/usr/include/festival) {
+		  INCLUDEPATH += /usr/include/festival \
+				/usr/include/speech_tools
+		  LIBS += -lFestival # -L/usr/lib/speech_tools
+	 } else {
+		  message("Warning: Could not find 'festival-dev' components, disabling test-to-speech support.")
+		  DEFINES += NO_TEXT_TO_SPEECH
+	 }
+}
 
 exists(/usr/local/include/libfreenect/libfreenect.h) {
 	message("Building support for libfreenect")

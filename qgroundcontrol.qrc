@@ -143,6 +143,7 @@
         <file>files/images/actions/sd-memory-card_write.png</file>
         <file>files/images/actions/folder-horizontal-open-table.png</file>
         <file>files/images/actions/ui-toolbar.png</file>
+        <file>files/styles/default-linux.css</file>
     </qresource>
     <qresource prefix="/general">
         <file alias="vera.ttf">files/Vera.ttf</file>

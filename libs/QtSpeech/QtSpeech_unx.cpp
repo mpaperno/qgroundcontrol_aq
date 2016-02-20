@@ -19,7 +19,15 @@
 #include <QtCore>
 #include <QtSpeech>
 #include <QtSpeech_unx.h>
+
+#if defined(__GNUC__) || defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #include <festival.h>
+#pragma GCC diagnostic pop
+#else
+#include <festival.h>
+#endif
 
 namespace QtSpeech_v1 { // API v1.0
 

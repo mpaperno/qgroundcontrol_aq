@@ -134,6 +134,8 @@ LANGUAGE = C++
 CODECFORTR = UTF-8
 CODECFORSRC = UTF-8
 
+ICONS = files/images/icons/qgroundcontrol.png
+
 # If a user config file exists, it will be included.
 exists(user_config.pri) {
 	 include(user_config.pri)

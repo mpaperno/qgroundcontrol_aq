@@ -448,7 +448,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             QString armModeAudio = "";
             bool statechanged = false;
             bool modechanged = false;
-            bool customChanged = false;
+//            bool customChanged = false;
             bool armingchanged = false;
             int audioSeverity = 1;
 
@@ -510,7 +510,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             if (customMode != state.custom_mode)
             {
-                customChanged = true;
+//                customChanged = true;
                 customMode = state.custom_mode;
                 if (customMode) {
                     QStringList alerts, auxModes;
@@ -583,7 +583,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
 
             // Battery charge/time remaining/voltage calculations
             bool vwarning = false;
-            bool vtick = false;
+//            bool vtick = false;
             currentVoltage = state.voltage_battery/1000.0f;
             lpVoltage = filterVoltage(currentVoltage);
 
@@ -612,7 +612,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             if (lastTickVoltageValue == -1.0f)
                 lastTickVoltageValue = tickLowpassVoltage;
             if (fabs(lastTickVoltageValue - tickLowpassVoltage) > 0.1f) {
-                vtick = true;
+//                vtick = true;
                 lastTickVoltageValue = tickLowpassVoltage;
             }
 

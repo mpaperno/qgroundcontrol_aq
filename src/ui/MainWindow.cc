@@ -1205,7 +1205,7 @@ void MainWindow::reloadStylesheet(const QString file)
     styleFileName = fileName;
 
     if (!fileName.isEmpty() && fileName != "default") {
-        if (!QFileInfo::QFileInfo(fileName).exists()) {
+        if (!QFileInfo::exists(fileName)) {
             showInfoMessage(tr("QGroundControl did lot load a new style"), tr("Stylesheet file '%1' was not found").arg(fileName));
             styleFileName = "";
             return;

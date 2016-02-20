@@ -1,11 +1,12 @@
 #ifndef QGCGEO_H
 #define QGCGEO_H
 
+
 #define DEG2RAD (M_PI/180.0)
 
 /* Safeguard for systems lacking sincos (e.g. Mac OS X Leopard) */
-#ifndef sincos
-#define sincos(th,x,y) { (*(x))=sin(th); (*(y))=cos(th); }
+#ifndef QSinCos
+#define QSinCos(th,x,y) { (*(x))=sin(th); (*(y))=cos(th); }
 #endif
 
 

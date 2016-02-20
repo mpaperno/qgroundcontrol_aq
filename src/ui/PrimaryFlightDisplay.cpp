@@ -891,9 +891,9 @@ void PrimaryFlightDisplay::drawAICompassDisk(QPainter& painter, QRectF area, flo
         painter.translate(area.center());
         // TODO : Sign might be wrong?
         // TODO : The case where error exceeds max. Truncate to max. and make that visible somehow.
-        bool errorBeyondRadius = false;
+//        bool errorBeyondRadius = false;
         if (abs(navigationCrosstrackError) > CROSSTRACK_MAX) {
-            errorBeyondRadius = true;
+//            errorBeyondRadius = true;
             navigationCrosstrackError = navigationCrosstrackError>0 ? CROSSTRACK_MAX : -CROSSTRACK_MAX;
         }
 

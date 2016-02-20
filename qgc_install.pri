@@ -36,7 +36,7 @@ TARGETDIR = $$DESTDIR
 greaterThan(QT_MAJOR_VERSION, 4) {
 	QT_DLL_LIST = Qt5Core Qt5Gui Qt5Widgets Qt5Multimedia Qt5Network Qt5OpenGL Qt5Sql Qt5Svg Qt5Test Qt5WebKit Qt5WebKitWidgets Qt5Xml Qt5XmlPatterns
 	QT_DLL_LIST += Qt5Concurrent Qt5MultimediaWidgets Qt5Positioning Qt5PrintSupport Qt5Qml Qt5Quick Qt5Sensors Qt5WebChannel
-	QT_PLUGIN_LIST += imageformats iconengines sqldrivers audio mediaservice platforms
+	QT_PLUGIN_LIST += imageformats iconengines sqldrivers audio mediaservice platforms bearer
 } else {
 	QT_DLL_LIST = QtCore4 QtGui4 QtMultimedia4 QtNetwork4 QtOpenGL4 QtSql4 QtSvg4 QtTest4 QtWebKit4 QtXml4 QtXmlPatterns4
 	QT_PLUGIN_LIST = imageformats iconengines sqldrivers
@@ -125,13 +125,14 @@ MacBuild {
 }
 
 LinuxBuild:ReleaseBuild {
+	QMAKE_LFLAGS_RPATH =
 	QMAKE_LFLAGS += -Wl,-rpath,"'\$$ORIGIN/qtlibs'"
 
 	Build32Bits:exists(/usr/local):LIBS += -L/usr/local
 	Build64Bits:exists(/usr/local/lib64):LIBS += -L/usr/local/lib64
 
 	greaterThan(QT_MAJOR_VERSION, 4) {
-		QT_DLL_LIST += Qt5DBus
+		QT_DLL_LIST += Qt5DBus Qt5XcbQpa
 		QT_PLUGIN_LIST += platformthemes
 	}
 
@@ -139,14 +140,25 @@ LinuxBuild:ReleaseBuild {
 	for(QT_DLL, QT_DLL_LIST) {
 		target.files += $$[QT_INSTALL_LIBS]/lib$${QT_DLL}.so.5
 	}
-	#target.files += $$[QT_INSTALL_LIBS]/libicu*.so.5*
+	target.files += $$[QT_INSTALL_LIBS]/libicu*.so.54
 
 	for(QT_PLUGIN, QT_PLUGIN_LIST) {
 		qtplugins_$${QT_PLUGIN}.path = $${TARGETDIR}/$${QT_PLUGIN}
 		qtplugins_$${QT_PLUGIN}.files = $$[QT_INSTALL_PLUGINS]/$${QT_PLUGIN}/lib*.so
 		INSTALLS += qtplugins_$${QT_PLUGIN}
 	}
-	INSTALLS += target
+
+	iconfiles.path = $${TARGETDIR}
+	iconfiles.files = $${ICONS}
+	etcfiles.path = $${TARGETDIR}/files/etc
+	etcfiles.files = $${BASEDIR}/files/etc/*
+
+	post_target.path = $${TARGETDIR}
+	post_target.extra = chrpath -r "'\$$ORIGIN/../qtlibs'" $${TARGETDIR}/platforms/libqxcb.so
+
+	readmes.files += $${BASEDIR}/README-Linux.txt
+
+	INSTALLS += target iconfiles etcfiles post_target
 }
 
 binfiles.path = $${TARGETDIR}/aq/bin
@@ -168,9 +180,14 @@ ReleaseBuild {
 	langfiles.files = $${BASEDIR}/files/lang/*.qm
 	flagfiles.path = $${TARGETDIR}/files/lang/flags
 	flagfiles.files = $${BASEDIR}/files/lang/flags/*
+
 	cssfiles.path = $${TARGETDIR}/files/styles
 	cssfiles.files = $${BASEDIR}/files/styles/*.css
-	INSTALLS += langfiles flagfiles cssfiles
+
+	readmes.path = $${TARGETDIR}
+	readmes.files += $${BASEDIR}/CHANGES.txt
+
+	INSTALLS += langfiles flagfiles cssfiles readmes
 
 	MacBuild:DoMacDeploy:INSTALLS += macdeploy
 }

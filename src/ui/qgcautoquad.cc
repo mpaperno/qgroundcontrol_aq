@@ -729,6 +729,7 @@ bool QGCAutoquad::radioHasPPM()
 
 void QGCAutoquad::radioType_changed(int idx) {
 
+    Q_UNUSED(idx)
     emit hardwareInfoUpdated();
 
     if (radioHasPPM()) { // PPM
@@ -746,20 +747,20 @@ void QGCAutoquad::radioType_changed(int idx) {
         ui->label_multiRadioMode->hide();
     }
 
-    if (!paramaq)
-        return;
+//    if (!paramaq)
+//        return;
 
-    bool ok;
-    int prevRadioValue;
-    int newRadioValue;
+//    bool ok;
+//    int prevRadioValue;
+//    int newRadioValue;
 
-    if (useRadioSetupParam) {
-        prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
-        newRadioValue = calcRadioSetting();
-    } else {
-        prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
-        newRadioValue = ui->RADIO_TYPE->itemData(idx).toInt(&ok);
-    }
+//    if (useRadioSetupParam) {
+//        prevRadioValue = paramaq->getParaAQ("RADIO_SETUP").toInt(&ok);
+//        newRadioValue = calcRadioSetting();
+//    } else {
+//        prevRadioValue = paramaq->getParaAQ("RADIO_TYPE").toInt(&ok);
+//        newRadioValue = ui->RADIO_TYPE->itemData(idx).toInt(&ok);
+//    }
 }
 
 void QGCAutoquad::on_toolButton_radioHelp_clicked()
@@ -1974,6 +1975,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
 
         // special case for reversing gimbal servo direction
         if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL" || paraName == "SIG_BEEP_PRT") {
+            chkstate = false;
             if (paraName == "GMBL_SCAL_PITCH")
                 chkstate = parent->findChild<QCheckBox *>("reverse_gimbal_pitch")->checkState();
             else if (paraName == "GMBL_SCAL_ROLL")

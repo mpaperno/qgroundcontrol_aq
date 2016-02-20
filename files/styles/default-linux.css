@@ -1,0 +1,6 @@
+/* Override of default styles for Linux */
+
+QComboBox {
+	max-height: 1.35em;
+	padding: .05em .1em;
+}

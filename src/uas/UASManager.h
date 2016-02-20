@@ -31,22 +31,32 @@ This file is part of the QGROUNDCONTROL project
 #ifndef _UASMANAGER_H_
 #define _UASMANAGER_H_
 
+#include "QGCGeo.h"
+
 #include <QThread>
 #include <QList>
 #include <QMutex>
 #include <UASInterface.h>
-#ifdef __GNUC__
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
+//#pragma clang diagnostic push
+//#pragma clang diagnostic ignored "-Wunused-local-typedefs"
+#elif defined(__GNUC__) || defined(__GNUG__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wself-assign"
-#include "Eigen/Eigen"
-#pragma GCC diagnostic pop
-#pragma GCC diagnostic pop
-#else
-#include "Eigen/Eigen"
+#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#include "QGCGeo.h"
+#include <Eigen/Eigen>
+#if defined(__clang__)
+#pragma clang diagnostic pop
+//#pragma clang diagnostic pop
+#elif defined(__GNUC__) || defined(__GNUG__)
+#pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
+#endif
 
 /**
  * @brief Central manager for all connected aerial vehicles

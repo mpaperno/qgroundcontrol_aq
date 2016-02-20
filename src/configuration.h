@@ -22,8 +22,8 @@
 #endif
 #ifdef Q_OS_MAC
 	#define STYLES_OS_FILE    STYLES_PATH "default-mac.css"
-//#elif defined(Q_OS_LINUX)
-//	#define STYLES_OS_FILE    STYLES_PATH "default-linux.css"
+#elif defined(Q_OS_LINUX)
+	#define STYLES_OS_FILE    STYLES_PATH "default-linux.css"
 #endif
 #ifndef DOCFILES_PATH
     #define DOCFILES_PATH  ":/files/docs/"

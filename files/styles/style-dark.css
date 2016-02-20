@@ -139,7 +139,7 @@ QGroupBox:flat {
 	border-bottom: 0;
 	border-radius: 0;
 }
-QGroupBox:flat:!checked {
+QGroupBox[checkable="true"]:flat:!checked {
 	padding-top: 0;
 }
 

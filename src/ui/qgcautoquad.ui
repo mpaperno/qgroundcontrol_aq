@@ -4989,10 +4989,10 @@
           </attribute>
           <layout class="QGridLayout" name="gridLayout_53">
            <property name="leftMargin">
-            <number>0</number>
+            <number>9</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>9</number>
            </property>
            <property name="horizontalSpacing">
             <number>14</number>
@@ -7696,10 +7696,10 @@
           </attribute>
           <layout class="QGridLayout" name="gridLayout_40">
            <property name="leftMargin">
-            <number>0</number>
+            <number>9</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>9</number>
            </property>
            <property name="horizontalSpacing">
             <number>10</number>

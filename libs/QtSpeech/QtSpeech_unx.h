@@ -27,7 +27,7 @@ namespace QtSpeech_v1 { // API v1.0
 class QtSpeech_th : public QObject {
 Q_OBJECT
 public:
-    QtSpeech_th(QObject * p =0L):QObject(p),has_error(false),err("") {}
+    QtSpeech_th(QObject * p = 0L) : QObject(p), err(""), has_error(false) {}
     virtual ~QtSpeech_th() {}
 
 public slots:
