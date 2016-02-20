@@ -1,0 +1,2 @@
+# CP2102 USB to UART Bridge Controller
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE:="0666"
