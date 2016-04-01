@@ -1,0 +1,10 @@
+[Desktop Entry]
+ Name=QGroundControl for AutoQuad
+ Comment=AutoQuad Ground Control Station
+ Path=/FULL/PATH/TO/QGC
+ Exec=/FULL/PATH/TO/QGC/qgroundcontrol_aq
+ Icon=/FULL/PATH/TO/QGC/qgroundcontrol.png
+ Type=Application
+ Encoding=UTF-8
+ Terminal=false
+ Categories=Utility;Robotics;

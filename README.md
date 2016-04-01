@@ -32,7 +32,7 @@ git submodule update --init
 ```
 
 ## Building QGroundControl
-QGroundControl builds are supported for OSX, Linux and Windows. Qt versions 4.8.6 and 5.x are supported (Qt5 recommended, tested up to 5.5.1 at time of writing). See the individual sections below for specific requirements for each OS. 
+QGroundControl builds are supported for OSX, Linux, and Windows. Qt versions 4.8.6 and 5.x are supported (Qt5 recommended, tested up to 5.5.1 at time of writing). See the individual sections below for specific requirements for each OS.
 
 In general we recommend installing the latest Qt libraries and development environment (QtCreator), as this will provide the simplest and most tested build setup.
 
@@ -45,13 +45,13 @@ Qt DEFINES variable.  You can do this by un-commenting "#DEFINES += NO_TEXT_TO_S
 
 #### Install QT
 - - -
-1. Download and install Qt 5 (including QtCreator) for your OS from: <http://www.qt.io/download-open-source/>
+1. Download and install Qt 5 (including QtCreator) for your OS from: <http://www.qt.io/download-open-source/> (if the site doesn't detect your Linux operating system correctly, find the "manual download" option and choose the right one yourself)
 2. Choose the Qt flavor which matches your development environment, see OS-specific notes below.
 3. Install Qt as per their instructions.
 
 #### Open and configure the project
 1. Open the qgroundcontrol_aq.pro file (at the root of this project) in QtCreator.
-2. In the project Build Settings, expand the "Make" step and in the "Make arguments" field enter: `release install` (or `debug install` for debug type build).
+2. This step will ensure all necessary supporting files are copied to the right folder after a successful build: In the project Build Settings, expand the "Make" step and in the "Make arguments" field enter: `release install` (or `debug install` for debug type build).  You may need to add a "Make" step if there isn't one listed already under the "qmake" step.
 3. Assuming all the requirements below are met, you should be able to initiate a build (big green button on lower left of QtCreator).  Make sure you first select the proper build type (Release or Debug) using the menu just above the green arrow button.
 
 ### Build on Linux
@@ -61,9 +61,9 @@ Supported builds for Linux are 32 or 64-bit, built using gcc.
 * Ubuntu/Debian: `sudo apt-get install build-essential libsdl1.2-dev libudev-dev`
 * For Fedora: `sudo yum install systemd-devel SDL-devel SDL-static`
 
-#### Install Qt5 (Qt can also be installed via download as described above, recommended).
-* For Ubuntu (requires 14.10 for Qt5.3): `sudo apt-get install qtcreator qttools5-dev qtbase5-dev qt5-default qtdeclarative5-dev libqt5svg5-dev libqt5webkit5-dev libsdl1.2-dev build-essential libudev-dev`
-* For Fedora: `sudo yum install qt-creator qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtsvg-devel qt5-qtwebkit-devel`
+#### Install Qt5 (Qt can also be installed via download as described above, **recommended**).
+* For Ubuntu (requires 14.10 for Qt5.3): `sudo apt-get install qtcreator qttools5-dev qtbase5-dev qt5-default qtdeclarative5-dev libqt5svg5-dev libqt5webkit5-dev qtmultimedia5-dev`
+* For Fedora: `sudo yum install qt-creator qt5-qtbase-devel qt5-qtdeclarative-devel qt5-qtsvg-devel qt5-qtwebkit-devel qt5-multimedia-devel`
 
 #### [Optional] Install additional libraries for text-to-speech support
 * For text-to-speech (festival)
@@ -75,6 +75,8 @@ Supported builds for Linux are 32 or 64-bit, built using gcc.
  1. Change directory to you `qgroundcontrol_aq` source directory.
  2. Run `qmake`
  3. Run `make`
+
+**See README-Linux.txt to check instructions for running QGC on your system.**
 
 ### Build on Mac OSX
 

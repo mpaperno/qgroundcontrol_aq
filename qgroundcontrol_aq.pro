@@ -103,8 +103,9 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 ## Misc definitions & settings
 STYLES_DEFAULT_FILE = $${STYLES_PATH}style-default.css
 
-# Make sure custom qDebug() handler has context available
+# Make sure custom qDebug() handler has context available in all build types.
 DEFINES *= QT_MESSAGELOGCONTEXT
+# Stringbuilder allows efficient string concat using % operator, required.
 DEFINES *= QT_USE_QSTRINGBUILDER
 DEFINES += MAVLINK_NO_DATA
 

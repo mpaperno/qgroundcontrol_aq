@@ -40,5 +40,18 @@ replacing `[path_to_QGC]` with the actual QGC installation folder:
 If the device was already plugged in, be sure to unplug and then replace it after updating the udev rules and before starting QGC.
 
 
+Desktop/Menu Entry (Shortcut)
+----------
+
+Also included in the QGC /files/etc folder is a template to create a Linux "desktop" entry to easily run QGC from an icon/shortcut.
+You will need to edit this file so it contains the correct path to wherever you actually installed QGC.  Open "qgroundcontrol_aq.desktop"
+file in any text editor, and change the string "/FULL/PATH/TO/QGC" to the actual path matching your system (there are 3 occurences of
+this string).
+
+E.g. "/home/me/Applications/qgroundcontrol_aq"  (w/out the quotes, of course).
+
+You can then place this file on your desktop and/or wherever your desktop manager may look for it.
+(Search the 'net for "Linux desktop file" if you're unsure of what to do with it.)
+
 
 =====================================
