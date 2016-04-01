@@ -265,7 +265,7 @@ void SerialConfigurationWindow::setupPortList()
 
     // add any new ports
     foreach (const QextPortInfo &p, ports) {
-        //qDebug() << __FILE__ << __LINE__ << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
+        //qDebug()  << p.portName  << p.friendName << p.physName << p.enumName << p.vendorID << p.productID;
         if (!p.portName.length())
             continue;
         portNames.append(p.portName);

@@ -266,7 +266,7 @@ void QGCParamSlider::sendParameter()
     }
     else
     {
-        qDebug() << __FILE__ << __LINE__ << "NO UAS SET, DOING NOTHING";
+        qDebug()  << "NO UAS SET, DOING NOTHING";
     }
 }
 

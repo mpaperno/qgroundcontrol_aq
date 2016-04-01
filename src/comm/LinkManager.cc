@@ -97,7 +97,7 @@ void LinkManager::addProtocol(LinkInterface* link, ProtocolInterface* protocol)
         // Store the connection information in the protocol links map
         protocolLinks.insertMulti(protocol, link);
     }
-    //qDebug() << __FILE__ << __LINE__ << "ADDED LINK TO PROTOCOL" << link->getName() << protocol->getName() << "NEW SIZE OF LINK LIST:" << protocolLinks.size();
+    //qDebug()  << "ADDED LINK TO PROTOCOL" << link->getName() << protocol->getName() << "NEW SIZE OF LINK LIST:" << protocolLinks.size();
 }
 
 QList<LinkInterface *> LinkManager::getLinksForProtocol(ProtocolInterface* protocol)

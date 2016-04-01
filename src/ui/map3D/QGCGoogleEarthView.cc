@@ -56,7 +56,7 @@ QGCGoogleEarthView::QGCGoogleEarthView(QWidget *parent) :
 
 //    QFile file("doc.html");
 //    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-//        qDebug() << __FILE__ << __LINE__ << "Could not open log file";
+//        qDebug()  << "Could not open log file";
 
 //    QTextStream out(&file);
 //    out << webViewWin->generateDocumentation();
@@ -490,10 +490,10 @@ QVariant QGCGoogleEarthView::documentElement(QString name)
                     QVariant qtValue = VARIANTToQVariant(var,typeName);
                     return qtValue;
                 } else {
-                    qDebug() << __FILE__ << __LINE__ << "JAVASCRIPT ATTRIBUTE" << name << "NOT FOUND";
+                    qDebug()  << "JAVASCRIPT ATTRIBUTE" << name << "NOT FOUND";
                 }
             } else {
-                qDebug() << __FILE__ << __LINE__ << "DID NOT GET HTML ELEMENT" << name;
+                qDebug()  << "DID NOT GET HTML ELEMENT" << name;
             }
         }
     }
@@ -610,7 +610,7 @@ void QGCGoogleEarthView::initializeGoogleEarth()
 void QGCGoogleEarthView::updateState()
 {
 #if (QGC_EVENTLOOP_DEBUG)
-    qDebug() << "EVENTLOOP:" << __FILE__ << __LINE__;
+    qDebug() << "EVENTLOOP:" ;
 #endif
     if (gEarthInitialized)
     {

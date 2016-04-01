@@ -119,13 +119,13 @@ void QGCCommandButton::sendCommand()
                 int component = ui->editComponentSpinBox->value();
 
                 QGCToolWidgetItem::uas->executeCommand(command, confirm, param1, param2, param3, param4, param5, param6, param7, component);
-                qDebug() << __FILE__ << __LINE__ << "SENDING COMMAND" << index;
+                qDebug()  << "SENDING COMMAND" << index;
             }
         }
     }
     else
     {
-        qDebug() << __FILE__ << __LINE__ << "NO UAS SET, DOING NOTHING";
+        qDebug()  << "NO UAS SET, DOING NOTHING";
     }
 }
 

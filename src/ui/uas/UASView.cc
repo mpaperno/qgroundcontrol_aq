@@ -279,7 +279,7 @@ void UASView::mouseDoubleClickEvent (QMouseEvent * event)
 {
     Q_UNUSED(event);
     UASManager::instance()->setActiveUAS(uas);
-    // qDebug() << __FILE__ << __LINE__ << "DOUBLECLICKED";
+    // qDebug()  << "DOUBLECLICKED";
 }
 
 void UASView::enterEvent(QEvent* event)
@@ -295,7 +295,7 @@ void UASView::enterEvent(QEvent* event)
 
     if (event->type() == QEvent::MouseButtonDblClick)
     {
-        // qDebug() << __FILE__ << __LINE__ << "UAS CLICKED!";
+        // qDebug()  << "UAS CLICKED!";
     }
 }
 
@@ -634,7 +634,7 @@ void UASView::refresh()
     if (generalUpdateCount == 4)
     {
 #if (QGC_EVENTLOOP_DEBUG)
-        // qDebug() << "EVENTLOOP:" << __FILE__ << __LINE__;
+        // qDebug() << "EVENTLOOP:" ;
 #endif
         generalUpdateCount = 0;
         //// qDebug() << "UPDATING EVERYTHING";

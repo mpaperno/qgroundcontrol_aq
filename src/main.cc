@@ -52,7 +52,13 @@ void msgHandler( QtMsgType type, const char* msg )
 {
     const char symbols[] = { 'I', 'W', 'E', 'X' };
 #if QT_VERSION >= 0x050000
-    QString output = QString("[%1] @ %2:%3 - \"%4\"").arg(symbols[type]).arg(context.file).arg(context.line).arg(msg);
+#ifdef QT_NO_DEBUG
+    // strip full path from source file
+    QString file = QString(context.file).replace(QRegExp(".*[\\\\\\/](.*)", Qt::CaseInsensitive, QRegExp::RegExp2), "\\1");
+#else
+    QString file = context.file;
+#endif
+    QString output = QString("[%1] @ %2:%3 - \"%4\"").arg(symbols[type]).arg(file).arg(context.line).arg(msg);
 #else
     QString output = QString("[%1] %2").arg( symbols[type] ).arg( msg );
 #endif

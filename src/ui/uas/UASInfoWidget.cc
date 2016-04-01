@@ -203,7 +203,7 @@ void UASInfoWidget::updateBattery(UASInterface* uas, double voltage, double perc
 
 void UASInfoWidget::updateErrorCount(int uasid, QString component, QString device, int count)
 {
-    //qDebug() << __FILE__ << __LINE__ << activeUAS->getUASID() << "=" << uasid;
+    //qDebug()  << activeUAS->getUASID() << "=" << uasid;
     if (activeUAS->getUASID() == uasid) {
         errors.remove(component + ":" + device);
         errors.insert(component + ":" + device, count);

@@ -220,7 +220,7 @@ void UDPLink::readBytes()
         emit bytesReceived(this, datagram);
 
 //        // Echo data for debugging purposes
-//        std::cerr << __FILE__ << __LINE__ << "Received datagram:" << std::endl;
+//        std::cerr  << "Received datagram:" << std::endl;
 //        int i;
 //        for (i=0; i<s; i++)
 //        {

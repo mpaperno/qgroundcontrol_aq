@@ -121,7 +121,7 @@ namespace mapcontrol
             delete textBG;
             coord=map->FromLocalToLatLng(this->pos().x(),this->pos().y());
             QString coord_str = " " + QString::number(coord.Lat(), 'f', 6) + "   " + QString::number(coord.Lng(), 'f', 6);
-            // qDebug() << "WP MOVE:" << coord_str << __FILE__ << __LINE__;
+            // qDebug() << "WP MOVE:" << coord_str ;
             isDragging=false;
             RefreshToolTip();
 
@@ -137,7 +137,7 @@ namespace mapcontrol
             coord=map->FromLocalToLatLng(this->pos().x(),this->pos().y());
             QString coord_str = " " + QString::number(coord.Lat(), 'f', 6) + "   " + QString::number(coord.Lng(), 'f', 6);
             text->setText(coord_str);
-            // qDebug() << "WP DRAG:" << coord_str << __FILE__ << __LINE__;
+            // qDebug() << "WP DRAG:" << coord_str ;
             textBG->setRect(text->boundingRect());
 
             emit WPValuesChanged(this);

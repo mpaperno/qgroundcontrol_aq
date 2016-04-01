@@ -158,7 +158,7 @@ void SerialLink::deviceRemoved(const QextPortInfo &pi)
     emit portError();
     if (!m_linkLossExpected)
         emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected!").arg(this->porthandle));
-    //qWarning() << __FILE__ << __LINE__ << "device removed" << port->lastError() << port->errorString();
+    //qWarning()  << "device removed" << port->lastError() << port->errorString();
 }
 
 void SerialLink::deviceDiscovered(const QextPortInfo &pi)
@@ -540,7 +540,7 @@ qint64 SerialLink::bytesAvailable()
 // not used at the moment, doesn't detect disconnect with "native" USB connection (eg. AQ M4)
 //void SerialLink::handleError(QSerialPort::SerialPortError error)
 //{
-//    //qDebug() << __FILE__ << __LINE__ << error << port->error() << port->errorString();
+//    //qDebug()  << error << port->error() << port->errorString();
 //    if (error == QSerialPort::ResourceError) {
 //        emit communicationError(this->getName(), tr("Link %1 unexpectedly disconnected with error: %2").arg(this->getName()).arg(port->errorString()));
 //        this->disconnect();

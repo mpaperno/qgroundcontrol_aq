@@ -479,7 +479,7 @@ void QGCAQParamWidget::addComponent(int uas, int component, QString componentNam
  */
 void QGCAQParamWidget::addParameter(int uas, int component, int paramCount, int paramId, QString parameterName, QVariant value, uint8_t type)
 {
-    //qDebug() << __FILE__ << __LINE__ << paramId << parameterName << value << uas << component;
+    //qDebug()  << paramId << parameterName << value << uas << component;
     //if (sender()) qDebug() << sender();
 
     addParameter(uas, component, parameterName, value);
@@ -1145,7 +1145,7 @@ void QGCAQParamWidget::setRetransmissionGuardEnabled(bool enabled)
 void QGCAQParamWidget::retransmissionGuardTick()
 {
     if (transmissionActive) {
-        //qDebug() << __FILE__ << __LINE__ << "RETRANSMISSION GUARD ACTIVE, CHECKING FOR DROPS..";
+        //qDebug()  << "RETRANSMISSION GUARD ACTIVE, CHECKING FOR DROPS..";
 
         // Check for timeout
         // stop retransmission attempts on timeout
@@ -1188,7 +1188,7 @@ void QGCAQParamWidget::retransmissionGuardTick()
                 int count = 0;
                 foreach (int id, *paramList) {
                     if (count < retransmissionBurstRequestSize) {
-                        //qDebug() << __FILE__ << __LINE__ << "RETRANSMISSION GUARD REQUESTS RETRANSMISSION OF PARAM #" << id << "FROM COMPONENT #" << component;
+                        //qDebug()  << "RETRANSMISSION GUARD REQUESTS RETRANSMISSION OF PARAM #" << id << "FROM COMPONENT #" << component;
                         emit requestParameter(component, id);
                         statusLabel->setText(tr("Requested retransmission of #%1").arg(id+1));
                         count++;
@@ -1238,7 +1238,7 @@ void QGCAQParamWidget::retransmissionGuardTick()
             }
         }
     } else {
-        //qDebug() << __FILE__ << __LINE__ << "STOPPING RETRANSMISSION GUARD GRACEFULLY";
+        //qDebug()  << "STOPPING RETRANSMISSION GUARD GRACEFULLY";
         setRetransmissionGuardEnabled(false);
     }
 }
@@ -1292,7 +1292,7 @@ void QGCAQParamWidget::setParameter(int component, QString parameterName, QVaria
     }
 
     emit parameterChanged(component, parameterName, fixedValue);
-    //qDebug() << __FILE__ << __LINE__ << "parameterChanged:" << parameterName << fixedValue;
+    //qDebug()  << "parameterChanged:" << parameterName << fixedValue;
 
     // Wait for parameter to be written back
     // mark it therefore as missing

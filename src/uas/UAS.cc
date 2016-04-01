@@ -304,7 +304,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
     if (!links->contains(link))
     {
         addLink(link);
-        //        qDebug() << __FILE__ << __LINE__ << "ADDED LINK!" << link->getName();
+        //        qDebug()  << "ADDED LINK!" << link->getName();
     }
 
     if (!components.contains(message.compid))
@@ -980,7 +980,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             // Emit change
             emit parameterChanged(uasId, message.compid, parameterName, param);
             emit parameterChanged(uasId, message.compid, value.param_count, value.param_index, parameterName, param, value.param_type);
-            //qDebug() << __FILE__ << __LINE__ << "RECEIVED PARAM:" << parameterName << param;
+            //qDebug()  << "RECEIVED PARAM:" << parameterName << param;
         }
             break;
         case MAVLINK_MSG_ID_COMMAND_ACK:
@@ -1057,7 +1057,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
             else
             {
-                qDebug() << __FILE__ << __LINE__ << "Got waypoint message, but was wrong system id" << wpc.target_system;
+                qDebug()  << "Got waypoint message, but was wrong system id" << wpc.target_system;
             }
         }
             break;
@@ -1073,7 +1073,7 @@ void UAS::receiveMessage(LinkInterface* link, mavlink_message_t message)
             }
             else
             {
-                qDebug() << __FILE__ << __LINE__ << "Got waypoint message, but was wrong system id" << wp.target_system;
+                qDebug()  << "Got waypoint message, but was wrong system id" << wp.target_system;
             }
         }
             break;
@@ -2177,7 +2177,7 @@ void UAS::requestParameter(int component, int id)
     read.target_component = component;
     mavlink_msg_param_request_read_encode(mavlink->getSystemId(), mavlink->getComponentId(), &msg, &read);
     sendMessage(msg);
-    //qDebug() << __FILE__ << __LINE__ << "REQUESTING PARAM RETRANSMISSION FROM COMPONENT" << component << "FOR PARAM ID" << id;
+    //qDebug()  << "REQUESTING PARAM RETRANSMISSION FROM COMPONENT" << component << "FOR PARAM ID" << id;
 }
 
 /**
@@ -2199,7 +2199,7 @@ void UAS::requestParameter(int component, const QString& parameter)
     read.target_component = component;
     mavlink_msg_param_request_read_encode(mavlink->getSystemId(), mavlink->getComponentId(), &msg, &read);
     sendMessage(msg);
-    qDebug() << __FILE__ << __LINE__ << "REQUESTING PARAM RETRANSMISSION FROM COMPONENT" << component << "FOR PARAM NAME" << parameter;
+    qDebug()  << "REQUESTING PARAM RETRANSMISSION FROM COMPONENT" << component << "FOR PARAM NAME" << parameter;
 }
 
 /**
@@ -2324,7 +2324,7 @@ void UAS::setManualControlCommands(double roll, double pitch, double yaw, double
         mavlink_message_t message;
         mavlink_msg_manual_control_pack(mavlink->getSystemId(), mavlink->getComponentId(), &message, this->uasId, (float)manualPitchAngle, (float)manualRollAngle, (float)manualThrust, (float)manualYawAngle, buttons);
         sendMessage(message);
-        //qDebug() << __FILE__ << __LINE__ << ": SENT MANUAL CONTROL MESSAGE: roll" << manualRollAngle << " pitch: " << manualPitchAngle << " yaw: " << manualYawAngle << " thrust: " << manualThrust;
+        //qDebug()  << ": SENT MANUAL CONTROL MESSAGE: roll" << manualRollAngle << " pitch: " << manualPitchAngle << " yaw: " << manualYawAngle << " thrust: " << manualThrust;
 
         emit attitudeThrustSetPointChanged(this, roll, pitch, yaw, thrust, QGC::groundTimeMilliseconds());
     }
@@ -2342,7 +2342,7 @@ void UAS::setManualControlCommands(double roll, double pitch, double yaw, double
 //        mavlink_message_t message;
 //        mavlink_msg_setpoint_6dof_pack(mavlink->getSystemId(), mavlink->getComponentId(), &message, this->uasId, (float)x, (float)y, (float)z, (float)roll, (float)pitch, (float)yaw);
 //        sendMessage(message);
-//        qDebug() << __FILE__ << __LINE__ << ": SENT 6DOF CONTROL MESSAGE: x" << x << " y: " << y << " z: " << z << " roll: " << roll << " pitch: " << pitch << " yaw: " << yaw;
+//        qDebug()  << ": SENT 6DOF CONTROL MESSAGE: x" << x << " y: " << y << " z: " << z << " roll: " << roll << " pitch: " << pitch << " yaw: " << yaw;
 
 //        //emit attitudeThrustSetPointChanged(this, roll, pitch, yaw, thrust, QGC::groundTimeMilliseconds());
 //    }
@@ -2377,7 +2377,7 @@ void UAS::receiveButton(int buttonIndex)
 
         break;
     }
-    //    qDebug() << __FILE__ << __LINE__ << ": Received button clicked signal (button # is: " << buttonIndex << "), UNIMPLEMENTED IN MAVLINK!";
+    //    qDebug()  << ": Received button clicked signal (button # is: " << buttonIndex << "), UNIMPLEMENTED IN MAVLINK!";
 
 }
 
@@ -2576,7 +2576,7 @@ void UAS::sendHilState(uint64_t time_us, float roll, float pitch, float yaw, flo
         mavlink_message_t msg;
         mavlink_msg_set_mode_pack(mavlink->getSystemId(), mavlink->getComponentId(), &msg, this->getUASID(), mode | MAV_MODE_FLAG_HIL_ENABLED, customMode);
         sendMessage(msg);
-        qDebug() << __FILE__ << __LINE__ << "HIL is onboard not enabled, trying to enable.";
+        qDebug()  << "HIL is onboard not enabled, trying to enable.";
     }
 }
 

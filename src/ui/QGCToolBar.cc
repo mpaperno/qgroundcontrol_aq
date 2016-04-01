@@ -255,7 +255,7 @@ void QGCToolBar::setPerspectiveChangeActions(const QList<QAction*> &actions)
         }
 
     } else {
-        qDebug() << __FILE__ << __LINE__ << "Not enough perspective change actions provided";
+        qDebug()  << "Not enough perspective change actions provided";
     }
 
     // Add the "rest"

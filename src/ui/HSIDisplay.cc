@@ -223,7 +223,7 @@ void HSIDisplay::paintEvent(QPaintEvent * event)
     Q_UNUSED(event);
     //paintGL();
     //    static quint64 interval = 0;
-    //    //qDebug() << "INTERVAL:" << MG::TIME::getGroundTimeNow() - interval << __FILE__ << __LINE__;
+    //    //qDebug() << "INTERVAL:" << MG::TIME::getGroundTimeNow() - interval ;
     //    interval = MG::TIME::getGroundTimeNow();
     renderOverlay();
 }
@@ -232,7 +232,7 @@ void HSIDisplay::renderOverlay()
 {
     if (!isVisible()) return;
 #if (QGC_EVENTLOOP_DEBUG)
-    qDebug() << "EVENTLOOP:" << __FILE__ << __LINE__;
+    qDebug() << "EVENTLOOP:" ;
 #endif
     // Center location of the HSI gauge items
 

@@ -545,11 +545,11 @@ void HUD::paintHUD()
 {
     if (isVisible()) {
         //    static quint64 interval = 0;
-        //    qDebug() << "INTERVAL:" << MG::TIME::getGroundTimeNow() - interval << __FILE__ << __LINE__;
+        //    qDebug() << "INTERVAL:" << MG::TIME::getGroundTimeNow() - interval ;
         //    interval = MG::TIME::getGroundTimeNow();
 
 #if (QGC_EVENTLOOP_DEBUG)
-        qDebug() << "EVENTLOOP:" << __FILE__ << __LINE__;
+        qDebug() << "EVENTLOOP" ;
 #endif
 
         // Read out most important values to limit hash table lookups
@@ -1229,7 +1229,7 @@ void HUD::setImageSize(int width, int height, int depth, int channels)
             image->setColorCount(256);
             for (int i = 0; i < 256; i++) {
                 image->setColor(i, qRgb(i, i, i));
-                //qDebug() << __FILE__ << __LINE__ << std::hex << i;
+                //qDebug()  << std::hex << i;
             }
 
         }
@@ -1249,7 +1249,7 @@ void HUD::setImageSize(int width, int height, int depth, int channels)
         }
         glImage = *image;
 
-        qDebug() << __FILE__ << __LINE__ << "Setting up image";
+        qDebug()  << "Setting up image";
 
         // Set size once
         setFixedSize(receivedWidth, receivedHeight);
@@ -1285,7 +1285,7 @@ void HUD::finishImage()
 
 void HUD::commitRawDataToGL()
 {
-    qDebug() << __FILE__ << __LINE__ << "Copying raw data to GL buffer:" << rawImage << receivedWidth << receivedHeight << image->format();
+    qDebug()  << "Copying raw data to GL buffer:" << rawImage << receivedWidth << receivedHeight << image->format();
     if (image != NULL) {
         QImage::Format format = image->format();
         QImage* newImage = new QImage(rawImage, receivedWidth, receivedHeight, format);
@@ -1294,7 +1294,7 @@ void HUD::commitRawDataToGL()
             newImage->setColorCount(256);
             for (int i = 0; i < 256; i++) {
                 newImage->setColor(i, qRgb(i, i, i));
-                //qDebug() << __FILE__ << __LINE__ << std::hex << i;
+                //qDebug()  << std::hex << i;
             }
         }
 
@@ -1346,7 +1346,7 @@ void HUD::enableVideo(bool enabled)
 void HUD::setPixels(int imgid, const unsigned char* imageData, int length, int startIndex)
 {
     Q_UNUSED(imgid);
-    //    qDebug() << "at" << __FILE__ << __LINE__ << ": Received startindex" << startIndex << "and length" << length << "(" << startIndex+length << "of" << rawExpectedBytes << "bytes)";
+    //    qDebug() << "at"  << ": Received startindex" << startIndex << "and length" << length << "(" << startIndex+length << "of" << rawExpectedBytes << "bytes)";
 
     if (imageStarted)
     {
