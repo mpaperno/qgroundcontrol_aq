@@ -29,6 +29,36 @@ namespace AUTOQUADMAV {
         AQMAV_DATASET_ENUM_END
     };
 
+    enum commStreamTypes {
+        COMM_TYPE_NONE          = 0,
+        COMM_TYPE_MULTIPLEX	    = (1<<0),
+        COMM_TYPE_MAVLINK	    = (1<<1),
+        COMM_TYPE_TELEMETRY	    = (1<<2),
+        COMM_TYPE_GPS           = (1<<3),
+        COMM_TYPE_RX_TELEM	    = (1<<4),
+        COMM_TYPE_CLI           = (1<<5),
+        COMM_TYPE_OMAP_CONSOLE  = (1<<6),
+        COMM_TYPE_OMAP_PPP	    = (1<<7)
+    };
+
+    // bitmasks for CONFIG_FLAGS param
+    enum configFlags {
+        CONFIG_FLAG_SAVE_ADJUSTED   = (1<<0),   // save adjusted params values back to flash/SD, true/false
+        CONFIG_FLAG_ALWAYS_ALLOW_HF = (1<<1),   // enable/disable heading-free mode option in all flight modes (not just DVH)
+        CONFIG_FLAG_PID_CTRL_TYPE_C = (1<<2),   // use cascading PID controller type
+        CONFIG_FLAG_DISABLE_MSC     = (1<<3),   // disable mass storage component on USB connection
+        CONFIG_FLAG_INVRT_TCUT_AUTO = (1<<4),   // sharply scale (cut) throttle when inverted and in altitude-hold
+        CONFIG_FLAG_INVRT_TCUT_MAN  = (1<<5),   // cut throttle when inverted in manual modes
+    };
+
+    enum SPortConfigFlags {
+        SPORT_CFG_SEND_CUSTOM  = (1<<4),
+        SPORT_CFG_SEND_ACC	   = (1<<5),
+        SPORT_CFG_WAIT_GPS	   = (1<<6),
+        SPORT_CFG_WAIT_ALT	   = (1<<7),
+        SPORT_CFG_SEND_TXT_MSG = (1<<8),
+    };
+
 #ifdef _MSC_VER
     #pragma pack(push,1)
     typedef struct {

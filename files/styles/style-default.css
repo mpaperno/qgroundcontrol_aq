@@ -69,17 +69,27 @@ QLabel[labelStyle="emphasis"]:disabled {
 	color: #727272;
 }
 
-QLabel[labelStyle="columnLabel"] {
+QLabel[labelStyle="columnLabel"],
+QLabel[labelStyle="rowLabel"] {
 	color: #f2f2f3;
 	border: .1em solid rgba(125, 125, 125, 125);
 	border-radius: .3em;
 	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161, stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);
-	/*background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(80, 80, 80, 120), stop:1 rgba(200, 200, 200, 120));*/
-	padding: .1em .3em;
+	padding: .05em .3em;
 	text-align: center;
 }
 QLabel[labelStyle="columnLabel"][styleType="compact"] {
-	padding: .1em;
+	padding-left: .1em;
+	padding-right: .1em;
+}
+QLabel[labelStyle="columnLabelPadding"] {
+	padding: 0 .3em;
+}
+
+QLabel[labelStyle="rowLabel"] {
+	padding: 0 0 0 .05em;
+    max-width: .9em;
+	min-width: .9em;
 }
 
 QLabel[styleType="indicator"] {

@@ -80,9 +80,13 @@ private slots:
     void adjustUiForHardware();
     void adjustUiForFirmware();
     void adjustUiForQuatos();
+    void adjustUiForCommProtocol();
+    void setPIDType(int type);
     void on_tab_aq_settings_currentChanged(int idx);
     void on_SPVR_FS_RAD_ST2_currentIndexChanged(int index);
     void on_MOT_ESC_TYPE_currentIndexChanged(int index);
+    void on_radioButton_pidType_0_clicked(bool);
+    void on_radioButton_pidType_1_clicked(bool);
 
     // radio config UI
     void setupRadioTypes();
@@ -131,6 +135,7 @@ private slots:
     void onParametersChanged(int component, QMap<QString, QPair<float, float> > changes);
     QString paramNameGuiToOnboard(QString paraName);
     int calcRadioSetting();
+    bool checkCommProtocolTypeSelected(int proto);
     void convertPidAttValsToFW68Scales();
     // config actions button handlers
     void on_btn_paramsRefresh_clicked();
@@ -188,6 +193,7 @@ public:
     bool useNewControlsScheme;      // firmware supports _CTRL_ type parameters for control switch values
     bool useTunableParams;          // firmware supports CONFIG_ADJUST_Pn for live parameter adjustment
     bool remoteGuidanceEnabled;     // firmware supports remote guidance commands
+    bool unusedNavDistanceOMs;      // firmware update which doesn't use NAV distance and alt. speed OM limits
 
     QString aqBinFolderPath;    // absolute path to AQ supporting utils
     QString aqMotorMixesPath;   // abs. path to pre-configured motor mix files
@@ -201,18 +207,6 @@ protected:
 
     AQPWMPortsConfig* aqPwmPortConfig;
     LinkInterface* connectedLink;
-
-    enum commStreamTypes {
-        COMM_TYPE_NONE          = 0,
-        COMM_TYPE_MULTIPLEX	    = (1<<0),
-        COMM_TYPE_MAVLINK	    = (1<<1),
-        COMM_TYPE_TELEMETRY	    = (1<<2),
-        COMM_TYPE_GPS           = (1<<3),
-        COMM_TYPE_RX_TELEM	    = (1<<4),
-        COMM_TYPE_CLI           = (1<<5),
-        COMM_TYPE_OMAP_CONSOLE  = (1<<6),
-        COMM_TYPE_OMAP_PPP	    = (1<<7)
-    };
 
 private:
     QSettings settings;

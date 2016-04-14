@@ -2789,25 +2789,30 @@ void UAS::getCustomModeTexts(uint32_t custom_mode, uint8_t base_mode, QString *s
             *shortMode = tr("READY");
         if (audioMode)
             *audioMode = tr("ready");
-    } else if (custom_mode & AQ_NAV_STATUS_CALIBRATING) {
+    }
+    else if (custom_mode & AQ_NAV_STATUS_CALIBRATING) {
         if (shortMode)
             *shortMode = tr("CALIB");
-    } else if (custom_mode & AQ_NAV_STATUS_STANDBY) {
+    }
+    else if (custom_mode & AQ_NAV_STATUS_STANDBY) {
         if (shortMode)
             *shortMode = tr("MANUAL-STBY");
         if (audioMode)
             *audioMode = tr("throttle off");
-    } else if (custom_mode & AQ_NAV_STATUS_GUIDED) {
+    }
+    else if (custom_mode & AQ_NAV_STATUS_GUIDED) {
         if (shortMode)
             *shortMode = tr("GUIDED");
         if (audioMode)
             *audioMode = tr("guided mode");
-    } else if (custom_mode & AQ_NAV_STATUS_MISSION) {
+    }
+    else if (custom_mode & AQ_NAV_STATUS_MISSION) {
         if (shortMode)
             *shortMode = tr("MISSION");
         if (audioMode)
             *audioMode = tr("mission mode");
-    } else if (custom_mode & AQ_NAV_STATUS_POSHOLD) {
+    }
+    else if (custom_mode & AQ_NAV_STATUS_POSHOLD) {
         if (shortMode)
             *shortMode = tr("POS-HOLD");
         if (audioMode)
@@ -2826,7 +2831,7 @@ void UAS::getCustomModeTexts(uint32_t custom_mode, uint8_t base_mode, QString *s
             *audioMode = tr("manual control");
     }
 
-    if (shortMode && base_mode & MAV_MODE_FLAG_DECODE_POSITION_HIL)
+    if (shortMode && (base_mode & MAV_MODE_FLAG_DECODE_POSITION_HIL))
         shortMode->prepend("HIL:");
 
     if (alerts) {
@@ -2843,6 +2848,10 @@ void UAS::getCustomModeTexts(uint32_t custom_mode, uint8_t base_mode, QString *s
     }
 
     if (auxModes) {
+        if (custom_mode & 0x40)  // FIXME once new status enums are published
+            auxModes->append(tr("LTD_ACRO"));
+        if (custom_mode & 0x80)
+            auxModes->append(tr("ACRO"));
         if (custom_mode & AQ_NAV_STATUS_DVH)
             auxModes->append(tr("DVH"));
         if (custom_mode & AQ_NAV_STATUS_DAO)

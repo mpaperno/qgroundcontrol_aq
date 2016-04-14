@@ -31,6 +31,8 @@
 #include <qextserialenumerator.h>
 #include <float.h>
 
+using namespace AUTOQUADMAV;
+
 QGCAutoquad::QGCAutoquad(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QGCAutoquad),
@@ -59,7 +61,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // these regexes are used for matching field names to AQ params
     fldnameRx.setPattern("^(CONFIG|COMM|CTRL|DOWNLINK|GMBL|GPS|IMU|L1|MOT|NAV|PPM|RADIO|SIG|SPVR|TELEMETRY|UKF|VN100|QUATOS|LIC)_[A-Z0-9_]+$"); // strict field name matching
     dupeFldnameRx.setPattern("___N[0-9]"); // for having duplicate field names, append ___N# after the field name (three underscores, "N", and a unique number)
-    paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN|ESC).+|GMBL_.+_PORT|SIG_.+_PRT|SPVR_VIN_SOURCE|CONFIG_ADJUST_P[0-9]+)$");
+    paramsReqRestartRx.setPattern("^(COMM_.+|RADIO_(TYPE|SETUP)|MOT_(PWRD|CAN|ESC).+|GMBL_.+_PORT|SIG_.+_PRT|CONFIG_ADJUST_P[0-9]+|.+_TAU|SPVR_VIN_SOURCE|QUATOS_L1_ASP|TELEMETRY_RX_CFG)$");
     //paramsRadioControls.setPattern("^(RADIO|NAV|GMBL)_.+_(CH|CHAN)$");
     //paramsSwitchControls.setPattern("^(NAV|GMBL|SPVR)_CTRL_[A-Z0-9_]+$");
     paramsTunableControls.setPattern("^CONFIG_ADJUST_P[0-9]+$");
@@ -106,7 +108,19 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->QUATOS_ENABLE->setId(ui->radioButton_attitude_pid, 0);
     ui->QUATOS_ENABLE->setId(ui->radioButton_attitude_quatos, 1);
 
-    ui->CONFIG_FLAGS->setId(ui->checkBox_saveAdjustedParams, 0x01);
+    ui->CONFIG_FLAGS->setId(ui->checkBox_saveAdjustedParams, CONFIG_FLAG_SAVE_ADJUSTED);
+    ui->CONFIG_FLAGS->setId(ui->checkBox_allowHF, CONFIG_FLAG_ALWAYS_ALLOW_HF);
+	ui->CONFIG_FLAGS->setId(ui->radioButton_pidType_0, 0);   // "dummy" option
+	ui->CONFIG_FLAGS->setId(ui->radioButton_pidType_1, CONFIG_FLAG_PID_CTRL_TYPE_C);
+	ui->CONFIG_FLAGS->setId(ui->checkBox_disableMSC, CONFIG_FLAG_DISABLE_MSC);
+    ui->CONFIG_FLAGS->setId(ui->checkBox_INVRT_TCUT_AUTO, CONFIG_FLAG_INVRT_TCUT_AUTO);
+    ui->CONFIG_FLAGS->setId(ui->checkBox_INVRT_TCUT_MAN, CONFIG_FLAG_INVRT_TCUT_MAN);
+
+    ui->TELEMETRY_RX_CFG->setId(ui->checkBox_SPORT_CFG_SEND_CUSTOM, SPORT_CFG_SEND_CUSTOM);
+    ui->TELEMETRY_RX_CFG->setId(ui->checkBox_SPORT_CFG_SEND_ACC, SPORT_CFG_SEND_ACC);
+    ui->TELEMETRY_RX_CFG->setId(ui->checkBox_SPORT_CFG_WAIT_GPS, SPORT_CFG_WAIT_GPS);
+    ui->TELEMETRY_RX_CFG->setId(ui->checkBox_SPORT_CFG_WAIT_ALT, SPORT_CFG_WAIT_ALT);
+    ui->TELEMETRY_RX_CFG->setId(ui->checkBox_SPORT_CFG_SEND_TXT_MSG, SPORT_CFG_SEND_TXT_MSG);
 
     // baud rates
     QList<int> availableBaudRates = MG::SERIAL::getBaudRates();
@@ -143,6 +157,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
         cb->addItem(tr("CLI (*)"), COMM_TYPE_CLI);
         cb->addItem(tr("OMAP Console (*)"), COMM_TYPE_OMAP_CONSOLE);
         cb->addItem(tr("OMAP PPP (*)"), COMM_TYPE_OMAP_PPP);
+
+        connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForCommProtocol()));
     }
 
     // Final UI tweaks
@@ -163,10 +179,28 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     ui->MOT_MIN->hide();
     ui->label_MOT_MIN->hide();
     ui->CTRL_FACT_RUDD->hide();
-    //ui->label_CTRL_FACT_RUDD->hide();
+    ui->label_CTRL_FACT_RUDD->hide();
     ui->cmdBtn_ConvertTov68AttPIDs->hide();
     ui->container_RADIO_FLAP_CH->hide();
 
+	// these fields are disabled entirely (for display purposes only)
+	QString notused = tr("Only P-term is used by the nav controller for distance rate.");
+	ui->label_NAV_DIST_I->setDisabled(true);
+	ui->NAV_DIST_I->setDisabled(true);
+//	ui->NAV_DIST_I->setProperty("param_ignore", true);
+	ui->NAV_DIST_I->setToolTip(notused);
+	ui->label_NAV_DIST_IM->setDisabled(true);
+	ui->NAV_DIST_IM->setDisabled(true);
+//	ui->NAV_DIST_IM->setProperty("param_ignore", true);
+	ui->NAV_DIST_IM->setToolTip(notused);
+	ui->label_NAV_ALT_POS_I->setDisabled(true);
+	ui->NAV_ALT_POS_I->setDisabled(true);
+//	ui->NAV_ALT_POS_I->setProperty("param_ignore", true);
+	ui->NAV_ALT_POS_I->setToolTip(notused);
+	ui->label_NAV_ALT_POS_IM->setDisabled(true);
+	ui->NAV_ALT_POS_IM->setDisabled(true);
+//	ui->NAV_ALT_POS_IM->setProperty("param_ignore", true);
+	ui->NAV_ALT_POS_IM->setToolTip(notused);
 
     // save this for easy iteration later
     allRadioChanCombos.append(ui->groupBox_channelMapping->findChildren<QComboBox *>(QRegExp("^(RADIO|NAV|GMBL)_.+_(CH|CHAN)$")));
@@ -243,6 +277,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     setFirmwareInfo();  // set defaults based on fw version
     adjustUiForHardware();
     adjustUiForFirmware();
+    adjustUiForCommProtocol();
     setupRadioPorts();
     showStatusMessage();
     ui->widget_buttonBox->setEnabled(false);
@@ -296,8 +331,9 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
     // collapsible group boxes
     connect(ui->groupBox_gimbal, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
     connect(ui->groupBox_autoTrigger, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
-    connect(ui->groupBox_addlRadioControls, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
+//    connect(ui->groupBox_addlRadioControls, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
     connect(ui->groupBox_tuningChannels, SIGNAL(toggled(bool)), this, SLOT(toggleGroupBox(bool)));
+    connect(ui->TELEMETRY_RX_CFG_type, SIGNAL(currentIndexChanged(int)), this, SLOT(adjustUiForCommProtocol()));
 
     connect(ui->pushButton_save_to_aq, SIGNAL(clicked()),this,SLOT(saveAQSettings()));
     connect(ui->cmdBtn_ConvertTov68AttPIDs, SIGNAL(clicked()), this, SLOT(convertPidAttValsToFW68Scales()));
@@ -316,6 +352,7 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 
     setupPortList();
     loadSettings();
+	setPIDType(ui->radioButton_pidType_1->isChecked());
 
     // connect some things only after settings are loaded to prevent erroneous signals
     connect(ui->spinBox_rcGraphRefreshFreq, SIGNAL(valueChanged(int)), this, SLOT(delayedSendRcRefreshFreq()));
@@ -332,9 +369,6 @@ QGCAutoquad::~QGCAutoquad()
 {
     if (ps_master.state() == QProcess::Running)
         ps_master.close();
-//    if (ps_tracking.state() == QProcess::Running)
-//        ps_tracking.close();
-
     writeSettings();
     if (aqPwmPortConfig)
         aqPwmPortConfig->deleteLater();
@@ -427,7 +461,7 @@ void QGCAutoquad::loadSettings()
 
     ui->tabWidget_aq_left->setCurrentIndex(settings.value("SETTING_SELECTED_LEFT_TAB", 0).toInt());
 	 //ui->toolButton_toggleRadioGraph->setChecked(settings.value("RADIO_VALUES_UPDATE_BTN_STATE", true).toBool());
-     ui->groupBox_addlRadioControls->setChecked(settings.value("ADDL_RADIO_CONTROLS_GRP_STATE", false).toBool());
+//     ui->groupBox_addlRadioControls->setChecked(settings.value("ADDL_RADIO_CONTROLS_GRP_STATE", false).toBool());
      ui->groupBox_tuningChannels->setChecked(settings.value("TUNABLE_PARAMS_GRP_STATE", false).toBool());
      ui->groupBox_gimbal->setChecked(settings.value("GIMBAL_AXES_GRP_STATE", false).toBool());
      ui->groupBox_autoTrigger->setChecked(settings.value("AUTO_TRIGGERS_GRP_STATE", false).toBool());
@@ -455,7 +489,7 @@ void QGCAutoquad::writeSettings()
     settings.setValue("SETTINGS_SPLITTER_SIZES", ui->splitter_aqWidgetSidebar->saveState());
     settings.setValue("SETTING_SELECTED_LEFT_TAB", ui->tabWidget_aq_left->currentIndex());
 	 //settings.setValue("RADIO_VALUES_UPDATE_BTN_STATE", ui->toolButton_toggleRadioGraph->isChecked());
-	 settings.setValue("ADDL_RADIO_CONTROLS_GRP_STATE", ui->groupBox_addlRadioControls->isChecked());
+//	 settings.setValue("ADDL_RADIO_CONTROLS_GRP_STATE", ui->groupBox_addlRadioControls->isChecked());
 	 settings.setValue("TUNABLE_PARAMS_GRP_STATE", ui->groupBox_tuningChannels->isChecked());
 	 settings.setValue("GIMBAL_AXES_GRP_STATE", ui->groupBox_gimbal->isChecked());
 	 settings.setValue("AUTO_TRIGGERS_GRP_STATE", ui->groupBox_autoTrigger->isChecked());
@@ -549,9 +583,9 @@ void QGCAutoquad::toggleGroupBox(bool on, QGroupBox *gb)
 
 void QGCAutoquad::adjustUiForHardware()
 {
-    //ui->groupBox_commSerial2->setVisible(!aqHardwareVersion || aqHardwareVersion == 6);
     ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
     ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+	ui->checkBox_disableMSC->setVisible(aqHardwareVersion != 6);
     QVariant v(0);
     if (aqHardwareVersion == 8)
 		  v.setValue(1 | 32);  // Qt::ItemIsSelectable | Qt::ItemIsEnabled
@@ -570,6 +604,14 @@ void QGCAutoquad::adjustUiForFirmware()
 //    ui->label_multiRadioMode->setVisible(useRadioSetupParam);
     ui->groupBox_tuningChannels->setVisible(usingQuatos || useTunableParams);
     ui->checkBox_showAdvRadioCfg->setVisible(useNewControlsScheme);
+
+    // nav distance PID OMs depricated
+    ui->label_NAV_DIST_OM->setVisible(!unusedNavDistanceOMs);
+	ui->NAV_DIST_OM->setVisible(!unusedNavDistanceOMs);
+	ui->NAV_DIST_OM->setProperty("param_ignore", unusedNavDistanceOMs);
+	ui->label_NAV_ALT_POS_OM->setVisible(!unusedNavDistanceOMs);
+	ui->NAV_ALT_POS_OM->setVisible(!unusedNavDistanceOMs);
+	ui->NAV_ALT_POS_OM->setProperty("param_ignore", unusedNavDistanceOMs);
 
     // radio loss stage 2 failsafe options
     uint8_t idx = ui->SPVR_FS_RAD_ST2->currentIndex();
@@ -605,6 +647,23 @@ void QGCAutoquad::adjustUiForQuatos()
         ui->radioButton_attitude_pid->setChecked(true);
 }
 
+void QGCAutoquad::adjustUiForCommProtocol()
+{
+    bool hasTelem = (paramaq == NULL || paramaq->paramExistsAQ("TELEMETRY_RX_CFG"));
+    bool on = hasTelem && checkCommProtocolTypeSelected(COMM_TYPE_RX_TELEM);
+    ui->container_TELEMETRY_RX_CFG->setVisible(on);
+    ui->TELEMETRY_RX_CFG->setProperty("param_ignore", !on);
+    ui->groupBox_sPortConfigFlags->setVisible(ui->TELEMETRY_RX_CFG_type->currentIndex() == 1);
+}
+
+void QGCAutoquad::setPIDType(int type)
+{
+	ui->radioButton_pidType_0->setChecked(!type);
+	ui->radioButton_pidType_1->setChecked(type);
+	ui->CTRL_TLT_RTE_P->setEnabled(type);
+	ui->CTRL_TLT_RTE_I->setEnabled(type);
+}
+
 void QGCAutoquad::on_tab_aq_settings_currentChanged(int idx)
 {
     Q_UNUSED(idx);
@@ -627,6 +686,15 @@ void QGCAutoquad::on_MOT_ESC_TYPE_currentIndexChanged(int index)
     ui->groupBox_escPwm->setEnabled(ui->MOT_ESC_TYPE->currentIndex() != 1);
 }
 
+void QGCAutoquad::on_radioButton_pidType_0_clicked(bool)
+{
+	setPIDType(0);
+}
+
+void QGCAutoquad::on_radioButton_pidType_1_clicked(bool)
+{
+	setPIDType(1);
+}
 
 //
 // Radio Config UI
@@ -902,7 +970,7 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
     QMultiMap<QString, QString> usedChannelParams;
     QPair<int, QString> val;
     QSpinBox *val_sb = NULL;
-	 QComboBox *pos_cb = NULL;
+    QComboBox *pos_cb = NULL;
     QPushButton *param_pb = NULL;
     QWidget *indicator;
     QString cbname, cbtxt, paramName;
@@ -921,8 +989,8 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
 
         paramName = cbname;
         paramName.replace("_chan", "");
-		  val_sb = static_cast<QSpinBox *>(cb->property("value_ptr").value<void *>());
-		  param_pb = static_cast<QPushButton *>(cb->property("btn_ptr").value<void *>());
+        val_sb = static_cast<QSpinBox *>(cb->property("value_ptr").value<void *>());
+        param_pb = static_cast<QPushButton *>(cb->property("btn_ptr").value<void *>());
 
         if (cb->property("essentialPort").isValid())
             essentialPorts.append(cbtxt);
@@ -979,9 +1047,9 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
         chan = cbtxt.toUInt(&valid);
         paramName = cbname;
         paramName.replace("_chan", "");
-		  indicator = static_cast<QWidget *>(cb->property("indicator_ptr").value<void *>());
-		  val_sb = static_cast<QSpinBox *>(cb->property("value_ptr").value<void *>());
-		  pos_cb = static_cast<QComboBox *>(cb->property("swpos_ptr").value<void *>());
+        indicator = static_cast<QWidget *>(cb->property("indicator_ptr").value<void *>());
+        val_sb = static_cast<QSpinBox *>(cb->property("value_ptr").value<void *>());
+        pos_cb = static_cast<QComboBox *>(cb->property("swpos_ptr").value<void *>());
 
         if (conflictParams.contains(cbname)) {
             if (essentialPorts.contains(cbtxt)) {
@@ -993,21 +1061,21 @@ bool QGCAutoquad::validateRadioSettings(/*int idx*/)
             cb->setStyleSheet("");
 
         if (val_sb) {
-			  if (conflictSwitchValues.contains(val_sb->objectName())) {
-				  val_sb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
-				  if (pos_cb)
-					  pos_cb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
-			  }
-			  else {
-				  val_sb->setStyleSheet("");
-				  if (pos_cb)
-					  pos_cb->setStyleSheet("");
-			  }
+            if (conflictSwitchValues.contains(val_sb->objectName())) {
+                val_sb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
+                if (pos_cb)
+                    pos_cb->setStyleSheet("background-color: rgba(255, 140, 0, 130)");
+            }
+            else {
+                val_sb->setStyleSheet("");
+                if (pos_cb)
+                    pos_cb->setStyleSheet("");
+            }
         }
 
         if (indicator) {
             if (indicator->property("ind_type").toString() == "value_lbl") {
-					 param_pb = static_cast<QPushButton *>(cb->property("btn_ptr").value<void *>());
+                param_pb = static_cast<QPushButton *>(cb->property("btn_ptr").value<void *>());
                 if (!param_pb->property("paramValue").toUInt())
                     chan = 0;
             }
@@ -1646,25 +1714,27 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
     QWidget *paraContainer;
     QWidget *paraIndicator;
     QSpinBox *swValBox;
-	 QComboBox *swPosBox;
+	QComboBox *swPosBox;
     QComboBox *tunableValChan;
     QDoubleSpinBox *tunableValDblBox;
 
     // handle all input widgets
     QList<QWidget*> wdgtList = parent->findChildren<QWidget *>(fldnameRx);
     foreach (QWidget* w, wdgtList) {
+		if (w->property("param_ignore").isValid() && w->property("param_ignore").toBool())
+			continue;
         paraName = paramNameGuiToOnboard(w->objectName());
         paraLabel = parent->findChild<QLabel *>(QString("label_%1").arg(w->objectName()));
         paraContainer = parent->findChild<QWidget *>(QString("container_%1").arg(w->objectName()));
         paraIndicator = NULL;
-        if (w->property("indicator_ptr").isValid())
-				paraIndicator = static_cast<QWidget *>(w->property("indicator_ptr").value<void *>());
-        swValBox = NULL;
-		  swPosBox = NULL;
-		  if (w->property("value_ptr").isValid()) {
-			  swValBox = static_cast<QSpinBox *>(w->property("value_ptr").value<void *>());
-			  swPosBox = static_cast<QComboBox *>(w->property("swpos_ptr").value<void *>());
-		  }
+		swValBox = NULL;
+		swPosBox = NULL;
+		if (w->property("indicator_ptr").isValid())
+			paraIndicator = static_cast<QWidget *>(w->property("indicator_ptr").value<void *>());
+		if (w->property("value_ptr").isValid()) {
+			swValBox = static_cast<QSpinBox *>(w->property("value_ptr").value<void *>());
+			swPosBox = static_cast<QComboBox *>(w->property("swpos_ptr").value<void *>());
+		}
 
         if (!paramaq->paramExistsAQ(paraName)) {
             w->hide();
@@ -1716,7 +1786,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         if (paraName == "GMBL_SCAL_PITCH" || paraName == "GMBL_SCAL_ROLL")
             val = fabs(val.toFloat());
         else if (paraName == "RADIO_SETUP")
-            val = val.toInt() & 0x0f;
+            val = val.toInt() & 0xF;
         else if (w->property("value_ptr").isValid()) {
             utmp = val.toUInt();
             val = utmp & 0xFF;
@@ -1784,9 +1854,11 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         // radio port 2 and mode select boxes
         if (useRadioSetupParam) {
             tmp = paramaq->getParaAQ("RADIO_SETUP").toInt();
-            ui->comboBox_radioSetup2->setCurrentIndex(ui->comboBox_radioSetup2->findData((tmp >> 4) & 0x0f));
-            ui->comboBox_multiRadioMode->setCurrentIndex(ui->comboBox_multiRadioMode->findData((tmp >> 12) & 0x0f));
+            ui->comboBox_radioSetup2->setCurrentIndex(ui->comboBox_radioSetup2->findData((tmp >> 4) & 0xF));
+            ui->comboBox_multiRadioMode->setCurrentIndex(ui->comboBox_multiRadioMode->findData((tmp >> 12) & 0xF));
         }
+        if (paramaq->paramExistsAQ("TELEMETRY_RX_CFG"))
+            ui->TELEMETRY_RX_CFG_type->setCurrentIndex(paramaq->getParaAQ("TELEMETRY_RX_CFG").toInt() & 0xF);
 
         // gimbal pitch/roll revese checkboxes
         ui->reverse_gimbal_pitch->setChecked(paramaq->getParaAQ("GMBL_SCAL_PITCH").toFloat() < 0);
@@ -1812,16 +1884,15 @@ void QGCAutoquad::populateButtonGroups(QObject *parent) {
 
         foreach (QAbstractButton* abtn, g->buttons()) {
             if (paramaq->paramExistsAQ(paraName)) {
-					 //abtn->setEnabled(true);
+				abtn->setVisible(true);
                 if (g->exclusive()) { // individual values
                     abtn->setChecked(val.toInt() == g->id(abtn));
                 } else { // bitmask
-                    abtn->setChecked((val.toInt() & g->id(abtn)));
+                    abtn->setChecked((val.toUInt() & g->id(abtn)));
                 }
-				}
-//				else {
-//                abtn->setEnabled(false);
-//            }
+            }
+			else
+				abtn->setVisible(false);
         }
     }
 }
@@ -1840,6 +1911,7 @@ void QGCAutoquad::onParametersLoaded(uint8_t component)
     useNewControlsScheme = paramaq->paramExistsAQ("NAV_CTRL_PH");
     useTunableParams = paramaq->paramExistsAQ("CONFIG_ADJUST_P1");
     remoteGuidanceEnabled = paramaq->paramExistsAQ("NAV_CTRL_GUIDED");
+    unusedNavDistanceOMs = paramaq->paramExistsAQ("NAV_MAX_ASCENT");
 
     emit firmwareInfoUpdated();
     emit remoteGuidanceEnabledChanged(remoteGuidanceEnabled);
@@ -1874,10 +1946,11 @@ void QGCAutoquad::loadParametersToUI() {
 
     mtx_paramsAreLoading = false;
     paramsLoadedForAqBuildNumber = aqBuildNumber;
-	 checkRadioSwitchHasAdvancedSetup();
+	checkRadioSwitchHasAdvancedSetup();
     validateRadioSettings();
     checkTunableParamsChanged();
     checkLegacyChannelsChanged();
+	setPIDType(ui->radioButton_pidType_1->isChecked());
 
 }
 
@@ -1928,7 +2001,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
     foreach (QObject* w, objList) {
         paraName = paramNameGuiToOnboard(w->objectName());
 
-        if (!paramaq->paramExistsAQ(paraName))
+        if (!paramaq->paramExistsAQ(paraName) || (w->property("param_ignore").isValid() && w->property("param_ignore").toBool()))
             continue;
 
         ok = true;
@@ -1954,7 +2027,7 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         else if (QButtonGroup* bg = qobject_cast<QButtonGroup *>(w)) {
             val_local = 0.0f;
             foreach (QAbstractButton* abtn, bg->buttons()) {
-                if (abtn->isChecked()) {
+                if (abtn->isChecked() && bg->id(abtn) > 0) {
                     if (bg->exclusive()) {
                         val_local = bg->id(abtn);
                         break;
@@ -1991,6 +2064,9 @@ bool QGCAutoquad::saveSettingsToAq(QWidget *parent, bool interactive)
         }
         else if (paraName == "MOT_ESC_TYPE" && ui->checkBox_escCalibration->isChecked()) {
             val_local = ((uint32_t)val_local | 0x800000);
+        }
+        else if (paraName == "TELEMETRY_RX_CFG") {
+            val_local = ((uint32_t)val_local | ui->TELEMETRY_RX_CFG_type->currentIndex());
         }
         else if (w->property("value_ptr").isValid()) {
             utmp = ((quint32)val_local & 0xFF);
@@ -2239,6 +2315,17 @@ int QGCAutoquad::calcRadioSetting()
     return radioSetup;
 }
 
+bool QGCAutoquad::checkCommProtocolTypeSelected(int proto)
+{
+    // populate COMM stream types
+    QList<QComboBox *> commStreamTypCb = this->findChildren<QComboBox *>(QRegExp("COMM_STREAM_TYP[\\d]$"));
+    foreach (QComboBox* cb, commStreamTypCb) {
+        if (cb->currentData() == proto)
+            return true;
+    }
+    return false;
+}
+
 void QGCAutoquad::convertPidAttValsToFW68Scales() {
     float v;
     bool ok;
@@ -2428,6 +2515,7 @@ void QGCAutoquad::setConnectedSystemInfoDefaults()
     aqCanReboot = false;
     useNewControlsScheme = true;
     useTunableParams = true;
+    unusedNavDistanceOMs = true;
     paramsLoadedForAqBuildNumber = 0;
 
     setAqHasQuatos(false);  // assume no Quatos unless told otherwise for this UAV
