@@ -131,22 +131,22 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
         return "LASTUPDATE";
         break;
     case LOG_VOLTAGE0:
-        return "VOLTAGE0";
+        return "IMU_RAW_RATEX";
         break;
     case LOG_VOLTAGE1:
-        return "VOLTAGE1";
+        return "IMU_RAW_RATEY";
         break;
     case LOG_VOLTAGE2:
-        return "VOLTAGE2";
+        return "IMU_RAW_RATEZ";
         break;
     case LOG_VOLTAGE3:
-        return "VOLTAGE3";
+        return "IMU_RAW_MAGX";
         break;
     case LOG_VOLTAGE4:
-        return "VOLTAGE4";
+        return "IMU_RAW_MAGY";
         break;
     case LOG_VOLTAGE5:
-        return "VOLTAGE5";
+        return "IMU_RAW_MAGZ";
         break;
     case LOG_VOLTAGE6:
         return "VOLTAGE6";
@@ -155,13 +155,13 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
         return "VOLTAGE7";
         break;
     case LOG_VOLTAGE8:
-        return "VOLTAGE8";
+        return "IMU_RAW_ACCX";
         break;
     case LOG_VOLTAGE9:
-        return "VOLTAGE9";
+        return "IMU_RAW_ACCY";
         break;
     case LOG_VOLTAGE10:
-        return "VOLTAGE10";
+        return "IMU_RAW_ACCZ";
         break;
     case LOG_VOLTAGE11:
         return "VOLTAGE11";
@@ -281,16 +281,16 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
         return "ADC_MAG_SIGN";
         break;
     case LOG_UKF_Q1:
-        return "UKF_Q1";
+        return "UKF_QUAT_W";
         break;
     case LOG_UKF_Q2:
-        return "UKF_Q2";
+        return "UKF_QUAT_X";
         break;
     case LOG_UKF_Q3:
-        return "UKF_Q3";
+        return "UKF_QUAT_Y";
         break;
     case LOG_UKF_Q4:
-        return "UKF_Q4";
+        return "UKF_QUAT_Z";
         break;
     case LOG_UKF_POSN:
         return "UKF_POSN";
@@ -317,46 +317,46 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
         return "UKF_VELD";
         break;
     case LOG_MOT_MOTOR0:
-        return "MOT_MOTOR0";
+        return "MOTOR_1";
         break;
     case LOG_MOT_MOTOR1:
-        return "MOT_MOTOR1";
+        return "MOTOR_2";
         break;
     case LOG_MOT_MOTOR2:
-        return "MOT_MOTOR2";
+        return "MOTOR_3";
         break;
     case LOG_MOT_MOTOR3:
-        return "MOT_MOTOR3";
+        return "MOTOR_4";
         break;
     case LOG_MOT_MOTOR4:
-        return "MOT_MOTOR4";
+        return "MOTOR_5";
         break;
     case LOG_MOT_MOTOR5:
-        return "MOT_MOTOR5";
+        return "MOTOR_6";
         break;
     case LOG_MOT_MOTOR6:
-        return "MOT_MOTOR6";
+        return "MOTOR_7";
         break;
     case LOG_MOT_MOTOR7:
-        return "MOT_MOTOR7";
+        return "MOTOR_8";
         break;
     case LOG_MOT_MOTOR8:
-        return "MOT_MOTOR8";
+        return "MOTOR_9";
         break;
     case LOG_MOT_MOTOR9:
-        return "MOT_MOTOR9";
+        return "MOTOR_10";
         break;
     case LOG_MOT_MOTOR10:
-        return "MOT_MOTOR10";
+        return "MOTOR_11";
         break;
     case LOG_MOT_MOTOR11:
-        return "MOT_MOTOR11";
+        return "MOTOR_12";
         break;
     case LOG_MOT_MOTOR12:
-        return "MOT_MOTOR12";
+        return "MOTOR_13";
         break;
     case LOG_MOT_MOTOR13:
-        return "MOT_MOTOR13";
+        return "MOTOR_14";
         break;
 
     case LOG_MOT_THROTTLE:
@@ -375,58 +375,58 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
         return "RADIO_QUALITY";
         break;
     case LOG_RADIO_CHANNEL0:
-        return "RADIO_CHANNEL0";
+        return "RADIO_CH_1";
         break;
     case LOG_RADIO_CHANNEL1:
-        return "RADIO_CHANNEL1";
+        return "RADIO_CH_2";
         break;
     case LOG_RADIO_CHANNEL2:
-        return "RADIO_CHANNEL2";
+        return "RADIO_CH_3";
         break;
     case LOG_RADIO_CHANNEL3:
-        return "RADIO_CHANNEL3";
+        return "RADIO_CH_4";
         break;
     case LOG_RADIO_CHANNEL4:
-        return "RADIO_CHANNEL4";
+        return "RADIO_CH_5";
         break;
     case LOG_RADIO_CHANNEL5:
-        return "RADIO_CHANNEL5";
+        return "RADIO_CH_6";
         break;
     case LOG_RADIO_CHANNEL6:
-        return "RADIO_CHANNEL6";
+        return "RADIO_CH_7";
         break;
     case LOG_RADIO_CHANNEL7:
-        return "RADIO_CHANNEL7";
+        return "RADIO_CH_8";
         break;
     case LOG_RADIO_CHANNEL8:
-        return "RADIO_CHANNEL8";
+        return "RADIO_CH_9";
         break;
     case LOG_RADIO_CHANNEL9:
-        return "RADIO_CHANNEL9";
+        return "RADIO_CH_10";
         break;
     case LOG_RADIO_CHANNEL10:
-        return "RADIO_CHANNEL10";
+        return "RADIO_CH_11";
         break;
     case LOG_RADIO_CHANNEL11:
-        return "RADIO_CHANNEL11";
+        return "RADIO_CH_12";
         break;
     case LOG_RADIO_CHANNEL12:
-        return "RADIO_CHANNEL12";
+        return "RADIO_CH_13";
         break;
     case LOG_RADIO_CHANNEL13:
-        return "RADIO_CHANNEL13";
+        return "RADIO_CH_14";
         break;
     case LOG_RADIO_CHANNEL14:
-        return "RADIO_CHANNEL14";
+        return "RADIO_CH_15";
         break;
     case LOG_RADIO_CHANNEL15:
-        return "RADIO_CHANNEL15";
+        return "RADIO_CH_16";
         break;
     case LOG_RADIO_CHANNEL16:
-        return "RADIO_CHANNEL16";
+        return "RADIO_CH_17";
         break;
     case LOG_RADIO_CHANNEL17:
-        return "RADIO_CHANNEL17";
+        return "RADIO_CH_18";
         break;
     case LOG_RADIO_ERRORS:
         return "RADIO_ERRORS";
