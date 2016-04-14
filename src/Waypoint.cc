@@ -326,37 +326,19 @@ void Waypoint::setTurns(int turns)
 
 void Waypoint::setHoldTimeAQ(double holdTime)
 {
-    if ( action > 2) {
-        holdTime = holdTime *1000;
-        if (this->param2 != holdTime) {
-            this->param2 = holdTime;
-            emit changed(this);
-        }
-    }
-    else {
-        holdTime = holdTime *1000;
-        if (this->param2 != holdTime) {
-            this->param2 = holdTime;
-            emit changed(this);
-        }
+    holdTime = holdTime *1000;
+    if (this->param2 != holdTime) {
+        this->param2 = holdTime;
+        emit changed(this);
     }
 }
 
 void Waypoint::setAcceptanceRadiusAQ(double radius)
 {
-    if ( action > 2) {
-        if (this->param1 != radius)
-        {
-            this->param1 = radius;
-            emit changed(this);
-        }
-    }
-    else {
-        if (this->param1 != radius)
-        {
-            this->param1 = radius;
-            emit changed(this);
-        }
+    if (this->param1 != radius)
+    {
+        this->param1 = radius;
+        emit changed(this);
     }
 }
 
@@ -370,14 +352,14 @@ void Waypoint::setMaxHorizontSpeedAQ(double speed) {
 
 void Waypoint::setMaxVerticalSpeedAQ(double speed) {
     // TakeOff
-    if ( action == 22) {
+    if ( action == MAV_CMD_NAV_TAKEOFF) {
         if (this->yaw != speed)
         {
             this->yaw = speed;
             emit changed(this);
         }
     }
-    else if ( action == 21){
+    else if ( action == MAV_CMD_NAV_LAND){
         if (this->param2 != speed)
         {
             this->param2 = speed;
@@ -388,7 +370,7 @@ void Waypoint::setMaxVerticalSpeedAQ(double speed) {
 
 
 void Waypoint::setPOIHeadingAQ(int degree){
-    if ( action == 16 ) {
+    if ( action == MAV_CMD_NAV_WAYPOINT ) {
         if ( degree == 0 )
             this->yaw = -0.0;
         if ( this->yaw != degree ) {
@@ -396,13 +378,13 @@ void Waypoint::setPOIHeadingAQ(int degree){
             emit changed(this);
         }
     }
-    else if ( action == 22 ) {
+    else if ( action == MAV_CMD_NAV_TAKEOFF ) {
         if ( this->orbit != degree ) {
             this->orbit = degree;
             emit changed(this);
         }
     }
-    else if ( action == 1 ) {
+    else if ( action == MAV_CMD_AQ_NAV_LEG_ORBIT ) {
         if ( degree == 0)
             this->yaw = -0.0;
 
@@ -414,13 +396,13 @@ void Waypoint::setPOIHeadingAQ(int degree){
             emit changed(this);
         }
     }
-    else if ( action == 20 ) {
+    else if ( action == MAV_CMD_NAV_RETURN_TO_LAUNCH ) {
         if ( this->yaw != degree ) {
             this->yaw = degree;
             emit changed(this);
         }
     }
-    else if ( action == 21 ) {
+    else if ( action == MAV_CMD_NAV_LAND ) {
         if ( this->yaw != degree ) {
             this->yaw = degree;
             emit changed(this);
@@ -445,27 +427,14 @@ void Waypoint::setAutoquadMode(bool active) {
 
 
 double Waypoint::getAcceptanceRadiusAQ(){
-    if ( action > 2) {
-        return param1;
-    }
-    else {
-        return param1;
-    }
+    return param1;
 }
 
 double Waypoint::getHoldTimeAQ(){
-    if ( action > 2) {
-        if (param2 > 0)
-            return param2/1000;
-        else
-            return 0.0;
-    }
-    else {
-        if (param2 > 0)
-            return param2/1000;
-        else
-            return 0.0;
-    }
+    if (param2 > 0)
+        return param2/1000;
+    else
+        return 0.0;
 }
 
 double Waypoint::getMaxHorizontSpeedAQ() {
@@ -474,10 +443,10 @@ double Waypoint::getMaxHorizontSpeedAQ() {
 
 double Waypoint::getMaxVerticalSpeedAQ() {
     // TakeOff
-    if ( action == 22) {
+    if ( action == MAV_CMD_NAV_TAKEOFF) {
         return this->yaw;
     }
-    else if ( action == 21){
+    else if ( action == MAV_CMD_NAV_LAND){
         return this->param2;
     }
     else
@@ -485,19 +454,19 @@ double Waypoint::getMaxVerticalSpeedAQ() {
 }
 
 double Waypoint::getPOIHeadingAQ(){
-    if ( action == 16 ) {
+    if ( action == MAV_CMD_NAV_WAYPOINT ) {
         return this->yaw;
     }
-    else if ( action == 22 ) {
+    else if ( action == MAV_CMD_NAV_TAKEOFF ) {
         return this->orbit;
     }
-    else if ( action == 1 ) {
+    else if ( action == MAV_CMD_AQ_NAV_LEG_ORBIT ) {
         return this->yaw;
     }
-    else if ( action == 20 ) {
+    else if ( action == MAV_CMD_NAV_RETURN_TO_LAUNCH ) {
         return this->yaw;
     }
-    else if ( action == 21 ) {
+    else if ( action == MAV_CMD_NAV_LAND ) {
         return this->yaw;
     }
     else

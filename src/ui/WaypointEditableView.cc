@@ -277,7 +277,7 @@ void WaypointEditableView::updateActionView(int action)
             m_ui->autoContinue->show();
         }
         break;
-    case 1:
+    case MAV_CMD_AQ_NAV_LEG_ORBIT:
         if (!m_ui->aqformat->isChecked()) {
             m_ui->orbitSpinBox->hide();
             m_ui->takeOffAngleSpinBox->hide();
