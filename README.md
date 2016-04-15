@@ -20,7 +20,7 @@ There are three ways to obtain the QGroundControl source code from our GitHub re
 
 **If you use Git**, make sure to **update submodules** after a clone or updates pull. This will pull in the latest MAVLink headers from another repo.
 
-**If you download an archive**, you will also need to download the latest version of https://github.com/AutoQuad/mavlink_headers and place the content in the `lib/mavlink` folder of QGC source code.
+**If you download an archive**, you will also need to download the latest version of https://github.com/AutoQuad/mavlink_headers and place the content in the `libs/mavlink` folder of QGC source code.
 
 ### Clone the Repository
 This option assumes that you have Git already. To clone (checkout) the QGC repository, run the following command in the directory that you want the qgroundcontrol_aq folder to be created:

@@ -28,10 +28,10 @@ win32-msvc* {
 
 	# Specify multi-process compilation within Visual Studio.
 	# (drastically improves compilation times for multi-core computers)
-	QMAKE_CXXFLAGS_DEBUG += /MP
-	QMAKE_CXXFLAGS_RELEASE += /MP
+	QMAKE_CXXFLAGS_DEBUG += -MP
+	QMAKE_CXXFLAGS_RELEASE += -MP
 
-	QMAKE_CXXFLAGS_WARN_ON += /W3 \
+	QMAKE_CXXFLAGS_WARN_ON += \
 		  /wd4996 \   # silence warnings about deprecated strcpy and whatnot
 		  /wd4005 \   # silence warnings about macro redefinition
 		  /wd4290     # ignore exception specifications

@@ -621,7 +621,7 @@
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Reference position in frame diagram, if one is displayed on the right. This is simply a label and has no effect on settings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -632,7 +632,7 @@
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When using PWM output, this is the M port number to use. When using CAN bus, this is the CAN ID to use (the corresponding ESC setting has to match).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -643,7 +643,7 @@
               <string>Throttle output value, typically 100 (or 1 for Quatos)</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -654,7 +654,7 @@
               <string>Power distribution Pitch (MOT_PWRD_xx_P)</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -665,7 +665,7 @@
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Quatos Motor Moment Pitch (QUATOS_MM_P)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -676,7 +676,7 @@
               <string>Power distribution Roll (MOT_PWRD_xx_R)</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -687,7 +687,7 @@
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Quatos Motor Moment Roll (QUATOS_MM_R)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -698,7 +698,7 @@
               <string>Power distribution Yaw (MOT_PWRD_xx_Y)</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -709,7 +709,7 @@
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Quatos Motor Moment Yaw (QUATOS_MM_Y)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
             <column>
@@ -720,7 +720,7 @@
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output type to use, PWM (M# ports) or CAN bus. Using CAN requires AQ firmware version 6.8 or higher, compatible flight controller hardware, and ESCs supporting CAN (like the ESC32). &lt;/p&gt;&lt;p&gt;A mix of PWM and CAN output types can be used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textAlignment">
-              <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+              <set>AlignCenter</set>
              </property>
             </column>
            </widget>
@@ -1652,7 +1652,7 @@
                <pixmap resource="../../qgroundcontrol.qrc">:/files/images/contrib/aq6_ports_reference.png</pixmap>
               </property>
               <property name="scaledContents">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -1708,7 +1708,7 @@
                <pixmap resource="../../qgroundcontrol.qrc">:/files/images/contrib/m4_ports_reference.png</pixmap>
               </property>
               <property name="scaledContents">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
