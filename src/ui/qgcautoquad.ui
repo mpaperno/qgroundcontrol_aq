@@ -9986,7 +9986,7 @@
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local declination in operating area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local magnetic declination in operating area (decimal degrees).&lt;/p&gt;&lt;p&gt;Declination is entered with the same sign as the lookup value. That is, if the declination is positive, enter a positive value, and vice versa.&lt;/p&gt;&lt;p&gt;Use an online tool like magnetic-declination.com to look up your declination/inclination, then &lt;span style=&quot; font-weight:600;&quot;&gt;convert it to decimal degrees&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="suffix">
                     <string> °</string>
@@ -10010,38 +10010,49 @@
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QDoubleSpinBox" name="IMU_MAG_INCL">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>50</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local inclination in operating area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="suffix">
-                    <string> °</string>
-                   </property>
-                   <property name="decimals">
-                    <number>6</number>
-                   </property>
-                   <property name="minimum">
-                    <double>-180.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>180.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                  </widget>
+                  <layout class="QHBoxLayout" name="horizontalLayout_15">
+                   <item alignment="Qt::AlignLeft">
+                    <widget class="QDoubleSpinBox" name="IMU_MAG_INCL">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>50</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Local magnetic inclination in operating area (in decimal degrees).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NOTE: Enter the inclination with a reversed sign!&lt;/span&gt; That is, if your inclination is positive, enter a negative one here, and vice versa. This is just the way AQ needs it, for legacy reasons.&lt;/p&gt;&lt;p&gt;Use an online tool like magnetic-declination.com to look up your declination/inclination, then &lt;span style=&quot; font-weight:600;&quot;&gt;convert it to decimal degrees&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="suffix">
+                      <string> °</string>
+                     </property>
+                     <property name="decimals">
+                      <number>2</number>
+                     </property>
+                     <property name="minimum">
+                      <double>-180.000000000000000</double>
+                     </property>
+                     <property name="maximum">
+                      <double>180.000000000000000</double>
+                     </property>
+                     <property name="singleStep">
+                      <double>0.100000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_mag_incl_reverse_warning">
+                     <property name="text">
+                      <string>(reversed)</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -10058,14 +10069,14 @@
                  <property name="verticalSpacing">
                   <number>6</number>
                  </property>
-                 <item row="0" column="0">
+                 <item row="2" column="0">
                   <widget class="QLabel" name="label_SPVR_FS_RAD_ST1">
                    <property name="text">
-                    <string>Stage1 Action:</string>
+                    <string>Stage 1 Action:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="1">
+                 <item row="2" column="1">
                   <widget class="QComboBox" name="SPVR_FS_RAD_ST1">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -10081,14 +10092,14 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="0">
+                 <item row="3" column="0">
                   <widget class="QLabel" name="label_SPVR_FS_RAD_ST2">
                    <property name="text">
-                    <string>Stage2 Action:</string>
+                    <string>Stage 2 Action:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
+                 <item row="3" column="1">
                   <widget class="QComboBox" name="SPVR_FS_RAD_ST2">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -10107,14 +10118,14 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="0">
+                 <item row="4" column="0">
                   <widget class="QLabel" name="label_SPVR_FS_ADD_ALT">
                    <property name="text">
                     <string>Add Altitude:</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="1">
+                 <item row="4" column="1">
                   <widget class="QDoubleSpinBox" name="SPVR_FS_ADD_ALT">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -10136,6 +10147,64 @@
                    </property>
                    <property name="decimals">
                     <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_SPVR_FS_RAD_TO1">
+                   <property name="text">
+                    <string>Stage 1 Timeout:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_SPVR_FS_RAD_TO2">
+                   <property name="text">
+                    <string>Stage 2 Timeout:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QDoubleSpinBox" name="SPVR_FS_RAD_TO1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Seconds after radio loss is detected and before failsafe stage activation.  &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Note that the times are total from when loss is detected (in other words stage 2 time is not relative to stage 1 time). &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;It is possible to have stage 2 take effect before stage 1, in which case stage 1 will never be activated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="suffix">
+                    <string> s</string>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.989999999999782</double>
+                   </property>
+                   <property name="value">
+                    <double>1.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QDoubleSpinBox" name="SPVR_FS_RAD_TO2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Seconds after radio loss is detected and before failsafe stage activation.  &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Note that the times are total from when loss is detected (in other words stage 2 time is not relative to stage 1 time). &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;It is possible to have stage 2 take effect before stage 1, in which case stage 1 will never be activated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="suffix">
+                    <string> s</string>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.989999999999782</double>
+                   </property>
+                   <property name="value">
+                    <double>15.000000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -11487,8 +11556,6 @@
   <tabstop>NAV_CEILING</tabstop>
   <tabstop>IMU_FLIP</tabstop>
   <tabstop>IMU_ROT</tabstop>
-  <tabstop>IMU_MAG_DECL</tabstop>
-  <tabstop>IMU_MAG_INCL</tabstop>
   <tabstop>SPVR_FS_RAD_ST1</tabstop>
   <tabstop>SPVR_FS_RAD_ST2</tabstop>
   <tabstop>SPVR_FS_ADD_ALT</tabstop>
