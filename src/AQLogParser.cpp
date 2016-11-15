@@ -455,6 +455,27 @@ QString AQLogParser::GetChannelsName(uint8_t fieldId)
     case LOG_UKF_ALT_VEL:
         return "UKF_ALT_VEL";
         break;
+    case LOG_ADC0:
+        return "ADC_1";
+        break;
+    case LOG_ADC1:
+        return "ADC_2";
+        break;
+    case LOG_ADC2:
+        return "ADC_3";
+        break;
+    case LOG_ADC3:
+        return "ADC_4";
+        break;
+    case LOG_ADC4:
+        return "ADC_5";
+        break;
+    case LOG_ADC5:
+        return "ADC_6";
+        break;
+    case LOG_ADC6:
+        return "ADC_7";
+        break;
 //    case LOG_NUM_IDS:
 //        return "NUM_IDS";
 //        break;

@@ -162,6 +162,13 @@ public:
         LOG_CURRENT_EXT,
         LOG_VIN_PDB,
         LOG_UKF_ALT_VEL,
+        LOG_ADC0,
+        LOG_ADC1,
+        LOG_ADC2,
+        LOG_ADC3,
+        LOG_ADC4,
+        LOG_ADC5,
+        LOG_ADC6,
         LOG_NUM_IDS
     };
 
