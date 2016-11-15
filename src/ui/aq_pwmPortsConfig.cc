@@ -668,19 +668,23 @@ void AQPWMPortsConfig::loadOnboardConfig(void) {
 
     QString pname, motNumStr;
     float throt, pitch, roll, yaw, qpitch, qroll, qyaw;
-    float motConfig;
     uint8_t type;
     bool orderType = 0; // 0=param order (1-14), 1=order from onboard config bitmask
     uint32_t portOrder=0, portOrder2=0;
     uint16_t motCAN = 0;
     QList<motorPortSettings> onboardConfig;
 
+    union {
+        float f;
+        uint32_t u32;
+    } u;
+
     portOrder2Param = (paramHandler->paramExistsAQ("MOT_FRAME_H")) ? "MOT_FRAME_H" : "TELEMETRY_RATE";
 
-    motConfig = paramHandler->getParaAQ("MOT_FRAME").toFloat();
-    portOrder = *(uint32_t *) &motConfig;
-    motConfig = paramHandler->getParaAQ(portOrder2Param).toFloat();
-    portOrder2 = *(uint32_t *) &motConfig;
+    u.f = paramHandler->getParaAQ("MOT_FRAME").toFloat();
+    portOrder = u.u32;
+    u.f = paramHandler->getParaAQ(portOrder2Param).toFloat();
+    portOrder2 = u.u32;
     pname = "MOT_CAN";
     if (!paramHandler->paramExistsAQ(pname))
         pname = "MOT_CANL";
@@ -800,6 +804,11 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QPair<float, float> > *
     QMap<QString, float> configMap;
     quint8 err = 0; // 0=no error, 1=soft error, 2=fatal error
 
+    union {
+        float f;
+        uint32_t u32;
+    } u;
+
     validateForm();
 
     if (errorInMotorConfigTotals) {
@@ -891,20 +900,15 @@ quint8 AQPWMPortsConfig::saveOnboardConfig(QMap<QString, QPair<float, float> > *
     }
     portOrder |= mixConfigId;
 
-    // trick to convert ulong into float while preserving bitmask
-    val = *(float *) &portOrder;
+    u.u32 = portOrder;
+    val = u.f;
     configMap.insert("MOT_FRAME", val);
-//  qDebug() << qSetRealNumberPrecision(20) << portOrder << val;
-//  portOrder = *(uint32_t *) &val;
 
     if (portOrder2){
-        val = *(float *) &portOrder2;
+        u.u32 = portOrder2;
+        val = u.f;
         configMap.insert(portOrder2Param, val);
-//      qDebug() << qSetRealNumberPrecision(20) << portOrder2 << val;
-//      portOrder2 = *(uint32_t *) &val;
     }
-
-//  qDebug() << qSetRealNumberPrecision(20) << portOrder << portOrder2;
 
     QMapIterator<QString, float> mi(configMap);
     while (mi.hasNext()) {

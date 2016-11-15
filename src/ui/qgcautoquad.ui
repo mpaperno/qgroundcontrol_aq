@@ -6563,48 +6563,13 @@
                    </widget>
                   </item>
                   <item row="2" column="0">
-                   <widget class="QLabel" name="label_CTRL_YAW_ANG_TAU">
-                    <property name="text">
-                     <string>Yaw Angle</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QDoubleSpinBox" name="CTRL_YAW_ANG_TAU">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tau (as in the greek letter), also known as a &amp;quot;time constant,&amp;quot;  is a filtering constant that adjusts the speed at which attitude and rate change demands from the RC are applied. Lower to get more sharp/fast attitude changes. Raise to smooth.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                    <property name="decimals">
-                     <number>5</number>
-                    </property>
-                    <property name="minimum">
-                     <double>0.000010000000000</double>
-                    </property>
-                    <property name="maximum">
-                     <double>1.000000000000000</double>
-                    </property>
-                    <property name="singleStep">
-                     <double>0.050000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>0.150000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
                    <widget class="QLabel" name="label_CTRL_YAW_RTE_TAU">
                     <property name="text">
                      <string>Yaw Rate</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
+                  <item row="2" column="1">
                    <widget class="QDoubleSpinBox" name="CTRL_YAW_RTE_TAU">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -8889,7 +8854,7 @@
            <property name="verticalSpacing">
             <number>7</number>
            </property>
-           <item row="1" column="3" rowspan="3">
+           <item row="1" column="3" rowspan="5">
             <spacer name="horizontalSpacer_3">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -8902,7 +8867,7 @@
              </property>
             </spacer>
            </item>
-           <item row="3" column="1">
+           <item row="5" column="1">
             <spacer name="verticalSpacer_13">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -8915,51 +8880,35 @@
              </property>
             </spacer>
            </item>
-           <item row="2" column="2">
-            <widget class="QGroupBox" name="container_NAV_ALT_GPS_ACC">
+           <item row="3" column="2">
+            <widget class="QGroupBox" name="container_NAV_CTRL_GUIDED">
              <property name="title">
-              <string>Altitude Controller</string>
+              <string>Options</string>
              </property>
-             <layout class="QFormLayout" name="formLayout_13">
+             <layout class="QGridLayout" name="gridLayout_49">
+              <property name="topMargin">
+               <number>7</number>
+              </property>
+              <property name="spacing">
+               <number>6</number>
+              </property>
               <item row="0" column="0">
-               <widget class="QLabel" name="label_NAV_ALT_GPS_ACC">
-                <property name="text">
-                 <string>Max. Valid GPS Accuracy:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QDoubleSpinBox" name="NAV_ALT_GPS_ACC">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+               <widget class="QCheckBox" name="checkBox_NAV_GUIDED_PH">
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum GPS horizontal accuracy reading to consider acceptable for altitude hold controller. Above this value, a separate Altitude UKF controller is used which is based exclusively on readings from the pressure sensor.&lt;/p&gt;&lt;p&gt;Set it to zero to disable GPS estimates entirely, for example, or something high but &amp;lt; 100 (eg. 99) to always use GPS altitude when an antenna is connected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enabling this option allows executing navigation commands from external sources (for example ground station software communicating using MAVLink) while in Position Hold mode.  When this option is disabled (default) remote guidance commands are only accepted in the Guided flight mode (activated via radio switch, if configured).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
-                <property name="suffix">
-                 <string notr="true"> m</string>
+                <property name="text">
+                 <string>Allow remote guidance commands in Pos. Hold mode.</string>
                 </property>
-                <property name="decimals">
-                 <number>2</number>
-                </property>
-                <property name="maximum">
-                 <double>100.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.500000000000000</double>
-                </property>
-                <property name="value">
-                 <double>0.800000000000000</double>
-                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">CONFIG_FLAGS</string>
+                </attribute>
                </widget>
               </item>
              </layout>
             </widget>
            </item>
-           <item row="1" column="1" rowspan="2">
+           <item row="1" column="1" rowspan="4">
             <widget class="QGroupBox" name="groupBox_navLimits">
              <property name="title">
               <string>Limits</string>
@@ -9179,6 +9128,15 @@
               <string>Defaults</string>
              </property>
              <layout class="QFormLayout" name="formLayout_35">
+              <property name="horizontalSpacing">
+               <number>6</number>
+              </property>
+              <property name="verticalSpacing">
+               <number>6</number>
+              </property>
+              <property name="topMargin">
+               <number>7</number>
+              </property>
               <item row="0" column="0">
                <widget class="QLabel" name="label_NAV_LANDING_VEL">
                 <property name="text">
@@ -9797,7 +9755,7 @@
              <zorder>groupBox_navPID_h</zorder>
             </widget>
            </item>
-           <item row="0" column="0" rowspan="4">
+           <item row="0" column="0" rowspan="6">
             <spacer name="horizontalSpacer_19">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -9809,6 +9767,59 @@
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="2" column="2">
+            <widget class="QGroupBox" name="container_NAV_ALT_GPS_ACC">
+             <property name="title">
+              <string>Altitude Controller</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_13">
+              <property name="horizontalSpacing">
+               <number>6</number>
+              </property>
+              <property name="verticalSpacing">
+               <number>6</number>
+              </property>
+              <property name="topMargin">
+               <number>7</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_NAV_ALT_GPS_ACC">
+                <property name="text">
+                 <string>Max. Valid GPS Accuracy:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QDoubleSpinBox" name="NAV_ALT_GPS_ACC">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum GPS horizontal accuracy reading to consider acceptable for altitude hold controller. Above this value, a separate Altitude UKF controller is used which is based exclusively on readings from the pressure sensor.&lt;/p&gt;&lt;p&gt;Set it to zero to disable GPS estimates entirely, for example, or something high but &amp;lt; 100 (eg. 99) to always use GPS altitude when an antenna is connected.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="suffix">
+                 <string notr="true"> m</string>
+                </property>
+                <property name="decimals">
+                 <number>2</number>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.500000000000000</double>
+                </property>
+                <property name="value">
+                 <double>0.800000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -10889,6 +10900,31 @@
                 </layout>
                </widget>
               </item>
+              <item>
+               <widget class="QGroupBox" name="container_mavlinkOptions">
+                <property name="title">
+                 <string>MAVLink Options</string>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_48">
+                 <property name="spacing">
+                  <number>6</number>
+                 </property>
+                 <item row="0" column="0">
+                  <widget class="QCheckBox" name="checkBox_MVLNK_STREAM_RC">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enables sending the RC_CHANNELS telemetry data message by default. This can be useful if connected to a device which needs the data but cannot request the message stream on its own. For example an OSD device like MinimOSD.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>Stream RC channels by default</string>
+                   </property>
+                   <attribute name="buttonGroup">
+                    <string notr="true">CONFIG_FLAGS</string>
+                   </attribute>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
               <item alignment="Qt::AlignTop">
                <widget class="QGroupBox" name="container_TELEMETRY_RX_CFG">
                 <property name="title">
@@ -11585,16 +11621,16 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="QUATOS_ENABLE"/>
-  <buttongroup name="CONFIG_FLAGS">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="TELEMETRY_RX_CFG">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="CONFIG_FLAGS">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="QUATOS_ENABLE"/>
  </buttongroups>
 </ui>

@@ -115,6 +115,8 @@ QGCAutoquad::QGCAutoquad(QWidget *parent) :
 	ui->CONFIG_FLAGS->setId(ui->checkBox_disableMSC, CONFIG_FLAG_DISABLE_MSC);
     ui->CONFIG_FLAGS->setId(ui->checkBox_INVRT_TCUT_AUTO, CONFIG_FLAG_INVRT_TCUT_AUTO);
     ui->CONFIG_FLAGS->setId(ui->checkBox_INVRT_TCUT_MAN, CONFIG_FLAG_INVRT_TCUT_MAN);
+    ui->CONFIG_FLAGS->setId(ui->checkBox_MVLNK_STREAM_RC, CONFIG_FLAG_MVLNK_STREAM_RC);
+    ui->CONFIG_FLAGS->setId(ui->checkBox_NAV_GUIDED_PH, CONFIG_FLAG_NAV_GUIDED_PH);
 
     ui->TELEMETRY_RX_CFG->setId(ui->checkBox_SPORT_CFG_SEND_CUSTOM, SPORT_CFG_SEND_CUSTOM);
     ui->TELEMETRY_RX_CFG->setId(ui->checkBox_SPORT_CFG_SEND_ACC, SPORT_CFG_SEND_ACC);
@@ -583,8 +585,8 @@ void QGCAutoquad::toggleGroupBox(bool on, QGroupBox *gb)
 
 void QGCAutoquad::adjustUiForHardware()
 {
-    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7);
-    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7);
+    ui->groupBox_commSerial3->setVisible(aqHardwareVersion == 7 || aqHardwareVersion == 10);
+    ui->groupBox_commSerial4->setVisible(aqHardwareVersion == 7 || aqHardwareVersion == 10);
 	ui->checkBox_disableMSC->setVisible(aqHardwareVersion != 6);
     QVariant v(0);
     if (aqHardwareVersion == 8)
@@ -607,11 +609,11 @@ void QGCAutoquad::adjustUiForFirmware()
 
     // nav distance PID OMs depricated
     ui->label_NAV_DIST_OM->setVisible(!unusedNavDistanceOMs);
-	ui->NAV_DIST_OM->setVisible(!unusedNavDistanceOMs);
-	ui->NAV_DIST_OM->setProperty("param_ignore", unusedNavDistanceOMs);
-	ui->label_NAV_ALT_POS_OM->setVisible(!unusedNavDistanceOMs);
-	ui->NAV_ALT_POS_OM->setVisible(!unusedNavDistanceOMs);
-	ui->NAV_ALT_POS_OM->setProperty("param_ignore", unusedNavDistanceOMs);
+    ui->NAV_DIST_OM->setVisible(!unusedNavDistanceOMs);
+    ui->NAV_DIST_OM->setProperty("param_ignore", unusedNavDistanceOMs);
+    ui->label_NAV_ALT_POS_OM->setVisible(!unusedNavDistanceOMs);
+    ui->NAV_ALT_POS_OM->setVisible(!unusedNavDistanceOMs);
+    ui->NAV_ALT_POS_OM->setProperty("param_ignore", unusedNavDistanceOMs);
 
     // radio loss stage 2 failsafe options
     uint8_t idx = ui->SPVR_FS_RAD_ST2->currentIndex();
@@ -624,7 +626,9 @@ void QGCAutoquad::adjustUiForFirmware()
         ui->SPVR_FS_RAD_ST2->setCurrentIndex(idx);
 
     // gimbal auto-triggering options
-	 ui->groupBox_autoTrigger->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
+    ui->groupBox_autoTrigger->setVisible(!aqBuildNumber || aqBuildNumber >= 1378);
+
+    adjustUiForCommProtocol();
 
     // param widget buttons
     if (paramaq) {
@@ -654,6 +658,9 @@ void QGCAutoquad::adjustUiForCommProtocol()
     ui->container_TELEMETRY_RX_CFG->setVisible(on);
     ui->TELEMETRY_RX_CFG->setProperty("param_ignore", !on);
     ui->groupBox_sPortConfigFlags->setVisible(ui->TELEMETRY_RX_CFG_type->currentIndex() == 1);
+
+    on = checkCommProtocolTypeSelected(COMM_TYPE_MAVLINK) && (!aqBuildNumber || aqBuildNumber >= 1925);
+    ui->container_mavlinkOptions->setVisible(on);
 }
 
 void QGCAutoquad::setPIDType(int type)
@@ -1790,7 +1797,7 @@ void QGCAutoquad::getGUIpara(QWidget *parent) {
         else if (w->property("value_ptr").isValid()) {
             utmp = val.toUInt();
             val = utmp & 0xFF;
-            if (val.toBool() && swValBox) {
+            if (swValBox) {
                 tmp = (utmp >> 8) & 0x7FF;
                 if (!(utmp & (1<<19)))
                     tmp = -tmp;
