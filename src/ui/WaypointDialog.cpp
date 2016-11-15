@@ -112,6 +112,7 @@ void WaypointDialog::toggleVVel(bool on)
 void WaypointDialog::toggleHRadius(bool on)
 {
     ui->fld_hradius->setVisible(on);
+    ui->label_hradius->setVisible(on);
 }
 
 QPointF WaypointDialog::getLatLon()

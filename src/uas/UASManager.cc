@@ -407,8 +407,8 @@ bool UASManager::returnUAS(UASInterface *uas)
 
     WaypointDialog *dlg = new WaypointDialog();
 
-    dlg->setSettingsPrefix("LANDWPT");
-    dlg->setLabel(tr("Set LANDING waypoint details. Deselected fields will send default values."));
+    dlg->setSettingsPrefix("RTHWPT");
+    dlg->setLabel(tr("Set RETURN TO HOME details. Deselected fields will send default values."));
     dlg->toggleLatLon(false);
     dlg->toggleAlt(false);
     dlg->toggleHdg(false);

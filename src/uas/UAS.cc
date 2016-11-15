@@ -2644,9 +2644,13 @@ void UAS::setTargetPosition(float x, float y, float z, float yaw)
 
 void UAS::setGlobalTargetPosition(double lat, double lon, float alt, float hdg, float hvel, float vvel, bool altRel, bool sendLat, bool sendLon, bool sendAlt, bool sendHdg, bool sendHvel, bool sendVvel)
 {
-    // Bitmask mapping: bit 1 (LSB): x, bit 2: y, bit 3: z, bit 4: vx, bit 5: vy, bit 6: vz, bit 7: ax, bit 8: ay, bit 9: az, bit 10: is force setpoint, bit 11: yaw, bit 12: yaw rate
+    // Flags indicate which values to SKIP (eg. 0x0 means use all sent values), or other meanings described below.
+    // Bitmask mapping: b0: x, b1: y, b2: z, b3: vx, b4: vy, b5: vz, b6: ax, b7: ay, b8: az,
+    //    b9: 1 = force setpoint, b10: yaw, b11: yaw rate, b13: 1 = use current GPS lat/lon for x/y
     quint16 flags = (int)sendLat | ((int)sendLon<<1) | ((int)sendAlt<<2) | ((int)sendHvel<<3) | ((int)sendHvel<<4) | ((int)sendVvel<<5) | ((int)sendHdg<<10);
     flags = ~flags;
+    // clear setpoint and current lat/lon bits
+    flags &= ~(1<<9 | 1<<13);
     quint8 frame = altRel ? MAV_FRAME_GLOBAL_RELATIVE_ALT_INT : MAV_FRAME_GLOBAL_INT;
 
     mavlink_message_t msg;
