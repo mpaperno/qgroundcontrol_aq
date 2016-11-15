@@ -44,7 +44,7 @@ private:
         DSPSET_GIMBAL,
         DSPSET_RC,
         DSPSET_CONFIG,
-        DSPSET_STACKS,
+        DSPSET_MCU,
         DSPSET_DEBUG,
         DSPSET_ENUM_END
     };

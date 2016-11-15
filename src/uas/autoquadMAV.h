@@ -5,7 +5,7 @@
 
 #define MAV_DEFAULT_SYSTEM_COMPONENT            MAV_COMP_ID_MISSIONPLANNER
 #define MAV_ADJUSTABLE_PARAMS_LIST_COMPONENT    MAV_COMP_ID_SYSTEM_CONTROL
-#define MAV_CUSTOM_VERSION_PARSE_REGEX   "^(?:A(?:auto)?Q(?:quad)? FW ver: )?((\\d+)\\.(\\d+)(?:[\\-\\s\\dA-Zrev]*[\\.b](\\d+))?[\\s\\-\\dA-Z_]*),?((?: ?(?:HW ver: (\\d) ?)?(?:hw)?(?:rev)?(?:\\.?(\\d))(?:\\.(\\d))?))?"
+#define MAV_CUSTOM_VERSION_PARSE_REGEX   "^(?:A(?:auto)?Q(?:quad)? FW ver: )?((\\d+)\\.(\\d+)(?:[\\-\\s\\dA-Zrev]*[\\.b](\\d+))?[\\s\\-\\dA-Z_]*),?((?: ?(?:HW ver: (\\d+) ?)?(?:hw)?(?:rev)?\\.?(\\d+)(?:\\.(\\d+))?))?"
 
 namespace AUTOQUADMAV {
 
@@ -17,7 +17,7 @@ namespace AUTOQUADMAV {
         AQMAV_DATASET_GPS,
         AQMAV_DATASET_UKF,
         AQMAV_DATASET_SUPERVISOR,
-        AQMAV_DATASET_STACKSFREE,
+        AQMAV_DATASET_MCU,
         AQMAV_DATASET_GIMBAL,
         AQMAV_DATASET_MOTORS,
         AQMAV_DATASET_MOTORS_PWM,
@@ -26,6 +26,7 @@ namespace AUTOQUADMAV {
         AQMAV_DATASET_DEBUG,
         AQMAV_DATASET_RC,
         AQMAV_DATASET_CONFIG,
+        AQMAV_DATASET_IMU2,
         AQMAV_DATASET_ENUM_END
     };
 
@@ -49,6 +50,8 @@ namespace AUTOQUADMAV {
         CONFIG_FLAG_DISABLE_MSC     = (1<<3),   // disable mass storage component on USB connection
         CONFIG_FLAG_INVRT_TCUT_AUTO = (1<<4),   // sharply scale (cut) throttle when inverted and in altitude-hold
         CONFIG_FLAG_INVRT_TCUT_MAN  = (1<<5),   // cut throttle when inverted in manual modes
+        CONFIG_FLAG_MVLNK_STREAM_RC = (1<<6),   // send Mavlink RC Channels message by default
+        CONFIG_FLAG_NAV_GUIDED_PH   = (1<<7),   // allow remote guidance commands while in PH mode (vs. only in GUIDED mode)
     };
 
     enum SPortConfigFlags {

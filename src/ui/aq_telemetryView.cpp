@@ -14,9 +14,9 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     valGridCol(0),
     aqFwVerMaj(0),
     aqFwVerMin(0),
-	 aqFwVerBld(0),
+    aqFwVerBld(0),
     valuesGridLayout(NULL),
-	 currentDataSet(TELEM_DATASET_DEFAULT),
+    currentDataSet(TELEM_DATASET_DEFAULT),
     btnsDataSets(NULL),
     AqTeleChart(NULL),
     uas(NULL)
@@ -29,11 +29,14 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     btnsDataSets->setExclusive(false);
 
     ui->Frequenz_Telemetry->addItem("1 Hz", 1000000);
+    ui->Frequenz_Telemetry->addItem("5 Hz", 200000);
     ui->Frequenz_Telemetry->addItem("10 Hz", 100000);
+    ui->Frequenz_Telemetry->addItem("15 Hz", 66667);
+    ui->Frequenz_Telemetry->addItem("20 Hz", 50000);
     ui->Frequenz_Telemetry->addItem("25 Hz", 40000);
     ui->Frequenz_Telemetry->addItem("50 Hz", 20000);
-//    ui->Frequenz_Telemetry->addItem("75 Hz", 13333);
-//    ui->Frequenz_Telemetry->addItem("100 Hz", 10000);
+    ui->Frequenz_Telemetry->addItem("75 Hz", 13333);
+    ui->Frequenz_Telemetry->addItem("100 Hz", 10000);
 //    ui->Frequenz_Telemetry->addItem("110 Hz", 9090);
 //    ui->Frequenz_Telemetry->addItem("120 Hz", 8333);
 //    ui->Frequenz_Telemetry->addItem("130 Hz", 7692);
@@ -53,7 +56,7 @@ AQTelemetryView::AQTelemetryView(QWidget *parent) :
     displaySets.append(DisplaySet(DSPSET_GIMBAL, "Gimbal"));
     displaySets.append(DisplaySet(DSPSET_RC, "RC"));
     displaySets.append(DisplaySet(DSPSET_CONFIG, "Config"));
-    displaySets.append(DisplaySet(DSPSET_STACKS, "MCU"));
+    displaySets.append(DisplaySet(DSPSET_MCU, "MCU"));
     displaySets.append(DisplaySet(DSPSET_DEBUG, "Debug"));
 
     // define all data fields
@@ -84,7 +87,9 @@ void AQTelemetryView::setupDisplaySetData() {
         dsp.datasets.clear();
 
     if (newDs) {
-        displaySets[DSPSET_IMU].datasets << AQMAV_DATASET_IMU;
+        displaySets[DSPSET_IMU].datasets << AQMAV_DATASET_IMU << AQMAV_DATASET_IMU2;
+        if (aqFwVerBld >= 1926)
+            displaySets[DSPSET_IMU].datasets << AQMAV_DATASET_IMU2;
         displaySets[DSPSET_UKF].datasets << AQMAV_DATASET_UKF;
         displaySets[DSPSET_NAV].datasets << AQMAV_DATASET_NAV;
         displaySets[DSPSET_GPS].datasets << AQMAV_DATASET_GPS;
@@ -102,7 +107,7 @@ void AQTelemetryView::setupDisplaySetData() {
     }
     displaySets[DSPSET_SUPERVISOR].datasets << AQMAV_DATASET_SUPERVISOR;
     displaySets[DSPSET_GIMBAL].datasets << AQMAV_DATASET_GIMBAL;
-    displaySets[DSPSET_STACKS].datasets << AQMAV_DATASET_STACKSFREE;
+    displaySets[DSPSET_MCU].datasets << AQMAV_DATASET_MCU;
 
     if (btnsDataSets)
         qDeleteAll(btnsDataSets->buttons());
@@ -148,6 +153,18 @@ void AQTelemetryView::setupDisplaySetData() {
         telemDataFields.append(TelemFieldsMeta("lastUpdate DLTA", TELEM_VALUETYPE_INT, 14, msgidx, dset));
     else
         telemDataFields.append(TelemFieldsMeta("VOLTS IN", unit, 17, msgidx, dset));
+    if (newDs && displaySets[DSPSET_IMU].datasets.contains(AQMAV_DATASET_IMU2)) {
+        msgidx = AQMAV_DATASET_IMU2;
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_RATEX", unit, 1, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_RATEY", unit, 2, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_RATEZ", unit, 3, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_ACCX", unit, 4, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_ACCY", unit, 5, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_ACCZ", unit, 6, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_MAGX", unit, 7, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_MAGY", unit, 8, msgidx, dset));
+        telemDataFields.append(TelemFieldsMeta("IMU_RAW_MAGZ", unit, 9, msgidx, dset));
+    }
 
     // ukf
     dset = DSPSET_UKF;
@@ -268,22 +285,22 @@ void AQTelemetryView::setupDisplaySetData() {
     telemDataFields.append(TelemFieldsMeta("TrigLstLon", TELEM_VALUETYPE_FLOAT, 10, msgidx, dset));
     telemDataFields.append(TelemFieldsMeta("TrigCount", unit, 11, msgidx, dset));
 
-    dset = DSPSET_STACKS;
-    msgidx = AQMAV_DATASET_STACKSFREE;
-    telemDataFields.append(TelemFieldsMeta("Stack INIT", unit, 1, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack FILER", unit, 2, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack SUPERVISOR", unit, 3, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack ADC", unit, 4, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack RADIO", unit, 5, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack CONTROL", unit, 6, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack GPS", unit, 7, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack RUN", unit, 8, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack COMM", unit, 9, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack DIMU", unit, 10, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("Stack CYRF", unit, 11, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("RAM heapUsed", unit, 18, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("RAM heapHighWater", unit, 19, msgidx, dset));
-    telemDataFields.append(TelemFieldsMeta("RAM dataSramUsed", unit, 20, msgidx, dset));
+    dset = DSPSET_MCU;
+    msgidx = AQMAV_DATASET_MCU;
+    telemDataFields.append(TelemFieldsMeta("Stack free INIT", unit, 1, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free FILER", unit, 2, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free SUPERVISOR", unit, 3, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free ADC", unit, 4, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free RADIO", unit, 5, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free CONTROL", unit, 6, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free GPS", unit, 7, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free RUN", unit, 8, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free COMM", unit, 9, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("Stack free DIMU", unit, 10, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("MCU idle % time", TELEM_VALUETYPE_FLOAT, 17, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("RAM Heap Used", unit, 18, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("RAM Heap High Water", unit, 19, msgidx, dset));
+    telemDataFields.append(TelemFieldsMeta("CCM Heap Used", unit, 20, msgidx, dset));
 
     if (newDs) {
 
